@@ -1,0 +1,41 @@
+This is a fork of CssParser, originally maintained
+at http://cssparser.sourceforge.net. A list of our
+modifications follow:
+
+- Changed to allow classes with underscore and
+  those that start with a number.
+  
+- Changed to use the local parser always, as 
+  there were class loader issues.
+
+- Error logging was tweaked.
+
+- (11/25/2007) Order of lookup of property values
+  in style declarations was changed.
+  
+- (01/19/2008) Fixed StringIndexOutOfBoundsException
+  in SACParserTokenManager.trimUrl.
+  
+- (02/02/2008) Optimized CSSStyleDeclarationImpl.
+
+- (02/23/2008) Fixed so that background properties
+  with a color value followed by a URI don't lose
+  the URI.
+  
+- (02/23/2008) Added support for alpha(opacity=XX).
+
+- (02/23/2008) Now allowing CSS properties that
+  start with an underscore. SourceForge had one.
+  
+- (08/23/2008) Fixed so that erroneous tokens in
+  style rule declarations cause the declaration to
+  be skipped, instead of the entire block.
+  
+- (08/30/2008) Added try-catch for hex color number
+  format exceptions. 
+  
+- (01/18/2009) Worked around NPE with rect().
+
+- (01/24/2009) Fixed stack overflow error on
+  some invalid rule declarations, previoulsy 
+  introduced. 

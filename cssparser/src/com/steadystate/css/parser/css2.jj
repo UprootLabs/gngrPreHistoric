@@ -1,0 +1,1369 @@
+/*
+ * css2.jj
+ *
+ * Steady State CSS2 Parser
+ *
+ * Copyright (C) 1999, 2003 Steady State Software Ltd.  All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * To contact the authors of the library, write to Steady State Software Ltd.,
+ * 49 Littleworth, Wing, Buckinghamshire, LU7 0JX, England
+ *
+ * http://www.steadystate.com/css/
+ * mailto:css@steadystate.co.uk
+ *
+ * $Id: css2.jj,v 1.15 2009/07/05 14:58:52 xamjadmin Exp $
+ */
+
+options {
+	IGNORE_CASE = true;
+	STATIC = false;
+//    UNICODE_INPUT = false;
+    USER_CHAR_STREAM = true;
+//    DEBUG_TOKEN_MANAGER = true;
+//    DEBUG_PARSER = true;
+}
+
+PARSER_BEGIN(SACParser)
+
+package com.steadystate.css.parser;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import org.w3c.css.sac.*;
+import com.steadystate.css.parser.selectors.*;
+import java.util.logging.*;
+
+/**
+ * @author David Schweinsberg
+ * @version $Release$
+ */
+public class SACParser implements Parser {
+	private static final Logger logger = Logger.getLogger(SACParser.class.getName());
+    private InputSource _source = null;
+    private Locale _locale = null;
+    private DocumentHandler _docHandler = null;
+    private ErrorHandler _errHandler = null;
+    private SelectorFactory _selectorFactory = new SelectorFactoryImpl();
+    private ConditionFactory _conditionFactory = new ConditionFactoryImpl();
+    private boolean _quiet = true;
+
+    public SACParser() {
+        this((CharStream) null);
+    }
+
+    public void setLocale(Locale locale) throws CSSException {
+        _locale = locale;
+
+        // TODO: Search for requested locale
+
+        throw new CSSException(CSSException.SAC_NOT_SUPPORTED_ERR);
+    }
+
+    public void setDocumentHandler(DocumentHandler handler) {
+        _docHandler = handler;
+    }
+
+    public void setSelectorFactory(SelectorFactory selectorFactory) {
+        _selectorFactory = selectorFactory;
+    }
+
+    public void setConditionFactory(ConditionFactory conditionFactory) {
+        _conditionFactory = conditionFactory;
+    }
+    
+    public void setErrorHandler(ErrorHandler handler) {
+        _errHandler = handler;
+    }
+    
+    public void parseStyleSheet(InputSource source)
+	    throws CSSException, IOException {
+        _source = source;
+        ReInit(getCharStream(source));
+        try {
+            styleSheet();
+        } catch (ParseException e) {
+            throw new CSSException(CSSException.SAC_SYNTAX_ERR, e.getMessage(), e);
+        }
+    }
+    
+    public void parseStyleSheet(String uri) throws CSSException, IOException {
+        parseStyleSheet(new InputSource(uri));
+    }
+
+    public void parseStyleDeclaration(InputSource source) 
+	    throws CSSException, IOException {
+        _source = source;
+        ReInit(getCharStream(source));
+        try {
+            styleDeclaration();
+        } catch (ParseException e) {
+            throw new CSSException(CSSException.SAC_SYNTAX_ERR, e.getMessage(), e);
+        }
+    }
+
+    public void parseRule(InputSource source) throws CSSException, IOException {
+        _source = source;
+        ReInit(getCharStream(source));
+        try {
+            styleSheetRuleSingle();
+        } catch (ParseException e) {
+            throw new CSSException(CSSException.SAC_SYNTAX_ERR, e.getMessage(), e);
+        }
+    }
+
+    public String getParserVersion() {
+        return "http://www.w3.org/TR/REC-CSS2";
+    }
+    
+    public SelectorList parseSelectors(InputSource source)
+            throws CSSException, IOException {
+        _source = source;
+        ReInit(getCharStream(source));
+        SelectorList sl = null;
+        try {
+            sl = selectorList();
+        } catch (ParseException e) {
+            throw new CSSException(CSSException.SAC_SYNTAX_ERR, e.getMessage(), e);
+        }
+        return sl;
+    }
+
+    public LexicalUnit parsePropertyValue(InputSource source)
+            throws CSSException, IOException {
+        _source = source;
+        ReInit(getCharStream(source));
+        LexicalUnit lu = null;
+        try {
+            lu = expr();
+        } catch (ParseException e) {
+            throw new CSSException(CSSException.SAC_SYNTAX_ERR, e.getMessage(), e);
+        }
+        return lu;
+    }
+
+    public boolean parsePriority(InputSource source)
+            throws CSSException, IOException {
+        _source = source;
+        ReInit(getCharStream(source));
+        boolean b = false;
+        try {
+            b = prio();
+        } catch (ParseException e) {
+            throw new CSSException(CSSException.SAC_SYNTAX_ERR, e.getMessage(), e);
+        }
+        return b;
+    }
+
+    private CharStream getCharStream(InputSource source)
+            throws CSSException, IOException {
+        if (source.getCharacterStream() != null) {
+	        return new ASCII_CharStream(source.getCharacterStream(), 1, 1);
+	    } else {
+
+            // TODO: Handle other sources
+            return null;
+        }
+    }
+
+    private Locator getLocator() {
+        return null;
+    }
+}
+
+PARSER_END(SACParser)
+
+TOKEN_MGR_DECLS :
+{
+    private boolean _quiet = true;
+/*
+  private int getLastNumPos(StringBuffer sb) {
+    int i;
+    for( i = 0; i < sb.length(); i++ )
+      if( Character.isLetter( sb.charAt( i ) ) )
+        break;
+    return i - 1;
+  }
+*/
+  private String trimBy(StringBuffer s, int left, int right) {
+    int end = s.length();
+    return s.toString().substring(left, end-right);
+  }
+
+  private String trimUrl(StringBuffer s) {
+    StringBuffer s1 = new StringBuffer( trimBy(s, 4, 1).trim() );
+    int end = s1.length() - 1;
+    if(end <= 0) {
+    	return s1.toString();
+    }
+    if ((s1.charAt(0) == '"' && s1.charAt(end) == '"')
+      || (s1.charAt(0) == '\'' && s1.charAt(end) == '\''))
+      return trimBy(s1, 1, 1);
+    else
+      return s1.toString();
+  }
+}
+
+<DEFAULT> TOKEN :
+{
+    < S: ( " "|"\t"|"\r"|"\n"|"\f" )+ >
+}
+
+<DEFAULT> MORE :
+{
+  < "/*" > : COMMENT
+}
+
+<COMMENT> SKIP :
+{
+  < "*/" > : DEFAULT
+}
+
+<COMMENT> MORE :
+{
+  < ~[] > : COMMENT
+}
+
+<DEFAULT> TOKEN :
+{
+  < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LPAREN: "(" >
+| < COMMA: "," >
+| < DOT: "." >
+| < SEMICOLON: ";" >
+| < COLON: ":" >
+| < ASTERISK: "*" >
+| < SLASH: "/" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < EQUALS: "=" >
+| < GT: ">" >
+| < LSQUARE: "[" >
+| < RSQUARE: "]" >
+| < NOT: "not" >
+| < ONLY: "only" >
+| < AND: "and" >
+}
+
+<DEFAULT> TOKEN :
+{
+  < HASH: "#" <NAME> >
+}
+
+<DEFAULT> TOKEN :
+{
+  < STRING: <STRING1> | <STRING2> > { matchedToken.image = trimBy(image, 1, 1); }
+| < RROUND: ")" >
+}
+
+<DEFAULT> TOKEN :
+{
+  < #URL: ["!","#","$","%","&","*"-"~"] | <NONASCII> | <ESCAPE> >
+| < URI: "url(" ( <S> )* ( <STRING> | ( <URL> )* ) ( <S> )* <RROUND> > { matchedToken.image = trimUrl(image); }
+}
+
+<DEFAULT> TOKEN :
+{
+  < CDO: "<!--" >
+| < CDC: "-->" >
+| < INCLUDES: "~=" >
+| < DASHMATCH: "|=" >
+| < IMPORT_SYM: "@import" >
+| < PAGE_SYM: "@page" >
+| < MEDIA_SYM: "@media" >
+| < FONT_FACE_SYM: "@font-face" >
+| < CHARSET_SYM: "@charset" >
+| < ATKEYWORD: "@" <IDENT> >
+| < IMPORTANT_SYM: "!" ( <S> )? "important" >
+| < INHERIT: "inherit" >
+| < EMS: <NUM> "em" > { matchedToken.image = trimBy(image, 0, 2); }
+| < EXS: <NUM> "ex" > { matchedToken.image = trimBy(image, 0, 2); }
+| < LENGTH_PX: <NUM> "px" > { matchedToken.image = trimBy(image, 0, 2); }
+| < LENGTH_CM: <NUM> "cm" > { matchedToken.image = trimBy(image, 0, 2); }
+| < LENGTH_MM: <NUM> "mm" > { matchedToken.image = trimBy(image, 0, 2); }
+| < LENGTH_IN: <NUM> "in" > { matchedToken.image = trimBy(image, 0, 2); }
+| < LENGTH_PT: <NUM> "pt" > { matchedToken.image = trimBy(image, 0, 2); }
+| < LENGTH_PC: <NUM> "pc" > { matchedToken.image = trimBy(image, 0, 2); }
+| < ANGLE_DEG: <NUM> "deg" > { matchedToken.image = trimBy(image, 0, 3); }
+| < ANGLE_RAD: <NUM> "rad" > { matchedToken.image = trimBy(image, 0, 3); }
+| < ANGLE_GRAD: <NUM> "grad" > { matchedToken.image = trimBy(image, 0, 4); }
+| < TIME_MS: <NUM> "ms" > { matchedToken.image = trimBy(image, 0, 2); }
+| < TIME_S: <NUM> "s" > { matchedToken.image = trimBy(image, 0, 1); }
+| < FREQ_HZ: <NUM> "Hz" > { matchedToken.image = trimBy(image, 0, 2); }
+| < FREQ_KHZ: <NUM> "kHz" > { matchedToken.image = trimBy(image, 0, 3); }
+| < DIMEN: <NUM> <IDENT> >
+| < PERCENTAGE: <NUM> "%" > { matchedToken.image = trimBy(image, 0, 1); }
+| < NUMBER: <NUM> >
+| < RGB: "rgb(" >
+| < FUNCTION: <IDENT> "(" >
+| < IDENT: <NMSTART> ( <NMCHAR> )* >
+| < #NAME: ( <NMCHAR> )+ >
+| < NUM: ( ["0"-"9"] )+ | ( ["0"-"9"] )* "." ( ["0"-"9"] )+ >
+
+| < UNICODERANGE: "U+" ( <RANGE> | ( <HNUM> "-" <HNUM> ) ) >
+| < #RANGE: <Q16> | <H> ( (<Q15>)? | <H> ( (<Q14>)? | <H> ( (<Q13>)? | <H> ( (<Q12>)? | <H> ( (<Q11>)? | <H> ) ) ) ) ) >
+| < #Q16: "?" | "??" | "???" | "????" | "?????" | "??????" >
+| < #Q15: "?" | "??" | "???" | "????" | "?????" >
+| < #Q14: "?" | "??" | "???" | "????" >
+| < #Q13: "?" | "??" | "???" >
+| < #Q12: "?" | "??" >
+| < #Q11: "?" >
+// Added "-" and "_" to NMSTART. While non-standard, Wikipedia, SourceForge use property names that start with dash or underscore.
+| < #NMSTART: ["a"-"z"] | "-" | "_" | <NONASCII> | <ESCAPE> >
+// Added underscore to NMCHAR. While non-standard, it's often used in HTML.
+| < #NMCHAR: ["a"-"z","0"-"9","-","_"] | <NONASCII> | <ESCAPE> >
+| < #STRING1: "\"" ( ["\t"," ","!","#","$","%","&","("-"~"] | "\\" <NL> | "\'" | <NONASCII> | <ESCAPE> )* "\"" >
+| < #STRING2: "\'" ( ["\t"," ","!","#","$","%","&","("-"~"] | "\\" <NL> | "\"" | <NONASCII> | <ESCAPE> )* "\'" >
+| < #NONASCII: ["\u0080"-"\uFFFF"] >
+| < #ESCAPE: <UNICODE> | ( "\\" [" "-"~","\u0080"-"\uFFFF"] ) >
+| < #NL: "\n" | "\r\n" | "\r" | "\f" >
+| < #UNICODE: "\\" <HNUM> ( " " | "\t" | "\r" | "\n" | "\f" )? >
+| < #HNUM: <H> | <H><H> | <H><H><H> | <H><H><H><H> | <H><H><H><H><H> | <H><H><H><H><H><H> >
+| < #H: ["0"-"9","a"-"f"] >
+| < MEDIUM: "all" | "aural" | "braille" | "handheld" | "print" | "projection" | "screen" | "tty" | "tv" | "embossed" >
+}
+
+<*> TOKEN:
+{
+    < UNKNOWN: ~[] >
+    {
+        if (!_quiet) {
+            System.err.println("Illegal character : " + image.toString());
+        }
+    }
+}
+
+//
+// stylesheet
+//  : [ CHARSET_SYM S* STRING S* ';' ]?
+//      [S|CDO|CDC]* [ import [S|CDO|CDC]* ]*
+//      [ [ ruleset | media | page | font_face ] [S|CDO|CDC]* ]*
+//  ;
+//
+void styleSheet() :
+{
+}
+{
+    try {
+        { _docHandler.startDocument(_source); }
+        styleSheetRuleList()
+        try {
+	        <EOF>
+	    } catch(ParseException pe) {
+	    	logger.log(Level.WARNING, "styleSheet(): " + _source.getURI() + ": Skipping last part of style sheet: " + pe.getMessage());
+	    }
+    } finally {
+    	_docHandler.endDocument(_source);
+    }
+}
+
+void styleSheetRuleList() :
+{
+}
+{
+  ( charsetRule() )?
+  ( <S> | <CDO> | <CDC> )*
+  ( importRule() ( <S> | <CDO> | <CDC> )* )*
+  ( ( styleRule() | mediaRule() | pageRule() | fontFaceRule() | unknownRule() ) ( <S> | <CDO> | <CDC> )* )*
+}
+
+//
+// This is used by ASTStyleSheet.insertRule to parse a single rule
+//
+void styleSheetRuleSingle() :
+{
+}
+{
+  ( charsetRule() | importRule() | styleRule() | mediaRule() | pageRule() | fontFaceRule() | unknownRule() )
+}
+
+void charsetRule() :
+{
+  Token t;
+}
+{
+  <CHARSET_SYM> ( <S> )*
+  t = <STRING> ( <S> )*
+  <SEMICOLON>
+}
+
+void unknownRule() :
+{
+    Token t;
+    String s;
+}
+{
+    t = <ATKEYWORD>
+    {
+        s = skip();
+        _docHandler.ignorableAtRule(s);
+    }
+}
+
+//
+// import
+//   : IMPORT_SYM S*
+//     [STRING|URI] S* [ medium [ ',' S* medium]* ]? ';' S*
+//   ;
+//
+void importRule() :
+{
+    Token t;
+    String s;
+    SACMediaListImpl ml = new SACMediaListImpl();
+}
+{
+    <IMPORT_SYM> ( <S> )*
+    ( t = <STRING>
+    | t = <URI> ) ( <S> )*
+    ( mediaList(ml) )?
+    <SEMICOLON>
+    {
+        _docHandler.importStyle(unescape(t.image), ml, null);
+    }
+}
+
+//
+// media
+//   : MEDIA_SYM S* medium [ ',' S* medium ]* '{' S* ruleset* '}' S*
+//   ;
+//
+void mediaRule() :
+{
+    boolean start = false;
+    SACMediaListImpl ml = new SACMediaListImpl();
+}
+{
+    try {
+        <MEDIA_SYM> ( <S> )*
+        mediaQuery(ml)
+        {
+           start = true;
+           _docHandler.startMedia(ml);
+        }
+        <LBRACE> ( <S> )*
+        ( mediaRuleList() )?
+        <RBRACE>
+    } finally {
+        if (start) {
+            _docHandler.endMedia(ml);
+        }
+    }
+}
+
+void mediaQuery(SACMediaListImpl ml) :
+{
+    String s;
+}
+{
+  	( <ONLY> | <NOT> )?
+  	s = medium()
+  	{ ml.add(s); }
+  	( mediaListOrExpression(ml) )?
+}
+
+void mediaListOrExpression(SACMediaListImpl ml) :
+{
+   String s;
+}
+{
+    ( ( <COMMA> ( <S> )* s = medium() { ml.add(s); } )+ )
+    |
+    ( <AND> ( <S> )* mediaExpression(ml) )+ 
+}
+
+void mediaExpression(SACMediaListImpl ml) :
+{
+}
+{
+	<LPAREN> ( <S> )* 
+	mediaFeature(ml)
+	( <COLON> ( <S> )* expr())?
+	<RROUND>
+}
+
+void mediaFeature(SACMediaListImpl ml) :
+{
+	Token t;
+}
+{
+	t = <IDENT>
+}
+
+void mediaList(SACMediaListImpl ml) :
+{
+    String s;
+}
+{
+    s = medium()
+    ( <COMMA> ( <S> )* { ml.add(s); } s = medium() )*
+    { ml.add(s); }
+}
+
+void mediaRuleList() :
+{
+}
+{
+  ( ( styleRule() | pageRule() | unknownRule() ) ( <S> )* )+ 
+}
+
+void mediaRuleSingle() :
+{
+}
+{
+  ( styleRule() | pageRule() | unknownRule() )
+}
+
+//
+// medium
+//   : IDENT S*
+//   ;
+//
+String medium() :
+{
+  Token t;
+}
+{
+  t = <IDENT> ( <S> )* { return t.image; }
+}
+
+//
+// page
+//   : PAGE_SYM S* IDENT? pseudo_page? S*
+//     '{' S* declaration [ ';' S* declaration ]* '}' S*
+//   ;
+//
+void pageRule() :
+{
+    Token t = null;
+    String s = null;
+    boolean start = false;
+}
+{
+    try {
+        <PAGE_SYM> ( <S> )*
+
+        ( LOOKAHEAD(2) ( t = <IDENT> ( <S> )* ) |
+        ( t = <IDENT> s = pseudoPage() ( <S> )* ) |
+        ( s = pseudoPage() ( <S> )* ) )?
+
+        //  ( t = <IDENT> { jjtThis.setIdent( t.image ); } )?
+        //  ( s = pseudoPage() { jjtThis.setPseudoPage( s ); } )? ( <S> )*
+
+        <LBRACE> ( <S> )*
+        {
+            start = true;
+            _docHandler.startPage((t != null) ? unescape(t.image) : null, s);
+        }
+
+        ( declaration() )?
+        ( <SEMICOLON> ( <S> )* ( declaration() )? )*
+        <RBRACE>
+    } finally {
+        if (start) {
+            _docHandler.endPage((t != null) ? unescape(t.image) : null, s);
+        }
+    }
+}
+
+//
+// pseudoPage
+//   : ':' IDENT
+//   ;
+//
+String pseudoPage() :
+{
+  Token t;
+}
+{
+  <COLON> t = <IDENT> { return t.image; }
+}
+
+//
+// font_face
+//   : FONT_FACE_SYM S*
+//     '{' S* declaration [ ';' S* declaration ]* '}' S*
+//   ;
+//
+void fontFaceRule() :
+{
+    boolean start = false;
+}
+{
+    try {
+        <FONT_FACE_SYM> ( <S> )*
+        <LBRACE> ( <S> )* { start = true; _docHandler.startFontFace(); }
+        ( declaration() )?
+        ( <SEMICOLON> ( <S> )* ( declaration() )? )*
+        <RBRACE>
+    } finally {
+        if (start) {
+            _docHandler.endFontFace();
+        }
+    }
+}
+
+//
+// operator
+//   : '/' S* | ',' S* |
+//   ;
+//
+LexicalUnit operator(LexicalUnit prev) :
+{
+  Token t;
+}
+{
+    t = <SLASH> ( <S> )*   { return new LexicalUnitImpl(prev, LexicalUnit.SAC_OPERATOR_SLASH); }
+  | t = <COMMA> ( <S> )* { return new LexicalUnitImpl(prev, LexicalUnit.SAC_OPERATOR_COMMA); }
+  | t = <EQUALS> ( <S> )* { return new LexicalUnitImpl(prev, LexicalUnit.SAC_OPERATOR_EQUALS); }
+}
+
+//
+// combinator
+//   : '+' S* | '>' S* |
+//   ;
+//
+char combinator() :
+{
+  char c = ' ';
+}
+{
+  ( <PLUS> { c='+'; } ( <S> )*
+  | <GT> { c='>'; } ( <S> )*
+  | <S> ( ( <PLUS> { c='+'; } | <GT> { c='>'; } ) ( <S> )* )? )
+
+  { return c; }
+}
+
+//
+// unary_operator
+//   : '-' | '+'
+//   ;
+//
+char unaryOperator() :
+{
+}
+{
+  ( <MINUS> { return '-'; } | <PLUS> { return '+'; } )
+}
+
+//
+// property
+//   : IDENT S*
+//   ;
+//
+String property() :
+{
+    Token t;
+}
+{
+    t = <IDENT> ( <S> )*
+    { return unescape(t.image); }
+}
+
+//
+// ruleset
+//   : selector [ ',' S* selector ]*
+//     '{' S* declaration [ ';' S* declaration ]* '}' S*
+//   ;
+//
+void styleRule() :
+{
+    SelectorList selList = null;
+    boolean start = false;
+    boolean noError = true;
+}
+{
+    try {
+        selList = selectorList()
+        <LBRACE> ( <S> )*
+        {
+            start = true;
+            _docHandler.startSelector(selList);
+        }
+        styleRuleDeclarations()
+    } catch(ParseException e) {
+        logger.log(Level.WARNING,"styleRule(): " + _source.getURI() + ": Skipping block: " + e.getMessage() + ".");
+        if(logger.isLoggable(Level.INFO)) {
+        	logger.log(Level.INFO, "styleRule()", e);
+        }
+        noError = false;
+        error_skipblock();
+    } finally {
+        if (start) {
+            _docHandler.endSelector(selList);
+        }
+    }
+}
+
+void styleRuleDeclarations() :
+{
+}
+{
+    ( declaration() )?
+    ( <SEMICOLON> ( <S> )* ( declaration() )? )*
+    try {
+        <RBRACE>
+    } catch(ParseException e) {
+       	logger.log(Level.WARNING,"styleRule(): " + _source.getURI() + ": Skipping declaration: " + e.getMessage() + ".");
+        if(logger.isLoggable(Level.INFO)) {
+      	    logger.log(Level.INFO, "styleRule()", e);
+        }        
+        error_skipdecl();
+        Token t = getToken(1);
+        if(t.kind == SEMICOLON) {
+	        styleRuleDeclarations();
+	    }
+    }
+}
+
+SelectorList selectorList() :
+{
+    SelectorListImpl selList = new SelectorListImpl();
+    Selector sel;
+}
+{
+//    try {
+        sel = selector()
+        ( <COMMA> ( <S> )* { selList.add(sel); } sel = selector() )*
+
+        {
+            selList.add(sel);
+            return selList;
+        }
+//    } catch (ParseException e) {
+//        System.err.println("Exception in selectorList()");
+//    }
+}
+
+//
+// selector
+//   : simple_selector [ combinator simple_selector ]*
+//   ;
+//
+Selector selector() :
+{
+    Selector sel;
+    char comb;
+}
+{
+    sel = simpleSelector(null, ' ')
+    ( LOOKAHEAD(2) comb = combinator() sel = simpleSelector(sel, comb) )* ( <S> )*
+    {
+       return sel;
+    }
+}
+
+//
+// simple_selector
+//   : element_name? [ HASH | class | attrib | pseudo ]* S*
+//   ;
+//
+Selector simpleSelector(Selector sel, char comb) :
+{
+    SimpleSelector simpleSel = null;
+    Condition c = null;
+}
+{
+    (
+        ( simpleSel = elementName()
+            ( c = hash(c)
+            | c = _class(c)
+            | c = attrib(c)
+            | c = pseudo(c)
+            )*
+        )
+        |
+        ( { simpleSel = _selectorFactory.createElementSelector(null, null); }
+            ( c = hash(c)
+            | c = _class(c)
+            | c = attrib(c)
+            | c = pseudo(c)
+            )+
+        )
+    )
+
+    {
+        if (c != null) {
+            simpleSel = _selectorFactory.createConditionalSelector(simpleSel, c);
+        }
+
+        if (sel != null) {
+            switch (comb) {
+            case ' ':
+                sel = _selectorFactory.createDescendantSelector(sel, simpleSel);
+                break;
+            case '+':
+                sel = _selectorFactory.createDirectAdjacentSelector(sel.getSelectorType(), sel, simpleSel);
+                break;
+            case '>':
+                sel = _selectorFactory.createChildSelector(sel, simpleSel);
+                break;
+            }
+        } else {
+            sel = simpleSel;
+        }
+
+        return sel;
+    }
+}
+
+//
+// class
+//   : ('.' <IDENT>) | <DIMEN>
+//   ;
+//
+Condition _class(Condition pred) :
+{
+    Token t;
+    boolean isDimen = false;
+}
+{
+	// Added DIMEN as possible class identifier. YouTube uses
+	// a numeric class name. (Jose 5/27/2007)
+    ((<DOT> (t = <IDENT>)) | (t = <DIMEN> { isDimen = true; }))
+    {
+    	String className;
+    	if(isDimen) {
+    		String timage = t.image;
+    		if(!timage.startsWith(".")) {
+    			return null;
+    		}
+    		className = timage.substring(1);
+    	}
+    	else {
+	        className = t.image;
+	    }
+        Condition c = _conditionFactory.createClassCondition(null, className);
+        return (pred == null) ? c : _conditionFactory.createAndCondition(pred, c);
+    }
+}
+
+//
+// element_name
+//   : IDENT | '*'
+//   ;
+//
+SimpleSelector elementName() :
+{
+    Token t;
+}
+{
+  t=<IDENT>
+  { return _selectorFactory.createElementSelector(null, unescape(t.image)); }
+  | <ASTERISK>
+  { return _selectorFactory.createElementSelector(null, null); }
+}
+
+//
+// attrib
+//   : '[' S* IDENT S* [ [ '=' | INCLUDES | DASHMATCH ] S*
+//     [ IDENT | STRING ] S* ]? ']'
+//   ;
+//
+Condition attrib(Condition pred) :
+{
+    Token t;
+    String name = null;
+    String value = null;
+    int type = 0;
+}
+{
+    <LSQUARE> ( <S> )*
+    t = <IDENT> { name = unescape(t.image); } ( <S> )*
+    (
+        (
+            <EQUALS> { type = 1; }
+            |
+            <INCLUDES> { type = 2; }
+            |
+            <DASHMATCH> { type = 3; }
+        )
+        ( <S> )*
+        (
+            t = <IDENT> { value = t.image; }
+            |
+            t = <STRING> { value = unescape(t.image); }
+        )
+        ( <S> )*
+    )?
+    <RSQUARE>
+
+    {
+        Condition c = null;
+        switch (type) {
+        case 0:
+            c = _conditionFactory.createAttributeCondition(name, null, false, null);
+            break;
+        case 1:
+            c = _conditionFactory.createAttributeCondition(name, null, false, value);
+            break;
+        case 2:
+            c = _conditionFactory.createOneOfAttributeCondition(name, null, false, value);
+            break;
+        case 3:
+            c = _conditionFactory.createBeginHyphenAttributeCondition(name, null, false, value);
+            break;
+        }
+        return (pred == null) ? c : _conditionFactory.createAndCondition(pred, c);
+    }
+}
+
+//
+// pseudo
+//   : ':' [ IDENT | FUNCTION S* IDENT S* ')' ]
+//   ;
+//
+Condition pseudo(Condition pred) :
+{
+    Condition c;
+    Token t;
+    String function;
+    String arg;
+}
+{
+    <COLON>
+    (
+        t = <IDENT>
+        {
+            // There appears to be an issue here regarding "first-letter" & "first-line"
+            String s = unescape(t.image);
+		    c = _conditionFactory.createPseudoClassCondition(null, s);
+            return (pred == null)
+                ? c
+                : _conditionFactory.createAndCondition(pred, c);
+        }
+        |
+        (
+            t = <FUNCTION> { function = unescape(t.image); } ( <S> )*
+            t = <IDENT> { arg = unescape(t.image); } ( <S> )*
+            <RROUND>
+            {
+                if (function.equalsIgnoreCase("lang(")) {
+                    c = _conditionFactory.createLangCondition(unescape(arg));
+                    return (pred == null)
+                        ? c
+                        : _conditionFactory.createAndCondition(pred, c);
+                } else {
+                    throw new CSSParseException(
+                        "Invalid pseudo function name " + function,
+                        getLocator());
+                }
+            }
+        )
+    )
+}
+
+Condition hash(Condition pred) :
+{
+    Token t;
+}
+{
+    t = <HASH>
+    {
+        Condition c = _conditionFactory.createIdCondition(t.image.substring(1));
+        return (pred == null) ? c : _conditionFactory.createAndCondition(pred, c);
+    }
+}
+
+void styleDeclaration()  :
+{
+}
+{
+	<LBRACE> ( <S> )*
+	( declaration() )?
+	( <SEMICOLON> ( <S> )* ( declaration() )? )*
+	<RBRACE>
+}
+
+//
+// declaration
+//   : property ':' S* expr prio?
+//   |
+//   ;
+//
+void declaration() :
+{
+  String p;
+  LexicalUnit e;
+  boolean priority = false;
+//  CSSValue e;
+  boolean noError = true;
+}
+{
+    try {
+        p = property()
+        <COLON> ( <S> )*
+        e = expr()
+        ( priority = prio() )?
+        {
+            _docHandler.property(p, e, priority);
+        }
+    } catch (ParseException ex) {
+        logger.log(Level.WARNING, "declaration(): " + _source.getURI() + ": Skipping declaration due to: " + ex.getMessage() + ".");
+        if(logger.isLoggable(Level.INFO)) {
+        	logger.log(Level.INFO, "declaration()", ex);
+        }
+        noError = false;
+        error_skipdecl();
+    }
+}
+
+//
+// prio
+//   : IMPORTANT_SYM S*
+//   ;
+//
+boolean prio() :
+{
+}
+{
+  <IMPORTANT_SYM> ( <S> )*
+  { return true; }
+}
+
+//
+// expr
+//   : term [ operator term ]*
+//   ;
+//
+// TODO: Deal with the operator
+//
+LexicalUnit expr() :
+{
+    LexicalUnit head;
+    LexicalUnit body;
+}
+{
+    head = term(null) { body = head; }
+    ( ( body = operator(body) )? body = term(body) )*
+    {  
+       return head; 
+    }
+}
+
+//
+// term
+//   : unary_operator?
+//     [ NUMBER S* | PERCENTAGE S* | LENGTH S* | EMS S* | EXS S* | ANGLE S* |
+//       TIME S* | FREQ S* | function ]
+//   | STRING S* | IDENT S* | URI S* | RGB S* | UNICODERANGE S* | hexcolor
+//   ;
+//
+LexicalUnit term(LexicalUnit prev) :
+{
+  Token t;
+  char op = ' ';
+  String s;
+  LexicalUnit value = null;
+//  RGBColor color;
+//  HexColor h;
+//  CSSValueImpl value = null;
+}
+{
+    ( op = unaryOperator() )?
+    (
+        ( t = <NUMBER>      { value = LexicalUnitImpl.createNumber(prev, value(op, t.image)); }
+        | t = <PERCENTAGE>  { value = LexicalUnitImpl.createPercentage(prev, value(op, t.image)); }
+        | t = <LENGTH_PX>   { value = LexicalUnitImpl.createPixel(prev, value(op, t.image)); }
+        | t = <LENGTH_CM>   { value = LexicalUnitImpl.createCentimeter(prev, value(op, t.image)); }
+        | t = <LENGTH_MM>   { value = LexicalUnitImpl.createMillimeter(prev, value(op, t.image)); }
+        | t = <LENGTH_IN>   { value = LexicalUnitImpl.createInch(prev, value(op, t.image)); }
+        | t = <LENGTH_PT>   { value = LexicalUnitImpl.createPoint(prev, value(op, t.image)); }
+        | t = <LENGTH_PC>   { value = LexicalUnitImpl.createPica(prev, value(op, t.image)); }
+        | t = <EMS>         { value = LexicalUnitImpl.createEm(prev, value(op, t.image)); }
+        | t = <EXS>         { value = LexicalUnitImpl.createEx(prev, value(op, t.image)); }
+        | t = <ANGLE_DEG>   { value = LexicalUnitImpl.createDegree(prev, value(op, t.image)); }
+        | t = <ANGLE_RAD>   { value = LexicalUnitImpl.createRadian(prev, value(op, t.image)); }
+        | t = <ANGLE_GRAD>  { value = LexicalUnitImpl.createGradian(prev, value(op, t.image)); }
+        | t = <TIME_MS>     { value = LexicalUnitImpl.createMillisecond(prev, value(op, t.image)); }
+        | t = <TIME_S>      { value = LexicalUnitImpl.createSecond(prev, value(op, t.image)); }
+        | t = <FREQ_HZ>     { value = LexicalUnitImpl.createHertz(prev, value(op, t.image)); }
+        | t = <FREQ_KHZ>    { value = LexicalUnitImpl.createKiloHertz(prev, value(op, t.image)); }
+        | value = function(prev)
+        )
+    | t = <STRING>          { value = new LexicalUnitImpl(prev, LexicalUnit.SAC_STRING_VALUE, t.image); }
+    | t = <IDENT>           { value = new LexicalUnitImpl(prev, LexicalUnit.SAC_IDENT, t.image); }
+    | t = <URI>             { value = new LexicalUnitImpl(prev, LexicalUnit.SAC_URI, t.image); }
+    | t = <UNICODERANGE>    { value = new LexicalUnitImpl(prev, LexicalUnit.SAC_UNICODERANGE, t.image); }
+    | value = rgb(prev)
+    | value = hexcolor(prev)
+    | t = <DIMEN>
+    {
+        int n = getLastNumPos(t.image);
+        value = LexicalUnitImpl.createDimension(
+            prev,
+            value(op, t.image.substring(0, n+1)),
+            t.image.substring(n+1));
+    }
+    | t = <INHERIT>         { value = new LexicalUnitImpl(prev, LexicalUnit.SAC_INHERIT, t.image); }
+    )
+    ( <S> )*
+    {  
+       return value; 
+    }
+}
+
+//
+// function
+//   : FUNCTION S* expr ')' S*
+//   ;
+//
+LexicalUnit function(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit params;
+}
+{
+    t = <FUNCTION> ( <S> )*
+    params = expr()
+    <RROUND>
+    {
+        if (t.image.equalsIgnoreCase("counter(")) {
+           return LexicalUnitImpl.createCounter(prev, params);
+        } else if (t.image.equalsIgnoreCase("counters(")) {
+           return LexicalUnitImpl.createCounters(prev, params);
+        } else if (t.image.equalsIgnoreCase("attr(")) {
+           return LexicalUnitImpl.createAttr(prev, params);
+        } else if (t.image.equalsIgnoreCase("rect(")) {
+           return LexicalUnitImpl.createRect(prev, params);
+        } else if (t.image.equalsIgnoreCase("alpha(")) {
+           // This is  a Microsoft value
+           return LexicalUnitImpl.createAlpha(prev, params);
+        }
+        return LexicalUnitImpl.createFunction(
+            prev,
+            t.image.substring(0, t.image.length() - 1),
+            params);
+    }
+}
+
+//
+// rgb
+//   : RGB S* expr ')' S*
+//   ;
+//
+LexicalUnit rgb(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit params;
+}
+{
+    t = <RGB> ( <S> )*
+    params = expr()
+    <RROUND>
+    {
+        return LexicalUnitImpl.createRgbColor(prev, params);
+    }
+}
+
+//
+// hexcolor
+//   : HASH S*
+//   ;
+//
+LexicalUnit hexcolor(LexicalUnit prev) :
+{
+    Token t;
+}
+{
+    t = <HASH>
+    {
+        // Step past the hash at the beginning
+        int i = 1;
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        int len = t.image.length() - 1;
+
+		try {
+	        if (len == 3) {
+    	        r = Integer.parseInt(t.image.substring(i + 0, i + 1), 16);
+        	    g = Integer.parseInt(t.image.substring(i + 1, i + 2), 16);
+            	b = Integer.parseInt(t.image.substring(i + 2, i + 3), 16);
+          	  	r = (r << 4) | r;
+          	 	g = (g << 4) | g;
+           		b = (b << 4) | b;
+        	} else if (len == 6) {
+            	r = Integer.parseInt(t.image.substring(i + 0, i + 2), 16);
+           	 	g = Integer.parseInt(t.image.substring(i + 2, i + 4), 16);
+            	b = Integer.parseInt(t.image.substring(i + 4, i + 6), 16);
+        	} else {
+            	// Error
+        	}
+        } catch(NumberFormatException nfe) {
+        	logger.warning("hexcolor(): Unable to parse color: " + t.image);
+        }
+
+        // Turn into an "rgb()"
+        LexicalUnit lr = LexicalUnitImpl.createNumber(null, r);
+        LexicalUnit lc1 = LexicalUnitImpl.createComma(lr);
+        LexicalUnit lg = LexicalUnitImpl.createNumber(lc1, g);
+        LexicalUnit lc2 = LexicalUnitImpl.createComma(lg);
+        LexicalUnit lb = LexicalUnitImpl.createNumber(lc2, b);
+
+        return LexicalUnitImpl.createRgbColor(prev, lr);
+    }
+}
+
+JAVACODE
+float value(char op, String s) {
+    return ((op == '-') ? -1 : 1) * Float.parseFloat(s);
+}
+
+JAVACODE
+int getLastNumPos(String s) {
+    int i;
+    for (i = 0; i < s.length(); i++) {
+        if (Character.isLetter(s.charAt(i))) {
+            break;
+        }
+    }
+    return i - 1;
+}
+
+JAVACODE
+String unescape(String s) {
+    int len = s.length();
+    StringBuffer buf = new StringBuffer(len);
+    int index = 0;
+
+    while (index < len) {
+        char c = s.charAt(index);
+        if (c == '\\') {
+            if (++index < len) {
+                c = s.charAt(index);
+                switch (c) {
+                case '0': case '1': case '2': case '3': case '4':
+                case '5': case '6': case '7': case '8': case '9':
+                case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+                case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+                    int numValue = Character.digit(c, 16);
+                    int count = 0;
+                    int p = 16;
+
+                    while (index + 1 < len && count < 6) {
+                        c = s.charAt(index+1);
+
+                        if (Character.digit(c, 16) != -1) {
+                            numValue = (numValue * 16) + Character.digit(c, 16);
+                            p *= 16;
+                            index++;
+                        } else {
+                            if (c == ' ') {
+                                // skip the latest white space
+                                index++;
+                            }
+                            break;
+                        }
+                    }
+                    buf.append((char) numValue);
+                    break;
+                    case '\n':
+                    case '\f':
+                    break;
+                    case '\r':
+                    if (index + 1 < len) {
+                        if (s.charAt(index + 1) == '\n') {
+                            index ++;
+                        }
+                    }
+                    break;
+                default:
+                    buf.append(c);
+                }
+            } else {
+                throw new CSSParseException("invalid string " + s, getLocator());
+            }
+        } else {
+            buf.append(c);
+        }
+        index++;
+    }
+
+    return buf.toString();
+}
+
+JAVACODE
+void skipSelector() {
+    Token t = getToken(1);
+    while (t.kind != COMMA && t.kind != SEMICOLON && t.kind != LBRACE && t.kind != EOF ) {
+        getNextToken();
+        t = getToken(1);
+    }
+}
+
+JAVACODE
+String skip() {
+  StringBuffer sb = new StringBuffer();
+  int nesting = 0;
+  Token t = getToken(0);
+  if (t.image != null) {
+    sb.append(t.image);    
+  }
+  do {
+    t = getNextToken();
+    if (t.kind == EOF)
+      break;
+    sb.append(t.image);
+    if (t.kind == LBRACE)
+      nesting++;
+    else if (t.kind == RBRACE)
+      nesting--;
+    else if (t.kind == SEMICOLON && nesting <= 0)
+      break;
+  }
+  while ((t.kind != RBRACE) || (nesting > 0));
+
+  return sb.toString();
+}
+
+JAVACODE
+void error_skipblock() {
+  if (!_quiet) {
+    ParseException e = generateParseException();
+    System.err.println( "** error_skipblock **\n" + e.toString() );
+  }
+
+  Token t;
+  int nesting = 0;
+  do {
+    t = getNextToken();
+    if( t.kind == LBRACE )
+      nesting++;
+    else if( t.kind == RBRACE )
+      nesting--;
+    else if( t.kind == EOF )
+      break;
+  }
+  while ((t.kind != RBRACE) || (nesting > 0));
+}
+
+JAVACODE
+void error_skipdecl() {
+  if (!_quiet) {
+    ParseException e = generateParseException();
+    System.err.println("** error_skipdecl **\n" + e.toString());
+  }
+
+  Token t = getToken(1);
+  while (t.kind != SEMICOLON && t.kind != RBRACE && t.kind != EOF ) {
+      getNextToken();
+      t = getToken(1);
+  }
+}

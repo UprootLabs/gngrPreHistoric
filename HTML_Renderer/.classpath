@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/cssparser"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/XAMJ_Build/ext/js.jar" sourcepath="C:/opt/rhino1_6R5"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

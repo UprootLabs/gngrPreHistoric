@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.steadystate.com/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="expires" content="0" />
+<meta name="description" content="CSS Parser readme document" />
+<title>CSS Parser Project README</title>
+<link rel="stylesheet" type="text/css" href="primary.css" />
+</head>
+
+<body>
+<p class="nav">
+<a class="nav" href="http://sourceforge.net/projects/cssparser/"><strong>CSS Parser</strong></a>
+</p>
+
+<h1>CSS Parser README</h1>
+
+<p><em>[Formerly the Steady State CSS2 Parser]</em></p>
+
+<p>Welcome to the CSS Parser Project, which is a continuation of the Steady State CSS2 Parser.  Steady State Software Ltd. is now defunct, and with the aim of breathing new life into the CSS Parser, it has moved to SourceForge.</p>
+<p>As an initial SourceForge release (0.9.4), only a few minor changes are being included - this is to smooth the transition from the 0.9.3 release that has been around for a couple of years now.  The intention is to quickly move to a 1.0 release.  So all people with modifications - sign on as a developer and get those bug fixes and improvements in!</p>
+
+<!--<h2>What's New</h2>
+<h3>Release 0.9.4</h3>-->
+
+<h2>What's Included</h2>
+<pre>
+primary.css  - Steady State Web style sheet
+changes.html - A record of significant changes between releases
+license.html - LGPL document
+readme.html  - This file
+ss_css2.jar  - JAR containing the CSS2 Parser
+build.xml    - Ant build file
+
+samples/     - Some demonstration applications
+src/         - Source code for Parser, W3C DOM, and W3C SAC interfaces
+stylesheets/ - Collection of test style sheets
+</pre>
+
+<h2>What's Required</h2>
+<p>To compile the source, you'll need:</p>
+<ul>
+<li>The <a href="https://javacc.dev.java.net/">Java Compiler Compiler (JavaCC)</a>
+from <a href="http://java.net/">java.net</a></li>
+</ul>
+
+<h2>Documentation</h2>
+<p>This is still in a non-existent state, but will be fixed for the 1.0 release.  In the meantime...</p>
+<p>Refer to the
+<a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113">Document Object Model Level
+2 Style Recommendation</a> for details of the DOM interfaces.</p>
+<p>Refer to the <a href="http://www.w3.org/Style/CSS/SAC/">SAC: The Simple API for CSS</a> home
+page for details of the SAC interfaces.</p>
+<h2>Getting Started</h2>
+<p>To test that everything is working, try building the sample applications with "ant samples" and then run the simple CSS browser with "java -cp build browser.StyleBrowser".</p>
+<h3>Example of usage</h3>
+<pre>
+java.io.Reader r = new java.io.FileReader(pathName);
+com.steadystate.css.parser.CSSOMParser parser = new com.steadystate.css.parser.CSSOMParser();
+java.io.InputSource is = new java.io.InputSource(r);
+org.w3c.dom.css.CSSStyleSheet styleSheet = parser.parseStyleSheet(is);
+</pre>
+<h2>Some Current Limitations</h2>
+<ul>
+<li>The <code>media</code> attribute of interface <code>StyleSheet</code> is
+not implemented</LI>
+<li>The <code>parentRule</code> attribute of interface <code>CSSRule</code> is
+not implemented</li>
+<li><code>ImportRule</code> doesn't import a style sheet</li>
+<li>Conversion between units of <code>CSSPrimitiveValue</code> is not
+implemented</li>
+</ul>
+
+<hr />
+<p class="legal">
+Copyright&nbsp;(c)&nbsp;2004 David Schweinsberg<br />
+</p>
+<hr />
+
+<address>
+<a href="mailto:davidsch at sourceforge dot net">David Schweinsberg</a><br />
+22nd November 2004
+</address>
+
+</body>
+</html>
