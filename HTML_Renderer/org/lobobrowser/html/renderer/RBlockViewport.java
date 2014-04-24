@@ -22,15 +22,42 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.EventQueue;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.style.*;
-import org.lobobrowser.html.domimpl.*;
-import org.w3c.dom.*;
-import java.util.logging.*;
+import org.lobobrowser.html.BrowserFrame;
+import org.lobobrowser.html.HtmlObject;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.HTMLIFrameElementImpl;
+import org.lobobrowser.html.domimpl.HTMLImageElementImpl;
+import org.lobobrowser.html.domimpl.HTMLTableElementImpl;
+import org.lobobrowser.html.domimpl.ModelNode;
+import org.lobobrowser.html.domimpl.NodeImpl;
+import org.lobobrowser.html.domimpl.UINode;
+import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.HtmlInsets;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
+import org.w3c.dom.Node;
 
 /**
  * A substantial portion of the HTML rendering logic of the package can

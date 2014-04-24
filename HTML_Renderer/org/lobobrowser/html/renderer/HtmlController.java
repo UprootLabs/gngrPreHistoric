@@ -1,11 +1,22 @@
 package org.lobobrowser.html.renderer;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.js.*;
-import org.mozilla.javascript.*;
-import java.util.logging.*;
-import java.awt.event.*;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.html.FormInput;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.HTMLAbstractUIElement;
+import org.lobobrowser.html.domimpl.HTMLButtonElementImpl;
+import org.lobobrowser.html.domimpl.HTMLInputElementImpl;
+import org.lobobrowser.html.domimpl.HTMLLinkElementImpl;
+import org.lobobrowser.html.domimpl.HTMLSelectElementImpl;
+import org.lobobrowser.html.domimpl.ModelNode;
+import org.lobobrowser.html.js.Event;
+import org.lobobrowser.html.js.Executor;
+
+import sun.org.mozilla.javascript.internal.Function;
 
 class HtmlController {
 	private static final Logger logger = Logger.getLogger(HtmlController.class.getName());

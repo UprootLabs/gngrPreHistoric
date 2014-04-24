@@ -26,11 +26,13 @@ package org.lobobrowser.html.renderer;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Insets;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.ElementImpl;
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 import org.lobobrowser.util.gui.WrapperLayout;
 
 abstract class BaseInputTextControl extends BaseInputControl {

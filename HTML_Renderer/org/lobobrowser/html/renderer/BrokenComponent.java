@@ -1,6 +1,9 @@
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
 class BrokenComponent extends Component {
 	public Dimension getPreferredSize() {

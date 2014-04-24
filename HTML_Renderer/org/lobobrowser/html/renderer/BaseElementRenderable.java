@@ -20,7 +20,13 @@
 
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -29,14 +35,20 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.lobobrowser.util.Strings;
-import org.lobobrowser.util.gui.*;
 import org.lobobrowser.html.HttpRequest;
 import org.lobobrowser.html.ReadyStateChangeListener;
 import org.lobobrowser.html.UserAgentContext;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.style.*;
-import org.lobobrowser.util.gui.ColorFactory;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.ModelNode;
+import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.BackgroundInfo;
+import org.lobobrowser.html.style.BorderInfo;
+import org.lobobrowser.html.style.HtmlInsets;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.gui.GUITasks;
 import org.w3c.dom.css.CSS2Properties;
 
 abstract class BaseElementRenderable extends BaseRCollection implements RElement, RenderableContainer, java.awt.image.ImageObserver {

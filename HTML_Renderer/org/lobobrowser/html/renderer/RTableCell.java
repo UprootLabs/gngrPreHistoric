@@ -24,12 +24,11 @@
 package org.lobobrowser.html.renderer;
 
 import java.awt.Dimension;
-import java.awt.Insets;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.domimpl.HTMLTableCellElementImpl;
 import org.lobobrowser.html.style.RenderState;
-import org.lobobrowser.html.style.TableCellRenderState;
 
 class RTableCell extends RBlock {
 	private final HTMLTableCellElementImpl cellElement;

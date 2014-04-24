@@ -22,27 +22,68 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.io.*;
-import org.lobobrowser.html.js.*;
-import org.lobobrowser.html.parser.HtmlParser;
-import org.lobobrowser.html.style.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.util.io.EmptyReader;
-import org.w3c.dom.*;
-import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.views.*;
-import org.w3c.dom.html2.*;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.mozilla.javascript.Function;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
-import java.security.*;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.HttpRequest;
+import org.lobobrowser.html.ReadyStateChangeListener;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.io.WritableLineReader;
+import org.lobobrowser.html.js.Event;
+import org.lobobrowser.html.js.Executor;
+import org.lobobrowser.html.js.Location;
+import org.lobobrowser.html.js.Window;
+import org.lobobrowser.html.parser.HtmlParser;
+import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.style.StyleSheetAggregator;
+import org.lobobrowser.html.style.StyleSheetRenderState;
+import org.lobobrowser.util.Domains;
+import org.lobobrowser.util.Urls;
+import org.lobobrowser.util.WeakValueHashMap;
+import org.lobobrowser.util.io.EmptyReader;
+import org.w3c.dom.Attr;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Comment;
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.w3c.dom.EntityReference;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.Text;
+import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.css.CSSStyleSheet;
+import org.w3c.dom.html2.HTMLCollection;
+import org.w3c.dom.html2.HTMLDocument;
+import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html2.HTMLLinkElement;
+import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+
+import sun.org.mozilla.javascript.internal.Function;
 
 /**
  * Implementation of the W3C <code>HTMLDocument</code> interface.

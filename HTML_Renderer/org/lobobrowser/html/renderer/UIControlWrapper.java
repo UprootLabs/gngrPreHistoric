@@ -1,8 +1,11 @@
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
-import org.lobobrowser.html.*;
+import org.lobobrowser.html.HtmlObject;
 
 class UIControlWrapper implements UIControl {
 	private final Component component;

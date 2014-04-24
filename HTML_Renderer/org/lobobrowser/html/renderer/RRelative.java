@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 import java.util.Iterator;
 
 import org.lobobrowser.html.domimpl.ModelNode;
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.CollectionUtilities;
 
 public class RRelative extends BaseRCollection {
 	private final RElement child;

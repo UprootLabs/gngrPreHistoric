@@ -23,12 +23,17 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.html.domimpl.*;
-
-import java.util.logging.*;
+import org.lobobrowser.html.domimpl.ModelNode;
 
 /**
  * @author J. H. S.

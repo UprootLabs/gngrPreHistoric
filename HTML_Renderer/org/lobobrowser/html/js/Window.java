@@ -23,24 +23,46 @@
  */
 package org.lobobrowser.html.js;
 
-import java.util.*;
-import java.lang.ref.*;
-import javax.swing.Timer;
-import java.awt.event.*;
-import java.util.logging.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.js.*;
+import javax.swing.Timer;
+
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.HTMLIFrameElementImpl;
+import org.lobobrowser.html.domimpl.HTMLImageElementImpl;
+import org.lobobrowser.html.domimpl.HTMLOptionElementImpl;
+import org.lobobrowser.html.domimpl.HTMLScriptElementImpl;
+import org.lobobrowser.html.domimpl.HTMLSelectElementImpl;
+import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.lobobrowser.js.JavaClassWrapper;
+import org.lobobrowser.js.JavaClassWrapperFactory;
+import org.lobobrowser.js.JavaInstantiator;
+import org.lobobrowser.js.JavaObjectWrapper;
+import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.util.ID;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.Document;
-import org.w3c.dom.html2.*;
-import org.w3c.dom.views.*;
-import org.w3c.dom.css.*;
+import org.w3c.dom.css.CSS2Properties;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.html2.HTMLCollection;
+import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
+
+import sun.org.mozilla.javascript.internal.Context;
+import sun.org.mozilla.javascript.internal.Function;
+import sun.org.mozilla.javascript.internal.Scriptable;
+import sun.org.mozilla.javascript.internal.ScriptableObject;
 
 public class Window extends AbstractScriptableDelegate implements AbstractView  {
 	private static final Logger logger = Logger.getLogger(Window.class.getName());

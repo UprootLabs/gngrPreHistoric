@@ -20,8 +20,9 @@
 */
 package org.lobobrowser.js;
 
-import java.util.*;
-import java.lang.ref.*;
+import java.lang.ref.WeakReference;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class JavaClassWrapperFactory {
 	private static JavaClassWrapperFactory instance;

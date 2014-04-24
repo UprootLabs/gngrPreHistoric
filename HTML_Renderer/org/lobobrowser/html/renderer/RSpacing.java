@@ -23,7 +23,7 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 import org.lobobrowser.html.domimpl.ModelNode;

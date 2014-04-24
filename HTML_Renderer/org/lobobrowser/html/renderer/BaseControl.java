@@ -26,12 +26,11 @@ package org.lobobrowser.html.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
-import org.lobobrowser.html.domimpl.*;
-
-import java.util.logging.*;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
 abstract class BaseControl extends JComponent implements UIControl {
 	private static final Logger logger = Logger.getLogger(BaseControl.class.getName());

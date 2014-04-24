@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 import org.lobobrowser.util.Diagnostics;
 

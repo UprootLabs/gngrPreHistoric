@@ -23,10 +23,17 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.image.ImageObserver;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.HTMLImageElementImpl;
+import org.lobobrowser.html.domimpl.ImageEvent;
+import org.lobobrowser.html.domimpl.ImageListener;
 import org.lobobrowser.html.style.HtmlValues;
 
 class ImgControl extends BaseControl implements ImageListener {

@@ -1,10 +1,17 @@
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.style.*;
-import org.lobobrowser.html.domimpl.*;
-import org.w3c.dom.html2.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+
+import org.lobobrowser.html.BrowserFrame;
+import org.lobobrowser.html.domimpl.ModelNode;
+import org.lobobrowser.html.style.HtmlInsets;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
+import org.w3c.dom.html2.HTMLElement;
 
 class BrowserFrameUIControl implements UIControl {
 	//private final BrowserFrame browserFrame;

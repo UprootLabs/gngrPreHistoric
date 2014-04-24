@@ -26,6 +26,7 @@ package org.lobobrowser.html.domimpl;
 import java.util.*;
 
 import org.lobobrowser.util.*;
+import org.lobobrowser.util.Objects;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;

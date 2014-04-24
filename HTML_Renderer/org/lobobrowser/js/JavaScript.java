@@ -20,10 +20,13 @@
 */
 package org.lobobrowser.js;
 
+import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
-import java.lang.ref.*;
-import org.mozilla.javascript.*;
-import org.lobobrowser.util.*;
+
+import org.lobobrowser.util.Objects;
+
+import sun.org.mozilla.javascript.internal.Scriptable;
+import sun.org.mozilla.javascript.internal.Undefined;
 
 public class JavaScript {
 	private static JavaScript instance = new JavaScript();

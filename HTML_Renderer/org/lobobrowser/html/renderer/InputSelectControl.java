@@ -1,14 +1,24 @@
 package org.lobobrowser.html.renderer;
 
-import javax.swing.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 
-import java.awt.event.*;
-import java.util.*;
-
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
+import org.lobobrowser.html.domimpl.HTMLSelectElementImpl;
 import org.lobobrowser.util.gui.WrapperLayout;
-import org.w3c.dom.html2.*;
+import org.w3c.dom.html2.HTMLOptionElement;
+import org.w3c.dom.html2.HTMLOptionsCollection;
 
 class InputSelectControl extends BaseInputControl {
 	private final JComboBox comboBox;

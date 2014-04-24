@@ -20,8 +20,11 @@
 */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
 import org.lobobrowser.html.domimpl.ModelNode;
 

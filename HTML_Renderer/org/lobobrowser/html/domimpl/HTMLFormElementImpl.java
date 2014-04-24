@@ -27,14 +27,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.lobobrowser.html.FormInput;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.js.Executor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
 import org.w3c.dom.html2.HTMLFormElement;
-import org.lobobrowser.html.FormInput;
-import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.js.*;
-import org.mozilla.javascript.*;
+
+import sun.org.mozilla.javascript.internal.Function;
 
 public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
 		HTMLFormElement {

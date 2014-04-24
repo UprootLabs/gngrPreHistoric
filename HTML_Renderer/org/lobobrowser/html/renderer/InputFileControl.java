@@ -21,11 +21,16 @@
 package org.lobobrowser.html.renderer;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
-import org.lobobrowser.html.domimpl.*;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 
-import javax.swing.*;
-import java.io.*;
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 
 public class InputFileControl extends BaseInputControl {
 	private final JTextField textField = new JTextField();

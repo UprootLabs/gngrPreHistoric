@@ -23,17 +23,27 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.RenderThreadState;
-
-import org.w3c.dom.css.*;
+import org.lobobrowser.util.Objects;
 
 class RTable extends BaseElementRenderable {
     private static final int MAX_CACHE_SIZE = 10;

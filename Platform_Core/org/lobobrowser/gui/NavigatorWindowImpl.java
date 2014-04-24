@@ -20,21 +20,50 @@
 */
 package org.lobobrowser.gui;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Frame;
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.SwingUtilities;
 
-import java.util.*;
-import java.io.*;
-import java.net.URL;
-
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
 import org.lobobrowser.main.ExtensionManager;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-
-import java.util.logging.*;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigatorEvent;
+import org.lobobrowser.ua.NavigatorEventType;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.NavigatorWindowEvent;
+import org.lobobrowser.ua.NavigatorWindowListener;
+import org.lobobrowser.ua.ParameterInfo;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.TargetType;
+import org.lobobrowser.ua.UserAgent;
+import org.lobobrowser.util.EventDispatch2;
+import org.lobobrowser.util.Objects;
+import org.lobobrowser.util.Urls;
 
 /**
  * Default implementation of the {@link NavigatorWindow} interface.

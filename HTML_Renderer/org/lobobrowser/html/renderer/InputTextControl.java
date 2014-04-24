@@ -25,12 +25,11 @@ package org.lobobrowser.html.renderer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
 
-import org.lobobrowser.html.domimpl.*;
-
-import javax.swing.*;
+import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
+
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 
 class InputTextControl extends BaseInputTextControl {
 	public InputTextControl(final HTMLBaseInputElement modelNode) {

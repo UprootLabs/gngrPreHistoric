@@ -23,12 +23,14 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import org.lobobrowser.html.js.*;
-import org.lobobrowser.html.style.*;
-import org.mozilla.javascript.Function;
+import org.lobobrowser.html.js.Executor;
+import org.lobobrowser.html.style.ImageRenderState;
+import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html2.HTMLImageElement;
+
+import sun.org.mozilla.javascript.internal.Function;
 
 public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
 		HTMLImageElement {

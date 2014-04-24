@@ -26,12 +26,16 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
-import java.awt.event.*;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.ImageEvent;
+import org.lobobrowser.html.domimpl.ImageListener;
 import org.lobobrowser.html.style.HtmlValues;
-import org.lobobrowser.util.gui.*;
+import org.lobobrowser.util.gui.WrapperLayout;
 
 class InputImageControl extends BaseInputControl implements ImageListener {
 	//private JButton button;

@@ -23,9 +23,12 @@
  */
 package org.lobobrowser.html.renderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.style.RenderState;
 
 class HrControl extends BaseControl {

@@ -21,8 +21,7 @@
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.html.UserAgentContext;
-import org.lobobrowser.html.domimpl.*;
-import java.awt.*;
+import org.lobobrowser.html.domimpl.ModelNode;
 
 public class RImgControl extends RUIControl {
 	public RImgControl(ModelNode me, UIControl widget, RenderableContainer container, FrameContext frameContext, UserAgentContext ucontext) {

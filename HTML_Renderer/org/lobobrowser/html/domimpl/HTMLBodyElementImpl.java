@@ -23,10 +23,13 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
-import org.mozilla.javascript.Function;
+import org.lobobrowser.html.style.BodyRenderState;
+import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.Document;
-import org.w3c.dom.html2.*;
+import org.w3c.dom.html2.HTMLBodyElement;
+import org.w3c.dom.html2.HTMLDocument;
+
+import sun.org.mozilla.javascript.internal.Function;
 
 public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements
 		HTMLBodyElement {

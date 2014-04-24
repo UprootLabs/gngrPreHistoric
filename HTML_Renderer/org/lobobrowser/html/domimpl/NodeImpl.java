@@ -32,6 +32,7 @@ import org.lobobrowser.html.*;
 import org.lobobrowser.html.style.*;
 import org.lobobrowser.js.*;
 import org.lobobrowser.util.*;
+import org.lobobrowser.util.Objects;
 import org.w3c.dom.*;
 
 public abstract class NodeImpl extends AbstractScriptableDelegate implements Node, ModelNode {

@@ -1,12 +1,20 @@
 package org.lobobrowser.html.js;
 
-import java.net.*;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.html.HttpRequest;
+import org.lobobrowser.html.ReadyStateChangeListener;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.lobobrowser.js.JavaScript;
+import org.lobobrowser.util.Urls;
 import org.w3c.dom.Document;
-import org.lobobrowser.html.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.js.*;
-import org.mozilla.javascript.*;
-import java.util.logging.*;
+
+import sun.org.mozilla.javascript.internal.Context;
+import sun.org.mozilla.javascript.internal.Function;
+import sun.org.mozilla.javascript.internal.Scriptable;
 
 public class XMLHttpRequest extends AbstractScriptableDelegate {
 	//TODO: See reference: http://www.xulplanet.com/references/objref/XMLHttpRequest.html

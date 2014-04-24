@@ -20,8 +20,20 @@
 */
 package org.lobobrowser.html.js;
 
-import org.mozilla.javascript.*;
-import java.security.*;
+import java.security.AccessControlContext;
+import java.security.AccessController;
+import java.security.CodeSource;
+import java.security.PermissionCollection;
+import java.security.Policy;
+import java.security.PrivilegedAction;
+import java.security.ProtectionDomain;
+import java.security.SecureClassLoader;
+
+import sun.org.mozilla.javascript.internal.Callable;
+import sun.org.mozilla.javascript.internal.Context;
+import sun.org.mozilla.javascript.internal.GeneratedClassLoader;
+import sun.org.mozilla.javascript.internal.Scriptable;
+import sun.org.mozilla.javascript.internal.SecurityController;
 
 public class SecurityControllerImpl extends SecurityController {
 	private final java.net.URL url;

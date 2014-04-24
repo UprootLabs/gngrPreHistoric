@@ -35,6 +35,7 @@ import javax.swing.*;
 
 import org.lobobrowser.ua.*;
 import org.lobobrowser.util.*;
+import org.lobobrowser.util.Objects;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.clientlet.ComponentContent;
 import org.lobobrowser.main.*;

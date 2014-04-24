@@ -20,10 +20,15 @@
 */
 package org.lobobrowser.js;
 
-import org.mozilla.javascript.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import sun.org.mozilla.javascript.internal.EvaluatorException;
+import sun.org.mozilla.javascript.internal.Function;
+import sun.org.mozilla.javascript.internal.Scriptable;
+import sun.org.mozilla.javascript.internal.ScriptableObject;
+import sun.org.mozilla.javascript.internal.WrappedException;
 
 public class JavaObjectWrapper extends ScriptableObject {
 	private static final Logger logger = Logger.getLogger(JavaObjectWrapper.class.getName());
@@ -173,7 +178,7 @@ public class JavaObjectWrapper extends ScriptableObject {
 	}
 
 	public void put(String name, Scriptable start, Object value) {
-		if(value instanceof org.mozilla.javascript.Undefined) {
+		if(value instanceof sun.org.mozilla.javascript.internal.Undefined) {
 			super.put(name, start, value);
 		}
 		else {

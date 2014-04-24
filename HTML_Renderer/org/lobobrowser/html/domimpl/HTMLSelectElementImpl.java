@@ -1,12 +1,14 @@
 package org.lobobrowser.html.domimpl;
 
-import java.util.*;
+import java.util.ArrayList;
+
 import org.lobobrowser.html.FormInput;
-import org.mozilla.javascript.*;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.html2.HTMLOptionsCollection;
 import org.w3c.dom.html2.HTMLSelectElement;
+
+import sun.org.mozilla.javascript.internal.Function;
 
 public class HTMLSelectElementImpl extends HTMLBaseInputElement implements
 		HTMLSelectElement {

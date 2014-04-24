@@ -20,7 +20,7 @@
 */
 package org.lobobrowser.js;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
 
 public class PropertyInfo {
 	private final String name;

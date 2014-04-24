@@ -27,10 +27,12 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.ElementImpl;
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 import org.lobobrowser.util.gui.WrapperLayout;
 
 class InputTextAreaControl extends BaseInputControl {

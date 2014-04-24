@@ -20,7 +20,7 @@
 */
 package org.lobobrowser.js;
 
-import org.mozilla.javascript.*;
+import sun.org.mozilla.javascript.internal.Scriptable;
 
 public abstract class AbstractScriptableDelegate implements ScriptableDelegate {
 	private Scriptable scriptable;

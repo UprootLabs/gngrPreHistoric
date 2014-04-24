@@ -26,9 +26,11 @@ package org.lobobrowser.html.renderer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.lobobrowser.html.domimpl.*;
+import javax.swing.JButton;
+
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
+import org.lobobrowser.html.domimpl.HTMLInputElementImpl;
 import org.lobobrowser.util.gui.WrapperLayout;
-import javax.swing.*;
 
 class InputButtonControl extends BaseInputControl {
 	private final JButton widget; 

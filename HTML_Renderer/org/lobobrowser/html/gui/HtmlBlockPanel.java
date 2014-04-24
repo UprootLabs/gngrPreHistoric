@@ -34,8 +34,10 @@ import org.lobobrowser.html.domimpl.*;
 import org.lobobrowser.html.renderer.*;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.util.*;
+import org.lobobrowser.util.Objects;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.*;
+
 import java.util.logging.*;
 import java.util.*;
 

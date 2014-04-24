@@ -21,8 +21,7 @@
 
 package org.lobobrowser.html.renderer;
 
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.domimpl.UINode;
 
 /**
  * A renderer node for elements such as blocks, lists, tables, inputs, images, etc.

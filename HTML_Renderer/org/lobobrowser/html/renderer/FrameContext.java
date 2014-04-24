@@ -20,7 +20,7 @@
 */
 package org.lobobrowser.html.renderer;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.NodeImpl;
 
 /**
  * Provides direct access to the GUI component where the

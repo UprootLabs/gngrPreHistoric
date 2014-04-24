@@ -23,9 +23,10 @@
  */
 package org.lobobrowser.html.renderer;
 
-import org.lobobrowser.html.domimpl.*;
+import javax.swing.JCheckBox;
+
+import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 import org.lobobrowser.util.gui.WrapperLayout;
-import javax.swing.*;
 
 class InputCheckboxControl extends BaseInputControl {
 	private final JCheckBox widget; 
