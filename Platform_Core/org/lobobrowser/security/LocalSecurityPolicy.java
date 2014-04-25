@@ -182,6 +182,14 @@ public class LocalSecurityPolicy extends Policy {
 	 * @see java.security.Policy#getPermissions(java.security.CodeSource)
 	 */
 	public PermissionCollection getPermissions(CodeSource codesource) {
+	  // TODO: Important: This was required after switching to JDK Rhino. This method gets called twice:
+	  //    once with proper codesource and once with null. The second call needs accessClassInPackage.sun.org.mozilla.javascript.internal.
+	  if (codesource == null) {
+		  Permissions permissions = new Permissions();
+    	permissions.add(new RuntimePermission("accessClassInPackage.sun.org.mozilla.javascript.internal"));
+	    return permissions;
+	  }
+
 		URL location = codesource.getLocation();
 		if(location == null) {
 			throw new AccessControlException("No location for coodesource=" + codesource);
