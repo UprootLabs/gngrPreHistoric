@@ -1228,6 +1228,8 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 	}
 	
 	private Function onloadHandler;
+	private List<Function> onloadHandlers = new ArrayList<Function>();
+	private Map<String, List<Function>> onEventHandlers = new HashMap<String, List<Function>>();
 
 	public Function getOnloadHandler() {
 		return onloadHandler;
@@ -1239,14 +1241,28 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
 	public Object setUserData(String key, Object data, UserDataHandler handler) {
 		Function onloadHandler = this.onloadHandler;
-		if(onloadHandler != null) {
-			if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
+		if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
+			if(onloadHandler != null) {
 				//TODO: onload event object?
 				Executor.executeFunction(this, onloadHandler, null);
 			}
+
+      final Event loadEvent = new Event("load", getBody()); // TODO: What should be the target for this event?
+		  dispatchEvent(loadEvent, onloadHandlers);
+
+      final Event domContentLoadedEvent = new Event("DOMContentLoaded", getBody()); // TODO: What should be the target for this event?
+		  dispatchEvent(domContentLoadedEvent, onEventHandlers.get("DOMContentLoaded"));
 		}
 		return super.setUserData(key, data, handler);
 	}
+
+  private void dispatchEvent(final Event event, final List<Function> handlers) {
+    if (handlers != null) {
+		  for (final Function h : handlers) {
+			  Executor.executeFunction(this, h, event);
+		  }
+    }
+  }
 
 	protected Node createSimilarNode() {
 		return new HTMLDocumentImpl(this.ucontext, this.rcontext, this.reader, this.documentURI);
@@ -1379,4 +1395,42 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 			}
 		}
 	}
+
+	// TODO: ensure not accessible from JS
+	public void addLoadHandler(final Function handler) {
+	  onloadHandlers.add(handler);
+	}
+
+	// TODO: ensure not accessible from JS
+	public void removeLoadHandler(final Function handler) {
+	  onloadHandlers.remove(handler);
+	}
+
+  public void addEventListener(String type, Function listener, boolean useCapture) {
+    // TODO
+    System.out.println("document add Event listener: " + type);
+
+    List<Function> handlerList = null;
+    if (onEventHandlers.containsKey(type)) {
+      handlerList = onEventHandlers.get(type);
+    } else {
+      handlerList = new ArrayList<Function>();
+      onEventHandlers.put(type, handlerList);
+    }
+    handlerList.add(listener);
+  }
+
+  public void removeEventListener(String type, Function listener, boolean useCapture) {
+    // TODO
+    System.out.println("document remove Event listener: " + type);
+    if (onEventHandlers.containsKey(type)) {
+      onEventHandlers.get(type).remove(listener);
+    }
+  }
+
+  public boolean dispatchEvent(Event evt) {
+    // TODO
+    System.out.println("dispatch event");
+    return false;
+  }
 }

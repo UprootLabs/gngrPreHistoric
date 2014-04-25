@@ -887,5 +887,24 @@ public class Window extends AbstractScriptableDelegate implements AbstractView  
         }
 	}
 	
+  public void addEventListener(String type, Function listener, boolean useCapture) {
+    // TODO: Should this delegate completely to document
+    if ("load".equals(type)) {
+      document.addLoadHandler(listener);
+    }
+  }
+
+  public void removeEventListener(String type, Function listener, boolean useCapture) {
+    // TODO: Should this delegate completely to document
+    if ("load".equals(type)) {
+      document.removeLoadHandler(listener);
+    }
+  }
+
+  public boolean dispatchEvent(Event evt) throws EventException {
+    // TODO
+    System.out.println("window dispatch event");
+    return false;
+  }
 }
 
