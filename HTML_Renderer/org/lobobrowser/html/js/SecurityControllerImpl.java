@@ -56,7 +56,8 @@ public class SecurityControllerImpl extends SecurityController {
 					return callable.call(ctx, scope, thisObj, args);					
 				}
 			};
-			AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { (ProtectionDomain) securityDomain });
+			final ProtectionDomain protectionDomain = (ProtectionDomain) securityDomain;
+			AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { protectionDomain });
 			return AccessController.doPrivileged(action, acctx);
 		}
 	}
