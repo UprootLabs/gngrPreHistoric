@@ -2130,10 +2130,17 @@ public class RBlockViewport extends BaseRCollection {
 		
 		public void layoutMarkup(RBlockViewport bodyLayout, HTMLElementImpl markupElement) {
 			AbstractCSS2Properties style = markupElement.getCurrentStyle();
+			int currMethod = this.method;
 			if(style != null) {
 				String display = style.getDisplay();
-				if(display != null && "none".equalsIgnoreCase(display)) {
-					return;
+				if(display != null) {
+				  if ("none".equalsIgnoreCase(display)) {
+				    return;
+				  } else if ("block".equalsIgnoreCase(display)) {
+				    currMethod = ADD_AS_BLOCK;
+				  } else if ("inline".equalsIgnoreCase(display)) {
+				    currMethod = ADD_INLINE;
+				  }
 				}
 			}
 			UINode node = markupElement.getUINode();
@@ -2152,7 +2159,7 @@ public class RBlockViewport extends BaseRCollection {
 				renderable = (RElement) node;
 			}
 			renderable.setOriginalParent(bodyLayout);
-			switch(this.method) {
+			switch(currMethod) {
 			case ADD_INLINE:
 				bodyLayout.addRenderableToLineCheckStyle(renderable, markupElement, this.useAlignAttribute);
 				break;
