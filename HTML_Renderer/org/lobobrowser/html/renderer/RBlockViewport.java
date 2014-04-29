@@ -1974,12 +1974,6 @@ public class RBlockViewport extends BaseRCollection {
 			super(DISPLAY_INLINE);
 		}
 		
-		/* (non-Javadoc)
-		 * @see org.xamjwg.html.renderer.MarkupLayout#layoutMarkup(java.awt.Container, java.awt.Insets, org.xamjwg.html.domimpl.HTMLElementImpl)
-		 */
-		public void layoutMarkup(RBlockViewport bodyLayout, HTMLElementImpl markupElement) {
-			super.layoutMarkup(bodyLayout, markupElement);
-		}
 	}
 	
 	private static class ULayout extends CommonLayout {
@@ -1987,12 +1981,6 @@ public class RBlockViewport extends BaseRCollection {
 			super(DISPLAY_INLINE);
 		}
 		
-		/* (non-Javadoc)
-		 * @see org.xamjwg.html.renderer.MarkupLayout#layoutMarkup(java.awt.Container, java.awt.Insets, org.xamjwg.html.domimpl.HTMLElementImpl)
-		 */
-		public void layoutMarkup(RBlockViewport bodyLayout, HTMLElementImpl markupElement) {
-			super.layoutMarkup(bodyLayout, markupElement);
-		}
 	}
 
 	private static class StrikeLayout extends CommonLayout {
