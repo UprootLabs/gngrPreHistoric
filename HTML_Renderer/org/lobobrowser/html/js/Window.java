@@ -52,6 +52,8 @@ import org.lobobrowser.js.JavaObjectWrapper;
 import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.util.ID;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.css.CSS2Properties;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.html2.HTMLCollection;
@@ -905,6 +907,16 @@ public class Window extends AbstractScriptableDelegate implements AbstractView  
     // TODO
     System.out.println("window dispatch event");
     return false;
+  }
+
+  @PropertyName("Element")
+  public Class<Element> getElement() {
+    return Element.class;
+  }
+
+  @PropertyName("Node")
+  public Class<Node> getNode() {
+    return Node.class;
   }
 }
 

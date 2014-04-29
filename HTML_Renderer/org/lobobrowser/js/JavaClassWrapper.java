@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sun.org.mozilla.javascript.internal.Function;
+import org.lobobrowser.html.js.PropertyName;
 
 public class JavaClassWrapper {
 	private final Class javaClass;
@@ -166,25 +167,28 @@ public class JavaClassWrapper {
 	
 	private void ensurePropertyKnown(String methodName, Method method) {
 		String capPropertyName;
-		String propertyName;
 		boolean getter = false;
 		if(methodName.startsWith("get")) {
 			capPropertyName = methodName.substring(3);
-			propertyName = propertyUncapitalize(capPropertyName);
 		    getter = true;
 		}
 		else if(methodName.startsWith("set")) {
 			capPropertyName = methodName.substring(3);
-			propertyName = propertyUncapitalize(capPropertyName);
 		}
 		else if(methodName.startsWith("is")) {
 			capPropertyName = methodName.substring(2);
-			propertyName = propertyUncapitalize(capPropertyName);
 			getter = true;
 		}
 		else {
 			throw new IllegalArgumentException("methodName=" + methodName);
 		}
+
+		PropertyName propertyNameAnnotation = method.getAnnotation(PropertyName.class);
+		String propertyName =
+		    (propertyNameAnnotation != null) ?
+		        propertyNameAnnotation.value()
+		        :propertyUncapitalize(capPropertyName);
+
 		PropertyInfo pinfo = (PropertyInfo) this.properties.get(propertyName);
 		if(pinfo == null) {
 			Class pt = getter ? method.getReturnType() : method.getParameterTypes()[0];
