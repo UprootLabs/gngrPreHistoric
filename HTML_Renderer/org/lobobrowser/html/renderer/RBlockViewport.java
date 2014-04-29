@@ -45,6 +45,7 @@ import org.lobobrowser.html.BrowserFrame;
 import org.lobobrowser.html.HtmlObject;
 import org.lobobrowser.html.HtmlRendererContext;
 import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.domimpl.DocumentFragmentImpl;
 import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.domimpl.HTMLIFrameElementImpl;
@@ -601,6 +602,12 @@ public class RBlockViewport extends BaseRCollection {
 				}
 				else if(nodeType == Node.COMMENT_NODE || nodeType == Node.PROCESSING_INSTRUCTION_NODE) {
 					// ignore
+				}
+				else if(nodeType == Node.DOCUMENT_FRAGMENT_NODE) {
+				  final DocumentFragmentImpl fragment = (DocumentFragmentImpl) child;
+				  for(final NodeImpl fragChild : fragment.getChildrenArray()) {
+				    layoutChildren(fragChild);
+				  }
 				}
 				else {
 					throw new IllegalStateException("Unknown node: " + child);
