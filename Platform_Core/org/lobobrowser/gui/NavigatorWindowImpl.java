@@ -76,7 +76,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 	private final FramePanel framePanel;
 	private final Properties requestedProperties;
 	private final String windowId;
-	private final Window progressWindow;
 	private final AbstractBrowserWindow browserWindow;
 	private final Map<String,JMenu> menusById = new HashMap<String,JMenu>();
 	private final Collection<JMenu> menus = new LinkedList<JMenu>();
@@ -130,31 +129,11 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 		// invoked while the document loads.
 		if(window != null) {
 			this.browserWindow = window;
-			this.progressWindow = null;
 			this.launched = true;
 		}
 		else {
 			AbstractBrowserWindow newWindow = wf.createWindow(this.windowId, properties, this);
 			this.browserWindow = newWindow;
-			JFrame progressWindow = new ProgressWindow();
-			this.progressWindow = progressWindow;
-			// Pack to use preferred sizes
-			progressWindow.pack();
-			// Then resize
-			progressWindow.setSize(new java.awt.Dimension(400, progressWindow.getHeight()));
-			progressWindow.setLocationByPlatform(true);
-			progressWindow.setVisible(true);
-			progressWindow.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosed(WindowEvent e) {
-					if(!launched) {
-						if(logger.isLoggable(Level.INFO)) {
-							logger.info("NavigatorWindowImpl(): Disposing browserWindow due to progress window getting closed.");
-						}
-						browserWindow.dispose();
-					}
-				}
-			});
 		}
 	}
 	
@@ -172,16 +151,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 			return;
 		}
 		this.launched = true;
-		if(this.progressWindow != null) {
-			if(!progressWindow.isDisplayable()) {
-				if(logger.isLoggable(Level.INFO)) {
-					logger.info("resetAsNavigator(): Progress window is not displayable, so it must have been closed; cancelling operation.");
-				}
-				this.browserWindow.dispose();
-				return;
-			}
-			this.progressWindow.dispose();
-		}
 		AbstractBrowserWindow window = this.browserWindow;
 		if(!window.isVisible()) {
 			window.setVisible(true);
@@ -224,18 +193,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 		Window window = this.browserWindow;
 		if(window != null) {
 			window.dispose();
-		}
-		Window pw = this.progressWindow;
-		if(pw != null) {
-			pw.dispose();
-		}
-	}
-	
-	public void updatePreNavigationProgress(NavigatorProgressEvent event) {
-		Object window = this.progressWindow;
-		if(window instanceof ProgressWindow) {
-			ProgressWindow pw = (ProgressWindow) window;
-			pw.updateProgress(event);
 		}
 	}
 	
@@ -315,7 +272,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 	}
 
 	public void dispose() {
-		this.progressWindow.dispose();
 		this.browserWindow.dispose();
 	}
 
@@ -374,13 +330,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 	}
 	
 	public Component getComponent() {
-		// Probably for dialogs
-		if(this.launched) {
 			return this.browserWindow;
-		}
-		else {
-			return this.progressWindow;
-		}
 	}
 	
 	public boolean back() {
@@ -655,12 +605,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 //	}
 	
 	public Window getAwtWindow() {
-		// For dialogs
-		if(this.launched) {
 			return this.browserWindow; 
-		}
-		else {
-			return this.progressWindow;
-		}
 	}
 }

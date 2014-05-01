@@ -834,9 +834,6 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 					// We don't want to reset as navigator twice.
 					handler.evtProgress.removeListener(this);
 				}
-				else {
-					wcontext.updatePreNavigationProgress(pe);
-				}
 			}
 		});		
 		SecurityManager sm = System.getSecurityManager();
