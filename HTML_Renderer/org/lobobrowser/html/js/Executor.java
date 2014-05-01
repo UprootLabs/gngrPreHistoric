@@ -73,8 +73,8 @@ public class Executor {
 			Scriptable thisScope = (Scriptable) js.getJavascriptObject(thisObject, scope);
 			try {
 				Scriptable eventScriptable = (Scriptable) js.getJavascriptObject(event, thisScope);
-				ScriptableObject.defineProperty(thisScope, "event", eventScriptable, ScriptableObject.READONLY);
-				Object result = f.call(ctx, thisScope, thisScope, new Object[0]);
+				// ScriptableObject.defineProperty(thisScope, "event", eventScriptable, ScriptableObject.READONLY);
+				Object result = f.call(ctx, thisScope, thisScope, new Object[]{eventScriptable});
 				if(!(result instanceof Boolean)) {
 					return true;
 				}

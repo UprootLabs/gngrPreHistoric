@@ -25,16 +25,38 @@ package org.lobobrowser.html.domimpl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.style.*;
-import org.lobobrowser.js.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.UserAgentContext;
+import org.lobobrowser.html.js.Event;
+import org.lobobrowser.html.js.Executor;
+import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.style.StyleSheetRenderState;
+import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.util.Objects;
-import org.w3c.dom.*;
+import org.lobobrowser.util.Strings;
 import org.mozilla.javascript.Function;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Comment;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.Text;
+import org.w3c.dom.UserDataHandler;
 
 public abstract class NodeImpl extends AbstractScriptableDelegate implements Node, ModelNode {
 	private static final NodeImpl[] EMPTY_ARRAY = new NodeImpl[0];
@@ -1192,4 +1214,46 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 			}
 		}
 	}
+
+  protected void dispatchEventToHandlers(final Event event, final List<Function> handlers) {
+    if (handlers != null) {
+      // We clone the collection and check if original collection still contains the handler before dispatching
+      // This is to avoid ConcurrentModificationException during dispatch
+      // TODO: Event Bubbling
+      ArrayList<Function> handlersCopy = new ArrayList<Function>(handlers);
+		  for (final Function h : handlersCopy) {
+		    if (handlers.contains(h)) {
+			    Executor.executeFunction(this, h, event);
+		    }
+		  }
+    }
+  }
+
+	private Map<String, List<Function>> onEventHandlers = new HashMap<String, List<Function>>();
+  public void addEventListener(String type, Function listener, boolean useCapture) {
+    // TODO
+    System.out.println("node Event listener: " + type);
+
+    List<Function> handlerList = null;
+    if (onEventHandlers.containsKey(type)) {
+      handlerList = onEventHandlers.get(type);
+    } else {
+      handlerList = new ArrayList<Function>();
+      onEventHandlers.put(type, handlerList);
+    }
+    handlerList.add(listener);
+  }
+
+  public void removeEventListener(String type, Function listener, boolean useCapture) {
+    // TODO
+    System.out.println("node remove Event listener: " + type);
+    if (onEventHandlers.containsKey(type)) {
+      onEventHandlers.get(type).remove(listener);
+    }
+  }
+
+  public boolean dispatchEvent(Event evt) {
+    dispatchEventToHandlers(evt, onEventHandlers.get(evt.getType()));
+    return false;
+  }
 }
