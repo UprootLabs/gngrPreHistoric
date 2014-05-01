@@ -77,9 +77,9 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements
 		if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
 			this.processStyle();
 		}
-		else if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key)) {
-			this.informDocumentInvalid();
-		}
+		// else if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key)) {
+			// this.informDocumentInvalid();
+		// }
 		return super.setUserData(key, data, handler);
 	}
 
@@ -92,18 +92,16 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements
 	            if(text != null && !"".equals(text)) {
 	                String processedText = CSSUtilities.preProcessCss(text);
 	                HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
-	                CSSOMParser parser = new CSSOMParser();
+	                CSSOMParser parser = CSSUtilities.mkParser();
 	                String baseURI = doc.getBaseURI();
 	                InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(processedText, baseURI);
 	                try {
-	                    CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is);
-	                    sheet.setOwnerNode(this);
-	                    sheet.setHref(baseURI);
+	                    CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, this, baseURI);
 	                    doc.addStyleSheet(sheet);
 	                    this.styleSheet = sheet;
 	                    if(sheet instanceof CSSStyleSheetImpl) {
 	                        CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet; 
-	                        sheetImpl.setDisabledOnly(this.disabled);
+	                        sheetImpl.setDisabled(this.disabled);
 	                    }
 	                    else {
 	                        sheet.setDisabled(this.disabled);

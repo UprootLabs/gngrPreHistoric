@@ -39,6 +39,7 @@ import org.lobobrowser.util.*;
 
 import com.steadystate.css.dom.CSSStyleSheetImpl;
 import com.steadystate.css.parser.CSSOMParser;
+import com.steadystate.css.parser.SACParserCSS3;
 
 public class CSSUtilities {
 	private static final Logger logger = Logger.getLogger(CSSUtilities.class.getName());
@@ -83,6 +84,10 @@ public class CSSUtilities {
 		return is;
 	}
 		
+	public static CSSOMParser mkParser() {
+	  return new CSSOMParser( new SACParserCSS3());
+	}
+
 	public static CSSStyleSheet parse(org.w3c.dom.Node ownerNode, String href, HTMLDocumentImpl doc, String baseUri, boolean considerDoubleSlashComments) throws MalformedURLException {
 		UserAgentContext bcontext = doc.getUserAgentContext();
 		final HttpRequest request = bcontext.createHttpRequest();
@@ -123,13 +128,11 @@ public class CSSUtilities {
 		String text = request.getResponseText();
 		if(text != null && !"".equals(text)) {
 			String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
-			CSSOMParser parser = new CSSOMParser();
+			CSSOMParser parser = mkParser();
 			InputSource is = getCssInputSourceForStyleSheet(processedText, scriptURI);
 			is.setURI(scriptURI);
 			try {
-				CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is);
-				sheet.setHref(scriptURI);
-				sheet.setOwnerNode(ownerNode);
+				CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, scriptURI);
 				return sheet;
 			} catch(Throwable err) {					
 				logger.log(Level.WARNING,"Unable to parse CSS. URI=[" + scriptURI + "].", err);

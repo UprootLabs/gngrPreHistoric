@@ -122,9 +122,9 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
 		if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
 			this.processLink();
 		}
-		else if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key)) {
-			this.informDocumentInvalid();
-		}
+		// else if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key)) {
+			// this.informDocumentInvalid();
+		// }
 		return super.setUserData(key, data, handler);
 	}
 
@@ -155,10 +155,10 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
 									if(sheet instanceof CSSStyleSheetImpl) {
 										CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet; 
 										if(isAltStyleSheet) {
-											sheetImpl.setDisabledOnly(true);
+											sheetImpl.setDisabled(true);
 										}
 										else {
-											sheetImpl.setDisabledOnly(this.disabled);
+											sheetImpl.setDisabled(this.disabled);
 										}
 									}
 									else {

@@ -120,9 +120,9 @@ public class CssParserTest extends JFrame {
 			String source = new String(content, "ISO-8859-1");
 			this.textArea.setText(source);
 			long time1 = System.currentTimeMillis();
-			CSSOMParser parser = new CSSOMParser();
+			CSSOMParser parser = CSSUtilities.mkParser();
 			InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(source, uri);
-			CSSStyleSheet styleSheet = parser.parseStyleSheet(is);
+			CSSStyleSheet styleSheet = parser.parseStyleSheet(is, null, uri);
 			long time2 = System.currentTimeMillis();
 			logger.info("Parsed URI=[" + uri + "]: Parse elapsed: " + (time2 - time1) + " ms. Load elapsed: " + (time1 - time0) + " ms.");
 			this.showStyleSheet(styleSheet);
