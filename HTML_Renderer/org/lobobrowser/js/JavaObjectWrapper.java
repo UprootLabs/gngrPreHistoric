@@ -264,4 +264,15 @@ public class JavaObjectWrapper extends ScriptableObject {
 		String type = javaObject == null ? "<null>" : javaObject.getClass().getName();
 		return "JavaObjectWrapper[object=" + this.getJavaObject() + ",type=" + type + "]";
 	}
+
+  @Override
+  public boolean hasInstance(final Scriptable instance) {
+    if ((instance instanceof JavaObjectWrapper) && (this.getJavaObject() instanceof Class)) {
+      final JavaObjectWrapper instanceObj = (JavaObjectWrapper) instance;
+      final Class myClass = (Class) this.getJavaObject();
+      return myClass.isInstance(instanceObj.getJavaObject());
+    } else {
+      return super.hasInstance(instance);
+    }
+  }
 }
