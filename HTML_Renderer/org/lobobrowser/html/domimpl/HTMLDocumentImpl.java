@@ -58,6 +58,7 @@ import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WeakValueHashMap;
 import org.lobobrowser.util.io.EmptyReader;
+import org.mozilla.javascript.Function;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -82,8 +83,6 @@ import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-
-import sun.org.mozilla.javascript.internal.Function;
 
 /**
  * Implementation of the W3C <code>HTMLDocument</code> interface.

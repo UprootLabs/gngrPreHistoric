@@ -51,6 +51,10 @@ import org.lobobrowser.js.JavaInstantiator;
 import org.lobobrowser.js.JavaObjectWrapper;
 import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.util.ID;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,11 +64,6 @@ import org.w3c.dom.html2.HTMLCollection;
 import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
-
-import sun.org.mozilla.javascript.internal.Context;
-import sun.org.mozilla.javascript.internal.Function;
-import sun.org.mozilla.javascript.internal.Scriptable;
-import sun.org.mozilla.javascript.internal.ScriptableObject;
 
 public class Window extends AbstractScriptableDelegate implements AbstractView  {
 	private static final Logger logger = Logger.getLogger(Window.class.getName());

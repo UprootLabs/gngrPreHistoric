@@ -8,7 +8,7 @@ import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.html2.HTMLOptionsCollection;
 import org.w3c.dom.html2.HTMLSelectElement;
 
-import sun.org.mozilla.javascript.internal.Function;
+import org.mozilla.javascript.Function;
 
 public class HTMLSelectElementImpl extends HTMLBaseInputElement implements
 		HTMLSelectElement {

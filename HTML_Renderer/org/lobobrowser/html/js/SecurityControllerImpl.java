@@ -29,11 +29,11 @@ import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 import java.security.SecureClassLoader;
 
-import sun.org.mozilla.javascript.internal.Callable;
-import sun.org.mozilla.javascript.internal.Context;
-import sun.org.mozilla.javascript.internal.GeneratedClassLoader;
-import sun.org.mozilla.javascript.internal.Scriptable;
-import sun.org.mozilla.javascript.internal.SecurityController;
+import org.mozilla.javascript.Callable;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.GeneratedClassLoader;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.SecurityController;
 
 public class SecurityControllerImpl extends SecurityController {
 	private final java.net.URL url;

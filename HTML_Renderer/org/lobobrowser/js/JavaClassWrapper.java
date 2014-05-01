@@ -24,8 +24,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import sun.org.mozilla.javascript.internal.Function;
 import org.lobobrowser.html.js.PropertyName;
+import org.mozilla.javascript.Function;
 
 public class JavaClassWrapper {
 	private final Class javaClass;

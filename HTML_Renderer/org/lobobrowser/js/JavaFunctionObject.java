@@ -28,13 +28,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.util.Objects;
-
-import sun.org.mozilla.javascript.internal.Context;
-import sun.org.mozilla.javascript.internal.EvaluatorException;
-import sun.org.mozilla.javascript.internal.Function;
-import sun.org.mozilla.javascript.internal.Scriptable;
-import sun.org.mozilla.javascript.internal.ScriptableObject;
-import sun.org.mozilla.javascript.internal.WrappedException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.WrappedException;
 
 public class JavaFunctionObject extends ScriptableObject implements Function {
 	private static final Logger logger = Logger.getLogger(JavaFunctionObject.class.getName());

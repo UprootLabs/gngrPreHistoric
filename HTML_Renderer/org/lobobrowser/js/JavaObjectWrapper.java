@@ -24,11 +24,11 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import sun.org.mozilla.javascript.internal.EvaluatorException;
-import sun.org.mozilla.javascript.internal.Function;
-import sun.org.mozilla.javascript.internal.Scriptable;
-import sun.org.mozilla.javascript.internal.ScriptableObject;
-import sun.org.mozilla.javascript.internal.WrappedException;
+import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.WrappedException;
 
 public class JavaObjectWrapper extends ScriptableObject {
 	private static final Logger logger = Logger.getLogger(JavaObjectWrapper.class.getName());
@@ -178,7 +178,7 @@ public class JavaObjectWrapper extends ScriptableObject {
 	}
 
 	public void put(String name, Scriptable start, Object value) {
-		if(value instanceof sun.org.mozilla.javascript.internal.Undefined) {
+		if(value instanceof org.mozilla.javascript.Undefined) {
 			super.put(name, start, value);
 		}
 		else {

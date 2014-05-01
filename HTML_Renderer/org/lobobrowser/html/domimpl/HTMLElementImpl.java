@@ -26,6 +26,7 @@ import org.lobobrowser.html.FormInput;
 import org.lobobrowser.html.parser.HtmlParser;
 import org.lobobrowser.html.style.*;
 import org.lobobrowser.util.*;
+import org.mozilla.javascript.Function;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.*;
 import org.w3c.dom.css.CSSStyleDeclaration;

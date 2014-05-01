@@ -30,7 +30,7 @@ import org.lobobrowser.html.style.ImageRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html2.HTMLImageElement;
 
-import sun.org.mozilla.javascript.internal.Function;
+import org.mozilla.javascript.Function;
 
 public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
 		HTMLImageElement {

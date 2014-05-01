@@ -30,7 +30,7 @@ import org.lobobrowser.html.js.Executor;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLFormElement;
 
-import sun.org.mozilla.javascript.internal.Function;
+import org.mozilla.javascript.Function;
 
 public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
 	public HTMLBaseInputElement(String name) {

@@ -34,6 +34,7 @@ import org.lobobrowser.js.*;
 import org.lobobrowser.util.*;
 import org.lobobrowser.util.Objects;
 import org.w3c.dom.*;
+import org.mozilla.javascript.Function;
 
 public abstract class NodeImpl extends AbstractScriptableDelegate implements Node, ModelNode {
 	private static final NodeImpl[] EMPTY_ARRAY = new NodeImpl[0];

@@ -29,7 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.html2.HTMLBodyElement;
 import org.w3c.dom.html2.HTMLDocument;
 
-import sun.org.mozilla.javascript.internal.Function;
+import org.mozilla.javascript.Function;
 
 public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements
 		HTMLBodyElement {

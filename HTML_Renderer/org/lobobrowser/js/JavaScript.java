@@ -25,8 +25,8 @@ import java.util.WeakHashMap;
 
 import org.lobobrowser.util.Objects;
 
-import sun.org.mozilla.javascript.internal.Scriptable;
-import sun.org.mozilla.javascript.internal.Undefined;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
 
 public class JavaScript {
 	private static JavaScript instance = new JavaScript();

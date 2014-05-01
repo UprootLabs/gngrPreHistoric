@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
 import org.w3c.dom.html2.HTMLFormElement;
 
-import sun.org.mozilla.javascript.internal.Function;
+import org.mozilla.javascript.Function;
 
 public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
 		HTMLFormElement {

@@ -16,7 +16,7 @@ import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.js.Event;
 import org.lobobrowser.html.js.Executor;
 
-import sun.org.mozilla.javascript.internal.Function;
+import org.mozilla.javascript.Function;
 
 class HtmlController {
 	private static final Logger logger = Logger.getLogger(HtmlController.class.getName());

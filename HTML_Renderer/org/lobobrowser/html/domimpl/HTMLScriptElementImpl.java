@@ -39,9 +39,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html2.HTMLScriptElement;
 
-import sun.org.mozilla.javascript.internal.Context;
-import sun.org.mozilla.javascript.internal.EcmaError;
-import sun.org.mozilla.javascript.internal.Scriptable;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EcmaError;
+import org.mozilla.javascript.Scriptable;
 
 public class HTMLScriptElementImpl extends HTMLElementImpl implements
 		HTMLScriptElement {
