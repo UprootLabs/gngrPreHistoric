@@ -50,9 +50,12 @@ class HtmlController {
 		}
 		if(node instanceof HTMLAbstractUIElement) {
 			HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+
+			final Event jsEvent = new Event("click", uiElement, event, x, y);
+			uiElement.dispatchEvent(jsEvent);
+
 			Function f = uiElement.getOnclick();
 			if(f != null) {
-				Event jsEvent = new Event("click", uiElement, event, x, y);
 				if(!Executor.executeFunction(uiElement, f, jsEvent)) {
 					return false;
 				}
