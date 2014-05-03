@@ -23,7 +23,6 @@ package org.lobobrowser.js;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -89,7 +88,6 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
 	
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj,
 			Object[] args)  {
-		JavaObjectWrapper jcw = (JavaObjectWrapper) thisObj;
 		Method method = this.getBestMethod(args);
 		if(method == null) {
 			throw new EvaluatorException("No method matching " + this.className + " with " + (args == null ? 0 : args.length) + " arguments.");
@@ -98,10 +96,6 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
 		int numParams = actualArgTypes.length;
 		Object[] actualArgs = args == null ? new Object[0] : new Object[numParams];
 		boolean linfo = loggableInfo;
-		if(linfo) {
-			Object javaObject = jcw.getJavaObject();
-			logger.info("call(): Calling method " + method.getName() + " on object " + javaObject + " of type " + this.getTypeName(javaObject));
-		}
 		JavaScript manager = JavaScript.getInstance();
 		for(int i = 0; i < numParams; i++) {
 			Object arg = args[i];
@@ -112,12 +106,33 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
 			actualArgs[i] = actualArg;
 		}
 		try {
-			Object raw = method.invoke(jcw.getJavaObject(), actualArgs);
-			return manager.getJavascriptObject(raw, scope);
+		  if (thisObj instanceof JavaObjectWrapper) {
+		    JavaObjectWrapper jcw = (JavaObjectWrapper) thisObj;
+		    // if(linfo) {
+			    // Object javaObject = jcw.getJavaObject();
+			    // logger.info("call(): Calling method " + method.getName() + " on object " + javaObject + " of type " + this.getTypeName(javaObject));
+		    // }
+			  Object raw = method.invoke(jcw.getJavaObject(), actualArgs);
+		    // System.out.println("Invoked.");
+			  return manager.getJavascriptObject(raw, scope);
+		  } else {
+		    // if (args[0] instanceof Function ) {
+		      // Function func = (Function) args[0];
+		      // Object raw = func.call(cx, scope, scope, Arrays.copyOfRange(args, 1, args.length));
+			    // return manager.getJavascriptObject(raw, scope);
+		    // } else {
+			  Object raw = method.invoke(thisObj, actualArgs);
+			  return manager.getJavascriptObject(raw, scope);
+		    // }
+
+		    // Based on http://stackoverflow.com/a/16479685/161257
+		    // return call(cx, scope, getParentScope(), args);
+		  }
 		} catch(IllegalAccessException iae) {
 			throw new IllegalStateException("Unable to call " + this.className + ".", iae); 
 		} catch(InvocationTargetException ite) {
-			throw new WrappedException(new InvocationTargetException(ite.getCause(), "Unable to call " + this.className + " on " + jcw.getJavaObject() + ".")); 
+			// throw new WrappedException(new InvocationTargetException(ite.getCause(), "Unable to call " + this.className + " on " + jcw.getJavaObject() + ".")); 
+			throw new WrappedException(new InvocationTargetException(ite.getCause(), "Unable to call " + this.className + " on " + thisObj + ".")); 
 		} catch(IllegalArgumentException iae) {
 			StringBuffer argTypes = new StringBuffer();
 			for(int i = 0; i < actualArgs.length; i++) {
