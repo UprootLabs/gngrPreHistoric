@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 17, 2005
  */
@@ -34,45 +34,49 @@ import org.lobobrowser.html.style.RenderState;
  * @author J. H. S.
  */
 final class RStyleChanger extends BaseRenderable implements Renderable {
-	//private final static Logger logger = Logger.getLogger(RStyleChanger.class);
-	private final ModelNode modelNode;
-	
-	/**
+  // private final static Logger logger = Logger.getLogger(RStyleChanger.class);
+  private final ModelNode modelNode;
+
+  /**
 	 * 
 	 */
-	public RStyleChanger(ModelNode modelNode) {
-		this.modelNode = modelNode;
-	}
-	
-	public ModelNode getModelNode() {
-		return this.modelNode;
-	}
+  public RStyleChanger(ModelNode modelNode) {
+    this.modelNode = modelNode;
+  }
 
+  public ModelNode getModelNode() {
+    return this.modelNode;
+  }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
-	 */
-	public void paint(Graphics g) {
-		RenderState rs = this.modelNode.getRenderState();
-		g.setColor(rs.getColor());
-		g.setFont(rs.getFont());
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.renderer.Renderable#invalidate()
-	 */
-	public void invalidateLayoutUpTree() {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
+   */
+  public void paint(Graphics g) {
+    RenderState rs = this.modelNode.getRenderState();
+    g.setColor(rs.getColor());
+    g.setFont(rs.getFont());
+  }
 
-	public void onMouseClick(java.awt.event.MouseEvent event, int x, int y) {
-		throw new UnsupportedOperationException("unexpected");
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.renderer.Renderable#invalidate()
+   */
+  public void invalidateLayoutUpTree() {
+  }
 
-	public void onMousePressed(java.awt.event.MouseEvent event, int x, int y) {
-		throw new UnsupportedOperationException("unexpected");
-	}
+  public void onMouseClick(java.awt.event.MouseEvent event, int x, int y) {
+    throw new UnsupportedOperationException("unexpected");
+  }
 
-	public void onMouseReleased(java.awt.event.MouseEvent event, int x, int y) {
-		throw new UnsupportedOperationException("unexpected");
-	}
+  public void onMousePressed(java.awt.event.MouseEvent event, int x, int y) {
+    throw new UnsupportedOperationException("unexpected");
+  }
+
+  public void onMouseReleased(java.awt.event.MouseEvent event, int x, int y) {
+    throw new UnsupportedOperationException("unexpected");
+  }
 }

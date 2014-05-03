@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 15, 2005
  */
@@ -29,17 +29,17 @@ import java.util.EventObject;
  * @author J. H. S.
  */
 public class InputProgressEvent extends EventObject {
-	private final int progress;
-	
-	/**
-	 * @param arg0
-	 */
-	public InputProgressEvent(Object arg0, int progress) {
-		super(arg0);
-		this.progress = progress;
-	}
-	
-	public int getProgress() {
-		return this.progress;
-	}
+  private final int progress;
+
+  /**
+   * @param arg0
+   */
+  public InputProgressEvent(Object arg0, int progress) {
+    super(arg0);
+    this.progress = progress;
+  }
+
+  public int getProgress() {
+    return this.progress;
+  }
 }

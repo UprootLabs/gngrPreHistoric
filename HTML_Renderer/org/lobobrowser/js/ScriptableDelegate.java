@@ -17,19 +17,19 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.js;
 
 import org.mozilla.javascript.Scriptable;
 
 /**
- * Java classes used in Javascript should implement this
- * interface. While all classes can be mapped to
- * JavaScript, implementing this interface ensures that
- * the Java object proxy is not garbage collected as long
- * as the Java object is not garbage collected.
+ * Java classes used in Javascript should implement this interface. While all
+ * classes can be mapped to JavaScript, implementing this interface ensures that
+ * the Java object proxy is not garbage collected as long as the Java object is
+ * not garbage collected.
  */
 public interface ScriptableDelegate {
-	public void setScriptable(Scriptable scriptable);
-	public Scriptable getScriptable();
-}	
+  public void setScriptable(Scriptable scriptable);
+
+  public Scriptable getScriptable();
+}

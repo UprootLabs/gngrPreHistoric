@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import javax.swing.Box.Filler;
@@ -26,10 +26,10 @@ import java.awt.*;
 /**
  * A component used in conjunction with <code>BoxLayout</code>
  */
-public class RigidComponent extends Filler {	
-	public RigidComponent(Component wrappedComponent, Dimension d) {
-		super(d, d, d);
-		this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
-		this.add(wrappedComponent);
-	}
+public class RigidComponent extends Filler {
+  public RigidComponent(Component wrappedComponent, Dimension d) {
+    super(d, d, d);
+    this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
+    this.add(wrappedComponent);
+  }
 }

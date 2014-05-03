@@ -17,49 +17,50 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.util.Objects;
 
 public class ParentFloatingBoundsSource implements FloatingBoundsSource {
-    private final int blockShiftRight;
-    private final int expectedBlockWidth;
-    private final int newX;
-    private final int newY;
-    private final FloatingBounds floatBounds;    
-    
-    public ParentFloatingBoundsSource(int blockShiftRight, int expectedWidth,
-            int newX, int newY, FloatingBounds floatBounds) {
-        super();
-        this.blockShiftRight = blockShiftRight;
-        this.expectedBlockWidth = expectedWidth;
-        this.newX = newX;
-        this.newY = newY;
-        this.floatBounds = floatBounds;
-    }
+  private final int blockShiftRight;
+  private final int expectedBlockWidth;
+  private final int newX;
+  private final int newY;
+  private final FloatingBounds floatBounds;
 
-    public FloatingBounds getChildBlockFloatingBounds(int apparentBlockWidth) {
-        int actualRightShift = this.blockShiftRight + (this.expectedBlockWidth - apparentBlockWidth);      
-        return new ShiftedFloatingBounds(this.floatBounds, -this.newX, -actualRightShift, -this.newY);
-    }
+  public ParentFloatingBoundsSource(int blockShiftRight, int expectedWidth,
+      int newX, int newY, FloatingBounds floatBounds) {
+    super();
+    this.blockShiftRight = blockShiftRight;
+    this.expectedBlockWidth = expectedWidth;
+    this.newX = newX;
+    this.newY = newY;
+    this.floatBounds = floatBounds;
+  }
 
-    public boolean equals(Object obj) {
-        // Important for layout caching.
-        if(!(obj instanceof ParentFloatingBoundsSource)) {
-            return false;
-        }
-        ParentFloatingBoundsSource other = (ParentFloatingBoundsSource) obj;
-        return 
-         this.blockShiftRight == other.blockShiftRight &&
-         this.expectedBlockWidth == other.expectedBlockWidth &&
-         this.newX == other.newX &&
-         this.newY == other.newY &&
-         Objects.equals(this.floatBounds, other.floatBounds);
-         
-    }
+  public FloatingBounds getChildBlockFloatingBounds(int apparentBlockWidth) {
+    int actualRightShift = this.blockShiftRight
+        + (this.expectedBlockWidth - apparentBlockWidth);
+    return new ShiftedFloatingBounds(this.floatBounds, -this.newX,
+        -actualRightShift, -this.newY);
+  }
 
-    public int hashCode() {
-        return this.newX ^ this.newY ^ this.blockShiftRight ^ this.expectedBlockWidth;
+  public boolean equals(Object obj) {
+    // Important for layout caching.
+    if (!(obj instanceof ParentFloatingBoundsSource)) {
+      return false;
     }
+    ParentFloatingBoundsSource other = (ParentFloatingBoundsSource) obj;
+    return this.blockShiftRight == other.blockShiftRight
+        && this.expectedBlockWidth == other.expectedBlockWidth
+        && this.newX == other.newX && this.newY == other.newY
+        && Objects.equals(this.floatBounds, other.floatBounds);
+
+  }
+
+  public int hashCode() {
+    return this.newX ^ this.newY ^ this.blockShiftRight
+        ^ this.expectedBlockWidth;
+  }
 }

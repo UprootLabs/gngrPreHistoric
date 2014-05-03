@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.clientlets.html;
 
 import java.awt.Image;
@@ -33,86 +33,91 @@ import org.lobobrowser.clientlet.*;
 import org.w3c.dom.Document;
 
 public class HttpRequestImpl implements HttpRequest {
-	private final NetworkRequest networkRequest;
-	
-	public HttpRequestImpl(final NetworkRequest networkRequest) {
-		super();
-		this.networkRequest = networkRequest;
-	}
+  private final NetworkRequest networkRequest;
 
-	public void abort() {
-		networkRequest.abort();
-	}
+  public HttpRequestImpl(final NetworkRequest networkRequest) {
+    super();
+    this.networkRequest = networkRequest;
+  }
 
-	public String getAllResponseHeaders() {
-		return networkRequest.getAllResponseHeaders();
-	}
+  public void abort() {
+    networkRequest.abort();
+  }
 
-	public int getReadyState() {
-		return networkRequest.getReadyState();
-	}
+  public String getAllResponseHeaders() {
+    return networkRequest.getAllResponseHeaders();
+  }
 
-	public byte[] getResponseBytes() {
-		return networkRequest.getResponseBytes();
-	}
+  public int getReadyState() {
+    return networkRequest.getReadyState();
+  }
 
-	public String getResponseHeader(String headerName) {
-		return networkRequest.getResponseHeader(headerName);
-	}
+  public byte[] getResponseBytes() {
+    return networkRequest.getResponseBytes();
+  }
 
-	public Image getResponseImage() {
-		return networkRequest.getResponseImage();
-	}
+  public String getResponseHeader(String headerName) {
+    return networkRequest.getResponseHeader(headerName);
+  }
 
-	public String getResponseText() {
-		return networkRequest.getResponseText();
-	}
+  public Image getResponseImage() {
+    return networkRequest.getResponseImage();
+  }
 
-	public Document getResponseXML() {
-		return networkRequest.getResponseXML();
-	}
+  public String getResponseText() {
+    return networkRequest.getResponseText();
+  }
 
-	public int getStatus() {
-		return networkRequest.getStatus();
-	}
+  public Document getResponseXML() {
+    return networkRequest.getResponseXML();
+  }
 
-	public String getStatusText() {
-		return networkRequest.getStatusText();
-	}
+  public int getStatus() {
+    return networkRequest.getStatus();
+  }
 
-	public void open(String method, String url, boolean asyncFlag) throws IOException {
-		networkRequest.open(method, url, asyncFlag);
-	}
+  public String getStatusText() {
+    return networkRequest.getStatusText();
+  }
 
-	public void open(String method, String url) throws IOException {
-		networkRequest.open(method, url);
-	}
+  public void open(String method, String url, boolean asyncFlag)
+      throws IOException {
+    networkRequest.open(method, url, asyncFlag);
+  }
 
-	public void open(String method, URL url, boolean asyncFlag, String userName, String password) throws IOException {
-		networkRequest.open(method, url, asyncFlag, userName, password);
-	}
+  public void open(String method, String url) throws IOException {
+    networkRequest.open(method, url);
+  }
 
-	public void open(String method, URL url, boolean asyncFlag, String userName) throws IOException {
-		networkRequest.open(method, url, asyncFlag, userName);
-	}
+  public void open(String method, URL url, boolean asyncFlag, String userName,
+      String password) throws IOException {
+    networkRequest.open(method, url, asyncFlag, userName, password);
+  }
 
-	public void open(String method, URL url, boolean asyncFlag) throws IOException {
-		networkRequest.open(method, url, asyncFlag);
-	}
+  public void open(String method, URL url, boolean asyncFlag, String userName)
+      throws IOException {
+    networkRequest.open(method, url, asyncFlag, userName);
+  }
 
-	public void open(String method, URL url) throws IOException {
-		networkRequest.open(method, url);
-	}
+  public void open(String method, URL url, boolean asyncFlag)
+      throws IOException {
+    networkRequest.open(method, url, asyncFlag);
+  }
 
-	public void send(String content) throws IOException {
-		networkRequest.send(content);
-	}
+  public void open(String method, URL url) throws IOException {
+    networkRequest.open(method, url);
+  }
 
-	public void addReadyStateChangeListener(final ReadyStateChangeListener listener) {
-		networkRequest.addNetworkRequestListener(new NetworkRequestListener() {
-			public void readyStateChanged(NetworkRequestEvent event) {
-				listener.readyStateChanged();
-			}
-		});
-	}
+  public void send(String content) throws IOException {
+    networkRequest.send(content);
+  }
+
+  public void addReadyStateChangeListener(
+      final ReadyStateChangeListener listener) {
+    networkRequest.addNetworkRequestListener(new NetworkRequestListener() {
+      public void readyStateChanged(NetworkRequestEvent event) {
+        listener.readyStateChanged();
+      }
+    });
+  }
 }

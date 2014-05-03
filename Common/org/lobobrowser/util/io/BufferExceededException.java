@@ -17,23 +17,23 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.util.io;
 
 public class BufferExceededException extends Exception {
-	public BufferExceededException() {
-		super();
-	}
+  public BufferExceededException() {
+    super();
+  }
 
-	public BufferExceededException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public BufferExceededException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public BufferExceededException(String message) {
-		super(message);
-	}
+  public BufferExceededException(String message) {
+    super(message);
+  }
 
-	public BufferExceededException(Throwable cause) {
-		super(cause);
-	}
+  public BufferExceededException(Throwable cause) {
+    super(cause);
+  }
 }

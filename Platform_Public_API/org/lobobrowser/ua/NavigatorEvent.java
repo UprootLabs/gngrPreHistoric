@@ -19,31 +19,32 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * A navigator event object.
  */
 public class NavigatorEvent extends java.util.EventObject {
-	private final NavigatorFrame clientletFrame;
-	private final NavigatorEventType eventType;
-	
-	public NavigatorEvent(Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame) {
-		super(source);
-		this.clientletFrame = clientletFrame;
-		this.eventType = eventType;
-	}
+  private final NavigatorFrame clientletFrame;
+  private final NavigatorEventType eventType;
 
-	public NavigatorFrame getNavigatorFrame() {
-		return clientletFrame;
-	}
+  public NavigatorEvent(Object source, final NavigatorEventType eventType,
+      final NavigatorFrame clientletFrame) {
+    super(source);
+    this.clientletFrame = clientletFrame;
+    this.eventType = eventType;
+  }
 
-	public NavigatorEventType getEventType() {
-		return eventType;
-	}
-	
-	public String toString() {
-		return "NavigatorWindowEvent[type=" + this.getEventType() + "]";
-	}
+  public NavigatorFrame getNavigatorFrame() {
+    return clientletFrame;
+  }
+
+  public NavigatorEventType getEventType() {
+    return eventType;
+  }
+
+  public String toString() {
+    return "NavigatorWindowEvent[type=" + this.getEventType() + "]";
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 12, 2005
  */
@@ -29,34 +29,34 @@ import java.util.*;
  * @author J. H. S.
  */
 public class CacheStoreInfo {
-	private long length;
-	private final Collection fileInfos = new ArrayList();
-	
-	/**
-	 * @param length
-	 * @param fileInfos
-	 */
-	public CacheStoreInfo() {
-		super();
-	}
-	
-	/**
-	 * @return Returns the fileInfos.
-	 */
-	public CacheFileInfo[] getFileInfos() {
-		return (CacheFileInfo[]) this.fileInfos.toArray(new CacheFileInfo[0]);
-	}
-	
-	/**
-	 * @return Returns the length.
-	 */
-	public long getLength() {
-		return this.length;
-	}
-	
-	public void addCacheFile(java.io.File file) {
-		CacheFileInfo cfi = new CacheFileInfo(file);
-		this.length += cfi.getInitialLength();
-		this.fileInfos.add(cfi);
-	}
+  private long length;
+  private final Collection fileInfos = new ArrayList();
+
+  /**
+   * @param length
+   * @param fileInfos
+   */
+  public CacheStoreInfo() {
+    super();
+  }
+
+  /**
+   * @return Returns the fileInfos.
+   */
+  public CacheFileInfo[] getFileInfos() {
+    return (CacheFileInfo[]) this.fileInfos.toArray(new CacheFileInfo[0]);
+  }
+
+  /**
+   * @return Returns the length.
+   */
+  public long getLength() {
+    return this.length;
+  }
+
+  public void addCacheFile(java.io.File file) {
+    CacheFileInfo cfi = new CacheFileInfo(file);
+    this.length += cfi.getInitialLength();
+    this.fileInfos.add(cfi);
+  }
 }

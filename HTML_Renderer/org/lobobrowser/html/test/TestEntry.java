@@ -17,32 +17,33 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 22, 2005
  */
 package org.lobobrowser.html.test;
 
 /**
- * The <code>TestEntry</code> class is a Java test
- * program for the Cobra HTML rendering engine. It
- * displays a frame with a text field and three tabs. 
- * The tabs show the renderered HTML, the HTML DOM
- * represented as a JTree, and the HTML source code.
+ * The <code>TestEntry</code> class is a Java test program for the Cobra HTML
+ * rendering engine. It displays a frame with a text field and three tabs. The
+ * tabs show the renderered HTML, the HTML DOM represented as a JTree, and the
+ * HTML source code.
  */
 public class TestEntry {
-	private TestEntry() {
-		super();
-	}
+  private TestEntry() {
+    super();
+  }
 
-	/**
-	 * Test application entry point.
-	 * @param args Program arguments.
-	 */
-	public static void main(String[] args) {
-		TestFrame frame = new TestFrame("Cobra Test Tool");
-		frame.setSize(800, 400);
-		frame.setExtendedState(TestFrame.MAXIMIZED_BOTH);
-		frame.setVisible(true);
-	}
+  /**
+   * Test application entry point.
+   * 
+   * @param args
+   *          Program arguments.
+   */
+  public static void main(String[] args) {
+    TestFrame frame = new TestFrame("Cobra Test Tool");
+    frame.setSize(800, 400);
+    frame.setExtendedState(TestFrame.MAXIMIZED_BOTH);
+    frame.setVisible(true);
+  }
 }

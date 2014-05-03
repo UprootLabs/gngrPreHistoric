@@ -17,25 +17,27 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.util.EventListener;
 
 /**
  * A listener of content events.
+ * 
  * @see FramePanel#addContentListener(ContentListener)
  * @see FramePanel#getComponentContent()
  */
 public interface ContentListener extends EventListener {
-	static final ContentListener[] EMPTY_ARRAY = new ContentListener[0];
-	
-	/**
-	 * Called as soon as the content has been set in a {@link FramePanel}.
-	 * Note that content can be set before the originating
-	 * document has been fully loaded, for example when
-	 * incremental rendering is performed.
-	 * @param event The content event.
-	 */
-	public void contentSet(ContentEvent event);
+  static final ContentListener[] EMPTY_ARRAY = new ContentListener[0];
+
+  /**
+   * Called as soon as the content has been set in a {@link FramePanel}. Note
+   * that content can be set before the originating document has been fully
+   * loaded, for example when incremental rendering is performed.
+   * 
+   * @param event
+   *          The content event.
+   */
+  public void contentSet(ContentEvent event);
 }

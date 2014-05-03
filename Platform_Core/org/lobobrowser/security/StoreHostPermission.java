@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 1, 2005
  */
@@ -29,29 +29,28 @@ import java.security.BasicPermission;
  * Permission for restricted store access.
  */
 public class StoreHostPermission extends BasicPermission {
-	/**
-	 * @param name
-	 */
-	private StoreHostPermission(String name) {
-		super(name);
-	}
-		
-	public static StoreHostPermission forURL(java.net.URL url) {
-		if(LocalSecurityPolicy.isLocal(url)) {
-			return new StoreHostPermission("*");
-		}
-		else {
-			String hostName = url.getHost();
-			if(hostName != null && hostName.indexOf('*') != -1) {
-				throw new SecurityException("Invalid host: " + hostName);
-			}
-			return StoreHostPermission.forHost(hostName);
-		}
-	}
-	
-	public static StoreHostPermission forHost(String hostName) {
-		//TODO What about a JAR URL or a VC URL?
-		String h = hostName == null || "".equals(hostName) ? "<<local>>" : hostName;
-		return new StoreHostPermission(h);
-	}
+  /**
+   * @param name
+   */
+  private StoreHostPermission(String name) {
+    super(name);
+  }
+
+  public static StoreHostPermission forURL(java.net.URL url) {
+    if (LocalSecurityPolicy.isLocal(url)) {
+      return new StoreHostPermission("*");
+    } else {
+      String hostName = url.getHost();
+      if (hostName != null && hostName.indexOf('*') != -1) {
+        throw new SecurityException("Invalid host: " + hostName);
+      }
+      return StoreHostPermission.forHost(hostName);
+    }
+  }
+
+  public static StoreHostPermission forHost(String hostName) {
+    // TODO What about a JAR URL or a VC URL?
+    String h = hostName == null || "".equals(hostName) ? "<<local>>" : hostName;
+    return new StoreHostPermission(h);
+  }
 }

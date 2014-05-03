@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui.prefs;
 
 import javax.swing.JPanel;
@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import org.lobobrowser.primary.gui.ValidationException;
 
 public abstract class AbstractSettingsUI extends JPanel {
-	public abstract void save() throws ValidationException;
-	public abstract void restoreDefaults();
+  public abstract void save() throws ValidationException;
+
+  public abstract void restoreDefaults();
 }

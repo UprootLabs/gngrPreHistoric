@@ -17,27 +17,27 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.*;
 
 public class HTMLTitleElementImpl extends HTMLElementImpl {
-	public HTMLTitleElementImpl(String name) {
-		super(name, true);
-	}
+  public HTMLTitleElementImpl(String name) {
+    super(name, true);
+  }
 
-	public Object setUserData(String key, Object data, UserDataHandler handler) {
-		if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
-			Document document = this.document;
-			if(document instanceof HTMLDocumentImpl) {
-				String textContent = this.getTextContent();
-				String title = textContent == null ? null : textContent.trim();
-				((HTMLDocumentImpl) document).setTitle(title);
-			}
-		}
-		return super.setUserData(key, data, handler);
-	}
-	
-	
+  public Object setUserData(String key, Object data, UserDataHandler handler) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
+        && data == Boolean.FALSE) {
+      Document document = this.document;
+      if (document instanceof HTMLDocumentImpl) {
+        String textContent = this.getTextContent();
+        String title = textContent == null ? null : textContent.trim();
+        ((HTMLDocumentImpl) document).setTitle(title);
+      }
+    }
+    return super.setUserData(key, data, handler);
+  }
+
 }

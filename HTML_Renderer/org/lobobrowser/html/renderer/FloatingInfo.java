@@ -17,17 +17,17 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 public class FloatingInfo {
-    public final int shiftX, shiftY;
-    public final ExportableFloat[] floats;
-    
-    public FloatingInfo(int shiftX, int shiftY, ExportableFloat[] floats) {
-        super();
-        this.shiftX = shiftX;
-        this.shiftY = shiftY;
-        this.floats = floats;
-    }
+  public final int shiftX, shiftY;
+  public final ExportableFloat[] floats;
+
+  public FloatingInfo(int shiftX, int shiftY, ExportableFloat[] floats) {
+    super();
+    this.shiftX = shiftX;
+    this.shiftY = shiftY;
+    this.floats = floats;
+  }
 }

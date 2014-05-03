@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 28, 2006
  */
@@ -26,29 +26,29 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.html2.HTMLFrameSetElement;
 
 public class HTMLFrameSetElementImpl extends HTMLElementImpl implements
-		HTMLFrameSetElement {
+    HTMLFrameSetElement {
 
-	public HTMLFrameSetElementImpl(String name, boolean noStyleSheet) {
-		super(name, noStyleSheet);
-	}
+  public HTMLFrameSetElementImpl(String name, boolean noStyleSheet) {
+    super(name, noStyleSheet);
+  }
 
-	public HTMLFrameSetElementImpl(String name) {
-		super(name);
-	}
+  public HTMLFrameSetElementImpl(String name) {
+    super(name);
+  }
 
-	public String getCols() {
-		return this.getAttribute("cols");
-	}
+  public String getCols() {
+    return this.getAttribute("cols");
+  }
 
-	public void setCols(String cols) {
-		this.setAttribute("cols", cols);
-	}
+  public void setCols(String cols) {
+    this.setAttribute("cols", cols);
+  }
 
-	public String getRows() {
-		return this.getAttribute("rows");
-	}
+  public String getRows() {
+    return this.getAttribute("rows");
+  }
 
-	public void setRows(String rows) {
-		this.setAttribute("rows", rows);
-	}
+  public void setRows(String rows) {
+    this.setAttribute("rows", rows);
+  }
 }

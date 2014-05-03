@@ -17,42 +17,72 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 15, 2006
  */
 package org.lobobrowser.html.domimpl;
 
 public interface InputContext {
-	public boolean getChecked();
-	public void setChecked(boolean checked);
-	public boolean getDisabled();
-	public void setDisabled(boolean disabled);
-	public int getMaxLength();
-	public void setMaxLength(int maxLength);
-	public String getName();
-	public void setName(String name);
-	public boolean getReadOnly();
-	public void setReadOnly(boolean readOnly);
-	public int getControlSize();
-	public void setControlSize(int size);
-	public int getTabIndex();
-	public void setTabIndex(int tabIndex);
-	public String getValue();
-	public String[] getValues();
-	public void setValue(String value);
-	public void blur();
-	public void focus();
-	public void select();
-	public void click();
-	public int getRows();
-	public int getCols();
-	public void setRows(int rows);
-	public void setCols(int cols);
-	public int getSelectedIndex();
-	public void setSelectedIndex(int value);
-	public int getVisibleSize();
-	public void setVisibleSize(int value);
-	public java.io.File getFileValue();
-	public void resetInput();
+  public boolean getChecked();
+
+  public void setChecked(boolean checked);
+
+  public boolean getDisabled();
+
+  public void setDisabled(boolean disabled);
+
+  public int getMaxLength();
+
+  public void setMaxLength(int maxLength);
+
+  public String getName();
+
+  public void setName(String name);
+
+  public boolean getReadOnly();
+
+  public void setReadOnly(boolean readOnly);
+
+  public int getControlSize();
+
+  public void setControlSize(int size);
+
+  public int getTabIndex();
+
+  public void setTabIndex(int tabIndex);
+
+  public String getValue();
+
+  public String[] getValues();
+
+  public void setValue(String value);
+
+  public void blur();
+
+  public void focus();
+
+  public void select();
+
+  public void click();
+
+  public int getRows();
+
+  public int getCols();
+
+  public void setRows(int rows);
+
+  public void setCols(int cols);
+
+  public int getSelectedIndex();
+
+  public void setSelectedIndex(int value);
+
+  public int getVisibleSize();
+
+  public void setVisibleSize(int value);
+
+  public java.io.File getFileValue();
+
+  public void resetInput();
 }

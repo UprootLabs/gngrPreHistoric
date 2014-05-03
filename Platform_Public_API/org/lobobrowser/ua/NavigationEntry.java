@@ -19,7 +19,7 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 import java.net.URL;
@@ -29,51 +29,55 @@ import org.lobobrowser.clientlet.*;
  * Represents one item in the navigation history.
  */
 public class NavigationEntry {
-	// Note: Do not retain request context here. 
-	
-	private final java.net.URL url;
-	private final String method;
-	private final String title;
-	private final String description;
-	private final NavigatorFrame frame;
-	
-	public NavigationEntry(NavigatorFrame frame, final URL url, final String method, String title, String description) {
-		super();
-		this.frame = frame;
-		this.url = url;
-		this.method = method;
-		this.title = title;
-		this.description = description;
-	}
+  // Note: Do not retain request context here.
 
-	/**
-	 * Gets the uppercase request method that resulted in this navigation entry.
-	 */
-	public String getMethod() {
-		return method;
-	}
+  private final java.net.URL url;
+  private final String method;
+  private final String title;
+  private final String description;
+  private final NavigatorFrame frame;
 
-	public String getTitle() {
-		return title;
-	}
+  public NavigationEntry(NavigatorFrame frame, final URL url,
+      final String method, String title, String description) {
+    super();
+    this.frame = frame;
+    this.url = url;
+    this.method = method;
+    this.title = title;
+    this.description = description;
+  }
 
-	public java.net.URL getUrl() {
-		return url;
-	}
+  /**
+   * Gets the uppercase request method that resulted in this navigation entry.
+   */
+  public String getMethod() {
+    return method;
+  }
 
-	public NavigatorFrame getNavigatorFrame() {
-		return frame;
-	}
-	
-	public static NavigationEntry fromResponse(NavigatorFrame frame, ClientletResponse response, String title, String description) {
-		return new NavigationEntry(frame, response.getResponseURL(), response.getLastRequestMethod(), title, description);
-	}
-	
-	public String getDescription() {
-		return description;
-	}
+  public String getTitle() {
+    return title;
+  }
 
-	public String toString() {
-		return "NavigationEntry[url=" + this.url + ",method=" + this.method + ",title=" + title + "]";
-	} 
+  public java.net.URL getUrl() {
+    return url;
+  }
+
+  public NavigatorFrame getNavigatorFrame() {
+    return frame;
+  }
+
+  public static NavigationEntry fromResponse(NavigatorFrame frame,
+      ClientletResponse response, String title, String description) {
+    return new NavigationEntry(frame, response.getResponseURL(),
+        response.getLastRequestMethod(), title, description);
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public String toString() {
+    return "NavigationEntry[url=" + this.url + ",method=" + this.method
+        + ",title=" + title + "]";
+  }
 }

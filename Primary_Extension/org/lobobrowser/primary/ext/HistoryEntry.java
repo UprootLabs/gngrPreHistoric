@@ -17,30 +17,32 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 import java.net.URL;
 
 public class HistoryEntry<T> {
-	private final java.net.URL url;
-	private final long timetstamp;
-	private final T itemInfo;
-	
-	public HistoryEntry(final URL url, final long timetstamp, final T itemInfo) {
-		super();
-		this.url = url;
-		this.timetstamp = timetstamp;
-		this.itemInfo = itemInfo;
-	}
-	
-	public T getItemInfo() {
-		return itemInfo;
-	}
-	public long getTimetstamp() {
-		return timetstamp;
-	}
-	public java.net.URL getUrl() {
-		return url;
-	}
+  private final java.net.URL url;
+  private final long timetstamp;
+  private final T itemInfo;
+
+  public HistoryEntry(final URL url, final long timetstamp, final T itemInfo) {
+    super();
+    this.url = url;
+    this.timetstamp = timetstamp;
+    this.itemInfo = itemInfo;
+  }
+
+  public T getItemInfo() {
+    return itemInfo;
+  }
+
+  public long getTimetstamp() {
+    return timetstamp;
+  }
+
+  public java.net.URL getUrl() {
+    return url;
+  }
 }

@@ -17,17 +17,17 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.util.EventObject;
 import org.lobobrowser.clientlet.*;
 
 public class ResponseEvent extends EventObject {
-	private final ClientletResponse response;
+  private final ClientletResponse response;
 
-	public ResponseEvent(Object source, ClientletResponse response) {
-		super(source);
-		this.response = response;
-	}
+  public ResponseEvent(Object source, ClientletResponse response) {
+    super(source);
+    this.response = response;
+  }
 }

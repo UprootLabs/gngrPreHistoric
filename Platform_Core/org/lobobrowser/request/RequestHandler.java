@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.request;
 
 import java.io.*;
@@ -30,34 +30,39 @@ import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.ua.*;
 
-public interface RequestHandler
-{
-	public ClientletRequest getRequest();
-	
-	/**
-	 * Gets the actual request URL, which may be different
-	 * from the URL of the original request.
-	 */
-	public URL getLatestRequestURL();
-	
-	/**
-	 * Gets the actual request method, which may be different
-	 * from the method of the original request.
-	 */
-	public String getLatestRequestMethod();
-	
-	/**
-	 * Gets a hostname verifier used when an HTTPS host
-	 * does not match the cerificate information.
-	 */
-	public HostnameVerifier getHostnameVerifier();
-	
-	public void processResponse(ClientletResponse response) throws ClientletException, IOException;
-	public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException;
-	public void handleProgress(ProgressType progressType, java.net.URL url, String method, int value, int max);
-	
-	public void cancel();
-	public boolean isCancelled();
-	
-	public RequestType getRequestType();
+public interface RequestHandler {
+  public ClientletRequest getRequest();
+
+  /**
+   * Gets the actual request URL, which may be different from the URL of the
+   * original request.
+   */
+  public URL getLatestRequestURL();
+
+  /**
+   * Gets the actual request method, which may be different from the method of
+   * the original request.
+   */
+  public String getLatestRequestMethod();
+
+  /**
+   * Gets a hostname verifier used when an HTTPS host does not match the
+   * cerificate information.
+   */
+  public HostnameVerifier getHostnameVerifier();
+
+  public void processResponse(ClientletResponse response)
+      throws ClientletException, IOException;
+
+  public boolean handleException(ClientletResponse response, Throwable exception)
+      throws ClientletException;
+
+  public void handleProgress(ProgressType progressType, java.net.URL url,
+      String method, int value, int max);
+
+  public void cancel();
+
+  public boolean isCancelled();
+
+  public RequestType getRequestType();
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.primary.clientlets.img;
 
@@ -30,63 +30,65 @@ import java.awt.*;
 import java.awt.image.ImageObserver;
 
 public class ImageScrollable extends JComponent implements Scrollable {
-	private final Image image;
-	private int imageWidth = -1;
-	private int imageHeight = -1;
-	
-	public ImageScrollable(Image img) {
-		super();
-		this.image = img;
-		int w = img.getWidth(this);
-		int h = img.getHeight(this);
-		this.imageWidth = w;
-		this.imageHeight = h;
-	}
+  private final Image image;
+  private int imageWidth = -1;
+  private int imageHeight = -1;
 
-	public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h) {
-		if((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
-			this.imageWidth = img.getWidth(this);
-			this.imageHeight = img.getHeight(this);
-			this.revalidate();
-			this.repaint();
-		}
-		return true;
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Insets insets = this.getInsets();
-		g.drawImage(this.image, insets.left, insets.top, this);
-	}
-	
-	public Dimension getPreferredSize() {
-		int w = this.imageWidth;
-		int h = this.imageHeight;
-		return new Dimension(w == -1 ? 0 : w, h == -1 ? 0 : h);
-	}
+  public ImageScrollable(Image img) {
+    super();
+    this.image = img;
+    int w = img.getWidth(this);
+    int h = img.getHeight(this);
+    this.imageWidth = w;
+    this.imageHeight = h;
+  }
 
-	public Dimension getPreferredScrollableViewportSize() {
-		return this.getPreferredSize();
-	}
+  public boolean imageUpdate(Image img, int infoflags, int x, int y, int w,
+      int h) {
+    if ((infoflags & ImageObserver.ALLBITS) != 0
+        || (infoflags & ImageObserver.FRAMEBITS) != 0) {
+      this.imageWidth = img.getWidth(this);
+      this.imageHeight = img.getHeight(this);
+      this.revalidate();
+      this.repaint();
+    }
+    return true;
+  }
 
-	public int getScrollableUnitIncrement(Rectangle arg0, int arg1, int arg2) {
-		return 12;
-	}
+  public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Insets insets = this.getInsets();
+    g.drawImage(this.image, insets.left, insets.top, this);
+  }
 
-	public int getScrollableBlockIncrement(Rectangle arg0, int orientation, int direction) {
-		if(orientation == SwingConstants.HORIZONTAL) {
-			return arg0.width;
-		}
-		else {
-			return arg0.height;
-		}
-	}
+  public Dimension getPreferredSize() {
+    int w = this.imageWidth;
+    int h = this.imageHeight;
+    return new Dimension(w == -1 ? 0 : w, h == -1 ? 0 : h);
+  }
 
-	public boolean getScrollableTracksViewportWidth() {
-		return false;
-	}
+  public Dimension getPreferredScrollableViewportSize() {
+    return this.getPreferredSize();
+  }
 
-	public boolean getScrollableTracksViewportHeight() {
-		return false;
-	}
+  public int getScrollableUnitIncrement(Rectangle arg0, int arg1, int arg2) {
+    return 12;
+  }
+
+  public int getScrollableBlockIncrement(Rectangle arg0, int orientation,
+      int direction) {
+    if (orientation == SwingConstants.HORIZONTAL) {
+      return arg0.width;
+    } else {
+      return arg0.height;
+    }
+  }
+
+  public boolean getScrollableTracksViewportWidth() {
+    return false;
+  }
+
+  public boolean getScrollableTracksViewportHeight() {
+    return false;
+  }
 }

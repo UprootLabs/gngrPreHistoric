@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import javax.swing.*;
@@ -27,12 +27,12 @@ import java.awt.*;
  * The address bar panel of a browser window.
  */
 public class AddressBarPanel extends JPanel {
-	public AddressBarPanel() {
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-	}
-	
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(1, 32);
-	}
+  public AddressBarPanel() {
+    this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+  }
+
+  @Override
+  public Dimension getPreferredSize() {
+    return new Dimension(1, 32);
+  }
 }

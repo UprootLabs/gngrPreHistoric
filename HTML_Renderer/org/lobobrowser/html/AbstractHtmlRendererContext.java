@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html;
 
 import java.awt.event.MouseEvent;
@@ -31,185 +31,186 @@ import org.w3c.dom.html2.HTMLLinkElement;
  * Abstract implementation of the {@link HtmlRendererContext} interface with
  * blank methods, provided for developer convenience.
  */
-public abstract class AbstractHtmlRendererContext implements HtmlRendererContext {
-	
-	public void alert(String message) {
-	}
+public abstract class AbstractHtmlRendererContext implements
+    HtmlRendererContext {
 
-	public void back() {
-	}
+  public void alert(String message) {
+  }
 
-	public void blur() {
-	}
+  public void back() {
+  }
 
-	public void close() {
-	}
+  public void blur() {
+  }
 
-	public boolean confirm(String message) {
-		return false;
-	}
+  public void close() {
+  }
 
-	public BrowserFrame createBrowserFrame() {
-		return null;
-	}
+  public boolean confirm(String message) {
+    return false;
+  }
 
-	public void focus() {
-	}
+  public BrowserFrame createBrowserFrame() {
+    return null;
+  }
 
-	public String getDefaultStatus() {
-		return null;
-	}
+  public void focus() {
+  }
 
-	public HTMLCollection getFrames() {
-		return null;
-	}
+  public String getDefaultStatus() {
+    return null;
+  }
 
-	public HtmlObject getHtmlObject(HTMLElement element) {
-		return null;
-	}
+  public HTMLCollection getFrames() {
+    return null;
+  }
 
-	public String getName() {
-		return null;
-	}
+  public HtmlObject getHtmlObject(HTMLElement element) {
+    return null;
+  }
 
-	public HtmlRendererContext getOpener() {
-		return null;
-	}
+  public String getName() {
+    return null;
+  }
 
-	public HtmlRendererContext getParent() {
-		return null;
-	}
+  public HtmlRendererContext getOpener() {
+    return null;
+  }
 
-	public String getStatus() {
-		return null;
-	}
+  public HtmlRendererContext getParent() {
+    return null;
+  }
 
-	public HtmlRendererContext getTop() {
-		return null;
-	}
+  public String getStatus() {
+    return null;
+  }
 
-	public UserAgentContext getUserAgentContext() {
-		return null;
-	}
+  public HtmlRendererContext getTop() {
+    return null;
+  }
 
-	/**
-	 * Returns false unless overridden.
-	 */
-	public boolean isClosed() {
-		return false;
-	}
+  public UserAgentContext getUserAgentContext() {
+    return null;
+  }
 
-	/**
-	 * Returns true unless overridden.
-	 */
-	public boolean isImageLoadingEnabled() {
-		return true;
-	}
+  /**
+   * Returns false unless overridden.
+   */
+  public boolean isClosed() {
+    return false;
+  }
 
-	/**
-	 * Returns false unless overridden.
-	 */
-	public boolean isVisitedLink(HTMLLinkElement link) {
-		return false;
-	}
+  /**
+   * Returns true unless overridden.
+   */
+  public boolean isImageLoadingEnabled() {
+    return true;
+  }
 
-	public void linkClicked(HTMLElement linkNode, URL url, String target) {
-	}
+  /**
+   * Returns false unless overridden.
+   */
+  public boolean isVisitedLink(HTMLLinkElement link) {
+    return false;
+  }
 
-	public void navigate(URL url, String target) {
-	}
+  public void linkClicked(HTMLElement linkNode, URL url, String target) {
+  }
 
-	/**
-	 * Returns true unless overridden.
-	 */
-	public boolean onContextMenu(HTMLElement element, MouseEvent event) {
-		return true;
-	}
+  public void navigate(URL url, String target) {
+  }
 
-	public void onMouseOut(HTMLElement element, MouseEvent event) {
-	}
+  /**
+   * Returns true unless overridden.
+   */
+  public boolean onContextMenu(HTMLElement element, MouseEvent event) {
+    return true;
+  }
 
-	public void onMouseOver(HTMLElement element, MouseEvent event) {
-	}
+  public void onMouseOut(HTMLElement element, MouseEvent event) {
+  }
 
-	public HtmlRendererContext open(String absoluteUrl, String windowName,
-			String windowFeatures, boolean replace) {
-		return null;
-	}
+  public void onMouseOver(HTMLElement element, MouseEvent event) {
+  }
 
-	public HtmlRendererContext open(URL url, String windowName,
-			String windowFeatures, boolean replace) {
-		return null;
-	}
+  public HtmlRendererContext open(String absoluteUrl, String windowName,
+      String windowFeatures, boolean replace) {
+    return null;
+  }
 
-	public String prompt(String message, String inputDefault) {
-		return null;
-	}
+  public HtmlRendererContext open(URL url, String windowName,
+      String windowFeatures, boolean replace) {
+    return null;
+  }
 
-	public void reload() {
-	}
+  public String prompt(String message, String inputDefault) {
+    return null;
+  }
 
-	public void scroll(int x, int y) {
-	}
+  public void reload() {
+  }
 
-	public void setDefaultStatus(String value) {
-	}
+  public void scroll(int x, int y) {
+  }
 
-	public void setOpener(HtmlRendererContext opener) {
-	}
+  public void setDefaultStatus(String value) {
+  }
 
-	public void setStatus(String message) {
-	}
+  public void setOpener(HtmlRendererContext opener) {
+  }
 
-	public void submitForm(String method, URL action, String target,
-			String enctype, FormInput[] formInputs) {
-	}
+  public void setStatus(String message) {
+  }
 
-	/**
-	 * Returns true unless overridden.
-	 */
-	public boolean onDoubleClick(HTMLElement element, MouseEvent event) {
-		return true;
-	}
+  public void submitForm(String method, URL action, String target,
+      String enctype, FormInput[] formInputs) {
+  }
 
-	/**
-	 * Returns true unless overridden.
-	 */
-	public boolean onMouseClick(HTMLElement element, MouseEvent event) {
-		return true;
-	}
+  /**
+   * Returns true unless overridden.
+   */
+  public boolean onDoubleClick(HTMLElement element, MouseEvent event) {
+    return true;
+  }
 
-	public void scrollBy(int x, int y) {
-	}
+  /**
+   * Returns true unless overridden.
+   */
+  public boolean onMouseClick(HTMLElement element, MouseEvent event) {
+    return true;
+  }
 
-	public void resizeBy(int byWidth, int byHeight) {		
-	}
+  public void scrollBy(int x, int y) {
+  }
 
-	public void resizeTo(int width, int height) {
-	}
+  public void resizeBy(int byWidth, int byHeight) {
+  }
 
-    public void forward() {
-    }
+  public void resizeTo(int width, int height) {
+  }
 
-    public String getCurrentURL() {
-        return null;
-    }
+  public void forward() {
+  }
 
-    public int getHistoryLength() {
-        return 0;
-    }
+  public String getCurrentURL() {
+    return null;
+  }
 
-    public String getNextURL() {
-        return null;
-    }
+  public int getHistoryLength() {
+    return 0;
+  }
 
-    public String getPreviousURL() {
-        return null;
-    }
+  public String getNextURL() {
+    return null;
+  }
 
-    public void goToHistoryURL(String url) {
-    }
+  public String getPreviousURL() {
+    return null;
+  }
 
-    public void moveInHistory(int offset) {
-    }	
+  public void goToHistoryURL(String url) {
+  }
+
+  public void moveInHistory(int offset) {
+  }
 }

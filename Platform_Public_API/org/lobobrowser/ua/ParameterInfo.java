@@ -19,22 +19,22 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * Represents a collection of URL parameters.
+ * 
  * @author J. H. S.
  */
-public interface ParameterInfo
-{
-	/**
-	 * Gets the POST encoding for the parameters.
-	 */
-	public String getEncoding();
+public interface ParameterInfo {
+  /**
+   * Gets the POST encoding for the parameters.
+   */
+  public String getEncoding();
 
-	/**
-	 * Gets the array of parameters.
-	 */
-	public Parameter[] getParameters();
+  /**
+   * Gets the array of parameters.
+   */
+  public Parameter[] getParameters();
 }

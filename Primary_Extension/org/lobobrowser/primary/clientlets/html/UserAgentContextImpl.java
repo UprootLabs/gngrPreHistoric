@@ -12,141 +12,158 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserAgentContextImpl implements UserAgentContext {
-	private static final Logger logger = Logger.getLogger(UserAgentContextImpl.class.getName());
-	private static final Set<String> mediaNames = new HashSet<String>();
-	private final NavigatorFrame frame;
-		
-	static {
-		// Media names supported here
-		Set<String> mn = mediaNames;
-	    mn.add("screen");	
-	    mn.add("tv");	
-	    mn.add("tty");	
-	    mn.add("all");	
-	}
-	
-	public UserAgentContextImpl(final NavigatorFrame frame) {
-		this.frame = frame;
-	}
+  private static final Logger logger = Logger
+      .getLogger(UserAgentContextImpl.class.getName());
+  private static final Set<String> mediaNames = new HashSet<String>();
+  private final NavigatorFrame frame;
 
-	public boolean isMedia(String mediaName) {
-		return mediaNames.contains(mediaName.toLowerCase());
-	}
+  static {
+    // Media names supported here
+    Set<String> mn = mediaNames;
+    mn.add("screen");
+    mn.add("tv");
+    mn.add("tty");
+    mn.add("all");
+  }
 
-	public void warn(String message, Throwable throwable) {
-		logger.log(Level.WARNING, message, throwable);
-	}
+  public UserAgentContextImpl(final NavigatorFrame frame) {
+    this.frame = frame;
+  }
 
-	public void error(String message, Throwable throwable) {
-		logger.log(Level.SEVERE, message, throwable);
-	}
+  public boolean isMedia(String mediaName) {
+    return mediaNames.contains(mediaName.toLowerCase());
+  }
 
-	public void warn(String message) {
-		logger.warning(message);
-	}
+  public void warn(String message, Throwable throwable) {
+    logger.log(Level.WARNING, message, throwable);
+  }
 
-	public void error(String message) {
-		logger.log(Level.SEVERE, message);
-	}
+  public void error(String message, Throwable throwable) {
+    logger.log(Level.SEVERE, message, throwable);
+  }
 
-	public HttpRequest createHttpRequest() {
-		return new HttpRequestImpl(this.frame.createNetworkRequest());
-	}
+  public void warn(String message) {
+    logger.warning(message);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getAppCodeName()
-	 */
-	public String getAppCodeName() {
-		return UserAgentImpl.getInstance().getName();
-	}
+  public void error(String message) {
+    logger.log(Level.SEVERE, message);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getAppMinorVersion()
-	 */
-	public String getAppMinorVersion() {
-		return UserAgentImpl.getInstance().getMinorVersion();
-	}
+  public HttpRequest createHttpRequest() {
+    return new HttpRequestImpl(this.frame.createNetworkRequest());
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getAppName()
-	 */
-	public String getAppName() {
-		return UserAgentImpl.getInstance().getName();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getAppCodeName()
+   */
+  public String getAppCodeName() {
+    return UserAgentImpl.getInstance().getName();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getAppVersion()
-	 */
-	public String getAppVersion() {
-		return UserAgentImpl.getInstance().getMajorVersion();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getAppMinorVersion()
+   */
+  public String getAppMinorVersion() {
+    return UserAgentImpl.getInstance().getMinorVersion();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getBrowserLanguage()
-	 */
-	public String getBrowserLanguage() {
-		return "EN"; //TODO
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getAppName()
+   */
+  public String getAppName() {
+    return UserAgentImpl.getInstance().getName();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getPlatform()
-	 */
-	public String getPlatform() {
-		return System.getProperty("os.name");
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getAppVersion()
+   */
+  public String getAppVersion() {
+    return UserAgentImpl.getInstance().getMajorVersion();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#getUserAgent()
-	 */
-	public String getUserAgent() {
-		return UserAgentImpl.getInstance().getUserAgentString();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getBrowserLanguage()
+   */
+  public String getBrowserLanguage() {
+    return "EN"; // TODO
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.HtmlParserContext#isCookieEnabled()
-	 */
-	public boolean isCookieEnabled() {
-		//TODO: Settings
-		return true; 
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getPlatform()
+   */
+  public String getPlatform() {
+    return System.getProperty("os.name");
+  }
 
-	public String getCookie(java.net.URL url) {
-		// Requires privileges.
-		return RequestEngine.getInstance().getCookie(url);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#getUserAgent()
+   */
+  public String getUserAgent() {
+    return UserAgentImpl.getInstance().getUserAgentString();
+  }
 
-	public boolean isScriptingEnabled() {
-		//TODO: Settings
-		return true;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.HtmlParserContext#isCookieEnabled()
+   */
+  public boolean isCookieEnabled() {
+    // TODO: Settings
+    return true;
+  }
 
-	public void setCookie(java.net.URL url, String cookieSpec) {
-		// Requires privileges.
-		RequestEngine.getInstance().setCookie(url, cookieSpec);
-	}
+  public String getCookie(java.net.URL url) {
+    // Requires privileges.
+    return RequestEngine.getInstance().getCookie(url);
+  }
 
-	public Policy getSecurityPolicy() {
-		return org.lobobrowser.security.LocalSecurityPolicy.getInstance();
-	}
+  public boolean isScriptingEnabled() {
+    // TODO: Settings
+    return true;
+  }
 
-	public int getScriptingOptimizationLevel() {
-		//TODO: Settings
-		return -1;
-	}
-	
-	public String getVendor() {
-		return "The Lobo Project";
-	}
-	
-	public String getProduct() {
-		return this.getAppName();
-	}
+  public void setCookie(java.net.URL url, String cookieSpec) {
+    // Requires privileges.
+    RequestEngine.getInstance().setCookie(url, cookieSpec);
+  }
 
-	public boolean isExternalCSSEnabled() {
-		return true;
-	}
+  public Policy getSecurityPolicy() {
+    return org.lobobrowser.security.LocalSecurityPolicy.getInstance();
+  }
 
-    public boolean isInternalCSSEnabled() {
-        return true;
-    }
+  public int getScriptingOptimizationLevel() {
+    // TODO: Settings
+    return -1;
+  }
+
+  public String getVendor() {
+    return "The Lobo Project";
+  }
+
+  public String getProduct() {
+    return this.getAppName();
+  }
+
+  public boolean isExternalCSSEnabled() {
+    return true;
+  }
+
+  public boolean isInternalCSSEnabled() {
+    return true;
+  }
 }

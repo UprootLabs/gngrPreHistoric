@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.store;
 
 import java.io.IOException;
@@ -26,15 +26,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 
 public class ClassLoaderObjectInputStream extends ObjectInputStream {
-	private final ClassLoader classLoader;
-	
-	public ClassLoaderObjectInputStream(InputStream in, ClassLoader classLoader) throws IOException {
-		super(in);
-		this.classLoader = classLoader;
-	}
+  private final ClassLoader classLoader;
 
-	@Override
-	protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-		return Class.forName(desc.getName(), false, this.classLoader);
-	}
+  public ClassLoaderObjectInputStream(InputStream in, ClassLoader classLoader)
+      throws IOException {
+    super(in);
+    this.classLoader = classLoader;
+  }
+
+  @Override
+  protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException,
+      ClassNotFoundException {
+    return Class.forName(desc.getName(), false, this.classLoader);
+  }
 }

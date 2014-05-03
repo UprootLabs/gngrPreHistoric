@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Copyright (c) 2003 World Wide Web Consortium,
  * (Massachusetts Institute of Technology, Institut National de
@@ -36,102 +36,118 @@ import org.w3c.dom.Document;
 
 /**
  * Create a frame. See the FRAME element definition in HTML 4.01.
- * <p>See also the <a href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document Object Model (DOM) Level 2 HTML Specification</a>.
+ * <p>
+ * See also the <a
+ * href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document
+ * Object Model (DOM) Level 2 HTML Specification</a>.
  */
 public interface HTMLFrameElement extends HTMLElement {
-    /**
-     * Request frame borders. See the frameborder attribute definition in HTML 
-     * 4.01.
-     */
-    public String getFrameBorder();
-    /**
-     * Request frame borders. See the frameborder attribute definition in HTML 
-     * 4.01.
-     */
-    public void setFrameBorder(String frameBorder);
+  /**
+   * Request frame borders. See the frameborder attribute definition in HTML
+   * 4.01.
+   */
+  public String getFrameBorder();
 
-    /**
-     * URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] designating a long description of this image or frame. See the 
-     * longdesc attribute definition in HTML 4.01.
-     */
-    public String getLongDesc();
-    /**
-     * URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] designating a long description of this image or frame. See the 
-     * longdesc attribute definition in HTML 4.01.
-     */
-    public void setLongDesc(String longDesc);
+  /**
+   * Request frame borders. See the frameborder attribute definition in HTML
+   * 4.01.
+   */
+  public void setFrameBorder(String frameBorder);
 
-    /**
-     * Frame margin height, in pixels. See the marginheight attribute 
-     * definition in HTML 4.01.
-     */
-    public String getMarginHeight();
-    /**
-     * Frame margin height, in pixels. See the marginheight attribute 
-     * definition in HTML 4.01.
-     */
-    public void setMarginHeight(String marginHeight);
+  /**
+   * URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * designating a long description of this image or frame. See the longdesc
+   * attribute definition in HTML 4.01.
+   */
+  public String getLongDesc();
 
-    /**
-     * Frame margin width, in pixels. See the marginwidth attribute definition 
-     * in HTML 4.01.
-     */
-    public String getMarginWidth();
-    /**
-     * Frame margin width, in pixels. See the marginwidth attribute definition 
-     * in HTML 4.01.
-     */
-    public void setMarginWidth(String marginWidth);
+  /**
+   * URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * designating a long description of this image or frame. See the longdesc
+   * attribute definition in HTML 4.01.
+   */
+  public void setLongDesc(String longDesc);
 
-    /**
-     * The frame name (object of the <code>target</code> attribute). See the 
-     * name attribute definition in HTML 4.01.
-     */
-    public String getName();
-    /**
-     * The frame name (object of the <code>target</code> attribute). See the 
-     * name attribute definition in HTML 4.01.
-     */
-    public void setName(String name);
+  /**
+   * Frame margin height, in pixels. See the marginheight attribute definition
+   * in HTML 4.01.
+   */
+  public String getMarginHeight();
 
-    /**
-     * When true, forbid user from resizing frame. See the noresize attribute 
-     * definition in HTML 4.01.
-     */
-    public boolean getNoResize();
-    /**
-     * When true, forbid user from resizing frame. See the noresize attribute 
-     * definition in HTML 4.01.
-     */
-    public void setNoResize(boolean noResize);
+  /**
+   * Frame margin height, in pixels. See the marginheight attribute definition
+   * in HTML 4.01.
+   */
+  public void setMarginHeight(String marginHeight);
 
-    /**
-     * Specify whether or not the frame should have scrollbars. See the 
-     * scrolling attribute definition in HTML 4.01.
-     */
-    public String getScrolling();
-    /**
-     * Specify whether or not the frame should have scrollbars. See the 
-     * scrolling attribute definition in HTML 4.01.
-     */
-    public void setScrolling(String scrolling);
+  /**
+   * Frame margin width, in pixels. See the marginwidth attribute definition in
+   * HTML 4.01.
+   */
+  public String getMarginWidth();
 
-    /**
-     * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] designating the initial frame contents. See the src attribute 
-     * definition in HTML 4.01.
-     */
-    public String getSrc();
-    /**
-     * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] designating the initial frame contents. See the src attribute 
-     * definition in HTML 4.01.
-     */
-    public void setSrc(String src);
+  /**
+   * Frame margin width, in pixels. See the marginwidth attribute definition in
+   * HTML 4.01.
+   */
+  public void setMarginWidth(String marginWidth);
 
-    /**
-     * The document this frame contains, if there is any and it is available, 
-     * or <code>null</code> otherwise.
-     * @since DOM Level 2
-     */
-    public Document getContentDocument();
+  /**
+   * The frame name (object of the <code>target</code> attribute). See the name
+   * attribute definition in HTML 4.01.
+   */
+  public String getName();
+
+  /**
+   * The frame name (object of the <code>target</code> attribute). See the name
+   * attribute definition in HTML 4.01.
+   */
+  public void setName(String name);
+
+  /**
+   * When true, forbid user from resizing frame. See the noresize attribute
+   * definition in HTML 4.01.
+   */
+  public boolean getNoResize();
+
+  /**
+   * When true, forbid user from resizing frame. See the noresize attribute
+   * definition in HTML 4.01.
+   */
+  public void setNoResize(boolean noResize);
+
+  /**
+   * Specify whether or not the frame should have scrollbars. See the scrolling
+   * attribute definition in HTML 4.01.
+   */
+  public String getScrolling();
+
+  /**
+   * Specify whether or not the frame should have scrollbars. See the scrolling
+   * attribute definition in HTML 4.01.
+   */
+  public void setScrolling(String scrolling);
+
+  /**
+   * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * designating the initial frame contents. See the src attribute definition in
+   * HTML 4.01.
+   */
+  public String getSrc();
+
+  /**
+   * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * designating the initial frame contents. See the src attribute definition in
+   * HTML 4.01.
+   */
+  public void setSrc(String src);
+
+  /**
+   * The document this frame contains, if there is any and it is available, or
+   * <code>null</code> otherwise.
+   * 
+   * @since DOM Level 2
+   */
+  public Document getContentDocument();
 
 }

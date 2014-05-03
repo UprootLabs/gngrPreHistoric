@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 8, 2005
  */
@@ -26,20 +26,20 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.html2.HTMLHtmlElement;
 
 public class HTMLHtmlElementImpl extends HTMLElementImpl implements
-		HTMLHtmlElement {
-	public HTMLHtmlElementImpl() {
-		super("HTML", true);
-	}
-	
-	public HTMLHtmlElementImpl(String name) {
-		super(name, true);
-	}
-	
-	public String getVersion() {
-		return this.getAttribute("version");
-	}
+    HTMLHtmlElement {
+  public HTMLHtmlElementImpl() {
+    super("HTML", true);
+  }
 
-	public void setVersion(String version) {
-		this.setAttribute("version", version);
-	}
+  public HTMLHtmlElementImpl(String name) {
+    super(name, true);
+  }
+
+  public String getVersion() {
+    return this.getAttribute("version");
+  }
+
+  public void setVersion(String version) {
+    this.setAttribute("version", version);
+  }
 }

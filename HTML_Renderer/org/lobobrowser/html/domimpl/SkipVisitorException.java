@@ -17,27 +17,27 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Dec 3, 2005
  */
 package org.lobobrowser.html.domimpl;
 
 class SkipVisitorException extends RuntimeException {
-	public SkipVisitorException() {
-		super();
-	}
+  public SkipVisitorException() {
+    super();
+  }
 
-	public SkipVisitorException(String message) {
-		super(message);
-	}
+  public SkipVisitorException(String message) {
+    super(message);
+  }
 
-	public SkipVisitorException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public SkipVisitorException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public SkipVisitorException(Throwable cause) {
-		super(cause);
-	}
+  public SkipVisitorException(Throwable cause) {
+    super(cause);
+  }
 
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 29, 2006
  */
@@ -32,60 +32,64 @@ import org.lobobrowser.html.gui.HtmlPanel;
 import org.w3c.dom.Document;
 
 /**
- * The <code>SimpleBrowserFrame</code> class implements
- * the {@link org.lobobrowser.html.BrowserFrame} interface. 
- * It represents a browser frame component.
+ * The <code>SimpleBrowserFrame</code> class implements the
+ * {@link org.lobobrowser.html.BrowserFrame} interface. It represents a browser
+ * frame component.
+ * 
  * @see HtmlRendererContext#createBrowserFrame()
  */
 public class SimpleBrowserFrame extends HtmlPanel implements BrowserFrame {
-	/** The {@link HtmlRendererContext} associated with the browser frame. */
-	private final HtmlRendererContext rcontext;
-	private final HtmlRendererContext parentRcontext;
-	
-	public SimpleBrowserFrame(HtmlRendererContext parentRcontext) {
-		this.parentRcontext = parentRcontext;
-		this.rcontext = this.createHtmlRendererContext(parentRcontext);
-	}
-	
-	/**
-	 * Creates the {@link HtmlRendererContext} associated with this browser
-	 * frame. Override to use a specialized instance.
-	 * @param parentRcontext The parent context.
-	 */
-	protected HtmlRendererContext createHtmlRendererContext(HtmlRendererContext parentRcontext) {
-		return new SimpleHtmlRendererContext(this, parentRcontext);
-	}
-	
-	public HtmlRendererContext getHtmlRendererContext() {
-		return this.rcontext;
-	}
+  /** The {@link HtmlRendererContext} associated with the browser frame. */
+  private final HtmlRendererContext rcontext;
+  private final HtmlRendererContext parentRcontext;
 
-	public Component getComponent() {
-		return this;
-	}
+  public SimpleBrowserFrame(HtmlRendererContext parentRcontext) {
+    this.parentRcontext = parentRcontext;
+    this.rcontext = this.createHtmlRendererContext(parentRcontext);
+  }
 
-	public void loadURL(URL url) {
-		this.rcontext.navigate(url, "_this");
-	}
+  /**
+   * Creates the {@link HtmlRendererContext} associated with this browser frame.
+   * Override to use a specialized instance.
+   * 
+   * @param parentRcontext
+   *          The parent context.
+   */
+  protected HtmlRendererContext createHtmlRendererContext(
+      HtmlRendererContext parentRcontext) {
+    return new SimpleHtmlRendererContext(this, parentRcontext);
+  }
 
-	public Document getContentDocument() {
-		return (Document) this.getRootNode();
-	}
-	
-	public HtmlRendererContext getParentHtmlRendererContext() {
-		return this.parentRcontext;
-	}
+  public HtmlRendererContext getHtmlRendererContext() {
+    return this.rcontext;
+  }
 
-    public void setDefaultMarginInsets(Insets insets) {
-        // Current implementation is the frame HtmlPanel.
-        super.setDefaultMarginInsets(insets);
-    }
+  public Component getComponent() {
+    return this;
+  }
 
-    public void setDefaultOverflowX(int overflowX) {
-        super.setDefaultOverflowX(overflowX);
-    }
+  public void loadURL(URL url) {
+    this.rcontext.navigate(url, "_this");
+  }
 
-    public void setDefaultOverflowY(int overflowY) {
-        super.setDefaultOverflowY(overflowY);
-    }
+  public Document getContentDocument() {
+    return (Document) this.getRootNode();
+  }
+
+  public HtmlRendererContext getParentHtmlRendererContext() {
+    return this.parentRcontext;
+  }
+
+  public void setDefaultMarginInsets(Insets insets) {
+    // Current implementation is the frame HtmlPanel.
+    super.setDefaultMarginInsets(insets);
+  }
+
+  public void setDefaultOverflowX(int overflowX) {
+    super.setDefaultOverflowX(overflowX);
+  }
+
+  public void setDefaultOverflowY(int overflowY) {
+    super.setDefaultOverflowY(overflowY);
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 31, 2005
  */
@@ -27,16 +27,16 @@ package org.lobobrowser.util;
  * @author J. H. S.
  */
 public class Diagnostics {
-    /**
+  /**
      * 
      */
-    private Diagnostics() {
-        super();
-    }
+  private Diagnostics() {
+    super();
+  }
 
-    public static void Assert(boolean condition, String message) {
-        if(!condition) {
-            throw new AssertionError(message);
-        }
+  public static void Assert(boolean condition, String message) {
+    if (!condition) {
+      throw new AssertionError(message);
     }
+  }
 }

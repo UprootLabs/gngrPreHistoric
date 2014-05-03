@@ -17,27 +17,27 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import java.awt.*;
 
 public class HeadingRenderState extends AbstractMarginRenderState {
-    public HeadingRenderState(RenderState prevRenderState,
-            HTMLElementImpl element) {
-        super(prevRenderState, element);
-    }
+  public HeadingRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+    super(prevRenderState, element);
+  }
 
-    protected HtmlInsets getDefaultMarginInsets() {
-        HtmlInsets insets = new HtmlInsets();
-        RenderState prevRS = this.getPreviousRenderState();
-        FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
-        insets.top = fm.getHeight(); 
-        insets.bottom = fm.getHeight();
-        insets.topType = HtmlInsets.TYPE_PIXELS;
-        insets.bottomType = HtmlInsets.TYPE_PIXELS;
-        return insets;
-    }
+  protected HtmlInsets getDefaultMarginInsets() {
+    HtmlInsets insets = new HtmlInsets();
+    RenderState prevRS = this.getPreviousRenderState();
+    FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS
+        .getFontMetrics();
+    insets.top = fm.getHeight();
+    insets.bottom = fm.getHeight();
+    insets.topType = HtmlInsets.TYPE_PIXELS;
+    insets.bottomType = HtmlInsets.TYPE_PIXELS;
+    return insets;
+  }
 
 }

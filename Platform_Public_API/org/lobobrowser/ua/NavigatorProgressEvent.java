@@ -19,46 +19,49 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * An event containing response progress information.
+ * 
  * @see NavigatorWindowListener#progressUpdated(NavigatorProgressEvent)
  */
 public class NavigatorProgressEvent extends NavigatorEvent {
-	private final ProgressType progressType;
-	private final java.net.URL url;
-	private final String method;
-	private final int currentValue;
-	private final int maxValue;
-	
-	public NavigatorProgressEvent(Object source, NavigatorFrame clientletFrame, ProgressType progressType, java.net.URL url, String method, int value, int max) {
-		super(source, NavigatorEventType.PROGRESS_UPDATED, clientletFrame);
-		this.progressType = progressType;
-		this.url = url;
-		this.method = method;
-		this.currentValue = value;
-		this.maxValue = max;
-	}
+  private final ProgressType progressType;
+  private final java.net.URL url;
+  private final String method;
+  private final int currentValue;
+  private final int maxValue;
 
-	public String getMethod() {
-		return method;
-	}
+  public NavigatorProgressEvent(Object source, NavigatorFrame clientletFrame,
+      ProgressType progressType, java.net.URL url, String method, int value,
+      int max) {
+    super(source, NavigatorEventType.PROGRESS_UPDATED, clientletFrame);
+    this.progressType = progressType;
+    this.url = url;
+    this.method = method;
+    this.currentValue = value;
+    this.maxValue = max;
+  }
 
-	public ProgressType getProgressType() {
-		return progressType;
-	}
+  public String getMethod() {
+    return method;
+  }
 
-	public java.net.URL getUrl() {
-		return url;
-	}
+  public ProgressType getProgressType() {
+    return progressType;
+  }
 
-	public int getCurrentValue() {
-		return currentValue;
-	}
+  public java.net.URL getUrl() {
+    return url;
+  }
 
-	public int getMaxValue() {
-		return maxValue;
-	}
+  public int getCurrentValue() {
+    return currentValue;
+  }
+
+  public int getMaxValue() {
+    return maxValue;
+  }
 }

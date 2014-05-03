@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Copyright (c) 2003 World Wide Web Consortium,
  * (Massachusetts Institute of Technology, Institut National de
@@ -33,55 +33,62 @@
 package org.w3c.dom.html2;
 
 /**
- * Parameters fed to the <code>OBJECT</code> element. See the PARAM element 
+ * Parameters fed to the <code>OBJECT</code> element. See the PARAM element
  * definition in HTML 4.01.
- * <p>See also the <a href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document Object Model (DOM) Level 2 HTML Specification</a>.
+ * <p>
+ * See also the <a
+ * href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document
+ * Object Model (DOM) Level 2 HTML Specification</a>.
  */
 public interface HTMLParamElement extends HTMLElement {
-    /**
-     * The name of a run-time parameter. See the name attribute definition in 
-     * HTML 4.01.
-     */
-    public String getName();
-    /**
-     * The name of a run-time parameter. See the name attribute definition in 
-     * HTML 4.01.
-     */
-    public void setName(String name);
+  /**
+   * The name of a run-time parameter. See the name attribute definition in HTML
+   * 4.01.
+   */
+  public String getName();
 
-    /**
-     * Content type for the <code>value</code> attribute when 
-     * <code>valuetype</code> has the value "ref". See the type attribute 
-     * definition in HTML 4.01.
-     */
-    public String getType();
-    /**
-     * Content type for the <code>value</code> attribute when 
-     * <code>valuetype</code> has the value "ref". See the type attribute 
-     * definition in HTML 4.01.
-     */
-    public void setType(String type);
+  /**
+   * The name of a run-time parameter. See the name attribute definition in HTML
+   * 4.01.
+   */
+  public void setName(String name);
 
-    /**
-     * The value of a run-time parameter. See the value attribute definition 
-     * in HTML 4.01.
-     */
-    public String getValue();
-    /**
-     * The value of a run-time parameter. See the value attribute definition 
-     * in HTML 4.01.
-     */
-    public void setValue(String value);
+  /**
+   * Content type for the <code>value</code> attribute when
+   * <code>valuetype</code> has the value "ref". See the type attribute
+   * definition in HTML 4.01.
+   */
+  public String getType();
 
-    /**
-     * Information about the meaning of the <code>value</code> attribute 
-     * value. See the valuetype attribute definition in HTML 4.01.
-     */
-    public String getValueType();
-    /**
-     * Information about the meaning of the <code>value</code> attribute 
-     * value. See the valuetype attribute definition in HTML 4.01.
-     */
-    public void setValueType(String valueType);
+  /**
+   * Content type for the <code>value</code> attribute when
+   * <code>valuetype</code> has the value "ref". See the type attribute
+   * definition in HTML 4.01.
+   */
+  public void setType(String type);
+
+  /**
+   * The value of a run-time parameter. See the value attribute definition in
+   * HTML 4.01.
+   */
+  public String getValue();
+
+  /**
+   * The value of a run-time parameter. See the value attribute definition in
+   * HTML 4.01.
+   */
+  public void setValue(String value);
+
+  /**
+   * Information about the meaning of the <code>value</code> attribute value.
+   * See the valuetype attribute definition in HTML 4.01.
+   */
+  public String getValueType();
+
+  /**
+   * Information about the meaning of the <code>value</code> attribute value.
+   * See the valuetype attribute definition in HTML 4.01.
+   */
+  public void setValueType(String valueType);
 
 }

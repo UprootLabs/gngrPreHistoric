@@ -17,33 +17,33 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
-import java.awt.Insets;;
+import java.awt.Insets;
+
+;
 
 public abstract class AbstractMarginRenderState extends BlockRenderState {
-    public AbstractMarginRenderState(RenderState prevRenderState,
-            HTMLElementImpl element) {
-        super(prevRenderState, element);
-    }
-    
-    protected abstract HtmlInsets getDefaultMarginInsets();
+  public AbstractMarginRenderState(RenderState prevRenderState,
+      HTMLElementImpl element) {
+    super(prevRenderState, element);
+  }
 
-    public HtmlInsets getMarginInsets() {
-        HtmlInsets insets = this.marginInsets;
-        if(insets != INVALID_INSETS) {
-            return insets;
-        }
-        insets = super.getMarginInsets();
-        if(insets == null) {
-            insets = this.getDefaultMarginInsets();
-        }
-        this.marginInsets = insets;
-        return insets;
-    }
+  protected abstract HtmlInsets getDefaultMarginInsets();
 
-    
-    
+  public HtmlInsets getMarginInsets() {
+    HtmlInsets insets = this.marginInsets;
+    if (insets != INVALID_INSETS) {
+      return insets;
+    }
+    insets = super.getMarginInsets();
+    if (insets == null) {
+      insets = this.getDefaultMarginInsets();
+    }
+    this.marginInsets = insets;
+    return insets;
+  }
+
 }

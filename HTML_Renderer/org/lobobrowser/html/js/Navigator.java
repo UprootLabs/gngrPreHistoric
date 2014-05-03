@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.js;
 
@@ -25,78 +25,78 @@ import org.lobobrowser.html.*;
 import org.lobobrowser.js.*;
 
 public class Navigator extends AbstractScriptableDelegate {
-	private final UserAgentContext context;
+  private final UserAgentContext context;
 
-	/**
-	 * @param context
-	 */
-	Navigator(UserAgentContext context) {
-		super();
-		this.context = context;
-	}
-		
-	public String getAppCodeName() {
-		return this.context.getAppCodeName();
-	}
+  /**
+   * @param context
+   */
+  Navigator(UserAgentContext context) {
+    super();
+    this.context = context;
+  }
 
-	public String getAppName() {
-		return this.context.getAppName();
-	}
-	
-	public String getAppVersion() {
-		return this.context.getAppVersion();
-	}
+  public String getAppCodeName() {
+    return this.context.getAppCodeName();
+  }
 
-	public String getAppMinorVersion() {
-		return this.context.getAppMinorVersion();
-	}
-	
-	public String getPlatform() {
-		return this.context.getPlatform();
-	}
-	
-	public String getUserAgent() {
-		return this.context.getUserAgent();
-	}	
-	
-	public String getVendor() {
-		return this.context.getVendor();
-	}
-	
-	public String getProduct() {
-		return this.context.getProduct();
-	}
-	
-	public boolean javaEnabled() {
-		// True always?
-		return true;
-	}
-	
-	private MimeTypesCollection mimeTypes;
-	
-	public MimeTypesCollection getMimeTypes() {
-		synchronized(this) {
-			MimeTypesCollection mt = this.mimeTypes;
-			if(mt == null) {
-				mt = new MimeTypesCollection();
-				this.mimeTypes = mt;
-			}
-			return mt;
-		}
-	}
+  public String getAppName() {
+    return this.context.getAppName();
+  }
 
-	public class MimeTypesCollection  {
-		// Class must be public to allow JavaScript access
-		public int getLength() {
-			return 0;
-		}
+  public String getAppVersion() {
+    return this.context.getAppVersion();
+  }
 
-		public Object item(int index) {
-			return null;
-		}
+  public String getAppMinorVersion() {
+    return this.context.getAppMinorVersion();
+  }
 
-		public Object namedItem(String name) {
-			return null;
-		}
-	}
+  public String getPlatform() {
+    return this.context.getPlatform();
+  }
+
+  public String getUserAgent() {
+    return this.context.getUserAgent();
+  }
+
+  public String getVendor() {
+    return this.context.getVendor();
+  }
+
+  public String getProduct() {
+    return this.context.getProduct();
+  }
+
+  public boolean javaEnabled() {
+    // True always?
+    return true;
+  }
+
+  private MimeTypesCollection mimeTypes;
+
+  public MimeTypesCollection getMimeTypes() {
+    synchronized (this) {
+      MimeTypesCollection mt = this.mimeTypes;
+      if (mt == null) {
+        mt = new MimeTypesCollection();
+        this.mimeTypes = mt;
+      }
+      return mt;
+    }
+  }
+
+  public class MimeTypesCollection {
+    // Class must be public to allow JavaScript access
+    public int getLength() {
+      return 0;
+    }
+
+    public Object item(int index) {
+      return null;
+    }
+
+    public Object namedItem(String name) {
+      return null;
+    }
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.gui;
 
@@ -27,14 +27,14 @@ import java.util.EventObject;
  * Event associated with {@link SelectionChangeListener}.
  */
 public class SelectionChangeEvent extends EventObject {
-	private final boolean hasSelection;
-	
-	public SelectionChangeEvent(Object source, boolean hasSelection) {
-		super(source);
-		this.hasSelection = hasSelection;
-	}
+  private final boolean hasSelection;
 
-	public boolean isSelectionAvailable() {
-		return this.hasSelection;
-	}
+  public SelectionChangeEvent(Object source, boolean hasSelection) {
+    super(source);
+    this.hasSelection = hasSelection;
+  }
+
+  public boolean isSelectionAvailable() {
+    return this.hasSelection;
+  }
 }

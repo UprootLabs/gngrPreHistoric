@@ -17,17 +17,17 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.style.*;
 
 public class HTMLBlockQuoteElementImpl extends HTMLAbstractUIElement {
-	public HTMLBlockQuoteElementImpl(String name) {
-		super(name);
-	}
+  public HTMLBlockQuoteElementImpl(String name) {
+    super(name);
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		return new BlockQuoteRenderState(prevRenderState, this);
-	}
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    return new BlockQuoteRenderState(prevRenderState, this);
+  }
 }

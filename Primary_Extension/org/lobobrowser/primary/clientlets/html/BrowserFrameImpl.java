@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Feb 5, 2006
  */
@@ -33,46 +33,49 @@ import org.lobobrowser.html.*;
 import org.lobobrowser.ua.*;
 
 public class BrowserFrameImpl implements BrowserFrame {
-	private static final Logger logger = Logger.getLogger(BrowserFrameImpl.class.getName());
-	private final NavigatorFrame frame;
-	private final HtmlRendererContextImpl rcontext;
-	
-	public BrowserFrameImpl(NavigatorFrame frame, HtmlRendererContext parentrcontext) {
-		if(logger.isLoggable(Level.INFO)) {
-			logger.info("BrowserFrameImpl(): frame=" + frame + ",parentrcontext=" + parentrcontext);
-		}
-		this.frame = frame;
-		this.rcontext = HtmlRendererContextImpl.getHtmlRendererContext(frame);
-	}
+  private static final Logger logger = Logger.getLogger(BrowserFrameImpl.class
+      .getName());
+  private final NavigatorFrame frame;
+  private final HtmlRendererContextImpl rcontext;
 
-	public HtmlRendererContext getHtmlRendererContext() {
-		return this.rcontext;
-	}
-
-	public Component getComponent() {
-		return this.frame.getComponent();
-	}
-
-	public org.w3c.dom.Document getContentDocument() {
-		return this.rcontext.getContentDocument();
-	}
-	
-	public void loadURL(URL url) {
-		if(logger.isLoggable(Level.INFO)) {
-			logger.info("loadURL(): frame=" + frame + ",url=" + url);
-		}
-		this.frame.navigate(url, "GET", null, TargetType.SELF, RequestType.FRAME);
-	}
-
-    public void setDefaultMarginInsets(Insets insets) {
-        this.frame.setProperty("defaultMarginInsets", insets);
+  public BrowserFrameImpl(NavigatorFrame frame,
+      HtmlRendererContext parentrcontext) {
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("BrowserFrameImpl(): frame=" + frame + ",parentrcontext="
+          + parentrcontext);
     }
+    this.frame = frame;
+    this.rcontext = HtmlRendererContextImpl.getHtmlRendererContext(frame);
+  }
 
-    public void setDefaultOverflowX(int overflowX) {
-        this.frame.setProperty("defaultOverflowX", overflowX);
-    }
+  public HtmlRendererContext getHtmlRendererContext() {
+    return this.rcontext;
+  }
 
-    public void setDefaultOverflowY(int overflowY) {
-        this.frame.setProperty("defaultOverflowY", overflowY);
+  public Component getComponent() {
+    return this.frame.getComponent();
+  }
+
+  public org.w3c.dom.Document getContentDocument() {
+    return this.rcontext.getContentDocument();
+  }
+
+  public void loadURL(URL url) {
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("loadURL(): frame=" + frame + ",url=" + url);
     }
+    this.frame.navigate(url, "GET", null, TargetType.SELF, RequestType.FRAME);
+  }
+
+  public void setDefaultMarginInsets(Insets insets) {
+    this.frame.setProperty("defaultMarginInsets", insets);
+  }
+
+  public void setDefaultOverflowX(int overflowX) {
+    this.frame.setProperty("defaultOverflowX", overflowX);
+  }
+
+  public void setDefaultOverflowY(int overflowY) {
+    this.frame.setProperty("defaultOverflowY", overflowY);
+  }
 }

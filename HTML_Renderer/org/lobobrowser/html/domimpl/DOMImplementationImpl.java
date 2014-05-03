@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 15, 2005
  */
@@ -30,32 +30,31 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 
 public class DOMImplementationImpl implements DOMImplementation {
-	private final UserAgentContext context;
-	
-	public DOMImplementationImpl(UserAgentContext context) {
-		this.context = context;
-	}
+  private final UserAgentContext context;
 
-	public boolean hasFeature(String feature, String version) {
-		return "HTML".equals(feature) && "2.0".compareTo(version) <= 0;
-	}
+  public DOMImplementationImpl(UserAgentContext context) {
+    this.context = context;
+  }
 
-	public DocumentType createDocumentType(String qualifiedName,
-			String publicId, String systemId) throws DOMException {
-		return new DocumentTypeImpl(qualifiedName, publicId, systemId);
-	}
+  public boolean hasFeature(String feature, String version) {
+    return "HTML".equals(feature) && "2.0".compareTo(version) <= 0;
+  }
 
-	public Document createDocument(String namespaceURI, String qualifiedName,
-			DocumentType doctype) throws DOMException {
-		return new HTMLDocumentImpl(this.context);
-	}
+  public DocumentType createDocumentType(String qualifiedName, String publicId,
+      String systemId) throws DOMException {
+    return new DocumentTypeImpl(qualifiedName, publicId, systemId);
+  }
 
-	public Object getFeature(String feature, String version) {
-		if("HTML".equals(feature) && "2.0".compareTo(version) <= 0) {
-			return this;
-		}
-		else {
-			return null;
-		}
-	}
+  public Document createDocument(String namespaceURI, String qualifiedName,
+      DocumentType doctype) throws DOMException {
+    return new HTMLDocumentImpl(this.context);
+  }
+
+  public Object getFeature(String feature, String version) {
+    if ("HTML".equals(feature) && "2.0".compareTo(version) <= 0) {
+      return this;
+    } else {
+      return null;
+    }
+  }
 }

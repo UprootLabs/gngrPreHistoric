@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Nov 27, 2005
  */
@@ -33,88 +33,94 @@ import com.steadystate.css.dom.CSSStyleSheetImpl;
 import com.steadystate.css.parser.CSSOMParser;
 
 public class HTMLStyleElementImpl extends HTMLElementImpl implements
-		HTMLStyleElement {
-	private CSSStyleSheet styleSheet; 
-	
-	public HTMLStyleElementImpl() {
-		super("STYLE", true);
-	}
+    HTMLStyleElement {
+  private CSSStyleSheet styleSheet;
 
-	public HTMLStyleElementImpl(String name) {
-		super(name, true);
-	}
-	
-	private boolean disabled;
-	public boolean getDisabled() {
-		return this.disabled;
-	}
-	
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-		CSSStyleSheet sheet = this.styleSheet;
-		if(sheet != null) {
-			sheet.setDisabled(disabled);
-		}
-	}
-	
-	public String getMedia() {
-		return this.getAttribute("media");
-	}
-	
-	public void setMedia(String media) {
-		this.setAttribute("media", media);
-	}
-	
-	public String getType() {
-		return this.getAttribute("type");
-	}
-	
-	public void setType(String type) {
-		this.setAttribute("type", type);
-	}
-	
-	public Object setUserData(String key, Object data, UserDataHandler handler) {
-		if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-			this.processStyle();
-		}
-		// else if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key)) {
-			// this.informDocumentInvalid();
-		// }
-		return super.setUserData(key, data, handler);
-	}
+  public HTMLStyleElementImpl() {
+    super("STYLE", true);
+  }
 
-	protected void processStyle() {
-	    this.styleSheet = null;
-	    UserAgentContext uacontext = this.getUserAgentContext();
-	    if(uacontext.isInternalCSSEnabled()) {
-	        if(CSSUtilities.matchesMedia(this.getMedia(), this.getUserAgentContext())) {
-	            String text = this.getRawInnerText(true);
-	            if(text != null && !"".equals(text)) {
-	                String processedText = CSSUtilities.preProcessCss(text);
-	                HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
-	                CSSOMParser parser = CSSUtilities.mkParser();
-	                String baseURI = doc.getBaseURI();
-	                InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(processedText, baseURI);
-	                try {
-	                    CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, this, baseURI);
-	                    doc.addStyleSheet(sheet);
-	                    this.styleSheet = sheet;
-	                    if(sheet instanceof CSSStyleSheetImpl) {
-	                        CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet; 
-	                        sheetImpl.setDisabled(this.disabled);
-	                    }
-	                    else {
-	                        sheet.setDisabled(this.disabled);
-	                    }
-	                } catch(Throwable err) {
-	                    this.warn("Unable to parse style sheet", err);
-	                }
-	            }
-	        }
-	    }
-	}
-	
-	protected void appendInnerTextImpl(StringBuffer buffer) {
-		// nop
-	}
+  public HTMLStyleElementImpl(String name) {
+    super(name, true);
+  }
+
+  private boolean disabled;
+
+  public boolean getDisabled() {
+    return this.disabled;
+  }
+
+  public void setDisabled(boolean disabled) {
+    this.disabled = disabled;
+    CSSStyleSheet sheet = this.styleSheet;
+    if (sheet != null) {
+      sheet.setDisabled(disabled);
+    }
+  }
+
+  public String getMedia() {
+    return this.getAttribute("media");
+  }
+
+  public void setMedia(String media) {
+    this.setAttribute("media", media);
+  }
+
+  public String getType() {
+    return this.getAttribute("type");
+  }
+
+  public void setType(String type) {
+    this.setAttribute("type", type);
+  }
+
+  public Object setUserData(String key, Object data, UserDataHandler handler) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
+        && data != Boolean.TRUE) {
+      this.processStyle();
+    }
+    // else
+    // if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key))
+    // {
+    // this.informDocumentInvalid();
+    // }
+    return super.setUserData(key, data, handler);
+  }
+
+  protected void processStyle() {
+    this.styleSheet = null;
+    UserAgentContext uacontext = this.getUserAgentContext();
+    if (uacontext.isInternalCSSEnabled()) {
+      if (CSSUtilities
+          .matchesMedia(this.getMedia(), this.getUserAgentContext())) {
+        String text = this.getRawInnerText(true);
+        if (text != null && !"".equals(text)) {
+          String processedText = CSSUtilities.preProcessCss(text);
+          HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+          CSSOMParser parser = CSSUtilities.mkParser();
+          String baseURI = doc.getBaseURI();
+          InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(
+              processedText, baseURI);
+          try {
+            CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser
+                .parseStyleSheet(is, this, baseURI);
+            doc.addStyleSheet(sheet);
+            this.styleSheet = sheet;
+            if (sheet instanceof CSSStyleSheetImpl) {
+              CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet;
+              sheetImpl.setDisabled(this.disabled);
+            } else {
+              sheet.setDisabled(this.disabled);
+            }
+          } catch (Throwable err) {
+            this.warn("Unable to parse style sheet", err);
+          }
+        }
+      }
+    }
+  }
+
+  protected void appendInnerTextImpl(StringBuffer buffer) {
+    // nop
+  }
 }

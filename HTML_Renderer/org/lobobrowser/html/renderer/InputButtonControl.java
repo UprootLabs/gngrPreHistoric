@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 15, 2006
  */
@@ -33,75 +33,80 @@ import org.lobobrowser.html.domimpl.HTMLInputElementImpl;
 import org.lobobrowser.util.gui.WrapperLayout;
 
 class InputButtonControl extends BaseInputControl {
-	private final JButton widget; 
-	
-	public InputButtonControl(final HTMLBaseInputElement modelNode) {
-		super(modelNode);
-		this.setLayout(WrapperLayout.getInstance());
-		JButton widget = new JButton();
-		widget.setContentAreaFilled(false);
-		this.widget = widget;
-		this.add(widget);
-		widget.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				HtmlController.getInstance().onPressed(InputButtonControl.this.controlElement, null, 0, 0);
-			}
-		});
-	}	
-	
-	public void reset(int availWidth, int availHeight) {
-		super.reset(availWidth, availHeight);
-		RUIControl ruiControl = this.ruicontrol;
-		JButton button = this.widget;
-		button.setContentAreaFilled(!ruiControl.hasBackground());
-		java.awt.Color foregroundColor = ruiControl.getForegroundColor();
-		if(foregroundColor != null) {
-			button.setForeground(foregroundColor);
-		}
-		HTMLInputElementImpl element = (HTMLInputElementImpl) this.controlElement;
-		String text = element.getAttribute("value");
-		if(text == null || text.length() == 0) {
-			String type = element.getType();
-			if("submit".equalsIgnoreCase(type)) {
-				text = "Submit Query";
-			}
-			else if("reset".equalsIgnoreCase(type)) {
-				text = "Reset";
-			}
-			else {
-				text = "";
-			}
-		}
-		button.setText(text);		
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.domimpl.InputContext#click()
-	 */
-	public void click() {
-		this.widget.doClick();
-	}
+  private final JButton widget;
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.domimpl.InputContext#getValue()
-	 */
-	public String getValue() {
-		return this.widget.getText();
-	}
+  public InputButtonControl(final HTMLBaseInputElement modelNode) {
+    super(modelNode);
+    this.setLayout(WrapperLayout.getInstance());
+    JButton widget = new JButton();
+    widget.setContentAreaFilled(false);
+    this.widget = widget;
+    this.add(widget);
+    widget.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        HtmlController.getInstance().onPressed(
+            InputButtonControl.this.controlElement, null, 0, 0);
+      }
+    });
+  }
 
-	public void setDisabled(boolean disabled) {
-		super.setDisabled(disabled);
-		this.widget.setEnabled(!disabled);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
-	 */
-	public void setValue(String value) {
-		this.widget.setText(value);
-	}
-	
-	public void resetInput() {
-		// nop
-	}
+  public void reset(int availWidth, int availHeight) {
+    super.reset(availWidth, availHeight);
+    RUIControl ruiControl = this.ruicontrol;
+    JButton button = this.widget;
+    button.setContentAreaFilled(!ruiControl.hasBackground());
+    java.awt.Color foregroundColor = ruiControl.getForegroundColor();
+    if (foregroundColor != null) {
+      button.setForeground(foregroundColor);
+    }
+    HTMLInputElementImpl element = (HTMLInputElementImpl) this.controlElement;
+    String text = element.getAttribute("value");
+    if (text == null || text.length() == 0) {
+      String type = element.getType();
+      if ("submit".equalsIgnoreCase(type)) {
+        text = "Submit Query";
+      } else if ("reset".equalsIgnoreCase(type)) {
+        text = "Reset";
+      } else {
+        text = "";
+      }
+    }
+    button.setText(text);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.domimpl.InputContext#click()
+   */
+  public void click() {
+    this.widget.doClick();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.domimpl.InputContext#getValue()
+   */
+  public String getValue() {
+    return this.widget.getText();
+  }
+
+  public void setDisabled(boolean disabled) {
+    super.setDisabled(disabled);
+    this.widget.setEnabled(!disabled);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
+   */
+  public void setValue(String value) {
+    this.widget.setText(value);
+  }
+
+  public void resetInput() {
+    // nop
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 16, 2005
  */
@@ -26,38 +26,38 @@ package org.lobobrowser.html.parser;
 import org.xml.sax.Locator;
 
 class LocatorImpl implements Locator {
-	private final String publicId;
-	private final String systemId;
-	private final int lineNumber;
-	private final int columnNumber;
+  private final String publicId;
+  private final String systemId;
+  private final int lineNumber;
+  private final int columnNumber;
 
-	/**
-	 * @param pid
-	 * @param sid
-	 * @param lnumber
-	 * @param cnumber
-	 */
-	public LocatorImpl(String pid, String sid, int lnumber, int cnumber) {
-		super();
-		publicId = pid;
-		systemId = sid;
-		lineNumber = lnumber;
-		columnNumber = cnumber;
-	}
+  /**
+   * @param pid
+   * @param sid
+   * @param lnumber
+   * @param cnumber
+   */
+  public LocatorImpl(String pid, String sid, int lnumber, int cnumber) {
+    super();
+    publicId = pid;
+    systemId = sid;
+    lineNumber = lnumber;
+    columnNumber = cnumber;
+  }
 
-	public String getPublicId() {
-		return this.publicId;
-	}
+  public String getPublicId() {
+    return this.publicId;
+  }
 
-	public String getSystemId() {
-		return this.systemId;
-	}
+  public String getSystemId() {
+    return this.systemId;
+  }
 
-	public int getLineNumber() {
-		return this.lineNumber;
-	}
+  public int getLineNumber() {
+    return this.lineNumber;
+  }
 
-	public int getColumnNumber() {
-		return this.columnNumber;
-	}
+  public int getColumnNumber() {
+    return this.columnNumber;
+  }
 }

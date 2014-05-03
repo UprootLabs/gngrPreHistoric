@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 15, 2006
  */
@@ -29,14 +29,17 @@ import javax.swing.text.JTextComponent;
 import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 
 class InputPasswordControl extends InputTextControl {
-	public InputPasswordControl(final HTMLBaseInputElement modelNode) {
-		super(modelNode);
-	}
+  public InputPasswordControl(final HTMLBaseInputElement modelNode) {
+    super(modelNode);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.renderer.InputTextControl#createTextField(java.lang.String)
-	 */
-	protected JTextComponent createTextField() {
-		return new JPasswordField();
-	}	
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.xamjwg.html.renderer.InputTextControl#createTextField(java.lang.String)
+   */
+  protected JTextComponent createTextField() {
+    return new JPasswordField();
+  }
 }

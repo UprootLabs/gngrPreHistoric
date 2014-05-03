@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 19, 2005
  */
@@ -30,23 +30,29 @@ import java.beans.*;
  * @author J. H. S.
  */
 public class GenericPropertyChangeListener implements GenericEventListener {
-    private final PropertyChangeListener delegate;
-    
-    public GenericPropertyChangeListener(PropertyChangeListener delegate) {
-        this.delegate = delegate;
-    }
-    /* (non-Javadoc)
-     * @see net.sourceforge.xamj.util.GenericEventListener#processEvent(java.util.EventObject)
-     */
-    public void processEvent(EventObject event) {
-        this.delegate.propertyChange((PropertyChangeEvent) event);
-    }
-    
-    public boolean equals(Object other) {
-        return other instanceof GenericPropertyChangeListener && ((GenericPropertyChangeListener) other).delegate.equals(this.delegate);
-    }
-    
-    public int hashCode() {
-        return this.delegate.hashCode();
-    }
+  private final PropertyChangeListener delegate;
+
+  public GenericPropertyChangeListener(PropertyChangeListener delegate) {
+    this.delegate = delegate;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.xamj.util.GenericEventListener#processEvent(java.util.
+   * EventObject)
+   */
+  public void processEvent(EventObject event) {
+    this.delegate.propertyChange((PropertyChangeEvent) event);
+  }
+
+  public boolean equals(Object other) {
+    return other instanceof GenericPropertyChangeListener
+        && ((GenericPropertyChangeListener) other).delegate
+            .equals(this.delegate);
+  }
+
+  public int hashCode() {
+    return this.delegate.hashCode();
+  }
 }

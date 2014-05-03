@@ -19,22 +19,22 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.io;
 
 import java.io.IOException;
 
 /**
- * This is an <code>IOException</code> thrown when
- * the managed store quota would be exceeded after creating a managed file,
- * a directory, or writing to a managed file.
+ * This is an <code>IOException</code> thrown when the managed store quota would
+ * be exceeded after creating a managed file, a directory, or writing to a
+ * managed file.
  */
 public class QuotaExceededException extends IOException {
-	public QuotaExceededException() {
-		super();
-	}
+  public QuotaExceededException() {
+    super();
+  }
 
-	public QuotaExceededException(String message) {
-		super(message);
-	}
+  public QuotaExceededException(String message) {
+    super(message);
+  }
 }

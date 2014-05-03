@@ -17,23 +17,24 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 
 public class PrimaryStreamHandlerFactory implements URLStreamHandlerFactory {
-	
-	public PrimaryStreamHandlerFactory(){}
-	
-	public URLStreamHandler createURLStreamHandler(String protocol) {
-		if("about".equals(protocol)) {
-			return new org.lobobrowser.protocol.about.Handler();
-		}else if("data".equals(protocol)){
-			return new org.lobobrowser.protocol.data.Handler();
-		}else {
-			return null;
-		}
-	}
+
+  public PrimaryStreamHandlerFactory() {
+  }
+
+  public URLStreamHandler createURLStreamHandler(String protocol) {
+    if ("about".equals(protocol)) {
+      return new org.lobobrowser.protocol.about.Handler();
+    } else if ("data".equals(protocol)) {
+      return new org.lobobrowser.protocol.data.Handler();
+    } else {
+      return null;
+    }
+  }
 }

@@ -19,27 +19,28 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
-
 /**
- * A clientlet processes a URL response and creates
- * content renderable by a user agent. 
+ * A clientlet processes a URL response and creates content renderable by a user
+ * agent.
+ * 
  * @see ClientletSelector#select(ClientletRequest, ClientletResponse)
  */
-public interface Clientlet
-{
-	/**
-	 * This method is invoked by a clientlet engine to
-	 * process a URL response. After the response is
-	 * processed, the clientlet should either set
-	 * displayable content via {@link ClientletContext#setResultingContent(ComponentContent)}
-	 * or redirect navigation elsewhere.
-	 * @param context An instance of ClientletContext which
-	 * 				   represents the current request context.
-	 * @throws ClientletException This may be thrown by a clientlet
-	 * 	                          when there are document errors. 
-	 */
-	public void process(ClientletContext context) throws ClientletException;
+public interface Clientlet {
+  /**
+   * This method is invoked by a clientlet engine to process a URL response.
+   * After the response is processed, the clientlet should either set
+   * displayable content via
+   * {@link ClientletContext#setResultingContent(ComponentContent)} or redirect
+   * navigation elsewhere.
+   * 
+   * @param context
+   *          An instance of ClientletContext which represents the current
+   *          request context.
+   * @throws ClientletException
+   *           This may be thrown by a clientlet when there are document errors.
+   */
+  public void process(ClientletContext context) throws ClientletException;
 }

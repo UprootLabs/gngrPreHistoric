@@ -8,61 +8,60 @@ import java.awt.Graphics;
 import org.lobobrowser.html.HtmlObject;
 
 class UIControlWrapper implements UIControl {
-	private final Component component;
-	private final HtmlObject htmlObject;
-	
-	public UIControlWrapper(HtmlObject ho) {
-		this.htmlObject = ho;
-		Component c;
-		if(ho == null) {
-			c = new BrokenComponent();
-		}
-		else {
-			c = ho.getComponent();
-		}			
-		this.component = c;
-	}
+  private final Component component;
+  private final HtmlObject htmlObject;
 
-	public void reset(int availWidth, int availHeight) {
-		this.htmlObject.reset(availWidth, availHeight);
-	}
-	
-	public Component getComponent() {
-		return this.component;
-	}
-	
-	public int getVAlign() {
-		return RElement.VALIGN_BASELINE;
-	}
+  public UIControlWrapper(HtmlObject ho) {
+    this.htmlObject = ho;
+    Component c;
+    if (ho == null) {
+      c = new BrokenComponent();
+    } else {
+      c = ho.getComponent();
+    }
+    this.component = c;
+  }
 
-	public Color getBackgroundColor() {
-		return this.component.getBackground();
-	}
+  public void reset(int availWidth, int availHeight) {
+    this.htmlObject.reset(availWidth, availHeight);
+  }
 
-	public Dimension getPreferredSize() {
-		return this.component.getPreferredSize();
-	}
+  public Component getComponent() {
+    return this.component;
+  }
 
-	public void invalidate() {
-		// Calls its AWT parent's invalidate, but I guess that's OK.
-		this.component.invalidate();
-	}
+  public int getVAlign() {
+    return RElement.VALIGN_BASELINE;
+  }
 
-	public boolean paintSelection(Graphics g, boolean inSelection,
-			RenderableSpot startPoint, RenderableSpot endPoint) {
-		// Does not paint selection
-		return inSelection;
-	}
+  public Color getBackgroundColor() {
+    return this.component.getBackground();
+  }
 
-	public void setBounds(int x, int y, int width, int height) {
-		this.component.setBounds(x, y, width, height);
-	}
+  public Dimension getPreferredSize() {
+    return this.component.getPreferredSize();
+  }
 
-	public void setRUIControl(RUIControl ruicontrol) {
-		// Not doing anything with this.
-	}
-	
-	public void paint(Graphics g) {
-		this.component.paint(g);
-	}
+  public void invalidate() {
+    // Calls its AWT parent's invalidate, but I guess that's OK.
+    this.component.invalidate();
+  }
+
+  public boolean paintSelection(Graphics g, boolean inSelection,
+      RenderableSpot startPoint, RenderableSpot endPoint) {
+    // Does not paint selection
+    return inSelection;
+  }
+
+  public void setBounds(int x, int y, int width, int height) {
+    this.component.setBounds(x, y, width, height);
+  }
+
+  public void setRUIControl(RUIControl ruicontrol) {
+    // Not doing anything with this.
+  }
+
+  public void paint(Graphics g) {
+    this.component.paint(g);
+  }
 }

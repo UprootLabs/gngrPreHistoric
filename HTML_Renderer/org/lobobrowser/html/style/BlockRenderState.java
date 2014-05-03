@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.style;
 
@@ -27,15 +27,15 @@ import org.lobobrowser.html.domimpl.*;
  * Render state for elements that are displayed as blocks by default.
  */
 public class BlockRenderState extends StyleSheetRenderState {
-	public BlockRenderState(RenderState prevRenderState, HTMLElementImpl element) {
-		super(prevRenderState, element);
-	}	
-	
-	public BlockRenderState(HTMLDocumentImpl document) {
-		super(document);
-	}
+  public BlockRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+    super(prevRenderState, element);
+  }
 
-	public int getDefaultDisplay() {
-		return DISPLAY_BLOCK;
-	}
+  public BlockRenderState(HTMLDocumentImpl document) {
+    super(document);
+  }
+
+  public int getDefaultDisplay() {
+    return DISPLAY_BLOCK;
+  }
 }

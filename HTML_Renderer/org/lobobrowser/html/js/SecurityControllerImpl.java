@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.js;
 
 import java.security.AccessControlContext;
@@ -36,58 +36,62 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.SecurityController;
 
 public class SecurityControllerImpl extends SecurityController {
-	private final java.net.URL url;
-	private final java.security.Policy policy;
-	private final CodeSource codesource;
-	
-	public SecurityControllerImpl(java.net.URL url, Policy policy) {
-		this.url = url;
-		this.policy = policy;
-		this.codesource = new CodeSource(this.url, (java.security.cert.Certificate[]) null);
-	}
-	
-	public Object callWithDomain(Object securityDomain, final Context ctx, final Callable callable, final Scriptable scope, final Scriptable thisObj, final Object[] args) {
-		if(securityDomain == null) {
-			return callable.call(ctx, scope, thisObj, args);
-		}
-		else {
-			PrivilegedAction action = new PrivilegedAction() {
-				public Object run() {
-					return callable.call(ctx, scope, thisObj, args);					
-				}
-			};
-			final ProtectionDomain protectionDomain = (ProtectionDomain) securityDomain;
-			AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { protectionDomain });
-			return AccessController.doPrivileged(action, acctx);
-		}
-	}
+  private final java.net.URL url;
+  private final java.security.Policy policy;
+  private final CodeSource codesource;
 
-	public GeneratedClassLoader createClassLoader(ClassLoader parent, Object staticDomain) {
-		return new LocalSecureClassLoader(parent);
-	}
+  public SecurityControllerImpl(java.net.URL url, Policy policy) {
+    this.url = url;
+    this.policy = policy;
+    this.codesource = new CodeSource(this.url,
+        (java.security.cert.Certificate[]) null);
+  }
 
-	public Object getDynamicSecurityDomain(Object securityDomain) {
-		Policy policy = this.policy;
-		if(policy == null) {
-			return null;
-		}
-		else {
-			PermissionCollection permissions = this.policy.getPermissions(codesource);
-			return new ProtectionDomain(codesource, permissions);
-		}
-	}
-	
-	private class LocalSecureClassLoader extends SecureClassLoader implements GeneratedClassLoader {
-		public LocalSecureClassLoader(ClassLoader parent) {
-			super(parent);
-		}
+  public Object callWithDomain(Object securityDomain, final Context ctx,
+      final Callable callable, final Scriptable scope,
+      final Scriptable thisObj, final Object[] args) {
+    if (securityDomain == null) {
+      return callable.call(ctx, scope, thisObj, args);
+    } else {
+      PrivilegedAction action = new PrivilegedAction() {
+        public Object run() {
+          return callable.call(ctx, scope, thisObj, args);
+        }
+      };
+      final ProtectionDomain protectionDomain = (ProtectionDomain) securityDomain;
+      AccessControlContext acctx = new AccessControlContext(
+          new ProtectionDomain[] { protectionDomain });
+      return AccessController.doPrivileged(action, acctx);
+    }
+  }
 
-		public Class defineClass(String name, byte[] b) {
-			return this.defineClass(name, b, 0, b.length, codesource);
-		}
+  public GeneratedClassLoader createClassLoader(ClassLoader parent,
+      Object staticDomain) {
+    return new LocalSecureClassLoader(parent);
+  }
 
-		public void linkClass(Class clazz) {
-			super.resolveClass(clazz);
-		}
-	}
+  public Object getDynamicSecurityDomain(Object securityDomain) {
+    Policy policy = this.policy;
+    if (policy == null) {
+      return null;
+    } else {
+      PermissionCollection permissions = this.policy.getPermissions(codesource);
+      return new ProtectionDomain(codesource, permissions);
+    }
+  }
+
+  private class LocalSecureClassLoader extends SecureClassLoader implements
+      GeneratedClassLoader {
+    public LocalSecureClassLoader(ClassLoader parent) {
+      super(parent);
+    }
+
+    public Class defineClass(String name, byte[] b) {
+      return this.defineClass(name, b, 0, b.length, codesource);
+    }
+
+    public void linkClass(Class clazz) {
+      super.resolveClass(clazz);
+    }
+  }
 }

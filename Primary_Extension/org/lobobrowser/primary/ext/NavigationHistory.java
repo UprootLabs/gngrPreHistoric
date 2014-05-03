@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 6, 2005
  */
@@ -30,42 +30,48 @@ import org.lobobrowser.store.StorageManager;
 /**
  * History of navigation locations. Not thread safe.
  */
-public class NavigationHistory extends BaseHistory<Object> implements java.io.Serializable {
-	private static final long serialVersionUID = 2257845000600200100L;
-	private static final Logger logger = Logger.getLogger(NavigationHistory.class.getName());
-	private static final NavigationHistory instance;
+public class NavigationHistory extends BaseHistory<Object> implements
+    java.io.Serializable {
+  private static final long serialVersionUID = 2257845000600200100L;
+  private static final Logger logger = Logger.getLogger(NavigationHistory.class
+      .getName());
+  private static final NavigationHistory instance;
 
-	static {
-		NavigationHistory ins = null;
-		try {
-			ins = (NavigationHistory) StorageManager.getInstance().retrieveSettings(NavigationHistory.class.getSimpleName(), NavigationHistory.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new NavigationHistory();
-		}
-		instance = ins;    	
-	}
+  static {
+    NavigationHistory ins = null;
+    try {
+      ins = (NavigationHistory) StorageManager.getInstance().retrieveSettings(
+          NavigationHistory.class.getSimpleName(),
+          NavigationHistory.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "Unable to retrieve settings.", err);
+    }
+    if (ins == null) {
+      ins = new NavigationHistory();
+    }
+    instance = ins;
+  }
 
-	/**
-	 * @param sequenceCapacity
-	 * @param commonEntriesCapacity
-	 */
-	private NavigationHistory() {
-	}
+  /**
+   * @param sequenceCapacity
+   * @param commonEntriesCapacity
+   */
+  private NavigationHistory() {
+  }
 
-	public static NavigationHistory getInstance() {
-		return instance;
-	}
-	
-	public void save() {
-		synchronized(this) {
-			try {
-				StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-			} catch(java.io.IOException ioe) {
-				logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
-			}
-		}
-	}
+  public static NavigationHistory getInstance() {
+    return instance;
+  }
+
+  public void save() {
+    synchronized (this) {
+      try {
+        StorageManager.getInstance().saveSettings(
+            this.getClass().getSimpleName(), this);
+      } catch (java.io.IOException ioe) {
+        logger.log(Level.WARNING, "Unable to save settings: "
+            + this.getClass().getSimpleName(), ioe);
+      }
+    }
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.util.*;
@@ -25,28 +25,33 @@ import java.util.*;
 import org.lobobrowser.ua.*;
 
 /**
- * Factory used to create browser windows. It is used
- * when the JavaScript method Window.open() is invoked,
- * for example.
+ * Factory used to create browser windows. It is used when the JavaScript method
+ * Window.open() is invoked, for example.
+ * 
  * @see NavigatorWindowImpl#setWindowFactory(WindowFactory)
  */
 public interface WindowFactory {
-	/**
-	 * Creates a new navigator window, even if the windowId provided exists.
-	 * The implementation of this method is expected to add the top frame
-	 * of the window context to the new navigator window.
-	 * @param windowId The window ID. It may be <code>null</code>. 
-	 * @param windowProperties Window properties, following Window.open() conventions.
-	 *                         In addition, properties <code>title</code> and
-	 *                         <code>icon</code> should be supported.
-	 * @see DefaultBrowserWindow
-	 */
-	public AbstractBrowserWindow createWindow(String windowId, Properties windowProperties, NavigatorWindow windowContext);	
-	
-	/**
-	 * Gets an existing window given a windowId.
-	 */
-	public AbstractBrowserWindow getExistingWindow(String windowId);
-	
-	public void overrideProperties(AbstractBrowserWindow window, Properties properties);
+  /**
+   * Creates a new navigator window, even if the windowId provided exists. The
+   * implementation of this method is expected to add the top frame of the
+   * window context to the new navigator window.
+   * 
+   * @param windowId
+   *          The window ID. It may be <code>null</code>.
+   * @param windowProperties
+   *          Window properties, following Window.open() conventions. In
+   *          addition, properties <code>title</code> and <code>icon</code>
+   *          should be supported.
+   * @see DefaultBrowserWindow
+   */
+  public AbstractBrowserWindow createWindow(String windowId,
+      Properties windowProperties, NavigatorWindow windowContext);
+
+  /**
+   * Gets an existing window given a windowId.
+   */
+  public AbstractBrowserWindow getExistingWindow(String windowId);
+
+  public void overrideProperties(AbstractBrowserWindow window,
+      Properties properties);
 }

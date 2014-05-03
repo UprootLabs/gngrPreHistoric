@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Nov 13, 2005
  */
@@ -27,12 +27,13 @@ import java.util.EventListener;
 
 /**
  * Listener of {@link NetworkRequest} state changes.
+ * 
  * @see NetworkRequest#addNetworkRequestListener(NetworkRequestListener)
  */
 public interface NetworkRequestListener extends EventListener {
-	/**
-	 * This method is called when the <code>readyState</code> property
-	 * of the request changes.
-	 */
-	public void readyStateChanged(NetworkRequestEvent event);
+  /**
+   * This method is called when the <code>readyState</code> property of the
+   * request changes.
+   */
+  public void readyStateChanged(NetworkRequestEvent event);
 }

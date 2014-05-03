@@ -17,20 +17,21 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 import org.lobobrowser.html.domimpl.*;
 
 public class DisplayRenderState extends StyleSheetRenderState {
-	private final int defaultDisplay;
+  private final int defaultDisplay;
 
-	public DisplayRenderState(RenderState prevRenderState, HTMLElementImpl element, final int defaultDisplay) {
-		super(prevRenderState, element);
-		this.defaultDisplay = defaultDisplay;
-	}
-	
-	public int getDefaultDisplay() {
-		return this.defaultDisplay;
-	}
+  public DisplayRenderState(RenderState prevRenderState,
+      HTMLElementImpl element, final int defaultDisplay) {
+    super(prevRenderState, element);
+    this.defaultDisplay = defaultDisplay;
+  }
+
+  public int getDefaultDisplay() {
+    return this.defaultDisplay;
+  }
 }

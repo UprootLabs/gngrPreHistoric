@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui.prefs;
 
 import org.lobobrowser.primary.gui.*;
@@ -28,48 +28,49 @@ import java.awt.*;
 import java.util.*;
 
 public class ToolsSettingsUI extends AbstractSettingsUI {
-	private final ToolsSettings settings = ToolsSettings.getInstance();
-	private final ItemListControl<SearchEngine> searchEngineListControl;
-	
-	public ToolsSettingsUI() {
-		ItemEditorFactory<SearchEngine> factory = new ItemEditorFactory<SearchEngine>() {
-			public AbstractItemEditor<SearchEngine> createItemEditor() {
-				return new SearchEngineEditor();
-			}			
-		};
-		this.searchEngineListControl = new ItemListControl<SearchEngine>(factory);
-		this.searchEngineListControl.setEditorCaption("Please enter search engine information below.");
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(this.getSearchEnginePane());
-		this.add(SwingTasks.createVerticalFill());
-		this.loadSettings();
-	}
+  private final ToolsSettings settings = ToolsSettings.getInstance();
+  private final ItemListControl<SearchEngine> searchEngineListControl;
 
-	private Component getSearchEnginePane() {
-		Box innerBox = new Box(BoxLayout.X_AXIS);
-		innerBox.add(new JLabel("Search Engines:"));
-		innerBox.add(this.searchEngineListControl);
-		Box groupBox = SwingTasks.createGroupBox(BoxLayout.Y_AXIS, "Search");
-		groupBox.add(innerBox);
-		return groupBox;
-	}
-	
-	@Override
-	public void restoreDefaults() {
-		this.settings.restoreDefaults();
-		this.loadSettings();
-	}
+  public ToolsSettingsUI() {
+    ItemEditorFactory<SearchEngine> factory = new ItemEditorFactory<SearchEngine>() {
+      public AbstractItemEditor<SearchEngine> createItemEditor() {
+        return new SearchEngineEditor();
+      }
+    };
+    this.searchEngineListControl = new ItemListControl<SearchEngine>(factory);
+    this.searchEngineListControl
+        .setEditorCaption("Please enter search engine information below.");
+    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    this.add(this.getSearchEnginePane());
+    this.add(SwingTasks.createVerticalFill());
+    this.loadSettings();
+  }
 
-	@Override
-	public void save() {
-		ToolsSettings settings = this.settings;
-		Collection<SearchEngine> items = this.searchEngineListControl.getItems(); 
-		settings.setSearchEngines(items);
-		settings.save();
-	}
-	
-	private void loadSettings() {
-		ToolsSettings settings = this.settings;
-		this.searchEngineListControl.setItems(settings.getSearchEngines());
-	}
+  private Component getSearchEnginePane() {
+    Box innerBox = new Box(BoxLayout.X_AXIS);
+    innerBox.add(new JLabel("Search Engines:"));
+    innerBox.add(this.searchEngineListControl);
+    Box groupBox = SwingTasks.createGroupBox(BoxLayout.Y_AXIS, "Search");
+    groupBox.add(innerBox);
+    return groupBox;
+  }
+
+  @Override
+  public void restoreDefaults() {
+    this.settings.restoreDefaults();
+    this.loadSettings();
+  }
+
+  @Override
+  public void save() {
+    ToolsSettings settings = this.settings;
+    Collection<SearchEngine> items = this.searchEngineListControl.getItems();
+    settings.setSearchEngines(items);
+    settings.save();
+  }
+
+  private void loadSettings() {
+    ToolsSettings settings = this.settings;
+    this.searchEngineListControl.setItems(settings.getSearchEngines());
+  }
 }

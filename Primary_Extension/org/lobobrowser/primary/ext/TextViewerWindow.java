@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 import javax.swing.*;
@@ -31,127 +31,132 @@ import org.lobobrowser.util.gui.*;
 import org.lobobrowser.gui.*;
 
 public class TextViewerWindow extends JFrame {
-	private final JTextArea textArea;
-	private boolean scrollsOnAppends;
-	
-	public TextViewerWindow() {
-		super("Lobo Text Viewer");
-		this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
-		JMenuBar menuBar = this.createMenuBar();
-		this.setJMenuBar(menuBar);
-		Container contentPane = this.getContentPane();
-		final JTextArea textArea = this.createTextArea();
-		this.textArea = textArea;
-		contentPane.setLayout(WrapperLayout.getInstance());
-		contentPane.add(new JScrollPane(textArea));
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				DocumentListener cl = cachedListener;
-				if(cl != null) {
-					Document prevDocument = textArea.getDocument();
-					if(prevDocument != null) {
-						prevDocument.removeDocumentListener(cl);
-					}					
-				}				
-			}
-		});
-	}
-	
-	public void setText(String text) {
-		this.textArea.setText(text);
-	}
-	
-	public void setScrollsOnAppends(boolean flag) {
-		this.scrollsOnAppends = flag;
-	}
+  private final JTextArea textArea;
+  private boolean scrollsOnAppends;
 
-	private DocumentListener cachedListener;
-	private DocumentListener getDocumentListener() {
-		// Expected in GUI thread.
-		DocumentListener cl = this.cachedListener;
-		if(cl == null) {
-			cl = new LocalDocumentListener();
-			this.cachedListener = cl;
-		}
-		return cl;
-	}
-	
-	public void setSwingDocument(javax.swing.text.Document document) {
-		Document prevDocument = this.textArea.getDocument();
-		javax.swing.event.DocumentListener listener = this.getDocumentListener();
-		if(prevDocument != null) {
-			prevDocument.removeDocumentListener(listener);
-		}
-		document.addDocumentListener(listener);
-		this.textArea.setDocument(document);
-	}
+  public TextViewerWindow() {
+    super("Lobo Text Viewer");
+    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon()
+        .getImage());
+    JMenuBar menuBar = this.createMenuBar();
+    this.setJMenuBar(menuBar);
+    Container contentPane = this.getContentPane();
+    final JTextArea textArea = this.createTextArea();
+    this.textArea = textArea;
+    contentPane.setLayout(WrapperLayout.getInstance());
+    contentPane.add(new JScrollPane(textArea));
+    this.addWindowListener(new java.awt.event.WindowAdapter() {
+      @Override
+      public void windowClosed(WindowEvent e) {
+        DocumentListener cl = cachedListener;
+        if (cl != null) {
+          Document prevDocument = textArea.getDocument();
+          if (prevDocument != null) {
+            prevDocument.removeDocumentListener(cl);
+          }
+        }
+      }
+    });
+  }
 
-	private JTextArea createTextArea() {
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		return textArea;
-	}
-	
-	private JMenuBar createMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.add(this.createFileMenu());
-		menuBar.add(this.createEditMenu());		
-		return menuBar;
-	}
+  public void setText(String text) {
+    this.textArea.setText(text);
+  }
 
-	private JMenu createFileMenu() {
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic('F');
-		fileMenu.add(ComponentSource.menuItem("Close", 'C', new CloseAction()));
-		return fileMenu;
-	}
+  public void setScrollsOnAppends(boolean flag) {
+    this.scrollsOnAppends = flag;
+  }
 
-	private JMenu createEditMenu() {
-		JMenu fileMenu = new JMenu("Edit");
-		fileMenu.setMnemonic('E');
-		fileMenu.add(ComponentSource.menuItem("Copy", 'C', "ctrl c", new CopyAction()));
-		fileMenu.add(ComponentSource.menuItem("Select All", 'A', new SelectAllAction()));
-		return fileMenu;
-	}
+  private DocumentListener cachedListener;
 
-	private class CloseAction extends javax.swing.AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			TextViewerWindow.this.dispose();
-		}
-	}
-	
-	private class CopyAction extends javax.swing.AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			textArea.copy();
-		}
-	}
-	
-	private class SelectAllAction extends javax.swing.AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			textArea.selectAll();
-		}
-	}
-	
-	private class LocalDocumentListener implements DocumentListener {
-		public void changedUpdate(DocumentEvent e) {
-			// nop
-		}
+  private DocumentListener getDocumentListener() {
+    // Expected in GUI thread.
+    DocumentListener cl = this.cachedListener;
+    if (cl == null) {
+      cl = new LocalDocumentListener();
+      this.cachedListener = cl;
+    }
+    return cl;
+  }
 
-		public void insertUpdate(DocumentEvent e) {
-			EventQueue.invokeLater(new Runnable() {
-				// The model is updated outside the GUI thread.
-				// Doing this outside the GUI thread can cause a deadlock.
-				public void run() {
-					if(scrollsOnAppends) {
-						textArea.scrollRectToVisible(new Rectangle(0, Short.MAX_VALUE, 1, Short.MAX_VALUE));
-					}
-				}
-			});
-		}
+  public void setSwingDocument(javax.swing.text.Document document) {
+    Document prevDocument = this.textArea.getDocument();
+    javax.swing.event.DocumentListener listener = this.getDocumentListener();
+    if (prevDocument != null) {
+      prevDocument.removeDocumentListener(listener);
+    }
+    document.addDocumentListener(listener);
+    this.textArea.setDocument(document);
+  }
 
-		public void removeUpdate(DocumentEvent e) {
-			// nop
-		}
-	}
+  private JTextArea createTextArea() {
+    JTextArea textArea = new JTextArea();
+    textArea.setEditable(false);
+    return textArea;
+  }
+
+  private JMenuBar createMenuBar() {
+    JMenuBar menuBar = new JMenuBar();
+    menuBar.add(this.createFileMenu());
+    menuBar.add(this.createEditMenu());
+    return menuBar;
+  }
+
+  private JMenu createFileMenu() {
+    JMenu fileMenu = new JMenu("File");
+    fileMenu.setMnemonic('F');
+    fileMenu.add(ComponentSource.menuItem("Close", 'C', new CloseAction()));
+    return fileMenu;
+  }
+
+  private JMenu createEditMenu() {
+    JMenu fileMenu = new JMenu("Edit");
+    fileMenu.setMnemonic('E');
+    fileMenu.add(ComponentSource.menuItem("Copy", 'C', "ctrl c",
+        new CopyAction()));
+    fileMenu.add(ComponentSource.menuItem("Select All", 'A',
+        new SelectAllAction()));
+    return fileMenu;
+  }
+
+  private class CloseAction extends javax.swing.AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      TextViewerWindow.this.dispose();
+    }
+  }
+
+  private class CopyAction extends javax.swing.AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      textArea.copy();
+    }
+  }
+
+  private class SelectAllAction extends javax.swing.AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      textArea.selectAll();
+    }
+  }
+
+  private class LocalDocumentListener implements DocumentListener {
+    public void changedUpdate(DocumentEvent e) {
+      // nop
+    }
+
+    public void insertUpdate(DocumentEvent e) {
+      EventQueue.invokeLater(new Runnable() {
+        // The model is updated outside the GUI thread.
+        // Doing this outside the GUI thread can cause a deadlock.
+        public void run() {
+          if (scrollsOnAppends) {
+            textArea.scrollRectToVisible(new Rectangle(0, Short.MAX_VALUE, 1,
+                Short.MAX_VALUE));
+          }
+        }
+      });
+    }
+
+    public void removeUpdate(DocumentEvent e) {
+      // nop
+    }
+  }
 }

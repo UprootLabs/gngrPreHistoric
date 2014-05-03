@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 12, 2005
  */
@@ -31,25 +31,26 @@ import java.io.*;
  * Entry point class of the browser application.
  */
 public class EntryPoint extends Canvas {
-	/**
-	 * Launches a browser window. If a browser instance is found
-	 * to already exist, the new browser window is opened in the
-	 * running application.
-	 * <p>
-	 * Note: To run without an "ext" directory (e.g. from the project
-	 * source code in Eclipse) you need to set up the "ext.dirs"
-	 * and/or "ext.files" properties.
-	 */
-    public static void main(String[] args) {
-        try {
-        	ReuseManager.getInstance().launch(args);
-        } catch(Throwable err) {
-        	StringWriter swriter = new StringWriter();
-        	PrintWriter writer = new PrintWriter(swriter);
-        	err.printStackTrace(writer);
-        	writer.flush();
-        	JOptionPane.showMessageDialog(new JFrame(), "An unexpected error occurred during application startup:\r\n" + swriter.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+  /**
+   * Launches a browser window. If a browser instance is found to already exist,
+   * the new browser window is opened in the running application.
+   * <p>
+   * Note: To run without an "ext" directory (e.g. from the project source code
+   * in Eclipse) you need to set up the "ext.dirs" and/or "ext.files"
+   * properties.
+   */
+  public static void main(String[] args) {
+    try {
+      ReuseManager.getInstance().launch(args);
+    } catch (Throwable err) {
+      StringWriter swriter = new StringWriter();
+      PrintWriter writer = new PrintWriter(swriter);
+      err.printStackTrace(writer);
+      writer.flush();
+      JOptionPane.showMessageDialog(new JFrame(),
+          "An unexpected error occurred during application startup:\r\n"
+              + swriter.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
+      System.exit(1);
     }
+  }
 }

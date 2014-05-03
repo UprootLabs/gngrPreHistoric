@@ -17,11 +17,11 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.util;
 
 import java.util.EventListener;
 
 public interface RemovalListener extends EventListener {
-	public void removed(RemovalEvent event);
+  public void removed(RemovalEvent event);
 }

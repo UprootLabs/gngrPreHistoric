@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.renderer;
 
@@ -27,16 +27,19 @@ import java.util.Iterator;
  * A {@link Renderable} with children.
  */
 public interface RCollection extends BoundableRenderable {
-	/**
-	 * Gets the collection of {@link Renderable} children.
-	 */
-	public Iterator getRenderables();
-	public void updateWidgetBounds(int guiX, int guiY);
+  /**
+   * Gets the collection of {@link Renderable} children.
+   */
+  public Iterator getRenderables();
 
-	/**
-	 * Invalidates layout in all descendents.
-	 */
-	public void invalidateLayoutDeep();
-	public void focus();
-	public void blur();
+  public void updateWidgetBounds(int guiX, int guiY);
+
+  /**
+   * Invalidates layout in all descendents.
+   */
+  public void invalidateLayoutDeep();
+
+  public void focus();
+
+  public void blur();
 }

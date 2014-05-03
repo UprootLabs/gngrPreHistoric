@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 import javax.swing.*;
@@ -27,41 +27,44 @@ import java.util.logging.*;
 import org.lobobrowser.util.io.*;
 
 public class IconFactory {
-	private static final Logger logger = Logger.getLogger(IconFactory.class.getName());
-	private static final IconFactory instance = new IconFactory();
-	
-	private IconFactory() {		
-	}
-	
-	public static IconFactory getInstance() {
-		return instance;
-	}
-	
-	private Map<String,ImageIcon> iconMap = new HashMap<String,ImageIcon>();
-	
-	public ImageIcon getIcon(String resourcePath) {
-		try {
-			synchronized(this) {
-				ImageIcon icon = (ImageIcon) this.iconMap.get(resourcePath);
-				if(icon == null) {
-					InputStream in = this.getClass().getResourceAsStream(resourcePath);
-					if(in == null) {
-						logger.warning("getIcon(): Resource path " + resourcePath + " not found.");
-						return null;
-					}
-					try {
-						byte[] imageBytes = IORoutines.load(in, 4096);
-						icon = new ImageIcon(imageBytes);
-						this.iconMap.put(resourcePath, icon);
-					} finally {
-						in.close();
-					}
-				}
-				return icon;
-			}
-		} catch(java.io.IOException ioe) {
-			logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath + " gave error.", ioe);			
-			return null;
-		}
-	}
+  private static final Logger logger = Logger.getLogger(IconFactory.class
+      .getName());
+  private static final IconFactory instance = new IconFactory();
+
+  private IconFactory() {
+  }
+
+  public static IconFactory getInstance() {
+    return instance;
+  }
+
+  private Map<String, ImageIcon> iconMap = new HashMap<String, ImageIcon>();
+
+  public ImageIcon getIcon(String resourcePath) {
+    try {
+      synchronized (this) {
+        ImageIcon icon = (ImageIcon) this.iconMap.get(resourcePath);
+        if (icon == null) {
+          InputStream in = this.getClass().getResourceAsStream(resourcePath);
+          if (in == null) {
+            logger.warning("getIcon(): Resource path " + resourcePath
+                + " not found.");
+            return null;
+          }
+          try {
+            byte[] imageBytes = IORoutines.load(in, 4096);
+            icon = new ImageIcon(imageBytes);
+            this.iconMap.put(resourcePath, icon);
+          } finally {
+            in.close();
+          }
+        }
+        return icon;
+      }
+    } catch (java.io.IOException ioe) {
+      logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath
+          + " gave error.", ioe);
+      return null;
+    }
+  }
 }

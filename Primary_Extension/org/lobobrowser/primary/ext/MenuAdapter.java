@@ -17,19 +17,19 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 public abstract class MenuAdapter implements MenuListener {
-	public void menuCanceled(MenuEvent e) {
-	}
+  public void menuCanceled(MenuEvent e) {
+  }
 
-	public void menuDeselected(MenuEvent e) {
-	}
+  public void menuDeselected(MenuEvent e) {
+  }
 
-	public void menuSelected(MenuEvent e) {
-	}
+  public void menuSelected(MenuEvent e) {
+  }
 }

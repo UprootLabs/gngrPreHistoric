@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 23, 2005
  */
@@ -26,17 +26,17 @@ package org.lobobrowser.html.parser;
 import org.w3c.dom.Element;
 
 class StopException extends Exception {
-	private final Element element;
-	
-	/**
-	 * @param element
-	 */
-	public StopException(Element element) {
-		super();
-		this.element = element;
-	}
-	
-	public Element getElement() {
-		return this.element;
-	}
+  private final Element element;
+
+  /**
+   * @param element
+   */
+  public StopException(Element element) {
+    super();
+    this.element = element;
+  }
+
+  public Element getElement() {
+    return this.element;
+  }
 }

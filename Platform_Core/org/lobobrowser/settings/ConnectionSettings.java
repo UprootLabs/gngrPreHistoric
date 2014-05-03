@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jul 9, 2005
  */
@@ -31,190 +31,207 @@ import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
 
 /**
- * Connection settings. This is a singleton class
- * with an instance obtained by calling {@link #getInstance()}.
+ * Connection settings. This is a singleton class with an instance obtained by
+ * calling {@link #getInstance()}.
  */
 public class ConnectionSettings implements java.io.Serializable {
-	private static final Logger logger = Logger.getLogger(ConnectionSettings.class.getName());
-    private static final ConnectionSettings instance;
-    private static final long serialVersionUID = 22574500000000301L;
-    
-    private Proxy.Type proxyType = Proxy.Type.DIRECT;
-    private InetSocketAddress socketAddress = null;
-    private String userName;
-    private String password;
-    private boolean authenticated;
-    private boolean disableProxyForLocalAddresses;
+  private static final Logger logger = Logger
+      .getLogger(ConnectionSettings.class.getName());
+  private static final ConnectionSettings instance;
+  private static final long serialVersionUID = 22574500000000301L;
 
-    private transient Proxy proxy;
+  private Proxy.Type proxyType = Proxy.Type.DIRECT;
+  private InetSocketAddress socketAddress = null;
+  private String userName;
+  private String password;
+  private boolean authenticated;
+  private boolean disableProxyForLocalAddresses;
 
-	static {
-		ConnectionSettings ins = null;
-		try {
-			ins = (ConnectionSettings) StorageManager.getInstance().retrieveSettings(ConnectionSettings.class.getSimpleName(), ConnectionSettings.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new ConnectionSettings();
-		}
-		instance = ins;		
-	}
+  private transient Proxy proxy;
 
-	private ConnectionSettings() {
-		restoreDefaults();
-	}
-
-	public void restoreDefaults() {
-		this.proxyType = Proxy.Type.DIRECT;
-		this.userName = "";
-		this.password = "";
-		this.authenticated = false;
-		this.socketAddress = null;
-		this.disableProxyForLocalAddresses = true;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
-	
-    /**
-     * Gets the class singleton.
-     */
-	public static ConnectionSettings getInstance() {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-        return instance;    
+  static {
+    ConnectionSettings ins = null;
+    try {
+      ins = (ConnectionSettings) StorageManager.getInstance().retrieveSettings(
+          ConnectionSettings.class.getSimpleName(),
+          ConnectionSettings.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
+          err);
     }
-
-	/**
-	 * Gets a non-<code>null</code> <code>Proxy</code> insteance.
-	 */
-    public Proxy getProxy(String host) {
-    	synchronized(this) {
-    		if(this.proxy == null) {
-    			InetSocketAddress sa = this.socketAddress;
-    			if(this.proxyType == Proxy.Type.DIRECT || sa == null) {
-    				this.proxy = Proxy.NO_PROXY;
-    			}
-    			else {
-    				this.proxy = new Proxy(this.proxyType, sa);
-    			}
-    		}
-    		Proxy proxy = this.proxy;
-    		if(proxy != Proxy.NO_PROXY && this.disableProxyForLocalAddresses) {
-    			if(NetRoutines.isLocalAddress(host)) {
-    				proxy = Proxy.NO_PROXY;
-    			}
-    		}
-    		return proxy;
-    	}    	
+    if (ins == null) {
+      ins = new ConnectionSettings();
     }
-    
-    public PasswordAuthentication getPasswordAuthentication() {
-    	String userName = this.userName;
-    	String password = this.password;
-    	if(!this.isAuthenticated() || userName == null || password == null) {
-    		return null;
-    	}
-    	return new PasswordAuthentication(userName, password.toCharArray());
+    instance = ins;
+  }
+
+  private ConnectionSettings() {
+    restoreDefaults();
+  }
+
+  public void restoreDefaults() {
+    this.proxyType = Proxy.Type.DIRECT;
+    this.userName = "";
+    this.password = "";
+    this.authenticated = false;
+    this.socketAddress = null;
+    this.disableProxyForLocalAddresses = true;
+    synchronized (this) {
+      this.proxy = null;
     }
-    
-	/**
-	 * @return Returns the authenticated.
-	 */
-	public boolean isAuthenticated() {
-		return authenticated;
-	}
-	/**
-	 * @param authenticated The authenticated to set.
-	 */
-	public void setAuthenticated(boolean authenticated) {
-		this.authenticated = authenticated;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
-	/**
-	 * @return Returns the password.
-	 */
-	public String getPassword() {
-		return password;
-	}
-	/**
-	 * @param password The password to set.
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
-	/**
-	 * @return Returns the userName.
-	 */
-	public String getUserName() {
-		return userName;
-	}
-	/**
-	 * @param userName The userName to set.
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
-	/**
-	 * @return Returns the proxyType.
-	 */
-	public Proxy.Type getProxyType() {
-		return proxyType;
-	}
-	/**
-	 * @param proxyType The proxyType to set.
-	 */
-	public void setProxyType(Proxy.Type proxyType) {
-		this.proxyType = proxyType;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
-	
-	/**
-	 * @return Returns the socketAddress.
-	 */
-	public InetSocketAddress getInetSocketAddress() {
-		return socketAddress;
-	}
-	/**
-	 * @param socketAddress The socketAddress to set.
-	 */
-	public void setInetSocketAddress(InetSocketAddress socketAddress) {
-		this.socketAddress = socketAddress;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
-	
-	public boolean isDisableProxyForLocalAddresses() {
-		return disableProxyForLocalAddresses;
-	}
+  }
 
-	public void setDisableProxyForLocalAddresses(
-			boolean disableProxyForLocalAddresses) {
-		this.disableProxyForLocalAddresses = disableProxyForLocalAddresses;
-		synchronized(this) {
-			this.proxy = null;
-		}
-	}
+  /**
+   * Gets the class singleton.
+   */
+  public static ConnectionSettings getInstance() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
+    }
+    return instance;
+  }
 
-	public void save() {
-		try {
-			StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-		} catch(java.io.IOException ioe) {
-			logger.log(Level.WARNING, "save(): Unable to save settings", ioe);
-		}
-	}
+  /**
+   * Gets a non-<code>null</code> <code>Proxy</code> insteance.
+   */
+  public Proxy getProxy(String host) {
+    synchronized (this) {
+      if (this.proxy == null) {
+        InetSocketAddress sa = this.socketAddress;
+        if (this.proxyType == Proxy.Type.DIRECT || sa == null) {
+          this.proxy = Proxy.NO_PROXY;
+        } else {
+          this.proxy = new Proxy(this.proxyType, sa);
+        }
+      }
+      Proxy proxy = this.proxy;
+      if (proxy != Proxy.NO_PROXY && this.disableProxyForLocalAddresses) {
+        if (NetRoutines.isLocalAddress(host)) {
+          proxy = Proxy.NO_PROXY;
+        }
+      }
+      return proxy;
+    }
+  }
+
+  public PasswordAuthentication getPasswordAuthentication() {
+    String userName = this.userName;
+    String password = this.password;
+    if (!this.isAuthenticated() || userName == null || password == null) {
+      return null;
+    }
+    return new PasswordAuthentication(userName, password.toCharArray());
+  }
+
+  /**
+   * @return Returns the authenticated.
+   */
+  public boolean isAuthenticated() {
+    return authenticated;
+  }
+
+  /**
+   * @param authenticated
+   *          The authenticated to set.
+   */
+  public void setAuthenticated(boolean authenticated) {
+    this.authenticated = authenticated;
+    synchronized (this) {
+      this.proxy = null;
+    }
+  }
+
+  /**
+   * @return Returns the password.
+   */
+  public String getPassword() {
+    return password;
+  }
+
+  /**
+   * @param password
+   *          The password to set.
+   */
+  public void setPassword(String password) {
+    this.password = password;
+    synchronized (this) {
+      this.proxy = null;
+    }
+  }
+
+  /**
+   * @return Returns the userName.
+   */
+  public String getUserName() {
+    return userName;
+  }
+
+  /**
+   * @param userName
+   *          The userName to set.
+   */
+  public void setUserName(String userName) {
+    this.userName = userName;
+    synchronized (this) {
+      this.proxy = null;
+    }
+  }
+
+  /**
+   * @return Returns the proxyType.
+   */
+  public Proxy.Type getProxyType() {
+    return proxyType;
+  }
+
+  /**
+   * @param proxyType
+   *          The proxyType to set.
+   */
+  public void setProxyType(Proxy.Type proxyType) {
+    this.proxyType = proxyType;
+    synchronized (this) {
+      this.proxy = null;
+    }
+  }
+
+  /**
+   * @return Returns the socketAddress.
+   */
+  public InetSocketAddress getInetSocketAddress() {
+    return socketAddress;
+  }
+
+  /**
+   * @param socketAddress
+   *          The socketAddress to set.
+   */
+  public void setInetSocketAddress(InetSocketAddress socketAddress) {
+    this.socketAddress = socketAddress;
+    synchronized (this) {
+      this.proxy = null;
+    }
+  }
+
+  public boolean isDisableProxyForLocalAddresses() {
+    return disableProxyForLocalAddresses;
+  }
+
+  public void setDisableProxyForLocalAddresses(
+      boolean disableProxyForLocalAddresses) {
+    this.disableProxyForLocalAddresses = disableProxyForLocalAddresses;
+    synchronized (this) {
+      this.proxy = null;
+    }
+  }
+
+  public void save() {
+    try {
+      StorageManager.getInstance().saveSettings(
+          this.getClass().getSimpleName(), this);
+    } catch (java.io.IOException ioe) {
+      logger.log(Level.WARNING, "save(): Unable to save settings", ioe);
+    }
+  }
 }

@@ -17,36 +17,37 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 /**
- * This class allows trapping the creation of {@link FramePanel} instances.
- * This is useful, for example, if you need to add a listener to every 
+ * This class allows trapping the creation of {@link FramePanel} instances. This
+ * is useful, for example, if you need to add a listener to every
  * <code>FramePanel</code> that is created (e.g. for IFRAMEs).
  */
 public class FramePanelFactorySource {
-	private static final FramePanelFactorySource instance = new FramePanelFactorySource();
-	private volatile FramePanelFactory activeFactory = new DefaultFramePanelFactory();
-	
-	public static FramePanelFactorySource getInstance() {
-		return instance;
-	}
+  private static final FramePanelFactorySource instance = new FramePanelFactorySource();
+  private volatile FramePanelFactory activeFactory = new DefaultFramePanelFactory();
 
-	public FramePanelFactory getActiveFactory() {
-		return activeFactory;
-	}
+  public static FramePanelFactorySource getInstance() {
+    return instance;
+  }
 
-	/**
-	 * Sets a new {@link FramePanelFactory} that is used to
-	 * create <code>FramePanel</code>s as requested by browser
-	 * content (e.g. IFRAMEs in HTML).
-	 * @param activeFactory
-	 */
-	public void setActiveFactory(FramePanelFactory activeFactory) {
-		if(activeFactory == null) {
-			throw new IllegalArgumentException("activeFactory==null");
-		}
-		this.activeFactory = activeFactory;
-	}
+  public FramePanelFactory getActiveFactory() {
+    return activeFactory;
+  }
+
+  /**
+   * Sets a new {@link FramePanelFactory} that is used to create
+   * <code>FramePanel</code>s as requested by browser content (e.g. IFRAMEs in
+   * HTML).
+   * 
+   * @param activeFactory
+   */
+  public void setActiveFactory(FramePanelFactory activeFactory) {
+    if (activeFactory == null) {
+      throw new IllegalArgumentException("activeFactory==null");
+    }
+    this.activeFactory = activeFactory;
+  }
 }

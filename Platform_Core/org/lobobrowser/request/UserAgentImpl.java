@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 13, 2005
  */
@@ -32,84 +32,90 @@ import org.lobobrowser.ua.UserAgent;
  * @author J. H. S.
  */
 public class UserAgentImpl implements UserAgent {
-    private static final UserAgentImpl instance = new UserAgentImpl();
-    //private static final Logger logger = Logger.getLogger(UserAgentImpl.class.getName());
-    
-    private UserAgentImpl() {}
-    
-    public static UserAgentImpl getInstance() {
-        return instance;
-    }
-    
-    public String getName() {
-        return "Lobo";
-    }
-    
-    public String getMajorVersion() {
-    	return "0";
-    }
+  private static final UserAgentImpl instance = new UserAgentImpl();
 
-    public String getMinorVersion() {
-    	return "98.5";
-    }
-    
-    public String getVersion() {
-        return this.getMajorVersion() + "." + this.getMinorVersion();
-    }
+  // private static final Logger logger =
+  // Logger.getLogger(UserAgentImpl.class.getName());
 
-	public String getJavaVersion() {
-		return "";
-	}
-	
-    private volatile String textValue = null;
-    
-    public String getUserAgentString() {
-      return "";
-    }
-    
-    public String toString() {
-    	return this.getUserAgentString();
-    }
-    
-    /**
-     * Removes cached user agent string.
-     */
-    public void invalidateUserAgent() {
-    	this.textValue = null;
-    }
-    
-	/* (non-Javadoc)
-	 * @see org.xamjwg.clientlet.UserAgent#getNameAndVersion()
-	 */
-	public String getNameAndVersion() {
-		return this.getName() + " " + this.getVersion();
-	}
-	
-	public String getInfoUrl() {
-		return "";
-	}
-	
-	private String getOs() {
-		return "";
-	}
+  private UserAgentImpl() {
+  }
 
-//	//Note: This is not being used, but generally use of Strings a WeakHashMap
-//	//keys should be revised.
-//	private Map<String,String> sessionIDMap = new WeakHashMap<String,String>();
-//	
-//	public String getSessionID(java.net.URL url) {
-//		//TODO: Should be a LRU cache instead of a weak hash map.
-//		String host = url.getHost();
-//		String key = url.getProtocol().toLowerCase() + "#" + (host == null ? "" : host.toLowerCase());
-//		synchronized(this) {
-//			String sessionID = this.sessionIDMap.get(key);
-//			if(sessionID == null) {
-//				StringBuffer rawIdentifier = new StringBuffer(key);
-//				rawIdentifier.append(ID.getGlobalProcessID());
-//				sessionID = ID.getHexString(ID.getMD5Bytes(rawIdentifier.toString()));
-//				this.sessionIDMap.put(key, sessionID);
-//			}
-//			return sessionID;
-//		}
-//	}
+  public static UserAgentImpl getInstance() {
+    return instance;
+  }
+
+  public String getName() {
+    return "Lobo";
+  }
+
+  public String getMajorVersion() {
+    return "0";
+  }
+
+  public String getMinorVersion() {
+    return "98.5";
+  }
+
+  public String getVersion() {
+    return this.getMajorVersion() + "." + this.getMinorVersion();
+  }
+
+  public String getJavaVersion() {
+    return "";
+  }
+
+  private volatile String textValue = null;
+
+  public String getUserAgentString() {
+    return "";
+  }
+
+  public String toString() {
+    return this.getUserAgentString();
+  }
+
+  /**
+   * Removes cached user agent string.
+   */
+  public void invalidateUserAgent() {
+    this.textValue = null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.clientlet.UserAgent#getNameAndVersion()
+   */
+  public String getNameAndVersion() {
+    return this.getName() + " " + this.getVersion();
+  }
+
+  public String getInfoUrl() {
+    return "";
+  }
+
+  private String getOs() {
+    return "";
+  }
+
+  // //Note: This is not being used, but generally use of Strings a WeakHashMap
+  // //keys should be revised.
+  // private Map<String,String> sessionIDMap = new WeakHashMap<String,String>();
+  //
+  // public String getSessionID(java.net.URL url) {
+  // //TODO: Should be a LRU cache instead of a weak hash map.
+  // String host = url.getHost();
+  // String key = url.getProtocol().toLowerCase() + "#" + (host == null ? "" :
+  // host.toLowerCase());
+  // synchronized(this) {
+  // String sessionID = this.sessionIDMap.get(key);
+  // if(sessionID == null) {
+  // StringBuffer rawIdentifier = new StringBuffer(key);
+  // rawIdentifier.append(ID.getGlobalProcessID());
+  // sessionID = ID.getHexString(ID.getMD5Bytes(rawIdentifier.toString()));
+  // this.sessionIDMap.put(key, sessionID);
+  // }
+  // return sessionID;
+  // }
+  // }
 }

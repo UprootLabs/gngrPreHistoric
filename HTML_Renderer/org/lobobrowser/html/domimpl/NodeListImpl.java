@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Sep 3, 2005
  */
@@ -27,24 +27,25 @@ import org.lobobrowser.js.*;
 import org.w3c.dom.*;
 import java.util.*;
 
-public class NodeListImpl extends AbstractScriptableDelegate implements NodeList {
-	//Note: class must be public for reflection to work.
-	private final ArrayList nodeList = new ArrayList(); 
-	
-	public NodeListImpl(Collection collection) {
-		super();
-		nodeList.addAll(collection);
-	}
+public class NodeListImpl extends AbstractScriptableDelegate implements
+    NodeList {
+  // Note: class must be public for reflection to work.
+  private final ArrayList nodeList = new ArrayList();
 
-	public int getLength() {
-		return this.nodeList.size();
-	}
-	
-	public Node item(int index) {
-		try {
-			return (Node) this.nodeList.get(index);
-		} catch(IndexOutOfBoundsException iob) {
-			return null;
-		}
-	}
+  public NodeListImpl(Collection collection) {
+    super();
+    nodeList.addAll(collection);
+  }
+
+  public int getLength() {
+    return this.nodeList.size();
+  }
+
+  public Node item(int index) {
+    try {
+      return (Node) this.nodeList.get(index);
+    } catch (IndexOutOfBoundsException iob) {
+      return null;
+    }
+  }
 }

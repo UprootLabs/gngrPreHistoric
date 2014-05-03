@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Nov 5, 2005
  */
@@ -28,23 +28,28 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 abstract interface UIControl {
-	public void setRUIControl(RUIControl ruicontrol);
-	
-	/**
-	 * Called as the control is layed out, either
-	 * the first time HTML layout occurs or when
-	 * the DOM changes. This method should reset
-	 * its state assuming the element has changed,
-	 * and change its preferred size if appropriate.
-	 */
-	public void reset(int availWidth, int availHeight);
-	
-	public Dimension getPreferredSize();
-	public int getVAlign();
-	public void setBounds(int x, int y, int width, int height);
-	public void invalidate();
-	public Color getBackgroundColor();
-//	public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint);
-	public void paint(Graphics g);
-	public java.awt.Component getComponent();
+  public void setRUIControl(RUIControl ruicontrol);
+
+  /**
+   * Called as the control is layed out, either the first time HTML layout
+   * occurs or when the DOM changes. This method should reset its state assuming
+   * the element has changed, and change its preferred size if appropriate.
+   */
+  public void reset(int availWidth, int availHeight);
+
+  public Dimension getPreferredSize();
+
+  public int getVAlign();
+
+  public void setBounds(int x, int y, int width, int height);
+
+  public void invalidate();
+
+  public Color getBackgroundColor();
+
+  // public boolean paintSelection(Graphics g, boolean inSelection,
+  // RenderableSpot startPoint, RenderableSpot endPoint);
+  public void paint(Graphics g);
+
+  public java.awt.Component getComponent();
 }

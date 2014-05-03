@@ -17,20 +17,21 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 public class DelayedPair {
-	public final RenderableContainer targetParent;
-	public final BoundableRenderable child;
-	public final int x;
-	public final int y;
+  public final RenderableContainer targetParent;
+  public final BoundableRenderable child;
+  public final int x;
+  public final int y;
 
-	public DelayedPair(final RenderableContainer parent, final BoundableRenderable child, int x, int y) {
-		super();
-		this.targetParent = parent;
-		this.child = child;
-		this.x = x;
-		this.y = y;
-	}
+  public DelayedPair(final RenderableContainer parent,
+      final BoundableRenderable child, int x, int y) {
+    super();
+    this.targetParent = parent;
+    this.child = child;
+    this.x = x;
+    this.y = y;
+  }
 }

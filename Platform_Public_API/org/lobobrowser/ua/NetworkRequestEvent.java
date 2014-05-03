@@ -19,20 +19,20 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 import java.util.EventObject;
 
 public class NetworkRequestEvent extends EventObject {
-	private final int newState;
-	
-	public NetworkRequestEvent(Object source, int newState) {
-		super(source);
-		this.newState = newState;
-	}
+  private final int newState;
 
-	public int getState() {
-		return newState;
-	}
+  public NetworkRequestEvent(Object source, int newState) {
+    super(source);
+    this.newState = newState;
+  }
+
+  public int getState() {
+    return newState;
+  }
 }

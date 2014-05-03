@@ -17,23 +17,25 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.util.EventListener;
 
 /**
  * A listener of response events.
+ * 
  * @see FramePanel#addResponseListener(ResponseListener)
  */
 public interface ResponseListener extends EventListener {
-	static final ResponseListener[] EMPTY_ARRAY = new ResponseListener[0];
-	
-	/**
-	 * This method is called as soon as a clientlet
-	 * response intended for the event frame has been fully 
-	 * processed. 
-	 * @param event A response event.
-	 */
-	public void responseProcessed(ResponseEvent event);
+  static final ResponseListener[] EMPTY_ARRAY = new ResponseListener[0];
+
+  /**
+   * This method is called as soon as a clientlet response intended for the
+   * event frame has been fully processed.
+   * 
+   * @param event
+   *          A response event.
+   */
+  public void responseProcessed(ResponseEvent event);
 }

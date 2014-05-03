@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import java.awt.Graphics;
@@ -25,29 +25,30 @@ import java.awt.Graphics;
 import org.lobobrowser.html.domimpl.ModelNode;
 
 final class RFloatInfo implements Renderable {
-	private final ModelNode modelNode;
-	private final BoundableRenderable element;
-	private final boolean leftFloat;
-	
-	public RFloatInfo(ModelNode node, BoundableRenderable element, boolean leftFloat) {
-		this.modelNode = node;
-		this.element = element;
-		this.leftFloat = leftFloat;
-	}
+  private final ModelNode modelNode;
+  private final BoundableRenderable element;
+  private final boolean leftFloat;
 
-	public boolean isLeftFloat() {
-		return this.leftFloat;
-	}
-	
-	public ModelNode getModelNode() {
-		return this.modelNode;
-	}
+  public RFloatInfo(ModelNode node, BoundableRenderable element,
+      boolean leftFloat) {
+    this.modelNode = node;
+    this.element = element;
+    this.leftFloat = leftFloat;
+  }
 
-	public void paint(Graphics g) {
-		// nop
-	}
+  public boolean isLeftFloat() {
+    return this.leftFloat;
+  }
 
-	public final BoundableRenderable getRenderable() {
-		return element;
-	}
+  public ModelNode getModelNode() {
+    return this.modelNode;
+  }
+
+  public void paint(Graphics g) {
+    // nop
+  }
+
+  public final BoundableRenderable getRenderable() {
+    return element;
+  }
 }

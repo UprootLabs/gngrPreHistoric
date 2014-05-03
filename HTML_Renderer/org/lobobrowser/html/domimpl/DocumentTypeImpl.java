@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 15, 2005
  */
@@ -29,65 +29,66 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class DocumentTypeImpl extends NodeImpl implements DocumentType {
-	private final String qualifiedName;
-	private final String publicId;
-	private final String systemId;
-	
-	public DocumentTypeImpl(String qname, String publicId, String systemId) {
-		super();
-		this.qualifiedName = qname;
-		this.publicId = publicId;
-		this.systemId = systemId;
-	}
+  private final String qualifiedName;
+  private final String publicId;
+  private final String systemId;
 
-	public String getLocalName() {
-		return null;
-	}
+  public DocumentTypeImpl(String qname, String publicId, String systemId) {
+    super();
+    this.qualifiedName = qname;
+    this.publicId = publicId;
+    this.systemId = systemId;
+  }
 
-	public String getNodeName() {
-		return this.getName();
-	}
+  public String getLocalName() {
+    return null;
+  }
 
-	public String getNodeValue() throws DOMException {
-		return null;
-	}
+  public String getNodeName() {
+    return this.getName();
+  }
 
-	public void setNodeValue(String nodeValue) throws DOMException {
-		// nop
-	}
+  public String getNodeValue() throws DOMException {
+    return null;
+  }
 
-	public short getNodeType() {
-		return org.w3c.dom.Node.DOCUMENT_TYPE_NODE;
-	}
+  public void setNodeValue(String nodeValue) throws DOMException {
+    // nop
+  }
 
-	public String getName() {
-		return this.qualifiedName;
-	}
+  public short getNodeType() {
+    return org.w3c.dom.Node.DOCUMENT_TYPE_NODE;
+  }
 
-	public NamedNodeMap getEntities() {
-		//TODO: DOCTYPE declared entities
-		return null;
-	}
+  public String getName() {
+    return this.qualifiedName;
+  }
 
-	public NamedNodeMap getNotations() {
-		//TODO: DOCTYPE notations
-		return null;
-	}
+  public NamedNodeMap getEntities() {
+    // TODO: DOCTYPE declared entities
+    return null;
+  }
 
-	public String getPublicId() {
-		return this.publicId;
-	}
+  public NamedNodeMap getNotations() {
+    // TODO: DOCTYPE notations
+    return null;
+  }
 
-	public String getSystemId() {
-		return this.systemId;
-	}
+  public String getPublicId() {
+    return this.publicId;
+  }
 
-	public String getInternalSubset() {
-		//TODO: DOCTYPE internal subset
-		return null;
-	}
+  public String getSystemId() {
+    return this.systemId;
+  }
 
-	protected Node createSimilarNode() {
-		return new DocumentTypeImpl(this.qualifiedName, this.publicId, this.systemId);
-	}
+  public String getInternalSubset() {
+    // TODO: DOCTYPE internal subset
+    return null;
+  }
+
+  protected Node createSimilarNode() {
+    return new DocumentTypeImpl(this.qualifiedName, this.publicId,
+        this.systemId);
+  }
 }

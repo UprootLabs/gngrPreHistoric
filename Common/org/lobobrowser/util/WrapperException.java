@@ -17,26 +17,26 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Aug 6, 2005
  */
 package org.lobobrowser.util;
 
 public class WrapperException extends RuntimeException {
-	public WrapperException() {
-		super();
-	}
+  public WrapperException() {
+    super();
+  }
 
-	public WrapperException(String message) {
-		super(message);
-	}
+  public WrapperException(String message) {
+    super(message);
+  }
 
-	public WrapperException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public WrapperException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public WrapperException(Throwable cause) {
-		super(cause);
-	}
+  public WrapperException(Throwable cause) {
+    super(cause);
+  }
 }

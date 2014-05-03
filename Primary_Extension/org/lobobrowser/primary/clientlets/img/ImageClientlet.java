@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.primary.clientlets.img;
 
@@ -35,90 +35,90 @@ import org.lobobrowser.util.io.IORoutines;
 import javax.swing.*;
 
 public class ImageClientlet implements Clientlet {
-	private static final Logger logger = Logger.getLogger(ImageClientlet.class.getName());
-	
-	public ImageClientlet() {
-		super();
-	}
+  private static final Logger logger = Logger.getLogger(ImageClientlet.class
+      .getName());
 
-	public void process(ClientletContext context) throws ClientletException {
-		ClientletResponse response = context.getResponse();
-		String mimeType = response.getMimeType();
-		int contentLength = response.getContentLength();
-		byte[] imageBytes;
-		try {
-			InputStream in = response.getInputStream();
-			if(contentLength == -1) {
-				imageBytes = IORoutines.load(in);
-			}
-			else {
-				imageBytes = IORoutines.loadExact(in, contentLength);
-			}
-		} catch(IOException ioe) {
-			throw new ClientletException(ioe);
-		}
-		if(logger.isLoggable(Level.INFO)) {
-			logger.info("process(): Loaded " + imageBytes.length + " bytes.");
-		}
-		Image image = Toolkit.getDefaultToolkit().createImage(imageBytes);
-		context.setResultingContent(new ImageContent(image, mimeType));
-	}
-	
-	private static class ImageContent implements ComponentContent {
-		private final Image image;
-		private final String mimeType;
-		private final JScrollPane scrollPane;
-		
-		public ImageContent(Image image, String mimeType) {
-			ImageScrollable is = new ImageScrollable(image);
-			JScrollPane sp = new JScrollPane(is);
-			this.scrollPane = sp;
-			this.image = image;
-			this.mimeType = mimeType;
-		}
+  public ImageClientlet() {
+    super();
+  }
 
-		public void addNotify() {
-		}
+  public void process(ClientletContext context) throws ClientletException {
+    ClientletResponse response = context.getResponse();
+    String mimeType = response.getMimeType();
+    int contentLength = response.getContentLength();
+    byte[] imageBytes;
+    try {
+      InputStream in = response.getInputStream();
+      if (contentLength == -1) {
+        imageBytes = IORoutines.load(in);
+      } else {
+        imageBytes = IORoutines.loadExact(in, contentLength);
+      }
+    } catch (IOException ioe) {
+      throw new ClientletException(ioe);
+    }
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("process(): Loaded " + imageBytes.length + " bytes.");
+    }
+    Image image = Toolkit.getDefaultToolkit().createImage(imageBytes);
+    context.setResultingContent(new ImageContent(image, mimeType));
+  }
 
-		public boolean canCopy() {
-			//TODO: Support image copy?
-			return false;
-		}
+  private static class ImageContent implements ComponentContent {
+    private final Image image;
+    private final String mimeType;
+    private final JScrollPane scrollPane;
 
-		public boolean copy() {
-			return false;
-		}
+    public ImageContent(Image image, String mimeType) {
+      ImageScrollable is = new ImageScrollable(image);
+      JScrollPane sp = new JScrollPane(is);
+      this.scrollPane = sp;
+      this.image = image;
+      this.mimeType = mimeType;
+    }
 
-		public Component getComponent() {
-			return this.scrollPane;
-		}
+    public void addNotify() {
+    }
 
-		public Object getContentObject() {
-			return this.image;
-		}
+    public boolean canCopy() {
+      // TODO: Support image copy?
+      return false;
+    }
 
-		public String getDescription() {
-			return this.image.toString();
-		}
+    public boolean copy() {
+      return false;
+    }
 
-		public String getMimeType() {
-			return this.mimeType;
-		}
+    public Component getComponent() {
+      return this.scrollPane;
+    }
 
-		public String getSourceCode() {
-			return null;
-		}
+    public Object getContentObject() {
+      return this.image;
+    }
 
-		public String getTitle() {
-			return null;
-		}
+    public String getDescription() {
+      return this.image.toString();
+    }
 
-		public void removeNotify() {
-			this.image.flush();
-		}
+    public String getMimeType() {
+      return this.mimeType;
+    }
 
-        public void setProperty(String name, Object value) {
-            // NOP
-        }
-	}
+    public String getSourceCode() {
+      return null;
+    }
+
+    public String getTitle() {
+      return null;
+    }
+
+    public void removeNotify() {
+      this.image.flush();
+    }
+
+    public void setProperty(String name, Object value) {
+      // NOP
+    }
+  }
 }

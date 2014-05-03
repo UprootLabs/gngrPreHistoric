@@ -17,21 +17,22 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 class PositionedRenderable {
-	public static final PositionedRenderable[] EMPTY_ARRAY = new PositionedRenderable[0];
-	public final BoundableRenderable renderable;
-	public final boolean verticalAlignable;
-	public final int ordinal;
-	public final boolean isFloat;
-	
-	public PositionedRenderable(final BoundableRenderable renderable, final boolean verticalAlignable, int ordinal, boolean isFloat) {
-		super();
-		this.renderable = renderable;
-		this.verticalAlignable = verticalAlignable;
-		this.ordinal = ordinal;
-		this.isFloat = isFloat;
-	}		
+  public static final PositionedRenderable[] EMPTY_ARRAY = new PositionedRenderable[0];
+  public final BoundableRenderable renderable;
+  public final boolean verticalAlignable;
+  public final int ordinal;
+  public final boolean isFloat;
+
+  public PositionedRenderable(final BoundableRenderable renderable,
+      final boolean verticalAlignable, int ordinal, boolean isFloat) {
+    super();
+    this.renderable = renderable;
+    this.verticalAlignable = verticalAlignable;
+    this.ordinal = ordinal;
+    this.isFloat = isFloat;
+  }
 }

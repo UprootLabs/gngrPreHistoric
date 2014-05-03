@@ -17,21 +17,21 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
 
 public class ColorRenderState extends RenderStateDelegator {
-	private final Color color;
-	
-	public ColorRenderState(RenderState prevRenderState, Color color) {
-		super(prevRenderState);
-		this.color = color;
-	}
+  private final Color color;
 
-	public Color getColor() {
-		return this.color;
-	}
+  public ColorRenderState(RenderState prevRenderState, Color color) {
+    super(prevRenderState);
+    this.color = color;
+  }
+
+  public Color getColor() {
+    return this.color;
+  }
 }

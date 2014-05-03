@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.html.HtmlRendererContext;
@@ -28,59 +28,63 @@ import org.lobobrowser.html.style.ListStyle;
 import org.lobobrowser.html.style.RenderState;
 
 class RList extends BaseRListElement {
-	public RList(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext, RenderableContainer parentContainer, RCollection parent) {
-		super(modelNode, listNesting, pcontext, rcontext, frameContext,	parentContainer);
-		//this.defaultMarginInsets = new java.awt.Insets(5, 0, 5, 0);
-	}
+  public RList(NodeImpl modelNode, int listNesting, UserAgentContext pcontext,
+      HtmlRendererContext rcontext, FrameContext frameContext,
+      RenderableContainer parentContainer, RCollection parent) {
+    super(modelNode, listNesting, pcontext, rcontext, frameContext,
+        parentContainer);
+    // this.defaultMarginInsets = new java.awt.Insets(5, 0, 5, 0);
+  }
 
-	protected void applyStyle(int availWidth, int availHeight) {
-		super.applyStyle(availWidth, availHeight);
-		ListStyle listStyle = this.listStyle;
-		if(listStyle == null || listStyle.type == ListStyle.TYPE_UNSET) {
-			Object rootNode = this.modelNode;
-			if(!(rootNode instanceof HTMLElementImpl)) {
-				return;
-			}
-			HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
-			if(listStyle == null) {
-				listStyle = new ListStyle();
-				this.listStyle = listStyle;
-			}
-			if("ul".equalsIgnoreCase(rootElement.getTagName())) {
-				int listNesting = this.listNesting;
-				if(listNesting == 0) {
-					listStyle.type = ListStyle.TYPE_DISC;
-				}
-				else if(listNesting == 1) {
-					listStyle.type = ListStyle.TYPE_CIRCLE;
-				}
-				else {
-					listStyle.type = ListStyle.TYPE_SQUARE;
-				}
-			}
-			else {
-				listStyle.type = ListStyle.TYPE_DECIMAL;
-			}
-		}	
-	}
+  protected void applyStyle(int availWidth, int availHeight) {
+    super.applyStyle(availWidth, availHeight);
+    ListStyle listStyle = this.listStyle;
+    if (listStyle == null || listStyle.type == ListStyle.TYPE_UNSET) {
+      Object rootNode = this.modelNode;
+      if (!(rootNode instanceof HTMLElementImpl)) {
+        return;
+      }
+      HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
+      if (listStyle == null) {
+        listStyle = new ListStyle();
+        this.listStyle = listStyle;
+      }
+      if ("ul".equalsIgnoreCase(rootElement.getTagName())) {
+        int listNesting = this.listNesting;
+        if (listNesting == 0) {
+          listStyle.type = ListStyle.TYPE_DISC;
+        } else if (listNesting == 1) {
+          listStyle.type = ListStyle.TYPE_CIRCLE;
+        } else {
+          listStyle.type = ListStyle.TYPE_SQUARE;
+        }
+      } else {
+        listStyle.type = ListStyle.TYPE_DECIMAL;
+      }
+    }
+  }
 
-	public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource, int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
-		RenderState renderState = this.modelNode.getRenderState();
-		int counterStart = 1;
-		Object rootNode = this.modelNode;
-		if(!(rootNode instanceof HTMLElementImpl)) {
-			return;
-		}
-		HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
-		String startText = rootElement.getAttribute("start");
-		if(startText != null) {
-			try {
-				counterStart = Integer.parseInt(startText);
-			} catch(NumberFormatException nfe) {
-				// ignore
-			}
-		}
-		renderState.resetCount(DEFAULT_COUNTER_NAME, this.listNesting, counterStart);
-		super.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
-	}
-}	
+  public void doLayout(int availWidth, int availHeight, boolean expandWidth,
+      boolean expandHeight, FloatingBoundsSource floatBoundsSource,
+      int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
+    RenderState renderState = this.modelNode.getRenderState();
+    int counterStart = 1;
+    Object rootNode = this.modelNode;
+    if (!(rootNode instanceof HTMLElementImpl)) {
+      return;
+    }
+    HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
+    String startText = rootElement.getAttribute("start");
+    if (startText != null) {
+      try {
+        counterStart = Integer.parseInt(startText);
+      } catch (NumberFormatException nfe) {
+        // ignore
+      }
+    }
+    renderState
+        .resetCount(DEFAULT_COUNTER_NAME, this.listNesting, counterStart);
+    super.doLayout(availWidth, availHeight, expandWidth, expandHeight,
+        floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
+  }
+}

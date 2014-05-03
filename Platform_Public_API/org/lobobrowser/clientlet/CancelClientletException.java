@@ -19,46 +19,47 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 /**
- * This exception may be thrown from the {@link Clientlet#process(ClientletContext)} method
- * of a clientlet to cancel the request.
- * Doing so will not result in an error page if the clientlet
- * is still processing the web response. Preferably, it should
- * be thrown before reading any input. 
+ * This exception may be thrown from the
+ * {@link Clientlet#process(ClientletContext)} method of a clientlet to cancel
+ * the request. Doing so will not result in an error page if the clientlet is
+ * still processing the web response. Preferably, it should be thrown before
+ * reading any input.
  * <p>
- * This exception may be thrown right after navigation is
- * redirected to another document.
+ * This exception may be thrown right after navigation is redirected to another
+ * document.
+ * 
  * @author J. H. S.
  */
 public class CancelClientletException extends ClientletException {
-	/**
-	 * @param message
-	 */
-	public CancelClientletException(String message) {
-		super(message);
-	}
+  /**
+   * @param message
+   */
+  public CancelClientletException(String message) {
+    super(message);
+  }
 
-	/**
+  /**
 	 */
-	public CancelClientletException() {
-		super("");
-	}
+  public CancelClientletException() {
+    super("");
+  }
 
-	/**
-	 * @param message
-	 * @param rootCause
-	 */
-	public CancelClientletException(String message, Throwable rootCause) {
-		super(message, rootCause);
-	}
+  /**
+   * @param message
+   * @param rootCause
+   */
+  public CancelClientletException(String message, Throwable rootCause) {
+    super(message, rootCause);
+  }
 
-	/**
-	 * @param rootCause
-	 */
-	public CancelClientletException(Throwable rootCause) {
-		super(rootCause);
-	}
+  /**
+   * @param rootCause
+   */
+  public CancelClientletException(Throwable rootCause) {
+    super(rootCause);
+  }
 }

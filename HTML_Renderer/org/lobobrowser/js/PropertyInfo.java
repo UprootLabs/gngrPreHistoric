@@ -17,43 +17,43 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.js;
 
 import java.lang.reflect.Method;
 
 public class PropertyInfo {
-	private final String name;
-	private final Class propertyType;
-	private Method getter, setter;
-	
-	public PropertyInfo(String name, Class propType) {
-		super();
-		this.name = name;
-		this.propertyType = propType;
-	}
+  private final String name;
+  private final Class propertyType;
+  private Method getter, setter;
 
-	public Method getGetter() {
-		return getter;
-	}
+  public PropertyInfo(String name, Class propType) {
+    super();
+    this.name = name;
+    this.propertyType = propType;
+  }
 
-	public void setGetter(Method getter) {
-		this.getter = getter;
-	}
+  public Method getGetter() {
+    return getter;
+  }
 
-	public Method getSetter() {
-		return setter;
-	}
+  public void setGetter(Method getter) {
+    this.getter = getter;
+  }
 
-	public void setSetter(Method setter) {
-		this.setter = setter;
-	}
-	
-	public String getName() {
-		return this.name;
-	}
+  public Method getSetter() {
+    return setter;
+  }
 
-	public Class getPropertyType() {
-		return propertyType;
-	}
+  public void setSetter(Method setter) {
+    this.setter = setter;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public Class getPropertyType() {
+    return propertyType;
+  }
 }

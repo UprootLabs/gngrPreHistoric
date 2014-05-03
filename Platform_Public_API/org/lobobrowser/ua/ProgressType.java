@@ -19,35 +19,37 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
- * Enumeration with different the different types of
- * request/response progress qualifiers.
+ * Enumeration with different the different types of request/response progress
+ * qualifiers.
+ * 
  * @see NavigatorProgressEvent#getProgressType()
  */
 public enum ProgressType {
-	 /** This is the initial state. */
-	 NONE,                    
-	 /** The client is attempting to connect to the server */
-	 CONNECTING,              
-	 /** The client is sending POST data */
-	 SENDING,                 
-	 /** The client is waiting for a response from the server. POST
-	  *  data, if any, has been sent.
-	  */
-	 WAITING_FOR_RESPONSE,
-	 /**
-	  * Content is starting to load.
-	  */
-	 CONTENT_LOADING,         
-	 /**
-	  * Additional processing of the document is being performed.
-	  */
-	 BUILDING,
-	 /**
-	  * All operations done.
-	  */
-	 DONE
+  /** This is the initial state. */
+  NONE,
+  /** The client is attempting to connect to the server */
+  CONNECTING,
+  /** The client is sending POST data */
+  SENDING,
+  /**
+   * The client is waiting for a response from the server. POST data, if any,
+   * has been sent.
+   */
+  WAITING_FOR_RESPONSE,
+  /**
+   * Content is starting to load.
+   */
+  CONTENT_LOADING,
+  /**
+   * Additional processing of the document is being performed.
+   */
+  BUILDING,
+  /**
+   * All operations done.
+   */
+  DONE
 }

@@ -17,16 +17,18 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.security;
 
 import java.security.*;
 
 public class GenericLocalPermission extends BasicPermission {
-	//public static final java.security.Permission FRAME_PARENT = new GenericLocalPermission("frame-parent");
-	public static final java.security.Permission EXT_GENERIC = new GenericLocalPermission("extension");
+  // public static final java.security.Permission FRAME_PARENT = new
+  // GenericLocalPermission("frame-parent");
+  public static final java.security.Permission EXT_GENERIC = new GenericLocalPermission(
+      "extension");
 
-	public GenericLocalPermission(String name) {
-		super(name);
-	}	
+  public GenericLocalPermission(String name) {
+    super(name);
+  }
 }

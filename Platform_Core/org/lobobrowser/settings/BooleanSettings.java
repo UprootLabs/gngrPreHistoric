@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
@@ -27,66 +27,70 @@ import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
 
 /**
- * Miscellaneous settings in the form of boolean values. This is a singleton class
- * with an instance obtained by calling {@link #getInstance()}.
+ * Miscellaneous settings in the form of boolean values. This is a singleton
+ * class with an instance obtained by calling {@link #getInstance()}.
  */
 public class BooleanSettings implements Serializable {
-	private static final Logger logger = Logger.getLogger(BooleanSettings.class.getName());
-    private static final BooleanSettings instance;
-    private static final long serialVersionUID = 22574500900000604L;
+  private static final Logger logger = Logger.getLogger(BooleanSettings.class
+      .getName());
+  private static final BooleanSettings instance;
+  private static final long serialVersionUID = 22574500900000604L;
 
-    /**
-     * Whether chunked encoding is used in POSTs. Note that
-     * some servers (e.g. Wikimedia) apparently expect a
-     * content length.
-     */
-    private boolean httpUseChunkedEncodingPOST;
-    
-    static {
-    	BooleanSettings ins = null;
-		try {
-			ins = (BooleanSettings) StorageManager.getInstance().retrieveSettings(BooleanSettings.class.getSimpleName(), BooleanSettings.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new BooleanSettings();
-		}
-		instance = ins;    	
-    }
+  /**
+   * Whether chunked encoding is used in POSTs. Note that some servers (e.g.
+   * Wikimedia) apparently expect a content length.
+   */
+  private boolean httpUseChunkedEncodingPOST;
 
-    private BooleanSettings() {
-    	this.resetDefaults();
+  static {
+    BooleanSettings ins = null;
+    try {
+      ins = (BooleanSettings) StorageManager.getInstance().retrieveSettings(
+          BooleanSettings.class.getSimpleName(),
+          BooleanSettings.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "Unable to retrieve settings.", err);
     }
+    if (ins == null) {
+      ins = new BooleanSettings();
+    }
+    instance = ins;
+  }
 
-    private void resetDefaults() {
-    	this.httpUseChunkedEncodingPOST = false;
-    }
-    
-    /**
-     * Gets the class singleton.
-     */
-    public static BooleanSettings getInstance() {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-    	return instance;
-    }
-    
-    public void save() {
-    	try {
-    		StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    	} catch(java.io.IOException ioe) {
-    		logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
-    	}
-    }
+  private BooleanSettings() {
+    this.resetDefaults();
+  }
 
-	public boolean isHttpUseChunkedEncodingPOST() {
-		return httpUseChunkedEncodingPOST;
-	}
+  private void resetDefaults() {
+    this.httpUseChunkedEncodingPOST = false;
+  }
 
-	public void setHttpUseChunkedEncodingPOST(boolean httpUseChunkedEncodingPOST) {
-		this.httpUseChunkedEncodingPOST = httpUseChunkedEncodingPOST;
-	}
+  /**
+   * Gets the class singleton.
+   */
+  public static BooleanSettings getInstance() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
+    }
+    return instance;
+  }
+
+  public void save() {
+    try {
+      StorageManager.getInstance().saveSettings(
+          this.getClass().getSimpleName(), this);
+    } catch (java.io.IOException ioe) {
+      logger.log(Level.WARNING, "Unable to save settings: "
+          + this.getClass().getSimpleName(), ioe);
+    }
+  }
+
+  public boolean isHttpUseChunkedEncodingPOST() {
+    return httpUseChunkedEncodingPOST;
+  }
+
+  public void setHttpUseChunkedEncodingPOST(boolean httpUseChunkedEncodingPOST) {
+    this.httpUseChunkedEncodingPOST = httpUseChunkedEncodingPOST;
+  }
 }

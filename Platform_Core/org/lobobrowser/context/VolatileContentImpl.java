@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on May 21, 2005
  */
@@ -35,52 +35,54 @@ import java.util.*;
  * @author J. H. S.
  */
 public class VolatileContentImpl implements ContentBuffer {
-	private static final Map<Long,ContentBuffer> volatileMap = new WeakValueHashMap();
-	private final long id;
-	private final String contentType;
-	private final byte[] bytes;
-	
-	/**
+  private static final Map<Long, ContentBuffer> volatileMap = new WeakValueHashMap();
+  private final long id;
+  private final String contentType;
+  private final byte[] bytes;
+
+  /**
 	 * 
 	 */
-	public VolatileContentImpl(String contentType, byte[] bytes) {
-		super();
-		this.id = ID.generateLong();
-		this.contentType = contentType;
-		this.bytes = bytes;
-		synchronized(volatileMap) {
-			volatileMap.put(new Long(this.id), this);
-		}
-	}
+  public VolatileContentImpl(String contentType, byte[] bytes) {
+    super();
+    this.id = ID.generateLong();
+    this.contentType = contentType;
+    this.bytes = bytes;
+    synchronized (volatileMap) {
+      volatileMap.put(new Long(this.id), this);
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.clientlet.VolatileContent#getURL()
-	 */
-	public URL getURL() {
-		try {
-			return new URL("vc:" + this.id);
-		} catch(MalformedURLException mfu) {
-			throw new IllegalStateException(mfu);
-		}
-	}
-	
-	public static VolatileContentImpl getVolatileContent(long id) {
-		synchronized(volatileMap) {
-			return (VolatileContentImpl) volatileMap.get(new Long(id));
-		}
-	}
-	
-	/**
-	 * @return Returns the bytes.
-	 */
-	public byte[] getBytes() {
-		return bytes;
-	}
-	
-	/**
-	 * @return Returns the contentType.
-	 */
-	public String getContentType() {
-		return contentType;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.clientlet.VolatileContent#getURL()
+   */
+  public URL getURL() {
+    try {
+      return new URL("vc:" + this.id);
+    } catch (MalformedURLException mfu) {
+      throw new IllegalStateException(mfu);
+    }
+  }
+
+  public static VolatileContentImpl getVolatileContent(long id) {
+    synchronized (volatileMap) {
+      return (VolatileContentImpl) volatileMap.get(new Long(id));
+    }
+  }
+
+  /**
+   * @return Returns the bytes.
+   */
+  public byte[] getBytes() {
+    return bytes;
+  }
+
+  /**
+   * @return Returns the contentType.
+   */
+  public String getContentType() {
+    return contentType;
+  }
 }

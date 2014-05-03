@@ -17,62 +17,57 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.context;
 
 import java.util.*;
 import org.lobobrowser.clientlet.*;
 import org.lobobrowser.security.*;
 
-public class ClientletFactory
-{
-	//private static final Logger logger = Logger.getLogger(ClientletFactory.class.getName());
-    private static ClientletFactory instance;
-        
-    private ClientletFactory()
-    {
-    	this.addClientletSelector(new CoreClientletSelector());
-    }
-    
-    public static ClientletFactory getInstance() 
-    {
-        if(instance == null) 
-        {
-            synchronized(ClientletFactory.class) 
-            {
-                if(instance == null) 
-                {
-                    instance = new ClientletFactory();
-                }
-            }
+public class ClientletFactory {
+  // private static final Logger logger =
+  // Logger.getLogger(ClientletFactory.class.getName());
+  private static ClientletFactory instance;
+
+  private ClientletFactory() {
+    this.addClientletSelector(new CoreClientletSelector());
+  }
+
+  public static ClientletFactory getInstance() {
+    if (instance == null) {
+      synchronized (ClientletFactory.class) {
+        if (instance == null) {
+          instance = new ClientletFactory();
         }
-        return instance;
+      }
     }
-        
-    private final List<ClientletSelector> selectors = new LinkedList<ClientletSelector>();
-    
-    public void addClientletSelector(ClientletSelector selector) {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-    	synchronized(this) {
-    		this.selectors.add(0, selector);
-    	}
+    return instance;
+  }
+
+  private final List<ClientletSelector> selectors = new LinkedList<ClientletSelector>();
+
+  public void addClientletSelector(ClientletSelector selector) {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
-    
-    public Clientlet getClientlet(ClientletRequest request, ClientletResponse response) 
-    {
-        synchronized(this) 
-        {
-        	for(ClientletSelector selector : this.selectors) {
-        		Clientlet clientlet = selector.select(request, response);
-        		if(clientlet == null) {
-        			continue;
-        		}
-        		return clientlet;
-        	}
+    synchronized (this) {
+      this.selectors.add(0, selector);
+    }
+  }
+
+  public Clientlet getClientlet(ClientletRequest request,
+      ClientletResponse response) {
+    synchronized (this) {
+      for (ClientletSelector selector : this.selectors) {
+        Clientlet clientlet = selector.select(request, response);
+        if (clientlet == null) {
+          continue;
         }
-        throw new IllegalStateException("No clientlets found for response: " + response + ".");
-    }    
+        return clientlet;
+      }
+    }
+    throw new IllegalStateException("No clientlets found for response: "
+        + response + ".");
+  }
 }

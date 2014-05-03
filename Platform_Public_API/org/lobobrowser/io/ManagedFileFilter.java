@@ -19,18 +19,20 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.io;
 
 /**
  * A filter of managed files.
+ * 
  * @see org.lobobrowser.io.ManagedFile#listFiles(ManagedFileFilter)
  * @author J. H. S.
  */
 public interface ManagedFileFilter {
-	/**
-	 * @param file A managed file.
-	 * @return True if the file is accepted by the filter, false otherwise.
-	 */
-	public boolean accept(ManagedFile file);
+  /**
+   * @param file
+   *          A managed file.
+   * @return True if the file is accepted by the filter, false otherwise.
+   */
+  public boolean accept(ManagedFile file);
 }

@@ -19,39 +19,40 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 /**
- * Thrown when a clientlet requires a newer navigator version than
- * the one running.
+ * Thrown when a clientlet requires a newer navigator version than the one
+ * running.
  */
 public class NavigatorVersionException extends ClientletException {
-	private final String expectingVersion;
-	
-	public NavigatorVersionException(String message, String expectingVersion) {
-		super(message);
-		this.expectingVersion = expectingVersion;
-	}
-	
-	public String getExpectingVersion() {
-		return expectingVersion;
-	}
+  private final String expectingVersion;
 
-	/**
-	 * @param message
-	 * @param rootCause
-	 */
-	public NavigatorVersionException(String message, String expectingVersion, Throwable rootCause) {
-		super(message, rootCause);
-		this.expectingVersion = expectingVersion;
-	}
+  public NavigatorVersionException(String message, String expectingVersion) {
+    super(message);
+    this.expectingVersion = expectingVersion;
+  }
 
-	/**
-	 * @param rootCause
-	 */
-	public NavigatorVersionException(String expectingVersion, Throwable rootCause) {
-		super(rootCause);
-		this.expectingVersion = expectingVersion;
-	}
+  public String getExpectingVersion() {
+    return expectingVersion;
+  }
+
+  /**
+   * @param message
+   * @param rootCause
+   */
+  public NavigatorVersionException(String message, String expectingVersion,
+      Throwable rootCause) {
+    super(message, rootCause);
+    this.expectingVersion = expectingVersion;
+  }
+
+  /**
+   * @param rootCause
+   */
+  public NavigatorVersionException(String expectingVersion, Throwable rootCause) {
+    super(rootCause);
+    this.expectingVersion = expectingVersion;
+  }
 }

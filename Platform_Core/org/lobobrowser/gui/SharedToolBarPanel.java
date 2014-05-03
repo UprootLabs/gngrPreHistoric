@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.awt.Dimension;
@@ -29,11 +29,11 @@ import javax.swing.JPanel;
  * The shared toolbar component.
  */
 public class SharedToolBarPanel extends JPanel {
-	public SharedToolBarPanel() {
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-	}
-	
-	public Dimension getPreferredSize() {
-		return new Dimension(1, 32);
-	}
+  public SharedToolBarPanel() {
+    this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+  }
+
+  public Dimension getPreferredSize() {
+    return new Dimension(1, 32);
+  }
 }

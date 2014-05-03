@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: info@xamjwg.org
-*/
+ */
 /*
  * Created on Sep 18, 2005
  */
@@ -31,83 +31,80 @@ import org.lobobrowser.util.*;
 import java.util.logging.*;
 
 public class PrimaryClientletSelector implements ClientletSelector {
-	private static final Logger logger = Logger.getLogger(PrimaryClientletSelector.class.getName());
-	
-	public PrimaryClientletSelector() {
-		super();
-	}
+  private static final Logger logger = Logger
+      .getLogger(PrimaryClientletSelector.class.getName());
 
-	public Clientlet select(ClientletRequest request, ClientletResponse response) {
-		// Don't try to catch too much here. 
-		// Clientlets here are not overriddable.
-		
-		String mimeType = response.getMimeType();
-		if(logger.isLoggable(Level.INFO)) {
-			logger.info("select(): mimeType=" + mimeType);
-		}
-		String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
-		if("text/html".equals(mimeTypeTL)) {
-			//TODO: XHTML needs its own clientlet.
-			return new HtmlClientlet();
-		}
-		else if("image/jpeg".equals(mimeTypeTL) ||
-				"image/jpg".equals(mimeTypeTL) ||
-				"image/gif".equals(mimeTypeTL) ||
-				"image/png".equals(mimeTypeTL)) {
-			return new ImageClientlet();
-		}
-		else if(mimeType == null || "application/octet-stream".equals(mimeTypeTL) || "content/unknown".equals(mimeTypeTL)) {
-			
-			String path = response.getResponseURL().getPath();
-			int lastDotIdx = path.lastIndexOf('.');
-			String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx+1);
-			String extensionTL = extension.toLowerCase();
-			if("html".equals(extensionTL) || "htm".equals(extensionTL) || extensionTL.length() == 0) {
-				return new HtmlClientlet();
-			}
-			else if("gif".equals(extensionTL) || "jpg".equals(extensionTL) || "png".equals(extensionTL)) {
-				return new ImageClientlet();
-			}
-			else {
-				return null;
-			}
-		}
-		else {
-			return null;
-		}
-	}
+  public PrimaryClientletSelector() {
+    super();
+  }
 
-	public Clientlet lastResortSelect(ClientletRequest request, ClientletResponse response) {
-		String mimeType = response.getMimeType();
-		String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
-		if(mimeTypeTL != null && mimeTypeTL.startsWith("text/")) {
-			return new TextClientlet();
-		}		
-		else if("application/xhtml+xml".equals(mimeTypeTL)) {
-			//TODO: XHTML needs its own clientlet.
-			return new HtmlClientlet();
-		}
-		else {
-			String path = response.getResponseURL().getPath();
-			int lastDotIdx = path.lastIndexOf('.');
-			String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx+1);
-			String extensionTL = extension.toLowerCase();			
-			if("xhtml".equals(extensionTL)) {
-				return new HtmlClientlet();
-			}
-			else if("txt".equals(extensionTL) || "xml".equals(extensionTL) || "svg".equals(extensionTL) || "rss".equals(extensionTL) || "xaml".equals(extensionTL)) {
-				return new TextClientlet();
-			}
-			else if(mimeType == null) {
-				// If mime-type is completely missing,
-				// disregard extension and assume HTML.
-				// Works for 
-				// DLink router authentication page.
-				return new HtmlClientlet();
-			}
-			else {
-				return new DownloadClientlet();
-			}
-		}
-	}
+  public Clientlet select(ClientletRequest request, ClientletResponse response) {
+    // Don't try to catch too much here.
+    // Clientlets here are not overriddable.
+
+    String mimeType = response.getMimeType();
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("select(): mimeType=" + mimeType);
+    }
+    String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
+    if ("text/html".equals(mimeTypeTL)) {
+      // TODO: XHTML needs its own clientlet.
+      return new HtmlClientlet();
+    } else if ("image/jpeg".equals(mimeTypeTL)
+        || "image/jpg".equals(mimeTypeTL) || "image/gif".equals(mimeTypeTL)
+        || "image/png".equals(mimeTypeTL)) {
+      return new ImageClientlet();
+    } else if (mimeType == null
+        || "application/octet-stream".equals(mimeTypeTL)
+        || "content/unknown".equals(mimeTypeTL)) {
+
+      String path = response.getResponseURL().getPath();
+      int lastDotIdx = path.lastIndexOf('.');
+      String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx + 1);
+      String extensionTL = extension.toLowerCase();
+      if ("html".equals(extensionTL) || "htm".equals(extensionTL)
+          || extensionTL.length() == 0) {
+        return new HtmlClientlet();
+      } else if ("gif".equals(extensionTL) || "jpg".equals(extensionTL)
+          || "png".equals(extensionTL)) {
+        return new ImageClientlet();
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  public Clientlet lastResortSelect(ClientletRequest request,
+      ClientletResponse response) {
+    String mimeType = response.getMimeType();
+    String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
+    if (mimeTypeTL != null && mimeTypeTL.startsWith("text/")) {
+      return new TextClientlet();
+    } else if ("application/xhtml+xml".equals(mimeTypeTL)) {
+      // TODO: XHTML needs its own clientlet.
+      return new HtmlClientlet();
+    } else {
+      String path = response.getResponseURL().getPath();
+      int lastDotIdx = path.lastIndexOf('.');
+      String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx + 1);
+      String extensionTL = extension.toLowerCase();
+      if ("xhtml".equals(extensionTL)) {
+        return new HtmlClientlet();
+      } else if ("txt".equals(extensionTL) || "xml".equals(extensionTL)
+          || "svg".equals(extensionTL) || "rss".equals(extensionTL)
+          || "xaml".equals(extensionTL)) {
+        return new TextClientlet();
+      } else if (mimeType == null) {
+        // If mime-type is completely missing,
+        // disregard extension and assume HTML.
+        // Works for
+        // DLink router authentication page.
+        return new HtmlClientlet();
+      } else {
+        return new DownloadClientlet();
+      }
+    }
+  }
 }

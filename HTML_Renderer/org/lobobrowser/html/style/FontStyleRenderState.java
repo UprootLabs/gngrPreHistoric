@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.style;
 
@@ -31,88 +31,89 @@ import java.util.Map;
 import org.lobobrowser.util.gui.FontFactory;
 
 public class FontStyleRenderState extends RenderStateDelegator {
-	private final int style;
-	private final Integer superscript;
-	
-	public FontStyleRenderState(RenderState prevRenderState, int style) {
-		this(prevRenderState, style, null);
-	}
+  private final int style;
+  private final Integer superscript;
 
-	FontStyleRenderState(RenderState prevRenderState, int style, Integer superscript) {
-		super(prevRenderState);
-		this.style = style;
-		this.superscript = superscript;
-	}
+  public FontStyleRenderState(RenderState prevRenderState, int style) {
+    this(prevRenderState, style, null);
+  }
 
-	public static FontStyleRenderState createSuperscriptFontStyleRenderState (RenderState prevRenderState,
-			Integer superscript){
-		return new FontStyleRenderState(prevRenderState, prevRenderState.getFont().getStyle(), superscript); 
-	}
+  FontStyleRenderState(RenderState prevRenderState, int style,
+      Integer superscript) {
+    super(prevRenderState);
+    this.style = style;
+    this.superscript = superscript;
+  }
 
-	
-	private Font iFont;
-	
-	public Font getFont() {
-		Font f = this.iFont;
-		if(f != null) {
-			return f;
-		}
-		Font parentFont = this.delegate.getFont();
-		if (parentFont.getStyle() != this.style){
-		f = parentFont.deriveFont(this.style | parentFont.getStyle());
-		} else {
-			f = parentFont;
-		}
-		f = FontFactory.superscriptFont(f, superscript);
-		
-		this.iFont = f;
-		return f;		
-	}
+  public static FontStyleRenderState createSuperscriptFontStyleRenderState(
+      RenderState prevRenderState, Integer superscript) {
+    return new FontStyleRenderState(prevRenderState, prevRenderState.getFont()
+        .getStyle(), superscript);
+  }
 
-	private FontMetrics iFontMetrics;
-	
-	public FontMetrics getFontMetrics() {
-		FontMetrics fm = this.iFontMetrics;
-		if(fm == null) {
-			//TODO getFontMetrics deprecated. How to get text width?
-			fm = Toolkit.getDefaultToolkit().getFontMetrics(this.getFont());
-			this.iFontMetrics = fm;
-		}
-		return fm;
-	}
+  private Font iFont;
 
-	public void invalidate() {
-		this.delegate.invalidate();
-		this.iFont = null;
-		this.iFontMetrics = null;
-		Map map = this.iWordInfoMap;
-		if(map != null) {
-			map.clear();
-		}
-	}
+  public Font getFont() {
+    Font f = this.iFont;
+    if (f != null) {
+      return f;
+    }
+    Font parentFont = this.delegate.getFont();
+    if (parentFont.getStyle() != this.style) {
+      f = parentFont.deriveFont(this.style | parentFont.getStyle());
+    } else {
+      f = parentFont;
+    }
+    f = FontFactory.superscriptFont(f, superscript);
 
-	Map iWordInfoMap = null;
-	
-	public final WordInfo getWordInfo(String word) {
-		// Expected to be called only in the GUI (rendering) thread.
-		// No synchronization necessary.
-		Map map = this.iWordInfoMap;
-		if(map == null) {
-			map = new HashMap(1);
-			this.iWordInfoMap = map;
-		}
-		WordInfo wi = (WordInfo) map.get(word);
-		if(wi != null) {
-			return wi;
-		}
-		wi = new WordInfo();
-		FontMetrics fm = this.getFontMetrics();
-		wi.fontMetrics = fm;
-		wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
-		wi.descent = fm.getDescent();
-		wi.height = fm.getHeight();
-		wi.width = fm.stringWidth(word);
-		map.put(word, wi);
-		return wi;
-	}
+    this.iFont = f;
+    return f;
+  }
+
+  private FontMetrics iFontMetrics;
+
+  public FontMetrics getFontMetrics() {
+    FontMetrics fm = this.iFontMetrics;
+    if (fm == null) {
+      // TODO getFontMetrics deprecated. How to get text width?
+      fm = Toolkit.getDefaultToolkit().getFontMetrics(this.getFont());
+      this.iFontMetrics = fm;
+    }
+    return fm;
+  }
+
+  public void invalidate() {
+    this.delegate.invalidate();
+    this.iFont = null;
+    this.iFontMetrics = null;
+    Map map = this.iWordInfoMap;
+    if (map != null) {
+      map.clear();
+    }
+  }
+
+  Map iWordInfoMap = null;
+
+  public final WordInfo getWordInfo(String word) {
+    // Expected to be called only in the GUI (rendering) thread.
+    // No synchronization necessary.
+    Map map = this.iWordInfoMap;
+    if (map == null) {
+      map = new HashMap(1);
+      this.iWordInfoMap = map;
+    }
+    WordInfo wi = (WordInfo) map.get(word);
+    if (wi != null) {
+      return wi;
+    }
+    wi = new WordInfo();
+    FontMetrics fm = this.getFontMetrics();
+    wi.fontMetrics = fm;
+    wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
+    wi.descent = fm.getDescent();
+    wi.height = fm.getHeight();
+    wi.width = fm.stringWidth(word);
+    map.put(word, wi);
+    return wi;
+  }
 }

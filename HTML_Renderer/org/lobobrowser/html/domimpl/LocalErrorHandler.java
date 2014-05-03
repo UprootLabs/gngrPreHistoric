@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 22, 2005
  */
@@ -29,23 +29,24 @@ import org.xml.sax.SAXParseException;
 import java.util.logging.*;
 
 class LocalErrorHandler implements ErrorHandler {
-	private static final Logger logger = Logger.getLogger(LocalErrorHandler.class.getName());
+  private static final Logger logger = Logger.getLogger(LocalErrorHandler.class
+      .getName());
 
-	/**
-	 * @param context
-	 */
-	public LocalErrorHandler() {
-	}
+  /**
+   * @param context
+   */
+  public LocalErrorHandler() {
+  }
 
-	public void warning(SAXParseException exception) throws SAXException {
-		logger.log(Level.WARNING,exception.getMessage(), exception.getCause());
-	}
+  public void warning(SAXParseException exception) throws SAXException {
+    logger.log(Level.WARNING, exception.getMessage(), exception.getCause());
+  }
 
-	public void error(SAXParseException exception) throws SAXException {
-		logger.log(Level.SEVERE,exception.getMessage(), exception.getCause());
-	}
+  public void error(SAXParseException exception) throws SAXException {
+    logger.log(Level.SEVERE, exception.getMessage(), exception.getCause());
+  }
 
-	public void fatalError(SAXParseException exception) throws SAXException {
-		logger.log(Level.SEVERE,exception.getMessage(), exception.getCause());
-	}
+  public void fatalError(SAXParseException exception) throws SAXException {
+    logger.log(Level.SEVERE, exception.getMessage(), exception.getCause());
+  }
 }

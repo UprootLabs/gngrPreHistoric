@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 14, 2005
  */
@@ -32,36 +32,41 @@ import org.lobobrowser.main.*;
  * @author J. H. S.
  */
 public class ResURLConnection extends URLConnection {
-    public ResURLConnection(URL url) {
-        super(url);
-    }
-    
-    /* (non-Javadoc)
-     * @see java.net.URLConnection#connect()
-     */
-    public void connect() throws IOException {    
-    }
+  public ResURLConnection(URL url) {
+    super(url);
+  }
 
-    /* (non-Javadoc)
-     * @see java.net.URLConnection#getInputStream()
-     */
-    public InputStream getInputStream() throws IOException {
-    	String host = this.url.getHost();
-    	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    	if(classLoader == null) {
-    	    classLoader = this.getClass().getClassLoader();
-    	}
-        String file = this.url.getPath();
-        InputStream in = classLoader.getResourceAsStream(file);
-        if(in == null) {
-            if(file.startsWith("/")) {
-                file = file.substring(1);
-                in = classLoader.getResourceAsStream(file);
-                if(in == null) {
-                    throw new IOException("Resource " + file + " not found in " + host + ".");
-                }
-            }
-        }
-        return in;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#connect()
+   */
+  public void connect() throws IOException {
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#getInputStream()
+   */
+  public InputStream getInputStream() throws IOException {
+    String host = this.url.getHost();
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    if (classLoader == null) {
+      classLoader = this.getClass().getClassLoader();
     }
+    String file = this.url.getPath();
+    InputStream in = classLoader.getResourceAsStream(file);
+    if (in == null) {
+      if (file.startsWith("/")) {
+        file = file.substring(1);
+        in = classLoader.getResourceAsStream(file);
+        if (in == null) {
+          throw new IOException("Resource " + file + " not found in " + host
+              + ".");
+        }
+      }
+    }
+    return in;
+  }
 }

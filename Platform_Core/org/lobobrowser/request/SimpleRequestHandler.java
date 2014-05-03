@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 16, 2005
  */
@@ -32,91 +32,98 @@ import org.lobobrowser.ua.*;
 
 /**
  * Request handler used by request().
+ * 
  * @author J. H. S.
  */
 public abstract class SimpleRequestHandler implements RequestHandler {
-	private static final Logger logger = Logger.getLogger(SimpleRequestHandler.class.getName());
-	private final ClientletRequest request;
-	private final RequestType requestType;
-	
-	public SimpleRequestHandler(boolean forNewWindow, URL url, RequestType requestType) {
-		this.requestType = requestType;
-		this.request = new ClientletRequestImpl(forNewWindow, url, requestType);
-	}
-	
-	public SimpleRequestHandler(URL url, RequestType requestType) {
-		this.requestType = requestType;
-		this.request = new ClientletRequestImpl(url, requestType);
-	}	
+  private static final Logger logger = Logger
+      .getLogger(SimpleRequestHandler.class.getName());
+  private final ClientletRequest request;
+  private final RequestType requestType;
 
-	public SimpleRequestHandler(URL url, String method, String altPostData, RequestType requestType) {
-		this.requestType = requestType;
-		this.request = new ClientletRequestImpl(url, method, altPostData, requestType);
-	}	
+  public SimpleRequestHandler(boolean forNewWindow, URL url,
+      RequestType requestType) {
+    this.requestType = requestType;
+    this.request = new ClientletRequestImpl(forNewWindow, url, requestType);
+  }
 
-	public boolean isNewNavigationEntry() {
-		return false;
-	}
+  public SimpleRequestHandler(URL url, RequestType requestType) {
+    this.requestType = requestType;
+    this.request = new ClientletRequestImpl(url, requestType);
+  }
 
-	public String getCacheFileSuffix() {
-		return null;
-	}
+  public SimpleRequestHandler(URL url, String method, String altPostData,
+      RequestType requestType) {
+    this.requestType = requestType;
+    this.request = new ClientletRequestImpl(url, method, altPostData,
+        requestType);
+  }
 
-	public HostnameVerifier getHostnameVerifier() {
-		return new LocalHostnameVerifier();
-	}
+  public boolean isNewNavigationEntry() {
+    return false;
+  }
 
-	public String getLatestRequestMethod() {
-		return this.request.getMethod();
-	}
+  public String getCacheFileSuffix() {
+    return null;
+  }
 
-	public URL getLatestRequestURL() {
-		return this.request.getRequestURL();
-	}
+  public HostnameVerifier getHostnameVerifier() {
+    return new LocalHostnameVerifier();
+  }
 
-	public ClientletRequest getRequest() {
-		return this.request;
-	}
+  public String getLatestRequestMethod() {
+    return this.request.getMethod();
+  }
 
-	public void handleProgress(ProgressType progressType, URL url, String method, int value, int max) {
-		// nop
-	}
+  public URL getLatestRequestURL() {
+    return this.request.getRequestURL();
+  }
 
-	public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
-		logger.log(Level.WARNING, "handleException(): Error processing response=[" + response + "]", exception);
-		return true;
-	}
-	
-	private volatile boolean cancelled;
-	
-	public void cancel() {
-		this.cancelled = true;
-	}
+  public ClientletRequest getRequest() {
+    return this.request;
+  }
 
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
+  public void handleProgress(ProgressType progressType, URL url, String method,
+      int value, int max) {
+    // nop
+  }
 
-	public RequestType getRequestType() {
-		return this.requestType;
-	}
+  public boolean handleException(ClientletResponse response, Throwable exception)
+      throws ClientletException {
+    logger.log(Level.WARNING, "handleException(): Error processing response=["
+        + response + "]", exception);
+    return true;
+  }
 
+  private volatile boolean cancelled;
 
+  public void cancel() {
+    this.cancelled = true;
+  }
 
-	private class LocalHostnameVerifier implements HostnameVerifier {
-		/* (non-Javadoc)
-		 * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String, javax.net.ssl.SSLSession)
-		 */
-		public boolean verify(final String host, SSLSession arg1) {
-			final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
-			if(vhs.contains(host)) {
-				return true;
-			}
-			// Does not ask user.
-			return false;
-		}
-	}
-	
-	
+  public boolean isCancelled() {
+    return this.cancelled;
+  }
+
+  public RequestType getRequestType() {
+    return this.requestType;
+  }
+
+  private class LocalHostnameVerifier implements HostnameVerifier {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
+     * javax.net.ssl.SSLSession)
+     */
+    public boolean verify(final String host, SSLSession arg1) {
+      final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
+      if (vhs.contains(host)) {
+        return true;
+      }
+      // Does not ask user.
+      return false;
+    }
+  }
 
 }

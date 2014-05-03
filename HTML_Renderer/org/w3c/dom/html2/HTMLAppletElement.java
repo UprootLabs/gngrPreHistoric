@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Copyright (c) 2003 World Wide Web Consortium,
  * (Massachusetts Institute of Technology, Institut National de
@@ -33,144 +33,166 @@
 package org.w3c.dom.html2;
 
 /**
- * An embedded Java applet. See the APPLET element definition in HTML 4.01. 
- * This element is deprecated in HTML 4.01.
- * <p>See also the <a href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document Object Model (DOM) Level 2 HTML Specification</a>.
+ * An embedded Java applet. See the APPLET element definition in HTML 4.01. This
+ * element is deprecated in HTML 4.01.
+ * <p>
+ * See also the <a
+ * href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document
+ * Object Model (DOM) Level 2 HTML Specification</a>.
  */
 public interface HTMLAppletElement extends HTMLElement {
-    /**
-     * Aligns this object (vertically or horizontally) with respect to its 
-     * surrounding text. See the align attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     */
-    public String getAlign();
-    /**
-     * Aligns this object (vertically or horizontally) with respect to its 
-     * surrounding text. See the align attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     */
-    public void setAlign(String align);
+  /**
+   * Aligns this object (vertically or horizontally) with respect to its
+   * surrounding text. See the align attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public String getAlign();
 
-    /**
-     * Alternate text for user agents not rendering the normal content of this 
-     * element. See the alt attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public String getAlt();
-    /**
-     * Alternate text for user agents not rendering the normal content of this 
-     * element. See the alt attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public void setAlt(String alt);
+  /**
+   * Aligns this object (vertically or horizontally) with respect to its
+   * surrounding text. See the align attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public void setAlign(String align);
 
-    /**
-     * Comma-separated archive list. See the archive attribute definition in 
-     * HTML 4.01. This attribute is deprecated in HTML 4.01.
-     */
-    public String getArchive();
-    /**
-     * Comma-separated archive list. See the archive attribute definition in 
-     * HTML 4.01. This attribute is deprecated in HTML 4.01.
-     */
-    public void setArchive(String archive);
+  /**
+   * Alternate text for user agents not rendering the normal content of this
+   * element. See the alt attribute definition in HTML 4.01. This attribute is
+   * deprecated in HTML 4.01.
+   */
+  public String getAlt();
 
-    /**
-     * Applet class file. See the code attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public String getCode();
-    /**
-     * Applet class file. See the code attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public void setCode(String code);
+  /**
+   * Alternate text for user agents not rendering the normal content of this
+   * element. See the alt attribute definition in HTML 4.01. This attribute is
+   * deprecated in HTML 4.01.
+   */
+  public void setAlt(String alt);
 
-    /**
-     * Optional base URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] for applet. See the codebase attribute definition in 
-     * HTML 4.01. This attribute is deprecated in HTML 4.01.
-     */
-    public String getCodeBase();
-    /**
-     * Optional base URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] for applet. See the codebase attribute definition in 
-     * HTML 4.01. This attribute is deprecated in HTML 4.01.
-     */
-    public void setCodeBase(String codeBase);
+  /**
+   * Comma-separated archive list. See the archive attribute definition in HTML
+   * 4.01. This attribute is deprecated in HTML 4.01.
+   */
+  public String getArchive();
 
-    /**
-     * Override height. See the height attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public String getHeight();
-    /**
-     * Override height. See the height attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public void setHeight(String height);
+  /**
+   * Comma-separated archive list. See the archive attribute definition in HTML
+   * 4.01. This attribute is deprecated in HTML 4.01.
+   */
+  public void setArchive(String archive);
 
-    /**
-     * Horizontal space, in pixels, to the left and right of this image, 
-     * applet, or object. See the hspace attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     * @version DOM Level 2
-     */
-    public int getHspace();
-    /**
-     * Horizontal space, in pixels, to the left and right of this image, 
-     * applet, or object. See the hspace attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     * @version DOM Level 2
-     */
-    public void setHspace(int hspace);
+  /**
+   * Applet class file. See the code attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public String getCode();
 
-    /**
-     * The name of the applet. See the name attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     */
-    public String getName();
-    /**
-     * The name of the applet. See the name attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     */
-    public void setName(String name);
+  /**
+   * Applet class file. See the code attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public void setCode(String code);
 
-    /**
-     * The value of the "object" attribute. See the object attribute definition
-     *  in HTML 4.01. This attribute is deprecated in HTML 4.01. 
-     * @version DOM Level 2
-     */
-    public String getObject();
-    /**
-     * The value of the "object" attribute. See the object attribute definition
-     *  in HTML 4.01. This attribute is deprecated in HTML 4.01. 
-     * @version DOM Level 2
-     */
-    public void setObject(String object);
+  /**
+   * Optional base URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC
+   * 2396</a>] for applet. See the codebase attribute definition in HTML 4.01.
+   * This attribute is deprecated in HTML 4.01.
+   */
+  public String getCodeBase();
 
-    /**
-     * Vertical space, in pixels, above and below this image, applet, or 
-     * object. See the vspace attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     * @version DOM Level 2
-     */
-    public int getVspace();
-    /**
-     * Vertical space, in pixels, above and below this image, applet, or 
-     * object. See the vspace attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     * @version DOM Level 2
-     */
-    public void setVspace(int vspace);
+  /**
+   * Optional base URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC
+   * 2396</a>] for applet. See the codebase attribute definition in HTML 4.01.
+   * This attribute is deprecated in HTML 4.01.
+   */
+  public void setCodeBase(String codeBase);
 
-    /**
-     * Override width. See the width attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public String getWidth();
-    /**
-     * Override width. See the width attribute definition in HTML 4.01. This 
-     * attribute is deprecated in HTML 4.01.
-     */
-    public void setWidth(String width);
+  /**
+   * Override height. See the height attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public String getHeight();
+
+  /**
+   * Override height. See the height attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public void setHeight(String height);
+
+  /**
+   * Horizontal space, in pixels, to the left and right of this image, applet,
+   * or object. See the hspace attribute definition in HTML 4.01. This attribute
+   * is deprecated in HTML 4.01.
+   * 
+   * @version DOM Level 2
+   */
+  public int getHspace();
+
+  /**
+   * Horizontal space, in pixels, to the left and right of this image, applet,
+   * or object. See the hspace attribute definition in HTML 4.01. This attribute
+   * is deprecated in HTML 4.01.
+   * 
+   * @version DOM Level 2
+   */
+  public void setHspace(int hspace);
+
+  /**
+   * The name of the applet. See the name attribute definition in HTML 4.01.
+   * This attribute is deprecated in HTML 4.01.
+   */
+  public String getName();
+
+  /**
+   * The name of the applet. See the name attribute definition in HTML 4.01.
+   * This attribute is deprecated in HTML 4.01.
+   */
+  public void setName(String name);
+
+  /**
+   * The value of the "object" attribute. See the object attribute definition in
+   * HTML 4.01. This attribute is deprecated in HTML 4.01.
+   * 
+   * @version DOM Level 2
+   */
+  public String getObject();
+
+  /**
+   * The value of the "object" attribute. See the object attribute definition in
+   * HTML 4.01. This attribute is deprecated in HTML 4.01.
+   * 
+   * @version DOM Level 2
+   */
+  public void setObject(String object);
+
+  /**
+   * Vertical space, in pixels, above and below this image, applet, or object.
+   * See the vspace attribute definition in HTML 4.01. This attribute is
+   * deprecated in HTML 4.01.
+   * 
+   * @version DOM Level 2
+   */
+  public int getVspace();
+
+  /**
+   * Vertical space, in pixels, above and below this image, applet, or object.
+   * See the vspace attribute definition in HTML 4.01. This attribute is
+   * deprecated in HTML 4.01.
+   * 
+   * @version DOM Level 2
+   */
+  public void setVspace(int vspace);
+
+  /**
+   * Override width. See the width attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public String getWidth();
+
+  /**
+   * Override width. See the width attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public void setWidth(String width);
 
 }

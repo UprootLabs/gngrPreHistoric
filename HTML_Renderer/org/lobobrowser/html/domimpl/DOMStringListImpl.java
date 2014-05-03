@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
@@ -27,27 +27,27 @@ import org.w3c.dom.DOMStringList;
 import java.util.*;
 
 public class DOMStringListImpl implements DOMStringList {
-	private final List sourceList;
-	
-	public DOMStringListImpl(Collection sourceList) {
-		List list = new ArrayList();
-		list.addAll(sourceList);
-		this.sourceList = list;
-	}
+  private final List sourceList;
 
-	public String item(int index) {
-		try {
-			return (String) this.sourceList.get(index);
-		} catch(IndexOutOfBoundsException iob) {
-			return null;
-		}
-	}
+  public DOMStringListImpl(Collection sourceList) {
+    List list = new ArrayList();
+    list.addAll(sourceList);
+    this.sourceList = list;
+  }
 
-	public int getLength() {
-		return this.sourceList.size();
-	}
+  public String item(int index) {
+    try {
+      return (String) this.sourceList.get(index);
+    } catch (IndexOutOfBoundsException iob) {
+      return null;
+    }
+  }
 
-	public boolean contains(String str) {
-		return this.sourceList.contains(str);
-	}
+  public int getLength() {
+    return this.sourceList.size();
+  }
+
+  public boolean contains(String str) {
+    return this.sourceList.contains(str);
+  }
 }

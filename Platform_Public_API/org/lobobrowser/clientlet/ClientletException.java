@@ -19,60 +19,65 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 /**
  * Exception thrown by clientlets.
  */
-public class ClientletException extends Exception
-{
-	private final String sourceCode;
+public class ClientletException extends Exception {
+  private final String sourceCode;
 
-	/**
-	 * Constructs a ClientletException.
-	 * @param message The exception message.
-	 */
-	public ClientletException(String message)
-	{
-		super(message);
-		this.sourceCode = null;
-	}
+  /**
+   * Constructs a ClientletException.
+   * 
+   * @param message
+   *          The exception message.
+   */
+  public ClientletException(String message) {
+    super(message);
+    this.sourceCode = null;
+  }
 
-	/**
-	 * Constructs a ClientletException.
-	 * @param message The exception message.
-	 * @param sourceCode If the source code of the document generating the error
-	 *                   is known, it should be passed in this parameter.
-	 */
-	public ClientletException(String message, String sourceCode)
-	{
-		super(message);
-		this.sourceCode = sourceCode;
-	}	
-	
-	/**
-	 * Constructs a ClientletException.
-	 * @param message The exception message.
-	 * @param rootCause The root cause exception.
-	 */
-	public ClientletException(String message, Throwable rootCause) 
-	{
-		super(message, rootCause);
-		this.sourceCode = null;
-	}
+  /**
+   * Constructs a ClientletException.
+   * 
+   * @param message
+   *          The exception message.
+   * @param sourceCode
+   *          If the source code of the document generating the error is known,
+   *          it should be passed in this parameter.
+   */
+  public ClientletException(String message, String sourceCode) {
+    super(message);
+    this.sourceCode = sourceCode;
+  }
 
-	/**
-	 * Constructs a ClientletException.
-	 * @param rootCause The root cause exception.
-	 */
-	public ClientletException(Throwable rootCause) 
-	{
-		super(rootCause);
-		this.sourceCode = null;
-	}
+  /**
+   * Constructs a ClientletException.
+   * 
+   * @param message
+   *          The exception message.
+   * @param rootCause
+   *          The root cause exception.
+   */
+  public ClientletException(String message, Throwable rootCause) {
+    super(message, rootCause);
+    this.sourceCode = null;
+  }
 
-	public String getSourceCode() {
-		return sourceCode;
-	}	
+  /**
+   * Constructs a ClientletException.
+   * 
+   * @param rootCause
+   *          The root cause exception.
+   */
+  public ClientletException(Throwable rootCause) {
+    super(rootCause);
+    this.sourceCode = null;
+  }
+
+  public String getSourceCode() {
+    return sourceCode;
+  }
 }

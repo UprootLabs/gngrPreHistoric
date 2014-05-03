@@ -17,22 +17,22 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 import java.awt.*;
 
 public class BackgroundInfo {
-	public Color backgroundColor;
-	public java.net.URL backgroundImage;
-	public boolean backgroundXPositionAbsolute;
-	public int backgroundXPosition;
-	public boolean backgroundYPositionAbsolute;
-	public int backgroundYPosition;	
-	public int backgroundRepeat = BR_REPEAT;
-	
-	public static final int BR_REPEAT = 0;
-	public static final int BR_NO_REPEAT = 1;
-	public static final int BR_REPEAT_X = 2;
-	public static final int BR_REPEAT_Y = 3;
+  public Color backgroundColor;
+  public java.net.URL backgroundImage;
+  public boolean backgroundXPositionAbsolute;
+  public int backgroundXPosition;
+  public boolean backgroundYPositionAbsolute;
+  public int backgroundYPosition;
+  public int backgroundRepeat = BR_REPEAT;
+
+  public static final int BR_REPEAT = 0;
+  public static final int BR_NO_REPEAT = 1;
+  public static final int BR_REPEAT_X = 2;
+  public static final int BR_REPEAT_Y = 3;
 }

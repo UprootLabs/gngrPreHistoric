@@ -17,15 +17,15 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 public class DefaultFramePanelFactory implements FramePanelFactory {
-	public FramePanel createFramePanel(FramePanel parent) {
-		return new FramePanel(parent);
-	}
+  public FramePanel createFramePanel(FramePanel parent) {
+    return new FramePanel(parent);
+  }
 
-	public FramePanel createFramePanel(String windowId) {
-		return new FramePanel(windowId);
-	}
+  public FramePanel createFramePanel(String windowId) {
+    return new FramePanel(windowId);
+  }
 }

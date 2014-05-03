@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 16, 2005
  */
@@ -27,21 +27,20 @@ package org.lobobrowser.html.renderer;
  * @author J. H. S.
  */
 class Range {
-	public final int offset;
-	public final int length;
+  public final int offset;
+  public final int length;
 
-	
-	/**
-	 * @param offset
-	 * @param length
-	 */
-	public Range(final int offset, final int length) {
-		super();
-		this.offset = offset;
-		this.length = length;
-	}
-	
-	public String toString() {
-		return "Range[offset=" + this.offset + ",length=" + this.length + "]";
-	}
+  /**
+   * @param offset
+   * @param length
+   */
+  public Range(final int offset, final int length) {
+    super();
+    this.offset = offset;
+    this.length = length;
+  }
+
+  public String toString() {
+    return "Range[offset=" + this.offset + ",length=" + this.length + "]";
+  }
 }

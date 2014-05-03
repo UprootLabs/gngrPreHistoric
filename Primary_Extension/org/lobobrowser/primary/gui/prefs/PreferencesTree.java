@@ -17,88 +17,88 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui.prefs;
 
 import javax.swing.*;
 import javax.swing.tree.*;
 
 public class PreferencesTree extends JTree {
-	public PreferencesTree() {
-		TreeNode rootNode = this.createRootNode();
-		this.setModel(new DefaultTreeModel(rootNode));
-		this.setRootVisible(false);
-	}	
-	
-	public void initSelection() {
-		this.addSelectionRow(0);		
-	}
-	
-	private TreeNode createRootNode() {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
-		root.add(new DefaultMutableTreeNode(this.getGeneralSettingsInfo()));
-		root.add(new DefaultMutableTreeNode(this.getConnectionSettingsInfo()));
-		root.add(new DefaultMutableTreeNode(this.getToolsSettingsInfo()));
-		return root;
-	}
-	
-	private SettingsInfo getGeneralSettingsInfo() {
-		return new SettingsInfo() {
-			public AbstractSettingsUI createSettingsUI() {
-				return new GeneralSettingsUI();
-			}
+  public PreferencesTree() {
+    TreeNode rootNode = this.createRootNode();
+    this.setModel(new DefaultTreeModel(rootNode));
+    this.setRootVisible(false);
+  }
 
-			public String getDescription() {
-				return "General browser settings.";
-			}
+  public void initSelection() {
+    this.addSelectionRow(0);
+  }
 
-			public String getName() {
-				return "General";
-			}
+  private TreeNode createRootNode() {
+    DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+    root.add(new DefaultMutableTreeNode(this.getGeneralSettingsInfo()));
+    root.add(new DefaultMutableTreeNode(this.getConnectionSettingsInfo()));
+    root.add(new DefaultMutableTreeNode(this.getToolsSettingsInfo()));
+    return root;
+  }
 
-			public String toString() {
-				return this.getName();
-			}
-		};
-	}
+  private SettingsInfo getGeneralSettingsInfo() {
+    return new SettingsInfo() {
+      public AbstractSettingsUI createSettingsUI() {
+        return new GeneralSettingsUI();
+      }
 
-	private SettingsInfo getConnectionSettingsInfo() {
-		return new SettingsInfo() {
-			public AbstractSettingsUI createSettingsUI() {
-				return new ConnectionSettingsUI();
-			}
+      public String getDescription() {
+        return "General browser settings.";
+      }
 
-			public String getDescription() {
-				return "Network connection settings.";
-			}
+      public String getName() {
+        return "General";
+      }
 
-			public String getName() {
-				return "Connection";
-			}
+      public String toString() {
+        return this.getName();
+      }
+    };
+  }
 
-			public String toString() {
-				return this.getName();
-			}
-		};
-	}
+  private SettingsInfo getConnectionSettingsInfo() {
+    return new SettingsInfo() {
+      public AbstractSettingsUI createSettingsUI() {
+        return new ConnectionSettingsUI();
+      }
 
-	private SettingsInfo getToolsSettingsInfo() {
-		return new SettingsInfo() {
-			public AbstractSettingsUI createSettingsUI() {
-				return new ToolsSettingsUI();
-			}
+      public String getDescription() {
+        return "Network connection settings.";
+      }
 
-			public String getDescription() {
-				return "Tools settings.";
-			}
+      public String getName() {
+        return "Connection";
+      }
 
-			public String getName() {
-				return "Tools";
-			}
+      public String toString() {
+        return this.getName();
+      }
+    };
+  }
 
-			public String toString() {
-				return this.getName();
-			}
-		};
-	}
+  private SettingsInfo getToolsSettingsInfo() {
+    return new SettingsInfo() {
+      public AbstractSettingsUI createSettingsUI() {
+        return new ToolsSettingsUI();
+      }
+
+      public String getDescription() {
+        return "Tools settings.";
+      }
+
+      public String getName() {
+        return "Tools";
+      }
+
+      public String toString() {
+        return this.getName();
+      }
+    };
+  }
 }

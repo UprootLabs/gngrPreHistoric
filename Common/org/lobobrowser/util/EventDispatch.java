@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 19, 2005
  */
@@ -29,44 +29,45 @@ import java.util.*;
  * @author J. H. S.
  */
 public class EventDispatch {
-    private Collection listeners;
-    
-    public EventDispatch() {
+  private Collection listeners;
+
+  public EventDispatch() {
+  }
+
+  public Collection createListenerCollection() {
+    return new LinkedList();
+  }
+
+  public final void addListener(GenericEventListener listener) {
+    synchronized (this) {
+      if (this.listeners == null) {
+        this.listeners = this.createListenerCollection();
+      }
+      this.listeners.add(listener);
     }
-    
-    public Collection createListenerCollection() {
-        return new LinkedList();
+  }
+
+  public final void removeListener(GenericEventListener listener) {
+    synchronized (this) {
+      if (this.listeners != null) {
+        this.listeners.remove(listener);
+      }
     }
-    
-    public final void addListener(GenericEventListener listener) {
-        synchronized(this) {
-            if(this.listeners == null) {
-                this.listeners = this.createListenerCollection();
-            }
-            this.listeners.add(listener);
-        }
+  }
+
+  public final void fireEvent(EventObject event) {
+    GenericEventListener[] larray = null;
+    synchronized (this) {
+      if (this.listeners != null) {
+        larray = (GenericEventListener[]) this.listeners
+            .toArray(GenericEventListener.EMPTY_ARRAY);
+      }
     }
-    
-    public final void removeListener(GenericEventListener listener) {
-        synchronized(this) {
-            if(this.listeners != null) {
-                this.listeners.remove(listener);
-            }
-        }
+    if (larray != null) {
+      for (int i = 0; i < larray.length; i++) {
+        // Call holding no locks
+        larray[i].processEvent(event);
+      }
     }
-    
-    public final void fireEvent(EventObject event) {
-        GenericEventListener[] larray = null;
-        synchronized(this) {
-            if(this.listeners != null) {
-                larray = (GenericEventListener[]) this.listeners.toArray(GenericEventListener.EMPTY_ARRAY);
-            }
-        }
-        if(larray != null) {
-            for(int i = 0; i < larray.length; i++) {
-                // Call holding no locks
-                larray[i].processEvent(event);
-            }
-        }
-    }
+  }
 }

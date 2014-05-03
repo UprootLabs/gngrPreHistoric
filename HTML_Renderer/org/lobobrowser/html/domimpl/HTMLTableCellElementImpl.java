@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Dec 4, 2005
  */
@@ -27,149 +27,147 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLTableCellElement;
 
 public class HTMLTableCellElementImpl extends HTMLAbstractUIElement implements
-		HTMLTableCellElement {
-	public HTMLTableCellElementImpl(String name) {
-		super(name);
-	}
+    HTMLTableCellElement {
+  public HTMLTableCellElementImpl(String name) {
+    super(name);
+  }
 
-	public int getCellIndex() {
-		// TODO Cell index in row
-		return 0;
-	}
+  public int getCellIndex() {
+    // TODO Cell index in row
+    return 0;
+  }
 
-	public String getAbbr() {
-		return this.getAttribute("abbr");
-	}
+  public String getAbbr() {
+    return this.getAttribute("abbr");
+  }
 
-	public void setAbbr(String abbr) {
-		this.setAttribute("abbr", abbr);
-	}
+  public void setAbbr(String abbr) {
+    this.setAttribute("abbr", abbr);
+  }
 
-	public String getAlign() {
-		return this.getAttribute("align");
-	}
+  public String getAlign() {
+    return this.getAttribute("align");
+  }
 
-	public void setAlign(String align) {
-		this.setAttribute("align", align);
-	}
+  public void setAlign(String align) {
+    this.setAttribute("align", align);
+  }
 
-	public String getAxis() {
-		return this.getAttribute("axis");
-	}
+  public String getAxis() {
+    return this.getAttribute("axis");
+  }
 
-	public void setAxis(String axis) {
-		this.setAttribute("axis", axis);
-	}
+  public void setAxis(String axis) {
+    this.setAttribute("axis", axis);
+  }
 
-	public String getBgColor() {
-		return this.getAttribute("bgcolor");
-	}
+  public String getBgColor() {
+    return this.getAttribute("bgcolor");
+  }
 
-	public void setBgColor(String bgColor) {
-		this.setAttribute("bgcolor", bgColor);
-	}
+  public void setBgColor(String bgColor) {
+    this.setAttribute("bgcolor", bgColor);
+  }
 
-	public String getCh() {
-		return this.getAttribute("ch");
-	}
+  public String getCh() {
+    return this.getAttribute("ch");
+  }
 
-	public void setCh(String ch) {
-		this.setAttribute("ch", ch);
-	}
+  public void setCh(String ch) {
+    this.setAttribute("ch", ch);
+  }
 
-	public String getChOff() {
-		return this.getAttribute("choff");
-	}
+  public String getChOff() {
+    return this.getAttribute("choff");
+  }
 
-	public void setChOff(String chOff) {
-		this.setAttribute("choff", chOff);
-	}
+  public void setChOff(String chOff) {
+    this.setAttribute("choff", chOff);
+  }
 
-	public int getColSpan() {
-		String colSpanText = this.getAttribute("colspan");
-		if(colSpanText == null) {
-			return 1;
-		}
-		else {
-			try {
-				return Integer.parseInt(colSpanText);
-			} catch(NumberFormatException nfe) {
-				return 1;
-			}
-		}
-	}
+  public int getColSpan() {
+    String colSpanText = this.getAttribute("colspan");
+    if (colSpanText == null) {
+      return 1;
+    } else {
+      try {
+        return Integer.parseInt(colSpanText);
+      } catch (NumberFormatException nfe) {
+        return 1;
+      }
+    }
+  }
 
-	public void setColSpan(int colSpan) {
-		this.setAttribute("colspan", String.valueOf(colSpan));
-	}
+  public void setColSpan(int colSpan) {
+    this.setAttribute("colspan", String.valueOf(colSpan));
+  }
 
-	public String getHeaders() {
-		return this.getAttribute("headers");
-	}
+  public String getHeaders() {
+    return this.getAttribute("headers");
+  }
 
-	public void setHeaders(String headers) {
-		this.setAttribute("headers", headers);
-	}
+  public void setHeaders(String headers) {
+    this.setAttribute("headers", headers);
+  }
 
-	public String getHeight() {
-		return this.getAttribute("height");
-	}
+  public String getHeight() {
+    return this.getAttribute("height");
+  }
 
-	public void setHeight(String height) {
-		this.setAttribute("height", height);
-	}
-	
-	public boolean getNoWrap() {
-		return "nowrap".equalsIgnoreCase(this.getAttribute("nowrap"));
-	}
+  public void setHeight(String height) {
+    this.setAttribute("height", height);
+  }
 
-	public void setNoWrap(boolean noWrap) {
-		this.setAttribute("nowrap", noWrap ? "nowrap" : null);
-	}
+  public boolean getNoWrap() {
+    return "nowrap".equalsIgnoreCase(this.getAttribute("nowrap"));
+  }
 
-	public int getRowSpan() {
-		String rowSpanText = this.getAttribute("rowspan");
-		if(rowSpanText == null) {
-			return 1;
-		}
-		else {
-			try {
-				return Integer.parseInt(rowSpanText);
-			} catch(NumberFormatException nfe) {
-				return 1;
-			}
-		}
-	}
+  public void setNoWrap(boolean noWrap) {
+    this.setAttribute("nowrap", noWrap ? "nowrap" : null);
+  }
 
-	public void setRowSpan(int rowSpan) {
-		this.setAttribute("rowspan", String.valueOf(rowSpan));
-	}
+  public int getRowSpan() {
+    String rowSpanText = this.getAttribute("rowspan");
+    if (rowSpanText == null) {
+      return 1;
+    } else {
+      try {
+        return Integer.parseInt(rowSpanText);
+      } catch (NumberFormatException nfe) {
+        return 1;
+      }
+    }
+  }
 
-	public String getScope() {
-		return this.getAttribute("scope");
-	}
+  public void setRowSpan(int rowSpan) {
+    this.setAttribute("rowspan", String.valueOf(rowSpan));
+  }
 
-	public void setScope(String scope) {
-		this.setAttribute("scope", scope);
-	}
+  public String getScope() {
+    return this.getAttribute("scope");
+  }
 
-	public String getVAlign() {
-		return this.getAttribute("valign");
-	}
+  public void setScope(String scope) {
+    this.setAttribute("scope", scope);
+  }
 
-	public void setVAlign(String vAlign) {
-		this.setAttribute("valign", vAlign);
-	}
+  public String getVAlign() {
+    return this.getAttribute("valign");
+  }
 
-	public String getWidth() {
-		return this.getAttribute("width");
-	}
+  public void setVAlign(String vAlign) {
+    this.setAttribute("valign", vAlign);
+  }
 
-	public void setWidth(String width) {
-		this.setAttribute("width", width);
-	}
+  public String getWidth() {
+    return this.getAttribute("width");
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		return new TableCellRenderState(prevRenderState, this);
-	}
+  public void setWidth(String width) {
+    this.setAttribute("width", width);
+  }
+
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    return new TableCellRenderState(prevRenderState, this);
+  }
 }

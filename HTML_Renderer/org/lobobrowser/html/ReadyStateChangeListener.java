@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Nov 13, 2005
  */
@@ -26,15 +26,15 @@ package org.lobobrowser.html;
 import java.util.EventListener;
 
 /**
- * The <code>ReadyStateChangeListener</code> interface
- * is implemented to receive ReadyState change events
- * from {@link org.lobobrowser.html.HttpRequest}.
+ * The <code>ReadyStateChangeListener</code> interface is implemented to receive
+ * ReadyState change events from {@link org.lobobrowser.html.HttpRequest}.
+ * 
  * @see org.lobobrowser.html.HttpRequest#addReadyStateChangeListener(ReadyStateChangeListener)
  * @author J. H. S.
  */
 public interface ReadyStateChangeListener extends EventListener {
-	/**
-	 * This method is called when the ReadyState changes.
-	 */
-	public void readyStateChanged();
+  /**
+   * This method is called when the ReadyState changes.
+   */
+  public void readyStateChanged();
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Nov 6, 2005
  */
@@ -26,5 +26,6 @@ package org.lobobrowser.html.renderer;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
 interface MarkupLayout {
-	public void layoutMarkup(RBlockViewport bodyLayout, HTMLElementImpl markupElement);
+  public void layoutMarkup(RBlockViewport bodyLayout,
+      HTMLElementImpl markupElement);
 }

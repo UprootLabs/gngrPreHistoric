@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.style.*;
@@ -26,12 +26,13 @@ import org.lobobrowser.html.style.*;
  * Element used for STRIKE.
  */
 public class HTMLStrikeElementImpl extends HTMLAbstractUIElement {
-	public HTMLStrikeElementImpl(String name) {
-		super(name);
-	}
+  public HTMLStrikeElementImpl(String name) {
+    super(name);
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_LINE_THROUGH);
-		return super.createRenderState(prevRenderState);
-	}
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    prevRenderState = new TextDecorationRenderState(prevRenderState,
+        RenderState.MASK_TEXTDECORATION_LINE_THROUGH);
+    return super.createRenderState(prevRenderState);
+  }
 }

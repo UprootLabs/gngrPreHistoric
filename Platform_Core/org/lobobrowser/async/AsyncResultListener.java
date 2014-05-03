@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 31, 2005
  */
@@ -27,22 +27,26 @@ import java.util.EventListener;
 
 /**
  * Listener of asynchronous results.
+ * 
  * @see org.lobobrowser.async.AsyncResult
  * @author J. H. S.
  */
 public interface AsyncResultListener<TResult> extends EventListener {
-	/**
-	 * Receives an asynchronous result. This method
-	 * is invoked in the event dispatch thread.
-	 * @param event Event containing asynchronous result.
-	 */
-    public void resultReceived(AsyncResultEvent<TResult> event);
+  /**
+   * Receives an asynchronous result. This method is invoked in the event
+   * dispatch thread.
+   * 
+   * @param event
+   *          Event containing asynchronous result.
+   */
+  public void resultReceived(AsyncResultEvent<TResult> event);
 
-    /**
-	 * Called when an exception has occurred trying to
-	 * obtain an asynchronous result. This method
-	 * is invoked in the event dispatch thread.
-	 * @param event Event containing the exception.
-	 */
-    public void exceptionReceived(AsyncResultEvent<Throwable> event);
+  /**
+   * Called when an exception has occurred trying to obtain an asynchronous
+   * result. This method is invoked in the event dispatch thread.
+   * 
+   * @param event
+   *          Event containing the exception.
+   */
+  public void exceptionReceived(AsyncResultEvent<Throwable> event);
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
@@ -27,42 +27,48 @@ import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
 
 class ManagedStoreSettings implements Serializable {
-	private static final Logger logger = Logger.getLogger(ManagedStoreSettings.class.getName());
-    private static final ManagedStoreSettings instance;
-    private static final long serialVersionUID = 22574500000020705L;
+  private static final Logger logger = Logger
+      .getLogger(ManagedStoreSettings.class.getName());
+  private static final ManagedStoreSettings instance;
+  private static final long serialVersionUID = 22574500000020705L;
 
-    static {
-    	ManagedStoreSettings ins = null;
-		try {
-			ins = (ManagedStoreSettings) StorageManager.getInstance().retrieveSettings(ManagedStoreSettings.class.getSimpleName(), ManagedStoreSettings.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new ManagedStoreSettings();
-		}
-		instance = ins;    	
+  static {
+    ManagedStoreSettings ins = null;
+    try {
+      ins = (ManagedStoreSettings) StorageManager.getInstance()
+          .retrieveSettings(ManagedStoreSettings.class.getSimpleName(),
+              ManagedStoreSettings.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
+          err);
     }
+    if (ins == null) {
+      ins = new ManagedStoreSettings();
+    }
+    instance = ins;
+  }
 
-    private ManagedStoreSettings() {
+  private ManagedStoreSettings() {
+  }
+
+  /**
+   * Gets the class singleton.
+   */
+  public static ManagedStoreSettings getInstance() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
-    
-    /**
-     * Gets the class singleton.
-     */
-    public static ManagedStoreSettings getInstance() {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-    	return instance;
+    return instance;
+  }
+
+  public void save() {
+    try {
+      StorageManager.getInstance().saveSettings(
+          this.getClass().getSimpleName(), this);
+    } catch (java.io.IOException ioe) {
+      logger.log(Level.WARNING, "Unable to save settings: "
+          + this.getClass().getSimpleName(), ioe);
     }
-    
-    public void save() {
-    	try {
-    		StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    	} catch(java.io.IOException ioe) {
-    		logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
-    	}
-    }
+  }
 }

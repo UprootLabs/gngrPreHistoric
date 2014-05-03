@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 22, 2005
  */
@@ -33,56 +33,66 @@ import java.util.Map;
  * @author J. H. S.
  */
 public class GenericURLConnection extends URLConnection {
-	private final java.io.InputStream inputStream;
-	
-	/**
+  private final java.io.InputStream inputStream;
+
+  /**
 	 * 
 	 */
-	public GenericURLConnection(java.net.URL url, InputStream in) {
-		super(url);
-		this.inputStream = in;
-	}
+  public GenericURLConnection(java.net.URL url, InputStream in) {
+    super(url);
+    this.inputStream = in;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.net.URLConnection#connect()
-	 */
-	public void connect() throws IOException {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#connect()
+   */
+  public void connect() throws IOException {
+  }
 
-	
-	/* (non-Javadoc)
-	 * @see java.net.URLConnection#getInputStream()
-	 */
-	public InputStream getInputStream() throws IOException {
-		return this.inputStream;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.net.URLConnection#getHeaderField(int)
-	 */
-	public String getHeaderField(int n) {
-		return null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.net.URLConnection#getHeaderField(java.lang.String)
-	 */
-	public String getHeaderField(String name) {
-		return null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.net.URLConnection#getHeaderFieldKey(int)
-	 */
-	public String getHeaderFieldKey(int n) {
-		return null;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#getInputStream()
+   */
+  public InputStream getInputStream() throws IOException {
+    return this.inputStream;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.net.URLConnection#getHeaderFields()
-	 */
-	public Map getHeaderFields() {
-		return Collections.EMPTY_MAP;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#getHeaderField(int)
+   */
+  public String getHeaderField(int n) {
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#getHeaderField(java.lang.String)
+   */
+  public String getHeaderField(String name) {
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#getHeaderFieldKey(int)
+   */
+  public String getHeaderFieldKey(int n) {
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLConnection#getHeaderFields()
+   */
+  public Map getHeaderFields() {
+    return Collections.EMPTY_MAP;
+  }
 }
-

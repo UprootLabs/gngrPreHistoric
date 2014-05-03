@@ -1,23 +1,22 @@
 package org.lobobrowser.util;
 
 public class BoxedObject {
-	private Object object;
+  private Object object;
 
-	public BoxedObject() {		
-	}
-	
-	public BoxedObject(Object object) {
-		super();
-		this.object = object;
-	}
+  public BoxedObject() {
+  }
 
-	public Object getObject() {
-		return object;
-	}
+  public BoxedObject(Object object) {
+    super();
+    this.object = object;
+  }
 
-	public void setObject(Object object) {
-		this.object = object;
-	}
-	
-	
+  public Object getObject() {
+    return object;
+  }
+
+  public void setObject(Object object) {
+    this.object = object;
+  }
+
 }

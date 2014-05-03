@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 23, 2005
  */
@@ -29,17 +29,17 @@ import java.util.Collection;
  * @author J. H. S.
  */
 class OverflowException extends Exception {
-	private final Collection renderables;
+  private final Collection renderables;
 
-	/**
+  /**
 	 * 
 	 */
-	public OverflowException(Collection renderables) {
-		super();
-		this.renderables = renderables;
-	}
-	
-	public Collection getRenderables() {
-		return this.renderables;
-	}
+  public OverflowException(Collection renderables) {
+    super();
+    this.renderables = renderables;
+  }
+
+  public Collection getRenderables() {
+    return this.renderables;
+  }
 }

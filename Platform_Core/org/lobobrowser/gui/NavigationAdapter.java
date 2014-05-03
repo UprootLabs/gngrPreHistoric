@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import org.lobobrowser.ua.NavigationEvent;
@@ -25,19 +25,19 @@ import org.lobobrowser.ua.NavigationListener;
 import org.lobobrowser.ua.NavigationVetoException;
 
 /**
- * A convenience abstract implementation of {@link NavigationListener},
- * with blank methods.
+ * A convenience abstract implementation of {@link NavigationListener}, with
+ * blank methods.
  */
 public abstract class NavigationAdapter implements NavigationListener {
-	public void beforeLocalNavigate(NavigationEvent event) 
-			throws NavigationVetoException {
-	}
+  public void beforeLocalNavigate(NavigationEvent event)
+      throws NavigationVetoException {
+  }
 
-	public void beforeNavigate(NavigationEvent event)
-			throws NavigationVetoException {
-	}
+  public void beforeNavigate(NavigationEvent event)
+      throws NavigationVetoException {
+  }
 
-	public void beforeWindowOpen(NavigationEvent event)
-			throws NavigationVetoException {
-	}
+  public void beforeWindowOpen(NavigationEvent event)
+      throws NavigationVetoException {
+  }
 }

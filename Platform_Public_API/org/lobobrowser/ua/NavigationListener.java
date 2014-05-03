@@ -17,34 +17,49 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * A listener of navigation events.
+ * 
  * @see NavigationEvent
  * @see NavigatorExtensionContext#addNavigationListener(NavigationListener)
  */
 public interface NavigationListener extends java.util.EventListener {
-	static final NavigationListener[] EMPTY_ARRAY = new NavigationListener[0];
-	
-	/**
-	 * Called any time a navigation trigger originates in the event frame.
-	 * @param event Contains navigation information. 
-	 * @throws NavigationVetoException Thrown to cancel navigation.
-	 */
-	public void beforeNavigate(NavigationEvent event) throws NavigationVetoException;
-	/**
-	 * Called any time a navigation trigger needs to be processed in the event
-	 * frame, but might have originated in a child frame.
-	 * @param event Contains navigation information. 
-	 * @throws NavigationVetoException Thrown to cancel navigation.
-	 */
-	public void beforeLocalNavigate(NavigationEvent event) throws NavigationVetoException;
-	/**
-	 * Called any time a window open trigger originates in the event frame.
-	 * @param event Contains navigation information. 
-	 * @throws NavigationVetoException Thrown to cancel navigation.
-	 */
-	public void beforeWindowOpen(NavigationEvent event) throws NavigationVetoException;
+  static final NavigationListener[] EMPTY_ARRAY = new NavigationListener[0];
+
+  /**
+   * Called any time a navigation trigger originates in the event frame.
+   * 
+   * @param event
+   *          Contains navigation information.
+   * @throws NavigationVetoException
+   *           Thrown to cancel navigation.
+   */
+  public void beforeNavigate(NavigationEvent event)
+      throws NavigationVetoException;
+
+  /**
+   * Called any time a navigation trigger needs to be processed in the event
+   * frame, but might have originated in a child frame.
+   * 
+   * @param event
+   *          Contains navigation information.
+   * @throws NavigationVetoException
+   *           Thrown to cancel navigation.
+   */
+  public void beforeLocalNavigate(NavigationEvent event)
+      throws NavigationVetoException;
+
+  /**
+   * Called any time a window open trigger originates in the event frame.
+   * 
+   * @param event
+   *          Contains navigation information.
+   * @throws NavigationVetoException
+   *           Thrown to cancel navigation.
+   */
+  public void beforeWindowOpen(NavigationEvent event)
+      throws NavigationVetoException;
 }

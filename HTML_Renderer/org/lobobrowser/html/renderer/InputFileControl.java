@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import java.awt.event.ActionEvent;
@@ -33,66 +33,64 @@ import javax.swing.JTextField;
 import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 
 public class InputFileControl extends BaseInputControl {
-	private final JTextField textField = new JTextField();
-	private final JButton browseButton = new JButton();
-	
-	public InputFileControl(HTMLBaseInputElement modelNode) {
-		super(modelNode);
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		JButton browseButton = this.browseButton;
-		browseButton.setAction(new BrowseAction());
-		browseButton.setText("Browse");
-		java.awt.Dimension ps = this.textField.getPreferredSize();
-		this.textField.setPreferredSize(new java.awt.Dimension(128, ps.height));
-		this.textField.setEditable(false);
-		this.add(this.textField);
-		this.add(Box.createHorizontalStrut(4));
-		this.add(browseButton);
-	}
+  private final JTextField textField = new JTextField();
+  private final JButton browseButton = new JButton();
 
-	public String getValue() {
-		// This is the way browsers behave, even
-		// though this value is not submitted.
-		return this.textField.getText();
-	}
+  public InputFileControl(HTMLBaseInputElement modelNode) {
+    super(modelNode);
+    this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+    JButton browseButton = this.browseButton;
+    browseButton.setAction(new BrowseAction());
+    browseButton.setText("Browse");
+    java.awt.Dimension ps = this.textField.getPreferredSize();
+    this.textField.setPreferredSize(new java.awt.Dimension(128, ps.height));
+    this.textField.setEditable(false);
+    this.add(this.textField);
+    this.add(Box.createHorizontalStrut(4));
+    this.add(browseButton);
+  }
 
-	public void setDisabled(boolean disabled) {
-		this.browseButton.setEnabled(!disabled);
-	}
+  public String getValue() {
+    // This is the way browsers behave, even
+    // though this value is not submitted.
+    return this.textField.getText();
+  }
 
-	public void setValue(String value) {
-		// nop - security
-	}
+  public void setDisabled(boolean disabled) {
+    this.browseButton.setEnabled(!disabled);
+  }
 
-	private File fileValue;
-	
-	private void setFileValue(File file) {
-		this.fileValue = file;
-		if(file == null) {
-			this.textField.setText("");
-		}
-		else {
-			this.textField.setText(file.getAbsolutePath());
-		}
-	}
+  public void setValue(String value) {
+    // nop - security
+  }
 
-	public File getFileValue() {
-		return this.fileValue;
-	}
+  private File fileValue;
 
-	public void resetInput() {
-		this.setFileValue(null);
-	}
-	
-	private class BrowseAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = new JFileChooser();
-			if(chooser.showOpenDialog(InputFileControl.this) == JFileChooser.APPROVE_OPTION) {
-				setFileValue(chooser.getSelectedFile());
-			}
-			else {
-				setFileValue(null);
-			}
-		}
-	}
+  private void setFileValue(File file) {
+    this.fileValue = file;
+    if (file == null) {
+      this.textField.setText("");
+    } else {
+      this.textField.setText(file.getAbsolutePath());
+    }
+  }
+
+  public File getFileValue() {
+    return this.fileValue;
+  }
+
+  public void resetInput() {
+    this.setFileValue(null);
+  }
+
+  private class BrowseAction extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      JFileChooser chooser = new JFileChooser();
+      if (chooser.showOpenDialog(InputFileControl.this) == JFileChooser.APPROVE_OPTION) {
+        setFileValue(chooser.getSelectedFile());
+      } else {
+        setFileValue(null);
+      }
+    }
+  }
 }

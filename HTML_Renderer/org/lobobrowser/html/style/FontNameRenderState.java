@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.style;
 
@@ -28,70 +28,70 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FontNameRenderState extends RenderStateDelegator {
-	private final String fontName;
-	
-	public FontNameRenderState(RenderState prevRenderState, String fontName) {
-		super(prevRenderState);
-		this.fontName = fontName;
-	}
+  private final String fontName;
 
-	private Font iFont;
-	
-	public Font getFont() {
-		Font f = this.iFont;
-		if(f != null) {
-			return f;
-		}
-		Font parentFont = this.delegate.getFont();
-		f = new Font(this.fontName, parentFont.getStyle(), parentFont.getSize());
-		this.iFont = f;
-		return f;		
-	}
+  public FontNameRenderState(RenderState prevRenderState, String fontName) {
+    super(prevRenderState);
+    this.fontName = fontName;
+  }
 
-	private FontMetrics iFontMetrics;
-	
-	public FontMetrics getFontMetrics() {
-		FontMetrics fm = this.iFontMetrics;
-		if(fm == null) {
-			//TODO getFontMetrics deprecated. How to get text width?
-			fm = Toolkit.getDefaultToolkit().getFontMetrics(this.getFont());
-			this.iFontMetrics = fm;
-		}
-		return fm;
-	}
+  private Font iFont;
 
-	public void invalidate() {
-		super.invalidate();
-		this.iFont = null;
-		this.iFontMetrics = null;
-		Map map = this.iWordInfoMap;
-		if(map != null) {
-			map.clear();
-		}
-	}
+  public Font getFont() {
+    Font f = this.iFont;
+    if (f != null) {
+      return f;
+    }
+    Font parentFont = this.delegate.getFont();
+    f = new Font(this.fontName, parentFont.getStyle(), parentFont.getSize());
+    this.iFont = f;
+    return f;
+  }
 
-	Map iWordInfoMap = null;
-	
-	public final WordInfo getWordInfo(String word) {
-		// Expected to be called only in the GUI (rendering) thread.
-		// No synchronization necessary.
-		Map map = this.iWordInfoMap;
-		if(map == null) {
-			map = new HashMap(1);
-			this.iWordInfoMap = map;
-		}
-		WordInfo wi = (WordInfo) map.get(word);
-		if(wi != null) {
-			return wi;
-		}
-		wi = new WordInfo();
-		FontMetrics fm = this.getFontMetrics();
-		wi.fontMetrics = fm;
-		wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
-		wi.descent = fm.getDescent();
-		wi.height = fm.getHeight();
-		wi.width = fm.stringWidth(word);
-		map.put(word, wi);
-		return wi;
-	}
+  private FontMetrics iFontMetrics;
+
+  public FontMetrics getFontMetrics() {
+    FontMetrics fm = this.iFontMetrics;
+    if (fm == null) {
+      // TODO getFontMetrics deprecated. How to get text width?
+      fm = Toolkit.getDefaultToolkit().getFontMetrics(this.getFont());
+      this.iFontMetrics = fm;
+    }
+    return fm;
+  }
+
+  public void invalidate() {
+    super.invalidate();
+    this.iFont = null;
+    this.iFontMetrics = null;
+    Map map = this.iWordInfoMap;
+    if (map != null) {
+      map.clear();
+    }
+  }
+
+  Map iWordInfoMap = null;
+
+  public final WordInfo getWordInfo(String word) {
+    // Expected to be called only in the GUI (rendering) thread.
+    // No synchronization necessary.
+    Map map = this.iWordInfoMap;
+    if (map == null) {
+      map = new HashMap(1);
+      this.iWordInfoMap = map;
+    }
+    WordInfo wi = (WordInfo) map.get(word);
+    if (wi != null) {
+      return wi;
+    }
+    wi = new WordInfo();
+    FontMetrics fm = this.getFontMetrics();
+    wi.fontMetrics = fm;
+    wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
+    wi.descent = fm.getDescent();
+    wi.height = fm.getHeight();
+    wi.width = fm.stringWidth(word);
+    map.put(word, wi);
+    return wi;
+  }
 }

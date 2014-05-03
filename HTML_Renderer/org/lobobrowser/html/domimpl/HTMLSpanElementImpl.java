@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 8, 2005
  */
@@ -25,8 +25,9 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.html2.HTMLElement;
 
-public class HTMLSpanElementImpl extends HTMLAbstractUIElement implements HTMLElement {
-	public HTMLSpanElementImpl(String name) {
-		super(name);
-	}
+public class HTMLSpanElementImpl extends HTMLAbstractUIElement implements
+    HTMLElement {
+  public HTMLSpanElementImpl(String name) {
+    super(name);
+  }
 }

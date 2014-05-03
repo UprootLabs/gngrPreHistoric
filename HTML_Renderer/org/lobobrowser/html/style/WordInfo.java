@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 17, 2005
  */
@@ -29,9 +29,9 @@ import java.awt.*;
  * @author J. H. S.
  */
 class WordInfo {
-    public FontMetrics fontMetrics; 
-    public int descent;
-    public int ascentPlusLeading;
-    public int width;
-    public int height;
+  public FontMetrics fontMetrics;
+  public int descent;
+  public int ascentPlusLeading;
+  public int width;
+  public int height;
 }

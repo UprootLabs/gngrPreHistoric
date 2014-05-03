@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 6, 2005
  */
@@ -29,39 +29,46 @@ import java.security.Permission;
  * @author J. H. S.
  */
 public class HistoryPermission extends Permission {
-	/**
-	 * @param name
-	 */
-	public HistoryPermission() {
-		super("");
-	}
+  /**
+   * @param name
+   */
+  public HistoryPermission() {
+    super("");
+  }
 
-	/* (non-Javadoc)
-	 * @see java.security.Permission#implies(java.security.Permission)
-	 */
-	public boolean implies(Permission permission) {
-		return permission instanceof HistoryPermission;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.security.Permission#implies(java.security.Permission)
+   */
+  public boolean implies(Permission permission) {
+    return permission instanceof HistoryPermission;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.security.Permission#getActions()
-	 */
-	public String getActions() {
-		return null;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.security.Permission#getActions()
+   */
+  public String getActions() {
+    return null;
+  }
 
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object obj) {
-		return obj instanceof HistoryPermission; 
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return 1000;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  public boolean equals(Object obj) {
+    return obj instanceof HistoryPermission;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return 1000;
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import javax.swing.JFrame;
@@ -25,33 +25,35 @@ import javax.swing.JFrame;
 /**
  * Browser windows should extend this class.
  */
-public abstract class AbstractBrowserWindow extends JFrame implements BrowserWindow {
-	/**
-	 * Gets the root {@link FramePanel} of the window.
-	 */
-	public abstract FramePanel getTopFramePanel();
-	
-	/**
-	 * Gets a {@link WindowCallback} instance that receives
-	 * navigation notifications. This method may
-	 * return <code>null</code>.
-	 */
-	public abstract WindowCallback getWindowCallback();
-	
-	private boolean boundsAssigned;
+public abstract class AbstractBrowserWindow extends JFrame implements
+    BrowserWindow {
+  /**
+   * Gets the root {@link FramePanel} of the window.
+   */
+  public abstract FramePanel getTopFramePanel();
 
-	/**
-	 * Returns true if window bounds were assigned via properties.
-	 */
-	public boolean isBoundsAssigned() {
-		return boundsAssigned;
-	}
+  /**
+   * Gets a {@link WindowCallback} instance that receives navigation
+   * notifications. This method may return <code>null</code>.
+   */
+  public abstract WindowCallback getWindowCallback();
 
-	/**
-	 * Sets whether window bounds were assigned via properties.
-	 * @param boundsAssigned True if bounds were assigned.
-	 */
-	public void setBoundsAssigned(boolean boundsAssigned) {
-		this.boundsAssigned = boundsAssigned;
-	}
+  private boolean boundsAssigned;
+
+  /**
+   * Returns true if window bounds were assigned via properties.
+   */
+  public boolean isBoundsAssigned() {
+    return boundsAssigned;
+  }
+
+  /**
+   * Sets whether window bounds were assigned via properties.
+   * 
+   * @param boundsAssigned
+   *          True if bounds were assigned.
+   */
+  public void setBoundsAssigned(boolean boundsAssigned) {
+    this.boundsAssigned = boundsAssigned;
+  }
 }

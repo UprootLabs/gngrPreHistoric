@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 23, 2005
  */
@@ -28,25 +28,31 @@ import java.net.MalformedURLException;
 import org.lobobrowser.html.style.*;
 
 /**
- * A generic node interface. The idea is that implementors could
- * be W3C nodes or not.
+ * A generic node interface. The idea is that implementors could be W3C nodes or
+ * not.
  */
 public interface ModelNode {
-	//There shouldn't be any references to GUI components here.
-	//Events are processed by controller in renderer package.
-	
-	public java.net.URL getFullURL(String spec) throws MalformedURLException;
-	public void warn(String message, Throwable err);
-	public boolean isEqualOrDescendentOf(ModelNode otherNode);
-	public ModelNode getParentModelNode();
-	public RenderState getRenderState();
-	
-	/**
-	 * Sets a document item. A radio button, for example,
-	 * can use this to set button group state.
-	 * @param name
-	 * @param value
-	 */
-	public void setDocumentItem(String name, Object value);
-	public Object getDocumentItem(String name);	
+  // There shouldn't be any references to GUI components here.
+  // Events are processed by controller in renderer package.
+
+  public java.net.URL getFullURL(String spec) throws MalformedURLException;
+
+  public void warn(String message, Throwable err);
+
+  public boolean isEqualOrDescendentOf(ModelNode otherNode);
+
+  public ModelNode getParentModelNode();
+
+  public RenderState getRenderState();
+
+  /**
+   * Sets a document item. A radio button, for example, can use this to set
+   * button group state.
+   * 
+   * @param name
+   * @param value
+   */
+  public void setDocumentItem(String name, Object value);
+
+  public Object getDocumentItem(String name);
 }

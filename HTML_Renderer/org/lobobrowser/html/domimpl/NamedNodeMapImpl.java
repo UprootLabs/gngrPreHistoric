@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Sep 3, 2005
  */
@@ -27,72 +27,76 @@ import org.lobobrowser.js.*;
 import org.w3c.dom.*;
 import java.util.*;
 
-public class NamedNodeMapImpl extends AbstractScriptableDelegate implements NamedNodeMap {
-	//Note: class must be public for reflection to work.
-	private final Map attributes = new HashMap(); 
-	private final ArrayList attributeList = new ArrayList();
-	
-	public NamedNodeMapImpl(Element owner, Map attribs) {
-		Iterator i = attribs.entrySet().iterator();
-		while(i.hasNext()) {
-			Map.Entry entry = (Map.Entry) i.next();
-			String name = (String) entry.getKey();
-			String value = (String) entry.getValue();
-			//TODO: "specified" attributes
-			Attr attr = new AttrImpl(name, value, true, owner, "ID".equals(name));
-			this.attributes.put(name, attr);
-			this.attributeList.add(attr);
-		}
-	}
+public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
+    NamedNodeMap {
+  // Note: class must be public for reflection to work.
+  private final Map attributes = new HashMap();
+  private final ArrayList attributeList = new ArrayList();
 
-	public int getLength() {
-		return this.attributeList.size();
-	}
+  public NamedNodeMapImpl(Element owner, Map attribs) {
+    Iterator i = attribs.entrySet().iterator();
+    while (i.hasNext()) {
+      Map.Entry entry = (Map.Entry) i.next();
+      String name = (String) entry.getKey();
+      String value = (String) entry.getValue();
+      // TODO: "specified" attributes
+      Attr attr = new AttrImpl(name, value, true, owner, "ID".equals(name));
+      this.attributes.put(name, attr);
+      this.attributeList.add(attr);
+    }
+  }
 
-	public Node getNamedItem(String name) {
-		return (Node) this.attributes.get(name);
-	}
+  public int getLength() {
+    return this.attributeList.size();
+  }
 
-	/**
-	 * @param name
-	 */
-	public Node namedItem(String name) {
-		// Method needed for Javascript indexing.
-		return this.getNamedItem(name);
-	}
-	
-	public Node getNamedItemNS(String namespaceURI,
-			String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
-	}
+  public Node getNamedItem(String name) {
+    return (Node) this.attributes.get(name);
+  }
 
-	public Node item(int index) {
-		try {
-			return (Node) this.attributeList.get(index);
-		} catch(IndexOutOfBoundsException iob) {
-			return null;
-		}
-	}
+  /**
+   * @param name
+   */
+  public Node namedItem(String name) {
+    // Method needed for Javascript indexing.
+    return this.getNamedItem(name);
+  }
 
-	public Node removeNamedItem(String name) throws DOMException {
-		return (Node) this.attributes.remove(name);
-	}
+  public Node getNamedItemNS(String namespaceURI, String localName)
+      throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+        "No namespace support");
+  }
 
-	public Node removeNamedItemNS(String namespaceURI,
-			String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
-	}
+  public Node item(int index) {
+    try {
+      return (Node) this.attributeList.get(index);
+    } catch (IndexOutOfBoundsException iob) {
+      return null;
+    }
+  }
 
-	public Node setNamedItem(Node arg) throws DOMException {
-		Object prevValue = this.attributes.put(arg.getNodeName(), arg);
-		if(prevValue != null) {
-			this.attributeList.remove(prevValue);
-		}
-		this.attributeList.add(arg);
-		return arg;
-	}
+  public Node removeNamedItem(String name) throws DOMException {
+    return (Node) this.attributes.remove(name);
+  }
 
-	public Node setNamedItemNS(Node arg) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
-	}
+  public Node removeNamedItemNS(String namespaceURI, String localName)
+      throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+        "No namespace support");
+  }
+
+  public Node setNamedItem(Node arg) throws DOMException {
+    Object prevValue = this.attributes.put(arg.getNodeName(), arg);
+    if (prevValue != null) {
+      this.attributeList.remove(prevValue);
+    }
+    this.attributeList.add(arg);
+    return arg;
+  }
+
+  public Node setNamedItemNS(Node arg) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+        "No namespace support");
+  }
 }

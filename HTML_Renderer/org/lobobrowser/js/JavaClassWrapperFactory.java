@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.js;
 
 import java.lang.ref.WeakReference;
@@ -25,37 +25,38 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class JavaClassWrapperFactory {
-	private static JavaClassWrapperFactory instance;
-	private final Map classWrappers = new WeakHashMap();
-	
-	private JavaClassWrapperFactory() { }
-	
-	public static JavaClassWrapperFactory getInstance() {
-		if(instance == null) {
-			synchronized(JavaClassWrapperFactory.class) {
-				if(instance == null) {
-					instance = new JavaClassWrapperFactory();
-				}
-			}
-		}
-		return instance;
-	}
-	
-	public JavaClassWrapper getClassWrapper(Class clazz) {
-		synchronized(this) {
-			//WeakHashMaps where the value refers to
-			//the key will retain keys. Must make it
-			//refer to the value weakly too.
-			WeakReference jcwr = (WeakReference) this.classWrappers.get(clazz);
-			JavaClassWrapper jcw = null;
-			if(jcwr != null) {
-				jcw = (JavaClassWrapper) jcwr.get();
-			}
-			if(jcw == null) {
-				jcw = new JavaClassWrapper(clazz);
-				this.classWrappers.put(clazz, new WeakReference(jcw));
-			}
-			return jcw;
-		}
-	}
+  private static JavaClassWrapperFactory instance;
+  private final Map classWrappers = new WeakHashMap();
+
+  private JavaClassWrapperFactory() {
+  }
+
+  public static JavaClassWrapperFactory getInstance() {
+    if (instance == null) {
+      synchronized (JavaClassWrapperFactory.class) {
+        if (instance == null) {
+          instance = new JavaClassWrapperFactory();
+        }
+      }
+    }
+    return instance;
+  }
+
+  public JavaClassWrapper getClassWrapper(Class clazz) {
+    synchronized (this) {
+      // WeakHashMaps where the value refers to
+      // the key will retain keys. Must make it
+      // refer to the value weakly too.
+      WeakReference jcwr = (WeakReference) this.classWrappers.get(clazz);
+      JavaClassWrapper jcw = null;
+      if (jcwr != null) {
+        jcw = (JavaClassWrapper) jcwr.get();
+      }
+      if (jcw == null) {
+        jcw = new JavaClassWrapper(clazz);
+        this.classWrappers.put(clazz, new WeakReference(jcw));
+      }
+      return jcw;
+    }
+  }
 }

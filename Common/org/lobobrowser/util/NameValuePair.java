@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 12, 2005
  */
@@ -27,32 +27,31 @@ package org.lobobrowser.util;
  * @author J. H. S.
  */
 public class NameValuePair implements java.io.Serializable {
-    private static final long serialVersionUID = 22574500600001010L;
-	public final String name;
-	public final String value;
-	
-	/**
-	 * @param name
-	 * @param value
-	 */
-	public NameValuePair(final String name, final String value) {
-		super();
-		this.name = name;
-		this.value = value;
-	}
-	
-	
-	/**
-	 * @return Returns the name.
-	 */
-	public String getName() {
-		return name;
-	}
+  private static final long serialVersionUID = 22574500600001010L;
+  public final String name;
+  public final String value;
 
-	/**
-	 * @return Returns the value.
-	 */
-	public String getValue() {
-		return value;
-	}
+  /**
+   * @param name
+   * @param value
+   */
+  public NameValuePair(final String name, final String value) {
+    super();
+    this.name = name;
+    this.value = value;
+  }
+
+  /**
+   * @return Returns the name.
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return Returns the value.
+   */
+  public String getValue() {
+    return value;
+  }
 }

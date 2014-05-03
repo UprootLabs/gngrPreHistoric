@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 31, 2005
  */
@@ -26,30 +26,32 @@ package org.lobobrowser.async;
 import java.util.EventObject;
 
 /**
- * An asynchronous result event. This is a generic
- * class with a <code>TResult</code> type parameter,
- * the type of the result.
+ * An asynchronous result event. This is a generic class with a
+ * <code>TResult</code> type parameter, the type of the result.
+ * 
  * @see org.lobobrowser.async.AsyncResultListener
  * @author J. H. S.
  */
 public class AsyncResultEvent<TResult> extends EventObject {
-    private final TResult result;
+  private final TResult result;
 
-    /**
-     * Instance constructor.
-     * @param source The event source.
-     * @param result The asynchronous result.
-     */    
-    public AsyncResultEvent(Object source, TResult result) {
-        super(source);
-        this.result = result;
-    }
+  /**
+   * Instance constructor.
+   * 
+   * @param source
+   *          The event source.
+   * @param result
+   *          The asynchronous result.
+   */
+  public AsyncResultEvent(Object source, TResult result) {
+    super(source);
+    this.result = result;
+  }
 
-    /**
-     * Gets the asynchronous result. This may be
-     * an exception instance.
-     */
-    public TResult getResult() {
-        return this.result;
-    }
+  /**
+   * Gets the asynchronous result. This may be an exception instance.
+   */
+  public TResult getResult() {
+    return this.result;
+  }
 }

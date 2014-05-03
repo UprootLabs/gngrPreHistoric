@@ -19,54 +19,56 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 import java.awt.Component;
 
 /**
- * Abstract implementation of {@link ComponentContent}.
- * It is recommended that <code>ComponentContent</code> 
- * implementations extend this class for forward
+ * Abstract implementation of {@link ComponentContent}. It is recommended that
+ * <code>ComponentContent</code> implementations extend this class for forward
  * compatibility.
  */
 public abstract class AbstractComponentContent implements ComponentContent {
-	public AbstractComponentContent() {
-	}
-	
-	public boolean canCopy() {
-		return false;
-	}
-	
-	public boolean copy() {
-		return false;
-	}
-	
-	public abstract Component getComponent();
-	public abstract String getSourceCode();
-	public abstract String getTitle();
-	
-	public String getDescription() {
-		return "";
-	}
-	
-	public void addNotify() {		
-	}
-	
-	public void removeNotify() {		
-	}
+  public AbstractComponentContent() {
+  }
 
-	public Object getContentObject() {
-		return null;
-	}
+  public boolean canCopy() {
+    return false;
+  }
 
-	public String getMimeType() {
-		return null;
-	}
+  public boolean copy() {
+    return false;
+  }
 
-    public void setProperty(String name, Object value) {
-        // NOP
-    }
-	
-	// Backward compatibility note: Additional methods should provide an empty body.	
+  public abstract Component getComponent();
+
+  public abstract String getSourceCode();
+
+  public abstract String getTitle();
+
+  public String getDescription() {
+    return "";
+  }
+
+  public void addNotify() {
+  }
+
+  public void removeNotify() {
+  }
+
+  public Object getContentObject() {
+    return null;
+  }
+
+  public String getMimeType() {
+    return null;
+  }
+
+  public void setProperty(String name, Object value) {
+    // NOP
+  }
+
+  // Backward compatibility note: Additional methods should provide an empty
+  // body.
 }

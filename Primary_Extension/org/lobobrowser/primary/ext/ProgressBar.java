@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 import javax.swing.JProgressBar;
@@ -26,93 +26,86 @@ import java.awt.*;
 import java.util.logging.*;
 
 public class ProgressBar extends JProgressBar {
-	private static final Logger logger = Logger.getLogger(ProgressBar.class.getName());
-	
-	public ProgressBar() {
-		this.setStringPainted(true);
-	}
-	
-	public void updateProgress(ProgressType progressType, int value, int max) {
-		switch(progressType) {
-		case NONE:
-		case DONE:
-			this.setString("");
-			this.setIndeterminate(false);
-			this.setValue(0);
-			this.setMaximum(0);
-			break;
-		default:
-			if(max == -1) {
-				this.setIndeterminate(true);
-				this.setString(getSizeText(value));
-			}
-			else {
-				this.setIndeterminate(false);
-				this.setValue(value);
-				this.setMaximum(max);
-				if(max == 0) {
-					this.setString("");
-				}
-				else {
-					this.setString((value * 100 / max) + "%");
-				}
-			}
-			break;
-		}
-	}
-	
-	private static double round1(double value) {
-		return Math.round(value * 10.0) / 10.0;
-	}
-	
-	private static String getSizeText(int numBytes) {
-		if(numBytes == 0) {
-			return "";
-		}
-		else if(numBytes < 1024) {
-			return numBytes + " bytes";
-		}
-		else {
-			double numK = numBytes / 1024.0;
-			if(numK < 1024) {
-				return round1(numK) + " Kb";
-			}
-			else {
-				double numM = numK / 1024.0;
-				if(numM < 1024) {
-					return round1(numM) + " Mb";
-				}
-				else {
-					double numG = numM / 1024.0;
-					return round1(numG) + " Gb";
-				}
-			}
-		}	
-	}		
+  private static final Logger logger = Logger.getLogger(ProgressBar.class
+      .getName());
 
-	@Override
-	public Dimension getMinimumSize() {
-		return new Dimension(64, 18);
-	}
+  public ProgressBar() {
+    this.setStringPainted(true);
+  }
 
-	@Override
-	public Dimension getMaximumSize() {
-		return new Dimension(128, 100);
-	}
+  public void updateProgress(ProgressType progressType, int value, int max) {
+    switch (progressType) {
+    case NONE:
+    case DONE:
+      this.setString("");
+      this.setIndeterminate(false);
+      this.setValue(0);
+      this.setMaximum(0);
+      break;
+    default:
+      if (max == -1) {
+        this.setIndeterminate(true);
+        this.setString(getSizeText(value));
+      } else {
+        this.setIndeterminate(false);
+        this.setValue(value);
+        this.setMaximum(max);
+        if (max == 0) {
+          this.setString("");
+        } else {
+          this.setString((value * 100 / max) + "%");
+        }
+      }
+      break;
+    }
+  }
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(128, 18);
-	}
+  private static double round1(double value) {
+    return Math.round(value * 10.0) / 10.0;
+  }
 
+  private static String getSizeText(int numBytes) {
+    if (numBytes == 0) {
+      return "";
+    } else if (numBytes < 1024) {
+      return numBytes + " bytes";
+    } else {
+      double numK = numBytes / 1024.0;
+      if (numK < 1024) {
+        return round1(numK) + " Kb";
+      } else {
+        double numM = numK / 1024.0;
+        if (numM < 1024) {
+          return round1(numM) + " Mb";
+        } else {
+          double numG = numM / 1024.0;
+          return round1(numG) + " Gb";
+        }
+      }
+    }
+  }
 
+  @Override
+  public Dimension getMinimumSize() {
+    return new Dimension(64, 18);
+  }
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		try {
-			super.paintComponent(g);
-		} catch(Exception err) {
-			logger.log(Level.SEVERE, "paintComponent(): Swing bug?", err);
-		}
-	}
+  @Override
+  public Dimension getMaximumSize() {
+    return new Dimension(128, 100);
+  }
+
+  @Override
+  public Dimension getPreferredSize() {
+    return new Dimension(128, 18);
+  }
+
+  @Override
+  protected void paintComponent(Graphics g) {
+    try {
+      super.paintComponent(g);
+    } catch (Exception err) {
+      logger.log(Level.SEVERE, "paintComponent(): Swing bug?", err);
+    }
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Dec 3, 2005
  */
@@ -26,17 +26,17 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.Node;
 
 public final class ElementFilter implements NodeFilter {
-	private final String elementName;
+  private final String elementName;
 
-	/**
-	 * @param name
-	 */
-	public ElementFilter(String name) {
-		super();
-		elementName = name;
-	}
+  /**
+   * @param name
+   */
+  public ElementFilter(String name) {
+    super();
+    elementName = name;
+  }
 
-	public final boolean accept(Node node) {
-		return this.elementName.equalsIgnoreCase(node.getNodeName());
-	}
+  public final boolean accept(Node node) {
+    return this.elementName.equalsIgnoreCase(node.getNodeName());
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.js;
 
 import org.w3c.dom.html2.*;
@@ -26,164 +26,162 @@ import org.lobobrowser.js.*;
 
 // TODO: Implement org.w3c.events.Event ?
 public class Event extends AbstractScriptableDelegate {
-	private boolean cancelBubble;
-	private HTMLElement fromElement, toElement;
-	private int leafX, leafY;
-	private boolean returnValue;
-	private HTMLElement srcElement;
-	private String type;
-	private final java.awt.event.InputEvent inputEvent;
-	
-	public Event(String type, HTMLElement srcElement, java.awt.event.InputEvent mouseEvent, int leafX, int leafY) {
-		this.type = type;
-		this.srcElement = srcElement;
-		this.leafX = leafX;
-		this.leafY = leafY;
-		this.inputEvent = mouseEvent;
-	}
-	
-	public Event(String type, HTMLElement srcElement, java.awt.event.KeyEvent keyEvent) {
-		this.type = type;
-		this.srcElement = srcElement;
-		this.inputEvent = keyEvent;
-	}
+  private boolean cancelBubble;
+  private HTMLElement fromElement, toElement;
+  private int leafX, leafY;
+  private boolean returnValue;
+  private HTMLElement srcElement;
+  private String type;
+  private final java.awt.event.InputEvent inputEvent;
 
-	public Event(String type, HTMLElement srcElement) {
-		this.type = type;
-		this.srcElement = srcElement;
-		this.inputEvent = null;
-	}
+  public Event(String type, HTMLElement srcElement,
+      java.awt.event.InputEvent mouseEvent, int leafX, int leafY) {
+    this.type = type;
+    this.srcElement = srcElement;
+    this.leafX = leafX;
+    this.leafY = leafY;
+    this.inputEvent = mouseEvent;
+  }
 
-	public boolean getAltKey() {
-		InputEvent ie = this.inputEvent;
-		return ie == null ? false : ie.isAltDown();
-	}
-	
-	public boolean getShiftKey() {
-		InputEvent ie = this.inputEvent;
-		return ie == null ? false : ie.isShiftDown();
-	}
-	
-	public boolean getCtrlKey() {
-		InputEvent ie = this.inputEvent;
-		return ie == null ? false : ie.isControlDown();
-	}
-	
-	public int getButton() {
-		InputEvent ie = this.inputEvent;
-		if(ie instanceof MouseEvent) {
-			return ((MouseEvent) ie).getButton();
-		}
-		else {
-			return 0;
-		}
-	}
+  public Event(String type, HTMLElement srcElement,
+      java.awt.event.KeyEvent keyEvent) {
+    this.type = type;
+    this.srcElement = srcElement;
+    this.inputEvent = keyEvent;
+  }
 
-	public boolean isCancelBubble() {
-		return cancelBubble;
-	}
+  public Event(String type, HTMLElement srcElement) {
+    this.type = type;
+    this.srcElement = srcElement;
+    this.inputEvent = null;
+  }
 
-	public void setCancelBubble(boolean cancelBubble) {
-		this.cancelBubble = cancelBubble;
-	}
+  public boolean getAltKey() {
+    InputEvent ie = this.inputEvent;
+    return ie == null ? false : ie.isAltDown();
+  }
 
-	public String getType() {
-		return type;
-	}
+  public boolean getShiftKey() {
+    InputEvent ie = this.inputEvent;
+    return ie == null ? false : ie.isShiftDown();
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public int getClientX() {
-		InputEvent ie = this.inputEvent;
-		if(ie instanceof MouseEvent) {
-			return ((MouseEvent) ie).getX();
-		}
-		else {
-			return 0;
-		}		
-	}
-	
-	public int getClientY() {
-		InputEvent ie = this.inputEvent;
-		if(ie instanceof MouseEvent) {
-			return ((MouseEvent) ie).getY();
-		}
-		else {
-			return 0;
-		}		
-	}
+  public boolean getCtrlKey() {
+    InputEvent ie = this.inputEvent;
+    return ie == null ? false : ie.isControlDown();
+  }
 
-	public int getKeyCode() {
-		InputEvent ie = this.inputEvent;
-		if(ie instanceof KeyEvent) {
-			return ((KeyEvent) ie).getKeyCode();
-		}
-		else {
-			return 0;
-		}		
-	}
+  public int getButton() {
+    InputEvent ie = this.inputEvent;
+    if (ie instanceof MouseEvent) {
+      return ((MouseEvent) ie).getButton();
+    } else {
+      return 0;
+    }
+  }
 
-//	public int getOffsetX() {
-//		// Despite advertising that it returns an element-relative offset,
-//		// IE doesn't do this.
-//		//TODO: Must be relative to top viewport.
-//		return this.getClientX() - 2;
-//	}
-//
-//	public int getOffsetY() {
-//		// Despite advertising that it returns an element-relative offset,
-//		// IE doesn't do this.
-//		//TODO: Must be relative to top viewport.
-//		return this.getClientY() - 2;
-//	}
+  public boolean isCancelBubble() {
+    return cancelBubble;
+  }
 
-	public boolean isReturnValue() {
-		return returnValue;
-	}
+  public void setCancelBubble(boolean cancelBubble) {
+    this.cancelBubble = cancelBubble;
+  }
 
-	public void setReturnValue(boolean returnValue) {
-		this.returnValue = returnValue;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public HTMLElement getSrcElement() {
-		return srcElement;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public void setSrcElement(HTMLElement srcElement) {
-		this.srcElement = srcElement;
-	}
+  public int getClientX() {
+    InputEvent ie = this.inputEvent;
+    if (ie instanceof MouseEvent) {
+      return ((MouseEvent) ie).getX();
+    } else {
+      return 0;
+    }
+  }
 
-	public HTMLElement getFromElement() {
-		return fromElement;
-	}
+  public int getClientY() {
+    InputEvent ie = this.inputEvent;
+    if (ie instanceof MouseEvent) {
+      return ((MouseEvent) ie).getY();
+    } else {
+      return 0;
+    }
+  }
 
-	public void setFromElement(HTMLElement fromElement) {
-		this.fromElement = fromElement;
-	}
+  public int getKeyCode() {
+    InputEvent ie = this.inputEvent;
+    if (ie instanceof KeyEvent) {
+      return ((KeyEvent) ie).getKeyCode();
+    } else {
+      return 0;
+    }
+  }
 
-	public HTMLElement getToElement() {
-		return toElement;
-	}
+  // public int getOffsetX() {
+  // // Despite advertising that it returns an element-relative offset,
+  // // IE doesn't do this.
+  // //TODO: Must be relative to top viewport.
+  // return this.getClientX() - 2;
+  // }
+  //
+  // public int getOffsetY() {
+  // // Despite advertising that it returns an element-relative offset,
+  // // IE doesn't do this.
+  // //TODO: Must be relative to top viewport.
+  // return this.getClientY() - 2;
+  // }
 
-	public void setToElement(HTMLElement toElement) {
-		this.toElement = toElement;
-	}
+  public boolean isReturnValue() {
+    return returnValue;
+  }
 
-	public int getLeafX() {
-		return leafX;
-	}
+  public void setReturnValue(boolean returnValue) {
+    this.returnValue = returnValue;
+  }
 
-	public void setLeafX(int leafX) {
-		this.leafX = leafX;
-	}
+  public HTMLElement getSrcElement() {
+    return srcElement;
+  }
 
-	public int getLeafY() {
-		return leafY;
-	}
+  public void setSrcElement(HTMLElement srcElement) {
+    this.srcElement = srcElement;
+  }
 
-	public void setLeafY(int leafY) {
-		this.leafY = leafY;
-	}
+  public HTMLElement getFromElement() {
+    return fromElement;
+  }
+
+  public void setFromElement(HTMLElement fromElement) {
+    this.fromElement = fromElement;
+  }
+
+  public HTMLElement getToElement() {
+    return toElement;
+  }
+
+  public void setToElement(HTMLElement toElement) {
+    this.toElement = toElement;
+  }
+
+  public int getLeafX() {
+    return leafX;
+  }
+
+  public void setLeafX(int leafX) {
+    this.leafX = leafX;
+  }
+
+  public int getLeafY() {
+    return leafY;
+  }
+
+  public void setLeafY(int leafY) {
+    this.leafY = leafY;
+  }
 }

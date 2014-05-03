@@ -17,19 +17,19 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.js;
 
 import org.mozilla.javascript.Scriptable;
 
 public abstract class AbstractScriptableDelegate implements ScriptableDelegate {
-	private Scriptable scriptable;
+  private Scriptable scriptable;
 
-	public Scriptable getScriptable() {
-		return this.scriptable;
-	}
+  public Scriptable getScriptable() {
+    return this.scriptable;
+  }
 
-	public void setScriptable(Scriptable scriptable) {
-		this.scriptable = scriptable;
-	}	
+  public void setScriptable(Scriptable scriptable) {
+    this.scriptable = scriptable;
+  }
 }

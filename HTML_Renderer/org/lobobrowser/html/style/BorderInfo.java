@@ -17,21 +17,21 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 import java.awt.*;
 
 public class BorderInfo {
-    public int topStyle; 
-    public int leftStyle; 
-    public int bottomStyle; 
-    public int rightStyle;
-    
-    public Color topColor;
-    public Color leftColor;
-    public Color bottomColor;
-    public Color rightColor;
-    
-    public HtmlInsets insets;
+  public int topStyle;
+  public int leftStyle;
+  public int bottomStyle;
+  public int rightStyle;
+
+  public Color topColor;
+  public Color leftColor;
+  public Color bottomColor;
+  public Color rightColor;
+
+  public HtmlInsets insets;
 }

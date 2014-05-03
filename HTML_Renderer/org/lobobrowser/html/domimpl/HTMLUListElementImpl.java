@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Feb 12, 2006
  */
@@ -27,29 +27,29 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLUListElement;
 
 public class HTMLUListElementImpl extends HTMLAbstractUIElement implements
-		HTMLUListElement {
-	public HTMLUListElementImpl(String name) {
-		super(name);
-	}
-	
-	public boolean getCompact() {
-		String compactText = this.getAttribute("compact");
-		return "compact".equalsIgnoreCase(compactText);
-	}
+    HTMLUListElement {
+  public HTMLUListElementImpl(String name) {
+    super(name);
+  }
 
-	public void setCompact(boolean compact) {
-		this.setAttribute("compact", compact ? "compact" : null);
-	}
+  public boolean getCompact() {
+    String compactText = this.getAttribute("compact");
+    return "compact".equalsIgnoreCase(compactText);
+  }
 
-	public String getType() {
-		return this.getAttribute("type");
-	}
+  public void setCompact(boolean compact) {
+    this.setAttribute("compact", compact ? "compact" : null);
+  }
 
-	public void setType(String type) {
-		this.setAttribute("type", type);
-	}
+  public String getType() {
+    return this.getAttribute("type");
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		return new ListRenderState(prevRenderState, this);
-	}
+  public void setType(String type) {
+    this.setAttribute("type", type);
+  }
+
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    return new ListRenderState(prevRenderState, this);
+  }
 }

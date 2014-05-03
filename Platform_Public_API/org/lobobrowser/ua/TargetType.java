@@ -19,20 +19,22 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * Frame target type for navigation.
- * @see NavigatorFrame#navigate(java.net.URL, String, ParameterInfo, TargetType, RequestType)
+ * 
+ * @see NavigatorFrame#navigate(java.net.URL, String, ParameterInfo, TargetType,
+ *      RequestType)
  */
 public enum TargetType {
-	/** Document should opened in a new window. */
-	BLANK, 
-	/** Document should be opened in the current frame. */
-	SELF, 
-	/** Document should be opened in the parent frame. */
-	PARENT, 
-	/** Document should be opened in the top frame of the current window. */
-	TOP
+  /** Document should opened in a new window. */
+  BLANK,
+  /** Document should be opened in the current frame. */
+  SELF,
+  /** Document should be opened in the parent frame. */
+  PARENT,
+  /** Document should be opened in the top frame of the current window. */
+  TOP
 }

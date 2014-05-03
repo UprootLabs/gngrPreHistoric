@@ -17,64 +17,64 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.request;
 
 import java.io.*;
 
 public class MultipartFormDataWriter {
-	private static final byte[] LINE_BREAK_BYTES;
-	private final OutputStream out;
-	private final String boundary;
+  private static final byte[] LINE_BREAK_BYTES;
+  private final OutputStream out;
+  private final String boundary;
 
-	static {
-		LINE_BREAK_BYTES = "\r\n".getBytes();
-	}
-	
-	public MultipartFormDataWriter(final OutputStream out, final String boundary) {
-		super();
-		this.out = out;
-		this.boundary = boundary;
-	}
+  static {
+    LINE_BREAK_BYTES = "\r\n".getBytes();
+  }
 
-	/**
-	 * 
-	 * @param name
-	 * @param contentType
-	 * @param in Data stream. The caller is responsible for closing it.
-	 */
-	public final void writeFileData(String name, String fileName, String contentType, InputStream in) throws java.io.IOException {
-		String headers = 
-			"--" + this.boundary + "\r\n" + 
-			"Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName + "\"\r\n" +
-			"Content-Type: " + contentType + "\r\n" +
-			"\r\n";
-		OutputStream out = this.out;
-		out.write(headers.getBytes("ISO-8859-1"));
-		byte[] buffer = new byte[4096];
-		int numRead;
-		while((numRead = in.read(buffer)) != -1) {
-			out.write(buffer, 0, numRead);
-		}
-		out.write(LINE_BREAK_BYTES);
-	}
-	
-	public final void writeText(String name, String value, String charset) throws IOException {
-		String headers = 
-			"--" + this.boundary + "\r\n" + 
-			"Content-Disposition: form-data; name=\"" + name + "\"\r\n" +
-			"Content-Type: text/plain; charset=\"" + charset + "\"\r\n" +
-			"\r\n";
-		OutputStream out = this.out;
-		out.write(headers.getBytes("ISO-8859-1"));
-		out.write(value.getBytes(charset));
-		out.write(LINE_BREAK_BYTES);
-	}
-	
-	public final void send() throws java.io.IOException {
-		String finalDelimiter = "--" + this.boundary + "--\r\n";
-		OutputStream out = this.out;
-		out.write(finalDelimiter.getBytes("ISO-8859-1"));		
-		out.flush();
-	}
+  public MultipartFormDataWriter(final OutputStream out, final String boundary) {
+    super();
+    this.out = out;
+    this.boundary = boundary;
+  }
+
+  /**
+   * 
+   * @param name
+   * @param contentType
+   * @param in
+   *          Data stream. The caller is responsible for closing it.
+   */
+  public final void writeFileData(String name, String fileName,
+      String contentType, InputStream in) throws java.io.IOException {
+    String headers = "--" + this.boundary + "\r\n"
+        + "Content-Disposition: form-data; name=\"" + name + "\"; filename=\""
+        + fileName + "\"\r\n" + "Content-Type: " + contentType + "\r\n"
+        + "\r\n";
+    OutputStream out = this.out;
+    out.write(headers.getBytes("ISO-8859-1"));
+    byte[] buffer = new byte[4096];
+    int numRead;
+    while ((numRead = in.read(buffer)) != -1) {
+      out.write(buffer, 0, numRead);
+    }
+    out.write(LINE_BREAK_BYTES);
+  }
+
+  public final void writeText(String name, String value, String charset)
+      throws IOException {
+    String headers = "--" + this.boundary + "\r\n"
+        + "Content-Disposition: form-data; name=\"" + name + "\"\r\n"
+        + "Content-Type: text/plain; charset=\"" + charset + "\"\r\n" + "\r\n";
+    OutputStream out = this.out;
+    out.write(headers.getBytes("ISO-8859-1"));
+    out.write(value.getBytes(charset));
+    out.write(LINE_BREAK_BYTES);
+  }
+
+  public final void send() throws java.io.IOException {
+    String finalDelimiter = "--" + this.boundary + "--\r\n";
+    OutputStream out = this.out;
+    out.write(finalDelimiter.getBytes("ISO-8859-1"));
+    out.flush();
+  }
 }

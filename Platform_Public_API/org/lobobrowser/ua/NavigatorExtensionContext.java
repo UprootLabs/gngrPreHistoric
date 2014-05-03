@@ -19,65 +19,72 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 import org.lobobrowser.clientlet.ClientletSelector;
 
 /**
  * This interface gives extensions access to the platform.
+ * 
  * @see NavigatorExtension#init(NavigatorExtensionContext)
  */
 public interface NavigatorExtensionContext {
-	/**
-	 * Adds a clientlet selector. This is how platform
-	 * extensions register additional content handlers. 
-	 */
-	public void addClientletSelector(ClientletSelector selector);
-	
-	public void removeClientletSelector(ClientletSelector selector);
+  /**
+   * Adds a clientlet selector. This is how platform extensions register
+   * additional content handlers.
+   */
+  public void addClientletSelector(ClientletSelector selector);
 
-	/**
-	 * Adds an object that can view connections made by the browser
-	 * and potentially modify their headers and other data.
-	 * @param processor An connection processor.
-	 */
-	public void addConnectionProcessor(ConnectionProcessor processor);
-	
-	public void removeConnectionProcessor(ConnectionProcessor processor);
+  public void removeClientletSelector(ClientletSelector selector);
 
-	/**
-	 * Adds a listener of navigator events.
-	 */
-	public void addNavigatorErrorListener(NavigatorErrorListener listener);
-	
-	/**
-	 * Removes a listener of navigation events.
-	 */
-	public void removeNavigatorErrorListener(NavigatorErrorListener listener);
-	
-	/**
-	 * Adds a global listener of navigation events. 
-	 * @param listener The listener.
-	 */
-	public void addNavigationListener(NavigationListener listener);
-	
-	public void removeNavigationListener(NavigationListener listener);
+  /**
+   * Adds an object that can view connections made by the browser and
+   * potentially modify their headers and other data.
+   * 
+   * @param processor
+   *          An connection processor.
+   */
+  public void addConnectionProcessor(ConnectionProcessor processor);
 
-	
-	/**
-	 * Gets the {@link UserAgent} instance associated with
-	 * this context.
-	 */
-	public UserAgent getUserAgent();
-	
-	/**
-	 * Registers a URL stream handler factory which may be
-	 * used to implement custom protocols. Note that Java platform protocols (HTTP, HTTPS, etc.) or
-	 * protocols defined by extensions with higher priority cannot be overridden.
-	 * The factory must return <code>null</code> if it does not know how to
-	 * handle a particular protocol.
-	 * @param factory An implementation of <code>java.net.URLStreamHandlerFactory</code>.
-	 */
-	public void addURLStreamHandlerFactory(java.net.URLStreamHandlerFactory factory);
-}	
+  public void removeConnectionProcessor(ConnectionProcessor processor);
+
+  /**
+   * Adds a listener of navigator events.
+   */
+  public void addNavigatorErrorListener(NavigatorErrorListener listener);
+
+  /**
+   * Removes a listener of navigation events.
+   */
+  public void removeNavigatorErrorListener(NavigatorErrorListener listener);
+
+  /**
+   * Adds a global listener of navigation events.
+   * 
+   * @param listener
+   *          The listener.
+   */
+  public void addNavigationListener(NavigationListener listener);
+
+  public void removeNavigationListener(NavigationListener listener);
+
+  /**
+   * Gets the {@link UserAgent} instance associated with this context.
+   */
+  public UserAgent getUserAgent();
+
+  /**
+   * Registers a URL stream handler factory which may be used to implement
+   * custom protocols. Note that Java platform protocols (HTTP, HTTPS, etc.) or
+   * protocols defined by extensions with higher priority cannot be overridden.
+   * The factory must return <code>null</code> if it does not know how to handle
+   * a particular protocol.
+   * 
+   * @param factory
+   *          An implementation of <code>java.net.URLStreamHandlerFactory</code>
+   *          .
+   */
+  public void addURLStreamHandlerFactory(
+      java.net.URLStreamHandlerFactory factory);
+}

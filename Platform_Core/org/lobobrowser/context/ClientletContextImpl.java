@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.context;
 
 import java.awt.Component;
@@ -32,144 +32,146 @@ import org.lobobrowser.request.*;
 import org.lobobrowser.store.*;
 import org.lobobrowser.ua.*;
 
-
 public class ClientletContextImpl implements ClientletContext {
-	private final NavigatorFrame frame;
-	private final ClientletRequest request;
-	private final ClientletResponse response;
-	
-	public ClientletContextImpl(NavigatorFrame frame, ClientletRequest request, ClientletResponse response) {
-		this.frame = frame;
-		this.request = request;
-		this.response = response;
-	}
-	
-	public ContentBuffer createContentBuffer(String contentType, byte[] content) {
-		return new VolatileContentImpl(contentType, content);
-	}
+  private final NavigatorFrame frame;
+  private final ClientletRequest request;
+  private final ClientletResponse response;
 
-	public ContentBuffer createContentBuffer(String contentType,
-			String content, String encoding)
-			throws UnsupportedEncodingException {
-		byte[] bytes = content.getBytes(encoding);
-		return new VolatileContentImpl(contentType, bytes);
-	}
+  public ClientletContextImpl(NavigatorFrame frame, ClientletRequest request,
+      ClientletResponse response) {
+    this.frame = frame;
+    this.request = request;
+    this.response = response;
+  }
 
-	public NavigatorFrame getNavigatorFrame() {
-		return this.frame;
-	}
+  public ContentBuffer createContentBuffer(String contentType, byte[] content) {
+    return new VolatileContentImpl(contentType, content);
+  }
 
-	private Map<String,Object> items = null;
-	
-	public Object getItem(String name) {
-		synchronized(this) {
-			Map items = this.items;
-			if(items == null) {
-				return null;
-			}
-			return items.get(name);
-		}
-	}
+  public ContentBuffer createContentBuffer(String contentType, String content,
+      String encoding) throws UnsupportedEncodingException {
+    byte[] bytes = content.getBytes(encoding);
+    return new VolatileContentImpl(contentType, bytes);
+  }
 
-	public ManagedStore getManagedStore() throws IOException {
-		ClientletResponse response = this.response;
-		if(response == null) {
-			throw new SecurityException("There is no client response");
-		}
-		String hostName = response.getResponseURL().getHost();
-		return StorageManager.getInstance().getRestrictedStore(hostName, true);
-	}
+  public NavigatorFrame getNavigatorFrame() {
+    return this.frame;
+  }
 
-	public ManagedStore getManagedStore(String hostName) throws IOException {
-		return StorageManager.getInstance().getRestrictedStore(hostName, true);
-	}
+  private Map<String, Object> items = null;
 
-	public ClientletRequest getRequest() {
-		return this.request;
-	}
+  public Object getItem(String name) {
+    synchronized (this) {
+      Map items = this.items;
+      if (items == null) {
+        return null;
+      }
+      return items.get(name);
+    }
+  }
 
-	public ClientletResponse getResponse() {
-		return this.response;
-	}
+  public ManagedStore getManagedStore() throws IOException {
+    ClientletResponse response = this.response;
+    if (response == null) {
+      throw new SecurityException("There is no client response");
+    }
+    String hostName = response.getResponseURL().getHost();
+    return StorageManager.getInstance().getRestrictedStore(hostName, true);
+  }
 
-	public UserAgent getUserAgent() {
-		return UserAgentImpl.getInstance();
-	}
+  public ManagedStore getManagedStore(String hostName) throws IOException {
+    return StorageManager.getInstance().getRestrictedStore(hostName, true);
+  }
 
-	public void setItem(String name, Object value) {
-		synchronized(this) {
-			Map<String,Object> items = this.items;
-			if(items == null) {
-				items = new HashMap<String,Object>(1);
-				this.items = items;
-			}
-			items.put(name, value);
-		}
-	}
+  public ClientletRequest getRequest() {
+    return this.request;
+  }
 
-	private volatile ComponentContent resultingContent;
-	
-	public ComponentContent getResultingContent() {
-		return this.resultingContent;
-	}
+  public ClientletResponse getResponse() {
+    return this.response;
+  }
 
-	public void navigate(String url) throws java.net.MalformedURLException {
-		java.net.URL responseURL = this.response.getResponseURL();
-		java.net.URL newURL = org.lobobrowser.util.Urls.guessURL(responseURL, url);
-		this.frame.navigate(newURL);
-	}
+  public UserAgent getUserAgent() {
+    return UserAgentImpl.getInstance();
+  }
 
-	public final void setResultingContent(Component content) {
-		// Must call other overload, which may be overridden.
-		this.setResultingContent(new SimpleComponentContent(content));
-	}
+  public void setItem(String name, Object value) {
+    synchronized (this) {
+      Map<String, Object> items = this.items;
+      if (items == null) {
+        items = new HashMap<String, Object>(1);
+        this.items = items;
+      }
+      items.put(name, value);
+    }
+  }
 
-	public void setResultingContent(ComponentContent content) {
-		this.resultingContent = content;
-	}
-	
-	private volatile Properties windowProperties;
-	
-	public void overrideWindowProperties(Properties properties) {
-		this.windowProperties = properties;
-	}
+  private volatile ComponentContent resultingContent;
 
-	public Properties getOverriddingWindowProperties() {
-		return this.windowProperties;
-	}
+  public ComponentContent getResultingContent() {
+    return this.resultingContent;
+  }
 
-	public boolean isResultingContentSet() {
-		return this.resultingContent != null;
-	}
+  public void navigate(String url) throws java.net.MalformedURLException {
+    java.net.URL responseURL = this.response.getResponseURL();
+    java.net.URL newURL = org.lobobrowser.util.Urls.guessURL(responseURL, url);
+    this.frame.navigate(newURL);
+  }
 
-	public void setProgressEvent(ProgressType progressType, int value, int max) {
-		this.setProgressEvent(progressType, value, max, this.getResponse().getResponseURL());
-	}
-	
-	public NavigatorProgressEvent getProgressEvent() {
-		return this.frame.getProgressEvent();
-	}
+  public final void setResultingContent(Component content) {
+    // Must call other overload, which may be overridden.
+    this.setResultingContent(new SimpleComponentContent(content));
+  }
 
-	public void setProgressEvent(ProgressType progressType, int value, int max, java.net.URL url) {
-		ClientletResponse response = this.getResponse();
-		NavigatorFrame frame = this.getNavigatorFrame();
-		String method = response.getLastRequestMethod();
-		frame.setProgressEvent(new NavigatorProgressEvent(this, frame, progressType, url, method, value, max));
-	}
+  public void setResultingContent(ComponentContent content) {
+    this.resultingContent = content;
+  }
 
-	public void setProgressEvent(NavigatorProgressEvent event) {
-		this.getNavigatorFrame().setProgressEvent(event);
-	}
+  private volatile Properties windowProperties;
 
-	public NetworkRequest createNetworkRequest() {
-		return new NetworkRequestImpl();
-	}
+  public void overrideWindowProperties(Properties properties) {
+    this.windowProperties = properties;
+  }
 
-	public void alert(String message) {
-		this.getNavigatorFrame().alert(message);
-	}
+  public Properties getOverriddingWindowProperties() {
+    return this.windowProperties;
+  }
 
-	public NavigatorFrame createNavigatorFrame() {
-		return this.getNavigatorFrame().createFrame();
-	}
+  public boolean isResultingContentSet() {
+    return this.resultingContent != null;
+  }
+
+  public void setProgressEvent(ProgressType progressType, int value, int max) {
+    this.setProgressEvent(progressType, value, max, this.getResponse()
+        .getResponseURL());
+  }
+
+  public NavigatorProgressEvent getProgressEvent() {
+    return this.frame.getProgressEvent();
+  }
+
+  public void setProgressEvent(ProgressType progressType, int value, int max,
+      java.net.URL url) {
+    ClientletResponse response = this.getResponse();
+    NavigatorFrame frame = this.getNavigatorFrame();
+    String method = response.getLastRequestMethod();
+    frame.setProgressEvent(new NavigatorProgressEvent(this, frame,
+        progressType, url, method, value, max));
+  }
+
+  public void setProgressEvent(NavigatorProgressEvent event) {
+    this.getNavigatorFrame().setProgressEvent(event);
+  }
+
+  public NetworkRequest createNetworkRequest() {
+    return new NetworkRequestImpl();
+  }
+
+  public void alert(String message) {
+    this.getNavigatorFrame().alert(message);
+  }
+
+  public NavigatorFrame createNavigatorFrame() {
+    return this.getNavigatorFrame().createFrame();
+  }
 }

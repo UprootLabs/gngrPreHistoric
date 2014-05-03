@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.main;
 
 import java.util.*;
@@ -26,37 +26,38 @@ import java.net.URLStreamHandlerFactory;
 
 /**
  * Global URL stream handler factory used by the browser.
+ * 
  * @see PlatformInit#initProtocols()
  */
 public class PlatformStreamHandlerFactory implements URLStreamHandlerFactory {
-	private static final PlatformStreamHandlerFactory instance = new PlatformStreamHandlerFactory();
-	private final Collection<URLStreamHandlerFactory> factories = new ArrayList<URLStreamHandlerFactory>();
-	
-	public static PlatformStreamHandlerFactory getInstance() {
-		return instance;
-	}
-	
-	public void addFactory(URLStreamHandlerFactory factory) {
-		SecurityManager sm = System.getSecurityManager();
-		if(sm != null) {
-			sm.checkSetFactory();
-		}
-		Collection<URLStreamHandlerFactory> factories = this.factories;
-		synchronized(factories) {
-			factories.add(factory);
-		}
-	}
-	
-	public URLStreamHandler createURLStreamHandler(String protocol) {
-		Collection<URLStreamHandlerFactory> factories = this.factories;
-		synchronized(factories) {
-			for(URLStreamHandlerFactory f : factories) {
-				URLStreamHandler handler = f.createURLStreamHandler(protocol);
-				if(handler != null) {
-					return handler;
-				}
-			}
-		}
-		return null;
-	}
+  private static final PlatformStreamHandlerFactory instance = new PlatformStreamHandlerFactory();
+  private final Collection<URLStreamHandlerFactory> factories = new ArrayList<URLStreamHandlerFactory>();
+
+  public static PlatformStreamHandlerFactory getInstance() {
+    return instance;
+  }
+
+  public void addFactory(URLStreamHandlerFactory factory) {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkSetFactory();
+    }
+    Collection<URLStreamHandlerFactory> factories = this.factories;
+    synchronized (factories) {
+      factories.add(factory);
+    }
+  }
+
+  public URLStreamHandler createURLStreamHandler(String protocol) {
+    Collection<URLStreamHandlerFactory> factories = this.factories;
+    synchronized (factories) {
+      for (URLStreamHandlerFactory f : factories) {
+        URLStreamHandler handler = f.createURLStreamHandler(protocol);
+        if (handler != null) {
+          return handler;
+        }
+      }
+    }
+    return null;
+  }
 }

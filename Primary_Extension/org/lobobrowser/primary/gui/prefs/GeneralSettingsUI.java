@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui.prefs;
 
 import org.lobobrowser.settings.*;
@@ -27,91 +27,95 @@ import javax.swing.border.*;
 import java.awt.*;
 
 public class GeneralSettingsUI extends AbstractSettingsUI {
-	private final GeneralSettings settings = GeneralSettings.getInstance();
-	private final FormField ieVersionField;	
-	private final FormField mozillaVersionField;	
-	private final CheckBoxPanel ieSpoofPanel;
-	private final FormPanel mozPanel;
-	private final FormPanel iePanel;
-	private final StringListControl startupPagesStringListControl;
-	
-	public GeneralSettingsUI() {
-		this.ieVersionField = new FormField(FieldType.TEXT, "MSIE Version:");
-		this.mozillaVersionField = new FormField(FieldType.TEXT, "Mozilla Version:");
-		this.mozillaVersionField.setToolTip("Mozilla compatibility version.");
-		FormPanel iePanel = new FormPanel();
-		this.iePanel = iePanel;
-		iePanel.addField(this.ieVersionField);
-		iePanel.setBorder(new EmptyBorder(1, 8, 8, 0));
-		this.ieSpoofPanel = new CheckBoxPanel("Include \"MSIE\" in User-Agent header.", iePanel);
-		this.mozPanel = new FormPanel();
-		mozPanel.addField(this.mozillaVersionField);
-		this.startupPagesStringListControl = new StringListControl();
-		this.startupPagesStringListControl.setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES + " startup URLs, one per line.");
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(this.getStartupGroupBox());
-		this.add(Box.createRigidArea(new Dimension(8, 8)));
-		this.add(this.getUserAgentGroupBox());
-		this.add(SwingTasks.createVerticalFill());
-		this.loadSettings();
-		this.ieSpoofPanel.updateEnabling();
-	}
+  private final GeneralSettings settings = GeneralSettings.getInstance();
+  private final FormField ieVersionField;
+  private final FormField mozillaVersionField;
+  private final CheckBoxPanel ieSpoofPanel;
+  private final FormPanel mozPanel;
+  private final FormPanel iePanel;
+  private final StringListControl startupPagesStringListControl;
 
-	private static final int MAX_STARTUP_PAGES = 4;
-	
-	private Component getStartupGroupBox() {
-		Box startupGroupBox = new Box(BoxLayout.Y_AXIS);
-		startupGroupBox.setBorder(new TitledBorder(new EtchedBorder(), "Startup"));
-		Box startupPagesBox = new Box(BoxLayout.X_AXIS);
-		JLabel pagesLabel = new JLabel("Pages:");
-		pagesLabel.setToolTipText("Up to " + MAX_STARTUP_PAGES + " pages launched when you first run the browser.");
-		startupPagesBox.add(pagesLabel);
-		startupPagesBox.add(this.startupPagesStringListControl);
-		startupGroupBox.add(startupPagesBox);
-		return startupGroupBox;
-	}
-	
-	private Component getUserAgentGroupBox() {
-		JPanel groupBox = new JPanel();
-		groupBox.setPreferredSize(new Dimension(400, 100));
-		groupBox.setLayout(new BoxLayout(groupBox, BoxLayout.Y_AXIS));
-		groupBox.setBorder(new TitledBorder(new EtchedBorder(), "User Agent"));
-		groupBox.add(this.getIECheckBoxPanel());
-		groupBox.add(this.getMozVersionPanel());
-		return groupBox;
-	}
-	
-	private Component getIECheckBoxPanel() {
-		return this.ieSpoofPanel;
-	}
-	
-	private Component getMozVersionPanel() {
-		return this.mozPanel;
-	}
+  public GeneralSettingsUI() {
+    this.ieVersionField = new FormField(FieldType.TEXT, "MSIE Version:");
+    this.mozillaVersionField = new FormField(FieldType.TEXT, "Mozilla Version:");
+    this.mozillaVersionField.setToolTip("Mozilla compatibility version.");
+    FormPanel iePanel = new FormPanel();
+    this.iePanel = iePanel;
+    iePanel.addField(this.ieVersionField);
+    iePanel.setBorder(new EmptyBorder(1, 8, 8, 0));
+    this.ieSpoofPanel = new CheckBoxPanel(
+        "Include \"MSIE\" in User-Agent header.", iePanel);
+    this.mozPanel = new FormPanel();
+    mozPanel.addField(this.mozillaVersionField);
+    this.startupPagesStringListControl = new StringListControl();
+    this.startupPagesStringListControl
+        .setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES
+            + " startup URLs, one per line.");
+    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    this.add(this.getStartupGroupBox());
+    this.add(Box.createRigidArea(new Dimension(8, 8)));
+    this.add(this.getUserAgentGroupBox());
+    this.add(SwingTasks.createVerticalFill());
+    this.loadSettings();
+    this.ieSpoofPanel.updateEnabling();
+  }
 
-	@Override
-	public void restoreDefaults() {
-		this.settings.restoreDefaults();
-		this.loadSettings();
-	}
+  private static final int MAX_STARTUP_PAGES = 4;
 
-	@Override
-	public void save() {
-		GeneralSettings settings = this.settings;
-		settings.setSpoofIE(this.ieSpoofPanel.isSelected());
-		settings.setIeVersion(this.ieVersionField.getValue());
-		settings.setMozVersion(this.mozillaVersionField.getValue());
-		settings.setStartupURLs(this.startupPagesStringListControl.getStrings());
-		settings.save();
-	}
-	
-	private void loadSettings() {
-		GeneralSettings settings = this.settings;
-		this.ieSpoofPanel.setSelected(settings.isSpoofIE());
-		this.ieVersionField.setValue(settings.getIeVersion());
-		this.mozillaVersionField.setValue(settings.getMozVersion());
-		this.mozPanel.revalidate();
-		this.iePanel.revalidate();
-		this.startupPagesStringListControl.setStrings(settings.getStartupURLs());
-	}
+  private Component getStartupGroupBox() {
+    Box startupGroupBox = new Box(BoxLayout.Y_AXIS);
+    startupGroupBox.setBorder(new TitledBorder(new EtchedBorder(), "Startup"));
+    Box startupPagesBox = new Box(BoxLayout.X_AXIS);
+    JLabel pagesLabel = new JLabel("Pages:");
+    pagesLabel.setToolTipText("Up to " + MAX_STARTUP_PAGES
+        + " pages launched when you first run the browser.");
+    startupPagesBox.add(pagesLabel);
+    startupPagesBox.add(this.startupPagesStringListControl);
+    startupGroupBox.add(startupPagesBox);
+    return startupGroupBox;
+  }
+
+  private Component getUserAgentGroupBox() {
+    JPanel groupBox = new JPanel();
+    groupBox.setPreferredSize(new Dimension(400, 100));
+    groupBox.setLayout(new BoxLayout(groupBox, BoxLayout.Y_AXIS));
+    groupBox.setBorder(new TitledBorder(new EtchedBorder(), "User Agent"));
+    groupBox.add(this.getIECheckBoxPanel());
+    groupBox.add(this.getMozVersionPanel());
+    return groupBox;
+  }
+
+  private Component getIECheckBoxPanel() {
+    return this.ieSpoofPanel;
+  }
+
+  private Component getMozVersionPanel() {
+    return this.mozPanel;
+  }
+
+  @Override
+  public void restoreDefaults() {
+    this.settings.restoreDefaults();
+    this.loadSettings();
+  }
+
+  @Override
+  public void save() {
+    GeneralSettings settings = this.settings;
+    settings.setSpoofIE(this.ieSpoofPanel.isSelected());
+    settings.setIeVersion(this.ieVersionField.getValue());
+    settings.setMozVersion(this.mozillaVersionField.getValue());
+    settings.setStartupURLs(this.startupPagesStringListControl.getStrings());
+    settings.save();
+  }
+
+  private void loadSettings() {
+    GeneralSettings settings = this.settings;
+    this.ieSpoofPanel.setSelected(settings.isSpoofIE());
+    this.ieVersionField.setValue(settings.getIeVersion());
+    this.mozillaVersionField.setValue(settings.getMozVersion());
+    this.mozPanel.revalidate();
+    this.iePanel.revalidate();
+    this.startupPagesStringListControl.setStrings(settings.getStartupURLs());
+  }
 }

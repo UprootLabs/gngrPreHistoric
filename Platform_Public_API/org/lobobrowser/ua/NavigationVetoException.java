@@ -17,28 +17,29 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
- * An exception thrown by {@link NavigationListener} methods in
- * order to prevent navigation from occurring. 
+ * An exception thrown by {@link NavigationListener} methods in order to prevent
+ * navigation from occurring.
+ * 
  * @see NavigationListener
  */
 public class NavigationVetoException extends Exception {
-	public NavigationVetoException() {
-		super();
-	}
+  public NavigationVetoException() {
+    super();
+  }
 
-	public NavigationVetoException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public NavigationVetoException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public NavigationVetoException(String message) {
-		super(message);
-	}
+  public NavigationVetoException(String message) {
+    super(message);
+  }
 
-	public NavigationVetoException(Throwable cause) {
-		super(cause);
-	}	
+  public NavigationVetoException(Throwable cause) {
+    super(cause);
+  }
 }

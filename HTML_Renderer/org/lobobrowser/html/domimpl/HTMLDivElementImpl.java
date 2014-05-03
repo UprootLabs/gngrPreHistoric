@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.domimpl;
 
@@ -25,47 +25,46 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLDivElement;
 
 public class HTMLDivElementImpl extends HTMLAbstractUIElement implements
-		HTMLDivElement {
+    HTMLDivElement {
 
-	public HTMLDivElementImpl(String name) {
-		super(name);
-	}
+  public HTMLDivElementImpl(String name) {
+    super(name);
+  }
 
-	public String getAlign() {
-		return this.getAttribute("align");
-	}
+  public String getAlign() {
+    return this.getAttribute("align");
+  }
 
-	public void setAlign(String align) {
-		this.setAttribute("align", align);
-	}
+  public void setAlign(String align) {
+    this.setAttribute("align", align);
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		return new BlockRenderState(prevRenderState, this);
-	}
-	
-	protected void appendInnerTextImpl(StringBuffer buffer) {
-		int length = buffer.length();
-		int lineBreaks;
-		if(length == 0) {
-			lineBreaks = 2;
-		}
-		else {
-			int start = length - 2;
-			if (start < 0) {
-				start = 0;
-			}
-			lineBreaks = 0;
-			for(int i = start; i < length; i++) {
-				char ch = buffer.charAt(i);
-				if(ch == '\n') {
-					lineBreaks++;
-				}
-			}
-		}
-		for(int i = 0; i < 1 - lineBreaks; i++) {
-			buffer.append("\r\n");
-		}
-		super.appendInnerTextImpl(buffer);
-		buffer.append("\r\n");
-	}
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    return new BlockRenderState(prevRenderState, this);
+  }
+
+  protected void appendInnerTextImpl(StringBuffer buffer) {
+    int length = buffer.length();
+    int lineBreaks;
+    if (length == 0) {
+      lineBreaks = 2;
+    } else {
+      int start = length - 2;
+      if (start < 0) {
+        start = 0;
+      }
+      lineBreaks = 0;
+      for (int i = start; i < length; i++) {
+        char ch = buffer.charAt(i);
+        if (ch == '\n') {
+          lineBreaks++;
+        }
+      }
+    }
+    for (int i = 0; i < 1 - lineBreaks; i++) {
+      buffer.append("\r\n");
+    }
+    super.appendInnerTextImpl(buffer);
+    buffer.append("\r\n");
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.context;
 
 import org.lobobrowser.clientlet.Clientlet;
@@ -27,11 +27,12 @@ import org.lobobrowser.clientlet.ClientletSelector;
 import org.lobobrowser.main.*;
 
 public class CoreClientletSelector implements ClientletSelector {
-	public Clientlet select(ClientletRequest request, ClientletResponse response) {
-		return ExtensionManager.getInstance().getClientlet(request, response);
-	}
+  public Clientlet select(ClientletRequest request, ClientletResponse response) {
+    return ExtensionManager.getInstance().getClientlet(request, response);
+  }
 
-	public Clientlet lastResortSelect(ClientletRequest request, ClientletResponse response) {
-		throw new IllegalStateException("not expected to be called");
-	}
+  public Clientlet lastResortSelect(ClientletRequest request,
+      ClientletResponse response) {
+    throw new IllegalStateException("not expected to be called");
+  }
 }

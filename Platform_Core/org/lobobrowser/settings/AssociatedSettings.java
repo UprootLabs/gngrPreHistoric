@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
@@ -27,60 +27,65 @@ import org.lobobrowser.util.*;
 import org.lobobrowser.security.*;
 
 /**
- * Settings associated with host names. This is a singleton class
- * with an instance obtained by calling {@link #getInstance()}.
+ * Settings associated with host names. This is a singleton class with an
+ * instance obtained by calling {@link #getInstance()}.
  */
 public class AssociatedSettings implements Serializable {
-	private static final Logger logger = Logger.getLogger(AssociatedSettings.class.getName());
-    private static final AssociatedSettings instance;
-    private static final long serialVersionUID = 22574500005000804L;
+  private static final Logger logger = Logger
+      .getLogger(AssociatedSettings.class.getName());
+  private static final AssociatedSettings instance;
+  private static final long serialVersionUID = 22574500005000804L;
 
-    static {
-    	AssociatedSettings ins = null;
-		try {
-			ins = (AssociatedSettings) StorageManager.getInstance().retrieveSettings(AssociatedSettings.class.getSimpleName(), AssociatedSettings.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new AssociatedSettings();
-		}
-		instance = ins;    	
+  static {
+    AssociatedSettings ins = null;
+    try {
+      ins = (AssociatedSettings) StorageManager.getInstance().retrieveSettings(
+          AssociatedSettings.class.getSimpleName(),
+          AssociatedSettings.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "Unable to retrieve settings.", err);
     }
-    
-    private AssociatedSettings() {    	
+    if (ins == null) {
+      ins = new AssociatedSettings();
     }
-    
-    /**
-     * Gets the class singleton.
-     */
-    public static AssociatedSettings getInstance() {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-    	return instance;
+    instance = ins;
+  }
+
+  private AssociatedSettings() {
+  }
+
+  /**
+   * Gets the class singleton.
+   */
+  public static AssociatedSettings getInstance() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
-    
-    public void save() {
-    	try {
-    		StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    	} catch(java.io.IOException ioe) {
-    		logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
-    	}
+    return instance;
+  }
+
+  public void save() {
+    try {
+      StorageManager.getInstance().saveSettings(
+          this.getClass().getSimpleName(), this);
+    } catch (java.io.IOException ioe) {
+      logger.log(Level.WARNING, "Unable to save settings: "
+          + this.getClass().getSimpleName(), ioe);
     }
-    
-    private final LRUCache userNameByHost = new LRUCache(500);
-    
-    public String getUserNameForHost(String hostName) {
-    	synchronized(this) {
-    		return (String) this.userNameByHost.get(hostName);
-    	}
+  }
+
+  private final LRUCache userNameByHost = new LRUCache(500);
+
+  public String getUserNameForHost(String hostName) {
+    synchronized (this) {
+      return (String) this.userNameByHost.get(hostName);
     }
-    
-    public void setUserNameForHost(String hostName, String userName) {
-    	synchronized(this) {
-    		this.userNameByHost.put(hostName, userName, 1);
-    	}
+  }
+
+  public void setUserNameForHost(String hostName, String userName) {
+    synchronized (this) {
+      this.userNameByHost.put(hostName, userName, 1);
     }
+  }
 }

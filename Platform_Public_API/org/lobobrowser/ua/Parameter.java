@@ -19,31 +19,29 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * Represents a URL parameter. It may be a GET or POST parameter.
  */
-public interface Parameter
-{
-	/**
-	 * Gets the parameter name.
-	 */
-	public String getName();
-	
-	/**
-	 * Determines if the parameter value is
-	 * best represented as text.
-	 */
-	public boolean isText();
+public interface Parameter {
+  /**
+   * Gets the parameter name.
+   */
+  public String getName();
 
-	/**
-	 * Gets the value as text.
-	 */
-	public String getTextValue();
-	
-	public boolean isFile();
-	
-	public java.io.File getFileValue();
+  /**
+   * Determines if the parameter value is best represented as text.
+   */
+  public boolean isText();
+
+  /**
+   * Gets the value as text.
+   */
+  public String getTextValue();
+
+  public boolean isFile();
+
+  public java.io.File getFileValue();
 }

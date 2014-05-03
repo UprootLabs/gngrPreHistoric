@@ -19,7 +19,7 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 import java.net.URL;
@@ -29,19 +29,22 @@ import org.lobobrowser.clientlet.*;
  * An event containing information about navigation.
  */
 public class NavigatorWindowEvent extends NavigatorResponseEvent {
-	private final String message;
+  private final String message;
 
-	public NavigatorWindowEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response) {
-		super(source, eventType, clientletFrame, response, response.getRequestType());
-		this.message = null;
-	}
+  public NavigatorWindowEvent(Object source, NavigatorEventType eventType,
+      NavigatorFrame clientletFrame, ClientletResponse response) {
+    super(source, eventType, clientletFrame, response, response
+        .getRequestType());
+    this.message = null;
+  }
 
-	public NavigatorWindowEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, String message, RequestType requestType) {
-		super(source, eventType, clientletFrame, null, requestType);
-		this.message = message;
-	}
+  public NavigatorWindowEvent(Object source, NavigatorEventType eventType,
+      NavigatorFrame clientletFrame, String message, RequestType requestType) {
+    super(source, eventType, clientletFrame, null, requestType);
+    this.message = message;
+  }
 
-	public String getMessage() {
-		return message;
-	}	
+  public String getMessage() {
+    return message;
+  }
 }

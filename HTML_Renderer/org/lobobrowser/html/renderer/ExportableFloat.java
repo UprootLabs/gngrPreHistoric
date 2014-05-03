@@ -17,22 +17,22 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 public class ExportableFloat {
-    public static final ExportableFloat[] EMPTY_ARRAY = new ExportableFloat[0];
-    public final BoundableRenderable element;
-    public final boolean leftFloat;
-    public final int origX;
-    public final int origY;
-    
-    public ExportableFloat(BoundableRenderable element, boolean leftFloat, int origX,
-            int origY) {
-        super();
-        this.element = element;
-        this.leftFloat = leftFloat;
-        this.origX = origX;
-        this.origY = origY;
-    }
+  public static final ExportableFloat[] EMPTY_ARRAY = new ExportableFloat[0];
+  public final BoundableRenderable element;
+  public final boolean leftFloat;
+  public final int origX;
+  public final int origY;
+
+  public ExportableFloat(BoundableRenderable element, boolean leftFloat,
+      int origX, int origY) {
+    super();
+    this.element = element;
+    this.leftFloat = leftFloat;
+    this.origX = origX;
+    this.origY = origY;
+  }
 }

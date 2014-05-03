@@ -19,59 +19,59 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 /**
  * Represents the user agent, browser or clientlet engine.
+ * 
  * @author J. H. S.
  */
 public interface UserAgent {
-	/**
-	 * Gets the user agent name.
-	 */
-	public String getName();
-	
-	/**
-	 * Gets the user agent version.
-	 */
-	public String getVersion();
+  /**
+   * Gets the user agent name.
+   */
+  public String getName();
 
-//	/**
-//	 * Gets the earliest XAMJ version this user agent
-//	 * implements as a subset. (Supersets and other
-//	 * non-subsets of XAMJ versions are not allowed.)
-//	 */
-//	public String getXamjVersion();
-	
-	/**
-	 * Gets the internal Java runtime version the
-	 * user agent runs on. 
-	 */
-	public String getJavaVersion();
-	
-	/**
-	 * Gets the user agent name followed by the version.
-	 */
-	public String getNameAndVersion();
+  /**
+   * Gets the user agent version.
+   */
+  public String getVersion();
 
-	/**
-	 * Optional URL with information about the user agent.
-	 */
-	public String getInfoUrl();
-	
-	/**
-	 * Gets the value the User-Agent header should be set to.
-	 */
-	public String getUserAgentString();
-	
-//(unavalilable for now)
-//	/**
-//	 * Gets an ID that is nearly guaranteed to be globally unique
-//	 * for a browser session and a protocol-host pair. The session ID
-//	 * should be practically impossible to guess, even if the algorithm
-//	 * to produce it is well known. The session ID does not persist 
-//	 * if the browser exits.
-//	 */
-//	public String getSessionID(java.net.URL url);
+  // /**
+  // * Gets the earliest XAMJ version this user agent
+  // * implements as a subset. (Supersets and other
+  // * non-subsets of XAMJ versions are not allowed.)
+  // */
+  // public String getXamjVersion();
+
+  /**
+   * Gets the internal Java runtime version the user agent runs on.
+   */
+  public String getJavaVersion();
+
+  /**
+   * Gets the user agent name followed by the version.
+   */
+  public String getNameAndVersion();
+
+  /**
+   * Optional URL with information about the user agent.
+   */
+  public String getInfoUrl();
+
+  /**
+   * Gets the value the User-Agent header should be set to.
+   */
+  public String getUserAgentString();
+
+  // (unavalilable for now)
+  // /**
+  // * Gets an ID that is nearly guaranteed to be globally unique
+  // * for a browser session and a protocol-host pair. The session ID
+  // * should be practically impossible to guess, even if the algorithm
+  // * to produce it is well known. The session ID does not persist
+  // * if the browser exits.
+  // */
+  // public String getSessionID(java.net.URL url);
 }

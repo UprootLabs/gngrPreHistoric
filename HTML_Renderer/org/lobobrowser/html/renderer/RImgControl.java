@@ -17,18 +17,20 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.ModelNode;
 
 public class RImgControl extends RUIControl {
-	public RImgControl(ModelNode me, UIControl widget, RenderableContainer container, FrameContext frameContext, UserAgentContext ucontext) {
-		super(me, widget, container, frameContext, ucontext);
-	}
+  public RImgControl(ModelNode me, UIControl widget,
+      RenderableContainer container, FrameContext frameContext,
+      UserAgentContext ucontext) {
+    super(me, widget, container, frameContext, ucontext);
+  }
 
-	protected void applyStyle(int availWidth, int availHeight) {
-		super.applyStyle(availWidth, availHeight);
-	}
+  protected void applyStyle(int availWidth, int availHeight) {
+    super.applyStyle(availWidth, availHeight);
+  }
 }

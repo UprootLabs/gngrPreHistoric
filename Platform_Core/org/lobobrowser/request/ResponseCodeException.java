@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 1, 2005
  */
@@ -29,10 +29,10 @@ import java.io.IOException;
  * @author J. H. S.
  */
 public class ResponseCodeException extends IOException {
-	/**
+  /**
 	 * 
 	 */
-	public ResponseCodeException(int responseCode) {
-		super("Response code: " + responseCode);
-	}
+  public ResponseCodeException(int responseCode) {
+    super("Response code: " + responseCode);
+  }
 }

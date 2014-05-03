@@ -19,7 +19,7 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 import org.lobobrowser.clientlet.ClientletResponse;
@@ -28,32 +28,35 @@ import org.lobobrowser.clientlet.ClientletResponse;
  * An event containing response information.
  */
 public class NavigatorResponseEvent extends NavigatorEvent {
-	private final ClientletResponse response;
-	private final RequestType requestType;
+  private final ClientletResponse response;
+  private final RequestType requestType;
 
-	public NavigatorResponseEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response, RequestType requestType) {
-		super(source, eventType, clientletFrame);
-		this.response = response;
-		this.requestType = requestType;
-	}
+  public NavigatorResponseEvent(Object source, NavigatorEventType eventType,
+      NavigatorFrame clientletFrame, ClientletResponse response,
+      RequestType requestType) {
+    super(source, eventType, clientletFrame);
+    this.response = response;
+    this.requestType = requestType;
+  }
 
-	public ClientletResponse getResponse() {
-		return response;
-	}
-	
-	public java.net.URL getUrl() {
-		return this.response == null ? null : this.response.getResponseURL();
-	}
-	
-	public String getMethod() {
-		return this.response == null ? null : this.response.getLastRequestMethod();
-	}
+  public ClientletResponse getResponse() {
+    return response;
+  }
 
-    public RequestType getRequestType() {
-        return requestType;
-    }	
-	
-	public String toString() {
-		return "NavigatorWindowEvent[type=" + this.getEventType() + ",url=" + this.getUrl() + "]";
-	}
+  public java.net.URL getUrl() {
+    return this.response == null ? null : this.response.getResponseURL();
+  }
+
+  public String getMethod() {
+    return this.response == null ? null : this.response.getLastRequestMethod();
+  }
+
+  public RequestType getRequestType() {
+    return requestType;
+  }
+
+  public String toString() {
+    return "NavigatorWindowEvent[type=" + this.getEventType() + ",url="
+        + this.getUrl() + "]";
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 1, 2005
  */
@@ -29,6 +29,7 @@ import java.io.*;
  * @author J. H. S.
  */
 public interface QuotaSource {
-	public long getSpaceLeft() throws IOException;
-	public void addUsedBytes(long total) throws IOException;
+  public long getSpaceLeft() throws IOException;
+
+  public void addUsedBytes(long total) throws IOException;
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 15, 2006
  */
@@ -32,20 +32,24 @@ import javax.swing.text.JTextComponent;
 import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 
 class InputTextControl extends BaseInputTextControl {
-	public InputTextControl(final HTMLBaseInputElement modelNode) {
-		super(modelNode);
-		JTextField w = (JTextField) this.widget;
-		w.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				HtmlController.getInstance().onEnterPressed(modelNode, null);
-			}
-		});
-	}
+  public InputTextControl(final HTMLBaseInputElement modelNode) {
+    super(modelNode);
+    JTextField w = (JTextField) this.widget;
+    w.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        HtmlController.getInstance().onEnterPressed(modelNode, null);
+      }
+    });
+  }
 
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.renderer.BaseInputTextControl#createTextField(java.lang.String)
-	 */
-	protected JTextComponent createTextField() {
-		return new JTextField();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.xamjwg.html.renderer.BaseInputTextControl#createTextField(java.lang
+   * .String)
+   */
+  protected JTextComponent createTextField() {
+    return new JTextField();
+  }
 }

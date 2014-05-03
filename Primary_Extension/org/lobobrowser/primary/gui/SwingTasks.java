@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui;
 
 import javax.swing.*;
@@ -27,72 +27,73 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class SwingTasks {
-	private static final String NESTED_ENABLING = "$nested.enabling";
+  private static final String NESTED_ENABLING = "$nested.enabling";
 
-	public static void setNestedEnabled(JComponent component, boolean enabled) {
-		Boolean nestedEnabling = (Boolean) component.getClientProperty(NESTED_ENABLING);
-		if(nestedEnabling == null || nestedEnabling.booleanValue() != enabled) {
-			component.putClientProperty(NESTED_ENABLING, enabled);
-			Container parent = component.getParent();
-			if(parent == null || !enabled || parent.isEnabled()) {
-				setEnabledRecursive(component, enabled);
-			}
-		}
-	}
+  public static void setNestedEnabled(JComponent component, boolean enabled) {
+    Boolean nestedEnabling = (Boolean) component
+        .getClientProperty(NESTED_ENABLING);
+    if (nestedEnabling == null || nestedEnabling.booleanValue() != enabled) {
+      component.putClientProperty(NESTED_ENABLING, enabled);
+      Container parent = component.getParent();
+      if (parent == null || !enabled || parent.isEnabled()) {
+        setEnabledRecursive(component, enabled);
+      }
+    }
+  }
 
-	private static void setEnabledRecursive(JComponent component, boolean enabled) {
-		component.setEnabled(enabled);
-		int count = component.getComponentCount();
-		for(int i = 0; i < count; i++) {
-			Component child = component.getComponent(i);
-			if(child instanceof JComponent) {
-				JComponent jchild = (JComponent) child;
-				if(enabled) {
-					Boolean nestedEnabling = (Boolean) jchild.getClientProperty(NESTED_ENABLING);
-					if(nestedEnabling == null || nestedEnabling.booleanValue()) {
-						setEnabledRecursive(jchild, true);
-					}
-				}
-				else {
-					setEnabledRecursive(jchild, false);
-				}
-			}
-		} 		
-	}
-	
-	public static Component createVerticalFill() {
-		Dimension min = new Dimension(0, 0);
-		Dimension pref = new Dimension(0, Short.MAX_VALUE);
-		Dimension max = pref;
-		return new Box.Filler(min, pref, max);
-	}
+  private static void setEnabledRecursive(JComponent component, boolean enabled) {
+    component.setEnabled(enabled);
+    int count = component.getComponentCount();
+    for (int i = 0; i < count; i++) {
+      Component child = component.getComponent(i);
+      if (child instanceof JComponent) {
+        JComponent jchild = (JComponent) child;
+        if (enabled) {
+          Boolean nestedEnabling = (Boolean) jchild
+              .getClientProperty(NESTED_ENABLING);
+          if (nestedEnabling == null || nestedEnabling.booleanValue()) {
+            setEnabledRecursive(jchild, true);
+          }
+        } else {
+          setEnabledRecursive(jchild, false);
+        }
+      }
+    }
+  }
 
-	public static Component createHorizontalFill() {
-		Dimension min = new Dimension(0, 0);
-		Dimension pref = new Dimension(Short.MAX_VALUE, 0);
-		Dimension max = pref;
-		return new Box.Filler(min, pref, max);
-	}
-	
-	public static Frame getFrame(Component component) {
-		Container ancestor = component.getParent();
-		while(ancestor != null && !(ancestor instanceof Frame)) {
-			ancestor = ancestor.getParent();
-		}
-		return (Frame) ancestor;
-	}
+  public static Component createVerticalFill() {
+    Dimension min = new Dimension(0, 0);
+    Dimension pref = new Dimension(0, Short.MAX_VALUE);
+    Dimension max = pref;
+    return new Box.Filler(min, pref, max);
+  }
 
-	public static Dialog getDialog(Component component) {
-		Container ancestor = component.getParent();
-		while(ancestor != null && !(ancestor instanceof Dialog)) {
-			ancestor = ancestor.getParent();
-		}
-		return (Dialog) ancestor;
-	}
-	
-	public static Box createGroupBox(int orientation, String title) {
-		Box box = new Box(orientation);
-		box.setBorder(new TitledBorder(new EtchedBorder(), title));
-		return box;
-	}
+  public static Component createHorizontalFill() {
+    Dimension min = new Dimension(0, 0);
+    Dimension pref = new Dimension(Short.MAX_VALUE, 0);
+    Dimension max = pref;
+    return new Box.Filler(min, pref, max);
+  }
+
+  public static Frame getFrame(Component component) {
+    Container ancestor = component.getParent();
+    while (ancestor != null && !(ancestor instanceof Frame)) {
+      ancestor = ancestor.getParent();
+    }
+    return (Frame) ancestor;
+  }
+
+  public static Dialog getDialog(Component component) {
+    Container ancestor = component.getParent();
+    while (ancestor != null && !(ancestor instanceof Dialog)) {
+      ancestor = ancestor.getParent();
+    }
+    return (Dialog) ancestor;
+  }
+
+  public static Box createGroupBox(int orientation, String title) {
+    Box box = new Box(orientation);
+    box.setBorder(new TitledBorder(new EtchedBorder(), title));
+    return box;
+  }
 }

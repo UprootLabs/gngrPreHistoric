@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jul 10, 2005
  */
@@ -30,23 +30,23 @@ import java.io.*;
 import javax.swing.*;
 
 public class TextClientlet implements Clientlet {
-	public TextClientlet() {
-	}
+  public TextClientlet() {
+  }
 
-	public void process(ClientletContext context) throws ClientletException {
-		try {
-			InputStream in = context.getResponse().getInputStream();
-			try {
-				String text = IORoutines.loadAsText(in, "ISO-8859-1");
-				JTextArea textArea = new JTextArea(text);
-				textArea.setEditable(false);
-				JScrollPane pane = new JScrollPane(textArea);
-				context.setResultingContent(pane);
-			} finally {
-				in.close();
-			}
-		} catch(IOException ioe) {
-			throw new ClientletException(ioe);
-		}
-	}
+  public void process(ClientletContext context) throws ClientletException {
+    try {
+      InputStream in = context.getResponse().getInputStream();
+      try {
+        String text = IORoutines.loadAsText(in, "ISO-8859-1");
+        JTextArea textArea = new JTextArea(text);
+        textArea.setEditable(false);
+        JScrollPane pane = new JScrollPane(textArea);
+        context.setResultingContent(pane);
+      } finally {
+        in.close();
+      }
+    } catch (IOException ioe) {
+      throw new ClientletException(ioe);
+    }
+  }
 }

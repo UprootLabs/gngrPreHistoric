@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.request;
 
 import java.net.URL;
@@ -27,83 +27,88 @@ import org.lobobrowser.clientlet.Header;
 import org.lobobrowser.ua.*;
 
 public class ClientletRequestImpl implements ClientletRequest {
-	private final String method;
-	private final URL url;
-	private final ParameterInfo paramInfo;
-	private final Header[] extraHeaders;
-	private final boolean forNewWindow;
-	private final String referrer;
-	private final String altPostData;
-	private final RequestType requestType;
-	
-	public ClientletRequestImpl(boolean forNewWindow, URL url, String method, ParameterInfo paramInfo, Header[] extraHeaders, String referrer, String altPostData, RequestType requestType) {
-		this.method = method;
-		this.url = url;
-		this.paramInfo = paramInfo;
-		this.extraHeaders = extraHeaders;
-		this.forNewWindow = forNewWindow;
-		this.referrer = referrer;
-		this.altPostData = altPostData;
-		this.requestType = requestType;
-	}
+  private final String method;
+  private final URL url;
+  private final ParameterInfo paramInfo;
+  private final Header[] extraHeaders;
+  private final boolean forNewWindow;
+  private final String referrer;
+  private final String altPostData;
+  private final RequestType requestType;
 
-	public ClientletRequestImpl(boolean forNewWindow, URL url, String method, ParameterInfo paramInfo, RequestType requestType) {
-		this(forNewWindow, url, method, paramInfo, null, null, null, requestType);
-	}
+  public ClientletRequestImpl(boolean forNewWindow, URL url, String method,
+      ParameterInfo paramInfo, Header[] extraHeaders, String referrer,
+      String altPostData, RequestType requestType) {
+    this.method = method;
+    this.url = url;
+    this.paramInfo = paramInfo;
+    this.extraHeaders = extraHeaders;
+    this.forNewWindow = forNewWindow;
+    this.referrer = referrer;
+    this.altPostData = altPostData;
+    this.requestType = requestType;
+  }
 
-	public ClientletRequestImpl(URL url, RequestType requestType) {
-		this(false, url, "GET", null, null, null, null, requestType);
-	}
+  public ClientletRequestImpl(boolean forNewWindow, URL url, String method,
+      ParameterInfo paramInfo, RequestType requestType) {
+    this(forNewWindow, url, method, paramInfo, null, null, null, requestType);
+  }
 
-	public ClientletRequestImpl(boolean forNewWindow, URL url, RequestType requestType) {
-		this(forNewWindow, url, "GET", null, null, null, null, requestType);
-	}
+  public ClientletRequestImpl(URL url, RequestType requestType) {
+    this(false, url, "GET", null, null, null, null, requestType);
+  }
 
-	public ClientletRequestImpl(URL url, String method, String altPostData, RequestType requestType) {
-		this(false, url, method, null, null, null, altPostData, requestType);
-	}
+  public ClientletRequestImpl(boolean forNewWindow, URL url,
+      RequestType requestType) {
+    this(forNewWindow, url, "GET", null, null, null, null, requestType);
+  }
 
-	public Header[] getExtraHeaders() {
-		return this.extraHeaders;
-	}
+  public ClientletRequestImpl(URL url, String method, String altPostData,
+      RequestType requestType) {
+    this(false, url, method, null, null, null, altPostData, requestType);
+  }
 
-	public String getMethod() {
-		return this.method;
-	}
+  public Header[] getExtraHeaders() {
+    return this.extraHeaders;
+  }
 
-	public ParameterInfo getParameterInfo() {
-		return this.paramInfo;
-	}
+  public String getMethod() {
+    return this.method;
+  }
 
-	public URL getRequestURL() {
-		return this.url;
-	}
+  public ParameterInfo getParameterInfo() {
+    return this.paramInfo;
+  }
 
-	public UserAgent getUserAgent() {
-		return UserAgentImpl.getInstance();
-	}
+  public URL getRequestURL() {
+    return this.url;
+  }
 
-	public boolean isGetRequest() {
-		return "GET".equalsIgnoreCase(method);
-	}
+  public UserAgent getUserAgent() {
+    return UserAgentImpl.getInstance();
+  }
 
-	public boolean isNewWindowRequest() {
-		return this.forNewWindow;
-	}
+  public boolean isGetRequest() {
+    return "GET".equalsIgnoreCase(method);
+  }
 
-	public boolean isPostRequest() {
-		return "POST".equalsIgnoreCase(this.method);
-	}
+  public boolean isNewWindowRequest() {
+    return this.forNewWindow;
+  }
 
-	public String getReferrer() {
-		return this.referrer;
-	}
+  public boolean isPostRequest() {
+    return "POST".equalsIgnoreCase(this.method);
+  }
 
-	public String getAltPostData() {
-		return this.altPostData;
-	}
+  public String getReferrer() {
+    return this.referrer;
+  }
 
-	public RequestType getRequestType() {
-		return this.requestType;
-	}
+  public String getAltPostData() {
+    return this.altPostData;
+  }
+
+  public RequestType getRequestType() {
+    return this.requestType;
+  }
 }

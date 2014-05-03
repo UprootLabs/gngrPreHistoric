@@ -17,63 +17,69 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.util.Objects;
 
 class CombinedFloatingBounds implements FloatingBounds {
-	private final FloatingBounds floatBounds1;
-	private final FloatingBounds floatBounds2;
-	
-	public CombinedFloatingBounds(final FloatingBounds floatBounds1, final FloatingBounds floatBounds2) {
-		super();
-		this.floatBounds1 = floatBounds1;
-		this.floatBounds2 = floatBounds2;
-	}
+  private final FloatingBounds floatBounds1;
+  private final FloatingBounds floatBounds2;
 
-	public int getClearY(int y) {
-		return Math.max(this.floatBounds1.getClearY(y), this.floatBounds2.getClearY(y));
-	}
+  public CombinedFloatingBounds(final FloatingBounds floatBounds1,
+      final FloatingBounds floatBounds2) {
+    super();
+    this.floatBounds1 = floatBounds1;
+    this.floatBounds2 = floatBounds2;
+  }
 
-	public int getFirstClearY(int y) {
-		return Math.max(this.floatBounds1.getFirstClearY(y), this.floatBounds2.getFirstClearY(y));
-	}
+  public int getClearY(int y) {
+    return Math.max(this.floatBounds1.getClearY(y),
+        this.floatBounds2.getClearY(y));
+  }
 
-	public int getLeft(int y) {
-		return Math.max(this.floatBounds1.getLeft(y), this.floatBounds2.getLeft(y));
-	}
+  public int getFirstClearY(int y) {
+    return Math.max(this.floatBounds1.getFirstClearY(y),
+        this.floatBounds2.getFirstClearY(y));
+  }
 
-	public int getLeftClearY(int y) {
-		return Math.max(this.floatBounds1.getLeftClearY(y), this.floatBounds2.getLeftClearY(y));
-	}
+  public int getLeft(int y) {
+    return Math.max(this.floatBounds1.getLeft(y), this.floatBounds2.getLeft(y));
+  }
 
-	public int getMaxY() {
-		return Math.max(this.floatBounds1.getMaxY(), this.floatBounds2.getMaxY());
-	}
+  public int getLeftClearY(int y) {
+    return Math.max(this.floatBounds1.getLeftClearY(y),
+        this.floatBounds2.getLeftClearY(y));
+  }
 
-	public int getRight(int y) {
-		return Math.max(this.floatBounds1.getRight(y), this.floatBounds2.getRight(y));
-	}
+  public int getMaxY() {
+    return Math.max(this.floatBounds1.getMaxY(), this.floatBounds2.getMaxY());
+  }
 
-	public int getRightClearY(int y) {
-		return Math.max(this.floatBounds1.getRightClearY(y), this.floatBounds2.getRightClearY(y));
-	}
+  public int getRight(int y) {
+    return Math.max(this.floatBounds1.getRight(y),
+        this.floatBounds2.getRight(y));
+  }
 
-    public boolean equals(Object obj) {
-        // Important for layout caching.
-        if(!(obj instanceof CombinedFloatingBounds)) {
-            return false;
-        }
-        CombinedFloatingBounds other = (CombinedFloatingBounds) obj;
-        return 
-            Objects.equals(other.floatBounds1, this.floatBounds1) &&
-            Objects.equals(other.floatBounds2, this.floatBounds2);        
+  public int getRightClearY(int y) {
+    return Math.max(this.floatBounds1.getRightClearY(y),
+        this.floatBounds2.getRightClearY(y));
+  }
+
+  public boolean equals(Object obj) {
+    // Important for layout caching.
+    if (!(obj instanceof CombinedFloatingBounds)) {
+      return false;
     }
+    CombinedFloatingBounds other = (CombinedFloatingBounds) obj;
+    return Objects.equals(other.floatBounds1, this.floatBounds1)
+        && Objects.equals(other.floatBounds2, this.floatBounds2);
+  }
 
-    public int hashCode() {
-        FloatingBounds fbounds1 = this.floatBounds1;
-        FloatingBounds fbounds2 = this.floatBounds2;
-        return (fbounds1 == null ? 0 : fbounds1.hashCode()) ^ (fbounds2 == null ? 0 : fbounds2.hashCode());
-    }
+  public int hashCode() {
+    FloatingBounds fbounds1 = this.floatBounds1;
+    FloatingBounds fbounds2 = this.floatBounds2;
+    return (fbounds1 == null ? 0 : fbounds1.hashCode())
+        ^ (fbounds2 == null ? 0 : fbounds2.hashCode());
+  }
 }

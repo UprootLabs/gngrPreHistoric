@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Copyright (c) 2003 World Wide Web Consortium,
  * (Massachusetts Institute of Technology, Institut National de
@@ -33,104 +33,118 @@
 package org.w3c.dom.html2;
 
 /**
- * The <code>LINK</code> element specifies a link to an external resource, and 
- * defines this document's relationship to that resource (or vice versa). 
- * See the LINK element definition in HTML 4.01 (see also the 
- * <code>LinkStyle</code> interface in the StyleSheet module [<a href='http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113'>DOM Level 2 Style Sheets and CSS</a>]).
- * <p>See also the <a href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document Object Model (DOM) Level 2 HTML Specification</a>.
+ * The <code>LINK</code> element specifies a link to an external resource, and
+ * defines this document's relationship to that resource (or vice versa). See
+ * the LINK element definition in HTML 4.01 (see also the <code>LinkStyle</code>
+ * interface in the StyleSheet module [<a
+ * href='http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113'>DOM Level 2
+ * Style Sheets and CSS</a>]).
+ * <p>
+ * See also the <a
+ * href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document
+ * Object Model (DOM) Level 2 HTML Specification</a>.
  */
 public interface HTMLLinkElement extends HTMLElement {
-    /**
-     * Enables/disables the link. This is currently only used for style sheet 
-     * links, and may be used to activate or deactivate style sheets. 
-     */
-    public boolean getDisabled();
-    /**
-     * Enables/disables the link. This is currently only used for style sheet 
-     * links, and may be used to activate or deactivate style sheets. 
-     */
-    public void setDisabled(boolean disabled);
+  /**
+   * Enables/disables the link. This is currently only used for style sheet
+   * links, and may be used to activate or deactivate style sheets.
+   */
+  public boolean getDisabled();
 
-    /**
-     * The character encoding of the resource being linked to. See the charset 
-     * attribute definition in HTML 4.01.
-     */
-    public String getCharset();
-    /**
-     * The character encoding of the resource being linked to. See the charset 
-     * attribute definition in HTML 4.01.
-     */
-    public void setCharset(String charset);
+  /**
+   * Enables/disables the link. This is currently only used for style sheet
+   * links, and may be used to activate or deactivate style sheets.
+   */
+  public void setDisabled(boolean disabled);
 
-    /**
-     * The URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] of the linked resource. See the href attribute definition in 
-     * HTML 4.01.
-     */
-    public String getHref();
-    /**
-     * The URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] of the linked resource. See the href attribute definition in 
-     * HTML 4.01.
-     */
-    public void setHref(String href);
+  /**
+   * The character encoding of the resource being linked to. See the charset
+   * attribute definition in HTML 4.01.
+   */
+  public String getCharset();
 
-    /**
-     * Language code of the linked resource. See the hreflang attribute 
-     * definition in HTML 4.01.
-     */
-    public String getHreflang();
-    /**
-     * Language code of the linked resource. See the hreflang attribute 
-     * definition in HTML 4.01.
-     */
-    public void setHreflang(String hreflang);
+  /**
+   * The character encoding of the resource being linked to. See the charset
+   * attribute definition in HTML 4.01.
+   */
+  public void setCharset(String charset);
 
-    /**
-     * Designed for use with one or more target media. See the media attribute 
-     * definition in HTML 4.01.
-     */
-    public String getMedia();
-    /**
-     * Designed for use with one or more target media. See the media attribute 
-     * definition in HTML 4.01.
-     */
-    public void setMedia(String media);
+  /**
+   * The URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * of the linked resource. See the href attribute definition in HTML 4.01.
+   */
+  public String getHref();
 
-    /**
-     * Forward link type. See the rel attribute definition in HTML 4.01.
-     */
-    public String getRel();
-    /**
-     * Forward link type. See the rel attribute definition in HTML 4.01.
-     */
-    public void setRel(String rel);
+  /**
+   * The URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * of the linked resource. See the href attribute definition in HTML 4.01.
+   */
+  public void setHref(String href);
 
-    /**
-     * Reverse link type. See the rev attribute definition in HTML 4.01.
-     */
-    public String getRev();
-    /**
-     * Reverse link type. See the rev attribute definition in HTML 4.01.
-     */
-    public void setRev(String rev);
+  /**
+   * Language code of the linked resource. See the hreflang attribute definition
+   * in HTML 4.01.
+   */
+  public String getHreflang();
 
-    /**
-     * Frame to render the resource in. See the target attribute definition in 
-     * HTML 4.01.
-     */
-    public String getTarget();
-    /**
-     * Frame to render the resource in. See the target attribute definition in 
-     * HTML 4.01.
-     */
-    public void setTarget(String target);
+  /**
+   * Language code of the linked resource. See the hreflang attribute definition
+   * in HTML 4.01.
+   */
+  public void setHreflang(String hreflang);
 
-    /**
-     * Advisory content type. See the type attribute definition in HTML 4.01.
-     */
-    public String getType();
-    /**
-     * Advisory content type. See the type attribute definition in HTML 4.01.
-     */
-    public void setType(String type);
+  /**
+   * Designed for use with one or more target media. See the media attribute
+   * definition in HTML 4.01.
+   */
+  public String getMedia();
+
+  /**
+   * Designed for use with one or more target media. See the media attribute
+   * definition in HTML 4.01.
+   */
+  public void setMedia(String media);
+
+  /**
+   * Forward link type. See the rel attribute definition in HTML 4.01.
+   */
+  public String getRel();
+
+  /**
+   * Forward link type. See the rel attribute definition in HTML 4.01.
+   */
+  public void setRel(String rel);
+
+  /**
+   * Reverse link type. See the rev attribute definition in HTML 4.01.
+   */
+  public String getRev();
+
+  /**
+   * Reverse link type. See the rev attribute definition in HTML 4.01.
+   */
+  public void setRev(String rev);
+
+  /**
+   * Frame to render the resource in. See the target attribute definition in
+   * HTML 4.01.
+   */
+  public String getTarget();
+
+  /**
+   * Frame to render the resource in. See the target attribute definition in
+   * HTML 4.01.
+   */
+  public void setTarget(String target);
+
+  /**
+   * Advisory content type. See the type attribute definition in HTML 4.01.
+   */
+  public String getType();
+
+  /**
+   * Advisory content type. See the type attribute definition in HTML 4.01.
+   */
+  public void setType(String type);
 
 }

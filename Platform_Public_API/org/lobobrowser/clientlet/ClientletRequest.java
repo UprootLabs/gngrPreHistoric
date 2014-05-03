@@ -19,73 +19,72 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 import org.lobobrowser.ua.*;
 
-
 /**
  * A URL request such as a HTTP, file or FTP request.
+ * 
  * @author J. H. S.
  */
 public interface ClientletRequest {
-	/**
-	 * Gets the request method.
-	 * @return GET, POST, etc.
-	 */
-	public String getMethod();
-	
-	/**
-	 * Gets the request URL.
-	 */
-	public java.net.URL getRequestURL();
-	
-	/**
-	 * Gets information about the user agent making the request.
-	 */
-	public UserAgent getUserAgent();
-	
-	/**
-	 * Gets the referring URL. It should be <code>null</code>
-	 * if none or unknown.
-	 */
-	public String getReferrer();
-	
-	/**
-	 * Gets information about the request parameters.
-	 */
-	public ParameterInfo getParameterInfo();
-	
-	/**
-	 * Gets additional headers used in the request. 
-	 */
-	public Header[] getExtraHeaders();
-	
-	/**
-	 * Convenience method. Determines if the request method is GET.
-	 */
-	public boolean isGetRequest();
-	
-	/**
-	 * Convenience method. Determines if the request method is POST.
-	 */
-	public boolean isPostRequest();
-	
-	/**
-	 * Determines if the request was made in order to open a new
-	 * browser window.
-	 */
-	public boolean isNewWindowRequest();
-	
-	/**
-	 * Provides alternative POST data in case no <code>ParameterInfo</code>
-	 * is provied.
-	 */
-	public String getAltPostData();
-	
-	/**
-	 * Gets the type of request.
-	 */
-	public RequestType getRequestType();
+  /**
+   * Gets the request method.
+   * 
+   * @return GET, POST, etc.
+   */
+  public String getMethod();
+
+  /**
+   * Gets the request URL.
+   */
+  public java.net.URL getRequestURL();
+
+  /**
+   * Gets information about the user agent making the request.
+   */
+  public UserAgent getUserAgent();
+
+  /**
+   * Gets the referring URL. It should be <code>null</code> if none or unknown.
+   */
+  public String getReferrer();
+
+  /**
+   * Gets information about the request parameters.
+   */
+  public ParameterInfo getParameterInfo();
+
+  /**
+   * Gets additional headers used in the request.
+   */
+  public Header[] getExtraHeaders();
+
+  /**
+   * Convenience method. Determines if the request method is GET.
+   */
+  public boolean isGetRequest();
+
+  /**
+   * Convenience method. Determines if the request method is POST.
+   */
+  public boolean isPostRequest();
+
+  /**
+   * Determines if the request was made in order to open a new browser window.
+   */
+  public boolean isNewWindowRequest();
+
+  /**
+   * Provides alternative POST data in case no <code>ParameterInfo</code> is
+   * provied.
+   */
+  public String getAltPostData();
+
+  /**
+   * Gets the type of request.
+   */
+  public RequestType getRequestType();
 }

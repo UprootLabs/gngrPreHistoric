@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.awt.Dimension;
@@ -29,12 +29,12 @@ import javax.swing.border.*;
  * The status bar component.
  */
 public class StatusBarPanel extends JPanel {
-	public StatusBarPanel() {
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.setBorder(new BevelBorder(BevelBorder.LOWERED));
-	}
-	
-	public Dimension getPreferredSize() {
-		return new Dimension(1, 32);
-	}
+  public StatusBarPanel() {
+    this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+    this.setBorder(new BevelBorder(BevelBorder.LOWERED));
+  }
+
+  public Dimension getPreferredSize() {
+    return new Dimension(1, 32);
+  }
 }

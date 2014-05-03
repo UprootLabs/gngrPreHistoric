@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
@@ -30,32 +30,32 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMStringList;
 
 public class DOMConfigurationImpl implements DOMConfiguration {
-	private final Map parameters = new HashMap();
-	
-	public DOMConfigurationImpl() {
-		super();
-	}
+  private final Map parameters = new HashMap();
 
-	public void setParameter(String name, Object value) throws DOMException {
-		synchronized(this) {	
-			this.parameters.put(name, value);
-		}
-	}
+  public DOMConfigurationImpl() {
+    super();
+  }
 
-	public Object getParameter(String name) throws DOMException {
-		synchronized(this) {
-			return this.parameters.get(name);
-		}
-	}
+  public void setParameter(String name, Object value) throws DOMException {
+    synchronized (this) {
+      this.parameters.put(name, value);
+    }
+  }
 
-	public boolean canSetParameter(String name, Object value) {
-		//TODO
-		return true;
-	}
+  public Object getParameter(String name) throws DOMException {
+    synchronized (this) {
+      return this.parameters.get(name);
+    }
+  }
 
-	public DOMStringList getParameterNames() {
-		synchronized(this) {
-			return new DOMStringListImpl(parameters.keySet());
-		}
-	}
+  public boolean canSetParameter(String name, Object value) {
+    // TODO
+    return true;
+  }
+
+  public DOMStringList getParameterNames() {
+    synchronized (this) {
+      return new DOMStringListImpl(parameters.keySet());
+    }
+  }
 }

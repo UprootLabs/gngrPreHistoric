@@ -17,29 +17,31 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 class ExportedRenderable {
-	public final RBlockViewport originalTarget;
-	public final BoundableRenderable renderable;
-	
-	/**
-	 * Coordinates in original target, for aligned blocks.
-	 */
-	public final int x, y;
-	
-	/**
-	 * -1 (left), 0, or +1 (right).
-	 */
-	public final int alignment;
+  public final RBlockViewport originalTarget;
+  public final BoundableRenderable renderable;
 
-	public ExportedRenderable(final RBlockViewport originalTarget, final BoundableRenderable renderable, final int x, final int y, final int alignment) {
-		super();
-		this.originalTarget = originalTarget;
-		this.x = x;
-		this.y = y;
-		this.alignment = alignment;
-		this.renderable = renderable;
-	}
+  /**
+   * Coordinates in original target, for aligned blocks.
+   */
+  public final int x, y;
+
+  /**
+   * -1 (left), 0, or +1 (right).
+   */
+  public final int alignment;
+
+  public ExportedRenderable(final RBlockViewport originalTarget,
+      final BoundableRenderable renderable, final int x, final int y,
+      final int alignment) {
+    super();
+    this.originalTarget = originalTarget;
+    this.x = x;
+    this.y = y;
+    this.alignment = alignment;
+    this.renderable = renderable;
+  }
 }

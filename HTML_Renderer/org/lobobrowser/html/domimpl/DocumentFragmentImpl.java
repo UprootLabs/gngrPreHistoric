@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
@@ -28,30 +28,30 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 
 public class DocumentFragmentImpl extends NodeImpl implements DocumentFragment {
-	public DocumentFragmentImpl() {
-		super();
-	}
+  public DocumentFragmentImpl() {
+    super();
+  }
 
-	public String getLocalName() {
-		return null; 
-	}
+  public String getLocalName() {
+    return null;
+  }
 
-	public String getNodeName() {
-		return "#document-fragment";
-	}
+  public String getNodeName() {
+    return "#document-fragment";
+  }
 
-	public String getNodeValue() throws DOMException {
-		return null;
-	}
+  public String getNodeValue() throws DOMException {
+    return null;
+  }
 
-	public void setNodeValue(String nodeValue) throws DOMException {
-	}
+  public void setNodeValue(String nodeValue) throws DOMException {
+  }
 
-	public short getNodeType() {
-		return org.w3c.dom.Node.DOCUMENT_FRAGMENT_NODE;
-	}
+  public short getNodeType() {
+    return org.w3c.dom.Node.DOCUMENT_FRAGMENT_NODE;
+  }
 
-	protected Node createSimilarNode() {
-		return new DocumentFragmentImpl();
-	}
+  protected Node createSimilarNode() {
+    return new DocumentFragmentImpl();
+  }
 }

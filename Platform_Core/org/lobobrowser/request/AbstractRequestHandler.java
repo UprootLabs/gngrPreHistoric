@@ -37,91 +37,105 @@ import org.lobobrowser.ua.ProgressType;
 import org.lobobrowser.ua.RequestType;
 
 public abstract class AbstractRequestHandler implements RequestHandler {
-	protected final ClientletRequest request;
-	protected final RequestType requestType;
-	private final Component dialogComponent;
-	private boolean cancelled = false;
-	
-	public AbstractRequestHandler(ClientletRequest request, Component dialogComponent) {
-		this.request = request;
-		this.requestType = request.getRequestType();
-		this.dialogComponent = dialogComponent;
-	}
-	
-	public void cancel() {
-		this.cancelled = true;
-	}
+  protected final ClientletRequest request;
+  protected final RequestType requestType;
+  private final Component dialogComponent;
+  private boolean cancelled = false;
 
-	public HostnameVerifier getHostnameVerifier() {
-		return new LocalHostnameVerifier();
-	}
+  public AbstractRequestHandler(ClientletRequest request,
+      Component dialogComponent) {
+    this.request = request;
+    this.requestType = request.getRequestType();
+    this.dialogComponent = dialogComponent;
+  }
 
-	public String getLatestRequestMethod() {
-		return this.request.getMethod();
-	}
+  public void cancel() {
+    this.cancelled = true;
+  }
 
-	public URL getLatestRequestURL() {
-		return this.request.getRequestURL();
-	}
+  public HostnameVerifier getHostnameVerifier() {
+    return new LocalHostnameVerifier();
+  }
 
-	public ClientletRequest getRequest() {
-		return this.request;
-	}
+  public String getLatestRequestMethod() {
+    return this.request.getMethod();
+  }
 
-	public abstract boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException;
-	public abstract void handleProgress(ProgressType progressType, URL url, String method, int value, int max);
+  public URL getLatestRequestURL() {
+    return this.request.getRequestURL();
+  }
 
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
+  public ClientletRequest getRequest() {
+    return this.request;
+  }
 
-	public boolean isNewNavigationEntry() {
-		return false;
-	}
-	
-	public RequestType getRequestType() {
-		return this.requestType;
-	}
+  public abstract boolean handleException(ClientletResponse response,
+      Throwable exception) throws ClientletException;
 
-	public abstract void processResponse(ClientletResponse response) throws ClientletException, IOException;
-	
-	private class LocalHostnameVerifier implements HostnameVerifier {
-		private boolean verified;
-		
-		/* (non-Javadoc)
-		 * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String, javax.net.ssl.SSLSession)
-		 */
-		public boolean verify(final String host, SSLSession arg1) {
-			this.verified = false;
-			final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
-			if(vhs.contains(host)) {
-				return true;
-			}
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					public void run() {
-						boolean verified = false;
-						Component dc = dialogComponent;
-						if(dc != null) {
-							int result = JOptionPane.showConfirmDialog(dc, "Host " + host + " does not match SSL certificate or CA not recognized. Proceed anyway?", "Security Warning", JOptionPane.YES_NO_OPTION);
-							verified = result == JOptionPane.YES_OPTION;
-							if(verified) {
-								vhs.add(host);
-							}
-						}
-						synchronized(LocalHostnameVerifier.this) {
-							LocalHostnameVerifier.this.verified = verified; 
-						}
-					}
-				});
-			} catch(InterruptedException ie) {
-				throw new IllegalStateException(ie);
-			} catch(InvocationTargetException ite) {
-				throw new IllegalStateException(ite.getCause());
-			}
-			synchronized(this) {
-				return this.verified;
-			}
-		}
-	}
+  public abstract void handleProgress(ProgressType progressType, URL url,
+      String method, int value, int max);
+
+  public boolean isCancelled() {
+    return this.cancelled;
+  }
+
+  public boolean isNewNavigationEntry() {
+    return false;
+  }
+
+  public RequestType getRequestType() {
+    return this.requestType;
+  }
+
+  public abstract void processResponse(ClientletResponse response)
+      throws ClientletException, IOException;
+
+  private class LocalHostnameVerifier implements HostnameVerifier {
+    private boolean verified;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
+     * javax.net.ssl.SSLSession)
+     */
+    public boolean verify(final String host, SSLSession arg1) {
+      this.verified = false;
+      final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
+      if (vhs.contains(host)) {
+        return true;
+      }
+      try {
+        SwingUtilities.invokeAndWait(new Runnable() {
+          public void run() {
+            boolean verified = false;
+            Component dc = dialogComponent;
+            if (dc != null) {
+              int result = JOptionPane
+                  .showConfirmDialog(
+                      dc,
+                      "Host "
+                          + host
+                          + " does not match SSL certificate or CA not recognized. Proceed anyway?",
+                      "Security Warning", JOptionPane.YES_NO_OPTION);
+              verified = result == JOptionPane.YES_OPTION;
+              if (verified) {
+                vhs.add(host);
+              }
+            }
+            synchronized (LocalHostnameVerifier.this) {
+              LocalHostnameVerifier.this.verified = verified;
+            }
+          }
+        });
+      } catch (InterruptedException ie) {
+        throw new IllegalStateException(ie);
+      } catch (InvocationTargetException ite) {
+        throw new IllegalStateException(ite.getCause());
+      }
+      synchronized (this) {
+        return this.verified;
+      }
+    }
+  }
 }

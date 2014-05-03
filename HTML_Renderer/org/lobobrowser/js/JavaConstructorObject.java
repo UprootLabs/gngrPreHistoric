@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.js;
 
 import org.mozilla.javascript.Context;
@@ -26,60 +26,63 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 public class JavaConstructorObject extends ScriptableObject implements Function {
-	private final JavaClassWrapper classWrapper;
-	private final JavaInstantiator instantiator;
-	private final String name;
-	
-	public JavaConstructorObject(String name, JavaClassWrapper classWrapper) {
-		this.name = name;
-		this.classWrapper = classWrapper;
-		this.instantiator = new SimpleInstantiator(classWrapper);
-	}
+  private final JavaClassWrapper classWrapper;
+  private final JavaInstantiator instantiator;
+  private final String name;
 
-	public JavaConstructorObject(String name, JavaClassWrapper classWrapper, JavaInstantiator instantiator) {
-		this.name = name;
-		this.classWrapper = classWrapper;
-		this.instantiator = instantiator;
-	}
+  public JavaConstructorObject(String name, JavaClassWrapper classWrapper) {
+    this.name = name;
+    this.classWrapper = classWrapper;
+    this.instantiator = new SimpleInstantiator(classWrapper);
+  }
 
-	public String getClassName() {
-		return this.name;
-	}
+  public JavaConstructorObject(String name, JavaClassWrapper classWrapper,
+      JavaInstantiator instantiator) {
+    this.name = name;
+    this.classWrapper = classWrapper;
+    this.instantiator = instantiator;
+  }
 
-	public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
-		throw new UnsupportedOperationException();
-	}
+  public String getClassName() {
+    return this.name;
+  }
 
-	public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
-		try {
-			Object javaObject = this.instantiator.newInstance();
-			Scriptable newObject = new JavaObjectWrapper(this.classWrapper, javaObject);
-			newObject.setParentScope(scope);
-			return newObject;
-		} catch(Exception err) {
-			throw new IllegalStateException(err.getMessage());
-		}
-	}
-	
-	public java.lang.Object getDefaultValue(java.lang.Class hint) {
-		if(String.class.equals(hint)) {
-			return "function " + this.name;
-		}
-		else {
-			return super.getDefaultValue(hint);
-		}
-	}
-	
-	public static class SimpleInstantiator implements JavaInstantiator {
-		private final JavaClassWrapper classWrapper;
+  public Object call(Context cx, Scriptable scope, Scriptable thisObj,
+      Object[] args) {
+    throw new UnsupportedOperationException();
+  }
 
-		public SimpleInstantiator(final JavaClassWrapper classWrapper) {
-			super();
-			this.classWrapper = classWrapper;
-		}
+  public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
+    try {
+      Object javaObject = this.instantiator.newInstance();
+      Scriptable newObject = new JavaObjectWrapper(this.classWrapper,
+          javaObject);
+      newObject.setParentScope(scope);
+      return newObject;
+    } catch (Exception err) {
+      throw new IllegalStateException(err.getMessage());
+    }
+  }
 
-		public Object newInstance() throws InstantiationException, IllegalAccessException  {
-			return this.classWrapper.newInstance();
-		}
-	}
+  public java.lang.Object getDefaultValue(java.lang.Class hint) {
+    if (String.class.equals(hint)) {
+      return "function " + this.name;
+    } else {
+      return super.getDefaultValue(hint);
+    }
+  }
+
+  public static class SimpleInstantiator implements JavaInstantiator {
+    private final JavaClassWrapper classWrapper;
+
+    public SimpleInstantiator(final JavaClassWrapper classWrapper) {
+      super();
+      this.classWrapper = classWrapper;
+    }
+
+    public Object newInstance() throws InstantiationException,
+        IllegalAccessException {
+      return this.classWrapper.newInstance();
+    }
+  }
 }

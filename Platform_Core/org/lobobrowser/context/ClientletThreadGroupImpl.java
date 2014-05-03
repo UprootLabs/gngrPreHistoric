@@ -17,20 +17,21 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.context;
 
 import org.lobobrowser.clientlet.*;
 
-public class ClientletThreadGroupImpl extends ThreadGroup implements ClientletThreadGroup {
-	private final ClientletContext context;
+public class ClientletThreadGroupImpl extends ThreadGroup implements
+    ClientletThreadGroup {
+  private final ClientletContext context;
 
-	public ClientletThreadGroupImpl(String name, ClientletContext context) {
-		super(name);
-		this.context = context;
-	}
-	
-	public ClientletContext getClientletContext() {
-		return this.context;
-	}	
+  public ClientletThreadGroupImpl(String name, ClientletContext context) {
+    super(name);
+    this.context = context;
+  }
+
+  public ClientletContext getClientletContext() {
+    return this.context;
+  }
 }

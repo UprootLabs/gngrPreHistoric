@@ -17,36 +17,36 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 /**
- * An abstract implementation of {@link DocumentNotificationListener}
- * with blank methods, provided for convenience.
+ * An abstract implementation of {@link DocumentNotificationListener} with blank
+ * methods, provided for convenience.
  */
 public abstract class DocumentNotificationAdapter implements
-		DocumentNotificationListener {
-	public void allInvalidated() {
-	}
+    DocumentNotificationListener {
+  public void allInvalidated() {
+  }
 
-	public void externalScriptLoading(NodeImpl node) {
-	}
-	
-	public void invalidated(NodeImpl node) {
-	}
+  public void externalScriptLoading(NodeImpl node) {
+  }
 
-	public void lookInvalidated(NodeImpl node) {
-	}
+  public void invalidated(NodeImpl node) {
+  }
 
-	public void nodeLoaded(NodeImpl node) {
-	}
+  public void lookInvalidated(NodeImpl node) {
+  }
 
-	public void positionInvalidated(NodeImpl node) {
-	}
+  public void nodeLoaded(NodeImpl node) {
+  }
 
-	public void sizeInvalidated(NodeImpl node) {
-	}
+  public void positionInvalidated(NodeImpl node) {
+  }
 
-	public void structureInvalidated(NodeImpl node) {
-	}
+  public void sizeInvalidated(NodeImpl node) {
+  }
+
+  public void structureInvalidated(NodeImpl node) {
+  }
 }

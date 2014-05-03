@@ -17,13 +17,14 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 8, 2005
  */
 package org.lobobrowser.util;
 
 public interface ObjectFilter {
-	public Object decode(Object source);
-	public Object encode(Object source);
+  public Object decode(Object source);
+
+  public Object encode(Object source);
 }

@@ -17,16 +17,16 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 public class HostEntry {
-	public final String host;
-	public final long timestamp;
-	
-	public HostEntry(final String host, final long timestamp) {
-		super();
-		this.host = host;
-		this.timestamp = timestamp;
-	}
+  public final String host;
+  public final long timestamp;
+
+  public HostEntry(final String host, final long timestamp) {
+    super();
+    this.host = host;
+    this.timestamp = timestamp;
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
@@ -28,31 +28,31 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 
 public class CommentImpl extends CharacterDataImpl implements Comment {
-	public CommentImpl(String text) {
-		super(text);
-	}
+  public CommentImpl(String text) {
+    super(text);
+  }
 
-	public String getLocalName() {
-		return null;
-	}
+  public String getLocalName() {
+    return null;
+  }
 
-	public String getNodeName() {
-		return "#comment";
-	}
+  public String getNodeName() {
+    return "#comment";
+  }
 
-	public String getNodeValue() throws DOMException {
-		return this.getTextContent();
-	}
+  public String getNodeValue() throws DOMException {
+    return this.getTextContent();
+  }
 
-	public void setNodeValue(String nodeValue) throws DOMException {
-		this.setTextContent(nodeValue);
-	}
+  public void setNodeValue(String nodeValue) throws DOMException {
+    this.setTextContent(nodeValue);
+  }
 
-	public short getNodeType() {
-		return Node.COMMENT_NODE;
-	}
+  public short getNodeType() {
+    return Node.COMMENT_NODE;
+  }
 
-	protected Node createSimilarNode() {
-		return new CommentImpl(this.text);
-	}
+  protected Node createSimilarNode() {
+    return new CommentImpl(this.text);
+  }
 }

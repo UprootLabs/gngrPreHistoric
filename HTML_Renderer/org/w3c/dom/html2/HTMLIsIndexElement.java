@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Copyright (c) 2003 World Wide Web Consortium,
  * (Massachusetts Institute of Technology, Institut National de
@@ -33,27 +33,30 @@
 package org.w3c.dom.html2;
 
 /**
- * This element is used for single-line text input. See the ISINDEX element 
+ * This element is used for single-line text input. See the ISINDEX element
  * definition in HTML 4.01. This element is deprecated in HTML 4.01.
- * <p>See also the <a href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document Object Model (DOM) Level 2 HTML Specification</a>.
+ * <p>
+ * See also the <a
+ * href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document
+ * Object Model (DOM) Level 2 HTML Specification</a>.
  */
 public interface HTMLIsIndexElement extends HTMLElement {
-    /**
-     * Returns the <code>FORM</code> element containing this control. Returns 
-     * <code>null</code> if this control is not within the context of a 
-     * form. 
-     */
-    public HTMLFormElement getForm();
+  /**
+   * Returns the <code>FORM</code> element containing this control. Returns
+   * <code>null</code> if this control is not within the context of a form.
+   */
+  public HTMLFormElement getForm();
 
-    /**
-     * The prompt message. See the prompt attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     */
-    public String getPrompt();
-    /**
-     * The prompt message. See the prompt attribute definition in HTML 4.01. 
-     * This attribute is deprecated in HTML 4.01.
-     */
-    public void setPrompt(String prompt);
+  /**
+   * The prompt message. See the prompt attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public String getPrompt();
+
+  /**
+   * The prompt message. See the prompt attribute definition in HTML 4.01. This
+   * attribute is deprecated in HTML 4.01.
+   */
+  public void setPrompt(String prompt);
 
 }

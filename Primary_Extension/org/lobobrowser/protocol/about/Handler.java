@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 14, 2005
  */
@@ -33,18 +33,22 @@ import java.net.URLStreamHandler;
  * @author J. H. S.
  */
 public class Handler extends URLStreamHandler {
-    /* (non-Javadoc)
-     * @see java.net.URLStreamHandler#openConnection(java.net.URL)
-     */
-    protected URLConnection openConnection(URL arg0) throws IOException {
-        return new AboutURLConnection(arg0);
-    }
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLStreamHandler#openConnection(java.net.URL)
+   */
+  protected URLConnection openConnection(URL arg0) throws IOException {
+    return new AboutURLConnection(arg0);
+  }
 
-	/* (non-Javadoc)
-	 * @see java.net.URLStreamHandler#openConnection(java.net.URL, java.net.Proxy)
-	 */
-	@Override
-	protected URLConnection openConnection(URL u, Proxy p) throws IOException {
-		return this.openConnection(u);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLStreamHandler#openConnection(java.net.URL, java.net.Proxy)
+   */
+  @Override
+  protected URLConnection openConnection(URL u, Proxy p) throws IOException {
+    return this.openConnection(u);
+  }
 }

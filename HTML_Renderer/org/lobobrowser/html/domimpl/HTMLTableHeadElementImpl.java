@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.style.FontStyleRenderState;
@@ -27,12 +27,13 @@ import org.lobobrowser.html.style.RenderState;
  * Element used for TH.
  */
 public class HTMLTableHeadElementImpl extends HTMLTableCellElementImpl {
-	public HTMLTableHeadElementImpl(String name) {
-		super(name);
-	}
+  public HTMLTableHeadElementImpl(String name) {
+    super(name);
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		prevRenderState = new FontStyleRenderState(prevRenderState, java.awt.Font.BOLD);
-		return super.createRenderState(prevRenderState);
-	}
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    prevRenderState = new FontStyleRenderState(prevRenderState,
+        java.awt.Font.BOLD);
+    return super.createRenderState(prevRenderState);
+  }
 }

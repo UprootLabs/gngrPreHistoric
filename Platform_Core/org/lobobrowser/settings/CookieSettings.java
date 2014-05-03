@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
@@ -27,34 +27,38 @@ import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
 
 class CookieSettings implements Serializable {
-	private static final Logger logger = Logger.getLogger(CookieSettings.class.getName());
-    private static final CookieSettings instance;
-    private static final long serialVersionUID = 22574500005000503L;
+  private static final Logger logger = Logger.getLogger(CookieSettings.class
+      .getName());
+  private static final CookieSettings instance;
+  private static final long serialVersionUID = 22574500005000503L;
 
-    static {
-    	CookieSettings ins = null;
-		try {
-			ins = (CookieSettings) StorageManager.getInstance().retrieveSettings(CookieSettings.class.getSimpleName(), CookieSettings.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new CookieSettings();
-		}
-		instance = ins;    	
+  static {
+    CookieSettings ins = null;
+    try {
+      ins = (CookieSettings) StorageManager.getInstance().retrieveSettings(
+          CookieSettings.class.getSimpleName(),
+          CookieSettings.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
+          err);
     }
+    if (ins == null) {
+      ins = new CookieSettings();
+    }
+    instance = ins;
+  }
 
-    private CookieSettings() {
+  private CookieSettings() {
+  }
+
+  /**
+   * Gets the class singleton.
+   */
+  public static CookieSettings getInstance() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
-    
-    /**
-     * Gets the class singleton.
-     */
-    public static CookieSettings getInstance() {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-    	return instance;
-    }
+    return instance;
+  }
 }

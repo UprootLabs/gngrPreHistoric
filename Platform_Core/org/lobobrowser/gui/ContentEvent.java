@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.util.EventObject;
@@ -25,21 +25,21 @@ import org.lobobrowser.ua.*;
 import org.lobobrowser.clientlet.*;
 
 public class ContentEvent extends EventObject {
-	private final ComponentContent content;
-	private final ClientletResponse response;
-	
-	public ContentEvent(Object source, ComponentContent content,
-			ClientletResponse response) {
-		super(source);
-		this.content = content;
-		this.response = response;
-	}
+  private final ComponentContent content;
+  private final ClientletResponse response;
 
-    public ComponentContent getContent() {
-        return content;
-    }
+  public ContentEvent(Object source, ComponentContent content,
+      ClientletResponse response) {
+    super(source);
+    this.content = content;
+    this.response = response;
+  }
 
-    public ClientletResponse getResponse() {
-        return response;
-    }
+  public ComponentContent getContent() {
+    return content;
+  }
+
+  public ClientletResponse getResponse() {
+    return response;
+  }
 }

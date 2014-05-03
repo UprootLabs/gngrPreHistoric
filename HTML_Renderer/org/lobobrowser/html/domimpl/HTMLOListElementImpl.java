@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Feb 12, 2006
  */
@@ -27,45 +27,45 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLOListElement;
 
 public class HTMLOListElementImpl extends HTMLAbstractUIElement implements
-		HTMLOListElement {
-	public HTMLOListElementImpl(String name) {
-		super(name);
-	}
+    HTMLOListElement {
+  public HTMLOListElementImpl(String name) {
+    super(name);
+  }
 
-	public boolean getCompact() {
-		String compactText = this.getAttribute("compact");
-		return "compact".equalsIgnoreCase(compactText);
-	}
+  public boolean getCompact() {
+    String compactText = this.getAttribute("compact");
+    return "compact".equalsIgnoreCase(compactText);
+  }
 
-	public void setCompact(boolean compact) {
-		this.setAttribute("compact", compact ? "compact" : null);
-	}
+  public void setCompact(boolean compact) {
+    this.setAttribute("compact", compact ? "compact" : null);
+  }
 
-	public int getStart() {
-		String startText = this.getAttribute("start");
-		if(startText == null) {
-			return 1;
-		}
-		try {
-			return Integer.parseInt(startText);
-		} catch(NumberFormatException nfe) {
-			return 1;
-		}
-	}
+  public int getStart() {
+    String startText = this.getAttribute("start");
+    if (startText == null) {
+      return 1;
+    }
+    try {
+      return Integer.parseInt(startText);
+    } catch (NumberFormatException nfe) {
+      return 1;
+    }
+  }
 
-	public void setStart(int start) {
-		this.setAttribute("start", String.valueOf(start));
-	}
+  public void setStart(int start) {
+    this.setAttribute("start", String.valueOf(start));
+  }
 
-	public String getType() {
-		return this.getAttribute("type");
-	}
+  public String getType() {
+    return this.getAttribute("type");
+  }
 
-	public void setType(String type) {
-		this.setAttribute("type", type);
-	}
+  public void setType(String type) {
+    this.setAttribute("type", type);
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		return new ListRenderState(prevRenderState, this);
-	}
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    return new ListRenderState(prevRenderState, this);
+  }
 }

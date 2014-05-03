@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Mar 19, 2005
  */
@@ -29,7 +29,7 @@ import java.util.*;
  * @author J. H. S.
  */
 public interface GenericEventListener extends EventListener {
-    public static final GenericEventListener[] EMPTY_ARRAY = new GenericEventListener[0];
-    
-    public void processEvent(EventObject event);
+  public static final GenericEventListener[] EMPTY_ARRAY = new GenericEventListener[0];
+
+  public void processEvent(EventObject event);
 }

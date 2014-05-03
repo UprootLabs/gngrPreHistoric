@@ -17,47 +17,47 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 22, 2005
  */
 package org.lobobrowser.primary.clientlets;
 
 public class ArchiveInfo {
-	public static final ArchiveInfo[] EMPTY_ARRAY = new ArchiveInfo[0];
-	public final java.io.File file;
-	public final java.net.URL url;
+  public static final ArchiveInfo[] EMPTY_ARRAY = new ArchiveInfo[0];
+  public final java.io.File file;
+  public final java.net.URL url;
 
-	/**
-	 * @param jarFile
-	 */
-	public ArchiveInfo(final java.net.URL url, final java.io.File file) {
-		super();
-		this.url = url;
-		this.file = file;
-	}
-	
-	private java.util.jar.JarFile jarFile;
-	
-	public java.util.jar.JarFile getJarFile() throws java.io.IOException {
-		if(this.jarFile == null) {
-			synchronized(this) {
-				if(this.jarFile == null) {
-					this.jarFile = new java.util.jar.JarFile(this.file);
-				}
-			}
-		}
-		return this.jarFile;
-	}
-	
-//	private transient WarriorClassLoader classLoader = null;
-//	
-//	public WarriorClassLoader getClassLoader() throws IOException {
-//		synchronized(this) {
-//			if(this.classLoader == null) {
-//				this.classLoader = new ArchiveClassLoader(this.url, this.file);
-//			}
-//			return this.classLoader;
-//		}
-//	}
+  /**
+   * @param jarFile
+   */
+  public ArchiveInfo(final java.net.URL url, final java.io.File file) {
+    super();
+    this.url = url;
+    this.file = file;
+  }
+
+  private java.util.jar.JarFile jarFile;
+
+  public java.util.jar.JarFile getJarFile() throws java.io.IOException {
+    if (this.jarFile == null) {
+      synchronized (this) {
+        if (this.jarFile == null) {
+          this.jarFile = new java.util.jar.JarFile(this.file);
+        }
+      }
+    }
+    return this.jarFile;
+  }
+
+  // private transient WarriorClassLoader classLoader = null;
+  //
+  // public WarriorClassLoader getClassLoader() throws IOException {
+  // synchronized(this) {
+  // if(this.classLoader == null) {
+  // this.classLoader = new ArchiveClassLoader(this.url, this.file);
+  // }
+  // return this.classLoader;
+  // }
+  // }
 }

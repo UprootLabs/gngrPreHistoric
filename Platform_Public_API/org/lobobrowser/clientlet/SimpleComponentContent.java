@@ -19,50 +19,51 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 import java.awt.Component;
 
-public class SimpleComponentContent extends AbstractComponentContent {	
-	private final Component component;
-	private final String title;
-	private final String sourceCode;
-	
-	public SimpleComponentContent(Component component, String title, String sourceCode) {
-		this.component = component;
-		this.title = title;
-		this.sourceCode = sourceCode;
-	}
+public class SimpleComponentContent extends AbstractComponentContent {
+  private final Component component;
+  private final String title;
+  private final String sourceCode;
 
-	public SimpleComponentContent(Component component) {
-		this.component = component;
-		this.title = component.toString();
-		this.sourceCode = null;
-	}
+  public SimpleComponentContent(Component component, String title,
+      String sourceCode) {
+    this.component = component;
+    this.title = title;
+    this.sourceCode = sourceCode;
+  }
 
-	@Override
-	public boolean canCopy() {
-		return false;
-	}
+  public SimpleComponentContent(Component component) {
+    this.component = component;
+    this.title = component.toString();
+    this.sourceCode = null;
+  }
 
-	@Override
-	public boolean copy() {
-		return false;
-	}
+  @Override
+  public boolean canCopy() {
+    return false;
+  }
 
-	@Override
-	public Component getComponent() {
-		return this.component;
-	}
+  @Override
+  public boolean copy() {
+    return false;
+  }
 
-	@Override
-	public String getSourceCode() {
-		return this.sourceCode;
-	}
+  @Override
+  public Component getComponent() {
+    return this.component;
+  }
 
-	@Override
-	public String getTitle() {
-		return this.title;
-	}
+  @Override
+  public String getSourceCode() {
+    return this.sourceCode;
+  }
+
+  @Override
+  public String getTitle() {
+    return this.title;
+  }
 }

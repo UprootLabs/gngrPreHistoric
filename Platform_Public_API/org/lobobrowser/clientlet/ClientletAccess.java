@@ -19,43 +19,43 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 /**
  * Provides utility methods to access the current clientlet context.
  */
 public class ClientletAccess {
-	private static final ThreadLocal<ClientletContext> currentClientletContext = new ThreadLocal<ClientletContext>();
+  private static final ThreadLocal<ClientletContext> currentClientletContext = new ThreadLocal<ClientletContext>();
 
-	private ClientletAccess() {
-	}
-	
-	/**
-	 * Gets the {@link ClientletContext} of the current thread, if any.
-	 */
-	public static ClientletContext getCurrentClientletContext() {
-		ClientletContext ctx = currentClientletContext.get();
-		if(ctx != null) {
-			return ctx;
-		}
-		else {
-			ThreadGroup td = Thread.currentThread().getThreadGroup();
-			if(td instanceof ClientletThreadGroup) {
-				return ((ClientletThreadGroup) td).getClientletContext();
-			}
-			else {
-				return null;
-			}
-		}
-	}
-	
-	/**
-	 * This method should be invoked by the clientlet platform to
-	 * publish the {@link ClientletContext} of the current thread.
-	 * @param context A {@link ClientletContext} instance.
-	 */
-	public static void setCurrentClientletContext(ClientletContext context) {
-		currentClientletContext.set(context);
-	}
+  private ClientletAccess() {
+  }
+
+  /**
+   * Gets the {@link ClientletContext} of the current thread, if any.
+   */
+  public static ClientletContext getCurrentClientletContext() {
+    ClientletContext ctx = currentClientletContext.get();
+    if (ctx != null) {
+      return ctx;
+    } else {
+      ThreadGroup td = Thread.currentThread().getThreadGroup();
+      if (td instanceof ClientletThreadGroup) {
+        return ((ClientletThreadGroup) td).getClientletContext();
+      } else {
+        return null;
+      }
+    }
+  }
+
+  /**
+   * This method should be invoked by the clientlet platform to publish the
+   * {@link ClientletContext} of the current thread.
+   * 
+   * @param context
+   *          A {@link ClientletContext} instance.
+   */
+  public static void setCurrentClientletContext(ClientletContext context) {
+    currentClientletContext.set(context);
+  }
 }

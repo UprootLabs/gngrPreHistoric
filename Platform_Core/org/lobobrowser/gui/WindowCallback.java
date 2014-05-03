@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import java.net.URL;
@@ -26,56 +26,58 @@ import org.lobobrowser.ua.*;
 import org.lobobrowser.clientlet.*;
 
 /**
- * A interface that receives calls during
- * requests.
+ * A interface that receives calls during requests.
  */
 public interface WindowCallback {
-	/**
-	 * Gets a component that may be used as a parent of
-	 * prompt dialogs during requests.
-	 */
-	public java.awt.Component getComponent();
-	
-	/**
-	 * Called when a document has been accessed, but has not yet rendered.
-	 * Processing could be cancelled.
-	 */
-	public void handleDocumentAccess(NavigatorFrame frame, ClientletResponse response);
-	
-	/**
-	 * Called when the document has either rendered or is beginning to
-	 * be incrementally rendered.
-	 */
-	public void handleDocumentRendering(NavigatorFrame frame, ClientletResponse response, ComponentContent content);
-	
-	/**
-	 * Updates request progress.
-	 */
-	public void updateProgress(NavigatorProgressEvent event);
-	
-	/**
-	 * Invoked when there's a request error.
-	 */
-	public void handleError(NavigatorFrame frame, ClientletResponse response, Throwable exception);
+  /**
+   * Gets a component that may be used as a parent of prompt dialogs during
+   * requests.
+   */
+  public java.awt.Component getComponent();
 
-	/**
-	 * Called to set a status message.
-	 */
-	public void setStatus(NavigatorFrame frame, String status);
-	
-	/**
-	 * Called to set a default status message.
-	 */
-	public void setDefaultStatus(NavigatorFrame frame, String defaultStatus);
-	
-	/**
-	 * Gets the current window status message.
-	 */
-	public String getStatus();
-	
-	/**
-	 * Gets the current default status message or <code>null</code>
-	 * if there's no default.
-	 */
-	public String getDefaultStatus();
+  /**
+   * Called when a document has been accessed, but has not yet rendered.
+   * Processing could be cancelled.
+   */
+  public void handleDocumentAccess(NavigatorFrame frame,
+      ClientletResponse response);
+
+  /**
+   * Called when the document has either rendered or is beginning to be
+   * incrementally rendered.
+   */
+  public void handleDocumentRendering(NavigatorFrame frame,
+      ClientletResponse response, ComponentContent content);
+
+  /**
+   * Updates request progress.
+   */
+  public void updateProgress(NavigatorProgressEvent event);
+
+  /**
+   * Invoked when there's a request error.
+   */
+  public void handleError(NavigatorFrame frame, ClientletResponse response,
+      Throwable exception);
+
+  /**
+   * Called to set a status message.
+   */
+  public void setStatus(NavigatorFrame frame, String status);
+
+  /**
+   * Called to set a default status message.
+   */
+  public void setDefaultStatus(NavigatorFrame frame, String defaultStatus);
+
+  /**
+   * Gets the current window status message.
+   */
+  public String getStatus();
+
+  /**
+   * Gets the current default status message or <code>null</code> if there's no
+   * default.
+   */
+  public String getDefaultStatus();
 }

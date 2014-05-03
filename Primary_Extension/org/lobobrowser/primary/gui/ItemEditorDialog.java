@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui;
 
 import java.awt.Component;
@@ -32,88 +32,90 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 public class ItemEditorDialog<T> extends JDialog {
-	private final JLabel captionLabel = new JLabel();
-	private final JButton okButton = new JButton();
-	private final JButton cancelButton = new JButton();
-	private final AbstractItemEditor<T> editor;
+  private final JLabel captionLabel = new JLabel();
+  private final JButton okButton = new JButton();
+  private final JButton cancelButton = new JButton();
+  private final AbstractItemEditor<T> editor;
 
-	public ItemEditorDialog(Dialog owner, ItemEditorFactory<T> factory) throws HeadlessException {
-		super(owner);
-		this.editor = factory.createItemEditor();
-		this.init();
-	}
+  public ItemEditorDialog(Dialog owner, ItemEditorFactory<T> factory)
+      throws HeadlessException {
+    super(owner);
+    this.editor = factory.createItemEditor();
+    this.init();
+  }
 
-	public ItemEditorDialog(Frame owner, ItemEditorFactory<T> factory) throws HeadlessException {
-		super(owner);
-		this.editor = factory.createItemEditor();
-		this.init();
-	}
-	
-	private void init() {
-		this.captionLabel.setPreferredSize(new Dimension(Short.MAX_VALUE, 32));
-		this.captionLabel.setAlignmentX(0.0f);
-		this.captionLabel.setBorder(new EmptyBorder(8, 0, 8, 0));
-		this.okButton.setAction(new OkAction());
-		this.okButton.setText("OK");
-		this.cancelButton.setAction(new CancelAction());
-		this.cancelButton.setText("Cancel");
-		
-		//this.editor.setBorder(new BevelBorder(BevelBorder.RAISED));
+  public ItemEditorDialog(Frame owner, ItemEditorFactory<T> factory)
+      throws HeadlessException {
+    super(owner);
+    this.editor = factory.createItemEditor();
+    this.init();
+  }
 
-		Box rootBox = new Box(BoxLayout.Y_AXIS);
-		rootBox.setBorder(new EmptyBorder(4, 4, 4, 4));
-		rootBox.add(this.captionLabel);
-		rootBox.add(this.editor);
-		rootBox.add(this.createButtonPanel());
+  private void init() {
+    this.captionLabel.setPreferredSize(new Dimension(Short.MAX_VALUE, 32));
+    this.captionLabel.setAlignmentX(0.0f);
+    this.captionLabel.setBorder(new EmptyBorder(8, 0, 8, 0));
+    this.okButton.setAction(new OkAction());
+    this.okButton.setText("OK");
+    this.cancelButton.setAction(new CancelAction());
+    this.cancelButton.setText("Cancel");
 
-		Container contentPane = this.getContentPane();
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		contentPane.add(rootBox);
-	}
-	
-	public void setCaption(String caption) {
-		this.captionLabel.setText(caption);
-	}
-	
-	public void setItem(T item) {
-		this.editor.setItem(item);
-	}
-	
-	private Component createButtonPanel() {
-		Box panel = new Box(BoxLayout.X_AXIS);
-		//panel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		panel.setBorder(new EmptyBorder(4, 4, 4, 4));
-		panel.add(Box.createGlue());
-		panel.add(this.okButton);
-		panel.add(Box.createRigidArea(new Dimension(4, 1)));
-		panel.add(this.cancelButton);
-		panel.add(Box.createGlue());
-		return panel;
-	}
+    // this.editor.setBorder(new BevelBorder(BevelBorder.RAISED));
 
-	private T resultingItem;
-		
-	public T getResultingItem() {
-		return this.resultingItem;
-	}
-	
-	private class OkAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			try {
-				editor.validateItem();
-			} catch(ValidationException ve) {
-				JOptionPane.showMessageDialog(ItemEditorDialog.this, ve.getMessage());
-				return;
-			}
-			resultingItem = editor.getItem();
-			ItemEditorDialog.this.dispose();
-		}
-	}
+    Box rootBox = new Box(BoxLayout.Y_AXIS);
+    rootBox.setBorder(new EmptyBorder(4, 4, 4, 4));
+    rootBox.add(this.captionLabel);
+    rootBox.add(this.editor);
+    rootBox.add(this.createButtonPanel());
 
-	private class CancelAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			resultingItem = null;
-			ItemEditorDialog.this.dispose();
-		}
-	}
+    Container contentPane = this.getContentPane();
+    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+    contentPane.add(rootBox);
+  }
+
+  public void setCaption(String caption) {
+    this.captionLabel.setText(caption);
+  }
+
+  public void setItem(T item) {
+    this.editor.setItem(item);
+  }
+
+  private Component createButtonPanel() {
+    Box panel = new Box(BoxLayout.X_AXIS);
+    // panel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+    panel.setBorder(new EmptyBorder(4, 4, 4, 4));
+    panel.add(Box.createGlue());
+    panel.add(this.okButton);
+    panel.add(Box.createRigidArea(new Dimension(4, 1)));
+    panel.add(this.cancelButton);
+    panel.add(Box.createGlue());
+    return panel;
+  }
+
+  private T resultingItem;
+
+  public T getResultingItem() {
+    return this.resultingItem;
+  }
+
+  private class OkAction extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      try {
+        editor.validateItem();
+      } catch (ValidationException ve) {
+        JOptionPane.showMessageDialog(ItemEditorDialog.this, ve.getMessage());
+        return;
+      }
+      resultingItem = editor.getItem();
+      ItemEditorDialog.this.dispose();
+    }
+  }
+
+  private class CancelAction extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      resultingItem = null;
+      ItemEditorDialog.this.dispose();
+    }
+  }
 }

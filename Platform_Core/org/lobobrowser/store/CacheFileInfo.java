@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 12, 2005
  */
@@ -29,65 +29,66 @@ import java.io.*;
  * @author J. H. S.
  */
 public class CacheFileInfo implements Comparable {
-	private final long size;
-	private final String path;
-	private final File file;
-	private final long initialLastModified;
-	
-	/**
+  private final long size;
+  private final String path;
+  private final File file;
+  private final long initialLastModified;
+
+  /**
 	 * 
 	 */
-	public CacheFileInfo(File file) {
-		super();
-		this.path = file.getAbsolutePath();
-		this.size = file.length();
-		this.file = file;
-		this.initialLastModified = file.lastModified();
-	}
-	
-	public File getFile() {
-		return this.file;
-	}
+  public CacheFileInfo(File file) {
+    super();
+    this.path = file.getAbsolutePath();
+    this.size = file.length();
+    this.file = file;
+    this.initialLastModified = file.lastModified();
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(Object arg0) {
-		// Tested 2/3/2008.
-		// Yield on compare for potentially huge sort.
-		Thread.yield();
-		CacheFileInfo cfi1 = this;
-		CacheFileInfo cfi2 = (CacheFileInfo) arg0;
-		int fileCompare = cfi1.file.compareTo(cfi2.file);
-		if(fileCompare == 0) {
-			return 0;
-		}
-		long lm1 = cfi1.initialLastModified;
-		long lm2 = cfi2.initialLastModified;
-		if(lm1 < lm2) {
-			return -1;
-		}
-		else if(lm1 > lm2) {
-			return +1;
-		}
-		else {
-			return fileCompare;
-		}
-	}
+  public File getFile() {
+    return this.file;
+  }
 
-	public void delete() {
-		new File(this.path).delete();
-	}
-	
-	public long getLastModified() {
-		return this.file.lastModified();
-	}
-	
-	public long getInitialLength() {
-		return this.size;
-	}
-	
-	public String toString() {
-		return "CacheFileInfo[path=" + this.path + ",lastModified=" + new java.util.Date(this.initialLastModified) + "]";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  public int compareTo(Object arg0) {
+    // Tested 2/3/2008.
+    // Yield on compare for potentially huge sort.
+    Thread.yield();
+    CacheFileInfo cfi1 = this;
+    CacheFileInfo cfi2 = (CacheFileInfo) arg0;
+    int fileCompare = cfi1.file.compareTo(cfi2.file);
+    if (fileCompare == 0) {
+      return 0;
+    }
+    long lm1 = cfi1.initialLastModified;
+    long lm2 = cfi2.initialLastModified;
+    if (lm1 < lm2) {
+      return -1;
+    } else if (lm1 > lm2) {
+      return +1;
+    } else {
+      return fileCompare;
+    }
+  }
+
+  public void delete() {
+    new File(this.path).delete();
+  }
+
+  public long getLastModified() {
+    return this.file.lastModified();
+  }
+
+  public long getInitialLength() {
+    return this.size;
+  }
+
+  public String toString() {
+    return "CacheFileInfo[path=" + this.path + ",lastModified="
+        + new java.util.Date(this.initialLastModified) + "]";
+  }
 }

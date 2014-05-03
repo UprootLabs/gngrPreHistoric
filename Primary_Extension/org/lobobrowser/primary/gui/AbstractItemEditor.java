@@ -17,13 +17,15 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui;
 
 import javax.swing.JComponent;
 
 public abstract class AbstractItemEditor<T> extends JComponent {
-	public abstract void setItem(T item);
-	public abstract T getItem();
-	public abstract void validateItem() throws ValidationException;
+  public abstract void setItem(T item);
+
+  public abstract T getItem();
+
+  public abstract void validateItem() throws ValidationException;
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui;
 
 import java.awt.event.*;
@@ -27,90 +27,89 @@ import java.io.*;
 import java.util.*;
 
 public class StringListControl extends JComponent {
-	private final JComboBox comboBox;
-	
-	public StringListControl() {
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.comboBox = new JComboBox();
-		this.comboBox.setEditable(false);
-		JButton editButton = new JButton();
-		editButton.setAction(new EditAction());
-		editButton.setText("Edit List");
-		this.add(this.comboBox);
-		this.add(editButton);
-	}
-	
-	private String[] strings;
-	
-	public void setStrings(String[] strings) {
-		this.strings = strings;
-		JComboBox comboBox = this.comboBox;
-		comboBox.removeAllItems();
-		for(String string : strings) {
-			comboBox.addItem(string);
-		}
-	}
-	
-	public String[] getStrings() {
-		return this.strings;
-	}
-	
-	public String getStringsAsText() {
-		String lineSeparator = System.getProperty("line.separator");
-		String[] strings = this.strings;
-		if(strings == null) {
-			return null;
-		}
-		StringBuffer buffer = new StringBuffer();
-		for(String string : strings) {
-			buffer.append(string);
-			buffer.append(lineSeparator);
-		}
-		return buffer.toString();
-	}
+  private final JComboBox comboBox;
 
-	public void setStringsFromText(String text) {
-		try {
-			BufferedReader reader = new BufferedReader(new StringReader(text));
-			String line;
-			ArrayList<String> stringsAL = new ArrayList<String>();
-			while((line = reader.readLine()) != null) {
-				stringsAL.add(line);
-			}
-			this.setStrings(stringsAL.toArray(new String[0]));
-		} catch(java.io.IOException ioe) {
-			throw new IllegalStateException("not expected", ioe);
-		}
-	}
-	
-	private String editListCaption;
-	
-	public void setEditListCaption(String caption) {
-		this.editListCaption = caption;
-	}
-	
-	private class EditAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			Frame parentFrame = SwingTasks.getFrame(StringListControl.this);
-			SimpleTextEditDialog dialog;	
-			if(parentFrame != null) {
-				dialog = new SimpleTextEditDialog(parentFrame); 
-			}
-			else {
-				Dialog parentDialog = SwingTasks.getDialog(StringListControl.this);
-				dialog = new SimpleTextEditDialog(parentDialog);
-			}
-			dialog.setModal(true);
-			dialog.setTitle("Edit List");
-			dialog.setCaption(editListCaption);
-			dialog.setSize(new Dimension(400, 300));
-			dialog.setLocationByPlatform(true);
-			dialog.setText(getStringsAsText());
-			dialog.setVisible(true);
-			String text = dialog.getResultingText();
-			if(text != null) {
-				setStringsFromText(text);
-			}
-		}
-	}
+  public StringListControl() {
+    this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+    this.comboBox = new JComboBox();
+    this.comboBox.setEditable(false);
+    JButton editButton = new JButton();
+    editButton.setAction(new EditAction());
+    editButton.setText("Edit List");
+    this.add(this.comboBox);
+    this.add(editButton);
+  }
+
+  private String[] strings;
+
+  public void setStrings(String[] strings) {
+    this.strings = strings;
+    JComboBox comboBox = this.comboBox;
+    comboBox.removeAllItems();
+    for (String string : strings) {
+      comboBox.addItem(string);
+    }
+  }
+
+  public String[] getStrings() {
+    return this.strings;
+  }
+
+  public String getStringsAsText() {
+    String lineSeparator = System.getProperty("line.separator");
+    String[] strings = this.strings;
+    if (strings == null) {
+      return null;
+    }
+    StringBuffer buffer = new StringBuffer();
+    for (String string : strings) {
+      buffer.append(string);
+      buffer.append(lineSeparator);
+    }
+    return buffer.toString();
+  }
+
+  public void setStringsFromText(String text) {
+    try {
+      BufferedReader reader = new BufferedReader(new StringReader(text));
+      String line;
+      ArrayList<String> stringsAL = new ArrayList<String>();
+      while ((line = reader.readLine()) != null) {
+        stringsAL.add(line);
+      }
+      this.setStrings(stringsAL.toArray(new String[0]));
+    } catch (java.io.IOException ioe) {
+      throw new IllegalStateException("not expected", ioe);
+    }
+  }
+
+  private String editListCaption;
+
+  public void setEditListCaption(String caption) {
+    this.editListCaption = caption;
+  }
+
+  private class EditAction extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      Frame parentFrame = SwingTasks.getFrame(StringListControl.this);
+      SimpleTextEditDialog dialog;
+      if (parentFrame != null) {
+        dialog = new SimpleTextEditDialog(parentFrame);
+      } else {
+        Dialog parentDialog = SwingTasks.getDialog(StringListControl.this);
+        dialog = new SimpleTextEditDialog(parentDialog);
+      }
+      dialog.setModal(true);
+      dialog.setTitle("Edit List");
+      dialog.setCaption(editListCaption);
+      dialog.setSize(new Dimension(400, 300));
+      dialog.setLocationByPlatform(true);
+      dialog.setText(getStringsAsText());
+      dialog.setVisible(true);
+      String text = dialog.getResultingText();
+      if (text != null) {
+        setStringsFromText(text);
+      }
+    }
+  }
 }

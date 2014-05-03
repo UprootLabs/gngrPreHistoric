@@ -17,17 +17,19 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.html.domimpl.NodeImpl;
 
 /**
- * Provides direct access to the GUI component where the
- * document is rendered, typically a browser frame of some sort.
+ * Provides direct access to the GUI component where the document is rendered,
+ * typically a browser frame of some sort.
  */
 public interface FrameContext {
-	public void resetSelection(RenderableSpot rpoint);
-	public void expandSelection(RenderableSpot rpoint);
-	public void delayedRelayout(NodeImpl node);
+  public void resetSelection(RenderableSpot rpoint);
+
+  public void expandSelection(RenderableSpot rpoint);
+
+  public void delayedRelayout(NodeImpl node);
 }

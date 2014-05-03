@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Sep 10, 2005
  */
@@ -26,90 +26,93 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.*;
 
 public class AttrImpl extends NodeImpl implements Attr {
-	private String name;
-	private String value;
-	private boolean specified;
-	private Element ownerElement;
-	private boolean isId;
-	
-	/**
-	 * @param name
-	 * @param value
-	 */
-	public AttrImpl(String name, String value, boolean specified, Element owner, boolean isId) {
-		super();
-		this.name = name;
-		this.value = value;
-		this.specified = specified;
-		this.ownerElement = owner;
-		this.isId = isId;
-	}
+  private String name;
+  private String value;
+  private boolean specified;
+  private Element ownerElement;
+  private boolean isId;
 
-	/**
-	 * @param name
-	 */
-	public AttrImpl(String name) {
-		super();
-		this.name = name;
-		this.value = "";
-		this.specified = false;
-		this.ownerElement = null;
-		this.isId = false;
-	}
+  /**
+   * @param name
+   * @param value
+   */
+  public AttrImpl(String name, String value, boolean specified, Element owner,
+      boolean isId) {
+    super();
+    this.name = name;
+    this.value = value;
+    this.specified = specified;
+    this.ownerElement = owner;
+    this.isId = isId;
+  }
 
-	public String getLocalName() {
-		return this.name;
-	}
+  /**
+   * @param name
+   */
+  public AttrImpl(String name) {
+    super();
+    this.name = name;
+    this.value = "";
+    this.specified = false;
+    this.ownerElement = null;
+    this.isId = false;
+  }
 
-	public String getNodeName() {
-		return this.name;
-	}
+  public String getLocalName() {
+    return this.name;
+  }
 
-	public String getNodeValue() throws DOMException {
-		return this.value;
-	}
+  public String getNodeName() {
+    return this.name;
+  }
 
-	public void setNodeValue(String nodeValue) throws DOMException {
-		this.value = nodeValue;
-	}
+  public String getNodeValue() throws DOMException {
+    return this.value;
+  }
 
-	public short getNodeType() {
-		return Node.ATTRIBUTE_NODE; 
-	}
+  public void setNodeValue(String nodeValue) throws DOMException {
+    this.value = nodeValue;
+  }
 
-	public String getName() {
-		return this.name;
-	}
+  public short getNodeType() {
+    return Node.ATTRIBUTE_NODE;
+  }
 
-	public boolean getSpecified() {
-		return this.specified;
-	}
+  public String getName() {
+    return this.name;
+  }
 
-	public String getValue() {
-		return this.value;
-	}
+  public boolean getSpecified() {
+    return this.specified;
+  }
 
-	public void setValue(String value) throws DOMException {
-		this.value = value;
-	}
+  public String getValue() {
+    return this.value;
+  }
 
-	public Element getOwnerElement() {
-		return this.ownerElement;
-	}
+  public void setValue(String value) throws DOMException {
+    this.value = value;
+  }
 
-	public TypeInfo getSchemaTypeInfo() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
-	}
+  public Element getOwnerElement() {
+    return this.ownerElement;
+  }
 
-	public boolean isId() {
-		return this.isId;
-	}
-	
-	public void setId(boolean value) {
-		this.isId = value;
-	}
+  public TypeInfo getSchemaTypeInfo() {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+        "Namespaces not supported");
+  }
 
-	protected Node createSimilarNode() {
-		return new AttrImpl(this.name, this.value, this.specified, this.ownerElement, this.isId);
-	}
+  public boolean isId() {
+    return this.isId;
+  }
+
+  public void setId(boolean value) {
+    this.isId = value;
+  }
+
+  protected Node createSimilarNode() {
+    return new AttrImpl(this.name, this.value, this.specified,
+        this.ownerElement, this.isId);
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.style.*;
@@ -26,12 +26,12 @@ import org.lobobrowser.html.style.*;
  * Element used for TT and CODE.
  */
 public class HTMLMonospacedElementImpl extends HTMLAbstractUIElement {
-	public HTMLMonospacedElementImpl(String name) {
-		super(name);
-	}
+  public HTMLMonospacedElementImpl(String name) {
+    super(name);
+  }
 
-	protected RenderState createRenderState(RenderState prevRenderState) {
-		prevRenderState = new FontNameRenderState(prevRenderState, "Monospaced");
-		return super.createRenderState(prevRenderState);
-	}	
+  protected RenderState createRenderState(RenderState prevRenderState) {
+    prevRenderState = new FontNameRenderState(prevRenderState, "Monospaced");
+    return super.createRenderState(prevRenderState);
+  }
 }

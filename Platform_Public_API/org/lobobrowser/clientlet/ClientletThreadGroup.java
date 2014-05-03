@@ -19,19 +19,19 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 /**
- * An interface the platform should have a <code>ThreadGroup</code>
- * extension implement such
- * that threads created during a request belong to
- * an instance of this interface. 
+ * An interface the platform should have a <code>ThreadGroup</code> extension
+ * implement such that threads created during a request belong to an instance of
+ * this interface.
+ * 
  * @see ClientletAccess#getCurrentClientletContext()
  */
 public interface ClientletThreadGroup {
-	/**
-	 * Gets the clientlet context associated with the thread group.
-	 */
-	public ClientletContext getClientletContext();
+  /**
+   * Gets the clientlet context associated with the thread group.
+   */
+  public ClientletContext getClientletContext();
 }

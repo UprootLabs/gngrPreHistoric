@@ -17,121 +17,120 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui;
 
 import javax.swing.*;
 import javax.swing.text.*;
 
 public class FormField {
-	public final FieldType type;
-	
-	public FormField(final FieldType type) {
-		this(FieldType.TEXT, "");
-	}
+  public final FieldType type;
 
-	public FormField(final FieldType type, String caption) {
-		this(type, caption, true);
-	}
+  public FormField(final FieldType type) {
+    this(FieldType.TEXT, "");
+  }
 
-	public FormField(final FieldType type, final String caption, final boolean editable) {
-		this.type = type;
-		this.setCaption(caption);
-		this.setEditable(editable);
-	}
+  public FormField(final FieldType type, String caption) {
+    this(type, caption, true);
+  }
 
-	public FormField(final FieldType type, final boolean editable) {
-		this.type = type;
-		this.setEditable(editable);
-	}
+  public FormField(final FieldType type, final String caption,
+      final boolean editable) {
+    this.type = type;
+    this.setCaption(caption);
+    this.setEditable(editable);
+  }
 
-	public String getCaption() {
-		return this.getLabel().getText();
-	}
+  public FormField(final FieldType type, final boolean editable) {
+    this.type = type;
+    this.setEditable(editable);
+  }
 
-	public boolean isEditable() {
-		JComponent fe = this.getFieldEditor();
-		if(fe instanceof JTextComponent) {
-			return ((JTextComponent) fe).isEditable();
-		}
-		else {
-			return false;
-		}
-	}
+  public String getCaption() {
+    return this.getLabel().getText();
+  }
 
-	public FieldType getType() {
-		return type;
-	}
+  public boolean isEditable() {
+    JComponent fe = this.getFieldEditor();
+    if (fe instanceof JTextComponent) {
+      return ((JTextComponent) fe).isEditable();
+    } else {
+      return false;
+    }
+  }
 
-	public String getValue() {
-		JComponent fe = this.getFieldEditor();
-		if(fe instanceof JTextComponent) {
-			return ((JTextComponent) fe).getText();
-		}
-		else {
-			return null;
-		}
-	}
+  public FieldType getType() {
+    return type;
+  }
 
-	public void setValue(String value) {
-		JComponent fe = this.getFieldEditor();
-		if(fe instanceof JTextComponent) {
-			((JTextComponent) fe).setText(value);
-		}
-	}
+  public String getValue() {
+    JComponent fe = this.getFieldEditor();
+    if (fe instanceof JTextComponent) {
+      return ((JTextComponent) fe).getText();
+    } else {
+      return null;
+    }
+  }
 
-	public String getToolTip() {
-		return this.getFieldEditor().getToolTipText();
-	}
+  public void setValue(String value) {
+    JComponent fe = this.getFieldEditor();
+    if (fe instanceof JTextComponent) {
+      ((JTextComponent) fe).setText(value);
+    }
+  }
 
-	public void setToolTip(String tooltip) {	
-		this.getFieldEditor().setToolTipText(tooltip);
-	}
+  public String getToolTip() {
+    return this.getFieldEditor().getToolTipText();
+  }
 
-	public void setEditable(boolean editable) {
-		JComponent fe = this.getFieldEditor();
-		if(fe instanceof JTextComponent) {
-			((JTextComponent) fe).setEditable(editable);
-		}
-	}
+  public void setToolTip(String tooltip) {
+    this.getFieldEditor().setToolTipText(tooltip);
+  }
 
-	public void setCaption(String caption) {
-		this.getLabel().setText(caption);
-	}
-	
-	private JLabel label;
-	
-	public JLabel getLabel() {
-		JLabel label = this.label;
-		if(label != null) {
-			return label;
-		}
-		label = new JLabel();
-		this.label = label;
-		return label;		
-	}
-	
-	private JComponent fieldEditor;
-	
-	public JComponent getFieldEditor() {
-		JComponent fe = this.fieldEditor;
-		if(fe != null) {
-			return fe;
-		}
-		switch(this.type) {
-		case TEXT:
-			final JTextField textField = new JTextField();
-			fe = textField;
-			break;
-		case PASSWORD:
-			final JPasswordField pwdField = new JPasswordField();
-			pwdField.setEchoChar('*');
-			fe = pwdField;
-			break;
-		default:
-			throw new IllegalArgumentException("type=" + this.type);
-		}
-		this.fieldEditor = fe;
-		return fe;
-	}
+  public void setEditable(boolean editable) {
+    JComponent fe = this.getFieldEditor();
+    if (fe instanceof JTextComponent) {
+      ((JTextComponent) fe).setEditable(editable);
+    }
+  }
+
+  public void setCaption(String caption) {
+    this.getLabel().setText(caption);
+  }
+
+  private JLabel label;
+
+  public JLabel getLabel() {
+    JLabel label = this.label;
+    if (label != null) {
+      return label;
+    }
+    label = new JLabel();
+    this.label = label;
+    return label;
+  }
+
+  private JComponent fieldEditor;
+
+  public JComponent getFieldEditor() {
+    JComponent fe = this.fieldEditor;
+    if (fe != null) {
+      return fe;
+    }
+    switch (this.type) {
+    case TEXT:
+      final JTextField textField = new JTextField();
+      fe = textField;
+      break;
+    case PASSWORD:
+      final JPasswordField pwdField = new JPasswordField();
+      pwdField.setEchoChar('*');
+      fe = pwdField;
+      break;
+    default:
+      throw new IllegalArgumentException("type=" + this.type);
+    }
+    this.fieldEditor = fe;
+    return fe;
+  }
 }

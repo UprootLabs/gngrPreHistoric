@@ -17,14 +17,14 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 /**
- * A convenience abstract implementation of {@link ContentListener},
- * with blank methods.
+ * A convenience abstract implementation of {@link ContentListener}, with blank
+ * methods.
  */
 public abstract class ContentAdapter implements ContentListener {
-	public void contentSet(ContentEvent event) {
-	}
+  public void contentSet(ContentEvent event) {
+  }
 }

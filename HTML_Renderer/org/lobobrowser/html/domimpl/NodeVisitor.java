@@ -17,18 +17,18 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
 package org.lobobrowser.html.domimpl;
 
 public interface NodeVisitor {
-	/**
-	 * Visits a node. The call should be
-	 * expected to occur in a synchronized
-	 * block. The lock will be node-dependent.
-	 * @param node
-	 */
-	public void visit(org.w3c.dom.Node node);
+  /**
+   * Visits a node. The call should be expected to occur in a synchronized
+   * block. The lock will be node-dependent.
+   * 
+   * @param node
+   */
+  public void visit(org.w3c.dom.Node node);
 }

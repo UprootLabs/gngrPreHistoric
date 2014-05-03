@@ -19,65 +19,71 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.clientlet;
 
 /**
- * Content set by a {@link Clientlet}. To ensure backward
- * compatibility, it is recommended that {@link AbstractComponentContent}
- * be extended instead of implementing this interface whenever
- * possible.
+ * Content set by a {@link Clientlet}. To ensure backward compatibility, it is
+ * recommended that {@link AbstractComponentContent} be extended instead of
+ * implementing this interface whenever possible.
+ * 
  * @see ClientletContext#setResultingContent(ComponentContent)
  */
 public interface ComponentContent {
-	public java.awt.Component getComponent();
-	public String getTitle();
-	public String getDescription();
-	
-	/** Determines whether it's possible to copy content to the clipboard.
-	 *  This method can be used by the platform to determine if a menu
-	 *  item should be enabled.  
-	 */
-	public boolean canCopy();
-	
-	/** Copies content to the clipboard. 
-	 *  
-	 * @return True if the operation succeeded.
-	 */
-	public boolean copy();
+  public java.awt.Component getComponent();
 
-	/**
-	 * Gets the source code associated with the content.
-	 */
-	public String getSourceCode();
-	
-	/** Called after the content has been added to a container for display. */ 
-	public void addNotify();
-	
-	/** Called after the content has been removed from the display container.
-	 * This method may be used to dispose associated resources.
-	 */
-	public void removeNotify();
-	
-	/**
-	 * Gets an implementation-dependent object that represents the content.
-	 * For example, if the content is HTML, the object returned by this method
-	 * may be of type HTMLDocument.
-	 */
-	public Object getContentObject();
-	
-	/**
-	 * Gets a mime-type that can be said to be associated with the
-	 * object returned by {@link #getContentObject()}. This may differ from the mime-type
-	 * of the response that produced the content, and it may also be <code>null</code>.
-	 */
-	public String getMimeType();
+  public String getTitle();
 
-	/**
-	 * Sets a property of the content. Property names
-	 * are implementation-dependent.
-	 * @param name
-	 * @param value
-	 */
-	public void setProperty(String name, Object value);
+  public String getDescription();
+
+  /**
+   * Determines whether it's possible to copy content to the clipboard. This
+   * method can be used by the platform to determine if a menu item should be
+   * enabled.
+   */
+  public boolean canCopy();
+
+  /**
+   * Copies content to the clipboard.
+   * 
+   * @return True if the operation succeeded.
+   */
+  public boolean copy();
+
+  /**
+   * Gets the source code associated with the content.
+   */
+  public String getSourceCode();
+
+  /** Called after the content has been added to a container for display. */
+  public void addNotify();
+
+  /**
+   * Called after the content has been removed from the display container. This
+   * method may be used to dispose associated resources.
+   */
+  public void removeNotify();
+
+  /**
+   * Gets an implementation-dependent object that represents the content. For
+   * example, if the content is HTML, the object returned by this method may be
+   * of type HTMLDocument.
+   */
+  public Object getContentObject();
+
+  /**
+   * Gets a mime-type that can be said to be associated with the object returned
+   * by {@link #getContentObject()}. This may differ from the mime-type of the
+   * response that produced the content, and it may also be <code>null</code>.
+   */
+  public String getMimeType();
+
+  /**
+   * Sets a property of the content. Property names are
+   * implementation-dependent.
+   * 
+   * @param name
+   * @param value
+   */
+  public void setProperty(String name, Object value);
 }

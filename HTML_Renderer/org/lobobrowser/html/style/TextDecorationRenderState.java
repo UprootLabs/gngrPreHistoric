@@ -17,22 +17,22 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.style;
 
-
 public class TextDecorationRenderState extends RenderStateDelegator {
-	private int textDecorationMask;
-	
-	public TextDecorationRenderState(RenderState prevRenderState, int textDecorationMask) {
-		super(prevRenderState);
-		this.textDecorationMask = textDecorationMask;
-	}
+  private int textDecorationMask;
 
-	public int getTextDecorationMask() {
-		RenderState prs = this.delegate;
-		int parentMask = prs == null ? 0 : prs.getTextDecorationMask();
-		return parentMask | this.textDecorationMask;
-	}
+  public TextDecorationRenderState(RenderState prevRenderState,
+      int textDecorationMask) {
+    super(prevRenderState);
+    this.textDecorationMask = textDecorationMask;
+  }
+
+  public int getTextDecorationMask() {
+    RenderState prs = this.delegate;
+    int parentMask = prs == null ? 0 : prs.getTextDecorationMask();
+    return parentMask | this.textDecorationMask;
+  }
 }

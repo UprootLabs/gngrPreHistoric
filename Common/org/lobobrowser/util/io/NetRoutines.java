@@ -17,18 +17,19 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.util.io;
 
 import java.net.*;
 
 public class NetRoutines {
-	public static boolean isLocalAddress(String host) {		
-		try {
-			InetAddress address = InetAddress.getByName(host);
-			return address.isAnyLocalAddress() || address.isLinkLocalAddress() || address.isLoopbackAddress() || address.isSiteLocalAddress();
-		} catch(java.net.UnknownHostException uhe) {
-			return false;
-		}
-	}
+  public static boolean isLocalAddress(String host) {
+    try {
+      InetAddress address = InetAddress.getByName(host);
+      return address.isAnyLocalAddress() || address.isLinkLocalAddress()
+          || address.isLoopbackAddress() || address.isSiteLocalAddress();
+    } catch (java.net.UnknownHostException uhe) {
+      return false;
+    }
+  }
 }

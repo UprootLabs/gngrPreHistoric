@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 16, 2005
  */
@@ -31,7 +31,9 @@ import org.lobobrowser.html.domimpl.ModelNode;
  * Represents a renderer (view) node.
  */
 public interface Renderable {
-	public static final Renderable[] EMPTY_ARRAY = new Renderable[0];
-	public void paint(Graphics g);
-	public ModelNode getModelNode();
+  public static final Renderable[] EMPTY_ARRAY = new Renderable[0];
+
+  public void paint(Graphics g);
+
+  public ModelNode getModelNode();
 }

@@ -17,59 +17,64 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.ext;
 
 public class BookmarkInfo implements java.io.Serializable {
-	private static final long serialVersionUID = 2257845000007000400L;
-	
-	private java.net.URL url;
-	private String title;
-	private String description;
-	private String[] tags;
-	
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String[] getTags() {
-		return tags;
-	}
-	
-	public String getTagsText() {
-		String[] tags = this.tags;
-		if(tags == null) {
-			return "";
-		}
-		StringBuffer buffer = new StringBuffer();
-		boolean firstTime = true;
-		for(String tag : tags) {
-			if(firstTime) {
-				firstTime = false;
-			}
-			else {
-				buffer.append(' ');
-			}
-			buffer.append(tag);
-		}
-		return buffer.toString();
-	}
-	
-	public void setTags(String[] tags) {
-		this.tags = tags;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public java.net.URL getUrl() {
-		return url;
-	}
-	public void setUrl(java.net.URL url) {
-		this.url = url;
-	}	
+  private static final long serialVersionUID = 2257845000007000400L;
+
+  private java.net.URL url;
+  private String title;
+  private String description;
+  private String[] tags;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String[] getTags() {
+    return tags;
+  }
+
+  public String getTagsText() {
+    String[] tags = this.tags;
+    if (tags == null) {
+      return "";
+    }
+    StringBuffer buffer = new StringBuffer();
+    boolean firstTime = true;
+    for (String tag : tags) {
+      if (firstTime) {
+        firstTime = false;
+      } else {
+        buffer.append(' ');
+      }
+      buffer.append(tag);
+    }
+    return buffer.toString();
+  }
+
+  public void setTags(String[] tags) {
+    this.tags = tags;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public java.net.URL getUrl() {
+    return url;
+  }
+
+  public void setUrl(java.net.URL url) {
+    this.url = url;
+  }
 }

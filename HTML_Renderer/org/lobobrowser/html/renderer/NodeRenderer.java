@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jan 29, 2006
  */
@@ -26,5 +26,5 @@ package org.lobobrowser.html.renderer;
 import org.lobobrowser.html.domimpl.NodeImpl;
 
 public interface NodeRenderer {
-	public void setRootNode(NodeImpl node);
+  public void setRootNode(NodeImpl node);
 }

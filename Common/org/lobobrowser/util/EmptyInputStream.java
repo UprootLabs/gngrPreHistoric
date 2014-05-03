@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
@@ -27,30 +27,37 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class EmptyInputStream extends InputStream {
-	public EmptyInputStream() {
-		super();
-	}
-	public int read() throws IOException {
-		return -1;
-	}
+  public EmptyInputStream() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see java.io.InputStream#available()
-	 */
-	public int available() throws IOException {
-		return 0;
-	}
+  public int read() throws IOException {
+    return -1;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.io.InputStream#close()
-	 */
-	public void close() throws IOException {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.InputStream#available()
+   */
+  public int available() throws IOException {
+    return 0;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.io.InputStream#read(byte[], int, int)
-	 */
-	public int read(byte[] b, int off, int len) throws IOException {
-		return -1;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.InputStream#close()
+   */
+  public void close() throws IOException {
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.InputStream#read(byte[], int, int)
+   */
+  public int read(byte[] b, int off, int len) throws IOException {
+    return -1;
+  }
 }

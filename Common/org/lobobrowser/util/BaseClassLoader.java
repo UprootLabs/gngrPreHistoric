@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 19, 2005
  */
@@ -27,29 +27,32 @@ import java.security.SecureClassLoader;
 
 /**
  * Base class for all project class loaders.
+ * 
  * @author J. H. S.
  */
 public abstract class BaseClassLoader extends SecureClassLoader {
 
-	/**
-	 * @param parent
-	 */
-	public BaseClassLoader(ClassLoader parent) {
-		super(parent);
-	}
+  /**
+   * @param parent
+   */
+  public BaseClassLoader(ClassLoader parent) {
+    super(parent);
+  }
 
-	/**
+  /**
 	 * 
 	 */
-	public BaseClassLoader() {
-		super();
-	}
+  public BaseClassLoader() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
-	 */
-	public synchronized Class loadClass(String name, boolean resolve)
-			throws ClassNotFoundException {
-		return super.loadClass(name, resolve);
-	}	
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
+   */
+  public synchronized Class loadClass(String name, boolean resolve)
+      throws ClassNotFoundException {
+    return super.loadClass(name, resolve);
+  }
 }

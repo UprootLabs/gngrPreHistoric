@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Copyright (c) 2003 World Wide Web Consortium,
  * (Massachusetts Institute of Technology, Institut National de
@@ -33,20 +33,26 @@
 package org.w3c.dom.html2;
 
 /**
- * For the <code>Q</code> and <code>BLOCKQUOTE</code> elements. See the Q 
+ * For the <code>Q</code> and <code>BLOCKQUOTE</code> elements. See the Q
  * element definition in HTML 4.01.
- * <p>See also the <a href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document Object Model (DOM) Level 2 HTML Specification</a>.
+ * <p>
+ * See also the <a
+ * href='http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109'>Document
+ * Object Model (DOM) Level 2 HTML Specification</a>.
  */
 public interface HTMLQuoteElement extends HTMLElement {
-    /**
-     * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] designating a source document or message. See the cite attribute 
-     * definition in HTML 4.01.
-     */
-    public String getCite();
-    /**
-     * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>] designating a source document or message. See the cite attribute 
-     * definition in HTML 4.01.
-     */
-    public void setCite(String cite);
+  /**
+   * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * designating a source document or message. See the cite attribute definition
+   * in HTML 4.01.
+   */
+  public String getCite();
+
+  /**
+   * A URI [<a href='http://www.ietf.org/rfc/rfc2396.txt'>IETF RFC 2396</a>]
+   * designating a source document or message. See the cite attribute definition
+   * in HTML 4.01.
+   */
+  public void setCite(String cite);
 
 }

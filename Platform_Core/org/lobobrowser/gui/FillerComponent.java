@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 import javax.swing.Box.Filler;
@@ -25,20 +25,22 @@ import java.awt.*;
 
 /**
  * A component used in conjunction with <code>BoxLayot</code>.
- *
+ * 
  */
-public class FillerComponent extends Filler {	
-	public FillerComponent(Component wrappedComponent, boolean forMax) {
-		super(new Dimension(0,0), forMax ? new Dimension(0,0) : new Dimension(Short.MAX_VALUE, Short.MAX_VALUE), 
-				  new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
-		this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
-		this.add(wrappedComponent);
-	}
-	
-	public FillerComponent(Component wrappedComponent, Dimension minSize, Dimension prefSize, Dimension maxSize) {
-		super(minSize, prefSize, maxSize);
-		this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
-		this.add(wrappedComponent);
-	}
+public class FillerComponent extends Filler {
+  public FillerComponent(Component wrappedComponent, boolean forMax) {
+    super(new Dimension(0, 0), forMax ? new Dimension(0, 0) : new Dimension(
+        Short.MAX_VALUE, Short.MAX_VALUE), new Dimension(Short.MAX_VALUE,
+        Short.MAX_VALUE));
+    this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
+    this.add(wrappedComponent);
+  }
+
+  public FillerComponent(Component wrappedComponent, Dimension minSize,
+      Dimension prefSize, Dimension maxSize) {
+    super(minSize, prefSize, maxSize);
+    this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
+    this.add(wrappedComponent);
+  }
 
 }

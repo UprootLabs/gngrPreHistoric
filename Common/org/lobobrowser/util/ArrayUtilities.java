@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Apr 17, 2005
  */
@@ -30,47 +30,53 @@ import java.util.*;
  */
 public class ArrayUtilities {
 
-	/**
+  /**
 	 * 
 	 */
-	private ArrayUtilities() {
-		super();
-	}
+  private ArrayUtilities() {
+    super();
+  }
 
-	public static Iterator iterator(Object[] array, int offset, int length) {
-		return new ArrayIterator(array, offset, length);
-	}
-	
-	private static class ArrayIterator implements Iterator {
-		private final Object[] array;
-		private final int top;
-		private int offset;
-		
-		public ArrayIterator(Object[] array, int offset, int length) {
-			this.array = array;
-			this.offset = offset;
-			this.top = offset + length;
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.util.Iterator#hasNext()
-		 */
-		public boolean hasNext() {
-			return this.offset < this.top;
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.util.Iterator#next()
-		 */
-		public Object next() {
-			return this.array[this.offset++];
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.util.Iterator#remove()
-		 */
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-	}
+  public static Iterator iterator(Object[] array, int offset, int length) {
+    return new ArrayIterator(array, offset, length);
+  }
+
+  private static class ArrayIterator implements Iterator {
+    private final Object[] array;
+    private final int top;
+    private int offset;
+
+    public ArrayIterator(Object[] array, int offset, int length) {
+      this.array = array;
+      this.offset = offset;
+      this.top = offset + length;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.util.Iterator#hasNext()
+     */
+    public boolean hasNext() {
+      return this.offset < this.top;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.util.Iterator#next()
+     */
+    public Object next() {
+      return this.array[this.offset++];
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.util.Iterator#remove()
+     */
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
+  }
 }

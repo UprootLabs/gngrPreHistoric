@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
@@ -29,81 +29,87 @@ import org.lobobrowser.security.*;
 import org.lobobrowser.store.*;
 
 /**
- * Browser cache settings. This is a singleton class
- * with an instance obtained by calling {@link #getInstance()}.
+ * Browser cache settings. This is a singleton class with an instance obtained
+ * by calling {@link #getInstance()}.
  */
 public class CacheSettings implements Serializable {
-	private static final Logger logger = Logger.getLogger(CacheSettings.class.getName());
-    private static final CacheSettings instance;
-    private static final long serialVersionUID = 22574500900000604L;
+  private static final Logger logger = Logger.getLogger(CacheSettings.class
+      .getName());
+  private static final CacheSettings instance;
+  private static final long serialVersionUID = 22574500900000604L;
 
-    static {
-    	CacheSettings ins = null;
-		try {
-			ins = (CacheSettings) StorageManager.getInstance().retrieveSettings(CacheSettings.class.getSimpleName(), CacheSettings.class.getClassLoader());
-		} catch(Exception err) {
-			logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
-		}
-		if(ins == null) {
-			ins = new CacheSettings();
-		}
-		instance = ins;    	
+  static {
+    CacheSettings ins = null;
+    try {
+      ins = (CacheSettings) StorageManager.getInstance().retrieveSettings(
+          CacheSettings.class.getSimpleName(),
+          CacheSettings.class.getClassLoader());
+    } catch (Exception err) {
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
+          err);
     }
-
-    /**
-     * Gets the class singleton.
-     */
-    public static CacheSettings getInstance() {
-    	SecurityManager sm = System.getSecurityManager();
-    	if(sm != null) {
-    		sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
-    	}
-    	return instance;
+    if (ins == null) {
+      ins = new CacheSettings();
     }
-    
-    public void save() {
-    	try {
-    		StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    	} catch(java.io.IOException ioe) {
-    		logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName() + ".", ioe);
-    	}
+    instance = ins;
+  }
+
+  /**
+   * Gets the class singleton.
+   */
+  public static CacheSettings getInstance() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
+    return instance;
+  }
 
-    private CacheSettings() {
-    	resetDefaults();
+  public void save() {
+    try {
+      StorageManager.getInstance().saveSettings(
+          this.getClass().getSimpleName(), this);
+    } catch (java.io.IOException ioe) {
+      logger.log(Level.WARNING, "Unable to save settings: "
+          + this.getClass().getSimpleName() + ".", ioe);
     }
-    
-    public void resetDefaults() {
-    	this.setMaxRAMCacheSize(5 * 1024 * 1024);
-    	this.setDefaultCacheExpirationOffset(60);
-    }
-    
-	public int getMaxRAMCacheSize() {
-		return CacheManager.getInstance().getMaxTransientCacheSize();
-	}
+  }
 
-	/**
-	 * Sets the approximate maximum RAM cache size.
-	 * @param maxRAMCacheSize The maximum cache size in bytes.
-	 */
-	public void setMaxRAMCacheSize(int maxRAMCacheSize) {
-		CacheManager.getInstance().setMaxTransientCacheSize(maxRAMCacheSize);
-	}
-    
-    private int defaultCacheExpirationOffset;
+  private CacheSettings() {
+    resetDefaults();
+  }
 
-	public int getDefaultCacheExpirationOffset() {
-		return defaultCacheExpirationOffset;
-	}
+  public void resetDefaults() {
+    this.setMaxRAMCacheSize(5 * 1024 * 1024);
+    this.setDefaultCacheExpirationOffset(60);
+  }
 
-	/**
-	 * Sets the default offset in seconds added to
-	 * the response cache timestamp to get the
-	 * expiration time of a document. This is used
-	 * with cacheable documents
-	 * when max-age and the Expires header are missing.
-	 */
-	public void setDefaultCacheExpirationOffset(int defaultCacheExpirationOffset) {
-		this.defaultCacheExpirationOffset = defaultCacheExpirationOffset;
-	}
+  public int getMaxRAMCacheSize() {
+    return CacheManager.getInstance().getMaxTransientCacheSize();
+  }
+
+  /**
+   * Sets the approximate maximum RAM cache size.
+   * 
+   * @param maxRAMCacheSize
+   *          The maximum cache size in bytes.
+   */
+  public void setMaxRAMCacheSize(int maxRAMCacheSize) {
+    CacheManager.getInstance().setMaxTransientCacheSize(maxRAMCacheSize);
+  }
+
+  private int defaultCacheExpirationOffset;
+
+  public int getDefaultCacheExpirationOffset() {
+    return defaultCacheExpirationOffset;
+  }
+
+  /**
+   * Sets the default offset in seconds added to the response cache timestamp to
+   * get the expiration time of a document. This is used with cacheable
+   * documents when max-age and the Expires header are missing.
+   */
+  public void setDefaultCacheExpirationOffset(int defaultCacheExpirationOffset) {
+    this.defaultCacheExpirationOffset = defaultCacheExpirationOffset;
+  }
 }

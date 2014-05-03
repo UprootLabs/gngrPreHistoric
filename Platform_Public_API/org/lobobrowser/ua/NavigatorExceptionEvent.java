@@ -19,24 +19,28 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package org.lobobrowser.ua;
 
 import org.lobobrowser.clientlet.ClientletResponse;
 
 /**
  * A navigator event containing an exception.
+ * 
  * @see NavigatorErrorListener#errorOcurred(NavigatorExceptionEvent)
  */
 public class NavigatorExceptionEvent extends NavigatorResponseEvent {
-	private final Throwable exception;
+  private final Throwable exception;
 
-	public NavigatorExceptionEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response, final Throwable exception) {
-		super(source, eventType, clientletFrame, response, response.getRequestType());
-		this.exception = exception;
-	}
+  public NavigatorExceptionEvent(Object source, NavigatorEventType eventType,
+      NavigatorFrame clientletFrame, ClientletResponse response,
+      final Throwable exception) {
+    super(source, eventType, clientletFrame, response, response
+        .getRequestType());
+    this.exception = exception;
+  }
 
-	public Throwable getException() {
-		return exception;
-	}
+  public Throwable getException() {
+    return exception;
+  }
 }

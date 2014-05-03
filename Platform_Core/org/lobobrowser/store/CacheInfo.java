@@ -17,21 +17,21 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.store;
 
 import java.util.List;
 
 public class CacheInfo {
-	public final long approximateSize;
-	public final int numEntries;
-	public final java.util.List entryInfoList;
-	
-	public CacheInfo(final long approximateSize, final int numEntries, final List entryInfoList) {
-		super();
-		this.approximateSize = approximateSize;
-		this.numEntries = numEntries;
-		this.entryInfoList = entryInfoList;
-	}
-}
+  public final long approximateSize;
+  public final int numEntries;
+  public final java.util.List entryInfoList;
 
+  public CacheInfo(final long approximateSize, final int numEntries,
+      final List entryInfoList) {
+    super();
+    this.approximateSize = approximateSize;
+    this.numEntries = numEntries;
+    this.entryInfoList = entryInfoList;
+  }
+}

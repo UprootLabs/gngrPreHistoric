@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 1, 2005
  */
@@ -30,45 +30,53 @@ import java.io.OutputStream;
  * @author J. H. S.
  */
 public class RestrictedOutputStream extends OutputStream {
-	private final OutputStream out;
-	private final QuotaSource quotaSource;
-	
-	/**
+  private final OutputStream out;
+  private final QuotaSource quotaSource;
+
+  /**
 	 * 
 	 */
-	public RestrictedOutputStream(OutputStream out, QuotaSource quotaSource) throws IOException {
-		this.out = out;
-		this.quotaSource = quotaSource;
-	}
+  public RestrictedOutputStream(OutputStream out, QuotaSource quotaSource)
+      throws IOException {
+    this.out = out;
+    this.quotaSource = quotaSource;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.io.OutputStream#write(int)
-	 */
-	public void write(int b) throws IOException {
-		this.quotaSource.addUsedBytes(1);
-		this.out.write(b);
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see java.io.OutputStream#close()
-	 */
-	public void close() throws IOException {
-		this.out.close();
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.io.OutputStream#flush()
-	 */
-	public void flush() throws IOException {
-		this.out.flush();
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.io.OutputStream#write(byte[], int, int)
-	 */
-	public void write(byte[] b, int off, int len) throws IOException {
-		this.quotaSource.addUsedBytes(len);
-		this.out.write(b, off, len);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.OutputStream#write(int)
+   */
+  public void write(int b) throws IOException {
+    this.quotaSource.addUsedBytes(1);
+    this.out.write(b);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.OutputStream#close()
+   */
+  public void close() throws IOException {
+    this.out.close();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.OutputStream#flush()
+   */
+  public void flush() throws IOException {
+    this.out.flush();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.io.OutputStream#write(byte[], int, int)
+   */
+  public void write(byte[] b, int off, int len) throws IOException {
+    this.quotaSource.addUsedBytes(len);
+    this.out.write(b, off, len);
+  }
 }

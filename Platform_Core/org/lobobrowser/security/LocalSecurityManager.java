@@ -17,37 +17,36 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on May 31, 2005
  */
 package org.lobobrowser.security;
 
 public class LocalSecurityManager extends SecurityManager {
-	private static final ThreadLocal threadGroupTL = new ThreadLocal<ThreadGroup>();
-	
-	public LocalSecurityManager() {
-		super();
-	}
+  private static final ThreadLocal threadGroupTL = new ThreadLocal<ThreadGroup>();
 
-	@Override
-	public ThreadGroup getThreadGroup() {
-		ThreadGroup tg = getCurrentThreadGroup();
-		if(tg == null) {
-			return super.getThreadGroup();
-		}
-		else {
-			return tg;
-		}
-	}
-	
-	public static void setCurrentThreadGroup(ThreadGroup tg) {
-		//TODO: Thread group needs to be thought through. It's retained in
-		//memory, and we need to return the right one in the GUI thread as well.
-		threadGroupTL.set(tg);
-	}
-	
-	public static ThreadGroup getCurrentThreadGroup() {
-		return (ThreadGroup) threadGroupTL.get();
-	}
+  public LocalSecurityManager() {
+    super();
+  }
+
+  @Override
+  public ThreadGroup getThreadGroup() {
+    ThreadGroup tg = getCurrentThreadGroup();
+    if (tg == null) {
+      return super.getThreadGroup();
+    } else {
+      return tg;
+    }
+  }
+
+  public static void setCurrentThreadGroup(ThreadGroup tg) {
+    // TODO: Thread group needs to be thought through. It's retained in
+    // memory, and we need to return the right one in the GUI thread as well.
+    threadGroupTL.set(tg);
+  }
+
+  public static ThreadGroup getCurrentThreadGroup() {
+    return (ThreadGroup) threadGroupTL.get();
+  }
 }

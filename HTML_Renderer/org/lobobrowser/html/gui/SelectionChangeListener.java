@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.html.gui;
 
@@ -25,14 +25,17 @@ import java.util.EventListener;
 
 /**
  * Receives selection change events.
+ * 
  * @author J. H. S.
  * @see org.lobobrowser.html.gui.HtmlPanel#addSelectionChangeListener(SelectionChangeListener)
  */
 public interface SelectionChangeListener extends EventListener {
-	/**
-	 * Receives a selection change event. This method
-	 * may be assumed to execute in the GUI thread.
-	 * @param event A {@link SelectionChangeEvent} instance.
-	 */
-	public void selectionChanged(SelectionChangeEvent event);
+  /**
+   * Receives a selection change event. This method may be assumed to execute in
+   * the GUI thread.
+   * 
+   * @param event
+   *          A {@link SelectionChangeEvent} instance.
+   */
+  public void selectionChanged(SelectionChangeEvent event);
 }

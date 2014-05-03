@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 2, 2005
  */
@@ -29,41 +29,42 @@ import java.io.UnsupportedEncodingException;
  * @author J. H. S.
  */
 public class Cookie {
-	private final String name;
-	private final String value;
+  private final String name;
+  private final String value;
 
-	/**
-	 * @param name
-	 * @param value
-	 */
-	public Cookie(final String name, final String value) {
-		super();
-		this.name = name;
-		this.value = value;
-	}
-	
-	/**
-	 * @return Returns the name.
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @return Returns the value.
-	 */
-	public String getValue() {
-		return value;
-	}
-	
-	public String getEncodedName() throws UnsupportedEncodingException {
-		return java.net.URLEncoder.encode(this.name, "UTF-8");
-	}
+  /**
+   * @param name
+   * @param value
+   */
+  public Cookie(final String name, final String value) {
+    super();
+    this.name = name;
+    this.value = value;
+  }
 
-	public String getEncodedValue() throws UnsupportedEncodingException {
-		return java.net.URLEncoder.encode(this.value, "UTF-8");
-	}
+  /**
+   * @return Returns the name.
+   */
+  public String getName() {
+    return name;
+  }
 
-	public String toString() {
-		return "Cookie[name=" + this.name + ",value=" + this.value + "]";
-	}
+  /**
+   * @return Returns the value.
+   */
+  public String getValue() {
+    return value;
+  }
+
+  public String getEncodedName() throws UnsupportedEncodingException {
+    return java.net.URLEncoder.encode(this.name, "UTF-8");
+  }
+
+  public String getEncodedValue() throws UnsupportedEncodingException {
+    return java.net.URLEncoder.encode(this.value, "UTF-8");
+  }
+
+  public String toString() {
+    return "Cookie[name=" + this.name + ",value=" + this.value + "]";
+  }
 }

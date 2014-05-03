@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Sep 4, 2005
  */
@@ -27,26 +27,30 @@ import org.w3c.dom.*;
 
 public class CDataSectionImpl extends TextImpl implements CDATASection {
 
-	public CDataSectionImpl() {
-		super();
-	}
+  public CDataSectionImpl() {
+    super();
+  }
 
-	public CDataSectionImpl(String text) {
-		super(text);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.domimpl.NodeImpl#getnodeName()
-	 */
-	public String getNodeName() {
-		return "#cdata-section";
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.xamjwg.html.domimpl.NodeImpl#getnodeType()
-	 */
-	public short getNodeType() {
-		return Node.CDATA_SECTION_NODE;
-	}
+  public CDataSectionImpl(String text) {
+    super(text);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.domimpl.NodeImpl#getnodeName()
+   */
+  public String getNodeName() {
+    return "#cdata-section";
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.xamjwg.html.domimpl.NodeImpl#getnodeType()
+   */
+  public short getNodeType() {
+    return Node.CDATA_SECTION_NODE;
+  }
 
 }

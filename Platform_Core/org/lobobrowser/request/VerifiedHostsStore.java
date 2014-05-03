@@ -17,33 +17,33 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 
 package org.lobobrowser.request;
 
 import java.util.*;
 
 public class VerifiedHostsStore {
-	private static final VerifiedHostsStore instance = new VerifiedHostsStore();
-	private final Set hosts = new HashSet(); 
-	
-	public static VerifiedHostsStore getInstance() {
-		return instance;
-	}
-	
-	public VerifiedHostsStore() {
-		super();
-	}
+  private static final VerifiedHostsStore instance = new VerifiedHostsStore();
+  private final Set hosts = new HashSet();
 
-	public boolean contains(String host) {
-		synchronized(this.hosts) {
-			return this.hosts.contains(host);
-		}
-	}
-	
-	public void add(String host) {
-		synchronized(this.hosts) {
-			this.hosts.add(host);
-		}
-	}
+  public static VerifiedHostsStore getInstance() {
+    return instance;
+  }
+
+  public VerifiedHostsStore() {
+    super();
+  }
+
+  public boolean contains(String host) {
+    synchronized (this.hosts) {
+      return this.hosts.contains(host);
+    }
+  }
+
+  public void add(String host) {
+    synchronized (this.hosts) {
+      this.hosts.add(host);
+    }
+  }
 }

@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Jun 23, 2005
  */
@@ -29,43 +29,43 @@ import java.util.*;
  * @author J. H. S.
  */
 public class ArchiveCollection {
-	private final Collection archiveInfos;
-	
-	/**
-	 * 
-	 */
-	public ArchiveCollection() {
-		this.archiveInfos = new LinkedList();
-	}
+  private final Collection archiveInfos;
 
-	/**
+  /**
 	 * 
 	 */
-	public ArchiveCollection(Collection archiveInfos) {
-		this.archiveInfos = archiveInfos;
-	}
-	
-//	public void addArchiveInfo(ArchiveInfo ainfo) {
-//		synchronized(this) {
-//			this.archiveInfos.add(ainfo);
-//		}
-//	}
-	
-	private ArchiveClassLoader classLoader;
-	
-	public ClassLoader getClassLoader() throws java.io.IOException {
-		synchronized(this) {
-			if(this.archiveInfos.size() == 0) {
-				return this.getClass().getClassLoader();
-			}				 
-			if(this.classLoader == null) {
-				this.classLoader = new ArchiveClassLoader(this.archiveInfos);
-			}
-			return this.classLoader;
-		}
-	}
-	
-	public Iterator iterator() {
-		return this.archiveInfos.iterator();
-	}
+  public ArchiveCollection() {
+    this.archiveInfos = new LinkedList();
+  }
+
+  /**
+	 * 
+	 */
+  public ArchiveCollection(Collection archiveInfos) {
+    this.archiveInfos = archiveInfos;
+  }
+
+  // public void addArchiveInfo(ArchiveInfo ainfo) {
+  // synchronized(this) {
+  // this.archiveInfos.add(ainfo);
+  // }
+  // }
+
+  private ArchiveClassLoader classLoader;
+
+  public ClassLoader getClassLoader() throws java.io.IOException {
+    synchronized (this) {
+      if (this.archiveInfos.size() == 0) {
+        return this.getClass().getClassLoader();
+      }
+      if (this.classLoader == null) {
+        this.classLoader = new ArchiveClassLoader(this.archiveInfos);
+      }
+      return this.classLoader;
+    }
+  }
+
+  public Iterator iterator() {
+    return this.archiveInfos.iterator();
+  }
 }

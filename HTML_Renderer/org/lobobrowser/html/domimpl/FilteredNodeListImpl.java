@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 9, 2005
  */
@@ -28,50 +28,51 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.util.*;
 
-class FilteredNodeListImpl extends AbstractScriptableDelegate implements NodeList {
-	private final Collection sourceNodeList;
-	private final NodeFilter filter;
-	private final Object lock;
-	
-	/**
-	 * @param filter
-	 * @param list
-	 */
-	public FilteredNodeListImpl(NodeFilter filter, Collection list, Object lock) {
-		super();
-		this.filter = filter;
-		sourceNodeList = list;
-		this.lock = lock;
-	}
+class FilteredNodeListImpl extends AbstractScriptableDelegate implements
+    NodeList {
+  private final Collection sourceNodeList;
+  private final NodeFilter filter;
+  private final Object lock;
 
-	public Node item(int index) {
-		synchronized(this.lock) {
-			int count = 0;
-			Iterator i = this.sourceNodeList.iterator();
-			while(i.hasNext()) {
-				Node node = (Node) i.next();
-				if(this.filter.accept(node)) {
-					if(count == index) {
-						return node;
-					}
-					count++;
-				}
-			}
-			return null;
-		}		
-	}
+  /**
+   * @param filter
+   * @param list
+   */
+  public FilteredNodeListImpl(NodeFilter filter, Collection list, Object lock) {
+    super();
+    this.filter = filter;
+    sourceNodeList = list;
+    this.lock = lock;
+  }
 
-	public int getLength() {
-		synchronized(this.lock) {
-			int count = 0;
-			Iterator i = this.sourceNodeList.iterator();
-			while(i.hasNext()) {
-				Node node = (Node) i.next();
-				if(this.filter.accept(node)) {
-					count++;
-				}
-			}
-			return count;
-		}
-	}
+  public Node item(int index) {
+    synchronized (this.lock) {
+      int count = 0;
+      Iterator i = this.sourceNodeList.iterator();
+      while (i.hasNext()) {
+        Node node = (Node) i.next();
+        if (this.filter.accept(node)) {
+          if (count == index) {
+            return node;
+          }
+          count++;
+        }
+      }
+      return null;
+    }
+  }
+
+  public int getLength() {
+    synchronized (this.lock) {
+      int count = 0;
+      Iterator i = this.sourceNodeList.iterator();
+      while (i.hasNext()) {
+        Node node = (Node) i.next();
+        if (this.filter.accept(node)) {
+          count++;
+        }
+      }
+      return count;
+    }
+  }
 }

@@ -17,11 +17,11 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 public class LocalCSS2Properties extends AbstractCSS2Properties {
-	public LocalCSS2Properties(CSS2PropertiesContext context) {
-		super(context);
-	}
+  public LocalCSS2Properties(CSS2PropertiesContext context) {
+    super(context);
+  }
 }

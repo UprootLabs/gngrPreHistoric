@@ -17,26 +17,26 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.style;
 
 /**
- * Additional state that may be set during rendering
- * to override state determined from elements.
+ * Additional state that may be set during rendering to override state
+ * determined from elements.
  */
 public class RenderThreadState {
-	private static final ThreadLocal stateTL = new ThreadLocal();
-	public boolean overrideNoWrap;
-	
-	private RenderThreadState() {		
-	}
-	
-	public static RenderThreadState getState() {
-		RenderThreadState ts = (RenderThreadState) stateTL.get();
-		if(ts == null) {
-			ts = new RenderThreadState();
-			stateTL.set(ts);
-		}
-		return ts;
-	}
+  private static final ThreadLocal stateTL = new ThreadLocal();
+  public boolean overrideNoWrap;
+
+  private RenderThreadState() {
+  }
+
+  public static RenderThreadState getState() {
+    RenderThreadState ts = (RenderThreadState) stateTL.get();
+    if (ts == null) {
+      ts = new RenderThreadState();
+      stateTL.set(ts);
+    }
+    return ts;
+  }
 }

@@ -17,16 +17,16 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.util;
 
 import java.util.EventObject;
 
 public class RemovalEvent extends EventObject {
-	public final Object valueRemoved;
-	
-	public RemovalEvent(Object source, Object valueRemoved) {
-		super(source);
-		this.valueRemoved = valueRemoved;
-	}
+  public final Object valueRemoved;
+
+  public RemovalEvent(Object source, Object valueRemoved) {
+    super(source);
+    this.valueRemoved = valueRemoved;
+  }
 }

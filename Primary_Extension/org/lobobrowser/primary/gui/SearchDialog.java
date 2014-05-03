@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.primary.gui;
 
 import java.awt.*;
@@ -26,53 +26,54 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.*;
 
-
 public class SearchDialog extends JDialog {
-	private final FormField tagsField = new FormField(FieldType.TEXT, "Keywords:");
-	
-	public SearchDialog(Frame owner, boolean modal, String keywordsTooltip) throws HeadlessException {
-		super(owner, modal);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.tagsField.setToolTip(keywordsTooltip);
-		Container contentPane = this.getContentPane();
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		FormPanel fieldsPanel = new FormPanel();
-		fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		fieldsPanel.addField(this.tagsField);
-		contentPane.add(fieldsPanel);
-		JComponent buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-		JButton okButton = new JButton();
-		okButton.setAction(new OkAction());
-		okButton.setText("Search");
-		JButton cancelButton = new JButton();
-		cancelButton.setAction(new CancelAction());
-		cancelButton.setText("Cancel");
-		buttonsPanel.add(Box.createHorizontalGlue());
-		buttonsPanel.add(okButton);
-		buttonsPanel.add(Box.createRigidArea(new Dimension(4, 1)));
-		buttonsPanel.add(cancelButton);
-		buttonsPanel.add(Box.createHorizontalGlue());
-		contentPane.add(buttonsPanel);
-		contentPane.add(Box.createRigidArea(new Dimension(1, 4)));
-	}
+  private final FormField tagsField = new FormField(FieldType.TEXT, "Keywords:");
 
-	private String searchKeywords = null;
-	public String getSearchKeywords() {
-		return this.searchKeywords;
-	}
+  public SearchDialog(Frame owner, boolean modal, String keywordsTooltip)
+      throws HeadlessException {
+    super(owner, modal);
+    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    this.tagsField.setToolTip(keywordsTooltip);
+    Container contentPane = this.getContentPane();
+    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+    FormPanel fieldsPanel = new FormPanel();
+    fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    fieldsPanel.addField(this.tagsField);
+    contentPane.add(fieldsPanel);
+    JComponent buttonsPanel = new JPanel();
+    buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
+    JButton okButton = new JButton();
+    okButton.setAction(new OkAction());
+    okButton.setText("Search");
+    JButton cancelButton = new JButton();
+    cancelButton.setAction(new CancelAction());
+    cancelButton.setText("Cancel");
+    buttonsPanel.add(Box.createHorizontalGlue());
+    buttonsPanel.add(okButton);
+    buttonsPanel.add(Box.createRigidArea(new Dimension(4, 1)));
+    buttonsPanel.add(cancelButton);
+    buttonsPanel.add(Box.createHorizontalGlue());
+    contentPane.add(buttonsPanel);
+    contentPane.add(Box.createRigidArea(new Dimension(1, 4)));
+  }
 
-	private class OkAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			searchKeywords = tagsField.getValue();
-			SearchDialog.this.dispose();
-		}
-	}
-	
-	private class CancelAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			searchKeywords = null;
-			SearchDialog.this.dispose();
-		}
-	}
+  private String searchKeywords = null;
+
+  public String getSearchKeywords() {
+    return this.searchKeywords;
+  }
+
+  private class OkAction extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      searchKeywords = tagsField.getValue();
+      SearchDialog.this.dispose();
+    }
+  }
+
+  private class CancelAction extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      searchKeywords = null;
+      SearchDialog.this.dispose();
+    }
+  }
 }

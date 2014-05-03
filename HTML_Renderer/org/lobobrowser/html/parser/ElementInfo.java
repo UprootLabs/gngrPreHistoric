@@ -17,7 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 /*
  * Created on Oct 23, 2005
  */
@@ -26,53 +26,53 @@ package org.lobobrowser.html.parser;
 import java.util.Set;
 
 class ElementInfo {
-	public final int endElementType;
-	public final boolean childElementOk;
-	public final Set stopTags;
-	public final boolean noScriptElement;
-	public final boolean decodeEntities;
-	
-	public static final int END_ELEMENT_FORBIDDEN = 0;
-	public static final int END_ELEMENT_OPTIONAL = 1;
-	public static final int END_ELEMENT_REQUIRED = 2;
-	
-	/**
-	 * @param ok
-	 * @param type
-	 */
-	public ElementInfo(boolean ok, int type) {
-		this.childElementOk = ok;
-		this.endElementType = type;
-		this.stopTags = null;
-		this.noScriptElement = false;
-		this.decodeEntities = true;
-	}
+  public final int endElementType;
+  public final boolean childElementOk;
+  public final Set stopTags;
+  public final boolean noScriptElement;
+  public final boolean decodeEntities;
 
-	/**
-	 * @param ok
-	 * @param type
-	 */
-	public ElementInfo(boolean ok, int type, Set stopTags) {
-		this.childElementOk = ok;
-		this.endElementType = type;
-		this.stopTags = stopTags;
-		this.noScriptElement = false;
-		this.decodeEntities = true;
-	}
+  public static final int END_ELEMENT_FORBIDDEN = 0;
+  public static final int END_ELEMENT_OPTIONAL = 1;
+  public static final int END_ELEMENT_REQUIRED = 2;
 
-	public ElementInfo(boolean ok, int type, Set stopTags, boolean noScriptElement) {
-		this.childElementOk = ok;
-		this.endElementType = type;
-		this.stopTags = stopTags;
-		this.noScriptElement = noScriptElement;
-		this.decodeEntities = true;
-	}
-	
-	public ElementInfo(boolean ok, int type, boolean decodeEntities) {
-		this.childElementOk = ok;
-		this.endElementType = type;
-		this.stopTags = null;
-		this.noScriptElement = false;
-		this.decodeEntities = decodeEntities;
-	}
+  /**
+   * @param ok
+   * @param type
+   */
+  public ElementInfo(boolean ok, int type) {
+    this.childElementOk = ok;
+    this.endElementType = type;
+    this.stopTags = null;
+    this.noScriptElement = false;
+    this.decodeEntities = true;
+  }
+
+  /**
+   * @param ok
+   * @param type
+   */
+  public ElementInfo(boolean ok, int type, Set stopTags) {
+    this.childElementOk = ok;
+    this.endElementType = type;
+    this.stopTags = stopTags;
+    this.noScriptElement = false;
+    this.decodeEntities = true;
+  }
+
+  public ElementInfo(boolean ok, int type, Set stopTags, boolean noScriptElement) {
+    this.childElementOk = ok;
+    this.endElementType = type;
+    this.stopTags = stopTags;
+    this.noScriptElement = noScriptElement;
+    this.decodeEntities = true;
+  }
+
+  public ElementInfo(boolean ok, int type, boolean decodeEntities) {
+    this.childElementOk = ok;
+    this.endElementType = type;
+    this.stopTags = null;
+    this.noScriptElement = false;
+    this.decodeEntities = decodeEntities;
+  }
 }

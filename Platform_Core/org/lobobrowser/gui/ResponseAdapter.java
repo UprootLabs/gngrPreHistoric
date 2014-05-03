@@ -17,14 +17,14 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.gui;
 
 /**
- * A convenience abstract implementation of {@link ResponseListener},
- * with blank methods.
+ * A convenience abstract implementation of {@link ResponseListener}, with blank
+ * methods.
  */
 public abstract class ResponseAdapter implements ResponseListener {
-	public void responseProcessed(ResponseEvent event) {
-	}
+  public void responseProcessed(ResponseEvent event) {
+  }
 }

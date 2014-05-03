@@ -17,28 +17,29 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
     Contact info: lobochief@users.sourceforge.net
-*/
+ */
 package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.UserDataHandler;
 
 public class HTMLBaseElementImpl extends HTMLElementImpl {
-	public HTMLBaseElementImpl(String name) {
-		super(name, true);
-	}
-		
-	public Object setUserData(String key, Object data, UserDataHandler handler) {
-		if(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-			this.processBaseTag();
-		}
-		return super.setUserData(key, data, handler);
-	}
+  public HTMLBaseElementImpl(String name) {
+    super(name, true);
+  }
 
-	private final void processBaseTag() {
-		HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
-		if(doc != null) {
-			doc.setBaseURI(this.getAttribute("href"));
-			doc.setDefaultTarget(this.getAttribute("target"));
-		}
-	}
+  public Object setUserData(String key, Object data, UserDataHandler handler) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
+        && data != Boolean.TRUE) {
+      this.processBaseTag();
+    }
+    return super.setUserData(key, data, handler);
+  }
+
+  private final void processBaseTag() {
+    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    if (doc != null) {
+      doc.setBaseURI(this.getAttribute("href"));
+      doc.setDefaultTarget(this.getAttribute("target"));
+    }
+  }
 }
