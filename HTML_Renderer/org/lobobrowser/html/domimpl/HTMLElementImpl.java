@@ -264,7 +264,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 	}
 	
 	protected final InputSource getCssInputSourceForDecl(String text) {
-		java.io.Reader reader = new StringReader("{" + text + "}");
+		java.io.Reader reader = new StringReader(text);
 		InputSource is = new InputSource(reader);
 		return is;
 	}
