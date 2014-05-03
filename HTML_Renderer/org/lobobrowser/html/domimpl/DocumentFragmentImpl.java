@@ -44,7 +44,7 @@ public class DocumentFragmentImpl extends NodeImpl implements DocumentFragment {
     return null;
   }
 
-  public void setNodeValue(String nodeValue) throws DOMException {
+  public void setNodeValue(final String nodeValue) throws DOMException {
   }
 
   public short getNodeType() {

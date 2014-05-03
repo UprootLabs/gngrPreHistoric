@@ -4,7 +4,7 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLParagraphElement;
 
 public class HTMLPElementImpl extends HTMLAbstractUIElement implements HTMLParagraphElement {
-  public HTMLPElementImpl(String name) {
+  public HTMLPElementImpl(final String name) {
     super(name);
   }
 
@@ -12,12 +12,12 @@ public class HTMLPElementImpl extends HTMLAbstractUIElement implements HTMLParag
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
-  protected void appendInnerTextImpl(StringBuffer buffer) {
-    int length = buffer.length();
+  protected void appendInnerTextImpl(final StringBuffer buffer) {
+    final int length = buffer.length();
     int lineBreaks;
     if (length == 0) {
       lineBreaks = 2;
@@ -28,7 +28,7 @@ public class HTMLPElementImpl extends HTMLAbstractUIElement implements HTMLParag
       }
       lineBreaks = 0;
       for (int i = start; i < length; i++) {
-        char ch = buffer.charAt(i);
+        final char ch = buffer.charAt(i);
         if (ch == '\n') {
           lineBreaks++;
         }
@@ -41,7 +41,7 @@ public class HTMLPElementImpl extends HTMLAbstractUIElement implements HTMLParag
     buffer.append("\r\n\r\n");
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ParagraphRenderState(prevRenderState, this);
   }
 }

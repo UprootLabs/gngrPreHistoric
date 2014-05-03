@@ -43,7 +43,7 @@ public class FormInput {
    * @param value
    *          The value of the input.
    */
-  public FormInput(String name, String value) {
+  public FormInput(final String name, final String value) {
     super();
     this.name = name;
     this.textValue = value;
@@ -58,7 +58,7 @@ public class FormInput {
    * @param value
    *          The value of the input.
    */
-  public FormInput(String name, java.io.File value) {
+  public FormInput(final String name, final java.io.File value) {
     this.name = name;
     this.textValue = null;
     this.fileValue = value;

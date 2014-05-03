@@ -22,7 +22,7 @@ public class SimpleThreadPool {
   private int numIdleThreads = 0;
   private int threadNumber = 0;
 
-  public SimpleThreadPool(String name, int minShrinkToThreads, int maxThreads, int idleAliveMillis) {
+  public SimpleThreadPool(final String name, final int minShrinkToThreads, final int maxThreads, final int idleAliveMillis) {
     this.minThreads = minShrinkToThreads;
     this.maxThreads = maxThreads;
     this.idleAliveMillis = idleAliveMillis;
@@ -34,11 +34,11 @@ public class SimpleThreadPool {
     this.threadGroup = null; // new ThreadGroup(name);
   }
 
-  public void schedule(SimpleThreadPoolTask task) {
+  public void schedule(final SimpleThreadPoolTask task) {
     if (task == null) {
       throw new IllegalArgumentException("null task");
     }
-    Object monitor = this.taskMonitor;
+    final Object monitor = this.taskMonitor;
     synchronized (monitor) {
       if (this.numIdleThreads == 0) {
         this.addThreadImpl();
@@ -48,7 +48,7 @@ public class SimpleThreadPool {
     }
   }
 
-  public void cancel(SimpleThreadPoolTask task) {
+  public void cancel(final SimpleThreadPoolTask task) {
     synchronized (this.taskMonitor) {
       this.taskList.remove(task);
     }
@@ -57,7 +57,7 @@ public class SimpleThreadPool {
 
   private void addThreadImpl() {
     if (this.numThreads < this.maxThreads) {
-      Thread t = new Thread(this.threadGroup, new ThreadRunnable(), this.name + this.threadNumber++);
+      final Thread t = new Thread(this.threadGroup, new ThreadRunnable(), this.name + this.threadNumber++);
       t.setDaemon(true);
       t.start();
       this.numThreads++;
@@ -70,7 +70,7 @@ public class SimpleThreadPool {
   public void cancelAll() {
     synchronized (this.taskMonitor) {
       this.taskList.clear();
-      Iterator<SimpleThreadPoolTask> i = this.runningSet.iterator();
+      final Iterator<SimpleThreadPoolTask> i = this.runningSet.iterator();
       while (i.hasNext()) {
         i.next().cancel();
       }
@@ -79,10 +79,10 @@ public class SimpleThreadPool {
 
   private class ThreadRunnable implements Runnable {
     public void run() {
-      Object monitor = taskMonitor;
-      LinkedList<SimpleThreadPoolTask> tl = taskList;
-      Set<SimpleThreadPoolTask> rs = runningSet;
-      int iam = idleAliveMillis;
+      final Object monitor = taskMonitor;
+      final LinkedList<SimpleThreadPoolTask> tl = taskList;
+      final Set<SimpleThreadPoolTask> rs = runningSet;
+      final int iam = idleAliveMillis;
       SimpleThreadPoolTask task = null;
       for (;;) {
         try {
@@ -94,7 +94,7 @@ public class SimpleThreadPool {
             try {
               long waitBase = System.currentTimeMillis();
               INNER: while (tl.isEmpty()) {
-                long maxWait = iam - (System.currentTimeMillis() - waitBase);
+                final long maxWait = iam - (System.currentTimeMillis() - waitBase);
                 if (maxWait <= 0) {
                   if (numThreads > minThreads) {
                     // Should be only way to exit thread.
@@ -113,23 +113,23 @@ public class SimpleThreadPool {
             task = taskList.removeFirst();
             rs.add(task);
           }
-          Thread currentThread = Thread.currentThread();
-          String baseName = currentThread.getName();
+          final Thread currentThread = Thread.currentThread();
+          final String baseName = currentThread.getName();
           try {
             try {
               currentThread.setName(baseName + ":" + task.toString());
-            } catch (Throwable thrown) {
+            } catch (final Throwable thrown) {
               logger.log(Level.WARNING, "run(): Unable to set task name.", thrown);
             }
             try {
               task.run();
-            } catch (Throwable thrown) {
+            } catch (final Throwable thrown) {
               logger.log(Level.SEVERE, "run(): Error in task: " + task + ".", thrown);
             }
           } finally {
             currentThread.setName(baseName);
           }
-        } catch (Throwable thrown) {
+        } catch (final Throwable thrown) {
           logger.log(Level.SEVERE, "run(): Error in thread pool: " + SimpleThreadPool.this.name + ".", thrown);
         }
       }

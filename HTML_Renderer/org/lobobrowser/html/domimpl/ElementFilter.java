@@ -31,12 +31,12 @@ public final class ElementFilter implements NodeFilter {
   /**
    * @param name
    */
-  public ElementFilter(String name) {
+  public ElementFilter(final String name) {
     super();
     elementName = name;
   }
 
-  public final boolean accept(Node node) {
+  public final boolean accept(final Node node) {
     return this.elementName.equalsIgnoreCase(node.getNodeName());
   }
 }

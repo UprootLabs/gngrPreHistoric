@@ -26,7 +26,7 @@ import org.lobobrowser.html.style.*;
  * Element used for TT and CODE.
  */
 public class HTMLMonospacedElementImpl extends HTMLAbstractUIElement {
-  public HTMLMonospacedElementImpl(String name) {
+  public HTMLMonospacedElementImpl(final String name) {
     super(name);
   }
 

@@ -26,7 +26,7 @@ import org.lobobrowser.html.style.*;
  * Element used for I, EM and CITE.
  */
 public class HTMLEmElementImpl extends HTMLAbstractUIElement {
-  public HTMLEmElementImpl(String name) {
+  public HTMLEmElementImpl(final String name) {
     super(name);
   }
 

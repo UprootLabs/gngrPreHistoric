@@ -28,23 +28,23 @@ import org.lobobrowser.html.style.*;
 public class HTMLFontSizeChangeElementImpl extends HTMLAbstractUIElement {
   private final int fontChange;
 
-  public HTMLFontSizeChangeElementImpl(String name, int fontChange) {
+  public HTMLFontSizeChangeElementImpl(final String name, final int fontChange) {
     super(name);
     this.fontChange = fontChange;
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return super.createRenderState(prevRenderState);
   }
 
   protected AbstractCSS2Properties createDefaultStyleSheet() {
-    ModelNode parentModelNode = this.getParentModelNode();
-    RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
+    final ModelNode parentModelNode = this.getParentModelNode();
+    final RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
     String fontSize = null;
-    int prevFontSize = parentRS != null ? parentRS.getFont().getSize() : HtmlValues.DEFAULT_FONT_SIZE_INT;
-    int newFontSize = prevFontSize + (this.fontChange * 2);
+    final int prevFontSize = parentRS != null ? parentRS.getFont().getSize() : HtmlValues.DEFAULT_FONT_SIZE_INT;
+    final int newFontSize = prevFontSize + (this.fontChange * 2);
     fontSize = newFontSize + "px";
-    ComputedCSS2Properties css = new ComputedCSS2Properties(this);
+    final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
     css.internalSetLC("font-size", fontSize);
     return css;
   }

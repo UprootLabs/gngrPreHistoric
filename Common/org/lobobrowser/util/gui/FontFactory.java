@@ -49,12 +49,12 @@ public class FontFactory {
 	 * 
 	 */
   private FontFactory() {
-    boolean liflag = loggableFine;
-    String[] ffns = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-    Set<String> fontFamilies = this.fontFamilies;
+    final boolean liflag = loggableFine;
+    final String[] ffns = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+    final Set<String> fontFamilies = this.fontFamilies;
     synchronized (this) {
       for (int i = 0; i < ffns.length; i++) {
-        String ffn = ffns[i];
+        final String ffn = ffns[i];
         if (liflag) {
           logger.fine("FontFactory(): family=" + ffn);
         }
@@ -80,9 +80,9 @@ public class FontFactory {
    * @param fontFormat
    *          Should be {@link Font#TRUETYPE_FONT}.
    */
-  public void registerFont(String fontName, int fontFormat, java.io.InputStream fontStream) throws java.awt.FontFormatException,
+  public void registerFont(final String fontName, final int fontFormat, final java.io.InputStream fontStream) throws java.awt.FontFormatException,
       java.io.IOException {
-    Font f = Font.createFont(fontFormat, fontStream);
+    final Font f = Font.createFont(fontFormat, fontStream);
     synchronized (this) {
       this.registeredFonts.put(fontName.toLowerCase(), f);
     }
@@ -95,15 +95,15 @@ public class FontFactory {
    * @param fontName
    *          The font name to be removed.
    */
-  public void unregisterFont(String fontName) {
+  public void unregisterFont(final String fontName) {
     synchronized (this) {
       this.registeredFonts.remove(fontName.toLowerCase());
     }
   }
 
-  public Font getFont(String fontFamily, String fontStyle, String fontVariant, String fontWeight, float fontSize, Set locales,
-      Integer superscript) {
-    FontKey key = new FontKey(fontFamily, fontStyle, fontVariant, fontWeight, fontSize, locales, superscript);
+  public Font getFont(final String fontFamily, final String fontStyle, final String fontVariant, final String fontWeight, final float fontSize, final Set locales,
+      final Integer superscript) {
+    final FontKey key = new FontKey(fontFamily, fontStyle, fontVariant, fontWeight, fontSize, locales, superscript);
     synchronized (this) {
       Font font = this.fontMap.get(key);
       if (font == null) {
@@ -129,19 +129,19 @@ public class FontFactory {
    * @param defaultFontName
    *          The name of a font.
    */
-  public void setDefaultFontName(String defaultFontName) {
+  public void setDefaultFontName(final String defaultFontName) {
     if (defaultFontName == null) {
       throw new IllegalArgumentException("defaultFontName cannot be null");
     }
     this.defaultFontName = defaultFontName;
   }
 
-  private final Font createFont(FontKey key) {
-    Font font = createFont_Impl(key);
+  private final Font createFont(final FontKey key) {
+    final Font font = createFont_Impl(key);
     return superscriptFont(font, key.superscript);
   }
 
-  public static Font superscriptFont(Font baseFont, Integer newSuperscript) {
+  public static Font superscriptFont(final Font baseFont, final Integer newSuperscript) {
     if (newSuperscript == null) {
       return baseFont;
     }
@@ -152,23 +152,23 @@ public class FontFactory {
     if (fontSuperScript.equals(newSuperscript)) {
       return baseFont;
     } else {
-      Map<TextAttribute, Integer> additionalAttributes = new HashMap<TextAttribute, Integer>();
+      final Map<TextAttribute, Integer> additionalAttributes = new HashMap<TextAttribute, Integer>();
       additionalAttributes.put(TextAttribute.SUPERSCRIPT, newSuperscript);
       return baseFont.deriveFont(additionalAttributes);
     }
   }
 
-  private final Font createFont_Impl(FontKey key) {
-    String fontNames = key.fontFamily;
+  private final Font createFont_Impl(final FontKey key) {
+    final String fontNames = key.fontFamily;
     String matchingFace = null;
-    Set<String> fontFamilies = this.fontFamilies;
-    Map<String, Font> registeredFonts = this.registeredFonts;
+    final Set<String> fontFamilies = this.fontFamilies;
+    final Map<String, Font> registeredFonts = this.registeredFonts;
     Font baseFont = null;
     if (fontNames != null) {
-      StringTokenizer tok = new StringTokenizer(fontNames, ",");
+      final StringTokenizer tok = new StringTokenizer(fontNames, ",");
       while (tok.hasMoreTokens()) {
-        String face = tok.nextToken().trim();
-        String faceTL = face.toLowerCase();
+        final String face = tok.nextToken().trim();
+        final String faceTL = face.toLowerCase();
         if (registeredFonts.containsKey(faceTL)) {
           baseFont = registeredFonts.get(faceTL);
           break;
@@ -188,18 +188,18 @@ public class FontFactory {
     if (baseFont != null) {
       return baseFont.deriveFont(fontStyle, key.fontSize);
     } else if (matchingFace != null) {
-      Font font = createFont(matchingFace, fontStyle, (int) Math.round(key.fontSize));
-      Set locales = key.locales;
+      final Font font = createFont(matchingFace, fontStyle, (int) Math.round(key.fontSize));
+      final Set locales = key.locales;
       if (locales == null) {
-        Locale locale = Locale.getDefault();
+        final Locale locale = Locale.getDefault();
         if (font.canDisplayUpTo(locale.getDisplayLanguage(locale)) == -1) {
           return font;
         }
       } else {
-        Iterator i = locales.iterator();
+        final Iterator i = locales.iterator();
         boolean allMatch = true;
         while (i.hasNext()) {
-          Locale locale = (Locale) i.next();
+          final Locale locale = (Locale) i.next();
           if (font.canDisplayUpTo(locale.getDisplayLanguage(locale)) != -1) {
             allMatch = false;
             break;
@@ -215,7 +215,7 @@ public class FontFactory {
     return createFont(this.defaultFontName, fontStyle, (int) Math.round(key.fontSize));
   }
 
-  private Font createFont(String name, int style, int size) {
+  private Font createFont(final String name, final int style, final int size) {
     return StyleContext.getDefaultStyleContext().getFont(name, style, size);
     // Proprietary Sun API. Maybe shouldn't use it. Works well for Chinese.
     // return FontManager.getCompositeFontUIResource(new Font(name, style,
@@ -249,7 +249,7 @@ public class FontFactory {
       this.superscript = superscript;
     }
 
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
       if (other == this) {
         // Quick check.
         return true;
@@ -257,7 +257,7 @@ public class FontFactory {
       FontKey ors;
       try {
         ors = (FontKey) other;
-      } catch (ClassCastException cce) {
+      } catch (final ClassCastException cce) {
         // Not expected
         return false;
       }
@@ -288,7 +288,7 @@ public class FontFactory {
       if (fs == null) {
         fs = "";
       }
-      Integer ss = this.superscript;
+      final Integer ss = this.superscript;
       ch = ff.hashCode() ^ fw.hashCode() ^ fs.hashCode() ^ (int) this.fontSize ^ (ss == null ? 0 : ss.intValue());
       this.cachedHash = ch;
       return ch;

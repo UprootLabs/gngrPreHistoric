@@ -28,15 +28,15 @@ class SkipVisitorException extends RuntimeException {
     super();
   }
 
-  public SkipVisitorException(String message) {
+  public SkipVisitorException(final String message) {
     super(message);
   }
 
-  public SkipVisitorException(String message, Throwable cause) {
+  public SkipVisitorException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public SkipVisitorException(Throwable cause) {
+  public SkipVisitorException(final Throwable cause) {
     super(cause);
   }
 

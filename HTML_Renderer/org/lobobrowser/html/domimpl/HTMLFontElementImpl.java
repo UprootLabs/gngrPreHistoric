@@ -31,7 +31,7 @@ import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.html2.HTMLFontElement;
 
 public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFontElement {
-  public HTMLFontElementImpl(String name) {
+  public HTMLFontElementImpl(final String name) {
     super(name);
   }
 
@@ -47,36 +47,36 @@ public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFo
     return this.getAttribute("size");
   }
 
-  public void setColor(String color) {
+  public void setColor(final String color) {
     this.setAttribute("color", color);
   }
 
-  public void setFace(String face) {
+  public void setFace(final String face) {
     this.setAttribute("face", face);
   }
 
-  public void setSize(String size) {
+  public void setSize(final String size) {
     this.setAttribute("size", size);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return super.createRenderState(prevRenderState);
   }
 
   protected AbstractCSS2Properties createDefaultStyleSheet() {
-    String fontFamily = this.getAttribute("face");
-    String color = this.getAttribute("color");
-    String size = this.getAttribute("size");
+    final String fontFamily = this.getAttribute("face");
+    final String color = this.getAttribute("color");
+    final String size = this.getAttribute("size");
     String fontSize = null;
     if (size != null) {
-      ModelNode parentModelNode = this.getParentModelNode();
-      RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
+      final ModelNode parentModelNode = this.getParentModelNode();
+      final RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
       if (parentRS != null) {
-        int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
+        final int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
         fontSize = HtmlValues.getFontSizeSpec(fontNumber);
       }
     }
-    ComputedCSS2Properties css = new ComputedCSS2Properties(this);
+    final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
     if (fontSize != null) {
       css.internalSetLC("font-size", fontSize);
     }

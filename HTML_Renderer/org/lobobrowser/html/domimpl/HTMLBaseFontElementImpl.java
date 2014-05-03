@@ -25,7 +25,7 @@ import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.html2.HTMLBaseFontElement;
 
 public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HTMLBaseFontElement {
-  public HTMLBaseFontElementImpl(String name) {
+  public HTMLBaseFontElementImpl(final String name) {
     super(name);
   }
 
@@ -37,49 +37,49 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     return this.getAttribute("face");
   }
 
-  public void setColor(String color) {
+  public void setColor(final String color) {
     this.setAttribute("color", color);
   }
 
-  public void setFace(String face) {
+  public void setFace(final String face) {
     this.setAttribute("face", face);
   }
 
   public int getSize() {
     try {
       return Integer.parseInt(this.getAttribute("size"));
-    } catch (Exception thrown) {
+    } catch (final Exception thrown) {
       this.warn("getSize(): Unable to parse size attribute in " + this + ".", thrown);
       return 0;
     }
   }
 
-  public void setSize(int size) {
+  public void setSize(final int size) {
     this.setAttribute("size", String.valueOf(size));
   }
 
   protected RenderState createRenderState(RenderState prevRenderState) {
-    String size = this.getAttribute("size");
+    final String size = this.getAttribute("size");
     if (size != null) {
-      int fontNumber = HtmlValues.getFontNumberOldStyle(size, prevRenderState);
-      float fontSize = HtmlValues.getFontSize(fontNumber);
+      final int fontNumber = HtmlValues.getFontNumberOldStyle(size, prevRenderState);
+      final float fontSize = HtmlValues.getFontSize(fontNumber);
       prevRenderState = new BaseFontRenderState(prevRenderState, fontNumber);
     }
     return super.createRenderState(prevRenderState);
   }
 
   protected AbstractCSS2Properties createDefaultStyleSheet() {
-    String fontFamily = this.getAttribute("face");
-    String color = this.getAttribute("color");
-    String size = this.getAttribute("size");
-    ModelNode parentModelNode = this.getParentModelNode();
-    RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
+    final String fontFamily = this.getAttribute("face");
+    final String color = this.getAttribute("color");
+    final String size = this.getAttribute("size");
+    final ModelNode parentModelNode = this.getParentModelNode();
+    final RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
     String fontSize = null;
     if (parentRS != null) {
-      int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
+      final int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
       fontSize = HtmlValues.getFontSizeSpec(fontNumber);
     }
-    ComputedCSS2Properties css = new ComputedCSS2Properties(this);
+    final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
     if (fontSize != null) {
       css.internalSetLC("font-size", fontSize);
     }

@@ -32,7 +32,7 @@ import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.html2.HTMLTableRowElement;
 
 public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTableRowElement {
-  public HTMLTableRowElementImpl(String name) {
+  public HTMLTableRowElementImpl(final String name) {
     super(name, true);
   }
 
@@ -41,7 +41,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
   }
 
   public int getRowIndex() {
-    NodeImpl parent = (NodeImpl) this.getParentNode();
+    final NodeImpl parent = (NodeImpl) this.getParentNode();
     if (parent == null) {
       return -1;
     }
@@ -49,7 +49,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
       parent.visit(new NodeVisitor() {
         private int count = 0;
 
-        public void visit(Node node) {
+        public void visit(final Node node) {
           if (node instanceof HTMLTableRowElementImpl) {
             if (HTMLTableRowElementImpl.this == node) {
               throw new StopVisitorException(new Integer(this.count));
@@ -58,7 +58,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
           }
         }
       });
-    } catch (StopVisitorException sve) {
+    } catch (final StopVisitorException sve) {
       return ((Integer) sve.getTag()).intValue();
     }
     return -1;
@@ -70,8 +70,8 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
   }
 
   public HTMLCollection getCells() {
-    NodeFilter filter = new NodeFilter() {
-      public boolean accept(Node node) {
+    final NodeFilter filter = new NodeFilter() {
+      public boolean accept(final Node node) {
         return node instanceof HTMLTableCellElementImpl;
       }
     };
@@ -82,7 +82,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
@@ -90,7 +90,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     return this.getAttribute("bgcolor");
   }
 
-  public void setBgColor(String bgColor) {
+  public void setBgColor(final String bgColor) {
     this.setAttribute("bgcolor", bgColor);
   }
 
@@ -98,7 +98,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     return this.getAttribute("ch");
   }
 
-  public void setCh(String ch) {
+  public void setCh(final String ch) {
     this.setAttribute("ch", ch);
   }
 
@@ -106,7 +106,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     return this.getAttribute("choff");
   }
 
-  public void setChOff(String chOff) {
+  public void setChOff(final String chOff) {
     this.setAttribute("choff", chOff);
   }
 
@@ -114,7 +114,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     return this.getAttribute("valign");
   }
 
-  public void setVAlign(String vAlign) {
+  public void setVAlign(final String vAlign) {
     this.setAttribute("valign", vAlign);
   }
 
@@ -129,31 +129,31 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
    * @throws DOMException
    *           When the index is out of range.
    */
-  public HTMLElement insertHeader(int index) throws DOMException {
+  public HTMLElement insertHeader(final int index) throws DOMException {
     return this.insertCell(index, "TH");
   }
 
-  public HTMLElement insertCell(int index) throws DOMException {
+  public HTMLElement insertCell(final int index) throws DOMException {
     return this.insertCell(index, "TD");
   }
 
-  private HTMLElement insertCell(int index, String tagName) throws DOMException {
-    org.w3c.dom.Document doc = this.document;
+  private HTMLElement insertCell(final int index, final String tagName) throws DOMException {
+    final org.w3c.dom.Document doc = this.document;
     if (doc == null) {
       throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "Orphan element");
     }
-    HTMLElement cellElement = (HTMLElement) doc.createElement(tagName);
+    final HTMLElement cellElement = (HTMLElement) doc.createElement(tagName);
     synchronized (this.treeLock) {
       if (index == -1) {
         this.appendChild(cellElement);
         return cellElement;
       }
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        int size = nl.size();
+        final int size = nl.size();
         int trcount = 0;
         for (int i = 0; i < size; i++) {
-          Node node = nl.get(i);
+          final Node node = nl.get(i);
           if (node instanceof org.w3c.dom.html2.HTMLTableCellElement) {
             if (trcount == index) {
               this.insertAt(cellElement, i);
@@ -170,14 +170,14 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index out of range");
   }
 
-  public void deleteCell(int index) throws DOMException {
+  public void deleteCell(final int index) throws DOMException {
     synchronized (this.treeLock) {
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        int size = nl.size();
+        final int size = nl.size();
         int trcount = 0;
         for (int i = 0; i < size; i++) {
-          Node node = nl.get(i);
+          final Node node = nl.get(i);
           if (node instanceof org.w3c.dom.html2.HTMLTableCellElement) {
             if (trcount == index) {
               this.removeChildAt(index);

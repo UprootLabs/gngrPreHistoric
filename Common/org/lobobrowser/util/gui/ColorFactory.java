@@ -37,7 +37,7 @@ public class ColorFactory {
   private final Map<String, Color> colorMap = new HashMap<String, Color>(256);
 
   private ColorFactory() {
-    Map<String, Color> colorMap = this.colorMap;
+    final Map<String, Color> colorMap = this.colorMap;
     synchronized (this) {
       colorMap.put("transparent", TRANSPARENT);
       // http://www.w3schools.com/css/css_colornames.asp
@@ -204,11 +204,11 @@ public class ColorFactory {
 
   private static final String RGB_START = "rgb(";
 
-  public boolean isColor(String colorSpec) {
+  public boolean isColor(final String colorSpec) {
     if (colorSpec.startsWith("#")) {
       return true;
     }
-    String normalSpec = colorSpec.toLowerCase();
+    final String normalSpec = colorSpec.toLowerCase();
     if (normalSpec.startsWith(RGB_START)) {
       return true;
     }
@@ -217,36 +217,36 @@ public class ColorFactory {
     }
   }
 
-  public Color getColor(String colorSpec) {
-    String normalSpec = colorSpec.toLowerCase();
+  public Color getColor(final String colorSpec) {
+    final String normalSpec = colorSpec.toLowerCase();
     synchronized (this) {
       Color color = colorMap.get(normalSpec);
       if (color == null) {
         if (normalSpec.startsWith(RGB_START)) {
           // CssParser produces this format.
-          int endIdx = normalSpec.lastIndexOf(')');
-          String commaValues = endIdx == -1 ? normalSpec.substring(RGB_START.length()) : normalSpec.substring(RGB_START.length(), endIdx);
-          StringTokenizer tok = new StringTokenizer(commaValues, ",");
+          final int endIdx = normalSpec.lastIndexOf(')');
+          final String commaValues = endIdx == -1 ? normalSpec.substring(RGB_START.length()) : normalSpec.substring(RGB_START.length(), endIdx);
+          final StringTokenizer tok = new StringTokenizer(commaValues, ",");
           int r = 0, g = 0, b = 0;
           if (tok.hasMoreTokens()) {
-            String rstr = tok.nextToken().trim();
+            final String rstr = tok.nextToken().trim();
             try {
               r = Integer.parseInt(rstr);
-            } catch (NumberFormatException nfe) {
+            } catch (final NumberFormatException nfe) {
               // ignore
             }
             if (tok.hasMoreTokens()) {
-              String gstr = tok.nextToken().trim();
+              final String gstr = tok.nextToken().trim();
               try {
                 g = Integer.parseInt(gstr);
-              } catch (NumberFormatException nfe) {
+              } catch (final NumberFormatException nfe) {
                 // ignore
               }
               if (tok.hasMoreTokens()) {
-                String bstr = tok.nextToken().trim();
+                final String bstr = tok.nextToken().trim();
                 try {
                   b = Integer.parseInt(bstr);
-                } catch (NumberFormatException nfe) {
+                } catch (final NumberFormatException nfe) {
                   // ignore
                 }
               }
@@ -257,16 +257,16 @@ public class ColorFactory {
           // TODO: OPTIMIZE: It would be more efficient to
           // create new Color(hex), but CssParser doesn't
           // give us values formatted with "#" either way.
-          int len = normalSpec.length();
-          int[] rgba = new int[4];
+          final int len = normalSpec.length();
+          final int[] rgba = new int[4];
           rgba[3] = 255;
           for (int i = 0; i < rgba.length; i++) {
-            int idx = 2 * i + 1;
+            final int idx = 2 * i + 1;
             if (idx < len) {
-              String hexText = normalSpec.substring(idx, idx + Math.min(2, len - idx));
+              final String hexText = normalSpec.substring(idx, idx + Math.min(2, len - idx));
               try {
                 rgba[i] = Integer.parseInt(hexText, 16);
-              } catch (NumberFormatException nfe) {
+              } catch (final NumberFormatException nfe) {
                 // Ignore
               }
             }

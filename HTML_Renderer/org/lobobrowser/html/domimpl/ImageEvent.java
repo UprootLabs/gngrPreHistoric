@@ -25,7 +25,7 @@ import java.util.EventObject;
 public class ImageEvent extends EventObject {
   public final java.awt.Image image;
 
-  public ImageEvent(Object source, java.awt.Image image) {
+  public ImageEvent(final Object source, final java.awt.Image image) {
     super(source);
     this.image = image;
   }

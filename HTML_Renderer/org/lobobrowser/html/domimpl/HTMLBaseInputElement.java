@@ -32,7 +32,7 @@ import org.w3c.dom.html2.HTMLFormElement;
 import org.mozilla.javascript.Function;
 
 public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
-  public HTMLBaseInputElement(String name) {
+  public HTMLBaseInputElement(final String name) {
     super(name);
   }
 
@@ -42,7 +42,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   protected Boolean deferredReadonly;
   protected Boolean deferredDisabled;
 
-  public void setInputContext(InputContext ic) {
+  public void setInputContext(final InputContext ic) {
     String dv = null;
     Boolean defDisabled = null;
     Boolean defReadonly = null;
@@ -74,7 +74,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getAttribute("defaultValue");
   }
 
-  public void setDefaultValue(String defaultValue) {
+  public void setDefaultValue(final String defaultValue) {
     this.setAttribute("defaultValue", defaultValue);
   }
 
@@ -86,15 +86,15 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return (HTMLFormElement) parent;
   }
 
-  public void submitForm(FormInput[] extraFormInputs) {
-    HTMLFormElementImpl form = (HTMLFormElementImpl) this.getForm();
+  public void submitForm(final FormInput[] extraFormInputs) {
+    final HTMLFormElementImpl form = (HTMLFormElementImpl) this.getForm();
     if (form != null) {
       form.submit(extraFormInputs);
     }
   }
 
   public void resetForm() {
-    HTMLFormElement form = this.getForm();
+    final HTMLFormElement form = this.getForm();
     if (form != null) {
       form.reset();
     }
@@ -104,7 +104,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getAttribute("accept");
   }
 
-  public void setAccept(String accept) {
+  public void setAccept(final String accept) {
     this.setAttribute("accept", accept);
   }
 
@@ -112,7 +112,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getAttribute("accessKey");
   }
 
-  public void setAccessKey(String accessKey) {
+  public void setAccessKey(final String accessKey) {
     this.setAttribute("accessKey", accessKey);
   }
 
@@ -120,7 +120,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
@@ -128,7 +128,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getAttribute("alit");
   }
 
-  public void setAlt(String alt) {
+  public void setAlt(final String alt) {
     this.setAttribute("alt", alt);
   }
 
@@ -137,22 +137,22 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getAttribute("name");
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.setAttribute("name", name);
   }
 
   public boolean getDisabled() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic == null) {
-      Boolean db = this.deferredDisabled;
+      final Boolean db = this.deferredDisabled;
       return db == null ? false : db.booleanValue();
     } else {
       return ic.getDisabled();
     }
   }
 
-  public void setDisabled(boolean disabled) {
-    InputContext ic = this.inputContext;
+  public void setDisabled(final boolean disabled) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setDisabled(disabled);
     } else {
@@ -161,17 +161,17 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   }
 
   public boolean getReadOnly() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic == null) {
-      Boolean db = this.deferredReadonly;
+      final Boolean db = this.deferredReadonly;
       return db == null ? false : db.booleanValue();
     } else {
       return ic.getReadOnly();
     }
   }
 
-  public void setReadOnly(boolean readOnly) {
-    InputContext ic = this.inputContext;
+  public void setReadOnly(final boolean readOnly) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setReadOnly(readOnly);
     } else {
@@ -180,17 +180,17 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   }
 
   public boolean getChecked() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic == null) {
-      Boolean db = this.deferredChecked;
+      final Boolean db = this.deferredChecked;
       return db == null ? false : db.booleanValue();
     } else {
       return ic.getChecked();
     }
   }
 
-  public void setChecked(boolean value) {
-    InputContext ic = this.inputContext;
+  public void setChecked(final boolean value) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setChecked(value);
     } else {
@@ -199,35 +199,35 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   }
 
   public int getTabIndex() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     return ic == null ? 0 : ic.getTabIndex();
   }
 
-  public void setTabIndex(int tabIndex) {
-    InputContext ic = this.inputContext;
+  public void setTabIndex(final int tabIndex) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setTabIndex(tabIndex);
     }
   }
 
   public String getValue() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       // Note: Per HTML Spec, setValue does not set attribute.
       return ic.getValue();
     } else {
-      String dv = this.deferredValue;
+      final String dv = this.deferredValue;
       if (dv != null) {
         return dv;
       } else {
-        String val = this.getAttribute("value");
+        final String val = this.getAttribute("value");
         return val == null ? "" : val;
       }
     }
   }
 
   protected java.io.File getFileValue() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       return ic.getFileValue();
     } else {
@@ -235,7 +235,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     }
   }
 
-  public void setValue(String value) {
+  public void setValue(final String value) {
     InputContext ic = null;
     synchronized (this) {
       ic = this.inputContext;
@@ -249,21 +249,21 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   }
 
   public void blur() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.blur();
     }
   }
 
   public void focus() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.focus();
     }
   }
 
   public void select() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.select();
     }
@@ -276,7 +276,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
    * org.xamjwg.html.domimpl.HTMLElementImpl#assignAttributeField(java.lang.
    * String, java.lang.String)
    */
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     if ("value".equals(normalName)) {
       this.setValue(value);
     } else if ("checked".equals(normalName)) {
@@ -298,15 +298,15 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     return this.getEventFunction(this.onload, "onload");
   }
 
-  public void setOnload(Function onload) {
+  public void setOnload(final Function onload) {
     this.onload = onload;
   }
 
   private java.awt.Image image = null;
   private String imageSrc;
 
-  private void loadImage(String src) {
-    HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
+  private void loadImage(final String src) {
+    final HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
     if (document != null) {
       synchronized (this.imageListeners) {
         this.imageSrc = src;
@@ -332,8 +332,8 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
    * 
    * @param listener
    */
-  public void addImageListener(ImageListener listener) {
-    ArrayList<ImageListener> l = this.imageListeners;
+  public void addImageListener(final ImageListener listener) {
+    final ArrayList<ImageListener> l = this.imageListeners;
     java.awt.Image currentImage;
     synchronized (l) {
       currentImage = this.image;
@@ -348,22 +348,22 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     }
   }
 
-  public void removeImageListener(ImageListener listener) {
-    ArrayList<ImageListener> l = this.imageListeners;
+  public void removeImageListener(final ImageListener listener) {
+    final ArrayList<ImageListener> l = this.imageListeners;
     synchronized (l) {
       l.remove(l);
     }
   }
 
   void resetInput() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.resetInput();
     }
   }
 
-  private void dispatchEvent(String expectedImgSrc, ImageEvent event) {
-    ArrayList<ImageListener> l = this.imageListeners;
+  private void dispatchEvent(final String expectedImgSrc, final ImageEvent event) {
+    final ArrayList<ImageListener> l = this.imageListeners;
     ImageListener[] listenerArray;
     synchronized (l) {
       if (!expectedImgSrc.equals(this.imageSrc)) {
@@ -373,12 +373,12 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
       // Get array of listeners while holding lock.
       listenerArray = l.toArray(ImageListener.EMPTY_ARRAY);
     }
-    int llength = listenerArray.length;
+    final int llength = listenerArray.length;
     for (int i = 0; i < llength; i++) {
       // Inform listener, holding no lock.
       listenerArray[i].imageLoaded(event);
     }
-    Function onload = this.getOnload();
+    final Function onload = this.getOnload();
     if (onload != null) {
       // TODO: onload event object?
       Executor.executeFunction(HTMLBaseInputElement.this, onload, null);
@@ -388,11 +388,11 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   private class LocalImageListener implements ImageListener {
     private final String expectedImgSrc;
 
-    public LocalImageListener(String imgSrc) {
+    public LocalImageListener(final String imgSrc) {
       this.expectedImgSrc = imgSrc;
     }
 
-    public void imageLoaded(ImageEvent event) {
+    public void imageLoaded(final ImageEvent event) {
       dispatchEvent(this.expectedImgSrc, event);
     }
   }

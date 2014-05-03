@@ -8,10 +8,10 @@ public class Items {
 
   private static Map<Object, Map> sourceMap = new WeakHashMap<Object, Map>();
 
-  public static Object getItem(Object source, String name) {
-    Map<Object, Map> sm = sourceMap;
+  public static Object getItem(final Object source, final String name) {
+    final Map<Object, Map> sm = sourceMap;
     synchronized (sm) {
-      Map itemMap = sm.get(source);
+      final Map itemMap = sm.get(source);
       if (itemMap == null) {
         return null;
       }
@@ -19,8 +19,8 @@ public class Items {
     }
   }
 
-  public static void setItem(Object source, String name, Object value) {
-    Map<Object, Map> sm = sourceMap;
+  public static void setItem(final Object source, final String name, final Object value) {
+    final Map<Object, Map> sm = sourceMap;
     synchronized (sm) {
       Map<String, Object> itemMap = sm.get(source);
       if (itemMap == null) {

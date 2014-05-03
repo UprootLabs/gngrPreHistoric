@@ -33,7 +33,7 @@ public class DocumentTypeImpl extends NodeImpl implements DocumentType {
   private final String publicId;
   private final String systemId;
 
-  public DocumentTypeImpl(String qname, String publicId, String systemId) {
+  public DocumentTypeImpl(final String qname, final String publicId, final String systemId) {
     super();
     this.qualifiedName = qname;
     this.publicId = publicId;
@@ -52,7 +52,7 @@ public class DocumentTypeImpl extends NodeImpl implements DocumentType {
     return null;
   }
 
-  public void setNodeValue(String nodeValue) throws DOMException {
+  public void setNodeValue(final String nodeValue) throws DOMException {
     // nop
   }
 

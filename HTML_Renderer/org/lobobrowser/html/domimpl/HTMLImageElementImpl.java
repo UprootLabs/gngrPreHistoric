@@ -36,7 +36,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     super("IMG");
   }
 
-  public HTMLImageElementImpl(String name) {
+  public HTMLImageElementImpl(final String name) {
     super(name);
   }
 
@@ -44,7 +44,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttribute("name");
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.setAttribute("name", name);
   }
 
@@ -52,7 +52,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
@@ -60,7 +60,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttribute("alt");
   }
 
-  public void setAlt(String alt) {
+  public void setAlt(final String alt) {
     this.setAttribute("alt", alt);
   }
 
@@ -68,16 +68,16 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttribute("border");
   }
 
-  public void setBorder(String border) {
+  public void setBorder(final String border) {
     this.setAttribute("border", border);
   }
 
   public int getHeight() {
-    UINode r = this.uiNode;
+    final UINode r = this.uiNode;
     return r == null ? 0 : r.getBounds().height;
   }
 
-  public void setHeight(int height) {
+  public void setHeight(final int height) {
     this.setAttribute("height", String.valueOf(height));
   }
 
@@ -85,7 +85,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttributeAsInt("hspace", 0);
   }
 
-  public void setHspace(int hspace) {
+  public void setHspace(final int hspace) {
     this.setAttribute("hspace", String.valueOf("hspace"));
   }
 
@@ -93,7 +93,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttributeAsBoolean("isMap");
   }
 
-  public void setIsMap(boolean isMap) {
+  public void setIsMap(final boolean isMap) {
     this.setAttribute("isMap", isMap ? "isMap" : null);
   }
 
@@ -101,7 +101,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttribute("longDesc");
   }
 
-  public void setLongDesc(String longDesc) {
+  public void setLongDesc(final String longDesc) {
     this.setAttribute("longDesc", longDesc);
   }
 
@@ -114,7 +114,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
    * HtmlRendererContext should be available to the HTML document for images to
    * be loaded.
    */
-  public void setSrc(String src) {
+  public void setSrc(final String src) {
     this.setAttribute("src", src);
   }
 
@@ -122,7 +122,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttribute("useMap");
   }
 
-  public void setUseMap(String useMap) {
+  public void setUseMap(final String useMap) {
     this.setAttribute("useMap", useMap);
   }
 
@@ -130,20 +130,20 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getAttributeAsInt("vspace", 0);
   }
 
-  public void setVspace(int vspace) {
+  public void setVspace(final int vspace) {
     this.setAttribute("vspace", String.valueOf(vspace));
   }
 
   public int getWidth() {
-    UINode r = this.uiNode;
+    final UINode r = this.uiNode;
     return r == null ? 0 : r.getBounds().width;
   }
 
-  public void setWidth(int width) {
+  public void setWidth(final int width) {
     this.setAttribute("width", String.valueOf(width));
   }
 
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     super.assignAttributeField(normalName, value);
     if ("src".equals(normalName)) {
       this.loadImage(value);
@@ -156,15 +156,15 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     return this.getEventFunction(this.onload, "onload");
   }
 
-  public void setOnload(Function onload) {
+  public void setOnload(final Function onload) {
     this.onload = onload;
   }
 
   private java.awt.Image image = null;
   private String imageSrc;
 
-  private void loadImage(String src) {
-    HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
+  private void loadImage(final String src) {
+    final HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
     if (document != null) {
       synchronized (this.listeners) {
         this.imageSrc = src;
@@ -190,8 +190,8 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
    * 
    * @param listener
    */
-  public void addImageListener(ImageListener listener) {
-    ArrayList<ImageListener> l = this.listeners;
+  public void addImageListener(final ImageListener listener) {
+    final ArrayList<ImageListener> l = this.listeners;
     java.awt.Image currentImage;
     synchronized (l) {
       currentImage = this.image;
@@ -206,15 +206,15 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     }
   }
 
-  public void removeImageListener(ImageListener listener) {
-    ArrayList<ImageListener> l = this.listeners;
+  public void removeImageListener(final ImageListener listener) {
+    final ArrayList<ImageListener> l = this.listeners;
     synchronized (l) {
       l.remove(l);
     }
   }
 
-  private void dispatchEvent(String expectedImgSrc, ImageEvent event) {
-    ArrayList<ImageListener> l = this.listeners;
+  private void dispatchEvent(final String expectedImgSrc, final ImageEvent event) {
+    final ArrayList<ImageListener> l = this.listeners;
     ImageListener[] listenerArray;
     synchronized (l) {
       if (!expectedImgSrc.equals(this.imageSrc)) {
@@ -224,30 +224,30 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
       // Get array of listeners while holding lock.
       listenerArray = l.toArray(ImageListener.EMPTY_ARRAY);
     }
-    int llength = listenerArray.length;
+    final int llength = listenerArray.length;
     for (int i = 0; i < llength; i++) {
       // Inform listener, holding no lock.
       listenerArray[i].imageLoaded(event);
     }
-    Function onload = this.getOnload();
+    final Function onload = this.getOnload();
     if (onload != null) {
       // TODO: onload event object?
       Executor.executeFunction(HTMLImageElementImpl.this, onload, null);
     }
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ImageRenderState(prevRenderState, this);
   }
 
   private class LocalImageListener implements ImageListener {
     private final String expectedImgSrc;
 
-    public LocalImageListener(String imgSrc) {
+    public LocalImageListener(final String imgSrc) {
       this.expectedImgSrc = imgSrc;
     }
 
-    public void imageLoaded(ImageEvent event) {
+    public void imageLoaded(final ImageEvent event) {
       dispatchEvent(this.expectedImgSrc, event);
     }
   }

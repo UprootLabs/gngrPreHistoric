@@ -27,32 +27,32 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLOListElement;
 
 public class HTMLOListElementImpl extends HTMLAbstractUIElement implements HTMLOListElement {
-  public HTMLOListElementImpl(String name) {
+  public HTMLOListElementImpl(final String name) {
     super(name);
   }
 
   public boolean getCompact() {
-    String compactText = this.getAttribute("compact");
+    final String compactText = this.getAttribute("compact");
     return "compact".equalsIgnoreCase(compactText);
   }
 
-  public void setCompact(boolean compact) {
+  public void setCompact(final boolean compact) {
     this.setAttribute("compact", compact ? "compact" : null);
   }
 
   public int getStart() {
-    String startText = this.getAttribute("start");
+    final String startText = this.getAttribute("start");
     if (startText == null) {
       return 1;
     }
     try {
       return Integer.parseInt(startText);
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return 1;
     }
   }
 
-  public void setStart(int start) {
+  public void setStart(final int start) {
     this.setAttribute("start", String.valueOf(start));
   }
 
@@ -60,11 +60,11 @@ public class HTMLOListElementImpl extends HTMLAbstractUIElement implements HTMLO
     return this.getAttribute("type");
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ListRenderState(prevRenderState, this);
   }
 }

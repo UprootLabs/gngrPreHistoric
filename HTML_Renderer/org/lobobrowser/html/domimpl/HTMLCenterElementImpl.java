@@ -23,7 +23,7 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 
 public class HTMLCenterElementImpl extends HTMLAbstractUIElement {
-  public HTMLCenterElementImpl(String name) {
+  public HTMLCenterElementImpl(final String name) {
     super(name);
   }
 

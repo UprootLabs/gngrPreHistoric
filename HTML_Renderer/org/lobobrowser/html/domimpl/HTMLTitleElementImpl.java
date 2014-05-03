@@ -23,16 +23,16 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.*;
 
 public class HTMLTitleElementImpl extends HTMLElementImpl {
-  public HTMLTitleElementImpl(String name) {
+  public HTMLTitleElementImpl(final String name) {
     super(name, true);
   }
 
-  public Object setUserData(String key, Object data, UserDataHandler handler) {
+  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
-      Document document = this.document;
+      final Document document = this.document;
       if (document instanceof HTMLDocumentImpl) {
-        String textContent = this.getTextContent();
-        String title = textContent == null ? null : textContent.trim();
+        final String textContent = this.getTextContent();
+        final String title = textContent == null ? null : textContent.trim();
         ((HTMLDocumentImpl) document).setTitle(title);
       }
     }

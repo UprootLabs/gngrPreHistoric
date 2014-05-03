@@ -33,12 +33,12 @@ class ElementFactory {
 
   private ElementFactory() {
     // This sets up builders for each known element tag.
-    Map<String, HTMLElementBuilder> builders = this.builders;
+    final Map<String, HTMLElementBuilder> builders = this.builders;
     builders.put("HTML", new HTMLElementBuilder.Html());
     builders.put("TITLE", new HTMLElementBuilder.Title());
     builders.put("BASE", new HTMLElementBuilder.Base());
 
-    HTMLElementBuilder div = new HTMLElementBuilder.Div();
+    final HTMLElementBuilder div = new HTMLElementBuilder.Div();
     builders.put("DIV", div);
     builders.put("DL", div);
 
@@ -48,7 +48,7 @@ class ElementFactory {
     builders.put("PRE", new HTMLElementBuilder.Pre());
     builders.put("P", new HTMLElementBuilder.P());
 
-    HTMLElementBuilder bq = new HTMLElementBuilder.Blockquote();
+    final HTMLElementBuilder bq = new HTMLElementBuilder.Blockquote();
     builders.put("BLOCKQUOTE", bq);
     builders.put("DD", bq);
 
@@ -95,12 +95,12 @@ class ElementFactory {
     builders.put("SUP", new HTMLElementBuilder.Sup());
     builders.put("SUB", new HTMLElementBuilder.Sub());
 
-    HTMLElementBuilder em = new HTMLElementBuilder.Em();
+    final HTMLElementBuilder em = new HTMLElementBuilder.Em();
     builders.put("I", em);
     builders.put("EM", em);
     builders.put("CITE", em);
 
-    HTMLElementBuilder heading = new HTMLElementBuilder.Heading();
+    final HTMLElementBuilder heading = new HTMLElementBuilder.Heading();
     builders.put("H1", heading);
     builders.put("H2", heading);
     builders.put("H3", heading);
@@ -115,13 +115,13 @@ class ElementFactory {
     return instance;
   }
 
-  public final HTMLElement createElement(HTMLDocumentImpl document, String name) throws DOMException {
-    String normalName = name.toUpperCase();
+  public final HTMLElement createElement(final HTMLDocumentImpl document, final String name) throws DOMException {
+    final String normalName = name.toUpperCase();
     // No need to synchronize; read-only map at this point.
-    HTMLElementBuilder builder = this.builders.get(normalName);
+    final HTMLElementBuilder builder = this.builders.get(normalName);
     if (builder == null) {
       // TODO: IE would assume name is html text here?
-      HTMLElementImpl element = new HTMLElementImpl(name);
+      final HTMLElementImpl element = new HTMLElementImpl(name);
       element.setOwnerDocument(document);
       return element;
     } else {

@@ -35,7 +35,7 @@ public abstract class BaseClassLoader extends SecureClassLoader {
   /**
    * @param parent
    */
-  public BaseClassLoader(ClassLoader parent) {
+  public BaseClassLoader(final ClassLoader parent) {
     super(parent);
   }
 
@@ -51,7 +51,7 @@ public abstract class BaseClassLoader extends SecureClassLoader {
    * 
    * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
    */
-  public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+  public synchronized Class loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
     return super.loadClass(name, resolve);
   }
 }

@@ -3,7 +3,7 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.html2.HTMLBRElement;
 
 public class HTMLBRElementImpl extends HTMLElementImpl implements HTMLBRElement {
-  public HTMLBRElementImpl(String name) {
+  public HTMLBRElementImpl(final String name) {
     super(name);
   }
 
@@ -11,11 +11,11 @@ public class HTMLBRElementImpl extends HTMLElementImpl implements HTMLBRElement 
     return this.getAttribute("clear");
   }
 
-  public void setClear(String clear) {
+  public void setClear(final String clear) {
     this.setAttribute("clear", clear);
   }
 
-  protected void appendInnerTextImpl(StringBuffer buffer) {
+  protected void appendInnerTextImpl(final StringBuffer buffer) {
     buffer.append("\r\n");
     super.appendInnerTextImpl(buffer);
   }

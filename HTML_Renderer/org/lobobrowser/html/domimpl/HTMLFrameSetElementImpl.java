@@ -27,11 +27,11 @@ import org.w3c.dom.html2.HTMLFrameSetElement;
 
 public class HTMLFrameSetElementImpl extends HTMLElementImpl implements HTMLFrameSetElement {
 
-  public HTMLFrameSetElementImpl(String name, boolean noStyleSheet) {
+  public HTMLFrameSetElementImpl(final String name, final boolean noStyleSheet) {
     super(name, noStyleSheet);
   }
 
-  public HTMLFrameSetElementImpl(String name) {
+  public HTMLFrameSetElementImpl(final String name) {
     super(name);
   }
 
@@ -39,7 +39,7 @@ public class HTMLFrameSetElementImpl extends HTMLElementImpl implements HTMLFram
     return this.getAttribute("cols");
   }
 
-  public void setCols(String cols) {
+  public void setCols(final String cols) {
     this.setAttribute("cols", cols);
   }
 
@@ -47,7 +47,7 @@ public class HTMLFrameSetElementImpl extends HTMLElementImpl implements HTMLFram
     return this.getAttribute("rows");
   }
 
-  public void setRows(String rows) {
+  public void setRows(final String rows) {
     this.setAttribute("rows", rows);
   }
 }

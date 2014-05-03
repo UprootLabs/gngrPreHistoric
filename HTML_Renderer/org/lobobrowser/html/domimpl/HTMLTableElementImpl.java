@@ -39,7 +39,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     super("TABLE");
   }
 
-  public HTMLTableElementImpl(String name) {
+  public HTMLTableElementImpl(final String name) {
     super(name);
   }
 
@@ -49,7 +49,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.caption;
   }
 
-  public void setCaption(HTMLTableCaptionElement caption) throws DOMException {
+  public void setCaption(final HTMLTableCaptionElement caption) throws DOMException {
     this.caption = caption;
   }
 
@@ -59,7 +59,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.thead;
   }
 
-  public void setTHead(HTMLTableSectionElement tHead) throws DOMException {
+  public void setTHead(final HTMLTableSectionElement tHead) throws DOMException {
     this.thead = tHead;
   }
 
@@ -69,7 +69,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.tfoot;
   }
 
-  public void setTFoot(HTMLTableSectionElement tFoot) throws DOMException {
+  public void setTFoot(final HTMLTableSectionElement tFoot) throws DOMException {
     this.tfoot = tFoot;
   }
 
@@ -85,7 +85,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
@@ -93,7 +93,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("bgcolor");
   }
 
-  public void setBgColor(String bgColor) {
+  public void setBgColor(final String bgColor) {
     this.setAttribute("bgcolor", bgColor);
   }
 
@@ -101,7 +101,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("border");
   }
 
-  public void setBorder(String border) {
+  public void setBorder(final String border) {
     this.setAttribute("border", border);
   }
 
@@ -109,7 +109,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("cellpadding");
   }
 
-  public void setCellPadding(String cellPadding) {
+  public void setCellPadding(final String cellPadding) {
     this.setAttribute("cellpadding", cellPadding);
   }
 
@@ -117,7 +117,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("cellspacing");
   }
 
-  public void setCellSpacing(String cellSpacing) {
+  public void setCellSpacing(final String cellSpacing) {
     this.setAttribute("cellspacing", cellSpacing);
   }
 
@@ -125,7 +125,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("frame");
   }
 
-  public void setFrame(String frame) {
+  public void setFrame(final String frame) {
     this.setAttribute("frame", frame);
   }
 
@@ -133,7 +133,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("rules");
   }
 
-  public void setRules(String rules) {
+  public void setRules(final String rules) {
     this.setAttribute("rules", rules);
   }
 
@@ -141,7 +141,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("summary");
   }
 
-  public void setSummary(String summary) {
+  public void setSummary(final String summary) {
     this.setAttribute("summary", summary);
   }
 
@@ -149,7 +149,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     return this.getAttribute("width");
   }
 
-  public void setWidth(String width) {
+  public void setWidth(final String width) {
     this.setAttribute("width", width);
   }
 
@@ -158,16 +158,16 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    * 
    * @see org.xamjwg.html.renderer.RenderableContext#getHeightLength()
    */
-  public HtmlLength getHeightLength(int availHeight) {
+  public HtmlLength getHeightLength(final int availHeight) {
     try {
-      AbstractCSS2Properties props = this.getCurrentStyle();
-      String heightText = props == null ? null : props.getHeight();
+      final AbstractCSS2Properties props = this.getCurrentStyle();
+      final String heightText = props == null ? null : props.getHeight();
       if (heightText == null) {
         return new HtmlLength(this.getAttribute("height"));
       } else {
         return new HtmlLength(HtmlValues.getPixelSize(heightText, this.getRenderState(), 0, availHeight));
       }
-    } catch (Exception err) {
+    } catch (final Exception err) {
       return null;
     }
   }
@@ -177,22 +177,22 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    * 
    * @see org.xamjwg.html.renderer.RenderableContext#getWidthLength()
    */
-  public HtmlLength getWidthLength(int availWidth) {
+  public HtmlLength getWidthLength(final int availWidth) {
     try {
-      AbstractCSS2Properties props = this.getCurrentStyle();
-      String widthText = props == null ? null : props.getWidth();
+      final AbstractCSS2Properties props = this.getCurrentStyle();
+      final String widthText = props == null ? null : props.getWidth();
       if (widthText == null) {
         return new HtmlLength(this.getAttribute("width"));
       } else {
         return new HtmlLength(HtmlValues.getPixelSize(widthText, this.getRenderState(), 0, availWidth));
       }
-    } catch (Exception err) {
+    } catch (final Exception err) {
       return null;
     }
   }
 
   public HTMLElement createTHead() {
-    org.w3c.dom.Document doc = this.document;
+    final org.w3c.dom.Document doc = this.document;
     return doc == null ? null : (HTMLElement) doc.createElement("thead");
   }
 
@@ -201,7 +201,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
   }
 
   public HTMLElement createTFoot() {
-    org.w3c.dom.Document doc = this.document;
+    final org.w3c.dom.Document doc = this.document;
     return doc == null ? null : (HTMLElement) doc.createElement("tfoot");
   }
 
@@ -210,7 +210,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
   }
 
   public HTMLElement createCaption() {
-    org.w3c.dom.Document doc = this.document;
+    final org.w3c.dom.Document doc = this.document;
     return doc == null ? null : (HTMLElement) doc.createElement("caption");
   }
 
@@ -222,23 +222,23 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    * Inserts a row at the index given. If <code>index</code> is <code>-1</code>,
    * the row is appended as the last row.
    */
-  public HTMLElement insertRow(int index) throws DOMException {
-    org.w3c.dom.Document doc = this.document;
+  public HTMLElement insertRow(final int index) throws DOMException {
+    final org.w3c.dom.Document doc = this.document;
     if (doc == null) {
       throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "Orphan element");
     }
-    HTMLElement rowElement = (HTMLElement) doc.createElement("TR");
+    final HTMLElement rowElement = (HTMLElement) doc.createElement("TR");
     synchronized (this.treeLock) {
       if (index == -1) {
         this.appendChild(rowElement);
         return rowElement;
       }
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        int size = nl.size();
+        final int size = nl.size();
         int trcount = 0;
         for (int i = 0; i < size; i++) {
-          Node node = nl.get(i);
+          final Node node = nl.get(i);
           if ("TR".equalsIgnoreCase(node.getNodeName())) {
             if (trcount == index) {
               this.insertAt(rowElement, i);
@@ -255,14 +255,14 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index out of range");
   }
 
-  public void deleteRow(int index) throws DOMException {
+  public void deleteRow(final int index) throws DOMException {
     synchronized (this.treeLock) {
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        int size = nl.size();
+        final int size = nl.size();
         int trcount = 0;
         for (int i = 0; i < size; i++) {
-          Node node = nl.get(i);
+          final Node node = nl.get(i);
           if ("TR".equalsIgnoreCase(node.getNodeName())) {
             if (trcount == index) {
               this.removeChildAt(i);
@@ -276,7 +276,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index out of range");
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new TableRenderState(prevRenderState, this);
   }
 }

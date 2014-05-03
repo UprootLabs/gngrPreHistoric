@@ -41,12 +41,12 @@ import java.util.logging.*;
 public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2PropertiesContext {
   private final boolean noStyleSheet;
 
-  public HTMLElementImpl(String name, boolean noStyleSheet) {
+  public HTMLElementImpl(final String name, final boolean noStyleSheet) {
     super(name);
     this.noStyleSheet = noStyleSheet;
   }
 
-  public HTMLElementImpl(String name) {
+  public HTMLElementImpl(final String name) {
     super(name);
     this.noStyleSheet = false;
   }
@@ -62,7 +62,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  protected final void forgetStyle(boolean deep) {
+  protected final void forgetStyle(final boolean deep) {
     // TODO: OPTIMIZATION: If we had a ComputedStyle map in
     // window (Mozilla model) the map could be cleared in one shot.
     synchronized (this) {
@@ -71,11 +71,11 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       this.isHoverStyle = null;
       this.hasHoverStyleByElement = null;
       if (deep) {
-        java.util.ArrayList<Node> nl = this.nodeList;
+        final java.util.ArrayList<Node> nl = this.nodeList;
         if (nl != null) {
-          Iterator<Node> i = nl.iterator();
+          final Iterator<Node> i = nl.iterator();
           while (i.hasNext()) {
-            Object node = i.next();
+            final Object node = i.next();
             if (node instanceof HTMLElementImpl) {
               ((HTMLElementImpl) node).forgetStyle(deep);
             }
@@ -91,7 +91,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
    */
   public AbstractCSS2Properties getCurrentStyle() {
     synchronized (this) {
-      AbstractCSS2Properties currSds = this.currentStyleDeclarationState;
+      final AbstractCSS2Properties currSds = this.currentStyleDeclarationState;
       if (currSds != null) {
         return currSds;
       }
@@ -109,7 +109,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     synchronized (this) {
       // Check if style properties were set while outside
       // the synchronized block (can happen).
-      AbstractCSS2Properties setProps = this.currentStyleDeclarationState;
+      final AbstractCSS2Properties setProps = this.currentStyleDeclarationState;
       if (setProps != null) {
         return setProps;
       }
@@ -132,16 +132,16 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       }
       sds = new LocalCSS2Properties(this);
       // Add any declarations in style attribute (last takes precedence).
-      String style = this.getAttribute("style");
+      final String style = this.getAttribute("style");
       if (style != null && style.length() != 0) {
-        CSSOMParser parser = CSSUtilities.mkParser();
-        InputSource inputSource = this.getCssInputSourceForDecl(style);
+        final CSSOMParser parser = CSSUtilities.mkParser();
+        final InputSource inputSource = this.getCssInputSourceForDecl(style);
         try {
-          CSSStyleDeclaration sd = parser.parseStyleDeclaration(inputSource);
+          final CSSStyleDeclaration sd = parser.parseStyleDeclaration(inputSource);
           sds.addStyleDeclaration(sd);
-        } catch (Exception err) {
-          String id = this.getId();
-          String withId = id == null ? "" : " with ID '" + id + "'";
+        } catch (final Exception err) {
+          final String id = this.getId();
+          final String withId = id == null ? "" : " with ID '" + id + "'";
           this.warn("Unable to parse style attribute value for element " + this.getTagName() + withId + " in " + this.getDocumentURL()
               + ".", err);
         }
@@ -165,9 +165,9 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       pseudoElement = "";
     }
     synchronized (this) {
-      Map<String, AbstractCSS2Properties> cs = this.computedStyles;
+      final Map<String, AbstractCSS2Properties> cs = this.computedStyles;
       if (cs != null) {
-        AbstractCSS2Properties sds = cs.get(pseudoElement);
+        final AbstractCSS2Properties sds = cs.get(pseudoElement);
         if (sds != null) {
           return sds;
         }
@@ -176,11 +176,11 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     // Can't do the following in synchronized block (reverse locking order with
     // document).
     // First, add declarations from stylesheet
-    Set<String> pes = pseudoElement.length() == 0 ? null : Collections.singleton(pseudoElement);
+    final Set<String> pes = pseudoElement.length() == 0 ? null : Collections.singleton(pseudoElement);
     AbstractCSS2Properties sds = this.createDefaultStyleSheet();
     sds = this.addStyleSheetDeclarations(sds, pes);
     // Now add local style if any.
-    AbstractCSS2Properties localStyle = this.getStyle();
+    final AbstractCSS2Properties localStyle = this.getStyle();
     if (sds == null) {
       sds = new ComputedCSS2Properties(this);
       sds.setLocalStyleProperties(localStyle);
@@ -196,7 +196,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
         cs = new HashMap<String, AbstractCSS2Properties>(2);
         this.computedStyles = cs;
       } else {
-        AbstractCSS2Properties sds2 = cs.get(pseudoElement);
+        final AbstractCSS2Properties sds2 = cs.get(pseudoElement);
         if (sds2 != null) {
           return sds2;
         }
@@ -206,21 +206,21 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return sds;
   }
 
-  public void setStyle(Object value) {
+  public void setStyle(final Object value) {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Cannot set style property");
   }
 
-  public void setCurrentStyle(Object value) {
+  public void setCurrentStyle(final Object value) {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Cannot set currentStyle property");
   }
 
   public String getClassName() {
-    String className = this.getAttribute("class");
+    final String className = this.getAttribute("class");
     // Blank required instead of null.
     return className == null ? "" : className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(final String className) {
     this.setAttribute("class", className);
   }
 
@@ -228,33 +228,33 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return this.getAttribute("charset");
   }
 
-  public void setCharset(String charset) {
+  public void setCharset(final String charset) {
     this.setAttribute("charset", charset);
   }
 
-  public void warn(String message, Throwable err) {
+  public void warn(final String message, final Throwable err) {
     logger.log(Level.WARNING, message, err);
   }
 
-  public void warn(String message) {
+  public void warn(final String message) {
     logger.log(Level.WARNING, message);
   }
 
-  protected int getAttributeAsInt(String name, int defaultValue) {
-    String value = this.getAttribute(name);
+  protected int getAttributeAsInt(final String name, final int defaultValue) {
+    final String value = this.getAttribute(name);
     try {
       return Integer.parseInt(value);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       this.warn("Bad integer", err);
       return defaultValue;
     }
   }
 
-  public boolean getAttributeAsBoolean(String name) {
+  public boolean getAttributeAsBoolean(final String name) {
     return this.getAttribute(name) != null;
   }
 
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     if (!this.notificationsSuspended) {
       this.informInvalidAttibute(normalName);
     } else {
@@ -265,9 +265,9 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     super.assignAttributeField(normalName, value);
   }
 
-  protected final InputSource getCssInputSourceForDecl(String text) {
-    java.io.Reader reader = new StringReader(text);
-    InputSource is = new InputSource(reader);
+  protected final InputSource getCssInputSourceForDecl(final String text) {
+    final java.io.Reader reader = new StringReader(text);
+    final InputSource is = new InputSource(reader);
     return is;
   }
 
@@ -277,24 +277,24 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
    * 
    * @param style
    */
-  protected final AbstractCSS2Properties addStyleSheetDeclarations(AbstractCSS2Properties style, Set<String> pseudoNames) {
-    Node pn = this.parentNode;
+  protected final AbstractCSS2Properties addStyleSheetDeclarations(AbstractCSS2Properties style, final Set<String> pseudoNames) {
+    final Node pn = this.parentNode;
     if (pn == null) {
       // do later
       return style;
     }
-    String classNames = this.getClassName();
+    final String classNames = this.getClassName();
     if (classNames != null && classNames.length() != 0) {
-      String id = this.getId();
-      String elementName = this.getTagName();
-      String[] classNameArray = Strings.split(classNames);
+      final String id = this.getId();
+      final String elementName = this.getTagName();
+      final String[] classNameArray = Strings.split(classNames);
       for (int i = classNameArray.length; --i >= 0;) {
-        String className = classNameArray[i];
-        Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, className, pseudoNames);
+        final String className = classNameArray[i];
+        final Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, className, pseudoNames);
         if (sds != null) {
-          Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
+          final Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
           while (sdsi.hasNext()) {
-            CSSStyleDeclaration sd = sdsi.next();
+            final CSSStyleDeclaration sd = sdsi.next();
             if (style == null) {
               style = new ComputedCSS2Properties(this);
             }
@@ -303,13 +303,13 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
         }
       }
     } else {
-      String id = this.getId();
-      String elementName = this.getTagName();
-      Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, null, pseudoNames);
+      final String id = this.getId();
+      final String elementName = this.getTagName();
+      final Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, null, pseudoNames);
       if (sds != null) {
-        Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
+        final Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
         while (sdsi.hasNext()) {
-          CSSStyleDeclaration sd = sdsi.next();
+          final CSSStyleDeclaration sd = sdsi.next();
           if (style == null) {
             style = new ComputedCSS2Properties(this);
           }
@@ -322,7 +322,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 
   private boolean isMouseOver = false;
 
-  public void setMouseOver(boolean mouseOver) {
+  public void setMouseOver(final boolean mouseOver) {
     if (this.isMouseOver != mouseOver) {
       // Change isMouseOver field before checking to invalidate.
       this.isMouseOver = mouseOver;
@@ -342,14 +342,14 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  private void invalidateDescendentsForHoverImpl(HTMLElementImpl ancestor) {
-    ArrayList<Node> nodeList = this.nodeList;
+  private void invalidateDescendentsForHoverImpl(final HTMLElementImpl ancestor) {
+    final ArrayList<Node> nodeList = this.nodeList;
     if (nodeList != null) {
-      int size = nodeList.size();
+      final int size = nodeList.size();
       for (int i = 0; i < size; i++) {
-        Object node = nodeList.get(i);
+        final Object node = nodeList.get(i);
         if (node instanceof HTMLElementImpl) {
-          HTMLElementImpl descendent = (HTMLElementImpl) node;
+          final HTMLElementImpl descendent = (HTMLElementImpl) node;
           if (descendent.hasHoverStyle(ancestor)) {
             descendent.informInvalid();
           }
@@ -370,14 +370,14 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
         return ihs.booleanValue();
       }
     }
-    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc == null) {
       ihs = Boolean.FALSE;
     } else {
-      StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
-      String id = this.getId();
-      String elementName = this.getTagName();
-      String classNames = this.getClassName();
+      final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
+      final String id = this.getId();
+      final String elementName = this.getTagName();
+      final String classNames = this.getClassName();
       String[] classNameArray = null;
       if (classNames != null && classNames.length() != 0) {
         classNameArray = Strings.split(classNames);
@@ -390,26 +390,26 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return ihs.booleanValue();
   }
 
-  private boolean hasHoverStyle(HTMLElementImpl ancestor) {
+  private boolean hasHoverStyle(final HTMLElementImpl ancestor) {
     Map<HTMLElementImpl, Boolean> ihs;
     synchronized (this) {
       ihs = this.hasHoverStyleByElement;
       if (ihs != null) {
-        Boolean f = ihs.get(ancestor);
+        final Boolean f = ihs.get(ancestor);
         if (f != null) {
           return f.booleanValue();
         }
       }
     }
     Boolean hhs;
-    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc == null) {
       hhs = Boolean.FALSE;
     } else {
-      StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
-      String id = this.getId();
-      String elementName = this.getTagName();
-      String classNames = this.getClassName();
+      final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
+      final String id = this.getId();
+      final String elementName = this.getTagName();
+      final String classNames = this.getClassName();
       String[] classNameArray = null;
       if (classNames != null && classNames.length() != 0) {
         classNameArray = Strings.split(classNames);
@@ -443,13 +443,13 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return pnset;
   }
 
-  protected final Collection<CSSStyleDeclaration> findStyleDeclarations(String elementName, String id, String className,
-      Set<String> pseudoNames) {
-    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+  protected final Collection<CSSStyleDeclaration> findStyleDeclarations(final String elementName, final String id, final String className,
+      final Set<String> pseudoNames) {
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc == null) {
       return null;
     }
-    StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
+    final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
     return ssa.getActiveStyleDeclarations(this, elementName, id, className, pseudoNames);
   }
 
@@ -459,7 +459,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     super.informInvalid();
   }
 
-  public void informInvalidAttibute(String normalName) {
+  public void informInvalidAttibute(final String normalName) {
     // This is called when an attribute changes while
     // the element is allowing notifications.
     if ("style".equals(normalName)) {
@@ -480,14 +480,14 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  private boolean classMatch(String classTL) {
-    String classNames = this.getClassName();
+  private boolean classMatch(final String classTL) {
+    final String classNames = this.getClassName();
     if (classNames == null || classNames.length() == 0) {
       return classTL == null;
     }
-    StringTokenizer tok = new StringTokenizer(classNames, " \t\r\n");
+    final StringTokenizer tok = new StringTokenizer(classNames, " \t\r\n");
     while (tok.hasMoreTokens()) {
-      String token = tok.nextToken();
+      final String token = tok.nextToken();
       if (token.toLowerCase().equals(classTL)) {
         return true;
       }
@@ -504,11 +504,11 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
    * @param classTL
    *          A class name in lowercase.
    */
-  public HTMLElementImpl getAncestorWithClass(String elementTL, String classTL) {
-    Object nodeObj = this.getParentNode();
+  public HTMLElementImpl getAncestorWithClass(final String elementTL, final String classTL) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj instanceof HTMLElementImpl) {
-      HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
-      String pelementTL = parentElement.getTagName().toLowerCase();
+      final HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
+      final String pelementTL = parentElement.getTagName().toLowerCase();
       if (("*".equals(elementTL) || elementTL.equals(pelementTL)) && parentElement.classMatch(classTL)) {
         return parentElement;
       }
@@ -518,11 +518,11 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  public HTMLElementImpl getParentWithClass(String elementTL, String classTL) {
-    Object nodeObj = this.getParentNode();
+  public HTMLElementImpl getParentWithClass(final String elementTL, final String classTL) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj instanceof HTMLElementImpl) {
-      HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
-      String pelementTL = parentElement.getTagName().toLowerCase();
+      final HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
+      final String pelementTL = parentElement.getTagName().toLowerCase();
       if (("*".equals(elementTL) || elementTL.equals(pelementTL)) && parentElement.classMatch(classTL)) {
         return parentElement;
       }
@@ -531,18 +531,18 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   }
 
   public HTMLElementImpl getPreceedingSiblingElement() {
-    Node parentNode = this.getParentNode();
+    final Node parentNode = this.getParentNode();
     if (parentNode == null) {
       return null;
     }
-    NodeList childNodes = parentNode.getChildNodes();
+    final NodeList childNodes = parentNode.getChildNodes();
     if (childNodes == null) {
       return null;
     }
-    int length = childNodes.getLength();
+    final int length = childNodes.getLength();
     HTMLElementImpl priorElement = null;
     for (int i = 0; i < length; i++) {
-      Node child = childNodes.item(i);
+      final Node child = childNodes.item(i);
       if (child == this) {
         return priorElement;
       }
@@ -553,10 +553,10 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  public HTMLElementImpl getPreceedingSiblingWithClass(String elementTL, String classTL) {
-    HTMLElementImpl psibling = this.getPreceedingSiblingElement();
+  public HTMLElementImpl getPreceedingSiblingWithClass(final String elementTL, final String classTL) {
+    final HTMLElementImpl psibling = this.getPreceedingSiblingElement();
     if (psibling != null) {
-      String pelementTL = psibling.getTagName().toLowerCase();
+      final String pelementTL = psibling.getTagName().toLowerCase();
       if (("*".equals(elementTL) || elementTL.equals(pelementTL)) && psibling.classMatch(classTL)) {
         return psibling;
       }
@@ -564,13 +564,13 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  public HTMLElementImpl getAncestorWithId(String elementTL, String idTL) {
-    Object nodeObj = this.getParentNode();
+  public HTMLElementImpl getAncestorWithId(final String elementTL, final String idTL) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj instanceof HTMLElementImpl) {
-      HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
-      String pelementTL = parentElement.getTagName().toLowerCase();
-      String pid = parentElement.getId();
-      String pidTL = pid == null ? null : pid.toLowerCase();
+      final HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
+      final String pelementTL = parentElement.getTagName().toLowerCase();
+      final String pid = parentElement.getId();
+      final String pidTL = pid == null ? null : pid.toLowerCase();
       if (("*".equals(elementTL) || elementTL.equals(pelementTL)) && idTL.equals(pidTL)) {
         return parentElement;
       }
@@ -580,13 +580,13 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  public HTMLElementImpl getParentWithId(String elementTL, String idTL) {
-    Object nodeObj = this.getParentNode();
+  public HTMLElementImpl getParentWithId(final String elementTL, final String idTL) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj instanceof HTMLElementImpl) {
-      HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
-      String pelementTL = parentElement.getTagName().toLowerCase();
-      String pid = parentElement.getId();
-      String pidTL = pid == null ? null : pid.toLowerCase();
+      final HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
+      final String pelementTL = parentElement.getTagName().toLowerCase();
+      final String pid = parentElement.getId();
+      final String pidTL = pid == null ? null : pid.toLowerCase();
       if (("*".equals(elementTL) || elementTL.equals(pelementTL)) && idTL.equals(pidTL)) {
         return parentElement;
       }
@@ -594,12 +594,12 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  public HTMLElementImpl getPreceedingSiblingWithId(String elementTL, String idTL) {
-    HTMLElementImpl psibling = this.getPreceedingSiblingElement();
+  public HTMLElementImpl getPreceedingSiblingWithId(final String elementTL, final String idTL) {
+    final HTMLElementImpl psibling = this.getPreceedingSiblingElement();
     if (psibling != null) {
-      String pelementTL = psibling.getTagName().toLowerCase();
-      String pid = psibling.getId();
-      String pidTL = pid == null ? null : pid.toLowerCase();
+      final String pelementTL = psibling.getTagName().toLowerCase();
+      final String pid = psibling.getId();
+      final String pidTL = pid == null ? null : pid.toLowerCase();
       if (("*".equals(elementTL) || elementTL.equals(pelementTL)) && idTL.equals(pidTL)) {
         return psibling;
       }
@@ -607,14 +607,14 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  public HTMLElementImpl getAncestor(String elementTL) {
-    Object nodeObj = this.getParentNode();
+  public HTMLElementImpl getAncestor(final String elementTL) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj instanceof HTMLElementImpl) {
-      HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
+      final HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
       if ("*".equals(elementTL)) {
         return parentElement;
       }
-      String pelementTL = parentElement.getTagName().toLowerCase();
+      final String pelementTL = parentElement.getTagName().toLowerCase();
       if (elementTL.equals(pelementTL)) {
         return parentElement;
       }
@@ -624,14 +624,14 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  public HTMLElementImpl getParent(String elementTL) {
-    Object nodeObj = this.getParentNode();
+  public HTMLElementImpl getParent(final String elementTL) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj instanceof HTMLElementImpl) {
-      HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
+      final HTMLElementImpl parentElement = (HTMLElementImpl) nodeObj;
       if ("*".equals(elementTL)) {
         return parentElement;
       }
-      String pelementTL = parentElement.getTagName().toLowerCase();
+      final String pelementTL = parentElement.getTagName().toLowerCase();
       if (elementTL.equals(pelementTL)) {
         return parentElement;
       }
@@ -639,13 +639,13 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  public HTMLElementImpl getPreceedingSibling(String elementTL) {
-    HTMLElementImpl psibling = this.getPreceedingSiblingElement();
+  public HTMLElementImpl getPreceedingSibling(final String elementTL) {
+    final HTMLElementImpl psibling = this.getPreceedingSiblingElement();
     if (psibling != null) {
       if ("*".equals(elementTL)) {
         return psibling;
       }
-      String pelementTL = psibling.getTagName().toLowerCase();
+      final String pelementTL = psibling.getTagName().toLowerCase();
       if (elementTL.equals(pelementTL)) {
         return psibling;
       }
@@ -653,8 +653,8 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return null;
   }
 
-  protected Object getAncestorForJavaClass(Class<HTMLFormElement> javaClass) {
-    Object nodeObj = this.getParentNode();
+  protected Object getAncestorForJavaClass(final Class<HTMLFormElement> javaClass) {
+    final Object nodeObj = this.getParentNode();
     if (nodeObj == null || javaClass.isInstance(nodeObj)) {
       return nodeObj;
     } else if (nodeObj instanceof HTMLElementImpl) {
@@ -664,50 +664,50 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  public void setInnerHTML(String newHtml) {
-    HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
+  public void setInnerHTML(final String newHtml) {
+    final HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
     if (document == null) {
       this.warn("setInnerHTML(): Element " + this + " does not belong to a document.");
       return;
     }
-    HtmlParser parser = new HtmlParser(document.getUserAgentContext(), document, null, null, null);
+    final HtmlParser parser = new HtmlParser(document.getUserAgentContext(), document, null, null, null);
     synchronized (this) {
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         nl.clear();
       }
     }
     // Should not synchronize around parser probably.
     try {
-      Reader reader = new StringReader(newHtml);
+      final Reader reader = new StringReader(newHtml);
       try {
         parser.parse(reader, this);
       } finally {
         reader.close();
       }
-    } catch (Exception thrown) {
+    } catch (final Exception thrown) {
       this.warn("setInnerHTML(): Error setting inner HTML.", thrown);
     }
   }
 
   public String getOuterHTML() {
-    StringBuffer buffer = new StringBuffer();
+    final StringBuffer buffer = new StringBuffer();
     synchronized (this) {
       this.appendOuterHTMLImpl(buffer);
     }
     return buffer.toString();
   }
 
-  protected void appendOuterHTMLImpl(StringBuffer buffer) {
-    String tagName = this.getTagName();
+  protected void appendOuterHTMLImpl(final StringBuffer buffer) {
+    final String tagName = this.getTagName();
     buffer.append('<');
     buffer.append(tagName);
-    Map<String, String> attributes = this.attributes;
+    final Map<String, String> attributes = this.attributes;
     if (attributes != null) {
-      Iterator i = attributes.entrySet().iterator();
+      final Iterator i = attributes.entrySet().iterator();
       while (i.hasNext()) {
-        Map.Entry entry = (Map.Entry) i.next();
-        String value = (String) entry.getValue();
+        final Map.Entry entry = (Map.Entry) i.next();
+        final String value = (String) entry.getValue();
         if (value != null) {
           buffer.append(' ');
           buffer.append(entry.getKey());
@@ -717,7 +717,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
         }
       }
     }
-    ArrayList<Node> nl = this.nodeList;
+    final ArrayList<Node> nl = this.nodeList;
     if (nl == null || nl.size() == 0) {
       buffer.append("/>");
       return;
@@ -729,7 +729,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     buffer.append('>');
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     // Overrides NodeImpl method
     // Called in synchronized block already
     return new StyleSheetRenderState(prevRenderState, this);
@@ -738,27 +738,27 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   public int getOffsetTop() {
     // TODO: Sometimes this can be called while parsing, and
     // browsers generally give the right answer.
-    UINode uiNode = this.getUINode();
+    final UINode uiNode = this.getUINode();
     return uiNode == null ? 0 : uiNode.getBoundsRelativeToBlock().y;
   }
 
   public int getOffsetLeft() {
-    UINode uiNode = this.getUINode();
+    final UINode uiNode = this.getUINode();
     return uiNode == null ? 0 : uiNode.getBoundsRelativeToBlock().x;
   }
 
   public int getOffsetWidth() {
-    UINode uiNode = this.getUINode();
+    final UINode uiNode = this.getUINode();
     return uiNode == null ? 0 : uiNode.getBoundsRelativeToBlock().width;
   }
 
   public int getOffsetHeight() {
-    UINode uiNode = this.getUINode();
+    final UINode uiNode = this.getUINode();
     return uiNode == null ? 0 : uiNode.getBoundsRelativeToBlock().height;
   }
 
   public AbstractCSS2Properties getParentStyle() {
-    Object parent = this.parentNode;
+    final Object parent = this.parentNode;
     if (parent instanceof HTMLElementImpl) {
       return ((HTMLElementImpl) parent).getCurrentStyle();
     }
@@ -766,7 +766,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   }
 
   public String getDocumentBaseURI() {
-    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc != null) {
       return doc.getBaseURI();
     } else {

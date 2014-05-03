@@ -23,11 +23,11 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.UserDataHandler;
 
 public class HTMLBaseElementImpl extends HTMLElementImpl {
-  public HTMLBaseElementImpl(String name) {
+  public HTMLBaseElementImpl(final String name) {
     super(name, true);
   }
 
-  public Object setUserData(String key, Object data, UserDataHandler handler) {
+  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processBaseTag();
     }
@@ -35,7 +35,7 @@ public class HTMLBaseElementImpl extends HTMLElementImpl {
   }
 
   private final void processBaseTag() {
-    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc != null) {
       doc.setBaseURI(this.getAttribute("href"));
       doc.setDefaultTarget(this.getAttribute("target"));

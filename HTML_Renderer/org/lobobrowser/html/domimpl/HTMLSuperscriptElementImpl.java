@@ -8,9 +8,9 @@ import org.lobobrowser.html.style.RenderState;
  */
 
 public class HTMLSuperscriptElementImpl extends HTMLAbstractUIElement {
-  private int superscript;
+  private final int superscript;
 
-  public HTMLSuperscriptElementImpl(String name, int superscript) {
+  public HTMLSuperscriptElementImpl(final String name, final int superscript) {
     super(name);
     this.superscript = superscript;
   }

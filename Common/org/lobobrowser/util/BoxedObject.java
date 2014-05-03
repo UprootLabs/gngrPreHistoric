@@ -6,7 +6,7 @@ public class BoxedObject {
   public BoxedObject() {
   }
 
-  public BoxedObject(Object object) {
+  public BoxedObject(final Object object) {
     super();
     this.object = object;
   }
@@ -15,7 +15,7 @@ public class BoxedObject {
     return object;
   }
 
-  public void setObject(Object object) {
+  public void setObject(final Object object) {
     this.object = object;
   }
 

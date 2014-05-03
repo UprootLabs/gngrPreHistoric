@@ -20,7 +20,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
   private Function onfocus, onblur, onclick, ondblclick, onmousedown, onmouseup, onmouseover, onmousemove, onmouseout, onkeypress,
       onkeydown, onkeyup, oncontextmenu;
 
-  public HTMLAbstractUIElement(String name) {
+  public HTMLAbstractUIElement(final String name) {
     super(name);
   }
 
@@ -28,7 +28,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onblur, "onblur");
   }
 
-  public void setOnblur(Function onblur) {
+  public void setOnblur(final Function onblur) {
     this.onblur = onblur;
   }
 
@@ -36,7 +36,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onclick, "onclick");
   }
 
-  public void setOnclick(Function onclick) {
+  public void setOnclick(final Function onclick) {
     this.onclick = onclick;
   }
 
@@ -44,7 +44,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(ondblclick, "ondblclick");
   }
 
-  public void setOndblclick(Function ondblclick) {
+  public void setOndblclick(final Function ondblclick) {
     this.ondblclick = ondblclick;
   }
 
@@ -52,7 +52,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onfocus, "onfocus");
   }
 
-  public void setOnfocus(Function onfocus) {
+  public void setOnfocus(final Function onfocus) {
     this.onfocus = onfocus;
   }
 
@@ -60,7 +60,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onkeydown, "onkeydown");
   }
 
-  public void setOnkeydown(Function onkeydown) {
+  public void setOnkeydown(final Function onkeydown) {
     this.onkeydown = onkeydown;
   }
 
@@ -68,7 +68,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onkeypress, "onkeypress");
   }
 
-  public void setOnkeypress(Function onkeypress) {
+  public void setOnkeypress(final Function onkeypress) {
     this.onkeypress = onkeypress;
   }
 
@@ -76,7 +76,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onkeyup, "onkeyup");
   }
 
-  public void setOnkeyup(Function onkeyup) {
+  public void setOnkeyup(final Function onkeyup) {
     this.onkeyup = onkeyup;
   }
 
@@ -84,7 +84,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onmousedown, "onmousedown");
   }
 
-  public void setOnmousedown(Function onmousedown) {
+  public void setOnmousedown(final Function onmousedown) {
     this.onmousedown = onmousedown;
   }
 
@@ -92,7 +92,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onmousemove, "onmousemove");
   }
 
-  public void setOnmousemove(Function onmousemove) {
+  public void setOnmousemove(final Function onmousemove) {
     this.onmousemove = onmousemove;
   }
 
@@ -100,7 +100,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onmouseout, "onmouseout");
   }
 
-  public void setOnmouseout(Function onmouseout) {
+  public void setOnmouseout(final Function onmouseout) {
     this.onmouseout = onmouseout;
   }
 
@@ -108,7 +108,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onmouseover, "onmouseover");
   }
 
-  public void setOnmouseover(Function onmouseover) {
+  public void setOnmouseover(final Function onmouseover) {
     this.onmouseover = onmouseover;
   }
 
@@ -116,7 +116,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(onmouseup, "onmouseup");
   }
 
-  public void setOnmouseup(Function onmouseup) {
+  public void setOnmouseup(final Function onmouseup) {
     this.onmouseup = onmouseup;
   }
 
@@ -124,19 +124,19 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     return this.getEventFunction(oncontextmenu, "oncontextmenu");
   }
 
-  public void setOncontextmenu(Function oncontextmenu) {
+  public void setOncontextmenu(final Function oncontextmenu) {
     this.oncontextmenu = oncontextmenu;
   }
 
   public void focus() {
-    UINode node = this.getUINode();
+    final UINode node = this.getUINode();
     if (node != null) {
       node.focus();
     }
   }
 
   public void blur() {
-    UINode node = this.getUINode();
+    final UINode node = this.getUINode();
     if (node != null) {
       node.blur();
     }
@@ -144,48 +144,48 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
 
   private Map<String, Function> functionByAttribute = null;
 
-  protected Function getEventFunction(Function varValue, String attributeName) {
+  protected Function getEventFunction(final Function varValue, final String attributeName) {
     if (varValue != null) {
       return varValue;
     }
-    String normalAttributeName = this.normalizeAttributeName(attributeName);
+    final String normalAttributeName = this.normalizeAttributeName(attributeName);
     synchronized (this) {
       Map<String, Function> fba = this.functionByAttribute;
       Function f = fba == null ? null : fba.get(normalAttributeName);
       if (f != null) {
         return f;
       }
-      UserAgentContext uac = this.getUserAgentContext();
+      final UserAgentContext uac = this.getUserAgentContext();
       if (uac == null) {
         throw new IllegalStateException("No user agent context.");
       }
       if (uac.isScriptingEnabled()) {
-        String attributeValue = this.getAttribute(attributeName);
+        final String attributeValue = this.getAttribute(attributeName);
         if (attributeValue == null || attributeValue.length() == 0) {
           f = null;
         } else {
-          String functionCode = "function " + normalAttributeName + "_" + System.identityHashCode(this) + "() { " + attributeValue + " }";
-          Document doc = this.document;
+          final String functionCode = "function " + normalAttributeName + "_" + System.identityHashCode(this) + "() { " + attributeValue + " }";
+          final Document doc = this.document;
           if (doc == null) {
             throw new IllegalStateException("Element does not belong to a document.");
           }
-          Context ctx = Executor.createContext(this.getDocumentURL(), uac);
+          final Context ctx = Executor.createContext(this.getDocumentURL(), uac);
           try {
-            Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
+            final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
             if (scope == null) {
               throw new IllegalStateException("Scriptable (scope) instance was expected to be keyed as UserData to document using "
                   + Executor.SCOPE_KEY);
             }
-            Scriptable thisScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(this, scope);
+            final Scriptable thisScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(this, scope);
             try {
               // TODO: Get right line number for script. //TODO: Optimize this
               // in case it's called multiple times? Is that done?
               f = ctx.compileFunction(thisScope, functionCode, this.getTagName() + "[" + this.getId() + "]." + attributeName, 1, null);
-            } catch (EcmaError ecmaError) {
+            } catch (final EcmaError ecmaError) {
               logger.log(Level.WARNING, "Javascript error at " + ecmaError.getSourceName() + ":" + ecmaError.getLineNumber() + ": "
                   + ecmaError.getMessage(), ecmaError);
               f = null;
-            } catch (Throwable err) {
+            } catch (final Throwable err) {
               logger.log(Level.WARNING, "Unable to evaluate Javascript code", err);
               f = null;
             }
@@ -203,11 +203,11 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     }
   }
 
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     super.assignAttributeField(normalName, value);
     if (normalName.startsWith("on")) {
       synchronized (this) {
-        Map<String, Function> fba = this.functionByAttribute;
+        final Map<String, Function> fba = this.functionByAttribute;
         if (fba != null) {
           fba.remove(normalName);
         }

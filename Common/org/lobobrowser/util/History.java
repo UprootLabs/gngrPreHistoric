@@ -46,7 +46,7 @@ public class History implements java.io.Serializable {
    * @param sequenceCapacity
    * @param commonEntriesCapacity
    */
-  public History(int sequenceCapacity, int commonEntriesCapacity) {
+  public History(final int sequenceCapacity, final int commonEntriesCapacity) {
     super();
     this.historySequence = new ArrayList<String>();
     this.sequenceIndex = -1;
@@ -54,7 +54,7 @@ public class History implements java.io.Serializable {
     this.commonEntriesCapacity = commonEntriesCapacity;
   }
 
-  private void readObject(java.io.ObjectInputStream in) throws ClassNotFoundException, java.io.IOException {
+  private void readObject(final java.io.ObjectInputStream in) throws ClassNotFoundException, java.io.IOException {
     this.historySequence = new ArrayList<String>();
     this.sequenceIndex = -1;
     in.defaultReadObject();
@@ -71,7 +71,7 @@ public class History implements java.io.Serializable {
    * @param commonEntriesCapacity
    *          The commonEntriesCapacity to set.
    */
-  public void setCommonEntriesCapacity(int commonEntriesCapacity) {
+  public void setCommonEntriesCapacity(final int commonEntriesCapacity) {
     this.commonEntriesCapacity = commonEntriesCapacity;
   }
 
@@ -86,7 +86,7 @@ public class History implements java.io.Serializable {
    * @param sequenceCapacity
    *          The sequenceCapacity to set.
    */
-  public void setSequenceCapacity(int sequenceCapacity) {
+  public void setSequenceCapacity(final int sequenceCapacity) {
     this.sequenceCapacity = sequenceCapacity;
   }
 
@@ -116,25 +116,25 @@ public class History implements java.io.Serializable {
     }
   }
 
-  public Collection<String> getRecentItems(int maxNumItems) {
-    Collection<String> items = new LinkedList<String>();
-    Iterator<TimedEntry> i = this.historyTimedSet.iterator();
+  public Collection<String> getRecentItems(final int maxNumItems) {
+    final Collection<String> items = new LinkedList<String>();
+    final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
     int count = 0;
     while (i.hasNext() && count++ < maxNumItems) {
-      TimedEntry entry = i.next();
+      final TimedEntry entry = i.next();
       items.add(entry.value);
     }
     return items;
   }
 
-  public Collection<String> getHeadMatchItems(String item, int maxNumItems) {
-    Object[] array = this.historySortedSet.toArray();
-    int idx = Arrays.binarySearch(array, item);
-    int startIdx = idx >= 0 ? idx : (-idx - 1);
+  public Collection<String> getHeadMatchItems(final String item, final int maxNumItems) {
+    final Object[] array = this.historySortedSet.toArray();
+    final int idx = Arrays.binarySearch(array, item);
+    final int startIdx = idx >= 0 ? idx : (-idx - 1);
     int count = 0;
-    Collection<String> items = new LinkedList<String>();
+    final Collection<String> items = new LinkedList<String>();
     for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
-      String potentialItem = (String) array[i];
+      final String potentialItem = (String) array[i];
       if (potentialItem.startsWith(item)) {
         items.add(potentialItem);
       } else {
@@ -144,7 +144,7 @@ public class History implements java.io.Serializable {
     return items;
   }
 
-  public void addAsRecentOnly(String item) {
+  public void addAsRecentOnly(final String item) {
     TimedEntry entry = this.historyMap.get(item);
     if (entry != null) {
       this.historyTimedSet.remove(entry);
@@ -157,7 +157,7 @@ public class History implements java.io.Serializable {
       this.historySortedSet.add(item);
       if (this.historyTimedSet.size() > this.commonEntriesCapacity) {
         // Most outdated goes last
-        TimedEntry entryToRemove = this.historyTimedSet.last();
+        final TimedEntry entryToRemove = this.historyTimedSet.last();
         this.historyMap.remove(entryToRemove.value);
         this.historySortedSet.remove(entryToRemove.value);
         this.historyTimedSet.remove(entryToRemove);
@@ -165,8 +165,8 @@ public class History implements java.io.Serializable {
     }
   }
 
-  public void addItem(String item, boolean updateAsRecent) {
-    int newIndex = this.sequenceIndex + 1;
+  public void addItem(final String item, final boolean updateAsRecent) {
+    final int newIndex = this.sequenceIndex + 1;
 
     while (newIndex >= this.historySequence.size()) {
       this.historySequence.add(null);
@@ -174,7 +174,7 @@ public class History implements java.io.Serializable {
     this.historySequence.set(newIndex, item);
     this.sequenceIndex = newIndex;
 
-    int expectedSize = newIndex + 1;
+    final int expectedSize = newIndex + 1;
     while (this.historySequence.size() > expectedSize) {
       this.historySequence.remove(expectedSize);
     }
@@ -197,7 +197,7 @@ public class History implements java.io.Serializable {
     /**
      * @param value
      */
-    public TimedEntry(String value) {
+    public TimedEntry(final String value) {
       this.value = value;
     }
 
@@ -205,8 +205,8 @@ public class History implements java.io.Serializable {
       this.timestamp = System.currentTimeMillis();
     }
 
-    public boolean equals(Object obj) {
-      TimedEntry other = (TimedEntry) obj;
+    public boolean equals(final Object obj) {
+      final TimedEntry other = (TimedEntry) obj;
       return other.value.equals(this.value);
     }
 
@@ -215,20 +215,20 @@ public class History implements java.io.Serializable {
      * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(Object arg0) {
+    public int compareTo(final Object arg0) {
       if (this.equals(arg0)) {
         return 0;
       }
-      TimedEntry other = (TimedEntry) arg0;
-      long time1 = this.timestamp;
-      long time2 = other.timestamp;
+      final TimedEntry other = (TimedEntry) arg0;
+      final long time1 = this.timestamp;
+      final long time2 = other.timestamp;
       if (time1 > time2) {
         // More recent goes first
         return -1;
       } else if (time2 > time1) {
         return +1;
       } else {
-        int diff = System.identityHashCode(this) - System.identityHashCode(other);
+        final int diff = System.identityHashCode(this) - System.identityHashCode(other);
         if (diff == 0) {
           return +1;
         }

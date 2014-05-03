@@ -20,7 +20,7 @@ public class HTMLProcessingInstruction extends NodeImpl implements ProcessingIns
   String target;
   String data;
 
-  public HTMLProcessingInstruction(String target, String data) {
+  public HTMLProcessingInstruction(final String target, final String data) {
     this.target = target;
     this.data = data;
   }
@@ -45,7 +45,7 @@ public class HTMLProcessingInstruction extends NodeImpl implements ProcessingIns
     return data;
   }
 
-  public void setNodeValue(String nodeValue) throws DOMException {
+  public void setNodeValue(final String nodeValue) throws DOMException {
     this.data = nodeValue;
   }
 
@@ -57,14 +57,14 @@ public class HTMLProcessingInstruction extends NodeImpl implements ProcessingIns
     return target;
   }
 
-  public void setData(String data) throws DOMException {
+  public void setData(final String data) throws DOMException {
     this.data = data;
   }
 
   public Object clone() {
     try {
       return (HTMLProcessingInstruction) super.clone();
-    } catch (CloneNotSupportedException e) {
+    } catch (final CloneNotSupportedException e) {
       throw new IllegalStateException(e);
     }
   }

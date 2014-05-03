@@ -29,14 +29,14 @@ public class FilteredCollection implements Collection {
   private final ObjectFilter filter;
   private final Collection<Object> sourceCollection;
 
-  public FilteredCollection(Collection<Object> sourceCollection, ObjectFilter filter) {
+  public FilteredCollection(final Collection<Object> sourceCollection, final ObjectFilter filter) {
     this.filter = filter;
     this.sourceCollection = sourceCollection;
   }
 
   public int size() {
     int count = 0;
-    Iterator<Object> i = this.sourceCollection.iterator();
+    final Iterator<Object> i = this.sourceCollection.iterator();
     while (i.hasNext()) {
       if (this.filter.decode(i.next()) != null) {
         count++;
@@ -46,7 +46,7 @@ public class FilteredCollection implements Collection {
   }
 
   public boolean isEmpty() {
-    Iterator<Object> i = this.sourceCollection.iterator();
+    final Iterator<Object> i = this.sourceCollection.iterator();
     while (i.hasNext()) {
       if (this.filter.decode(i.next()) != null) {
         return false;
@@ -55,7 +55,7 @@ public class FilteredCollection implements Collection {
     return true;
   }
 
-  public boolean contains(Object o) {
+  public boolean contains(final Object o) {
     return this.sourceCollection.contains(this.filter.encode(o));
   }
 
@@ -67,7 +67,7 @@ public class FilteredCollection implements Collection {
 
       private void scanNext() {
         while (sourceIterator.hasNext()) {
-          Object item = filter.decode(sourceIterator.next());
+          final Object item = filter.decode(sourceIterator.next());
           if (item != null) {
             hasNext = Boolean.TRUE;
             this.next = item;
@@ -100,7 +100,7 @@ public class FilteredCollection implements Collection {
         if (Boolean.FALSE.equals(this.hasNext)) {
           throw new NoSuchElementException();
         }
-        Object next = this.next;
+        final Object next = this.next;
         this.hasNext = null;
         return next;
       }
@@ -120,11 +120,11 @@ public class FilteredCollection implements Collection {
     return this.toArray(new Object[0]);
   }
 
-  public Object[] toArray(Object[] a) {
-    Collection<Object> bucket = new ArrayList<Object>();
-    Iterator<Object> i = this.sourceCollection.iterator();
+  public Object[] toArray(final Object[] a) {
+    final Collection<Object> bucket = new ArrayList<Object>();
+    final Iterator<Object> i = this.sourceCollection.iterator();
     while (i.hasNext()) {
-      Object item = this.filter.decode(i.next());
+      final Object item = this.filter.decode(i.next());
       if (item != null) {
         bucket.add(item);
       }
@@ -132,16 +132,16 @@ public class FilteredCollection implements Collection {
     return bucket.toArray(a);
   }
 
-  public boolean add(Object o) {
+  public boolean add(final Object o) {
     return this.sourceCollection.add(this.filter.encode(o));
   }
 
-  public boolean remove(Object o) {
+  public boolean remove(final Object o) {
     return this.sourceCollection.remove(this.filter.encode(o));
   }
 
-  public boolean containsAll(Collection c) {
-    Iterator i = c.iterator();
+  public boolean containsAll(final Collection c) {
+    final Iterator i = c.iterator();
     while (i.hasNext()) {
       if (!this.contains(i.next())) {
         return false;
@@ -150,9 +150,9 @@ public class FilteredCollection implements Collection {
     return true;
   }
 
-  public boolean addAll(Collection c) {
+  public boolean addAll(final Collection c) {
     boolean result = false;
-    Iterator i = c.iterator();
+    final Iterator i = c.iterator();
     while (i.hasNext()) {
       if (this.add(i.next())) {
         result = true;
@@ -161,9 +161,9 @@ public class FilteredCollection implements Collection {
     return result;
   }
 
-  public boolean removeAll(Collection c) {
+  public boolean removeAll(final Collection c) {
     boolean result = false;
-    Iterator i = c.iterator();
+    final Iterator i = c.iterator();
     while (i.hasNext()) {
       if (this.remove(i.next())) {
         result = true;
@@ -172,9 +172,9 @@ public class FilteredCollection implements Collection {
     return result;
   }
 
-  public boolean retainAll(Collection c) {
+  public boolean retainAll(final Collection c) {
     boolean result = false;
-    Object[] values = this.toArray();
+    final Object[] values = this.toArray();
     for (int i = 0; i < values.length; i++) {
       if (!c.contains(values[i])) {
         if (this.remove(values[i])) {
@@ -186,7 +186,7 @@ public class FilteredCollection implements Collection {
   }
 
   public void clear() {
-    Object[] values = this.toArray();
+    final Object[] values = this.toArray();
     for (int i = 0; i < values.length; i++) {
       this.sourceCollection.remove(this.filter.encode(values[i]));
     }

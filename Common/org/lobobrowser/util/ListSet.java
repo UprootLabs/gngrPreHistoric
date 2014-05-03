@@ -38,7 +38,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#add(int, E)
    */
-  public void add(int index, Object element) {
+  public void add(final int index, final Object element) {
     if (this.set.add(element)) {
       list.add(index, element);
     }
@@ -49,7 +49,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#add(E)
    */
-  public boolean add(Object o) {
+  public boolean add(final Object o) {
     if (this.set.add(o)) {
       return this.list.add(o);
     } else {
@@ -62,11 +62,11 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#addAll(java.util.Collection)
    */
-  public boolean addAll(Collection c) {
+  public boolean addAll(final Collection c) {
     boolean changed = false;
-    Iterator i = c.iterator();
+    final Iterator i = c.iterator();
     while (i.hasNext()) {
-      Object element = i.next();
+      final Object element = i.next();
       if (this.add(element)) {
         changed = true;
       }
@@ -79,12 +79,12 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#addAll(int, java.util.Collection)
    */
-  public boolean addAll(int index, Collection c) {
+  public boolean addAll(final int index, final Collection c) {
     boolean changed = false;
     int insertIndex = index;
-    Iterator i = c.iterator();
+    final Iterator i = c.iterator();
     while (i.hasNext()) {
-      Object element = i.next();
+      final Object element = i.next();
       if (this.set.add(element)) {
         this.list.add(insertIndex++, element);
         changed = true;
@@ -108,7 +108,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#contains(java.lang.Object)
    */
-  public boolean contains(Object o) {
+  public boolean contains(final Object o) {
     return this.set.contains(o);
   }
 
@@ -117,7 +117,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#containsAll(java.util.Collection)
    */
-  public boolean containsAll(Collection c) {
+  public boolean containsAll(final Collection c) {
     return this.set.containsAll(c);
   }
 
@@ -126,7 +126,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#get(int)
    */
-  public Object get(int index) {
+  public Object get(final int index) {
     return this.list.get(index);
   }
 
@@ -135,7 +135,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#indexOf(java.lang.Object)
    */
-  public int indexOf(Object o) {
+  public int indexOf(final Object o) {
     return this.list.indexOf(o);
   }
 
@@ -162,7 +162,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#lastIndexOf(java.lang.Object)
    */
-  public int lastIndexOf(Object o) {
+  public int lastIndexOf(final Object o) {
     return this.list.lastIndexOf(o);
   }
 
@@ -180,7 +180,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#listIterator(int)
    */
-  public ListIterator<Object> listIterator(int index) {
+  public ListIterator<Object> listIterator(final int index) {
     return this.list.listIterator(index);
   }
 
@@ -189,8 +189,8 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#remove(int)
    */
-  public Object remove(int index) {
-    Object element = this.list.remove(index);
+  public Object remove(final int index) {
+    final Object element = this.list.remove(index);
     if (element != null) {
       this.set.remove(element);
     }
@@ -202,7 +202,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#remove(java.lang.Object)
    */
-  public boolean remove(Object o) {
+  public boolean remove(final Object o) {
     if (this.set.remove(o)) {
       this.list.remove(o);
       return true;
@@ -216,7 +216,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#removeAll(java.util.Collection)
    */
-  public boolean removeAll(Collection c) {
+  public boolean removeAll(final Collection c) {
     if (this.set.removeAll(c)) {
       this.list.removeAll(c);
       return true;
@@ -230,7 +230,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#retainAll(java.util.Collection)
    */
-  public boolean retainAll(Collection c) {
+  public boolean retainAll(final Collection c) {
     if (this.set.retainAll(c)) {
       this.list.retainAll(c);
       return true;
@@ -244,7 +244,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#set(int, E)
    */
-  public Object set(int index, Object element) {
+  public Object set(final int index, final Object element) {
     this.set.add(element);
     return this.list.set(index, element);
   }
@@ -263,7 +263,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#subList(int, int)
    */
-  public List<Object> subList(int fromIndex, int toIndex) {
+  public List<Object> subList(final int fromIndex, final int toIndex) {
     return this.list.subList(fromIndex, toIndex);
   }
 
@@ -281,11 +281,11 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#toArray(T[])
    */
-  public Object[] toArray(Object[] a) {
+  public Object[] toArray(final Object[] a) {
     return this.list.toArray(a);
   }
 
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     return other instanceof ListSet && this.list.equals(((ListSet) other).list);
   }
 

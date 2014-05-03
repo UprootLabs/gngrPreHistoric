@@ -32,23 +32,23 @@ import org.w3c.dom.DocumentType;
 public class DOMImplementationImpl implements DOMImplementation {
   private final UserAgentContext context;
 
-  public DOMImplementationImpl(UserAgentContext context) {
+  public DOMImplementationImpl(final UserAgentContext context) {
     this.context = context;
   }
 
-  public boolean hasFeature(String feature, String version) {
+  public boolean hasFeature(final String feature, final String version) {
     return "HTML".equals(feature) && "2.0".compareTo(version) <= 0;
   }
 
-  public DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
+  public DocumentType createDocumentType(final String qualifiedName, final String publicId, final String systemId) throws DOMException {
     return new DocumentTypeImpl(qualifiedName, publicId, systemId);
   }
 
-  public Document createDocument(String namespaceURI, String qualifiedName, DocumentType doctype) throws DOMException {
+  public Document createDocument(final String namespaceURI, final String qualifiedName, final DocumentType doctype) throws DOMException {
     return new HTMLDocumentImpl(this.context);
   }
 
-  public Object getFeature(String feature, String version) {
+  public Object getFeature(final String feature, final String version) {
     if ("HTML".equals(feature) && "2.0".compareTo(version) <= 0) {
       return this;
     } else {

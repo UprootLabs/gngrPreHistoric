@@ -40,7 +40,7 @@ import org.w3c.dom.Comment;
 public class ElementImpl extends NodeImpl implements Element {
   private final String name;
 
-  public ElementImpl(String name) {
+  public ElementImpl(final String name) {
     super();
     this.name = name;
   }
@@ -65,12 +65,12 @@ public class ElementImpl extends NodeImpl implements Element {
 
   public boolean hasAttributes() {
     synchronized (this) {
-      Map<String, String> attrs = this.attributes;
+      final Map<String, String> attrs = this.attributes;
       return attrs == null ? false : !attrs.isEmpty();
     }
   }
 
-  public boolean equalAttributes(Node arg) {
+  public boolean equalAttributes(final Node arg) {
     if (arg instanceof ElementImpl) {
       synchronized (this) {
         Map<String, String> attrs1 = this.attributes;
@@ -91,11 +91,11 @@ public class ElementImpl extends NodeImpl implements Element {
   private String id;
 
   public String getId() {
-    String id = this.id;
+    final String id = this.id;
     return id == null ? "" : id;
   }
 
-  public void setId(String id) {
+  public void setId(final String id) {
     this.setAttribute("id", id);
   }
 
@@ -105,7 +105,7 @@ public class ElementImpl extends NodeImpl implements Element {
     return this.getAttribute("title");
   }
 
-  public void setTitle(String title) {
+  public void setTitle(final String title) {
     this.setAttribute("title", title);
   }
 
@@ -113,7 +113,7 @@ public class ElementImpl extends NodeImpl implements Element {
     return this.getAttribute("lang");
   }
 
-  public void setLang(String lang) {
+  public void setLang(final String lang) {
     this.setAttribute("lang", lang);
   }
 
@@ -121,60 +121,60 @@ public class ElementImpl extends NodeImpl implements Element {
     return this.getAttribute("dir");
   }
 
-  public void setDir(String dir) {
+  public void setDir(final String dir) {
     this.setAttribute("dir", dir);
   }
 
-  public final String getAttribute(String name) {
-    String normalName = this.normalizeAttributeName(name);
+  public final String getAttribute(final String name) {
+    final String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map<String, String> attributes = this.attributes;
+      final Map<String, String> attributes = this.attributes;
       return attributes == null ? null : attributes.get(normalName);
     }
   }
 
-  private Attr getAttr(String normalName, String value) {
+  private Attr getAttr(final String normalName, final String value) {
     // TODO: "specified" attributes
     return new AttrImpl(normalName, value, true, this, "id".equals(normalName));
   }
 
-  public Attr getAttributeNode(String name) {
-    String normalName = this.normalizeAttributeName(name);
+  public Attr getAttributeNode(final String name) {
+    final String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map<String, String> attributes = this.attributes;
-      String value = attributes == null ? null : attributes.get(normalName);
+      final Map<String, String> attributes = this.attributes;
+      final String value = attributes == null ? null : attributes.get(normalName);
       return value == null ? null : this.getAttr(normalName, value);
     }
   }
 
-  public Attr getAttributeNodeNS(String namespaceURI, String localName) throws DOMException {
+  public Attr getAttributeNodeNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  public String getAttributeNS(String namespaceURI, String localName) throws DOMException {
+  public String getAttributeNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  protected static boolean isTagName(Node node, String name) {
+  protected static boolean isTagName(final Node node, final String name) {
     return node.getNodeName().equalsIgnoreCase(name);
   }
 
-  public NodeList getElementsByTagName(String name) {
-    boolean matchesAll = "*".equals(name);
-    List<Object> descendents = new LinkedList<Object>();
+  public NodeList getElementsByTagName(final String name) {
+    final boolean matchesAll = "*".equals(name);
+    final List<Object> descendents = new LinkedList<Object>();
     synchronized (this.treeLock) {
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        Iterator<Node> i = nl.iterator();
+        final Iterator<Node> i = nl.iterator();
         while (i.hasNext()) {
-          Object child = i.next();
+          final Object child = i.next();
           if (child instanceof Element) {
-            Element childElement = (Element) child;
+            final Element childElement = (Element) child;
             if (matchesAll || isTagName(childElement, name)) {
               descendents.add(child);
             }
-            NodeList sublist = childElement.getElementsByTagName(name);
-            int length = sublist.getLength();
+            final NodeList sublist = childElement.getElementsByTagName(name);
+            final int length = sublist.getLength();
             for (int idx = 0; idx < length; idx++) {
               descendents.add(sublist.item(idx));
             }
@@ -185,7 +185,7 @@ public class ElementImpl extends NodeImpl implements Element {
     return new NodeListImpl(descendents);
   }
 
-  public NodeList getElementsByTagNameNS(String namespaceURI, String localName) throws DOMException {
+  public NodeList getElementsByTagNameNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
@@ -197,22 +197,22 @@ public class ElementImpl extends NodeImpl implements Element {
     return this.getNodeName();
   }
 
-  public boolean hasAttribute(String name) {
-    String normalName = this.normalizeAttributeName(name);
+  public boolean hasAttribute(final String name) {
+    final String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map<String, String> attributes = this.attributes;
+      final Map<String, String> attributes = this.attributes;
       return attributes == null ? false : attributes.containsKey(normalName);
     }
   }
 
-  public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {
+  public boolean hasAttributeNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  public void removeAttribute(String name) throws DOMException {
-    String normalName = this.normalizeAttributeName(name);
+  public void removeAttribute(final String name) throws DOMException {
+    final String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map<String, String> attributes = this.attributes;
+      final Map<String, String> attributes = this.attributes;
       if (attributes == null) {
         return;
       }
@@ -220,24 +220,24 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
-  public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
-    String normalName = this.normalizeAttributeName(oldAttr.getName());
+  public Attr removeAttributeNode(final Attr oldAttr) throws DOMException {
+    final String normalName = this.normalizeAttributeName(oldAttr.getName());
     synchronized (this) {
-      Map<String, String> attributes = this.attributes;
+      final Map<String, String> attributes = this.attributes;
       if (attributes == null) {
         return null;
       }
-      String oldValue = attributes.remove(normalName);
+      final String oldValue = attributes.remove(normalName);
       // TODO: "specified" attributes
       return oldValue == null ? null : this.getAttr(normalName, oldValue);
     }
   }
 
-  public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
+  public void removeAttributeNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     // Note: overriders assume that processing here is only done after
     // checking attribute names, i.e. they may not call the super
     // implementation if an attribute is already taken care of.
@@ -249,7 +249,7 @@ public class ElementImpl extends NodeImpl implements Element {
       if (!isName) {
         this.id = value;
       }
-      HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
+      final HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
       if (document != null) {
         // // Do not remove old ID. Consider scenario where both
         // // name and ID are provided in an element.
@@ -258,7 +258,7 @@ public class ElementImpl extends NodeImpl implements Element {
         // }
         document.setElementById(value, this);
         if (isName) {
-          String oldName = this.getAttribute("name");
+          final String oldName = this.getAttribute("name");
           if (oldName != null) {
             document.removeNamedItem(oldName);
           }
@@ -268,12 +268,12 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
-  protected final String normalizeAttributeName(String name) {
+  protected final String normalizeAttributeName(final String name) {
     return name.toLowerCase();
   }
 
-  public void setAttribute(String name, String value) throws DOMException {
-    String normalName = this.normalizeAttributeName(name);
+  public void setAttribute(final String name, final String value) throws DOMException {
+    final String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
       Map<String, String> attribs = this.attributes;
       if (attribs == null) {
@@ -289,8 +289,8 @@ public class ElementImpl extends NodeImpl implements Element {
    * Fast method to set attributes. It is not thread safe. Calling thread should
    * hold a treeLock.
    */
-  public void setAttributeImpl(String name, String value) throws DOMException {
-    String normalName = this.normalizeAttributeName(name);
+  public void setAttributeImpl(final String name, final String value) throws DOMException {
+    final String normalName = this.normalizeAttributeName(name);
     Map<String, String> attribs = this.attributes;
     if (attribs == null) {
       attribs = new HashMap<String, String>(2);
@@ -300,9 +300,9 @@ public class ElementImpl extends NodeImpl implements Element {
     attribs.put(normalName, value);
   }
 
-  public Attr setAttributeNode(Attr newAttr) throws DOMException {
-    String normalName = this.normalizeAttributeName(newAttr.getName());
-    String value = newAttr.getValue();
+  public Attr setAttributeNode(final Attr newAttr) throws DOMException {
+    final String normalName = this.normalizeAttributeName(newAttr.getName());
+    final String value = newAttr.getValue();
     synchronized (this) {
       if (this.attributes == null) {
         this.attributes = new HashMap<String, String>();
@@ -314,29 +314,29 @@ public class ElementImpl extends NodeImpl implements Element {
     return newAttr;
   }
 
-  public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
+  public Attr setAttributeNodeNS(final Attr newAttr) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
+  public void setAttributeNS(final String namespaceURI, final String qualifiedName, final String value) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  public void setIdAttribute(String name, boolean isId) throws DOMException {
-    String normalName = this.normalizeAttributeName(name);
+  public void setIdAttribute(final String name, final boolean isId) throws DOMException {
+    final String normalName = this.normalizeAttributeName(name);
     if (!"id".equals(normalName)) {
       throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "IdAttribute can't be anything other than ID");
     }
   }
 
-  public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
-    String normalName = this.normalizeAttributeName(idAttr.getName());
+  public void setIdAttributeNode(final Attr idAttr, final boolean isId) throws DOMException {
+    final String normalName = this.normalizeAttributeName(idAttr.getName());
     if (!"id".equals(normalName)) {
       throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "IdAttribute can't be anything other than ID");
     }
   }
 
-  public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
+  public void setIdAttributeNS(final String namespaceURI, final String localName, final boolean isId) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
@@ -381,7 +381,7 @@ public class ElementImpl extends NodeImpl implements Element {
    * 
    * @see org.xamjwg.html.domimpl.NodeImpl#setNodeValue(java.lang.String)
    */
-  public void setNodeValue(String nodeValue) throws DOMException {
+  public void setNodeValue(final String nodeValue) throws DOMException {
     // nop
   }
 
@@ -391,17 +391,17 @@ public class ElementImpl extends NodeImpl implements Element {
    * 
    * @param includeComment
    */
-  protected String getRawInnerText(boolean includeComment) {
+  protected String getRawInnerText(final boolean includeComment) {
     synchronized (this.treeLock) {
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        Iterator<Node> i = nl.iterator();
+        final Iterator<Node> i = nl.iterator();
         StringBuffer sb = null;
         while (i.hasNext()) {
-          Object node = i.next();
+          final Object node = i.next();
           if (node instanceof Text) {
-            Text tn = (Text) node;
-            String txt = tn.getNodeValue();
+            final Text tn = (Text) node;
+            final String txt = tn.getNodeValue();
             if (!"".equals(txt)) {
               if (sb == null) {
                 sb = new StringBuffer();
@@ -409,8 +409,8 @@ public class ElementImpl extends NodeImpl implements Element {
               sb.append(txt);
             }
           } else if (node instanceof ElementImpl) {
-            ElementImpl en = (ElementImpl) node;
-            String txt = en.getRawInnerText(includeComment);
+            final ElementImpl en = (ElementImpl) node;
+            final String txt = en.getRawInnerText(includeComment);
             if (!"".equals(txt)) {
               if (sb == null) {
                 sb = new StringBuffer();
@@ -418,8 +418,8 @@ public class ElementImpl extends NodeImpl implements Element {
               sb.append(txt);
             }
           } else if (includeComment && node instanceof Comment) {
-            Comment cn = (Comment) node;
-            String txt = cn.getNodeValue();
+            final Comment cn = (Comment) node;
+            final String txt = cn.getNodeValue();
             if (!"".equals(txt)) {
               if (sb == null) {
                 sb = new StringBuffer();
@@ -436,13 +436,13 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public String toString() {
-    StringBuffer sb = new StringBuffer();
+    final StringBuffer sb = new StringBuffer();
     sb.append(this.getNodeName());
     sb.append(" [");
-    NamedNodeMap attribs = this.getAttributes();
-    int length = attribs.getLength();
+    final NamedNodeMap attribs = this.getAttributes();
+    final int length = attribs.getLength();
     for (int i = 0; i < length; i++) {
-      Attr attr = (Attr) attribs.item(i);
+      final Attr attr = (Attr) attribs.item(i);
       sb.append(attr.getNodeName());
       sb.append('=');
       sb.append(attr.getNodeValue());
@@ -454,29 +454,29 @@ public class ElementImpl extends NodeImpl implements Element {
     return sb.toString();
   }
 
-  public void setInnerText(String newText) {
-    org.w3c.dom.Document document = this.document;
+  public void setInnerText(final String newText) {
+    final org.w3c.dom.Document document = this.document;
     if (document == null) {
       this.warn("setInnerText(): Element " + this + " does not belong to a document.");
       return;
     }
     synchronized (this.treeLock) {
-      ArrayList<Node> nl = this.nodeList;
+      final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         nl.clear();
       }
     }
     // Create node and call appendChild outside of synchronized block.
-    Node textNode = document.createTextNode(newText);
+    final Node textNode = document.createTextNode(newText);
     this.appendChild(textNode);
   }
 
   protected Node createSimilarNode() {
-    HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     return doc == null ? null : doc.createElement(this.getTagName());
   }
 
-  protected String htmlEncodeChildText(String text) {
+  protected String htmlEncodeChildText(final String text) {
     if (org.lobobrowser.html.parser.HtmlParser.isDecodeEntities(this.name)) {
       return Strings.strictHtmlEncode(text, false);
     } else {

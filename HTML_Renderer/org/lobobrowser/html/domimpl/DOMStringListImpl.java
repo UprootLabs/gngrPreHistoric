@@ -30,16 +30,16 @@ import java.util.*;
 public class DOMStringListImpl implements DOMStringList {
   private final List<String> sourceList;
 
-  public DOMStringListImpl(Collection<String> sourceList) {
-    List<String> list = new ArrayList<String>();
+  public DOMStringListImpl(final Collection<String> sourceList) {
+    final List<String> list = new ArrayList<String>();
     list.addAll(sourceList);
     this.sourceList = list;
   }
 
-  public String item(int index) {
+  public String item(final int index) {
     try {
       return this.sourceList.get(index);
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
     }
   }
@@ -48,7 +48,7 @@ public class DOMStringListImpl implements DOMStringList {
     return this.sourceList.size();
   }
 
-  public boolean contains(String str) {
+  public boolean contains(final String str) {
     return this.sourceList.contains(str);
   }
 }

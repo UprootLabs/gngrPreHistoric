@@ -28,24 +28,24 @@ public abstract class DocumentNotificationAdapter implements DocumentNotificatio
   public void allInvalidated() {
   }
 
-  public void externalScriptLoading(NodeImpl node) {
+  public void externalScriptLoading(final NodeImpl node) {
   }
 
-  public void invalidated(NodeImpl node) {
+  public void invalidated(final NodeImpl node) {
   }
 
-  public void lookInvalidated(NodeImpl node) {
+  public void lookInvalidated(final NodeImpl node) {
   }
 
-  public void nodeLoaded(NodeImpl node) {
+  public void nodeLoaded(final NodeImpl node) {
   }
 
-  public void positionInvalidated(NodeImpl node) {
+  public void positionInvalidated(final NodeImpl node) {
   }
 
-  public void sizeInvalidated(NodeImpl node) {
+  public void sizeInvalidated(final NodeImpl node) {
   }
 
-  public void structureInvalidated(NodeImpl node) {
+  public void structureInvalidated(final NodeImpl node) {
   }
 }

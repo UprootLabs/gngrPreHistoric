@@ -51,14 +51,14 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     super("SCRIPT", true);
   }
 
-  public HTMLScriptElementImpl(String name) {
+  public HTMLScriptElementImpl(final String name) {
     super(name, true);
   }
 
   private String text;
 
   public String getText() {
-    String t = this.text;
+    final String t = this.text;
     if (t == null) {
       return this.getRawInnerText(true);
     } else {
@@ -66,7 +66,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     }
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.text = text;
   }
 
@@ -74,7 +74,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     return this.getAttribute("htmlFor");
   }
 
-  public void setHtmlFor(String htmlFor) {
+  public void setHtmlFor(final String htmlFor) {
     this.setAttribute("htmlFor", htmlFor);
   }
 
@@ -82,7 +82,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     return this.getAttribute("event");
   }
 
-  public void setEvent(String event) {
+  public void setEvent(final String event) {
     this.setAttribute("event", event);
   }
 
@@ -92,7 +92,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     return this.defer;
   }
 
-  public void setDefer(boolean defer) {
+  public void setDefer(final boolean defer) {
     this.defer = defer;
   }
 
@@ -100,7 +100,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     return this.getAttribute("src");
   }
 
-  public void setSrc(String src) {
+  public void setSrc(final String src) {
     this.setAttribute("src", src);
   }
 
@@ -108,11 +108,11 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     return this.getAttribute("type");
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
-  public Object setUserData(String key, Object data, UserDataHandler handler) {
+  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processScript();
     }
@@ -120,7 +120,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
   }
 
   protected final void processScript() {
-    UserAgentContext bcontext = this.getUserAgentContext();
+    final UserAgentContext bcontext = this.getUserAgentContext();
     if (bcontext == null) {
       throw new IllegalStateException("No user agent context.");
     }
@@ -128,30 +128,30 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
       String text;
       final String scriptURI;
       int baseLineNumber;
-      String src = this.getSrc();
-      Document doc = this.document;
+      final String src = this.getSrc();
+      final Document doc = this.document;
       if (!(doc instanceof HTMLDocumentImpl)) {
         throw new IllegalStateException("no valid document");
       }
-      boolean liflag = loggableInfo;
+      final boolean liflag = loggableInfo;
       if (src == null) {
         text = this.getText();
         scriptURI = doc.getBaseURI();
         baseLineNumber = 1; // TODO: Line number of inner text??
       } else {
         this.informExternalScriptLoading();
-        java.net.URL scriptURL = ((HTMLDocumentImpl) doc).getFullURL(src);
+        final java.net.URL scriptURL = ((HTMLDocumentImpl) doc).getFullURL(src);
         scriptURI = scriptURL == null ? src : scriptURL.toExternalForm();
-        long time1 = liflag ? System.currentTimeMillis() : 0;
+        final long time1 = liflag ? System.currentTimeMillis() : 0;
         try {
           final HttpRequest request = bcontext.createHttpRequest();
           // Perform a synchronous request
-          SecurityManager sm = System.getSecurityManager();
+          final SecurityManager sm = System.getSecurityManager();
           if (sm == null) {
             try {
               request.open("GET", scriptURI, false);
               request.send(null);
-            } catch (java.io.IOException thrown) {
+            } catch (final java.io.IOException thrown) {
               logger.log(Level.WARNING, "processScript()", thrown);
             }
           } else {
@@ -162,14 +162,14 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
                 try {
                   request.open("GET", scriptURI, false);
                   request.send(null);
-                } catch (java.io.IOException thrown) {
+                } catch (final java.io.IOException thrown) {
                   logger.log(Level.WARNING, "processScript()", thrown);
                 }
                 return null;
               }
             });
           }
-          int status = request.getStatus();
+          final int status = request.getStatus();
           if (status != 200 && status != 0) {
             this.warn("Script at [" + scriptURI + "] failed to load; HTTP status: " + status + ".");
             return;
@@ -177,34 +177,34 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
           text = request.getResponseText();
         } finally {
           if (liflag) {
-            long time2 = System.currentTimeMillis();
+            final long time2 = System.currentTimeMillis();
             logger.info("processScript(): Loaded external Javascript from URI=[" + scriptURI + "] in " + (time2 - time1) + " ms.");
           }
         }
         baseLineNumber = 1;
       }
-      Context ctx = Executor.createContext(this.getDocumentURL(), bcontext);
+      final Context ctx = Executor.createContext(this.getDocumentURL(), bcontext);
       try {
-        Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
+        final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
         if (scope == null) {
           throw new IllegalStateException("Scriptable (scope) instance was expected to be keyed as UserData to document using "
               + Executor.SCOPE_KEY);
         }
         try {
-          long time1 = liflag ? System.currentTimeMillis() : 0;
+          final long time1 = liflag ? System.currentTimeMillis() : 0;
           if (text == null) {
             throw new java.lang.IllegalStateException("Script source is null: " + this + ".");
           }
           ctx.evaluateString(scope, text, scriptURI, baseLineNumber, null);
           if (liflag) {
-            long time2 = System.currentTimeMillis();
+            final long time2 = System.currentTimeMillis();
             logger.info("addNotify(): Evaluated (or attempted to evaluate) Javascript in " + (time2 - time1) + " ms.");
           }
-        } catch (EcmaError ecmaError) {
+        } catch (final EcmaError ecmaError) {
           logger.log(Level.WARNING,
               "Javascript error at " + ecmaError.getSourceName() + ":" + ecmaError.getLineNumber() + ": " + ecmaError.getMessage(),
               ecmaError);
-        } catch (Throwable err) {
+        } catch (final Throwable err) {
           logger.log(Level.WARNING, "Unable to evaluate Javascript code", err);
         }
       } finally {
@@ -213,7 +213,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     }
   }
 
-  protected void appendInnerTextImpl(StringBuffer buffer) {
+  protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
   }
 }

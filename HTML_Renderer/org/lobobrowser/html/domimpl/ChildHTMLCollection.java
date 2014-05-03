@@ -33,7 +33,7 @@ public class ChildHTMLCollection extends AbstractScriptableDelegate implements H
   /**
    * @param node
    */
-  public ChildHTMLCollection(NodeImpl node) {
+  public ChildHTMLCollection(final NodeImpl node) {
     super();
     rootNode = node;
   }
@@ -42,24 +42,24 @@ public class ChildHTMLCollection extends AbstractScriptableDelegate implements H
     return this.rootNode.getChildCount();
   }
 
-  public Node item(int index) {
+  public Node item(final int index) {
     return this.rootNode.getChildAtIndex(index);
   }
 
-  public Node namedItem(String name) {
-    org.w3c.dom.Document doc = this.rootNode.getOwnerDocument();
+  public Node namedItem(final String name) {
+    final org.w3c.dom.Document doc = this.rootNode.getOwnerDocument();
     if (doc == null) {
       return null;
     }
     // TODO: This might get elements that are not descendents.
-    Node node = (Node) doc.getElementById(name);
+    final Node node = (Node) doc.getElementById(name);
     if (node != null && node.getParentNode() == this.rootNode) {
       return node;
     }
     return null;
   }
 
-  public int indexOf(Node node) {
+  public int indexOf(final Node node) {
     return this.rootNode.getChildIndex(node);
   }
 }

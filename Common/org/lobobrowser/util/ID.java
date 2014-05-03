@@ -40,15 +40,15 @@ public class ID {
   private static final Logger logger = Logger.getLogger(ID.class.getName());
 
   static {
-    long time = System.currentTimeMillis();
-    long nanoTime = System.nanoTime();
-    long freeMemory = Runtime.getRuntime().freeMemory();
+    final long time = System.currentTimeMillis();
+    final long nanoTime = System.nanoTime();
+    final long freeMemory = Runtime.getRuntime().freeMemory();
     long addressHashCode;
     try {
       InetAddress inetAddress;
       inetAddress = InetAddress.getLocalHost();
       addressHashCode = inetAddress.getHostName().hashCode() ^ inetAddress.getHostAddress().hashCode();
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Unable to get local host information.", err);
       addressHashCode = ID.class.hashCode();
     }
@@ -69,18 +69,18 @@ public class ID {
     return (int) generateLong();
   }
 
-  public static byte[] getMD5Bytes(String content) {
+  public static byte[] getMD5Bytes(final String content) {
     try {
-      MessageDigest digest = MessageDigest.getInstance("MD5");
+      final MessageDigest digest = MessageDigest.getInstance("MD5");
       return digest.digest(content.getBytes("UTF-8"));
-    } catch (NoSuchAlgorithmException e) {
+    } catch (final NoSuchAlgorithmException e) {
       throw new IllegalStateException(e);
-    } catch (java.io.UnsupportedEncodingException uee) {
+    } catch (final java.io.UnsupportedEncodingException uee) {
       throw new IllegalStateException(uee);
     }
   }
 
-  public static String getHexString(byte[] bytes) {
+  public static String getHexString(final byte[] bytes) {
     // This method cannot change even if it's wrong.
     BigInteger bigInteger = BigInteger.ZERO;
     int shift = 0;
@@ -100,7 +100,7 @@ public class ID {
     return globalProcessID;
   }
 
-  public static int random(int min, int max) {
+  public static int random(final int min, final int max) {
     if (max <= min) {
       return min;
     }

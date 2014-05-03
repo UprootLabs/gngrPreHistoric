@@ -34,7 +34,7 @@ public class Urls {
   public static final DateFormat PATTERN_RFC1123 = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
 
   static {
-    DateFormat df = PATTERN_RFC1123;
+    final DateFormat df = PATTERN_RFC1123;
     df.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
 
@@ -43,19 +43,19 @@ public class Urls {
   }
 
   /** Whether the URL refers to a resource in the local file system. */
-  public static boolean isLocal(java.net.URL url) {
+  public static boolean isLocal(final java.net.URL url) {
     if (isLocalFile(url)) {
       return true;
     }
-    String protocol = url.getProtocol();
+    final String protocol = url.getProtocol();
     if ("jar".equalsIgnoreCase(protocol)) {
-      String path = url.getPath();
-      int emIdx = path.lastIndexOf('!');
-      String subUrlString = emIdx == -1 ? path : path.substring(0, emIdx);
+      final String path = url.getPath();
+      final int emIdx = path.lastIndexOf('!');
+      final String subUrlString = emIdx == -1 ? path : path.substring(0, emIdx);
       try {
-        URL subUrl = new URL(subUrlString);
+        final URL subUrl = new URL(subUrlString);
         return isLocal(subUrl);
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         return false;
       }
     } else {
@@ -64,20 +64,20 @@ public class Urls {
   }
 
   /** Whether the URL is a file in the local file system. */
-  public static boolean isLocalFile(java.net.URL url) {
-    String scheme = url.getProtocol();
+  public static boolean isLocalFile(final java.net.URL url) {
+    final String scheme = url.getProtocol();
     return "file".equalsIgnoreCase(scheme) && !hasHost(url);
   }
 
-  public static boolean hasHost(java.net.URL url) {
-    String host = url.getHost();
+  public static boolean hasHost(final java.net.URL url) {
+    final String host = url.getHost();
     return host != null && !"".equals(host);
   }
 
   /**
    * Creates an absolute URL in a manner equivalent to major browsers.
    */
-  public static URL createURL(URL baseUrl, String relativeUrl) throws java.net.MalformedURLException {
+  public static URL createURL(final URL baseUrl, final String relativeUrl) throws java.net.MalformedURLException {
     return new URL(baseUrl, relativeUrl);
   }
 
@@ -86,23 +86,23 @@ public class Urls {
    * will be zero if the document always needs to be revalidated. It will be
    * <code>null</code> if no expiration time is specified.
    */
-  public static Long getExpiration(URLConnection connection, long baseTime) {
-    String cacheControl = connection.getHeaderField("Cache-Control");
+  public static Long getExpiration(final URLConnection connection, final long baseTime) {
+    final String cacheControl = connection.getHeaderField("Cache-Control");
     if (cacheControl != null) {
-      StringTokenizer tok = new StringTokenizer(cacheControl, ",");
+      final StringTokenizer tok = new StringTokenizer(cacheControl, ",");
       while (tok.hasMoreTokens()) {
-        String token = tok.nextToken().trim().toLowerCase();
+        final String token = tok.nextToken().trim().toLowerCase();
         if ("must-revalidate".equals(token)) {
           return new Long(0);
         } else if (token.startsWith("max-age")) {
-          int eqIdx = token.indexOf('=');
+          final int eqIdx = token.indexOf('=');
           if (eqIdx != -1) {
-            String value = token.substring(eqIdx + 1).trim();
+            final String value = token.substring(eqIdx + 1).trim();
             int seconds;
             try {
               seconds = Integer.parseInt(value);
               return new Long(baseTime + seconds * 1000);
-            } catch (NumberFormatException nfe) {
+            } catch (final NumberFormatException nfe) {
               logger.warning("getExpiration(): Bad Cache-Control max-age value: " + value);
               // ignore
             }
@@ -110,19 +110,19 @@ public class Urls {
         }
       }
     }
-    String expires = connection.getHeaderField("Expires");
+    final String expires = connection.getHeaderField("Expires");
     if (expires != null) {
       try {
         synchronized (PATTERN_RFC1123) {
-          Date expDate = PATTERN_RFC1123.parse(expires);
+          final Date expDate = PATTERN_RFC1123.parse(expires);
           return new Long(expDate.getTime());
         }
-      } catch (java.text.ParseException pe) {
+      } catch (final java.text.ParseException pe) {
         int seconds;
         try {
           seconds = Integer.parseInt(expires);
           return new Long(baseTime + seconds * 1000);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
           logger.warning("getExpiration(): Bad Expires header value: " + expires);
         }
       }
@@ -130,16 +130,16 @@ public class Urls {
     return null;
   }
 
-  public static List<NameValuePair> getHeaders(URLConnection connection) {
+  public static List<NameValuePair> getHeaders(final URLConnection connection) {
     // Random access index recommended.
-    List<NameValuePair> headers = new ArrayList<NameValuePair>();
+    final List<NameValuePair> headers = new ArrayList<NameValuePair>();
     for (int n = 0;; n++) {
-      String value = connection.getHeaderField(n);
+      final String value = connection.getHeaderField(n);
       if (value == null) {
         break;
       }
       // Key may be null for n == 0.
-      String key = connection.getHeaderFieldKey(n);
+      final String key = connection.getHeaderFieldKey(n);
       if (key != null) {
         headers.add(new NameValuePair(key, value));
       }
@@ -151,18 +151,18 @@ public class Urls {
     URL finalURL;
     try {
       if (baseURL != null) {
-        int colonIdx = spec.indexOf(':');
-        String newProtocol = colonIdx == -1 ? null : spec.substring(0, colonIdx);
+        final int colonIdx = spec.indexOf(':');
+        final String newProtocol = colonIdx == -1 ? null : spec.substring(0, colonIdx);
         if (newProtocol != null && !newProtocol.equalsIgnoreCase(baseURL.getProtocol())) {
           baseURL = null;
         }
       }
       finalURL = createURL(baseURL, spec);
-    } catch (MalformedURLException mfu) {
+    } catch (final MalformedURLException mfu) {
       spec = spec.trim();
-      int idx = spec.indexOf(':');
+      final int idx = spec.indexOf(':');
       if (idx == -1) {
-        int slashIdx = spec.indexOf('/');
+        final int slashIdx = spec.indexOf('/');
         if (slashIdx == 0) {
           // A file, absolute
           finalURL = new URL("file:" + spec);
@@ -171,7 +171,7 @@ public class Urls {
             // No slash, no colon, must be host.
             finalURL = new URL(baseURL, "http://" + spec);
           } else {
-            String possibleHost = spec.substring(0, slashIdx).toLowerCase();
+            final String possibleHost = spec.substring(0, slashIdx).toLowerCase();
             if (Domains.isLikelyHostName(possibleHost)) {
               finalURL = new URL(baseURL, "http://" + spec);
             } else {
@@ -194,25 +194,25 @@ public class Urls {
     return finalURL;
   }
 
-  public static URL guessURL(String spec) throws MalformedURLException {
+  public static URL guessURL(final String spec) throws MalformedURLException {
     return guessURL(null, spec);
   }
 
-  public static String getCharset(URLConnection connection) {
-    String contentType = connection.getContentType();
+  public static String getCharset(final URLConnection connection) {
+    final String contentType = connection.getContentType();
     if (contentType == null) {
       return getDefaultCharset(connection);
     }
-    StringTokenizer tok = new StringTokenizer(contentType, ";");
+    final StringTokenizer tok = new StringTokenizer(contentType, ";");
     if (tok.hasMoreTokens()) {
       tok.nextToken();
       while (tok.hasMoreTokens()) {
-        String assignment = tok.nextToken().trim();
-        int eqIdx = assignment.indexOf('=');
+        final String assignment = tok.nextToken().trim();
+        final int eqIdx = assignment.indexOf('=');
         if (eqIdx != -1) {
-          String varName = assignment.substring(0, eqIdx).trim();
+          final String varName = assignment.substring(0, eqIdx).trim();
           if ("charset".equalsIgnoreCase(varName)) {
-            String varValue = assignment.substring(eqIdx + 1);
+            final String varValue = assignment.substring(eqIdx + 1);
             return Strings.unquote(varValue.trim());
           }
         }
@@ -221,23 +221,23 @@ public class Urls {
     return getDefaultCharset(connection);
   }
 
-  private static String getDefaultCharset(URLConnection connection) {
-    URL url = connection.getURL();
+  private static String getDefaultCharset(final URLConnection connection) {
+    final URL url = connection.getURL();
     if (Urls.isLocalFile(url)) {
-      String charset = System.getProperty("file.encoding");
+      final String charset = System.getProperty("file.encoding");
       return charset == null ? "ISO-8859-1" : charset;
     } else {
       return "ISO-8859-1";
     }
   }
 
-  public static String getNoRefForm(URL url) {
-    String host = url.getHost();
-    int port = url.getPort();
-    String portText = port == -1 ? "" : ":" + port;
-    String userInfo = url.getUserInfo();
-    String userInfoText = userInfo == null || userInfo.length() == 0 ? "" : userInfo + "@";
-    String hostPort = host == null || host.length() == 0 ? "" : "//" + userInfoText + host + portText;
+  public static String getNoRefForm(final URL url) {
+    final String host = url.getHost();
+    final int port = url.getPort();
+    final String portText = port == -1 ? "" : ":" + port;
+    final String userInfo = url.getUserInfo();
+    final String userInfoText = userInfo == null || userInfo.length() == 0 ? "" : userInfo + "@";
+    final String hostPort = host == null || host.length() == 0 ? "" : "//" + userInfoText + host + portText;
     return url.getProtocol() + ":" + hostPort + url.getFile();
   }
 
@@ -247,7 +247,7 @@ public class Urls {
    * @param url1
    * @param url2
    */
-  public static boolean sameNoRefURL(URL url1, URL url2) {
+  public static boolean sameNoRefURL(final URL url1, final URL url2) {
     return Objects.equals(url1.getHost(), url2.getHost()) && Objects.equals(url1.getProtocol(), url2.getProtocol())
         && url1.getPort() == url2.getPort() && Objects.equals(url1.getFile(), url2.getFile())
         && Objects.equals(url1.getUserInfo(), url2.getUserInfo());

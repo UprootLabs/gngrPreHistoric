@@ -26,7 +26,7 @@ import org.lobobrowser.html.style.*;
  * Element used for U.
  */
 public class HTMLUnderlineElementImpl extends HTMLAbstractUIElement {
-  public HTMLUnderlineElementImpl(String name) {
+  public HTMLUnderlineElementImpl(final String name) {
     super(name);
   }
 

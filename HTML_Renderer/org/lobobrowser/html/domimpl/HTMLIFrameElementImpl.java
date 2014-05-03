@@ -10,18 +10,18 @@ import org.w3c.dom.html2.HTMLIFrameElement;
 public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTMLIFrameElement, FrameNode {
   private volatile BrowserFrame browserFrame;
 
-  public HTMLIFrameElementImpl(String name) {
+  public HTMLIFrameElementImpl(final String name) {
     super(name);
   }
 
-  public void setBrowserFrame(BrowserFrame frame) {
+  public void setBrowserFrame(final BrowserFrame frame) {
     this.browserFrame = frame;
     if (frame != null) {
-      String src = this.getAttribute("src");
+      final String src = this.getAttribute("src");
       if (src != null) {
         try {
           frame.loadURL(this.getFullURL(src));
-        } catch (java.net.MalformedURLException mfu) {
+        } catch (final java.net.MalformedURLException mfu) {
           this.warn("setBrowserFrame(): Unable to navigate to src.", mfu);
         }
       }
@@ -38,7 +38,7 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
 
   public Document getContentDocument() {
     // TODO: Domain-based security
-    BrowserFrame frame = this.browserFrame;
+    final BrowserFrame frame = this.browserFrame;
     if (frame == null) {
       // Not loaded yet
       return null;
@@ -47,7 +47,7 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
   }
 
   public Window getContentWindow() {
-    BrowserFrame frame = this.browserFrame;
+    final BrowserFrame frame = this.browserFrame;
     if (frame == null) {
       // Not loaded yet
       return null;
@@ -91,53 +91,53 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
     return this.getAttribute("width");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
-  public void setFrameBorder(String frameBorder) {
+  public void setFrameBorder(final String frameBorder) {
     this.setAttribute("frameborder", frameBorder);
   }
 
-  public void setHeight(String height) {
+  public void setHeight(final String height) {
     this.setAttribute("height", height);
   }
 
-  public void setLongDesc(String longDesc) {
+  public void setLongDesc(final String longDesc) {
     this.setAttribute("longdesc", longDesc);
   }
 
-  public void setMarginHeight(String marginHeight) {
+  public void setMarginHeight(final String marginHeight) {
     this.setAttribute("marginHeight", marginHeight);
   }
 
-  public void setMarginWidth(String marginWidth) {
+  public void setMarginWidth(final String marginWidth) {
     this.setAttribute("marginWidth", marginWidth);
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.setAttribute("name", name);
   }
 
-  public void setScrolling(String scrolling) {
+  public void setScrolling(final String scrolling) {
     this.setAttribute("scrolling", scrolling);
   }
 
-  public void setSrc(String src) {
+  public void setSrc(final String src) {
     this.setAttribute("src", src);
   }
 
-  public void setWidth(String width) {
+  public void setWidth(final String width) {
     this.setAttribute("width", width);
   }
 
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     if ("src".equals(normalName)) {
-      BrowserFrame frame = this.browserFrame;
+      final BrowserFrame frame = this.browserFrame;
       if (frame != null) {
         try {
           frame.loadURL(this.getFullURL(value));
-        } catch (java.net.MalformedURLException mfu) {
+        } catch (final java.net.MalformedURLException mfu) {
           this.warn("assignAttributeField(): Unable to navigate to src.", mfu);
         }
       }
@@ -146,7 +146,7 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
     }
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new IFrameRenderState(prevRenderState, this);
   }
 }

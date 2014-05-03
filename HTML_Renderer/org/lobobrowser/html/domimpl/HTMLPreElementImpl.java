@@ -27,27 +27,27 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLPreElement;
 
 public class HTMLPreElementImpl extends HTMLAbstractUIElement implements HTMLPreElement {
-  public HTMLPreElementImpl(String name) {
+  public HTMLPreElementImpl(final String name) {
     super(name);
   }
 
   public int getWidth() {
-    String widthText = this.getAttribute("width");
+    final String widthText = this.getAttribute("width");
     if (widthText == null) {
       return 0;
     }
     try {
       return Integer.parseInt(widthText);
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return 0;
     }
   }
 
-  public void setWidth(int width) {
+  public void setWidth(final int width) {
     this.setAttribute("width", String.valueOf(width));
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new PreRenderState(prevRenderState, this);
   }
 }

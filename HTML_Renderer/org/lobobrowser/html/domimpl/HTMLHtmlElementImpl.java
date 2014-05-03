@@ -30,7 +30,7 @@ public class HTMLHtmlElementImpl extends HTMLElementImpl implements HTMLHtmlElem
     super("HTML", true);
   }
 
-  public HTMLHtmlElementImpl(String name) {
+  public HTMLHtmlElementImpl(final String name) {
     super(name, true);
   }
 
@@ -38,7 +38,7 @@ public class HTMLHtmlElementImpl extends HTMLElementImpl implements HTMLHtmlElem
     return this.getAttribute("version");
   }
 
-  public void setVersion(String version) {
+  public void setVersion(final String version) {
     this.setAttribute("version", version);
   }
 }

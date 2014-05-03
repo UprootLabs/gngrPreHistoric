@@ -31,7 +31,7 @@ public class CDataSectionImpl extends TextImpl implements CDATASection {
     super();
   }
 
-  public CDataSectionImpl(String text) {
+  public CDataSectionImpl(final String text) {
     super(text);
   }
 

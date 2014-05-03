@@ -25,7 +25,7 @@ import java.util.EventObject;
 public class RemovalEvent extends EventObject {
   public final Object valueRemoved;
 
-  public RemovalEvent(Object source, Object valueRemoved) {
+  public RemovalEvent(final Object source, final Object valueRemoved) {
     super(source);
     this.valueRemoved = valueRemoved;
   }

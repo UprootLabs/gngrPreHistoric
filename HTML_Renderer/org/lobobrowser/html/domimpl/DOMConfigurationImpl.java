@@ -36,19 +36,19 @@ public class DOMConfigurationImpl implements DOMConfiguration {
     super();
   }
 
-  public void setParameter(String name, Object value) throws DOMException {
+  public void setParameter(final String name, final Object value) throws DOMException {
     synchronized (this) {
       this.parameters.put(name, value);
     }
   }
 
-  public Object getParameter(String name) throws DOMException {
+  public Object getParameter(final String name) throws DOMException {
     synchronized (this) {
       return this.parameters.get(name);
     }
   }
 
-  public boolean canSetParameter(String name, Object value) {
+  public boolean canSetParameter(final String name, final Object value) {
     // TODO
     return true;
   }

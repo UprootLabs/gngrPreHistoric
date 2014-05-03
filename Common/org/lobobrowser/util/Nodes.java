@@ -3,7 +3,7 @@ package org.lobobrowser.util;
 import org.w3c.dom.*;
 
 public class Nodes {
-  public static Node getCommonAncestor(Node node1, Node node2) {
+  public static Node getCommonAncestor(final Node node1, final Node node2) {
     if (node1 == null || node2 == null) {
       return null;
     }
@@ -17,11 +17,11 @@ public class Nodes {
     return checkNode;
   }
 
-  public static boolean isSameOrAncestorOf(Node node, Node child) {
+  public static boolean isSameOrAncestorOf(final Node node, final Node child) {
     if (child.isSameNode(node)) {
       return true;
     }
-    Node parent = child.getParentNode();
+    final Node parent = child.getParentNode();
     if (parent == null) {
       return false;
     }

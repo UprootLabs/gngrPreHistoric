@@ -30,11 +30,11 @@ public class Files {
    * Guesses the right content-type for a local file, and includes a charset if
    * appropriate.
    */
-  public static String getContentType(File file) {
+  public static String getContentType(final File file) {
     // Not very complete at the moment :)
-    String name = file.getName();
-    int dotIdx = name.lastIndexOf('.');
-    String extension = dotIdx == -1 ? null : name.substring(dotIdx + 1);
+    final String name = file.getName();
+    final int dotIdx = name.lastIndexOf('.');
+    final String extension = dotIdx == -1 ? null : name.substring(dotIdx + 1);
     if ("txt".equalsIgnoreCase(extension)) {
       return "text/plain; charset=\"" + System.getProperty("file.encoding") + "\"";
     }

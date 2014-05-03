@@ -37,19 +37,19 @@ class FilteredNodeListImpl extends AbstractScriptableDelegate implements NodeLis
    * @param filter
    * @param list
    */
-  public FilteredNodeListImpl(NodeFilter filter, Collection list, Object lock) {
+  public FilteredNodeListImpl(final NodeFilter filter, final Collection list, final Object lock) {
     super();
     this.filter = filter;
     sourceNodeList = list;
     this.lock = lock;
   }
 
-  public Node item(int index) {
+  public Node item(final int index) {
     synchronized (this.lock) {
       int count = 0;
-      Iterator i = this.sourceNodeList.iterator();
+      final Iterator i = this.sourceNodeList.iterator();
       while (i.hasNext()) {
-        Node node = (Node) i.next();
+        final Node node = (Node) i.next();
         if (this.filter.accept(node)) {
           if (count == index) {
             return node;
@@ -64,9 +64,9 @@ class FilteredNodeListImpl extends AbstractScriptableDelegate implements NodeLis
   public int getLength() {
     synchronized (this.lock) {
       int count = 0;
-      Iterator i = this.sourceNodeList.iterator();
+      final Iterator i = this.sourceNodeList.iterator();
       while (i.hasNext()) {
-        Node node = (Node) i.next();
+        final Node node = (Node) i.next();
         if (this.filter.accept(node)) {
           count++;
         }

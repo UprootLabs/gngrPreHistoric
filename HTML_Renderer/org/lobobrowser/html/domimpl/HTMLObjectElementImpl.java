@@ -5,7 +5,7 @@ import org.w3c.dom.html2.HTMLFormElement;
 import org.w3c.dom.html2.HTMLObjectElement;
 
 public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTMLObjectElement {
-  public HTMLObjectElementImpl(String name) {
+  public HTMLObjectElementImpl(final String name) {
     super(name);
   }
 
@@ -45,39 +45,39 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
     return this.getAttribute("width");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
-  public void setAlt(String alt) {
+  public void setAlt(final String alt) {
     this.setAttribute("alt", alt);
   }
 
-  public void setArchive(String archive) {
+  public void setArchive(final String archive) {
     this.setAttribute("archive", archive);
   }
 
-  public void setCode(String code) {
+  public void setCode(final String code) {
     this.setAttribute("code", code);
   }
 
-  public void setCodeBase(String codeBase) {
+  public void setCodeBase(final String codeBase) {
     this.setAttribute("codebase", codeBase);
   }
 
-  public void setHeight(String height) {
+  public void setHeight(final String height) {
     this.setAttribute("height", height);
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.setAttribute("name", name);
   }
 
-  public void setObject(String object) {
+  public void setObject(final String object) {
     this.setAttribute("object", object);
   }
 
-  public void setWidth(String width) {
+  public void setWidth(final String width) {
     this.setAttribute("width", width);
   }
 
@@ -108,7 +108,7 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
   public int getHspace() {
     try {
       return Integer.parseInt(this.getAttribute("hspace"));
-    } catch (Exception err) {
+    } catch (final Exception err) {
       return 0;
     }
   }
@@ -120,7 +120,7 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
   public int getTabIndex() {
     try {
       return Integer.parseInt(this.getAttribute("tabindex"));
-    } catch (Exception err) {
+    } catch (final Exception err) {
       return 0;
     }
   }
@@ -136,48 +136,48 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
   public int getVspace() {
     try {
       return Integer.parseInt(this.getAttribute("vspace"));
-    } catch (Exception err) {
+    } catch (final Exception err) {
       return 0;
     }
   }
 
-  public void setBorder(String border) {
+  public void setBorder(final String border) {
     this.setAttribute("border", border);
   }
 
-  public void setCodeType(String codeType) {
+  public void setCodeType(final String codeType) {
     this.setAttribute("codetype", codeType);
   }
 
-  public void setData(String data) {
+  public void setData(final String data) {
     this.setAttribute("data", data);
   }
 
-  public void setDeclare(boolean declare) {
+  public void setDeclare(final boolean declare) {
     this.setAttribute("declare", declare ? "declare" : null);
   }
 
-  public void setHspace(int hspace) {
+  public void setHspace(final int hspace) {
     this.setAttribute("hspace", String.valueOf(hspace));
   }
 
-  public void setStandby(String standby) {
+  public void setStandby(final String standby) {
     this.setAttribute("standby", standby);
   }
 
-  public void setTabIndex(int tabIndex) {
+  public void setTabIndex(final int tabIndex) {
     this.setAttribute("tabindex", String.valueOf(tabIndex));
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
-  public void setUseMap(String useMap) {
+  public void setUseMap(final String useMap) {
     this.setAttribute("usemap", useMap);
   }
 
-  public void setVspace(int vspace) {
+  public void setVspace(final int vspace) {
     this.setAttribute("vspace", String.valueOf(vspace));
   }
 }

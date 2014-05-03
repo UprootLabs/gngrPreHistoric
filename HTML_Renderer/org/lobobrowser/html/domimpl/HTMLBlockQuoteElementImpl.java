@@ -23,11 +23,11 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 
 public class HTMLBlockQuoteElementImpl extends HTMLAbstractUIElement {
-  public HTMLBlockQuoteElementImpl(String name) {
+  public HTMLBlockQuoteElementImpl(final String name) {
     super(name);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new BlockQuoteRenderState(prevRenderState, this);
   }
 }

@@ -39,7 +39,7 @@ public abstract class EventDispatch2 {
     return new ArrayList<EventListener>();
   }
 
-  public final void addListener(EventListener listener) {
+  public final void addListener(final EventListener listener) {
     synchronized (this) {
       if (this.listeners == null) {
         this.listeners = this.createListenerCollection();
@@ -48,7 +48,7 @@ public abstract class EventDispatch2 {
     }
   }
 
-  public final void removeListener(EventListener listener) {
+  public final void removeListener(final EventListener listener) {
     synchronized (this) {
       if (this.listeners != null) {
         this.listeners.remove(listener);
@@ -56,16 +56,16 @@ public abstract class EventDispatch2 {
     }
   }
 
-  public final boolean fireEvent(EventObject event) {
+  public final boolean fireEvent(final EventObject event) {
     EventListener[] larray;
     synchronized (this) {
-      Collection<EventListener> listeners = this.listeners;
+      final Collection<EventListener> listeners = this.listeners;
       if (listeners == null || listeners.size() == 0) {
         return false;
       }
       larray = this.listeners.toArray(EMPTY_ARRAY);
     }
-    int length = larray.length;
+    final int length = larray.length;
     for (int i = 0; i < length; i++) {
       // Call holding no locks
       this.dispatchEvent(larray[i], event);

@@ -28,15 +28,15 @@ public class WrapperException extends RuntimeException {
     super();
   }
 
-  public WrapperException(String message) {
+  public WrapperException(final String message) {
     super(message);
   }
 
-  public WrapperException(String message, Throwable cause) {
+  public WrapperException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public WrapperException(Throwable cause) {
+  public WrapperException(final Throwable cause) {
     super(cause);
   }
 }

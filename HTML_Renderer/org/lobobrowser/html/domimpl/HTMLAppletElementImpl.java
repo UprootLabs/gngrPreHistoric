@@ -3,7 +3,7 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.html.HTMLAppletElement;
 
 public class HTMLAppletElementImpl extends HTMLAbstractUIElement implements HTMLAppletElement {
-  public HTMLAppletElementImpl(String name) {
+  public HTMLAppletElementImpl(final String name) {
     super(name);
   }
 
@@ -51,47 +51,47 @@ public class HTMLAppletElementImpl extends HTMLAbstractUIElement implements HTML
     return this.getAttribute("width");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
-  public void setAlt(String alt) {
+  public void setAlt(final String alt) {
     this.setAttribute("alt", alt);
   }
 
-  public void setArchive(String archive) {
+  public void setArchive(final String archive) {
     this.setAttribute("archive", archive);
   }
 
-  public void setCode(String code) {
+  public void setCode(final String code) {
     this.setAttribute("code", code);
   }
 
-  public void setCodeBase(String codeBase) {
+  public void setCodeBase(final String codeBase) {
     this.setAttribute("codebase", codeBase);
   }
 
-  public void setHeight(String height) {
+  public void setHeight(final String height) {
     this.setAttribute("height", height);
   }
 
-  public void setHspace(String hspace) {
+  public void setHspace(final String hspace) {
     this.setAttribute("hspace", hspace);
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.setAttribute("name", name);
   }
 
-  public void setObject(String object) {
+  public void setObject(final String object) {
     this.setAttribute("object", object);
   }
 
-  public void setVspace(String vspace) {
+  public void setVspace(final String vspace) {
     this.setAttribute("vspace", vspace);
   }
 
-  public void setWidth(String width) {
+  public void setWidth(final String width) {
     this.setAttribute("width", width);
   }
 }

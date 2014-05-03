@@ -30,7 +30,7 @@ public class TextFilter implements NodeFilter {
     super();
   }
 
-  public boolean accept(Node node) {
+  public boolean accept(final Node node) {
     return node instanceof org.w3c.dom.Text;
   }
 }

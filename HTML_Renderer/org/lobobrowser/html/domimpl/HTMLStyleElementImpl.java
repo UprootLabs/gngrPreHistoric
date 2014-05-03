@@ -39,7 +39,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     super("STYLE", true);
   }
 
-  public HTMLStyleElementImpl(String name) {
+  public HTMLStyleElementImpl(final String name) {
     super(name, true);
   }
 
@@ -49,9 +49,9 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     return this.disabled;
   }
 
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     this.disabled = disabled;
-    CSSStyleSheet sheet = this.styleSheet;
+    final CSSStyleSheet sheet = this.styleSheet;
     if (sheet != null) {
       sheet.setDisabled(disabled);
     }
@@ -61,7 +61,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     return this.getAttribute("media");
   }
 
-  public void setMedia(String media) {
+  public void setMedia(final String media) {
     this.setAttribute("media", media);
   }
 
@@ -69,11 +69,11 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     return this.getAttribute("type");
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
-  public Object setUserData(String key, Object data, UserDataHandler handler) {
+  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processStyle();
     }
@@ -87,27 +87,27 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
 
   protected void processStyle() {
     this.styleSheet = null;
-    UserAgentContext uacontext = this.getUserAgentContext();
+    final UserAgentContext uacontext = this.getUserAgentContext();
     if (uacontext.isInternalCSSEnabled()) {
       if (CSSUtilities.matchesMedia(this.getMedia(), this.getUserAgentContext())) {
-        String text = this.getRawInnerText(true);
+        final String text = this.getRawInnerText(true);
         if (text != null && !"".equals(text)) {
-          String processedText = CSSUtilities.preProcessCss(text);
-          HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
-          CSSOMParser parser = CSSUtilities.mkParser();
-          String baseURI = doc.getBaseURI();
-          InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(processedText, baseURI);
+          final String processedText = CSSUtilities.preProcessCss(text);
+          final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+          final CSSOMParser parser = CSSUtilities.mkParser();
+          final String baseURI = doc.getBaseURI();
+          final InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(processedText, baseURI);
           try {
-            CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, this, baseURI);
+            final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, this, baseURI);
             doc.addStyleSheet(sheet);
             this.styleSheet = sheet;
             if (sheet instanceof CSSStyleSheetImpl) {
-              CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet;
+              final CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet;
               sheetImpl.setDisabled(this.disabled);
             } else {
               sheet.setDisabled(this.disabled);
             }
-          } catch (Throwable err) {
+          } catch (final Throwable err) {
             this.warn("Unable to parse style sheet", err);
           }
         }
@@ -115,7 +115,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     }
   }
 
-  protected void appendInnerTextImpl(StringBuffer buffer) {
+  protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
   }
 }

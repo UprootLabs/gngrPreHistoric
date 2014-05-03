@@ -26,7 +26,7 @@ import org.lobobrowser.html.style.*;
  * Element used for STRIKE.
  */
 public class HTMLStrikeElementImpl extends HTMLAbstractUIElement {
-  public HTMLStrikeElementImpl(String name) {
+  public HTMLStrikeElementImpl(final String name) {
     super(name);
   }
 

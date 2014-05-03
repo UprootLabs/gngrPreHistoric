@@ -35,7 +35,7 @@ public abstract class MultiplexClassLoader extends BaseClassLoader {
   /**
    * @param parent
    */
-  public MultiplexClassLoader(Collection classLoaders) {
+  public MultiplexClassLoader(final Collection classLoaders) {
     super(null);
     this.parentLoaders = (BaseClassLoader[]) classLoaders.toArray(EMPTY_CLASS_LOADERS);
   }
@@ -45,28 +45,28 @@ public abstract class MultiplexClassLoader extends BaseClassLoader {
    * 
    * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
    */
-  public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+  public synchronized Class loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
     // First, check if the class has already been loaded
     Class c = findLoadedClass(name);
     if (c == null) {
       try {
-        int len = this.parentLoaders.length;
+        final int len = this.parentLoaders.length;
         if (len == 0) {
           c = findSystemClass(name);
         } else {
           for (int i = 0; i < len; i++) {
-            BaseClassLoader parent = this.parentLoaders[i];
+            final BaseClassLoader parent = this.parentLoaders[i];
             try {
               c = parent.loadClass(name, false);
               if (c != null) {
                 return c;
               }
-            } catch (ClassNotFoundException cnfe) {
+            } catch (final ClassNotFoundException cnfe) {
               // ignore
             }
           }
         }
-      } catch (ClassNotFoundException e) {
+      } catch (final ClassNotFoundException e) {
         // If still not found, then invoke findClass in order
         // to find the class.
         c = findClass(name);

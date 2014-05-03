@@ -31,22 +31,22 @@ class StopVisitorException extends RuntimeException {
     this.tag = null;
   }
 
-  public StopVisitorException(String message) {
+  public StopVisitorException(final String message) {
     super(message);
     this.tag = null;
   }
 
-  public StopVisitorException(String message, Throwable cause) {
+  public StopVisitorException(final String message, final Throwable cause) {
     super(message, cause);
     this.tag = null;
   }
 
-  public StopVisitorException(Throwable cause) {
+  public StopVisitorException(final Throwable cause) {
     super(cause);
     this.tag = null;
   }
 
-  public StopVisitorException(Object tag) {
+  public StopVisitorException(final Object tag) {
     this.tag = tag;
   }
 

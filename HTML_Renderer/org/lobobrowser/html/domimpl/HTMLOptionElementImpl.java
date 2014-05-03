@@ -3,7 +3,7 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.html2.*;
 
 public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOptionElement {
-  public HTMLOptionElementImpl(String name) {
+  public HTMLOptionElementImpl(final String name) {
     super(name, true);
   }
 
@@ -20,9 +20,9 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
   }
 
   public int getIndex() {
-    Object parent = this.getParentNode();
+    final Object parent = this.getParentNode();
     if (parent instanceof HTMLSelectElement) {
-      HTMLOptionsCollectionImpl options = (HTMLOptionsCollectionImpl) ((HTMLSelectElement) parent).getOptions();
+      final HTMLOptionsCollectionImpl options = (HTMLOptionsCollectionImpl) ((HTMLSelectElement) parent).getOptions();
       return options.indexOf(this);
     } else {
       return -1;
@@ -41,7 +41,7 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
     return this.getRawInnerText(false);
   }
 
-  public void setText(String value) {
+  public void setText(final String value) {
     this.setTextContent(value);
   }
 
@@ -49,36 +49,36 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
     return this.getAttribute("value");
   }
 
-  public void setDefaultSelected(boolean defaultSelected) {
+  public void setDefaultSelected(final boolean defaultSelected) {
     this.setAttribute("selected", defaultSelected ? "selected" : null);
   }
 
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     // TODO Unsupported
   }
 
-  public void setLabel(String label) {
+  public void setLabel(final String label) {
     this.setAttribute("label", label);
   }
 
   private boolean selected;
 
-  void setSelectedImpl(boolean selected) {
+  void setSelectedImpl(final boolean selected) {
     this.selected = selected;
   }
 
-  public void setSelected(boolean selected) {
-    boolean changed = selected != this.selected;
+  public void setSelected(final boolean selected) {
+    final boolean changed = selected != this.selected;
     this.selected = selected;
     // Changing the option state changes the selected index.
-    Object parent = this.getParentNode();
+    final Object parent = this.getParentNode();
     if (parent instanceof HTMLSelectElementImpl) {
-      HTMLSelectElementImpl parentSelect = ((HTMLSelectElementImpl) parent);
+      final HTMLSelectElementImpl parentSelect = ((HTMLSelectElementImpl) parent);
       if (changed || parentSelect.getSelectedIndex() == -1) {
         if (selected) {
           parentSelect.setSelectedIndexImpl(this.getIndex());
         } else {
-          int currentIndex = parentSelect.getSelectedIndex();
+          final int currentIndex = parentSelect.getSelectedIndex();
           if (currentIndex != -1 && currentIndex == this.getIndex()) {
             parentSelect.setSelectedIndexImpl(-1);
           }
@@ -87,7 +87,7 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
     }
   }
 
-  public void setValue(String value) {
+  public void setValue(final String value) {
     this.setAttribute("value", value);
   }
 

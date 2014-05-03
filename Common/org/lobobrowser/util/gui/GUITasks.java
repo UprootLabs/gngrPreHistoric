@@ -24,7 +24,7 @@ import java.awt.*;
 
 public class GUITasks {
   public static Frame getTopFrame() {
-    Frame[] frames = Frame.getFrames();
+    final Frame[] frames = Frame.getFrames();
     for (int i = 0; i < frames.length; i++) {
       if (frames[i].getFocusOwner() != null) {
         return frames[i];
@@ -36,20 +36,20 @@ public class GUITasks {
     return null;
   }
 
-  public static void drawDashed(Graphics g, int x1, int y1, int x2, int y2, int dashSize, int gapSize) {
+  public static void drawDashed(final Graphics g, int x1, int y1, int x2, int y2, final int dashSize, final int gapSize) {
     if (x2 < x1) {
-      int temp = x1;
+      final int temp = x1;
       x1 = x2;
       x2 = temp;
     }
     if (y2 < y1) {
-      int temp = y1;
+      final int temp = y1;
       y1 = y2;
       y2 = temp;
     }
-    int totalDash = dashSize + gapSize;
+    final int totalDash = dashSize + gapSize;
     if (y1 == y2) {
-      int virtualStartX = (x1 / totalDash) * totalDash;
+      final int virtualStartX = (x1 / totalDash) * totalDash;
       for (int x = virtualStartX; x < x2; x += totalDash) {
         int topX = x + dashSize;
         if (topX > x2) {
@@ -64,7 +64,7 @@ public class GUITasks {
         }
       }
     } else if (x1 == x2) {
-      int virtualStartY = (y1 / totalDash) * totalDash;
+      final int virtualStartY = (y1 / totalDash) * totalDash;
       for (int y = virtualStartY; y < y2; y += totalDash) {
         int topY = y + dashSize;
         if (topY > y2) {

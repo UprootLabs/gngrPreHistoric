@@ -37,7 +37,7 @@ public class ArrayUtilities {
     super();
   }
 
-  public static <T> Iterator<T> iterator(T[] array, int offset, int length) {
+  public static <T> Iterator<T> iterator(final T[] array, final int offset, final int length) {
     return new ArrayIterator<T>(array, offset, length);
   }
 
@@ -46,7 +46,7 @@ public class ArrayUtilities {
     private final int top;
     private int offset;
 
-    public ArrayIterator(T[] array, int offset, int length) {
+    public ArrayIterator(final T[] array, final int offset, final int length) {
       this.array = array;
       this.offset = offset;
       this.top = offset + length;

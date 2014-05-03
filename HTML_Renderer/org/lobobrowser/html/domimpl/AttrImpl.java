@@ -26,17 +26,17 @@ package org.lobobrowser.html.domimpl;
 import org.w3c.dom.*;
 
 public class AttrImpl extends NodeImpl implements Attr {
-  private String name;
+  private final String name;
   private String value;
-  private boolean specified;
-  private Element ownerElement;
+  private final boolean specified;
+  private final Element ownerElement;
   private boolean isId;
 
   /**
    * @param name
    * @param value
    */
-  public AttrImpl(String name, String value, boolean specified, Element owner, boolean isId) {
+  public AttrImpl(final String name, final String value, final boolean specified, final Element owner, final boolean isId) {
     super();
     this.name = name;
     this.value = value;
@@ -48,7 +48,7 @@ public class AttrImpl extends NodeImpl implements Attr {
   /**
    * @param name
    */
-  public AttrImpl(String name) {
+  public AttrImpl(final String name) {
     super();
     this.name = name;
     this.value = "";
@@ -69,7 +69,7 @@ public class AttrImpl extends NodeImpl implements Attr {
     return this.value;
   }
 
-  public void setNodeValue(String nodeValue) throws DOMException {
+  public void setNodeValue(final String nodeValue) throws DOMException {
     this.value = nodeValue;
   }
 
@@ -89,7 +89,7 @@ public class AttrImpl extends NodeImpl implements Attr {
     return this.value;
   }
 
-  public void setValue(String value) throws DOMException {
+  public void setValue(final String value) throws DOMException {
     this.value = value;
   }
 
@@ -105,7 +105,7 @@ public class AttrImpl extends NodeImpl implements Attr {
     return this.isId;
   }
 
-  public void setId(boolean value) {
+  public void setId(final boolean value) {
     this.isId = value;
   }
 

@@ -23,11 +23,11 @@ package org.lobobrowser.util.io;
 import java.net.*;
 
 public class NetRoutines {
-  public static boolean isLocalAddress(String host) {
+  public static boolean isLocalAddress(final String host) {
     try {
-      InetAddress address = InetAddress.getByName(host);
+      final InetAddress address = InetAddress.getByName(host);
       return address.isAnyLocalAddress() || address.isLinkLocalAddress() || address.isLoopbackAddress() || address.isSiteLocalAddress();
-    } catch (java.net.UnknownHostException uhe) {
+    } catch (final java.net.UnknownHostException uhe) {
       return false;
     }
   }

@@ -32,7 +32,7 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
     super();
   }
 
-  public CharacterDataImpl(String text) {
+  public CharacterDataImpl(final String text) {
     this.text = text;
   }
 
@@ -44,7 +44,7 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
     return this.text;
   }
 
-  public void setTextContent(String textContent) throws DOMException {
+  public void setTextContent(final String textContent) throws DOMException {
     this.text = textContent;
     if (!this.notificationsSuspended) {
       this.informInvalid();
@@ -56,22 +56,22 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
    * 
    * @see org.xamjwg.html.domimpl.NodeImpl#cloneNode(boolean)
    */
-  public Node cloneNode(boolean deep) {
-    CharacterDataImpl newNode = (CharacterDataImpl) super.cloneNode(deep);
+  public Node cloneNode(final boolean deep) {
+    final CharacterDataImpl newNode = (CharacterDataImpl) super.cloneNode(deep);
     newNode.setData(this.getData());
     return newNode;
   }
 
-  public void appendData(String arg) throws DOMException {
+  public void appendData(final String arg) throws DOMException {
     this.text += arg;
     if (!this.notificationsSuspended) {
       this.informInvalid();
     }
   }
 
-  public void deleteData(int offset, int count) throws DOMException {
-    StringBuffer buffer = new StringBuffer(this.text);
-    StringBuffer result = buffer.delete(offset, offset + count);
+  public void deleteData(final int offset, final int count) throws DOMException {
+    final StringBuffer buffer = new StringBuffer(this.text);
+    final StringBuffer result = buffer.delete(offset, offset + count);
     this.text = result.toString();
     if (!this.notificationsSuspended) {
       this.informInvalid();
@@ -86,38 +86,38 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
     return this.text.length();
   }
 
-  public void insertData(int offset, String arg) throws DOMException {
-    StringBuffer buffer = new StringBuffer(this.text);
-    StringBuffer result = buffer.insert(offset, arg);
+  public void insertData(final int offset, final String arg) throws DOMException {
+    final StringBuffer buffer = new StringBuffer(this.text);
+    final StringBuffer result = buffer.insert(offset, arg);
     this.text = result.toString();
     if (!this.notificationsSuspended) {
       this.informInvalid();
     }
   }
 
-  public void replaceData(int offset, int count, String arg) throws DOMException {
-    StringBuffer buffer = new StringBuffer(this.text);
-    StringBuffer result = buffer.replace(offset, offset + count, arg);
+  public void replaceData(final int offset, final int count, final String arg) throws DOMException {
+    final StringBuffer buffer = new StringBuffer(this.text);
+    final StringBuffer result = buffer.replace(offset, offset + count, arg);
     this.text = result.toString();
     if (!this.notificationsSuspended) {
       this.informInvalid();
     }
   }
 
-  public void setData(String data) throws DOMException {
+  public void setData(final String data) throws DOMException {
     this.text = data;
     if (!this.notificationsSuspended) {
       this.informInvalid();
     }
   }
 
-  public String substringData(int offset, int count) throws DOMException {
+  public String substringData(final int offset, final int count) throws DOMException {
     return this.text.substring(offset, offset + count);
   }
 
   public String toString() {
     String someText = this.text;
-    int length = someText.length();
+    final int length = someText.length();
     if (someText != null && someText.length() > 32) {
       someText = someText.substring(0, 29) + "...";
     }

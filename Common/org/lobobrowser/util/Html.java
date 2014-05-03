@@ -21,15 +21,15 @@
 package org.lobobrowser.util;
 
 public class Html {
-  public static String textToHTML(String text) {
+  public static String textToHTML(final String text) {
     if (text == null) {
       return null;
     }
-    int length = text.length();
+    final int length = text.length();
     boolean prevSlashR = false;
-    StringBuffer out = new StringBuffer();
+    final StringBuffer out = new StringBuffer();
     for (int i = 0; i < length; i++) {
-      char ch = text.charAt(i);
+      final char ch = text.charAt(i);
       switch (ch) {
       case '\r':
         if (prevSlashR) {

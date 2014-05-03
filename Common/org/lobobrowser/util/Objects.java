@@ -33,17 +33,17 @@ public class Objects {
   private Objects() {
   }
 
-  public static boolean equals(Object obj1, Object obj2) {
+  public static boolean equals(final Object obj1, final Object obj2) {
     return obj1 == null ? (obj2 == null) : (obj1.equals(obj2));
   }
 
-  public static boolean isBoxClass(Class clazz) {
+  public static boolean isBoxClass(final Class clazz) {
     return clazz == Integer.class || clazz == Boolean.class || clazz == Double.class || clazz == Float.class || clazz == Long.class
         || clazz == Byte.class || clazz == Short.class || clazz == Character.class;
   }
 
-  public static boolean areAssignableTo(Object[] objects, Class[] types) {
-    int length = objects.length;
+  public static boolean areAssignableTo(final Object[] objects, final Class[] types) {
+    final int length = objects.length;
     if (length != types.length) {
       return false;
     }
@@ -55,7 +55,7 @@ public class Objects {
     return true;
   }
 
-  public static boolean isAssignableOrBox(Object value, Class<? extends Object> clazz) {
+  public static boolean isAssignableOrBox(final Object value, final Class<? extends Object> clazz) {
     if (clazz.isInstance(value)) {
       return true;
     }
@@ -76,13 +76,13 @@ public class Objects {
     return false;
   }
 
-  private static boolean isNumeric(Class<? extends Object> clazz) {
+  private static boolean isNumeric(final Class<? extends Object> clazz) {
     return Number.class.isAssignableFrom(clazz)
         || (clazz.isPrimitive() && (clazz == int.class || clazz == double.class || clazz == byte.class || clazz == short.class
             || clazz == float.class || clazz == long.class));
   }
 
-  private static boolean isNumeric(Object value) {
+  private static boolean isNumeric(final Object value) {
     if (value == null) {
       return false;
     }

@@ -32,7 +32,7 @@ public class Strings {
     MessageDigest md;
     try {
       md = MessageDigest.getInstance("MD5");
-    } catch (NoSuchAlgorithmException err) {
+    } catch (final NoSuchAlgorithmException err) {
       throw new IllegalStateException();
     }
     MESSAGE_DIGEST = md;
@@ -41,15 +41,15 @@ public class Strings {
   private Strings() {
   }
 
-  public static int compareVersions(String version1, String version2, boolean startsWithDigits) {
+  public static int compareVersions(final String version1, final String version2, final boolean startsWithDigits) {
     if (version1 == null) {
       return version2 == null ? 0 : -1;
     } else if (version2 == null) {
       return +1;
     }
     if (startsWithDigits) {
-      String v1prefix = leadingDigits(version1);
-      String v2prefix = leadingDigits(version2);
+      final String v1prefix = leadingDigits(version1);
+      final String v2prefix = leadingDigits(version2);
       if (v1prefix.length() == 0) {
         if (v2prefix.length() == 0) {
           return 0;
@@ -61,7 +61,7 @@ public class Strings {
       int diff;
       try {
         diff = Integer.parseInt(v1prefix) - Integer.parseInt(v2prefix);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         diff = 0;
       }
       if (diff == 0) {
@@ -69,8 +69,8 @@ public class Strings {
       }
       return diff;
     } else {
-      String v1prefix = leadingNonDigits(version1);
-      String v2prefix = leadingNonDigits(version2);
+      final String v1prefix = leadingNonDigits(version1);
+      final String v2prefix = leadingNonDigits(version2);
       if (v1prefix.length() == 0) {
         if (v2prefix.length() == 0) {
           return 0;
@@ -79,7 +79,7 @@ public class Strings {
       } else if (v2prefix.length() == 0) {
         return +1;
       }
-      int diff = v1prefix.compareTo(v2prefix);
+      final int diff = v1prefix.compareTo(v2prefix);
       if (diff == 0) {
         return compareVersions(version1.substring(v1prefix.length()), version2.substring(v2prefix.length()), true);
       }
@@ -87,11 +87,11 @@ public class Strings {
     }
   }
 
-  public static String leadingDigits(String text) {
-    int length = text.length();
+  public static String leadingDigits(final String text) {
+    final int length = text.length();
     StringBuffer buffer = null;
     for (int i = 0; i < length; i++) {
-      char ch = text.charAt(i);
+      final char ch = text.charAt(i);
       if (!Character.isDigit(ch)) {
         break;
       }
@@ -103,11 +103,11 @@ public class Strings {
     return buffer == null ? "" : buffer.toString();
   }
 
-  public static String leadingNonDigits(String text) {
-    int length = text.length();
+  public static String leadingNonDigits(final String text) {
+    final int length = text.length();
     StringBuffer buffer = null;
     for (int i = 0; i < length; i++) {
-      char ch = text.charAt(i);
+      final char ch = text.charAt(i);
       if (Character.isDigit(ch)) {
         break;
       }
@@ -119,15 +119,15 @@ public class Strings {
     return buffer == null ? "" : buffer.toString();
   }
 
-  public static boolean isBlank(String text) {
+  public static boolean isBlank(final String text) {
     return text == null || "".equals(text);
   }
 
-  public static int countLines(String text) {
+  public static int countLines(final String text) {
     int startIdx = 0;
     int lineCount = 1;
     for (;;) {
-      int lbIdx = text.indexOf('\n', startIdx);
+      final int lbIdx = text.indexOf('\n', startIdx);
       if (lbIdx == -1) {
         break;
       }
@@ -137,11 +137,11 @@ public class Strings {
     return lineCount;
   }
 
-  public static boolean isJavaIdentifier(String id) {
+  public static boolean isJavaIdentifier(final String id) {
     if (id == null) {
       return false;
     }
-    int len = id.length();
+    final int len = id.length();
     if (len == 0) {
       return false;
     }
@@ -156,12 +156,12 @@ public class Strings {
     return true;
   }
 
-  public static String getJavaStringLiteral(String text) {
-    StringBuffer buf = new StringBuffer();
+  public static String getJavaStringLiteral(final String text) {
+    final StringBuffer buf = new StringBuffer();
     buf.append('"');
-    int len = text.length();
+    final int len = text.length();
     for (int i = 0; i < len; i++) {
-      char ch = text.charAt(i);
+      final char ch = text.charAt(i);
       switch (ch) {
       case '\\':
         buf.append("\\\\");
@@ -187,12 +187,12 @@ public class Strings {
     return buf.toString();
   }
 
-  public static String getJavaIdentifier(String candidateID) {
-    int len = candidateID.length();
-    StringBuffer buf = new StringBuffer();
+  public static String getJavaIdentifier(final String candidateID) {
+    final int len = candidateID.length();
+    final StringBuffer buf = new StringBuffer();
     for (int i = 0; i < len; i++) {
-      char ch = candidateID.charAt(i);
-      boolean good = i == 0 ? Character.isJavaIdentifierStart(ch) : Character.isJavaIdentifierPart(ch);
+      final char ch = candidateID.charAt(i);
+      final boolean good = i == 0 ? Character.isJavaIdentifierStart(ch) : Character.isJavaIdentifierPart(ch);
       if (good) {
         buf.append(ch);
       } else {
@@ -204,11 +204,11 @@ public class Strings {
 
   private static final String HEX_CHARS = "0123456789ABCDEF";
 
-  public static String getMD5(String source) {
+  public static String getMD5(final String source) {
     byte[] bytes;
     try {
       bytes = source.getBytes("UTF-8");
-    } catch (java.io.UnsupportedEncodingException ue) {
+    } catch (final java.io.UnsupportedEncodingException ue) {
       throw new IllegalStateException(ue);
     }
     byte[] result;
@@ -216,30 +216,30 @@ public class Strings {
       MESSAGE_DIGEST.update(bytes);
       result = MESSAGE_DIGEST.digest();
     }
-    char[] resChars = new char[32];
-    int len = result.length;
+    final char[] resChars = new char[32];
+    final int len = result.length;
     for (int i = 0; i < len; i++) {
-      byte b = result[i];
-      int lo4 = b & 0x0F;
-      int hi4 = (b & 0xF0) >> 4;
+      final byte b = result[i];
+      final int lo4 = b & 0x0F;
+      final int hi4 = (b & 0xF0) >> 4;
       resChars[i * 2] = HEX_CHARS.charAt(hi4);
       resChars[i * 2 + 1] = HEX_CHARS.charAt(lo4);
     }
     return new String(resChars);
   }
 
-  public static String getHash32(String source) throws UnsupportedEncodingException {
-    String md5 = getMD5(source);
+  public static String getHash32(final String source) throws UnsupportedEncodingException {
+    final String md5 = getMD5(source);
     return md5.substring(0, 8);
   }
 
-  public static String getHash64(String source) throws UnsupportedEncodingException {
-    String md5 = getMD5(source);
+  public static String getHash64(final String source) throws UnsupportedEncodingException {
+    final String md5 = getMD5(source);
     return md5.substring(0, 16);
   }
 
-  public static int countChars(String text, char ch) {
-    int len = text.length();
+  public static int countChars(final String text, final char ch) {
+    final int len = text.length();
     int count = 0;
     for (int i = 0; i < len; i++) {
       if (ch == text.charAt(i)) {
@@ -284,7 +284,7 @@ public class Strings {
   // return text.substring(startIdx, endIdx + 1);
   // }
 
-  public static String unquote(String text) {
+  public static String unquote(final String text) {
     if (text.startsWith("\"") && text.endsWith("\"")) {
       // substring works on indices
       return text.substring(1, text.length() - 1);
@@ -292,12 +292,12 @@ public class Strings {
     return text;
   }
 
-  public static String[] split(String phrase) {
-    int length = phrase.length();
-    ArrayList<String> wordList = new ArrayList<String>();
+  public static String[] split(final String phrase) {
+    final int length = phrase.length();
+    final ArrayList<String> wordList = new ArrayList<String>();
     StringBuffer word = null;
     for (int i = 0; i < length; i++) {
-      char ch = phrase.charAt(i);
+      final char ch = phrase.charAt(i);
       switch (ch) {
       case ' ':
       case '\t':
@@ -321,7 +321,7 @@ public class Strings {
     return wordList.toArray(EMPTY_ARRAY);
   }
 
-  public static String truncate(String text, int maxLength) {
+  public static String truncate(final String text, final int maxLength) {
     if (text == null) {
       return null;
     }
@@ -331,11 +331,11 @@ public class Strings {
     return text.substring(0, Math.max(maxLength - 3, 0)) + "...";
   }
 
-  public static String strictHtmlEncode(String rawText, boolean quotes) {
-    StringBuffer output = new StringBuffer();
-    int length = rawText.length();
+  public static String strictHtmlEncode(final String rawText, final boolean quotes) {
+    final StringBuffer output = new StringBuffer();
+    final int length = rawText.length();
     for (int i = 0; i < length; i++) {
-      char ch = rawText.charAt(i);
+      final char ch = rawText.charAt(i);
       switch (ch) {
       case '&':
         output.append("&amp;");
@@ -360,10 +360,10 @@ public class Strings {
     return output.toString();
   }
 
-  public static String trimForAlphaNumDash(String rawText) {
-    int length = rawText.length();
+  public static String trimForAlphaNumDash(final String rawText) {
+    final int length = rawText.length();
     for (int i = 0; i < length; i++) {
-      char ch = rawText.charAt(i);
+      final char ch = rawText.charAt(i);
       if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '-') {
         continue;
       }
@@ -372,15 +372,15 @@ public class Strings {
     return rawText;
   }
 
-  public static String getCRLFString(String original) {
+  public static String getCRLFString(final String original) {
     if (original == null) {
       return null;
     }
-    int length = original.length();
-    StringBuffer buffer = new StringBuffer();
+    final int length = original.length();
+    final StringBuffer buffer = new StringBuffer();
     boolean lastSlashR = false;
     for (int i = 0; i < length; i++) {
-      char ch = original.charAt(i);
+      final char ch = original.charAt(i);
       switch (ch) {
       case '\r':
         lastSlashR = true;

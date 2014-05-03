@@ -27,7 +27,7 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLLIElement;
 
 public class HTMLLIElementImpl extends HTMLAbstractUIElement implements HTMLLIElement {
-  public HTMLLIElementImpl(String name) {
+  public HTMLLIElementImpl(final String name) {
     super(name);
   }
 
@@ -35,27 +35,27 @@ public class HTMLLIElementImpl extends HTMLAbstractUIElement implements HTMLLIEl
     return this.getAttribute("type");
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
   public int getValue() {
-    String valueText = this.getAttribute("value");
+    final String valueText = this.getAttribute("value");
     if (valueText == null) {
       return 0;
     }
     try {
       return Integer.parseInt(valueText);
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return 0;
     }
   }
 
-  public void setValue(int value) {
+  public void setValue(final int value) {
     this.setAttribute("value", String.valueOf(value));
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new DisplayRenderState(prevRenderState, this, RenderState.DISPLAY_LIST_ITEM);
   }
 }

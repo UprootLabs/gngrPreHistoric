@@ -11,11 +11,11 @@ import org.w3c.dom.html2.HTMLSelectElement;
 import org.mozilla.javascript.Function;
 
 public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLSelectElement {
-  public HTMLSelectElementImpl(String name) {
+  public HTMLSelectElementImpl(final String name) {
     super(name);
   }
 
-  public void add(HTMLElement element, HTMLElement before) throws DOMException {
+  public void add(final HTMLElement element, final HTMLElement before) throws DOMException {
     this.insertBefore(element, before);
   }
 
@@ -26,7 +26,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
   private Boolean multipleState = null;
 
   public boolean getMultiple() {
-    Boolean m = this.multipleState;
+    final Boolean m = this.multipleState;
     if (m != null) {
       return m.booleanValue();
     }
@@ -45,7 +45,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
   }
 
   public int getSelectedIndex() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       return ic.getSelectedIndex();
     } else {
@@ -54,7 +54,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
   }
 
   public int getSize() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       return ic.getVisibleSize();
     } else {
@@ -66,20 +66,20 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     return this.getMultiple() ? "select-multiple" : "select-one";
   }
 
-  public void remove(int index) {
+  public void remove(final int index) {
     try {
       this.removeChild(this.getOptions().item(index));
-    } catch (DOMException de) {
+    } catch (final DOMException de) {
       this.warn("remove(): Unable to remove option at index " + index + ".", de);
     }
   }
 
-  public void setLength(int length) throws DOMException {
+  public void setLength(final int length) throws DOMException {
     this.getOptions().setLength(length);
   }
 
-  public void setMultiple(boolean multiple) {
-    boolean prevMultiple = this.getMultiple();
+  public void setMultiple(final boolean multiple) {
+    final boolean prevMultiple = this.getMultiple();
     this.multipleState = Boolean.valueOf(multiple);
     if (prevMultiple != multiple) {
       this.informLayoutInvalid();
@@ -88,18 +88,18 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
 
   private int deferredSelectedIndex = -1;
 
-  public void setSelectedIndex(int selectedIndex) {
+  public void setSelectedIndex(final int selectedIndex) {
     this.setSelectedIndexImpl(selectedIndex);
-    HTMLOptionsCollection options = this.getOptions();
-    int length = options.getLength();
+    final HTMLOptionsCollection options = this.getOptions();
+    final int length = options.getLength();
     for (int i = 0; i < length; i++) {
-      HTMLOptionElementImpl option = (HTMLOptionElementImpl) options.item(i);
+      final HTMLOptionElementImpl option = (HTMLOptionElementImpl) options.item(i);
       option.setSelectedImpl(i == selectedIndex);
     }
   }
 
-  void setSelectedIndexImpl(int selectedIndex) {
-    InputContext ic = this.inputContext;
+  void setSelectedIndexImpl(final int selectedIndex) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setSelectedIndex(selectedIndex);
     } else {
@@ -107,8 +107,8 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     }
   }
 
-  public void setSize(int size) {
-    InputContext ic = this.inputContext;
+  public void setSize(final int size) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setVisibleSize(size);
     }
@@ -116,20 +116,20 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
 
   protected FormInput[] getFormInputs() {
     // Needs to be overriden for forms to submit.
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     String[] values = ic == null ? null : ic.getValues();
     if (values == null) {
-      String value = this.getValue();
+      final String value = this.getValue();
       values = value == null ? null : new String[] { value };
       if (values == null) {
         return null;
       }
     }
-    String name = this.getName();
+    final String name = this.getName();
     if (name == null) {
       return null;
     }
-    ArrayList<FormInput> formInputs = new ArrayList<FormInput>();
+    final ArrayList<FormInput> formInputs = new ArrayList<FormInput>();
     for (int i = 0; i < values.length; i++) {
       formInputs.add(new FormInput(name, values[i]));
     }
@@ -137,13 +137,13 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
   }
 
   public void resetInput() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.resetInput();
     }
   }
 
-  public void setInputContext(InputContext ic) {
+  public void setInputContext(final InputContext ic) {
     super.setInputContext(ic);
     if (ic != null) {
       ic.setSelectedIndex(this.deferredSelectedIndex);
@@ -156,7 +156,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     return this.getEventFunction(this.onchange, "onchange");
   }
 
-  public void setOnchange(Function value) {
+  public void setOnchange(final Function value) {
     this.onchange = value;
   }
 }

@@ -31,23 +31,23 @@ import java.io.*;
 public class IORoutines {
   public static final byte[] LINE_BREAK_BYTES = { (byte) 13, (byte) 10 };
 
-  public static String loadAsText(InputStream in, String encoding) throws IOException {
+  public static String loadAsText(final InputStream in, final String encoding) throws IOException {
     return loadAsText(in, encoding, 4096);
   }
 
-  public static String loadAsText(InputStream in, String encoding, int bufferSize) throws IOException {
-    InputStreamReader reader = new InputStreamReader(in, encoding);
+  public static String loadAsText(final InputStream in, final String encoding, final int bufferSize) throws IOException {
+    final InputStreamReader reader = new InputStreamReader(in, encoding);
     char[] buffer = new char[bufferSize];
     int offset = 0;
     for (;;) {
       int remain = buffer.length - offset;
       if (remain <= 0) {
-        char[] newBuffer = new char[buffer.length * 2];
+        final char[] newBuffer = new char[buffer.length * 2];
         System.arraycopy(buffer, 0, newBuffer, 0, offset);
         buffer = newBuffer;
         remain = buffer.length - offset;
       }
-      int numRead = reader.read(buffer, offset, remain);
+      final int numRead = reader.read(buffer, offset, remain);
       if (numRead == -1) {
         break;
       }
@@ -56,12 +56,12 @@ public class IORoutines {
     return new String(buffer, 0, offset);
   }
 
-  public static byte[] load(File file) throws IOException {
-    long fileLength = file.length();
+  public static byte[] load(final File file) throws IOException {
+    final long fileLength = file.length();
     if (fileLength > Integer.MAX_VALUE) {
       throw new IOException("File '" + file.getName() + "' too big");
     }
-    InputStream in = new FileInputStream(file);
+    final InputStream in = new FileInputStream(file);
     try {
       return loadExact(in, (int) fileLength);
     } finally {
@@ -69,11 +69,11 @@ public class IORoutines {
     }
   }
 
-  public static byte[] load(InputStream in) throws IOException {
+  public static byte[] load(final InputStream in) throws IOException {
     return load(in, 4096);
   }
 
-  public static byte[] load(InputStream in, int initialBufferSize) throws IOException {
+  public static byte[] load(final InputStream in, int initialBufferSize) throws IOException {
     if (initialBufferSize == 0) {
       initialBufferSize = 1;
     }
@@ -82,35 +82,35 @@ public class IORoutines {
     for (;;) {
       int remain = buffer.length - offset;
       if (remain <= 0) {
-        int newSize = buffer.length * 2;
-        byte[] newBuffer = new byte[newSize];
+        final int newSize = buffer.length * 2;
+        final byte[] newBuffer = new byte[newSize];
         System.arraycopy(buffer, 0, newBuffer, 0, offset);
         buffer = newBuffer;
         remain = buffer.length - offset;
       }
-      int numRead = in.read(buffer, offset, remain);
+      final int numRead = in.read(buffer, offset, remain);
       if (numRead == -1) {
         break;
       }
       offset += numRead;
     }
     if (offset < buffer.length) {
-      byte[] newBuffer = new byte[offset];
+      final byte[] newBuffer = new byte[offset];
       System.arraycopy(buffer, 0, newBuffer, 0, offset);
       buffer = newBuffer;
     }
     return buffer;
   }
 
-  public static byte[] loadExact(InputStream in, int length) throws IOException {
-    byte[] buffer = new byte[length];
+  public static byte[] loadExact(final InputStream in, final int length) throws IOException {
+    final byte[] buffer = new byte[length];
     int offset = 0;
     for (;;) {
-      int remain = length - offset;
+      final int remain = length - offset;
       if (remain <= 0) {
         break;
       }
-      int numRead = in.read(buffer, offset, remain);
+      final int numRead = in.read(buffer, offset, remain);
       if (numRead == -1) {
         throw new IOException("Reached EOF, read " + offset + " expecting " + length);
       }
@@ -119,22 +119,22 @@ public class IORoutines {
     return buffer;
   }
 
-  public static boolean equalContent(File file, byte[] content) throws IOException {
-    long length = file.length();
+  public static boolean equalContent(final File file, final byte[] content) throws IOException {
+    final long length = file.length();
     if (length > Integer.MAX_VALUE) {
       throw new IOException("File '" + file + "' too big");
     }
-    InputStream in = new FileInputStream(file);
+    final InputStream in = new FileInputStream(file);
     try {
-      byte[] fileContent = loadExact(in, (int) length);
+      final byte[] fileContent = loadExact(in, (int) length);
       return java.util.Arrays.equals(content, fileContent);
     } finally {
       in.close();
     }
   }
 
-  public static void save(File file, byte[] content) throws IOException {
-    FileOutputStream out = new FileOutputStream(file);
+  public static void save(final File file, final byte[] content) throws IOException {
+    final FileOutputStream out = new FileOutputStream(file);
     try {
       out.write(content);
     } finally {
@@ -145,7 +145,7 @@ public class IORoutines {
   /**
    * Reads line without buffering.
    */
-  public static String readLine(InputStream in) throws IOException {
+  public static String readLine(final InputStream in) throws IOException {
     int b;
     StringBuffer sb = null;
     OUTER: while ((b = in.read()) != -1) {
@@ -165,17 +165,17 @@ public class IORoutines {
     return sb == null ? null : sb.toString();
   }
 
-  public static void touch(File file) {
+  public static void touch(final File file) {
     file.setLastModified(System.currentTimeMillis());
   }
 
-  public static void saveStrings(File file, java.util.Collection list) throws IOException {
-    BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(file));
+  public static void saveStrings(final File file, final java.util.Collection list) throws IOException {
+    final BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(file));
     try {
-      PrintWriter writer = new PrintWriter(bout);
-      java.util.Iterator i = list.iterator();
+      final PrintWriter writer = new PrintWriter(bout);
+      final java.util.Iterator i = list.iterator();
       while (i.hasNext()) {
-        String text = (String) i.next();
+        final String text = (String) i.next();
         writer.println(text);
       }
       writer.flush();
@@ -184,11 +184,11 @@ public class IORoutines {
     }
   }
 
-  public static java.util.List<String> loadStrings(File file) throws IOException {
-    java.util.List<String> list = new java.util.LinkedList<String>();
-    InputStream in = new FileInputStream(file);
+  public static java.util.List<String> loadStrings(final File file) throws IOException {
+    final java.util.List<String> list = new java.util.LinkedList<String>();
+    final InputStream in = new FileInputStream(file);
     try {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+      final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
       String line;
       while ((line = reader.readLine()) != null) {
         list.add(line);

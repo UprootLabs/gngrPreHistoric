@@ -24,7 +24,7 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLHeadingElement;
 
 public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTMLHeadingElement {
-  public HTMLHeadingElementImpl(String name) {
+  public HTMLHeadingElementImpl(final String name) {
     super(name);
   }
 
@@ -32,14 +32,14 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
   private final float getHeadingFontSize() {
-    String tagName = this.getTagName();
+    final String tagName = this.getTagName();
     try {
-      int lastCharValue = tagName.charAt(1) - '0';
+      final int lastCharValue = tagName.charAt(1) - '0';
       switch (lastCharValue) {
       case 1:
         return 24.0f;
@@ -54,16 +54,16 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
       case 6:
         return 8.0f;
       }
-    } catch (Exception thrown) {
+    } catch (final Exception thrown) {
       this.warn("getHeadingFontSize(): Bad heading tag: " + this.getTagName(), thrown);
     }
     return 14.0f;
   }
 
   private final String getHeadingFontSizeText() {
-    String tagName = this.getTagName();
+    final String tagName = this.getTagName();
     try {
-      int lastCharValue = tagName.charAt(1) - '0';
+      final int lastCharValue = tagName.charAt(1) - '0';
       switch (lastCharValue) {
       case 1:
         return "24pt";
@@ -78,22 +78,22 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
       case 6:
         return "7.55pt";
       }
-    } catch (Exception thrown) {
+    } catch (final Exception thrown) {
       this.warn("getHeadingFontSizeText(): Bad heading tag: " + this.getTagName(), thrown);
     }
     return "14px";
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
-    float fontSize = this.getHeadingFontSize();
+  protected RenderState createRenderState(final RenderState prevRenderState) {
+    final float fontSize = this.getHeadingFontSize();
     // (can't put a RenderState in the middle - messes up "em" sizes).
     // prevRenderState = new FontSizeRenderState(prevRenderState, fontSize,
     // java.awt.Font.BOLD);
     return new HeadingRenderState(prevRenderState, this);
   }
 
-  protected void appendInnerTextImpl(StringBuffer buffer) {
-    int length = buffer.length();
+  protected void appendInnerTextImpl(final StringBuffer buffer) {
+    final int length = buffer.length();
     int lineBreaks;
     if (length == 0) {
       lineBreaks = 2;
@@ -104,7 +104,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
       }
       lineBreaks = 0;
       for (int i = start; i < length; i++) {
-        char ch = buffer.charAt(i);
+        final char ch = buffer.charAt(i);
         if (ch == '\n') {
           lineBreaks++;
         }
@@ -118,7 +118,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
   }
 
   protected AbstractCSS2Properties createDefaultStyleSheet() {
-    ComputedCSS2Properties css = new ComputedCSS2Properties(this);
+    final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
     css.internalSetLC("font-size", this.getHeadingFontSizeText());
     css.internalSetLC("font-weight", "bolder");
     return css;

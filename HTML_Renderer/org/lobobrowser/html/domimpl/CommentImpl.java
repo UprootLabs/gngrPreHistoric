@@ -28,7 +28,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 
 public class CommentImpl extends CharacterDataImpl implements Comment {
-  public CommentImpl(String text) {
+  public CommentImpl(final String text) {
     super(text);
   }
 
@@ -44,7 +44,7 @@ public class CommentImpl extends CharacterDataImpl implements Comment {
     return this.getTextContent();
   }
 
-  public void setNodeValue(String nodeValue) throws DOMException {
+  public void setNodeValue(final String nodeValue) throws DOMException {
     this.setTextContent(nodeValue);
   }
 

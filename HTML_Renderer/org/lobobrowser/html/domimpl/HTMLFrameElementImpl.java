@@ -31,15 +31,15 @@ import org.w3c.dom.html2.HTMLFrameElement;
 public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameElement, FrameNode {
   private volatile BrowserFrame browserFrame;
 
-  public HTMLFrameElementImpl(String name, boolean noStyleSheet) {
+  public HTMLFrameElementImpl(final String name, final boolean noStyleSheet) {
     super(name, noStyleSheet);
   }
 
-  public HTMLFrameElementImpl(String name) {
+  public HTMLFrameElementImpl(final String name) {
     super(name);
   }
 
-  public void setBrowserFrame(BrowserFrame frame) {
+  public void setBrowserFrame(final BrowserFrame frame) {
     this.browserFrame = frame;
   }
 
@@ -51,7 +51,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("frameBorder");
   }
 
-  public void setFrameBorder(String frameBorder) {
+  public void setFrameBorder(final String frameBorder) {
     this.setAttribute("frameBorder", frameBorder);
   }
 
@@ -59,7 +59,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("longdesc");
   }
 
-  public void setLongDesc(String longDesc) {
+  public void setLongDesc(final String longDesc) {
     this.setAttribute("longdesc", longDesc);
   }
 
@@ -67,7 +67,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("marginHeight");
   }
 
-  public void setMarginHeight(String marginHeight) {
+  public void setMarginHeight(final String marginHeight) {
     this.setAttribute("marginHeight", marginHeight);
   }
 
@@ -75,7 +75,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("marginWidth");
   }
 
-  public void setMarginWidth(String marginWidth) {
+  public void setMarginWidth(final String marginWidth) {
     this.setAttribute("marginWidth", marginWidth);
   }
 
@@ -83,7 +83,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("name");
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.setAttribute("name", name);
   }
 
@@ -93,7 +93,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.noResize;
   }
 
-  public void setNoResize(boolean noResize) {
+  public void setNoResize(final boolean noResize) {
     this.noResize = noResize;
   }
 
@@ -101,7 +101,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("scrolling");
   }
 
-  public void setScrolling(String scrolling) {
+  public void setScrolling(final String scrolling) {
     this.setAttribute("scrolling", scrolling);
   }
 
@@ -109,12 +109,12 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     return this.getAttribute("src");
   }
 
-  public void setSrc(String src) {
+  public void setSrc(final String src) {
     this.setAttribute("src", src);
   }
 
   public Document getContentDocument() {
-    BrowserFrame frame = this.browserFrame;
+    final BrowserFrame frame = this.browserFrame;
     if (frame == null) {
       // Not loaded yet
       return null;
@@ -123,7 +123,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
   }
 
   public Window getContentWindow() {
-    BrowserFrame frame = this.browserFrame;
+    final BrowserFrame frame = this.browserFrame;
     if (frame == null) {
       // Not loaded yet
       return null;

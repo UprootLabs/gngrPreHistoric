@@ -30,7 +30,7 @@ import org.w3c.dom.html2.HTMLFormElement;
 import org.w3c.dom.html2.HTMLTextAreaElement;
 
 public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTMLTextAreaElement {
-  public HTMLTextAreaElementImpl(String name) {
+  public HTMLTextAreaElementImpl(final String name) {
     super(name);
   }
 
@@ -39,7 +39,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
   }
 
   protected FormInput[] getFormInputs() {
-    String name = this.getName();
+    final String name = this.getName();
     if (name == null) {
       return null;
     }
@@ -52,7 +52,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
    * @see org.w3c.dom.html2.HTMLTextAreaElement#getCols()
    */
   public int getCols() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     return ic == null ? 0 : ic.getCols();
   }
 
@@ -62,7 +62,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
    * @see org.w3c.dom.html2.HTMLTextAreaElement#getRows()
    */
   public int getRows() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     return ic == null ? 0 : ic.getRows();
   }
 
@@ -80,8 +80,8 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
    * 
    * @see org.w3c.dom.html2.HTMLTextAreaElement#setCols(int)
    */
-  public void setCols(int cols) {
-    InputContext ic = this.inputContext;
+  public void setCols(final int cols) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setCols(cols);
     }
@@ -92,8 +92,8 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
    * 
    * @see org.w3c.dom.html2.HTMLTextAreaElement#setRows(int)
    */
-  public void setRows(int rows) {
-    InputContext ic = this.inputContext;
+  public void setRows(final int rows) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setRows(rows);
     }

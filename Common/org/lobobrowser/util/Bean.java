@@ -37,27 +37,27 @@ public class Bean {
   // Logger.getLogger(Bean.class);
   private final Class clazz;
 
-  public Bean(Class clazz) {
+  public Bean(final Class clazz) {
     this.clazz = clazz;
   }
 
   private Map<String, PropertyDescriptor> propertyDescriptors = null;
 
-  private void populateDescriptors(Map<String, PropertyDescriptor> map, Class clazz) throws IntrospectionException {
-    BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-    PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+  private void populateDescriptors(final Map<String, PropertyDescriptor> map, final Class clazz) throws IntrospectionException {
+    final BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+    final PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
     for (int i = 0; i < pds.length; i++) {
       map.put(pds[i].getName(), pds[i]);
     }
     if (clazz.isInterface()) {
-      java.lang.reflect.Type[] interfaces = clazz.getGenericInterfaces();
+      final java.lang.reflect.Type[] interfaces = clazz.getGenericInterfaces();
       for (int i = 0; i < interfaces.length; i++) {
         this.populateDescriptors(map, (Class) interfaces[i]);
       }
     }
   }
 
-  public PropertyDescriptor getPropertyDescriptor(String propertyName) throws IntrospectionException {
+  public PropertyDescriptor getPropertyDescriptor(final String propertyName) throws IntrospectionException {
     synchronized (this) {
       if (this.propertyDescriptors == null) {
         this.propertyDescriptors = new HashMap<String, PropertyDescriptor>();
@@ -83,38 +83,38 @@ public class Bean {
     }
   }
 
-  public void setPropertyForFQN(Object receiver, String fullyQualifiedPropertyName, Object value) throws Exception {
-    int idx = fullyQualifiedPropertyName.indexOf('.');
+  public void setPropertyForFQN(final Object receiver, final String fullyQualifiedPropertyName, final Object value) throws Exception {
+    final int idx = fullyQualifiedPropertyName.indexOf('.');
     if (idx == -1) {
-      PropertyDescriptor pd = this.getPropertyDescriptor(fullyQualifiedPropertyName);
+      final PropertyDescriptor pd = this.getPropertyDescriptor(fullyQualifiedPropertyName);
       if (pd == null) {
         throw new IllegalStateException("Property '" + fullyQualifiedPropertyName + "' unknown");
       }
-      Method method = pd.getWriteMethod();
+      final Method method = pd.getWriteMethod();
       if (method == null) {
         throw new IllegalStateException("Property '" + fullyQualifiedPropertyName + "' not settable");
       }
-      Object actualValue = convertValue(value, pd.getPropertyType());
+      final Object actualValue = convertValue(value, pd.getPropertyType());
       method.invoke(receiver, new Object[] { actualValue });
     } else {
-      String prefix = fullyQualifiedPropertyName.substring(0, idx);
-      PropertyDescriptor pinfo = this.getPropertyDescriptor(prefix);
+      final String prefix = fullyQualifiedPropertyName.substring(0, idx);
+      final PropertyDescriptor pinfo = this.getPropertyDescriptor(prefix);
       if (pinfo == null) {
         throw new IllegalStateException("Property '" + prefix + "' unknown");
       }
-      Method readMethod = pinfo.getReadMethod();
+      final Method readMethod = pinfo.getReadMethod();
       if (readMethod == null) {
         throw new IllegalStateException("Property '" + prefix + "' not readable");
       }
-      Object newReceiver = readMethod.invoke(receiver, new Object[0]);
+      final Object newReceiver = readMethod.invoke(receiver, new Object[0]);
       // Class newClass = pinfo.getPropertyType();
-      String nameRest = fullyQualifiedPropertyName.substring(idx + 1);
+      final String nameRest = fullyQualifiedPropertyName.substring(idx + 1);
       this.setPropertyForFQN(newReceiver, nameRest, value);
     }
   }
 
-  private static Object convertValue(Object value, Class targetType) {
-    boolean targetString = targetType.isAssignableFrom(String.class);
+  private static Object convertValue(Object value, final Class targetType) {
+    final boolean targetString = targetType.isAssignableFrom(String.class);
     if (value instanceof String && targetString) {
       // ignore
     } else if (targetString) {

@@ -32,7 +32,7 @@ public class NodeListImpl extends AbstractScriptableDelegate implements NodeList
   // Note: class must be public for reflection to work.
   private final ArrayList<Object> nodeList = new ArrayList<Object>();
 
-  public NodeListImpl(Collection<Object> collection) {
+  public NodeListImpl(final Collection<Object> collection) {
     super();
     nodeList.addAll(collection);
   }
@@ -41,10 +41,10 @@ public class NodeListImpl extends AbstractScriptableDelegate implements NodeList
     return this.nodeList.size();
   }
 
-  public Node item(int index) {
+  public Node item(final int index) {
     try {
       return (Node) this.nodeList.get(index);
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
     }
   }

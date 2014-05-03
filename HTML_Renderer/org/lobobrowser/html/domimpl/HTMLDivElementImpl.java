@@ -26,7 +26,7 @@ import org.w3c.dom.html2.HTMLDivElement;
 
 public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDivElement {
 
-  public HTMLDivElementImpl(String name) {
+  public HTMLDivElementImpl(final String name) {
     super(name);
   }
 
@@ -34,16 +34,16 @@ public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDiv
     return this.getAttribute("align");
   }
 
-  public void setAlign(String align) {
+  public void setAlign(final String align) {
     this.setAttribute("align", align);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new BlockRenderState(prevRenderState, this);
   }
 
-  protected void appendInnerTextImpl(StringBuffer buffer) {
-    int length = buffer.length();
+  protected void appendInnerTextImpl(final StringBuffer buffer) {
+    final int length = buffer.length();
     int lineBreaks;
     if (length == 0) {
       lineBreaks = 2;
@@ -54,7 +54,7 @@ public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDiv
       }
       lineBreaks = 0;
       for (int i = start; i < length; i++) {
-        char ch = buffer.charAt(i);
+        final char ch = buffer.charAt(i);
         if (ch == '\n') {
           lineBreaks++;
         }

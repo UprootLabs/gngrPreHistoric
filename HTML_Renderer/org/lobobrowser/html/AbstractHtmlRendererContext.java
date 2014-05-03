@@ -33,7 +33,7 @@ import org.w3c.dom.html2.HTMLLinkElement;
  */
 public abstract class AbstractHtmlRendererContext implements HtmlRendererContext {
 
-  public void alert(String message) {
+  public void alert(final String message) {
   }
 
   public void back() {
@@ -45,7 +45,7 @@ public abstract class AbstractHtmlRendererContext implements HtmlRendererContext
   public void close() {
   }
 
-  public boolean confirm(String message) {
+  public boolean confirm(final String message) {
     return false;
   }
 
@@ -64,7 +64,7 @@ public abstract class AbstractHtmlRendererContext implements HtmlRendererContext
     return null;
   }
 
-  public HtmlObject getHtmlObject(HTMLElement element) {
+  public HtmlObject getHtmlObject(final HTMLElement element) {
     return null;
   }
 
@@ -109,80 +109,80 @@ public abstract class AbstractHtmlRendererContext implements HtmlRendererContext
   /**
    * Returns false unless overridden.
    */
-  public boolean isVisitedLink(HTMLLinkElement link) {
+  public boolean isVisitedLink(final HTMLLinkElement link) {
     return false;
   }
 
-  public void linkClicked(HTMLElement linkNode, URL url, String target) {
+  public void linkClicked(final HTMLElement linkNode, final URL url, final String target) {
   }
 
-  public void navigate(URL url, String target) {
+  public void navigate(final URL url, final String target) {
   }
 
   /**
    * Returns true unless overridden.
    */
-  public boolean onContextMenu(HTMLElement element, MouseEvent event) {
+  public boolean onContextMenu(final HTMLElement element, final MouseEvent event) {
     return true;
   }
 
-  public void onMouseOut(HTMLElement element, MouseEvent event) {
+  public void onMouseOut(final HTMLElement element, final MouseEvent event) {
   }
 
-  public void onMouseOver(HTMLElement element, MouseEvent event) {
+  public void onMouseOver(final HTMLElement element, final MouseEvent event) {
   }
 
-  public HtmlRendererContext open(String absoluteUrl, String windowName, String windowFeatures, boolean replace) {
+  public HtmlRendererContext open(final String absoluteUrl, final String windowName, final String windowFeatures, final boolean replace) {
     return null;
   }
 
-  public HtmlRendererContext open(URL url, String windowName, String windowFeatures, boolean replace) {
+  public HtmlRendererContext open(final URL url, final String windowName, final String windowFeatures, final boolean replace) {
     return null;
   }
 
-  public String prompt(String message, String inputDefault) {
+  public String prompt(final String message, final String inputDefault) {
     return null;
   }
 
   public void reload() {
   }
 
-  public void scroll(int x, int y) {
+  public void scroll(final int x, final int y) {
   }
 
-  public void setDefaultStatus(String value) {
+  public void setDefaultStatus(final String value) {
   }
 
-  public void setOpener(HtmlRendererContext opener) {
+  public void setOpener(final HtmlRendererContext opener) {
   }
 
-  public void setStatus(String message) {
+  public void setStatus(final String message) {
   }
 
-  public void submitForm(String method, URL action, String target, String enctype, FormInput[] formInputs) {
+  public void submitForm(final String method, final URL action, final String target, final String enctype, final FormInput[] formInputs) {
   }
 
   /**
    * Returns true unless overridden.
    */
-  public boolean onDoubleClick(HTMLElement element, MouseEvent event) {
+  public boolean onDoubleClick(final HTMLElement element, final MouseEvent event) {
     return true;
   }
 
   /**
    * Returns true unless overridden.
    */
-  public boolean onMouseClick(HTMLElement element, MouseEvent event) {
+  public boolean onMouseClick(final HTMLElement element, final MouseEvent event) {
     return true;
   }
 
-  public void scrollBy(int x, int y) {
+  public void scrollBy(final int x, final int y) {
   }
 
-  public void resizeBy(int byWidth, int byHeight) {
+  public void resizeBy(final int byWidth, final int byHeight) {
   }
 
-  public void resizeTo(int width, int height) {
+  public void resizeTo(final int width, final int height) {
   }
 
   public void forward() {
@@ -204,9 +204,9 @@ public abstract class AbstractHtmlRendererContext implements HtmlRendererContext
     return null;
   }
 
-  public void goToHistoryURL(String url) {
+  public void goToHistoryURL(final String url) {
   }
 
-  public void moveInHistory(int offset) {
+  public void moveInHistory(final int offset) {
   }
 }

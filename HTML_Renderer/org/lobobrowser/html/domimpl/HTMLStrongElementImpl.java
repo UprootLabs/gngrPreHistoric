@@ -26,7 +26,7 @@ import org.lobobrowser.html.style.*;
  * Element used for B and STRONG.
  */
 public class HTMLStrongElementImpl extends HTMLAbstractUIElement {
-  public HTMLStrongElementImpl(String name) {
+  public HTMLStrongElementImpl(final String name) {
     super(name);
   }
 

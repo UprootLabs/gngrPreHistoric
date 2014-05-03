@@ -27,16 +27,16 @@ import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLUListElement;
 
 public class HTMLUListElementImpl extends HTMLAbstractUIElement implements HTMLUListElement {
-  public HTMLUListElementImpl(String name) {
+  public HTMLUListElementImpl(final String name) {
     super(name);
   }
 
   public boolean getCompact() {
-    String compactText = this.getAttribute("compact");
+    final String compactText = this.getAttribute("compact");
     return "compact".equalsIgnoreCase(compactText);
   }
 
-  public void setCompact(boolean compact) {
+  public void setCompact(final boolean compact) {
     this.setAttribute("compact", compact ? "compact" : null);
   }
 
@@ -44,11 +44,11 @@ public class HTMLUListElementImpl extends HTMLAbstractUIElement implements HTMLU
     return this.getAttribute("type");
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ListRenderState(prevRenderState, this);
   }
 }

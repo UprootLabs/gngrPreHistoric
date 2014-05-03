@@ -33,14 +33,14 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements Name
   private final Map<String, Node> attributes = new HashMap<String, Node>();
   private final ArrayList<Node> attributeList = new ArrayList<Node>();
 
-  public NamedNodeMapImpl(Element owner, Map<String, String> attribs) {
-    Iterator i = attribs.entrySet().iterator();
+  public NamedNodeMapImpl(final Element owner, final Map<String, String> attribs) {
+    final Iterator i = attribs.entrySet().iterator();
     while (i.hasNext()) {
-      Map.Entry entry = (Map.Entry) i.next();
-      String name = (String) entry.getKey();
-      String value = (String) entry.getValue();
+      final Map.Entry entry = (Map.Entry) i.next();
+      final String name = (String) entry.getKey();
+      final String value = (String) entry.getValue();
       // TODO: "specified" attributes
-      Attr attr = new AttrImpl(name, value, true, owner, "ID".equals(name));
+      final Attr attr = new AttrImpl(name, value, true, owner, "ID".equals(name));
       this.attributes.put(name, attr);
       this.attributeList.add(attr);
     }
@@ -50,40 +50,40 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements Name
     return this.attributeList.size();
   }
 
-  public Node getNamedItem(String name) {
+  public Node getNamedItem(final String name) {
     return this.attributes.get(name);
   }
 
   /**
    * @param name
    */
-  public Node namedItem(String name) {
+  public Node namedItem(final String name) {
     // Method needed for Javascript indexing.
     return this.getNamedItem(name);
   }
 
-  public Node getNamedItemNS(String namespaceURI, String localName) throws DOMException {
+  public Node getNamedItemNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
   }
 
-  public Node item(int index) {
+  public Node item(final int index) {
     try {
       return this.attributeList.get(index);
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
     }
   }
 
-  public Node removeNamedItem(String name) throws DOMException {
+  public Node removeNamedItem(final String name) throws DOMException {
     return this.attributes.remove(name);
   }
 
-  public Node removeNamedItemNS(String namespaceURI, String localName) throws DOMException {
+  public Node removeNamedItemNS(final String namespaceURI, final String localName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
   }
 
-  public Node setNamedItem(Node arg) throws DOMException {
-    Object prevValue = this.attributes.put(arg.getNodeName(), arg);
+  public Node setNamedItem(final Node arg) throws DOMException {
+    final Object prevValue = this.attributes.put(arg.getNodeName(), arg);
     if (prevValue != null) {
       this.attributeList.remove(prevValue);
     }
@@ -91,7 +91,7 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements Name
     return arg;
   }
 
-  public Node setNamedItemNS(Node arg) throws DOMException {
+  public Node setNamedItemNS(final Node arg) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
   }
 }

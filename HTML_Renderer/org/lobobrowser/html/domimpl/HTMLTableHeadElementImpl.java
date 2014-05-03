@@ -27,7 +27,7 @@ import org.lobobrowser.html.style.RenderState;
  * Element used for TH.
  */
 public class HTMLTableHeadElementImpl extends HTMLTableCellElementImpl {
-  public HTMLTableHeadElementImpl(String name) {
+  public HTMLTableHeadElementImpl(final String name) {
     super(name);
   }
 

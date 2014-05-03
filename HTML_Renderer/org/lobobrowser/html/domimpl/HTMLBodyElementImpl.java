@@ -32,18 +32,18 @@ import org.w3c.dom.html2.HTMLDocument;
 import org.mozilla.javascript.Function;
 
 public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBodyElement {
-  public HTMLBodyElementImpl(String name) {
+  public HTMLBodyElementImpl(final String name) {
     super(name);
   }
 
-  void setOwnerDocument(Document value, boolean deep) {
+  void setOwnerDocument(final Document value, final boolean deep) {
     super.setOwnerDocument(value, deep);
     if (value instanceof HTMLDocument) {
       ((HTMLDocument) value).setBody(this);
     }
   }
 
-  void setOwnerDocument(Document value) {
+  void setOwnerDocument(final Document value) {
     super.setOwnerDocument(value);
     if (value instanceof HTMLDocument) {
       ((HTMLDocument) value).setBody(this);
@@ -54,7 +54,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     return this.getAttribute("alink");
   }
 
-  public void setALink(String aLink) {
+  public void setALink(final String aLink) {
     this.setAttribute("alink", aLink);
   }
 
@@ -62,7 +62,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     return this.getAttribute("background");
   }
 
-  public void setBackground(String background) {
+  public void setBackground(final String background) {
     this.setAttribute("background", background);
   }
 
@@ -70,7 +70,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     return this.getAttribute("bgcolor");
   }
 
-  public void setBgColor(String bgColor) {
+  public void setBgColor(final String bgColor) {
     this.setAttribute("bgcolor", bgColor);
   }
 
@@ -78,7 +78,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     return this.getAttribute("link");
   }
 
-  public void setLink(String link) {
+  public void setLink(final String link) {
     this.setAttribute("link", link);
   }
 
@@ -86,7 +86,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     return this.getAttribute("text");
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.setAttribute("text", text);
   }
 
@@ -94,16 +94,16 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     return this.getAttribute("vlink");
   }
 
-  public void setVLink(String vLink) {
+  public void setVLink(final String vLink) {
     this.setAttribute("vlink", vLink);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
+  protected RenderState createRenderState(final RenderState prevRenderState) {
     return new BodyRenderState(prevRenderState, this);
   }
 
   public Function getOnload() {
-    Object document = this.document;
+    final Object document = this.document;
     if (document instanceof HTMLDocumentImpl) {
       return ((HTMLDocumentImpl) document).getOnloadHandler();
     } else {
@@ -111,8 +111,8 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     }
   }
 
-  public void setOnload(Function onload) {
-    Object document = this.document;
+  public void setOnload(final Function onload) {
+    final Object document = this.document;
     if (document instanceof HTMLDocumentImpl) {
       // Note that body.onload overrides
       // Window.onload.
@@ -120,9 +120,9 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     }
   }
 
-  protected void assignAttributeField(String normalName, String value) {
+  protected void assignAttributeField(final String normalName, final String value) {
     if ("onload".equals(normalName)) {
-      Function onload = this.getEventFunction(null, normalName);
+      final Function onload = this.getEventFunction(null, normalName);
       if (onload != null) {
         this.setOnload(onload);
       }

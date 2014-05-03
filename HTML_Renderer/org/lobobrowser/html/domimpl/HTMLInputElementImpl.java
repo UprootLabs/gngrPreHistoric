@@ -29,7 +29,7 @@ import org.lobobrowser.html.FormInput;
 import org.w3c.dom.html2.*;
 
 public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLInputElement {
-  public HTMLInputElementImpl(String name) {
+  public HTMLInputElementImpl(final String name) {
     super(name);
   }
 
@@ -39,12 +39,12 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     return this.defaultChecked;
   }
 
-  public void setDefaultChecked(boolean defaultChecked) {
+  public void setDefaultChecked(final boolean defaultChecked) {
     this.defaultChecked = defaultChecked;
   }
 
   public boolean getChecked() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic == null) {
       return this.getAttributeAsBoolean("checked");
     } else {
@@ -52,32 +52,32 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     }
   }
 
-  public void setChecked(boolean checked) {
-    InputContext ic = this.inputContext;
+  public void setChecked(final boolean checked) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setChecked(checked);
     }
   }
 
   public int getMaxLength() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     return ic == null ? 0 : ic.getMaxLength();
   }
 
-  public void setMaxLength(int maxLength) {
-    InputContext ic = this.inputContext;
+  public void setMaxLength(final int maxLength) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setMaxLength(maxLength);
     }
   }
 
   public int getSize() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     return ic == null ? 0 : ic.getControlSize();
   }
 
-  public void setSize(int size) {
-    InputContext ic = this.inputContext;
+  public void setSize(final int size) {
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setControlSize(size);
     }
@@ -87,7 +87,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     return this.getAttribute("src");
   }
 
-  public void setSrc(String src) {
+  public void setSrc(final String src) {
     this.setAttribute("src", src);
   }
 
@@ -95,11 +95,11 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
    * Gets input type in lowercase.
    */
   public String getType() {
-    String type = this.getAttribute("type");
+    final String type = this.getAttribute("type");
     return type == null ? null : type.toLowerCase();
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.setAttribute("type", type);
   }
 
@@ -107,52 +107,52 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     return this.getAttribute("usemap");
   }
 
-  public void setUseMap(String useMap) {
+  public void setUseMap(final String useMap) {
     this.setAttribute("usemap", useMap);
   }
 
   public void click() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.click();
     }
   }
 
   public boolean isSubmittableWithEnterKey() {
-    String type = this.getType();
+    final String type = this.getType();
     return (type == null || "".equals(type) || "text".equals(type) || "password".equals(type));
   }
 
   public boolean isSubmittableWithPress() {
-    String type = this.getType();
+    final String type = this.getType();
     return "submit".equals(type) || "image".equals(type);
   }
 
   public boolean isSubmitInput() {
-    String type = this.getType();
+    final String type = this.getType();
     return "submit".equals(type);
   }
 
   public boolean isImageInput() {
-    String type = this.getType();
+    final String type = this.getType();
     return "image".equals(type);
   }
 
   public boolean isResetInput() {
-    String type = this.getType();
+    final String type = this.getType();
     return "reset".equals(type);
   }
 
   void resetInput() {
-    InputContext ic = this.inputContext;
+    final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.resetInput();
     }
   }
 
   protected FormInput[] getFormInputs() {
-    String type = this.getType();
-    String name = this.getName();
+    final String type = this.getType();
+    final String name = this.getName();
     if (name == null) {
       return null;
     }
@@ -178,7 +178,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
         // It's done as an "extra" form input
         return null;
       } else if ("file".equals(type)) {
-        java.io.File file = this.getFileValue();
+        final java.io.File file = this.getFileValue();
         if (file == null) {
           if (logger.isLoggable(Level.INFO)) {
             logger.info("getFormInputs(): File input named " + name + " has null file.");

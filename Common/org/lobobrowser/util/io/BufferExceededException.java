@@ -25,15 +25,15 @@ public class BufferExceededException extends Exception {
     super();
   }
 
-  public BufferExceededException(String message, Throwable cause) {
+  public BufferExceededException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public BufferExceededException(String message) {
+  public BufferExceededException(final String message) {
     super(message);
   }
 
-  public BufferExceededException(Throwable cause) {
+  public BufferExceededException(final Throwable cause) {
     super(cause);
   }
 }

@@ -35,11 +35,11 @@ public class OS {
   }
 
   public static boolean isWindows() {
-    String osName = System.getProperty("os.name");
+    final String osName = System.getProperty("os.name");
     return osName.indexOf("Windows") != -1;
   }
 
-  public static void launchBrowser(String url) throws java.io.IOException {
+  public static void launchBrowser(final String url) throws java.io.IOException {
     String cmdLine;
     if (isWindows()) {
       cmdLine = "rundll32 url.dll,FileProtocolHandler " + url;
@@ -48,7 +48,7 @@ public class OS {
     }
     try {
       Runtime.getRuntime().exec(cmdLine);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       Runtime.getRuntime().exec("netscape " + url);
     }
   }
@@ -56,7 +56,7 @@ public class OS {
   /**
    * Opens a file a directory with an appropriate program.
    */
-  public static void launchPath(String path) throws java.io.IOException {
+  public static void launchPath(final String path) throws java.io.IOException {
     if (isWindows()) {
       Runtime.getRuntime().exec(new String[] { "cmd.exe", "/c", "start", "\"title\"", path });
     } else {

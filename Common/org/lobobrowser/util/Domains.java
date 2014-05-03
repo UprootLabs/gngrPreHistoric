@@ -57,7 +57,7 @@ public class Domains {
     super();
   }
 
-  public static boolean isValidCookieDomain(String domain, String hostName) {
+  public static boolean isValidCookieDomain(String domain, final String hostName) {
     String plainDomain;
     if (!domain.startsWith(".")) {
       // Valid domains must start with a dot
@@ -69,16 +69,16 @@ public class Domains {
     } else {
       plainDomain = domain.substring(1);
     }
-    String plainDomainTL = plainDomain.toLowerCase();
-    String hostNameTL = hostName.toLowerCase();
+    final String plainDomainTL = plainDomain.toLowerCase();
+    final String hostNameTL = hostName.toLowerCase();
     if (!hostNameTL.endsWith(plainDomainTL)) {
       return false;
     }
-    int lastDotIdx = domain.lastIndexOf('.');
+    final int lastDotIdx = domain.lastIndexOf('.');
     if (lastDotIdx == -1) {
       return false;
     }
-    String suffix = domain.substring(lastDotIdx).toLowerCase();
+    final String suffix = domain.substring(lastDotIdx).toLowerCase();
     if (gTLDs.contains(suffix)) {
       return Strings.countChars(domain, '.') >= 2;
     } else {
@@ -92,10 +92,10 @@ public class Domains {
    *          A host name in lower case.
    * @return
    */
-  public static boolean endsWithGTLD(String host) {
-    Iterator<String> i = gTLDs.iterator();
+  public static boolean endsWithGTLD(final String host) {
+    final Iterator<String> i = gTLDs.iterator();
     while (i.hasNext()) {
-      String ending = i.next();
+      final String ending = i.next();
       if (host.endsWith(ending)) {
         return true;
       }
@@ -103,15 +103,15 @@ public class Domains {
     return false;
   }
 
-  public static boolean isLikelyHostName(String name) {
-    String nameTL = name.toLowerCase();
+  public static boolean isLikelyHostName(final String name) {
+    final String nameTL = name.toLowerCase();
     if (nameTL.startsWith("www.")) {
       return true;
     }
     if (endsWithGTLD(name)) {
       return true;
     }
-    int lastDotIdx = nameTL.lastIndexOf('.');
+    final int lastDotIdx = nameTL.lastIndexOf('.');
     if (lastDotIdx == -1) {
       return false;
     }
@@ -119,14 +119,14 @@ public class Domains {
     return lastDotIdx == nameTL.length() - 3;
   }
 
-  public static Collection<String> getPossibleDomains(String hostName) {
-    Collection<String> domains = new LinkedList<String>();
+  public static Collection<String> getPossibleDomains(final String hostName) {
+    final Collection<String> domains = new LinkedList<String>();
     domains.add(hostName);
-    int dotIdx = hostName.indexOf('.', 1);
+    final int dotIdx = hostName.indexOf('.', 1);
     if (dotIdx == -1) {
       return domains;
     }
-    String testDomain = hostName.substring(dotIdx);
+    final String testDomain = hostName.substring(dotIdx);
     if (!Domains.isValidCookieDomain(testDomain, hostName)) {
       return domains;
     }

@@ -37,7 +37,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
   private final Object treeLock;
   private final boolean nestIntoMatchingNodes;
 
-  public DescendentHTMLCollection(NodeImpl node, NodeFilter filter, Object treeLock) {
+  public DescendentHTMLCollection(final NodeImpl node, final NodeFilter filter, final Object treeLock) {
     this(node, filter, treeLock, true);
   }
 
@@ -45,12 +45,12 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
    * @param node
    * @param filter
    */
-  public DescendentHTMLCollection(NodeImpl node, NodeFilter filter, Object treeLock, boolean nestMatchingNodes) {
+  public DescendentHTMLCollection(final NodeImpl node, final NodeFilter filter, final Object treeLock, final boolean nestMatchingNodes) {
     rootNode = node;
     nodeFilter = filter;
     this.treeLock = treeLock;
     this.nestIntoMatchingNodes = nestMatchingNodes;
-    HTMLDocumentImpl document = (HTMLDocumentImpl) node.getOwnerDocument();
+    final HTMLDocumentImpl document = (HTMLDocumentImpl) node.getOwnerDocument();
     document.addDocumentNotificationListener(new LocalNotificationListener(document, this));
   }
 
@@ -59,20 +59,20 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
 
   private void ensurePopulatedImpl() {
     if (this.itemsByName == null) {
-      ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter, this.nestIntoMatchingNodes);
+      final ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter, this.nestIntoMatchingNodes);
       this.itemsByIndex = descendents == null ? Collections.EMPTY_LIST : descendents;
-      int size = descendents == null ? 0 : descendents.size();
-      Map<String, ElementImpl> itemsByName = new HashMap<String, ElementImpl>(size * 3 / 2);
+      final int size = descendents == null ? 0 : descendents.size();
+      final Map<String, ElementImpl> itemsByName = new HashMap<String, ElementImpl>(size * 3 / 2);
       this.itemsByName = itemsByName;
       for (int i = 0; i < size; i++) {
-        Object descNode = descendents.get(i);
+        final Object descNode = descendents.get(i);
         if (descNode instanceof ElementImpl) {
-          ElementImpl element = (ElementImpl) descNode;
-          String id = element.getId();
+          final ElementImpl element = (ElementImpl) descNode;
+          final String id = element.getId();
           if (id != null && id.length() != 0) {
             itemsByName.put(id, element);
           }
-          String name = element.getAttribute("name");
+          final String name = element.getAttribute("name");
           if (name != null && name.length() != 0 && !name.equals(id)) {
             itemsByName.put(name, element);
           }
@@ -101,25 +101,25 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
     }
   }
 
-  public Node item(int index) {
+  public Node item(final int index) {
     synchronized (this.treeLock) {
       this.ensurePopulatedImpl();
       try {
         return (Node) this.itemsByIndex.get(index);
-      } catch (java.lang.IndexOutOfBoundsException iob) {
+      } catch (final java.lang.IndexOutOfBoundsException iob) {
         return null;
       }
     }
   }
 
-  public Node namedItem(String name) {
+  public Node namedItem(final String name) {
     synchronized (this.treeLock) {
       this.ensurePopulatedImpl();
       return this.itemsByName.get(name);
     }
   }
 
-  public int indexOf(Node node) {
+  public int indexOf(final Node node) {
     synchronized (this.treeLock) {
       this.ensurePopulatedImpl();
       return this.itemsByIndex.indexOf(node);
@@ -203,8 +203,8 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
       this.collectionRef = new WeakReference<DescendentHTMLCollection>(collection);
     }
 
-    public void structureInvalidated(NodeImpl node) {
-      DescendentHTMLCollection collection = this.collectionRef.get();
+    public void structureInvalidated(final NodeImpl node) {
+      final DescendentHTMLCollection collection = this.collectionRef.get();
       if (collection == null) {
         // Gone!
         this.document.removeDocumentNotificationListener(this);
@@ -217,7 +217,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
       }
     }
 
-    public void nodeLoaded(NodeImpl node) {
+    public void nodeLoaded(final NodeImpl node) {
       this.structureInvalidated(node);
     }
   }

@@ -73,7 +73,7 @@ public class CollectionUtilities {
           }
           try {
             return this.current.next();
-          } catch (NoSuchElementException nse) {
+          } catch (final NoSuchElementException nse) {
             this.iteratorIndex++;
             this.current = this.iteratorIndex >= iterators.length ? null : iterators[this.iteratorIndex];
           }
@@ -89,9 +89,9 @@ public class CollectionUtilities {
     };
   }
 
-  public static Collection reverse(Collection collection) {
-    LinkedList newCollection = new LinkedList();
-    Iterator i = collection.iterator();
+  public static Collection reverse(final Collection collection) {
+    final LinkedList newCollection = new LinkedList();
+    final Iterator i = collection.iterator();
     while (i.hasNext()) {
       newCollection.addFirst(i.next());
     }

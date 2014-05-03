@@ -32,7 +32,7 @@ import java.beans.*;
 public class GenericPropertyChangeListener implements GenericEventListener {
   private final PropertyChangeListener delegate;
 
-  public GenericPropertyChangeListener(PropertyChangeListener delegate) {
+  public GenericPropertyChangeListener(final PropertyChangeListener delegate) {
     this.delegate = delegate;
   }
 
@@ -42,11 +42,11 @@ public class GenericPropertyChangeListener implements GenericEventListener {
    * @see net.sourceforge.xamj.util.GenericEventListener#processEvent(java.util.
    * EventObject)
    */
-  public void processEvent(EventObject event) {
+  public void processEvent(final EventObject event) {
     this.delegate.propertyChange((PropertyChangeEvent) event);
   }
 
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     return other instanceof GenericPropertyChangeListener && ((GenericPropertyChangeListener) other).delegate.equals(this.delegate);
   }
 

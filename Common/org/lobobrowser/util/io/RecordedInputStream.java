@@ -47,7 +47,7 @@ public class RecordedInputStream extends InputStream {
   /**
 	 * 
 	 */
-  public RecordedInputStream(InputStream delegate, int maxBufferSize) {
+  public RecordedInputStream(final InputStream delegate, final int maxBufferSize) {
     super();
     this.delegate = delegate;
     this.maxBufferSize = maxBufferSize;
@@ -60,11 +60,11 @@ public class RecordedInputStream extends InputStream {
    */
   public int read() throws IOException {
     if (this.readPosition != -1 && this.readPosition < this.resetBuffer.length) {
-      int b = this.resetBuffer[this.readPosition];
+      final int b = this.resetBuffer[this.readPosition];
       this.readPosition++;
       return b;
     } else {
-      int b = this.delegate.read();
+      final int b = this.delegate.read();
       if (b != -1) {
         if (!this.hasReachedMaxBufferSize) {
           this.store.write(b);
@@ -106,7 +106,7 @@ public class RecordedInputStream extends InputStream {
     return true;
   }
 
-  public synchronized void mark(int readlimit) {
+  public synchronized void mark(final int readlimit) {
     if (this.hasReachedMaxBufferSize) {
       throw new java.lang.IllegalStateException("Maximum buffer size was already reached.");
     }
@@ -117,9 +117,9 @@ public class RecordedInputStream extends InputStream {
     if (this.hasReachedMaxBufferSize) {
       throw new java.lang.IllegalStateException("Maximum buffer size was already reached.");
     }
-    int mp = this.markPosition;
-    byte[] wholeBuffer = this.store.toByteArray();
-    byte[] resetBuffer = new byte[wholeBuffer.length - mp];
+    final int mp = this.markPosition;
+    final byte[] wholeBuffer = this.store.toByteArray();
+    final byte[] resetBuffer = new byte[wholeBuffer.length - mp];
     System.arraycopy(wholeBuffer, mp, resetBuffer, 0, resetBuffer.length);
     this.resetBuffer = resetBuffer;
     this.readPosition = 0;
@@ -130,14 +130,14 @@ public class RecordedInputStream extends InputStream {
    * 
    * @see java.io.InputStream#read(byte[], int, int)
    */
-  public int read(byte[] buffer, int offset, int length) throws IOException {
+  public int read(final byte[] buffer, final int offset, final int length) throws IOException {
     if (this.readPosition != -1 && this.readPosition < this.resetBuffer.length) {
-      int minLength = Math.min(this.resetBuffer.length - this.readPosition, length);
+      final int minLength = Math.min(this.resetBuffer.length - this.readPosition, length);
       System.arraycopy(this.resetBuffer, this.readPosition, buffer, offset, minLength);
       this.readPosition += minLength;
       return minLength;
     } else {
-      int numRead = this.delegate.read(buffer, offset, length);
+      final int numRead = this.delegate.read(buffer, offset, length);
       if (numRead != -1) {
         if (!this.hasReachedMaxBufferSize) {
           this.store.write(buffer, offset, numRead);
@@ -153,7 +153,7 @@ public class RecordedInputStream extends InputStream {
   }
 
   public void consumeToEOF() throws IOException {
-    byte[] buffer = new byte[8192];
+    final byte[] buffer = new byte[8192];
     while (this.read(buffer) != -1) {
       ;
     }
@@ -166,11 +166,11 @@ public class RecordedInputStream extends InputStream {
     return this.store.toByteArray();
   }
 
-  public String getString(String encoding) throws java.io.UnsupportedEncodingException, BufferExceededException {
+  public String getString(final String encoding) throws java.io.UnsupportedEncodingException, BufferExceededException {
     if (this.hasReachedMaxBufferSize) {
       throw new BufferExceededException();
     }
-    byte[] bytes = this.store.toByteArray();
+    final byte[] bytes = this.store.toByteArray();
     return new String(bytes, encoding);
   }
 

@@ -21,7 +21,7 @@
 package org.lobobrowser.html.domimpl;
 
 public class HTMLButtonElementImpl extends HTMLBaseInputElement {
-  public HTMLButtonElementImpl(String name) {
+  public HTMLButtonElementImpl(final String name) {
     super(name);
   }
 }

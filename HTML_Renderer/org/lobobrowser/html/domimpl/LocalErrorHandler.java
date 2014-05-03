@@ -37,15 +37,15 @@ class LocalErrorHandler implements ErrorHandler {
   public LocalErrorHandler() {
   }
 
-  public void warning(SAXParseException exception) throws SAXException {
+  public void warning(final SAXParseException exception) throws SAXException {
     logger.log(Level.WARNING, exception.getMessage(), exception.getCause());
   }
 
-  public void error(SAXParseException exception) throws SAXException {
+  public void error(final SAXParseException exception) throws SAXException {
     logger.log(Level.SEVERE, exception.getMessage(), exception.getCause());
   }
 
-  public void fatalError(SAXParseException exception) throws SAXException {
+  public void fatalError(final SAXParseException exception) throws SAXException {
     logger.log(Level.SEVERE, exception.getMessage(), exception.getCause());
   }
 }
