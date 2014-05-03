@@ -617,6 +617,11 @@ public class Window extends AbstractScriptableDelegate implements AbstractView  
 		}
 	}
 	
+	public void setName(final String newName) {
+	  // TODO
+	  System.out.println("TODO: window.setName");
+	}
+	
 	public Window getParent() {
 		HtmlRendererContext rcontext = this.rcontext;
 		if(rcontext != null) {
