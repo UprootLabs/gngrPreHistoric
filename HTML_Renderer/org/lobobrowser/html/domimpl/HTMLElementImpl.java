@@ -89,26 +89,21 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 	 * It may return null only if the type of element does not handle stylesheets.
 	 */
 	public AbstractCSS2Properties getCurrentStyle() {
-		AbstractCSS2Properties sds;
 		synchronized(this) {
-			sds = this.currentStyleDeclarationState;
-			if(sds != null) {
-				return sds;
+			AbstractCSS2Properties currSds = this.currentStyleDeclarationState;
+			if(currSds != null) {
+				return currSds;
 			}
 		}
 		// Can't do the following in synchronized block (reverse locking order with document).
 		// First, add declarations from stylesheet
-		sds = this.createDefaultStyleSheet();
+		AbstractCSS2Properties sds = this.createDefaultStyleSheet();
 		sds = this.addStyleSheetDeclarations(sds, this.getPseudoNames());
-		// Now add local style if any.
-		AbstractCSS2Properties localStyle = this.getStyle();
 		if(sds == null) {
 			sds = new ComputedCSS2Properties(this);
-			sds.setLocalStyleProperties(localStyle);
 		}
-		else {
-			sds.setLocalStyleProperties(localStyle);
-		}		
+		// Now add local style if any.
+		sds.setLocalStyleProperties(this.getStyle());
 		synchronized(this) {
 			// Check if style properties were set while outside
 			// the synchronized block (can happen).
