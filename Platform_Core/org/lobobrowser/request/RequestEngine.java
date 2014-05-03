@@ -705,9 +705,12 @@ public final class RequestEngine {
 	}
 
 	private static boolean isOKToRetrieveFromCache(RequestType requestType) {
+	  return false;
+	  /*
 		return requestType != RequestType.SOFT_RELOAD &&
 		       requestType != RequestType.HARD_RELOAD &&
 		       requestType != RequestType.DOWNLOAD;
+		       */
 	}
 	
 	private void processHandler(final RequestHandler rhandler,
