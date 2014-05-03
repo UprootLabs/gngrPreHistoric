@@ -2175,6 +2175,7 @@ public class RBlockViewport extends BaseRCollection {
 		protected static final int DISPLAY_TABLE_ROW = 4;
 		protected static final int DISPLAY_TABLE_CELL = 5;		
 		protected static final int DISPLAY_TABLE = 6;				
+		protected static final int DISPLAY_INLINE_BLOCK = 7;				
 		
 		private final int display;
 		
@@ -2224,6 +2225,9 @@ public class RBlockViewport extends BaseRCollection {
 				case DISPLAY_TABLE:
 					bodyLayout.layoutRTable( markupElement);
 					break;
+				case DISPLAY_INLINE_BLOCK:
+					bodyLayout.layoutRInlineBLock( markupElement);
+					break;
 				default:
 					// Assume INLINE
 					bodyLayout.layoutMarkup( markupElement);
@@ -2236,7 +2240,13 @@ public class RBlockViewport extends BaseRCollection {
 		return false;
 	}
 
-	public String toString() {
+	public void layoutRInlineBLock(HTMLElementImpl markupElement) {
+    // TODO: Render display:inline-block correctly
+		// layoutMarkup(markupElement);
+		layoutRBlock(markupElement);
+  }
+
+  public String toString() {
 		return "RBlockViewport[node=" + this.modelNode + "]";
 	}
 	

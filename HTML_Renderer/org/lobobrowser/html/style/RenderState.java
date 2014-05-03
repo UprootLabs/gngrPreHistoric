@@ -47,6 +47,7 @@ public interface RenderState {
 	public static final int DISPLAY_TABLE_ROW = 4;
 	public static final int DISPLAY_TABLE_CELL = 5;		
 	public static final int DISPLAY_TABLE = 6;			
+	public static final int DISPLAY_INLINE_BLOCK = 7;			
 	
 	public static final int WS_NORMAL = 0;
 	public static final int WS_PRE = 1;
