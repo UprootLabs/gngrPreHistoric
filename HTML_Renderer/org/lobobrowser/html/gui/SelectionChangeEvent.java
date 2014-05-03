@@ -29,7 +29,7 @@ import java.util.EventObject;
 public class SelectionChangeEvent extends EventObject {
   private final boolean hasSelection;
 
-  public SelectionChangeEvent(Object source, boolean hasSelection) {
+  public SelectionChangeEvent(final Object source, final boolean hasSelection) {
     super(source);
     this.hasSelection = hasSelection;
   }

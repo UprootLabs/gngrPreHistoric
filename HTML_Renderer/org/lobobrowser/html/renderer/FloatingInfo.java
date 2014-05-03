@@ -24,7 +24,7 @@ public class FloatingInfo {
   public final int shiftX, shiftY;
   public final ExportableFloat[] floats;
 
-  public FloatingInfo(int shiftX, int shiftY, ExportableFloat[] floats) {
+  public FloatingInfo(final int shiftX, final int shiftY, final ExportableFloat[] floats) {
     super();
     this.shiftX = shiftX;
     this.shiftY = shiftY;

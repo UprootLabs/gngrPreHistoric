@@ -36,7 +36,7 @@ public class RenderableSpot {
    * @param x
    * @param y
    */
-  public RenderableSpot(BoundableRenderable renderable, int x, int y) {
+  public RenderableSpot(final BoundableRenderable renderable, final int x, final int y) {
     super();
     this.renderable = renderable;
     this.x = x;
@@ -47,11 +47,11 @@ public class RenderableSpot {
     return new Point(this.x, this.y);
   }
 
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (!(other instanceof RenderableSpot)) {
       return false;
     }
-    RenderableSpot otherRp = (RenderableSpot) other;
+    final RenderableSpot otherRp = (RenderableSpot) other;
     return otherRp.renderable == this.renderable && otherRp.x == this.x && otherRp.y == this.y;
   }
 }

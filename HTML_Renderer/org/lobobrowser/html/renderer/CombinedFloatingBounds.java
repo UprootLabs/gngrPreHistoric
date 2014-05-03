@@ -32,19 +32,19 @@ class CombinedFloatingBounds implements FloatingBounds {
     this.floatBounds2 = floatBounds2;
   }
 
-  public int getClearY(int y) {
+  public int getClearY(final int y) {
     return Math.max(this.floatBounds1.getClearY(y), this.floatBounds2.getClearY(y));
   }
 
-  public int getFirstClearY(int y) {
+  public int getFirstClearY(final int y) {
     return Math.max(this.floatBounds1.getFirstClearY(y), this.floatBounds2.getFirstClearY(y));
   }
 
-  public int getLeft(int y) {
+  public int getLeft(final int y) {
     return Math.max(this.floatBounds1.getLeft(y), this.floatBounds2.getLeft(y));
   }
 
-  public int getLeftClearY(int y) {
+  public int getLeftClearY(final int y) {
     return Math.max(this.floatBounds1.getLeftClearY(y), this.floatBounds2.getLeftClearY(y));
   }
 
@@ -52,26 +52,26 @@ class CombinedFloatingBounds implements FloatingBounds {
     return Math.max(this.floatBounds1.getMaxY(), this.floatBounds2.getMaxY());
   }
 
-  public int getRight(int y) {
+  public int getRight(final int y) {
     return Math.max(this.floatBounds1.getRight(y), this.floatBounds2.getRight(y));
   }
 
-  public int getRightClearY(int y) {
+  public int getRightClearY(final int y) {
     return Math.max(this.floatBounds1.getRightClearY(y), this.floatBounds2.getRightClearY(y));
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     // Important for layout caching.
     if (!(obj instanceof CombinedFloatingBounds)) {
       return false;
     }
-    CombinedFloatingBounds other = (CombinedFloatingBounds) obj;
+    final CombinedFloatingBounds other = (CombinedFloatingBounds) obj;
     return Objects.equals(other.floatBounds1, this.floatBounds1) && Objects.equals(other.floatBounds2, this.floatBounds2);
   }
 
   public int hashCode() {
-    FloatingBounds fbounds1 = this.floatBounds1;
-    FloatingBounds fbounds2 = this.floatBounds2;
+    final FloatingBounds fbounds1 = this.floatBounds1;
+    final FloatingBounds fbounds2 = this.floatBounds2;
     return (fbounds1 == null ? 0 : fbounds1.hashCode()) ^ (fbounds2 == null ? 0 : fbounds2.hashCode());
   }
 }

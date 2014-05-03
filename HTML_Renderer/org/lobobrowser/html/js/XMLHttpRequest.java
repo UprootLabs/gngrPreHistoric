@@ -26,7 +26,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   private final Scriptable scope;
   private final java.net.URL codeSource;
 
-  public XMLHttpRequest(UserAgentContext pcontext, java.net.URL codeSource, Scriptable scope) {
+  public XMLHttpRequest(final UserAgentContext pcontext, final java.net.URL codeSource, final Scriptable scope) {
     this.request = pcontext.createHttpRequest();
     this.pcontext = pcontext;
     this.scope = scope;
@@ -49,7 +49,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     return request.getResponseBytes();
   }
 
-  public String getResponseHeader(String headerName) {
+  public String getResponseHeader(final String headerName) {
     return request.getResponseHeader(headerName);
   }
 
@@ -69,27 +69,27 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     return request.getStatusText();
   }
 
-  private URL getFullURL(String relativeUrl) throws java.net.MalformedURLException {
+  private URL getFullURL(final String relativeUrl) throws java.net.MalformedURLException {
     return Urls.createURL(this.codeSource, relativeUrl);
   }
 
-  public void open(String method, String url, boolean asyncFlag, String userName, String password) throws java.io.IOException {
+  public void open(final String method, final String url, final boolean asyncFlag, final String userName, final String password) throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag, userName, password);
   }
 
-  public void open(String method, String url, boolean asyncFlag, String userName) throws java.io.IOException {
+  public void open(final String method, final String url, final boolean asyncFlag, final String userName) throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag, userName);
   }
 
-  public void open(String method, String url, boolean asyncFlag) throws java.io.IOException {
+  public void open(final String method, final String url, final boolean asyncFlag) throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag);
   }
 
-  public void open(String method, String url) throws java.io.IOException {
+  public void open(final String method, final String url) throws java.io.IOException {
     request.open(method, this.getFullURL(url));
   }
 
-  public void send(String content) throws java.io.IOException {
+  public void send(final String content) throws java.io.IOException {
     request.send(content);
   }
 
@@ -120,17 +120,17 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   private void executeReadyStateChange() {
     // Not called in GUI thread to ensure consistency of readyState.
     try {
-      Function f = XMLHttpRequest.this.getOnreadystatechange();
+      final Function f = XMLHttpRequest.this.getOnreadystatechange();
       if (f != null) {
-        Context ctx = Executor.createContext(this.codeSource, this.pcontext);
+        final Context ctx = Executor.createContext(this.codeSource, this.pcontext);
         try {
-          Scriptable newScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(XMLHttpRequest.this, this.scope);
+          final Scriptable newScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(XMLHttpRequest.this, this.scope);
           f.call(ctx, newScope, newScope, new Object[0]);
         } finally {
           Context.exit();
         }
       }
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Error processing ready state change.", err);
     }
   }

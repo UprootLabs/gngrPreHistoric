@@ -36,7 +36,7 @@ class FloatingViewportBounds implements FloatingBounds {
    *          Width of floating box, including padding insets.
    * @param height
    */
-  public FloatingViewportBounds(FloatingBounds prevBounds, boolean leftFloat, int y, int offsetFromBorder, int height) {
+  public FloatingViewportBounds(final FloatingBounds prevBounds, final boolean leftFloat, final int y, final int offsetFromBorder, final int height) {
     this.prevBounds = prevBounds;
     this.leftFloat = leftFloat;
     this.y = y;
@@ -44,14 +44,14 @@ class FloatingViewportBounds implements FloatingBounds {
     this.height = height;
   }
 
-  public int getLeft(int y) {
+  public int getLeft(final int y) {
     int left = 0;
     if (this.leftFloat && y >= this.y && y < this.y + height) {
       left = this.offsetFromBorder;
     }
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int newLeft = prev.getLeft(y);
+      final int newLeft = prev.getLeft(y);
       if (newLeft > left) {
         left = newLeft;
       }
@@ -62,14 +62,14 @@ class FloatingViewportBounds implements FloatingBounds {
   /**
    * The offset from the right edge, not counting padding.
    */
-  public int getRight(int y) {
+  public int getRight(final int y) {
     int right = 0;
     if (!this.leftFloat && y >= this.y && y < this.y + this.height) {
       right = this.offsetFromBorder;
     }
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int newRight = prev.getRight(y);
+      final int newRight = prev.getRight(y);
       if (newRight > right) {
         right = newRight;
       }
@@ -77,11 +77,11 @@ class FloatingViewportBounds implements FloatingBounds {
     return right;
   }
 
-  public int getClearY(int y) {
+  public int getClearY(final int y) {
     int cleary = Math.max(y, this.y + this.height);
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int pcy = prev.getClearY(y);
+      final int pcy = prev.getClearY(y);
       if (pcy > cleary) {
         cleary = pcy;
       }
@@ -89,11 +89,11 @@ class FloatingViewportBounds implements FloatingBounds {
     return cleary;
   }
 
-  public int getFirstClearY(int y) {
+  public int getFirstClearY(final int y) {
     int clearY = y;
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int prevClearY = prev.getFirstClearY(y);
+      final int prevClearY = prev.getFirstClearY(y);
       if (prevClearY != y) {
         clearY = prevClearY;
       }
@@ -104,16 +104,16 @@ class FloatingViewportBounds implements FloatingBounds {
     return clearY;
   }
 
-  public int getLeftClearY(int y) {
+  public int getLeftClearY(final int y) {
     int cleary;
     if (this.leftFloat) {
       cleary = Math.max(y, this.y + this.height);
     } else {
       cleary = y;
     }
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int pcy = prev.getLeftClearY(y);
+      final int pcy = prev.getLeftClearY(y);
       if (pcy > cleary) {
         cleary = pcy;
       }
@@ -121,16 +121,16 @@ class FloatingViewportBounds implements FloatingBounds {
     return cleary;
   }
 
-  public int getRightClearY(int y) {
+  public int getRightClearY(final int y) {
     int cleary;
     if (!this.leftFloat) {
       cleary = Math.max(y, this.y + this.height);
     } else {
       cleary = y;
     }
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int pcy = prev.getLeftClearY(y);
+      final int pcy = prev.getLeftClearY(y);
       if (pcy > cleary) {
         cleary = pcy;
       }
@@ -140,9 +140,9 @@ class FloatingViewportBounds implements FloatingBounds {
 
   public int getMaxY() {
     int maxY = this.y + this.height;
-    FloatingBounds prev = this.prevBounds;
+    final FloatingBounds prev = this.prevBounds;
     if (prev != null) {
-      int prevMaxY = prev.getMaxY();
+      final int prevMaxY = prev.getMaxY();
       if (prevMaxY > maxY) {
         maxY = prevMaxY;
       }
@@ -150,7 +150,7 @@ class FloatingViewportBounds implements FloatingBounds {
     return maxY;
   }
 
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     // Important for layout caching.
     if (other == this) {
       return true;
@@ -158,7 +158,7 @@ class FloatingViewportBounds implements FloatingBounds {
     if (!(other instanceof FloatingViewportBounds)) {
       return false;
     }
-    FloatingViewportBounds olm = (FloatingViewportBounds) other;
+    final FloatingViewportBounds olm = (FloatingViewportBounds) other;
     return olm.leftFloat == this.leftFloat && olm.y == this.y && olm.height == this.height && olm.offsetFromBorder == this.offsetFromBorder
         && org.lobobrowser.util.Objects.equals(olm.prevBounds, this.prevBounds);
   }

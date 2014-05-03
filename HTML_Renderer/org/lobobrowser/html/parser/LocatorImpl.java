@@ -37,7 +37,7 @@ class LocatorImpl implements Locator {
    * @param lnumber
    * @param cnumber
    */
-  public LocatorImpl(String pid, String sid, int lnumber, int cnumber) {
+  public LocatorImpl(final String pid, final String sid, final int lnumber, final int cnumber) {
     super();
     publicId = pid;
     systemId = sid;

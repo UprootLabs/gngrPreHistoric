@@ -24,20 +24,20 @@ import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import java.awt.*;
 
 public class BlockQuoteRenderState extends AbstractMarginRenderState {
-  public BlockQuoteRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public BlockQuoteRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
   protected HtmlInsets getDefaultMarginInsets() {
-    HtmlInsets insets = new HtmlInsets();
-    RenderState prevRS = this.getPreviousRenderState();
-    FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
+    final HtmlInsets insets = new HtmlInsets();
+    final RenderState prevRS = this.getPreviousRenderState();
+    final FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
     insets.top = fm.getHeight();
     insets.bottom = fm.getHeight();
     insets.topType = HtmlInsets.TYPE_PIXELS;
     insets.bottomType = HtmlInsets.TYPE_PIXELS;
-    int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-    double leftInches = 30 / 72.0;
+    final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+    final double leftInches = 30 / 72.0;
     insets.left = (int) Math.round(dpi * 30.0 / 72.0);
     insets.right = insets.left / 2;
     insets.leftType = HtmlInsets.TYPE_PIXELS;

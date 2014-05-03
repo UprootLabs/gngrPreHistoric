@@ -40,7 +40,7 @@ final class RStyleChanger extends BaseRenderable implements Renderable {
   /**
 	 * 
 	 */
-  public RStyleChanger(ModelNode modelNode) {
+  public RStyleChanger(final ModelNode modelNode) {
     this.modelNode = modelNode;
   }
 
@@ -54,8 +54,8 @@ final class RStyleChanger extends BaseRenderable implements Renderable {
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
-  public void paint(Graphics g) {
-    RenderState rs = this.modelNode.getRenderState();
+  public void paint(final Graphics g) {
+    final RenderState rs = this.modelNode.getRenderState();
     g.setColor(rs.getColor());
     g.setFont(rs.getFont());
   }
@@ -68,15 +68,15 @@ final class RStyleChanger extends BaseRenderable implements Renderable {
   public void invalidateLayoutUpTree() {
   }
 
-  public void onMouseClick(java.awt.event.MouseEvent event, int x, int y) {
+  public void onMouseClick(final java.awt.event.MouseEvent event, final int x, final int y) {
     throw new UnsupportedOperationException("unexpected");
   }
 
-  public void onMousePressed(java.awt.event.MouseEvent event, int x, int y) {
+  public void onMousePressed(final java.awt.event.MouseEvent event, final int x, final int y) {
     throw new UnsupportedOperationException("unexpected");
   }
 
-  public void onMouseReleased(java.awt.event.MouseEvent event, int x, int y) {
+  public void onMouseReleased(final java.awt.event.MouseEvent event, final int x, final int y) {
     throw new UnsupportedOperationException("unexpected");
   }
 }

@@ -11,7 +11,7 @@ class DocumentNotification {
   public final int type;
   public final NodeImpl node;
 
-  public DocumentNotification(int type, NodeImpl node) {
+  public DocumentNotification(final int type, final NodeImpl node) {
     this.type = type;
     this.node = node;
   }

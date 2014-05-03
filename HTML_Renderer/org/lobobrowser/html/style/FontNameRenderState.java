@@ -30,7 +30,7 @@ import java.util.Map;
 public class FontNameRenderState extends RenderStateDelegator {
   private final String fontName;
 
-  public FontNameRenderState(RenderState prevRenderState, String fontName) {
+  public FontNameRenderState(final RenderState prevRenderState, final String fontName) {
     super(prevRenderState);
     this.fontName = fontName;
   }
@@ -42,7 +42,7 @@ public class FontNameRenderState extends RenderStateDelegator {
     if (f != null) {
       return f;
     }
-    Font parentFont = this.delegate.getFont();
+    final Font parentFont = this.delegate.getFont();
     f = new Font(this.fontName, parentFont.getStyle(), parentFont.getSize());
     this.iFont = f;
     return f;
@@ -64,7 +64,7 @@ public class FontNameRenderState extends RenderStateDelegator {
     super.invalidate();
     this.iFont = null;
     this.iFontMetrics = null;
-    Map<String, WordInfo> map = this.iWordInfoMap;
+    final Map<String, WordInfo> map = this.iWordInfoMap;
     if (map != null) {
       map.clear();
     }
@@ -72,7 +72,7 @@ public class FontNameRenderState extends RenderStateDelegator {
 
   Map<String, WordInfo> iWordInfoMap = null;
 
-  public final WordInfo getWordInfo(String word) {
+  public final WordInfo getWordInfo(final String word) {
     // Expected to be called only in the GUI (rendering) thread.
     // No synchronization necessary.
     Map<String, WordInfo> map = this.iWordInfoMap;
@@ -85,7 +85,7 @@ public class FontNameRenderState extends RenderStateDelegator {
       return wi;
     }
     wi = new WordInfo();
-    FontMetrics fm = this.getFontMetrics();
+    final FontMetrics fm = this.getFontMetrics();
     wi.fontMetrics = fm;
     wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
     wi.descent = fm.getDescent();

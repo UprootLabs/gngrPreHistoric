@@ -21,11 +21,11 @@
 package org.lobobrowser.html.style;
 
 public class ComputedCSS2Properties extends AbstractCSS2Properties {
-  public ComputedCSS2Properties(CSS2PropertiesContext context) {
+  public ComputedCSS2Properties(final CSS2PropertiesContext context) {
     super(context);
   }
 
-  protected void setPropertyValueLC(String lowerCaseName, String value) {
+  protected void setPropertyValueLC(final String lowerCaseName, final String value) {
     throw new java.lang.IllegalAccessError("Style properties cannot be set in this instance.");
   }
 
@@ -33,7 +33,7 @@ public class ComputedCSS2Properties extends AbstractCSS2Properties {
     throw new java.lang.IllegalAccessError("Style properties cannot be set in this instance.");
   }
 
-  public void internalSetLC(String lowerCaseName, String value) {
+  public void internalSetLC(final String lowerCaseName, final String value) {
     // Should only be called right after creation of the CSS object.
     // Properties need to be "unimportant" otherwise they won't get overridden.
     super.setPropertyValueLCAlt(lowerCaseName, value, false);

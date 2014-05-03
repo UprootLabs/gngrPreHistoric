@@ -23,7 +23,7 @@ public class Screen extends AbstractScriptableDelegate {
   }
 
   public int getHeight() {
-    GraphicsDevice gd = this.graphicsDevice;
+    final GraphicsDevice gd = this.graphicsDevice;
     return gd == null ? 0 : gd.getDisplayMode().getHeight();
   }
 
@@ -32,16 +32,16 @@ public class Screen extends AbstractScriptableDelegate {
   }
 
   public int getWidth() {
-    GraphicsEnvironment ge = this.graphicsEnvironment;
+    final GraphicsEnvironment ge = this.graphicsEnvironment;
     if (ge == null) {
       return 0;
     }
-    GraphicsDevice gd = ge.getDefaultScreenDevice();
+    final GraphicsDevice gd = ge.getDefaultScreenDevice();
     return gd.getDisplayMode().getWidth();
   }
 
   public int getAvailHeight() {
-    GraphicsEnvironment ge = this.graphicsEnvironment;
+    final GraphicsEnvironment ge = this.graphicsEnvironment;
     if (ge == null) {
       return 0;
     }
@@ -49,7 +49,7 @@ public class Screen extends AbstractScriptableDelegate {
   }
 
   public int getAvailWidth() {
-    GraphicsEnvironment ge = this.graphicsEnvironment;
+    final GraphicsEnvironment ge = this.graphicsEnvironment;
     if (ge == null) {
       return 0;
     }
@@ -57,7 +57,7 @@ public class Screen extends AbstractScriptableDelegate {
   }
 
   public int getColorDepth() {
-    GraphicsDevice gd = this.graphicsDevice;
+    final GraphicsDevice gd = this.graphicsDevice;
     if (gd == null) {
       return 0;
     }

@@ -42,9 +42,9 @@ public class Executor {
    * @param codeSource
    * @param ucontext
    */
-  public static Context createContext(java.net.URL codeSource, UserAgentContext ucontext) {
-    Context prev = Context.getCurrentContext();
-    Context ctx = Context.enter();
+  public static Context createContext(final java.net.URL codeSource, final UserAgentContext ucontext) {
+    final Context prev = Context.getCurrentContext();
+    final Context ctx = Context.enter();
     ctx.setOptimizationLevel(ucontext.getScriptingOptimizationLevel());
     if (prev == null) {
       // If there was a previous context, this one must be nested.
@@ -55,34 +55,34 @@ public class Executor {
     return ctx;
   }
 
-  public static boolean executeFunction(NodeImpl element, Function f, Event event) {
+  public static boolean executeFunction(final NodeImpl element, final Function f, final Event event) {
     return Executor.executeFunction(element, element, f, event);
   }
 
-  public static boolean executeFunction(NodeImpl element, Object thisObject, Function f, Event event) {
-    Document doc = element.getOwnerDocument();
+  public static boolean executeFunction(final NodeImpl element, final Object thisObject, final Function f, final Event event) {
+    final Document doc = element.getOwnerDocument();
     if (doc == null) {
       throw new IllegalStateException("Element does not belong to a document.");
     }
-    Context ctx = createContext(element.getDocumentURL(), element.getUserAgentContext());
+    final Context ctx = createContext(element.getDocumentURL(), element.getUserAgentContext());
     try {
-      Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
+      final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
       if (scope == null) {
         throw new IllegalStateException("Scriptable (scope) instance was expected to be keyed as UserData to document using "
             + Executor.SCOPE_KEY);
       }
-      JavaScript js = JavaScript.getInstance();
-      Scriptable thisScope = (Scriptable) js.getJavascriptObject(thisObject, scope);
+      final JavaScript js = JavaScript.getInstance();
+      final Scriptable thisScope = (Scriptable) js.getJavascriptObject(thisObject, scope);
       try {
-        Scriptable eventScriptable = (Scriptable) js.getJavascriptObject(event, thisScope);
+        final Scriptable eventScriptable = (Scriptable) js.getJavascriptObject(event, thisScope);
         // ScriptableObject.defineProperty(thisScope, "event", eventScriptable,
         // ScriptableObject.READONLY);
-        Object result = f.call(ctx, thisScope, thisScope, new Object[] { eventScriptable });
+        final Object result = f.call(ctx, thisScope, thisScope, new Object[] { eventScriptable });
         if (!(result instanceof Boolean)) {
           return true;
         }
         return ((Boolean) result).booleanValue();
-      } catch (Throwable thrown) {
+      } catch (final Throwable thrown) {
         logger.log(Level.WARNING, "executeFunction(): There was an error in Javascript code.", thrown);
         return true;
       }
@@ -91,16 +91,16 @@ public class Executor {
     }
   }
 
-  public static boolean executeFunction(Scriptable thisScope, Function f, java.net.URL codeSource, UserAgentContext ucontext) {
-    Context ctx = createContext(codeSource, ucontext);
+  public static boolean executeFunction(final Scriptable thisScope, final Function f, final java.net.URL codeSource, final UserAgentContext ucontext) {
+    final Context ctx = createContext(codeSource, ucontext);
     try {
       try {
-        Object result = f.call(ctx, thisScope, thisScope, new Object[0]);
+        final Object result = f.call(ctx, thisScope, thisScope, new Object[0]);
         if (!(result instanceof Boolean)) {
           return true;
         }
         return ((Boolean) result).booleanValue();
-      } catch (Throwable err) {
+      } catch (final Throwable err) {
         logger.log(Level.WARNING, "executeFunction(): Unable to execute Javascript function " + f.getClassName() + ".", err);
         return true;
       }

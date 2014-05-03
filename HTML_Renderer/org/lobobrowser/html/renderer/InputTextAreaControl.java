@@ -38,10 +38,10 @@ import org.lobobrowser.util.gui.WrapperLayout;
 class InputTextAreaControl extends BaseInputControl {
   private final JTextComponent widget;
 
-  public InputTextAreaControl(HTMLBaseInputElement modelNode) {
+  public InputTextAreaControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    JTextComponent widget = this.createTextField();
+    final JTextComponent widget = this.createTextField();
     this.widget = widget;
     this.add(new JScrollPane(widget));
 
@@ -49,28 +49,28 @@ class InputTextAreaControl extends BaseInputControl {
     // Otherwise, layout revalidation causes typed values to
     // be lost (including revalidation due to hover.)
 
-    ElementImpl element = this.controlElement;
-    String value = element.getTextContent();
+    final ElementImpl element = this.controlElement;
+    final String value = element.getTextContent();
     ((JTextArea) widget).setLineWrap(true);
     widget.setText(value);
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
-    ElementImpl element = this.controlElement;
-    String colsStr = element.getAttribute("cols");
+    final ElementImpl element = this.controlElement;
+    final String colsStr = element.getAttribute("cols");
     if (colsStr != null) {
       try {
         this.setCols(Integer.parseInt(colsStr));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         // ignore
       }
     }
-    String rowsStr = element.getAttribute("rows");
+    final String rowsStr = element.getAttribute("rows");
     if (rowsStr != null) {
       try {
         this.setRows(Integer.parseInt(rowsStr));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         // ignore
       }
     }
@@ -106,7 +106,7 @@ class InputTextAreaControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.renderer.BaseInputControl#setCols(int)
    */
-  public void setCols(int cols) {
+  public void setCols(final int cols) {
     if (cols != this.cols) {
       this.cols = cols;
       this.invalidate();
@@ -118,7 +118,7 @@ class InputTextAreaControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.renderer.BaseInputControl#setRows(int)
    */
-  public void setRows(int rows) {
+  public void setRows(final int rows) {
     if (rows != this.rows) {
       this.rows = rows;
       this.invalidate();
@@ -127,23 +127,23 @@ class InputTextAreaControl extends BaseInputControl {
 
   public java.awt.Dimension getPreferredSize() {
     int pw;
-    int cols = this.cols;
+    final int cols = this.cols;
     if (cols == -1) {
       pw = 100;
     } else {
-      Font f = this.widget.getFont();
-      FontMetrics fm = this.widget.getFontMetrics(f);
-      Insets insets = this.widget.getInsets();
+      final Font f = this.widget.getFont();
+      final FontMetrics fm = this.widget.getFontMetrics(f);
+      final Insets insets = this.widget.getInsets();
       pw = insets.left + insets.right + fm.charWidth('*') * cols;
     }
     int ph;
-    int rows = this.rows;
+    final int rows = this.rows;
     if (rows == -1) {
       ph = 100;
     } else {
-      Font f = this.widget.getFont();
-      FontMetrics fm = this.widget.getFontMetrics(f);
-      Insets insets = this.widget.getInsets();
+      final Font f = this.widget.getFont();
+      final FontMetrics fm = this.widget.getFontMetrics(f);
+      final Insets insets = this.widget.getInsets();
       ph = insets.top + insets.bottom + fm.getHeight() * rows;
     }
     return new java.awt.Dimension(pw, ph);
@@ -165,7 +165,7 @@ class InputTextAreaControl extends BaseInputControl {
    * @see org.xamjwg.html.renderer.BaseInputControl#getValue()
    */
   public String getValue() {
-    String text = this.widget.getText();
+    final String text = this.widget.getText();
     return org.lobobrowser.util.Strings.getCRLFString(text);
   }
 
@@ -174,7 +174,7 @@ class InputTextAreaControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.renderer.BaseInputControl#setReadOnly(boolean)
    */
-  public void setReadOnly(boolean readOnly) {
+  public void setReadOnly(final boolean readOnly) {
     this.widget.setEditable(readOnly);
   }
 
@@ -183,7 +183,7 @@ class InputTextAreaControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.renderer.BaseInputControl#setValue(java.lang.String)
    */
-  public void setValue(String value) {
+  public void setValue(final String value) {
     this.widget.setText(value);
   }
 

@@ -59,7 +59,7 @@ public class HtmlValues {
   public static final int BORDER_STYLE_OUTSET = 9;
 
   static {
-    FontInfo systemFont = new FontInfo();
+    final FontInfo systemFont = new FontInfo();
     SYSTEM_FONTS.put("caption", systemFont);
     SYSTEM_FONTS.put("icon", systemFont);
     SYSTEM_FONTS.put("menu", systemFont);
@@ -71,55 +71,55 @@ public class HtmlValues {
   private HtmlValues() {
   }
 
-  public static boolean isBorderStyle(String token) {
-    String tokenTL = token.toLowerCase();
+  public static boolean isBorderStyle(final String token) {
+    final String tokenTL = token.toLowerCase();
     return tokenTL.equals("solid") || tokenTL.equals("dashed") || tokenTL.equals("dotted") || tokenTL.equals("double")
         || tokenTL.equals("none") || tokenTL.equals("hidden") || tokenTL.equals("groove") || tokenTL.equals("ridge")
         || tokenTL.equals("inset") || tokenTL.equals("outset");
   }
 
-  public static HtmlInsets getMarginInsets(CSS2Properties cssProperties, RenderState renderState) {
+  public static HtmlInsets getMarginInsets(final CSS2Properties cssProperties, final RenderState renderState) {
     HtmlInsets insets = null;
-    String topText = cssProperties.getMarginTop();
+    final String topText = cssProperties.getMarginTop();
     insets = updateTopInset(insets, topText, renderState);
-    String leftText = cssProperties.getMarginLeft();
+    final String leftText = cssProperties.getMarginLeft();
     insets = updateLeftInset(insets, leftText, renderState);
-    String bottomText = cssProperties.getMarginBottom();
+    final String bottomText = cssProperties.getMarginBottom();
     insets = updateBottomInset(insets, bottomText, renderState);
-    String rightText = cssProperties.getMarginRight();
+    final String rightText = cssProperties.getMarginRight();
     insets = updateRightInset(insets, rightText, renderState);
     return insets;
   }
 
-  public static HtmlInsets getPaddingInsets(CSS2Properties cssProperties, RenderState renderState) {
+  public static HtmlInsets getPaddingInsets(final CSS2Properties cssProperties, final RenderState renderState) {
     HtmlInsets insets = null;
-    String topText = cssProperties.getPaddingTop();
+    final String topText = cssProperties.getPaddingTop();
     insets = updateTopInset(insets, topText, renderState);
-    String leftText = cssProperties.getPaddingLeft();
+    final String leftText = cssProperties.getPaddingLeft();
     insets = updateLeftInset(insets, leftText, renderState);
-    String bottomText = cssProperties.getPaddingBottom();
+    final String bottomText = cssProperties.getPaddingBottom();
     insets = updateBottomInset(insets, bottomText, renderState);
-    String rightText = cssProperties.getPaddingRight();
+    final String rightText = cssProperties.getPaddingRight();
     insets = updateRightInset(insets, rightText, renderState);
     return insets;
   }
 
-  public static HtmlInsets getBorderInsets(Insets borderStyles, CSS2Properties cssProperties, RenderState renderState) {
+  public static HtmlInsets getBorderInsets(final Insets borderStyles, final CSS2Properties cssProperties, final RenderState renderState) {
     HtmlInsets insets = null;
     if (borderStyles.top != HtmlValues.BORDER_STYLE_NONE) {
-      String topText = cssProperties.getBorderTopWidth();
+      final String topText = cssProperties.getBorderTopWidth();
       insets = updateTopInset(insets, topText, renderState);
     }
     if (borderStyles.left != HtmlValues.BORDER_STYLE_NONE) {
-      String leftText = cssProperties.getBorderLeftWidth();
+      final String leftText = cssProperties.getBorderLeftWidth();
       insets = updateLeftInset(insets, leftText, renderState);
     }
     if (borderStyles.bottom != HtmlValues.BORDER_STYLE_NONE) {
-      String bottomText = cssProperties.getBorderBottomWidth();
+      final String bottomText = cssProperties.getBorderBottomWidth();
       insets = updateBottomInset(insets, bottomText, renderState);
     }
     if (borderStyles.right != HtmlValues.BORDER_STYLE_NONE) {
-      String rightText = cssProperties.getBorderRightWidth();
+      final String rightText = cssProperties.getBorderRightWidth();
       insets = updateRightInset(insets, rightText, renderState);
     }
     return insets;
@@ -135,28 +135,28 @@ public class HtmlValues {
    * @param renderState
    *          The current render state.
    */
-  public static void populateBorderInsets(BorderInfo binfo, CSS2Properties cssProperties, RenderState renderState) {
+  public static void populateBorderInsets(final BorderInfo binfo, final CSS2Properties cssProperties, final RenderState renderState) {
     HtmlInsets insets = null;
     if (binfo.topStyle != HtmlValues.BORDER_STYLE_NONE) {
-      String topText = cssProperties.getBorderTopWidth();
+      final String topText = cssProperties.getBorderTopWidth();
       insets = updateTopInset(insets, topText, renderState);
     }
     if (binfo.leftStyle != HtmlValues.BORDER_STYLE_NONE) {
-      String leftText = cssProperties.getBorderLeftWidth();
+      final String leftText = cssProperties.getBorderLeftWidth();
       insets = updateLeftInset(insets, leftText, renderState);
     }
     if (binfo.bottomStyle != HtmlValues.BORDER_STYLE_NONE) {
-      String bottomText = cssProperties.getBorderBottomWidth();
+      final String bottomText = cssProperties.getBorderBottomWidth();
       insets = updateBottomInset(insets, bottomText, renderState);
     }
     if (binfo.rightStyle != HtmlValues.BORDER_STYLE_NONE) {
-      String rightText = cssProperties.getBorderRightWidth();
+      final String rightText = cssProperties.getBorderRightWidth();
       insets = updateRightInset(insets, rightText, renderState);
     }
     binfo.insets = insets;
   }
 
-  private static int getBorderWidth(String sizeText, int borderStyle, RenderState renderState) {
+  private static int getBorderWidth(final String sizeText, final int borderStyle, final RenderState renderState) {
     if (borderStyle == BORDER_STYLE_NONE) {
       return 0;
     } else {
@@ -167,7 +167,7 @@ public class HtmlValues {
     }
   }
 
-  private static HtmlInsets updateTopInset(HtmlInsets insets, String sizeText, RenderState renderState) {
+  private static HtmlInsets updateTopInset(HtmlInsets insets, String sizeText, final RenderState renderState) {
     if (sizeText == null) {
       return insets;
     }
@@ -184,7 +184,7 @@ public class HtmlValues {
       insets.topType = HtmlInsets.TYPE_PERCENT;
       try {
         insets.top = Integer.parseInt(sizeText.substring(0, sizeText.length() - 1));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         insets.top = 0;
       }
     } else {
@@ -194,7 +194,7 @@ public class HtmlValues {
     return insets;
   }
 
-  private static HtmlInsets updateLeftInset(HtmlInsets insets, String sizeText, RenderState renderState) {
+  private static HtmlInsets updateLeftInset(HtmlInsets insets, String sizeText, final RenderState renderState) {
     if (sizeText == null) {
       return insets;
     }
@@ -211,7 +211,7 @@ public class HtmlValues {
       insets.leftType = HtmlInsets.TYPE_PERCENT;
       try {
         insets.left = Integer.parseInt(sizeText.substring(0, sizeText.length() - 1));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         insets.left = 0;
       }
     } else {
@@ -221,7 +221,7 @@ public class HtmlValues {
     return insets;
   }
 
-  private static HtmlInsets updateBottomInset(HtmlInsets insets, String sizeText, RenderState renderState) {
+  private static HtmlInsets updateBottomInset(HtmlInsets insets, String sizeText, final RenderState renderState) {
     if (sizeText == null) {
       return insets;
     }
@@ -238,7 +238,7 @@ public class HtmlValues {
       insets.bottomType = HtmlInsets.TYPE_PERCENT;
       try {
         insets.bottom = Integer.parseInt(sizeText.substring(0, sizeText.length() - 1));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         insets.bottom = 0;
       }
     } else {
@@ -248,7 +248,7 @@ public class HtmlValues {
     return insets;
   }
 
-  private static HtmlInsets updateRightInset(HtmlInsets insets, String sizeText, RenderState renderState) {
+  private static HtmlInsets updateRightInset(HtmlInsets insets, String sizeText, final RenderState renderState) {
     if (sizeText == null) {
       return insets;
     }
@@ -265,7 +265,7 @@ public class HtmlValues {
       insets.rightType = HtmlInsets.TYPE_PERCENT;
       try {
         insets.right = Integer.parseInt(sizeText.substring(0, sizeText.length() - 1));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         insets.right = 0;
       }
     } else {
@@ -275,10 +275,10 @@ public class HtmlValues {
     return insets;
   }
 
-  public static Insets getInsets(String insetsSpec, RenderState renderState, boolean negativeOK) {
-    int[] insetsArray = new int[4];
+  public static Insets getInsets(final String insetsSpec, final RenderState renderState, final boolean negativeOK) {
+    final int[] insetsArray = new int[4];
     int size = 0;
-    StringTokenizer tok = new StringTokenizer(insetsSpec);
+    final StringTokenizer tok = new StringTokenizer(insetsSpec);
     if (tok.hasMoreTokens()) {
       String token = tok.nextToken();
       insetsArray[0] = getPixelSize(token, renderState, 0);
@@ -322,7 +322,7 @@ public class HtmlValues {
     if (size == 4) {
       return new Insets(insetsArray[0], insetsArray[3], insetsArray[2], insetsArray[1]);
     } else if (size == 1) {
-      int val = insetsArray[0];
+      final int val = insetsArray[0];
       return new Insets(val, val, val, val);
     } else if (size == 2) {
       return new Insets(insetsArray[0], insetsArray[1], insetsArray[0], insetsArray[1]);
@@ -339,7 +339,7 @@ public class HtmlValues {
    * @param oldHtmlSpec
    *          A number from 1 to 7 or +1, etc.
    */
-  public static final int getFontNumberOldStyle(String oldHtmlSpec, RenderState renderState) {
+  public static final int getFontNumberOldStyle(String oldHtmlSpec, final RenderState renderState) {
     oldHtmlSpec = oldHtmlSpec.trim();
     int tentative;
     try {
@@ -355,14 +355,14 @@ public class HtmlValues {
       } else if (tentative > 7) {
         tentative = 7;
       }
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       // ignore
       tentative = 3;
     }
     return tentative;
   }
 
-  public static final float getFontSize(int fontNumber) {
+  public static final float getFontSize(final int fontNumber) {
     switch (fontNumber) {
     case 1:
       return 10.0f;
@@ -383,7 +383,7 @@ public class HtmlValues {
     }
   }
 
-  public static final String getFontSizeSpec(int fontNumber) {
+  public static final String getFontSizeSpec(final int fontNumber) {
     switch (fontNumber) {
     case 1:
       return "10px";
@@ -404,35 +404,35 @@ public class HtmlValues {
     }
   }
 
-  public static final float getFontSize(String spec, RenderState parentRenderState) {
-    String specTL = spec.toLowerCase();
+  public static final float getFontSize(final String spec, final RenderState parentRenderState) {
+    final String specTL = spec.toLowerCase();
     if (specTL.endsWith("em")) {
       if (parentRenderState == null) {
         return DEFAULT_FONT_SIZE;
       }
-      Font font = parentRenderState.getFont();
-      String pxText = specTL.substring(0, specTL.length() - 2);
+      final Font font = parentRenderState.getFont();
+      final String pxText = specTL.substring(0, specTL.length() - 2);
       double value;
       try {
         value = Double.parseDouble(pxText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return DEFAULT_FONT_SIZE;
       }
       return (int) Math.round(font.getSize() * value);
     } else if (specTL.endsWith("px") || specTL.endsWith("pt") || specTL.endsWith("cm") || specTL.endsWith("pc") || specTL.endsWith("cm")
         || specTL.endsWith("mm") || specTL.endsWith("ex")) {
-      int pixelSize = getPixelSize(spec, parentRenderState, DEFAULT_FONT_SIZE_INT);
-      int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+      final int pixelSize = getPixelSize(spec, parentRenderState, DEFAULT_FONT_SIZE_INT);
+      final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
       // Normally the factor below should be 72, but
       // the font-size concept in HTML is handled differently.
       return pixelSize * 96 / dpi;
     } else if (specTL.endsWith("%")) {
-      String value = specTL.substring(0, specTL.length() - 1);
+      final String value = specTL.substring(0, specTL.length() - 1);
       try {
-        double valued = Double.parseDouble(value);
-        double parentFontSize = parentRenderState == null ? 14.0 : parentRenderState.getFont().getSize();
+        final double valued = Double.parseDouble(value);
+        final double parentFontSize = parentRenderState == null ? 14.0 : parentRenderState.getFont().getSize();
         return (float) (parentFontSize * valued / 100.0);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return DEFAULT_FONT_SIZE;
       }
     } else if ("small".equals(specTL)) {
@@ -450,23 +450,23 @@ public class HtmlValues {
     } else if ("xx-large".equals(specTL)) {
       return 40.0f;
     } else if ("larger".equals(specTL)) {
-      int parentFontSize = parentRenderState == null ? DEFAULT_FONT_SIZE_INT : parentRenderState.getFont().getSize();
+      final int parentFontSize = parentRenderState == null ? DEFAULT_FONT_SIZE_INT : parentRenderState.getFont().getSize();
       return parentFontSize * 1.2f;
     } else if ("smaller".equals(specTL)) {
-      int parentFontSize = parentRenderState == null ? DEFAULT_FONT_SIZE_INT : parentRenderState.getFont().getSize();
+      final int parentFontSize = parentRenderState == null ? DEFAULT_FONT_SIZE_INT : parentRenderState.getFont().getSize();
       return parentFontSize / 1.2f;
     } else {
       return getPixelSize(spec, parentRenderState, DEFAULT_FONT_SIZE_INT);
     }
   }
 
-  public static final int getPixelSize(String spec, RenderState renderState, int errorValue, int availSize) {
+  public static final int getPixelSize(final String spec, final RenderState renderState, final int errorValue, final int availSize) {
     if (spec.endsWith("%")) {
-      String perText = spec.substring(0, spec.length() - 1);
+      final String perText = spec.substring(0, spec.length() - 1);
       try {
-        double val = Double.parseDouble(perText);
+        final double val = Double.parseDouble(perText);
         return (int) Math.round(availSize * val / 100.0);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
     } else {
@@ -474,97 +474,97 @@ public class HtmlValues {
     }
   }
 
-  public static final int getPixelSize(String spec, RenderState renderState, int errorValue) {
-    String lcSpec = spec.toLowerCase();
+  public static final int getPixelSize(final String spec, final RenderState renderState, final int errorValue) {
+    final String lcSpec = spec.toLowerCase();
     if (lcSpec.endsWith("px")) {
-      String pxText = lcSpec.substring(0, lcSpec.length() - 2);
+      final String pxText = lcSpec.substring(0, lcSpec.length() - 2);
       try {
         return (int) Math.round(Double.parseDouble(pxText));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
     } else if (lcSpec.endsWith("em") && renderState != null) {
-      Font f = renderState.getFont();
-      String valText = lcSpec.substring(0, lcSpec.length() - 2);
+      final Font f = renderState.getFont();
+      final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
         val = Double.parseDouble(valText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
       // Get fontSize in 1/72 of an inch.
-      int fontSize = f.getSize();
-      int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+      final int fontSize = f.getSize();
+      final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
       // The factor below should normally be 72, but font sizes
       // are calculated differently in HTML.
-      double pixelSize = fontSize * dpi / 96;
+      final double pixelSize = fontSize * dpi / 96;
       return (int) Math.round(pixelSize * val);
     } else if (lcSpec.endsWith("pt")) {
-      String valText = lcSpec.substring(0, lcSpec.length() - 2);
+      final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
         val = Double.parseDouble(valText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
-      int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-      double inches = val / 72;
+      final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+      final double inches = val / 72;
       return (int) Math.round(dpi * inches);
     } else if (lcSpec.endsWith("pc")) {
-      String valText = lcSpec.substring(0, lcSpec.length() - 2);
+      final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
         val = Double.parseDouble(valText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
-      int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-      double inches = val / 6;
+      final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+      final double inches = val / 6;
       return (int) Math.round(dpi * inches);
     } else if (lcSpec.endsWith("cm")) {
-      String valText = lcSpec.substring(0, lcSpec.length() - 2);
+      final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
         val = Double.parseDouble(valText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
-      int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-      double inches = val / 2.54;
+      final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+      final double inches = val / 2.54;
       return (int) Math.round(dpi * inches);
     } else if (lcSpec.endsWith("mm")) {
-      String valText = lcSpec.substring(0, lcSpec.length() - 2);
+      final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
         val = Double.parseDouble(valText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
-      int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-      double inches = val / 25.4;
+      final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
+      final double inches = val / 25.4;
       return (int) Math.round(dpi * inches);
     } else if (lcSpec.endsWith("ex") && renderState != null) {
       // Factor below is to try to match size in other browsers.
-      double xHeight = renderState.getFontMetrics().getAscent() * 0.47;
-      String valText = lcSpec.substring(0, lcSpec.length() - 2);
+      final double xHeight = renderState.getFontMetrics().getAscent() * 0.47;
+      final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
         val = Double.parseDouble(valText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
       return (int) Math.round(xHeight * val);
     } else {
-      String pxText = lcSpec;
+      final String pxText = lcSpec;
       try {
         return (int) Math.round(Double.parseDouble(pxText));
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         return errorValue;
       }
     }
   }
 
-  public static int getOldSyntaxPixelSize(String spec, int availSize, int errorValue) {
+  public static int getOldSyntaxPixelSize(String spec, final int availSize, final int errorValue) {
     if (spec == null) {
       return errorValue;
     }
@@ -575,51 +575,51 @@ public class HtmlValues {
       } else {
         return Integer.parseInt(spec);
       }
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return errorValue;
     }
   }
 
-  public static int getOldSyntaxPixelSizeSimple(String spec, int errorValue) {
+  public static int getOldSyntaxPixelSizeSimple(String spec, final int errorValue) {
     if (spec == null) {
       return errorValue;
     }
     spec = spec.trim();
     try {
       return Integer.parseInt(spec);
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return errorValue;
     }
   }
 
-  public static java.net.URL getURIFromStyleValue(String fullURLStyleValue) {
-    String start = "url(";
+  public static java.net.URL getURIFromStyleValue(final String fullURLStyleValue) {
+    final String start = "url(";
     if (!fullURLStyleValue.toLowerCase().startsWith(start)) {
       return null;
     }
-    int startIdx = start.length();
-    int closingIdx = fullURLStyleValue.lastIndexOf(')');
+    final int startIdx = start.length();
+    final int closingIdx = fullURLStyleValue.lastIndexOf(')');
     if (closingIdx == -1) {
       return null;
     }
-    String quotedUri = fullURLStyleValue.substring(startIdx, closingIdx);
-    String tentativeUri = unquoteAndUnescape(quotedUri);
+    final String quotedUri = fullURLStyleValue.substring(startIdx, closingIdx);
+    final String tentativeUri = unquoteAndUnescape(quotedUri);
     try {
       return Urls.createURL(null, tentativeUri);
-    } catch (java.net.MalformedURLException mfu) {
+    } catch (final java.net.MalformedURLException mfu) {
       logger.log(Level.WARNING, "Unable to create URL for URI=[" + tentativeUri + "].", mfu);
       return null;
     }
   }
 
-  public static String unquoteAndUnescape(String text) {
-    StringBuffer result = new StringBuffer();
+  public static String unquoteAndUnescape(final String text) {
+    final StringBuffer result = new StringBuffer();
     int index = 0;
-    int length = text.length();
+    final int length = text.length();
     boolean escape = false;
     boolean single = false;
     if (index < length) {
-      char ch = text.charAt(index);
+      final char ch = text.charAt(index);
       switch (ch) {
       case '\'':
         single = true;
@@ -635,7 +635,7 @@ public class HtmlValues {
       index++;
     }
     OUTER: for (; index < length; index++) {
-      char ch = text.charAt(index);
+      final char ch = text.charAt(index);
       switch (ch) {
       case '\'':
         if (escape || !single) {
@@ -672,13 +672,13 @@ public class HtmlValues {
     return result.toString();
   }
 
-  public static String quoteAndEscape(String text) {
-    StringBuffer result = new StringBuffer();
+  public static String quoteAndEscape(final String text) {
+    final StringBuffer result = new StringBuffer();
     result.append("'");
     int index = 0;
-    int length = text.length();
+    final int length = text.length();
     while (index < length) {
-      char ch = text.charAt(index);
+      final char ch = text.charAt(index);
       switch (ch) {
       case '\'':
         result.append("\\'");
@@ -695,10 +695,10 @@ public class HtmlValues {
     return result.toString();
   }
 
-  public static String getColorFromBackground(String background) {
-    String[] backgroundParts = HtmlValues.splitCssValue(background);
+  public static String getColorFromBackground(final String background) {
+    final String[] backgroundParts = HtmlValues.splitCssValue(background);
     for (int i = 0; i < backgroundParts.length; i++) {
-      String token = backgroundParts[i];
+      final String token = backgroundParts[i];
       if (ColorFactory.getInstance().isColor(token)) {
         return token;
       }
@@ -706,7 +706,7 @@ public class HtmlValues {
     return null;
   }
 
-  public static boolean isLength(String token) {
+  public static boolean isLength(final String token) {
     if (token.endsWith("px") || token.endsWith("pt") || token.endsWith("pc") || token.endsWith("cm") || token.endsWith("mm")
         || token.endsWith("ex") || token.endsWith("em")) {
       return true;
@@ -714,18 +714,18 @@ public class HtmlValues {
     try {
       Double.parseDouble(token);
       return true;
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return false;
     }
   }
 
-  public static String[] splitCssValue(String cssValue) {
-    ArrayList<String> tokens = new ArrayList<String>(4);
-    int len = cssValue.length();
+  public static String[] splitCssValue(final String cssValue) {
+    final ArrayList<String> tokens = new ArrayList<String>(4);
+    final int len = cssValue.length();
     int parenCount = 0;
     StringBuffer currentWord = null;
     for (int i = 0; i < len; i++) {
-      char ch = cssValue.charAt(i);
+      final char ch = cssValue.charAt(i);
       switch (ch) {
       case '(':
         parenCount++;
@@ -766,12 +766,12 @@ public class HtmlValues {
     return tokens.toArray(new String[tokens.size()]);
   }
 
-  public static boolean isUrl(String token) {
+  public static boolean isUrl(final String token) {
     return token.toLowerCase().startsWith("url(");
   }
 
-  public static int getListStyleType(String token) {
-    String tokenTL = token.toLowerCase();
+  public static int getListStyleType(final String token) {
+    final String tokenTL = token.toLowerCase();
     if ("none".equals(tokenTL)) {
       return ListStyle.TYPE_NONE;
     } else if ("disc".equals(tokenTL)) {
@@ -792,8 +792,8 @@ public class HtmlValues {
     }
   }
 
-  public static int getListStyleTypeDeprecated(String token) {
-    String tokenTL = token.toLowerCase();
+  public static int getListStyleTypeDeprecated(final String token) {
+    final String tokenTL = token.toLowerCase();
     if ("disc".equals(tokenTL)) {
       return ListStyle.TYPE_DISC;
     } else if ("circle".equals(tokenTL)) {
@@ -812,8 +812,8 @@ public class HtmlValues {
     }
   }
 
-  public static int getListStylePosition(String token) {
-    String tokenTL = token.toLowerCase();
+  public static int getListStylePosition(final String token) {
+    final String tokenTL = token.toLowerCase();
     if ("inside".equals(tokenTL)) {
       return ListStyle.POSITION_INSIDE;
     } else if ("outside".equals(tokenTL)) {
@@ -823,18 +823,18 @@ public class HtmlValues {
     }
   }
 
-  public static ListStyle getListStyle(String listStyleText) {
-    ListStyle listStyle = new ListStyle();
-    String[] tokens = HtmlValues.splitCssValue(listStyleText);
+  public static ListStyle getListStyle(final String listStyleText) {
+    final ListStyle listStyle = new ListStyle();
+    final String[] tokens = HtmlValues.splitCssValue(listStyleText);
     for (int i = 0; i < tokens.length; i++) {
-      String token = tokens[i];
-      int listStyleType = HtmlValues.getListStyleType(token);
+      final String token = tokens[i];
+      final int listStyleType = HtmlValues.getListStyleType(token);
       if (listStyleType != ListStyle.TYPE_UNSET) {
         listStyle.type = listStyleType;
       } else if (HtmlValues.isUrl(token)) {
         // TODO: listStyle.image
       } else {
-        int listStylePosition = HtmlValues.getListStylePosition(token);
+        final int listStylePosition = HtmlValues.getListStylePosition(token);
         if (listStylePosition != ListStyle.POSITION_UNSET) {
           listStyle.position = listStylePosition;
         }
@@ -843,48 +843,48 @@ public class HtmlValues {
     return listStyle;
   }
 
-  public static boolean isFontStyle(String token) {
+  public static boolean isFontStyle(final String token) {
     return "italic".equals(token) || "normal".equals(token) || "oblique".equals(token);
   }
 
-  public static boolean isFontVariant(String token) {
+  public static boolean isFontVariant(final String token) {
     return "small-caps".equals(token) || "normal".equals(token);
   }
 
-  public static boolean isFontWeight(String token) {
+  public static boolean isFontWeight(final String token) {
     if ("bold".equals(token) || "bolder".equals(token) || "lighter".equals(token)) {
       return true;
     }
     try {
-      int value = Integer.parseInt(token);
+      final int value = Integer.parseInt(token);
       return (value % 100) == 0 && value >= 100 && value <= 900;
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       return false;
     }
   }
 
-  public static BorderInfo getBorderInfo(CSS2Properties properties, RenderState renderState) {
-    BorderInfo binfo = new BorderInfo();
+  public static BorderInfo getBorderInfo(final CSS2Properties properties, final RenderState renderState) {
+    final BorderInfo binfo = new BorderInfo();
 
     binfo.topStyle = getBorderStyle(properties.getBorderTopStyle());
     binfo.rightStyle = getBorderStyle(properties.getBorderRightStyle());
     binfo.bottomStyle = getBorderStyle(properties.getBorderBottomStyle());
     binfo.leftStyle = getBorderStyle(properties.getBorderLeftStyle());
 
-    ColorFactory cf = ColorFactory.getInstance();
-    String topColorSpec = properties.getBorderTopColor();
+    final ColorFactory cf = ColorFactory.getInstance();
+    final String topColorSpec = properties.getBorderTopColor();
     if (topColorSpec != null) {
       binfo.topColor = cf.getColor(topColorSpec);
     }
-    String rightColorSpec = properties.getBorderRightColor();
+    final String rightColorSpec = properties.getBorderRightColor();
     if (rightColorSpec != null) {
       binfo.rightColor = cf.getColor(rightColorSpec);
     }
-    String bottomColorSpec = properties.getBorderBottomColor();
+    final String bottomColorSpec = properties.getBorderBottomColor();
     if (bottomColorSpec != null) {
       binfo.bottomColor = cf.getColor(bottomColorSpec);
     }
-    String leftColorSpec = properties.getBorderLeftColor();
+    final String leftColorSpec = properties.getBorderLeftColor();
     if (leftColorSpec != null) {
       binfo.leftColor = cf.getColor(leftColorSpec);
     }
@@ -894,19 +894,19 @@ public class HtmlValues {
     return binfo;
   }
 
-  public static Insets getBorderStyles(CSS2Properties properties) {
-    int topStyle = getBorderStyle(properties.getBorderTopStyle());
-    int rightStyle = getBorderStyle(properties.getBorderRightStyle());
-    int bottomStyle = getBorderStyle(properties.getBorderBottomStyle());
-    int leftStyle = getBorderStyle(properties.getBorderLeftStyle());
+  public static Insets getBorderStyles(final CSS2Properties properties) {
+    final int topStyle = getBorderStyle(properties.getBorderTopStyle());
+    final int rightStyle = getBorderStyle(properties.getBorderRightStyle());
+    final int bottomStyle = getBorderStyle(properties.getBorderBottomStyle());
+    final int leftStyle = getBorderStyle(properties.getBorderLeftStyle());
     return new Insets(topStyle, leftStyle, bottomStyle, rightStyle);
   }
 
-  private static int getBorderStyle(String styleText) {
+  private static int getBorderStyle(final String styleText) {
     if (styleText == null || styleText.length() == 0) {
       return HtmlValues.BORDER_STYLE_NONE;
     }
-    String stl = styleText.toLowerCase();
+    final String stl = styleText.toLowerCase();
     if ("solid".equals(stl)) {
       return BORDER_STYLE_SOLID;
     } else if ("dashed".equals(stl)) {
@@ -932,12 +932,12 @@ public class HtmlValues {
     }
   }
 
-  public static boolean isBackgroundRepeat(String repeat) {
-    String repeatTL = repeat.toLowerCase();
+  public static boolean isBackgroundRepeat(final String repeat) {
+    final String repeatTL = repeat.toLowerCase();
     return repeatTL.indexOf("repeat") != -1;
   }
 
-  public static boolean isBackgroundPosition(String token) {
+  public static boolean isBackgroundPosition(final String token) {
     return isLength(token) || token.endsWith("%") || token.equalsIgnoreCase("top") || token.equalsIgnoreCase("center")
         || token.equalsIgnoreCase("bottom") || token.equalsIgnoreCase("left") || token.equalsIgnoreCase("right");
   }

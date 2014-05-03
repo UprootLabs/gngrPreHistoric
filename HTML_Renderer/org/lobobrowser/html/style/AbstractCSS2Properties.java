@@ -167,7 +167,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   private Map<String, Property> valueMap = null;
 
   static {
-    Map<String, SubPropertySetter> subSetters = SUB_SETTERS;
+    final Map<String, SubPropertySetter> subSetters = SUB_SETTERS;
     subSetters.put(MARGIN, new FourCornersSetter(MARGIN, "margin-", ""));
     subSetters.put(PADDING, new FourCornersSetter(PADDING, "padding-", ""));
     subSetters.put(BORDER, new BorderSetter1());
@@ -183,11 +183,11 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     subSetters.put(FONT, new FontSetter());
   }
 
-  public AbstractCSS2Properties(CSS2PropertiesContext context) {
+  public AbstractCSS2Properties(final CSS2PropertiesContext context) {
     this.context = context;
   }
 
-  public void addStyleDeclaration(CSSStyleDeclaration styleDeclaration) {
+  public void addStyleDeclaration(final CSSStyleDeclaration styleDeclaration) {
     synchronized (this) {
       Collection<CSSStyleDeclaration> sd = this.styleDeclarations;
       if (sd == null) {
@@ -195,18 +195,18 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
         this.styleDeclarations = sd;
       }
       sd.add(styleDeclaration);
-      int length = styleDeclaration.getLength();
+      final int length = styleDeclaration.getLength();
       for (int i = 0; i < length; i++) {
-        String propertyName = styleDeclaration.item(i);
-        String propertyValue = styleDeclaration.getPropertyValue(propertyName);
-        String priority = styleDeclaration.getPropertyPriority(propertyName);
-        boolean important = priority != null && priority.length() != 0 && "important".equals(priority);
+        final String propertyName = styleDeclaration.item(i);
+        final String propertyValue = styleDeclaration.getPropertyValue(propertyName);
+        final String priority = styleDeclaration.getPropertyPriority(propertyName);
+        final boolean important = priority != null && priority.length() != 0 && "important".equals(priority);
         this.setPropertyValueProcessed(propertyName.toLowerCase(), propertyValue, styleDeclaration, important);
       }
     }
   }
 
-  public void setLocalStyleProperties(AbstractCSS2Properties properties) {
+  public void setLocalStyleProperties(final AbstractCSS2Properties properties) {
     if (properties == this) {
       throw new IllegalStateException("setting same");
     }
@@ -226,23 +226,23 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   // return this.getPropertyValueLC(lowerCase);
   // }
 
-  public final String getPropertyValue(String name) {
+  public final String getPropertyValue(final String name) {
     return this.getPropertyValueLC(name.toLowerCase());
   }
 
-  private final String getPropertyValueLC(String lowerCaseName) {
-    Map<String, Property> vm = this.valueMap;
+  private final String getPropertyValueLC(final String lowerCaseName) {
+    final Map<String, Property> vm = this.valueMap;
     synchronized (this) {
       // Local properties have precedence
-      AbstractCSS2Properties localProps = this.localStyleProperties;
+      final AbstractCSS2Properties localProps = this.localStyleProperties;
       if (localProps != null) {
-        String value = localProps.getPropertyValueLC(lowerCaseName);
+        final String value = localProps.getPropertyValueLC(lowerCaseName);
         if (value != null) {
           return value;
         }
       }
       if (vm != null) {
-        Property p = vm.get(lowerCaseName);
+        final Property p = vm.get(lowerCaseName);
         return p == null ? null : p.value;
       }
     }
@@ -257,7 +257,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
    * @param value
    *          The property value.
    */
-  protected void setPropertyValueLC(String lowerCaseName, String value) {
+  protected void setPropertyValueLC(final String lowerCaseName, final String value) {
     Map<String, Property> vm = this.valueMap;
     synchronized (this) {
       if (vm == null) {
@@ -278,7 +278,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
    * @param value
    *          The property value.
    */
-  protected final void setPropertyValueLCAlt(String lowerCaseName, String value, boolean important) {
+  protected final void setPropertyValueLCAlt(final String lowerCaseName, final String value, final boolean important) {
     Map<String, Property> vm = this.valueMap;
     synchronized (this) {
       if (vm == null) {
@@ -286,7 +286,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
         this.valueMap = vm;
       } else {
         if (!important) {
-          Property oldProperty = vm.get(lowerCaseName);
+          final Property oldProperty = vm.get(lowerCaseName);
           if (oldProperty != null && oldProperty.important) {
             // Ignore setting
             return;
@@ -297,8 +297,8 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     }
   }
 
-  protected final void setPropertyValueProcessed(String lowerCaseName, String value, CSSStyleDeclaration declaration, boolean important) {
-    SubPropertySetter setter = SUB_SETTERS.get(lowerCaseName);
+  protected final void setPropertyValueProcessed(final String lowerCaseName, final String value, final CSSStyleDeclaration declaration, final boolean important) {
+    final SubPropertySetter setter = SUB_SETTERS.get(lowerCaseName);
     if (setter != null) {
       setter.changeValue(this, value, declaration, important);
     } else {
@@ -343,7 +343,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     return this.overlayColor;
   }
 
-  public void setOverlayColor(String value) {
+  public void setOverlayColor(final String value) {
     this.overlayColor = value;
     this.context.informLookInvalid();
   }
@@ -352,7 +352,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     return this.getPropertyValueLC(FLOAT);
   }
 
-  public void setFloat(String value) {
+  public void setFloat(final String value) {
     this.setPropertyValueLC(FLOAT, value);
   }
 
@@ -924,597 +924,597 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     return this.getPropertyValueLC(Z_INDEX);
   }
 
-  public void setAzimuth(String azimuth) throws DOMException {
+  public void setAzimuth(final String azimuth) throws DOMException {
     this.setPropertyValueLC(AZIMUTH, azimuth);
   }
 
-  public void setBackground(String background) throws DOMException {
+  public void setBackground(final String background) throws DOMException {
     this.checkSetProperty();
     new BackgroundSetter().changeValue(this, background, null);
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundAttachment(String backgroundAttachment) throws DOMException {
+  public void setBackgroundAttachment(final String backgroundAttachment) throws DOMException {
     this.setPropertyValueLC(BACKGROUND_ATTACHMENT, backgroundAttachment);
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundColor(String backgroundColor) throws DOMException {
+  public void setBackgroundColor(final String backgroundColor) throws DOMException {
     this.setPropertyValueLC(BACKGROUND_COLOR, backgroundColor);
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundImage(String backgroundImage) throws DOMException {
+  public void setBackgroundImage(final String backgroundImage) throws DOMException {
     this.checkSetProperty();
     new BackgroundImageSetter().changeValue(this, backgroundImage, null);
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundPosition(String backgroundPosition) throws DOMException {
+  public void setBackgroundPosition(final String backgroundPosition) throws DOMException {
     this.setPropertyValueLC(BACKGROUND_POSITION, backgroundPosition);
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundRepeat(String backgroundRepeat) throws DOMException {
+  public void setBackgroundRepeat(final String backgroundRepeat) throws DOMException {
     this.setPropertyValueLC(BACKGROUND_REPEAT, backgroundRepeat);
     this.context.informLookInvalid();
   }
 
-  public void setBorder(String border) throws DOMException {
+  public void setBorder(final String border) throws DOMException {
     this.checkSetProperty();
     new BorderSetter1().changeValue(this, border, null);
     this.context.informInvalid();
   }
 
-  public void setBorderBottom(String borderBottom) throws DOMException {
+  public void setBorderBottom(final String borderBottom) throws DOMException {
     this.checkSetProperty();
     new BorderSetter2(BORDER_BOTTOM).changeValue(this, borderBottom, null);
     this.context.informInvalid();
   }
 
-  public void setBorderBottomColor(String borderBottomColor) throws DOMException {
+  public void setBorderBottomColor(final String borderBottomColor) throws DOMException {
     this.setPropertyValueLC(BORDER_BOTTOM_COLOR, borderBottomColor);
     this.context.informLookInvalid();
   }
 
-  public void setBorderBottomStyle(String borderBottomStyle) throws DOMException {
+  public void setBorderBottomStyle(final String borderBottomStyle) throws DOMException {
     this.setPropertyValueLC(BORDER_BOTTOM_STYLE, borderBottomStyle);
     this.context.informLookInvalid();
   }
 
-  public void setBorderBottomWidth(String borderBottomWidth) throws DOMException {
+  public void setBorderBottomWidth(final String borderBottomWidth) throws DOMException {
     this.setPropertyValueLC(BORDER_BOTTOM_WIDTH, borderBottomWidth);
     this.context.informInvalid();
   }
 
-  public void setBorderCollapse(String borderCollapse) throws DOMException {
+  public void setBorderCollapse(final String borderCollapse) throws DOMException {
     this.setPropertyValueLC(BORDER_COLLAPSE, borderCollapse);
     this.context.informInvalid();
   }
 
-  public void setBorderColor(String borderColor) throws DOMException {
+  public void setBorderColor(final String borderColor) throws DOMException {
     this.checkSetProperty();
     new FourCornersSetter(BORDER_COLOR, "border-", "-color").changeValue(this, borderColor, null);
     this.context.informLookInvalid();
   }
 
-  public void setBorderLeft(String borderLeft) throws DOMException {
+  public void setBorderLeft(final String borderLeft) throws DOMException {
     this.checkSetProperty();
     new BorderSetter2(BORDER_LEFT).changeValue(this, borderLeft, null);
     this.context.informInvalid();
   }
 
-  public void setBorderLeftColor(String borderLeftColor) throws DOMException {
+  public void setBorderLeftColor(final String borderLeftColor) throws DOMException {
     this.setPropertyValueLC(BORDER_LEFT_COLOR, borderLeftColor);
     this.context.informLookInvalid();
   }
 
-  public void setBorderLeftStyle(String borderLeftStyle) throws DOMException {
+  public void setBorderLeftStyle(final String borderLeftStyle) throws DOMException {
     this.setPropertyValueLC(BORDER_LEFT_STYLE, borderLeftStyle);
     this.context.informLookInvalid();
   }
 
-  public void setBorderLeftWidth(String borderLeftWidth) throws DOMException {
+  public void setBorderLeftWidth(final String borderLeftWidth) throws DOMException {
     this.setPropertyValueLC(BORDER_LEFT_WIDTH, borderLeftWidth);
     this.context.informInvalid();
   }
 
-  public void setBorderRight(String borderRight) throws DOMException {
+  public void setBorderRight(final String borderRight) throws DOMException {
     this.checkSetProperty();
     new BorderSetter2(BORDER_RIGHT).changeValue(this, borderRight, null);
     this.context.informInvalid();
   }
 
-  public void setBorderRightColor(String borderRightColor) throws DOMException {
+  public void setBorderRightColor(final String borderRightColor) throws DOMException {
     this.setPropertyValueLC(BORDER_RIGHT_COLOR, borderRightColor);
     this.context.informLookInvalid();
   }
 
-  public void setBorderRightStyle(String borderRightStyle) throws DOMException {
+  public void setBorderRightStyle(final String borderRightStyle) throws DOMException {
     this.setPropertyValueLC(BORDER_RIGHT_STYLE, borderRightStyle);
     this.context.informLookInvalid();
   }
 
-  public void setBorderRightWidth(String borderRightWidth) throws DOMException {
+  public void setBorderRightWidth(final String borderRightWidth) throws DOMException {
     this.setPropertyValueLC(BORDER_RIGHT_WIDTH, borderRightWidth);
     this.context.informInvalid();
   }
 
-  public void setBorderSpacing(String borderSpacing) throws DOMException {
+  public void setBorderSpacing(final String borderSpacing) throws DOMException {
     this.setPropertyValueLC(BORDER_SPACING, borderSpacing);
     this.context.informInvalid();
   }
 
-  public void setBorderStyle(String borderStyle) throws DOMException {
+  public void setBorderStyle(final String borderStyle) throws DOMException {
     this.checkSetProperty();
     new FourCornersSetter(BORDER_STYLE, "border-", "-style").changeValue(this, borderStyle, null);
     this.context.informLookInvalid();
   }
 
-  public void setBorderTop(String borderTop) throws DOMException {
+  public void setBorderTop(final String borderTop) throws DOMException {
     this.checkSetProperty();
     new BorderSetter2(BORDER_TOP).changeValue(this, borderTop, null);
     this.context.informInvalid();
   }
 
-  public void setBorderTopColor(String borderTopColor) throws DOMException {
+  public void setBorderTopColor(final String borderTopColor) throws DOMException {
     this.setPropertyValueLC(BORDER_TOP_COLOR, borderTopColor);
     this.context.informLookInvalid();
   }
 
-  public void setBorderTopStyle(String borderTopStyle) throws DOMException {
+  public void setBorderTopStyle(final String borderTopStyle) throws DOMException {
     this.setPropertyValueLC(BORDER_TOP_STYLE, borderTopStyle);
     this.context.informLookInvalid();
   }
 
-  public void setBorderTopWidth(String borderTopWidth) throws DOMException {
+  public void setBorderTopWidth(final String borderTopWidth) throws DOMException {
     this.setPropertyValueLC(BORDER_TOP_WIDTH, borderTopWidth);
     this.context.informInvalid();
   }
 
-  public void setBorderWidth(String borderWidth) throws DOMException {
+  public void setBorderWidth(final String borderWidth) throws DOMException {
     this.checkSetProperty();
     new FourCornersSetter(BORDER_WIDTH, "border-", "-width").changeValue(this, borderWidth, null);
     this.context.informInvalid();
   }
 
-  public void setBottom(String bottom) throws DOMException {
+  public void setBottom(final String bottom) throws DOMException {
     this.setPropertyValueLC(BOTTOM, bottom);
     this.context.informPositionInvalid();
   }
 
-  public void setCaptionSide(String captionSide) throws DOMException {
+  public void setCaptionSide(final String captionSide) throws DOMException {
     this.setPropertyValueLC(CAPTION_SIDE, captionSide);
   }
 
-  public void setClear(String clear) throws DOMException {
+  public void setClear(final String clear) throws DOMException {
     this.setPropertyValueLC(CLEAR, clear);
     this.context.informInvalid();
   }
 
-  public void setClip(String clip) throws DOMException {
+  public void setClip(final String clip) throws DOMException {
     this.setPropertyValueLC(CLIP, clip);
   }
 
-  public void setColor(String color) throws DOMException {
+  public void setColor(final String color) throws DOMException {
     this.setPropertyValueLC(COLOR, color);
     this.context.informLookInvalid();
   }
 
-  public void setContent(String content) throws DOMException {
+  public void setContent(final String content) throws DOMException {
     this.setPropertyValueLC(CONTENT, content);
     this.context.informInvalid();
   }
 
-  public void setCounterIncrement(String counterIncrement) throws DOMException {
+  public void setCounterIncrement(final String counterIncrement) throws DOMException {
     this.setPropertyValueLC(COUNTER_INCREMENT, counterIncrement);
     this.context.informLookInvalid();
   }
 
-  public void setCounterReset(String counterReset) throws DOMException {
+  public void setCounterReset(final String counterReset) throws DOMException {
     this.setPropertyValueLC(COUNTER_RESET, counterReset);
     this.context.informLookInvalid();
   }
 
-  public void setCssFloat(String cssFloat) throws DOMException {
+  public void setCssFloat(final String cssFloat) throws DOMException {
     this.setPropertyValueLC(CSS_FLOAT, cssFloat);
     this.context.informInvalid();
   }
 
-  public void setCue(String cue) throws DOMException {
+  public void setCue(final String cue) throws DOMException {
     this.setPropertyValueLC(CUE, cue);
   }
 
-  public void setCueAfter(String cueAfter) throws DOMException {
+  public void setCueAfter(final String cueAfter) throws DOMException {
     this.setPropertyValueLC(CUE_AFTER, cueAfter);
   }
 
-  public void setCueBefore(String cueBefore) throws DOMException {
+  public void setCueBefore(final String cueBefore) throws DOMException {
     this.setPropertyValueLC(CUE_BEFORE, cueBefore);
   }
 
-  public void setCursor(String cursor) throws DOMException {
+  public void setCursor(final String cursor) throws DOMException {
     this.setPropertyValueLC(CURSOR, cursor);
     this.context.informLookInvalid();
   }
 
-  public void setDirection(String direction) throws DOMException {
+  public void setDirection(final String direction) throws DOMException {
     this.setPropertyValueLC(DIRECTION, direction);
     this.context.informInvalid();
   }
 
-  public void setDisplay(String display) throws DOMException {
+  public void setDisplay(final String display) throws DOMException {
     this.setPropertyValueLC(DISPLAY, display);
     this.context.informInvalid();
   }
 
-  public void setElevation(String elevation) throws DOMException {
+  public void setElevation(final String elevation) throws DOMException {
     this.setPropertyValueLC(ELEVATION, elevation);
     this.context.informInvalid();
   }
 
-  public void setEmptyCells(String emptyCells) throws DOMException {
+  public void setEmptyCells(final String emptyCells) throws DOMException {
     this.setPropertyValueLC(EMPTY_CELLS, emptyCells);
   }
 
-  public void setFont(String font) throws DOMException {
+  public void setFont(final String font) throws DOMException {
     this.checkSetProperty();
     new FontSetter().changeValue(this, font, null);
     this.context.informInvalid();
   }
 
-  public void setFontFamily(String fontFamily) throws DOMException {
+  public void setFontFamily(final String fontFamily) throws DOMException {
     this.setPropertyValueLC(FONT_FAMILY, fontFamily);
     this.context.informInvalid();
   }
 
-  public void setFontSize(String fontSize) throws DOMException {
+  public void setFontSize(final String fontSize) throws DOMException {
     this.setPropertyValueLC(FONT_SIZE, fontSize);
     this.context.informInvalid();
   }
 
-  public void setFontSizeAdjust(String fontSizeAdjust) throws DOMException {
+  public void setFontSizeAdjust(final String fontSizeAdjust) throws DOMException {
     this.setPropertyValueLC(FONT_SIZE_ADJUST, fontSizeAdjust);
     this.context.informInvalid();
   }
 
-  public void setFontStretch(String fontStretch) throws DOMException {
+  public void setFontStretch(final String fontStretch) throws DOMException {
     this.setPropertyValueLC(FONT_STRETCH, fontStretch);
     this.context.informInvalid();
   }
 
-  public void setFontStyle(String fontStyle) throws DOMException {
+  public void setFontStyle(final String fontStyle) throws DOMException {
     this.setPropertyValueLC(FONT_STYLE, fontStyle);
     this.context.informInvalid();
   }
 
-  public void setFontVariant(String fontVariant) throws DOMException {
+  public void setFontVariant(final String fontVariant) throws DOMException {
     this.setPropertyValueLC(FONT_VARIANT, fontVariant);
     this.context.informInvalid();
   }
 
-  public void setFontWeight(String fontWeight) throws DOMException {
+  public void setFontWeight(final String fontWeight) throws DOMException {
     this.setPropertyValueLC(FONT_WEIGHT, fontWeight);
     this.context.informInvalid();
   }
 
-  public void setHeight(String height) throws DOMException {
+  public void setHeight(final String height) throws DOMException {
     this.setPropertyValueLC(HEIGHT, height);
     this.context.informSizeInvalid();
   }
 
-  public void setLeft(String left) throws DOMException {
+  public void setLeft(final String left) throws DOMException {
     this.setPropertyValueLC(LEFT, left);
     this.context.informPositionInvalid();
   }
 
-  public void setLetterSpacing(String letterSpacing) throws DOMException {
+  public void setLetterSpacing(final String letterSpacing) throws DOMException {
     this.setPropertyValueLC(LETTER_SPACING, letterSpacing);
     this.context.informInvalid();
   }
 
-  public void setLineHeight(String lineHeight) throws DOMException {
+  public void setLineHeight(final String lineHeight) throws DOMException {
     this.setPropertyValueLC(LINE_HEIGHT, lineHeight);
     this.context.informInvalid();
   }
 
-  public void setListStyle(String listStyle) throws DOMException {
+  public void setListStyle(final String listStyle) throws DOMException {
     this.setPropertyValueLC(LIST_STYLE, listStyle);
     this.context.informInvalid();
   }
 
-  public void setListStyleImage(String listStyleImage) throws DOMException {
+  public void setListStyleImage(final String listStyleImage) throws DOMException {
     this.setPropertyValueLC(LIST_STYLE_IMAGE, listStyleImage);
     this.context.informLookInvalid();
   }
 
-  public void setListStylePosition(String listStylePosition) throws DOMException {
+  public void setListStylePosition(final String listStylePosition) throws DOMException {
     this.setPropertyValueLC(LIST_STYLE_POSITION, listStylePosition);
     this.context.informInvalid();
   }
 
-  public void setListStyleType(String listStyleType) throws DOMException {
+  public void setListStyleType(final String listStyleType) throws DOMException {
     this.setPropertyValueLC(LIST_STYLE_TYPE, listStyleType);
     this.context.informLookInvalid();
   }
 
-  public void setMargin(String margin) throws DOMException {
+  public void setMargin(final String margin) throws DOMException {
     this.checkSetProperty();
     new AbstractCSS2Properties.FourCornersSetter(MARGIN, "margin-", "").changeValue(this, margin, null);
     this.context.informInvalid();
   }
 
-  public void setMarginBottom(String marginBottom) throws DOMException {
+  public void setMarginBottom(final String marginBottom) throws DOMException {
     this.setPropertyValueLC(MARGIN_BOTTOM, marginBottom);
     this.context.informInvalid();
   }
 
-  public void setMarginLeft(String marginLeft) throws DOMException {
+  public void setMarginLeft(final String marginLeft) throws DOMException {
     this.setPropertyValueLC(MARGIN_LEFT, marginLeft);
     this.context.informInvalid();
   }
 
-  public void setMarginRight(String marginRight) throws DOMException {
+  public void setMarginRight(final String marginRight) throws DOMException {
     this.setPropertyValueLC(MARGIN_RIGHT, marginRight);
     this.context.informInvalid();
   }
 
-  public void setMarginTop(String marginTop) throws DOMException {
+  public void setMarginTop(final String marginTop) throws DOMException {
     this.setPropertyValueLC(MARGIN_TOP, marginTop);
     this.context.informInvalid();
   }
 
-  public void setMarkerOffset(String markerOffset) throws DOMException {
+  public void setMarkerOffset(final String markerOffset) throws DOMException {
     this.setPropertyValueLC(MARKER_OFFSET, markerOffset);
   }
 
-  public void setMarks(String marks) throws DOMException {
+  public void setMarks(final String marks) throws DOMException {
     this.setPropertyValueLC(MARKS, marks);
   }
 
-  public void setMaxHeight(String maxHeight) throws DOMException {
+  public void setMaxHeight(final String maxHeight) throws DOMException {
     this.setPropertyValueLC(MAX_HEIGHT, maxHeight);
     this.context.informSizeInvalid();
   }
 
-  public void setMaxWidth(String maxWidth) throws DOMException {
+  public void setMaxWidth(final String maxWidth) throws DOMException {
     this.setPropertyValueLC(MAX_WIDTH, maxWidth);
     this.context.informSizeInvalid();
   }
 
-  public void setMinHeight(String minHeight) throws DOMException {
+  public void setMinHeight(final String minHeight) throws DOMException {
     this.setPropertyValueLC(MIN_HEIGHT, minHeight);
     this.context.informSizeInvalid();
   }
 
-  public void setMinWidth(String minWidth) throws DOMException {
+  public void setMinWidth(final String minWidth) throws DOMException {
     this.setPropertyValueLC(MIN_WIDTH, minWidth);
     this.context.informSizeInvalid();
   }
 
-  public void setOrphans(String orphans) throws DOMException {
+  public void setOrphans(final String orphans) throws DOMException {
     this.setPropertyValueLC(ORPHANS, orphans);
   }
 
-  public void setOutline(String outline) throws DOMException {
+  public void setOutline(final String outline) throws DOMException {
     this.setPropertyValueLC(OUTLINE, outline);
     this.context.informInvalid();
   }
 
-  public void setOutlineColor(String outlineColor) throws DOMException {
+  public void setOutlineColor(final String outlineColor) throws DOMException {
     this.setPropertyValueLC(OUTLINE_COLOR, outlineColor);
     this.context.informLookInvalid();
   }
 
-  public void setOutlineStyle(String outlineStyle) throws DOMException {
+  public void setOutlineStyle(final String outlineStyle) throws DOMException {
     this.setPropertyValueLC(OUTLINE_STYLE, outlineStyle);
     this.context.informLookInvalid();
   }
 
-  public void setOutlineWidth(String outlineWidth) throws DOMException {
+  public void setOutlineWidth(final String outlineWidth) throws DOMException {
     this.setPropertyValueLC(OUTLINE_WIDTH, outlineWidth);
     this.context.informInvalid();
   }
 
-  public void setOverflow(String overflow) throws DOMException {
+  public void setOverflow(final String overflow) throws DOMException {
     this.setPropertyValueLC(OVERFLOW, overflow);
     this.context.informInvalid();
   }
 
-  public void setPadding(String padding) throws DOMException {
+  public void setPadding(final String padding) throws DOMException {
     this.checkSetProperty();
     new FourCornersSetter(PADDING, "padding-", "").changeValue(this, padding, null);
     this.context.informInvalid();
   }
 
-  public void setPaddingBottom(String paddingBottom) throws DOMException {
+  public void setPaddingBottom(final String paddingBottom) throws DOMException {
     this.setPropertyValueLC(PADDING_BOTTOM, paddingBottom);
     this.context.informInvalid();
   }
 
-  public void setPaddingLeft(String paddingLeft) throws DOMException {
+  public void setPaddingLeft(final String paddingLeft) throws DOMException {
     this.setPropertyValueLC(PADDING_LEFT, paddingLeft);
     this.context.informInvalid();
   }
 
-  public void setPaddingRight(String paddingRight) throws DOMException {
+  public void setPaddingRight(final String paddingRight) throws DOMException {
     this.setPropertyValueLC(PADDING_RIGHT, paddingRight);
     this.context.informInvalid();
   }
 
-  public void setPaddingTop(String paddingTop) throws DOMException {
+  public void setPaddingTop(final String paddingTop) throws DOMException {
     this.setPropertyValueLC(PADDING_TOP, paddingTop);
     this.context.informInvalid();
   }
 
-  public void setPage(String page) throws DOMException {
+  public void setPage(final String page) throws DOMException {
     this.setPropertyValueLC(PAGE, page);
   }
 
-  public void setPageBreakAfter(String pageBreakAfter) throws DOMException {
+  public void setPageBreakAfter(final String pageBreakAfter) throws DOMException {
     this.setPropertyValueLC(PAGE_BREAK_AFTER, pageBreakAfter);
     this.context.informInvalid();
   }
 
-  public void setPageBreakBefore(String pageBreakBefore) throws DOMException {
+  public void setPageBreakBefore(final String pageBreakBefore) throws DOMException {
     this.setPropertyValueLC(PAGE_BREAK_BEFORE, pageBreakBefore);
     this.context.informInvalid();
   }
 
-  public void setPageBreakInside(String pageBreakInside) throws DOMException {
+  public void setPageBreakInside(final String pageBreakInside) throws DOMException {
     this.setPropertyValueLC(PAGE_BREAK_INSIDE, pageBreakInside);
     this.context.informInvalid();
   }
 
-  public void setPause(String pause) throws DOMException {
+  public void setPause(final String pause) throws DOMException {
     this.setPropertyValueLC(PAUSE, pause);
   }
 
-  public void setPauseAfter(String pauseAfter) throws DOMException {
+  public void setPauseAfter(final String pauseAfter) throws DOMException {
     this.setPropertyValueLC(PAUSE_AFTER, pauseAfter);
   }
 
-  public void setPauseBefore(String pauseBefore) throws DOMException {
+  public void setPauseBefore(final String pauseBefore) throws DOMException {
     this.setPropertyValueLC(PAUSE_BEFORE, pauseBefore);
   }
 
-  public void setPitch(String pitch) throws DOMException {
+  public void setPitch(final String pitch) throws DOMException {
     this.setPropertyValueLC(PITCH, pitch);
   }
 
-  public void setPitchRange(String pitchRange) throws DOMException {
+  public void setPitchRange(final String pitchRange) throws DOMException {
     this.setPropertyValueLC(PITCH_RANGE, pitchRange);
   }
 
-  public void setPlayDuring(String playDuring) throws DOMException {
+  public void setPlayDuring(final String playDuring) throws DOMException {
     this.setPropertyValueLC(PLAY_DURING, playDuring);
   }
 
-  public void setPosition(String position) throws DOMException {
+  public void setPosition(final String position) throws DOMException {
     this.setPropertyValueLC(POSITION, position);
     this.context.informPositionInvalid();
   }
 
-  public void setQuotes(String quotes) throws DOMException {
+  public void setQuotes(final String quotes) throws DOMException {
     this.setPropertyValueLC(QUOTES, quotes);
   }
 
-  public void setRichness(String richness) throws DOMException {
+  public void setRichness(final String richness) throws DOMException {
     this.setPropertyValueLC(RICHNESS, richness);
   }
 
-  public void setRight(String right) throws DOMException {
+  public void setRight(final String right) throws DOMException {
     this.setPropertyValueLC(RIGHT, right);
     this.context.informPositionInvalid();
   }
 
-  public void setSize(String size) throws DOMException {
+  public void setSize(final String size) throws DOMException {
     this.setPropertyValueLC(SIZE, size);
     this.context.informInvalid();
   }
 
-  public void setSpeak(String speak) throws DOMException {
+  public void setSpeak(final String speak) throws DOMException {
     this.setPropertyValueLC(SPEAK, speak);
   }
 
-  public void setSpeakHeader(String speakHeader) throws DOMException {
+  public void setSpeakHeader(final String speakHeader) throws DOMException {
     this.setPropertyValueLC(SPEAK_HEADER, speakHeader);
   }
 
-  public void setSpeakNumeral(String speakNumeral) throws DOMException {
+  public void setSpeakNumeral(final String speakNumeral) throws DOMException {
     this.setPropertyValueLC(SPEAK_NUMERAL, speakNumeral);
   }
 
-  public void setSpeakPunctuation(String speakPunctuation) throws DOMException {
+  public void setSpeakPunctuation(final String speakPunctuation) throws DOMException {
     this.setPropertyValueLC(SPEAK_PUNCTUATION, speakPunctuation);
   }
 
-  public void setSpeechRate(String speechRate) throws DOMException {
+  public void setSpeechRate(final String speechRate) throws DOMException {
     this.setPropertyValueLC(SPEECH_RATE, speechRate);
   }
 
-  public void setStress(String stress) throws DOMException {
+  public void setStress(final String stress) throws DOMException {
     this.setPropertyValueLC(STRESS, stress);
   }
 
-  public void setTableLayout(String tableLayout) throws DOMException {
+  public void setTableLayout(final String tableLayout) throws DOMException {
     this.setPropertyValueLC(TABLE_LAYOUT, tableLayout);
     this.context.informInvalid();
   }
 
-  public void setTextAlign(String textAlign) throws DOMException {
+  public void setTextAlign(final String textAlign) throws DOMException {
     this.setPropertyValueLC(TEXT_ALIGN, textAlign);
     this.context.informLayoutInvalid();
   }
 
-  public void setTextDecoration(String textDecoration) throws DOMException {
+  public void setTextDecoration(final String textDecoration) throws DOMException {
     this.setPropertyValueLC(TEXT_DECORATION, textDecoration);
     this.context.informLookInvalid();
   }
 
-  public void setTextIndent(String textIndent) throws DOMException {
+  public void setTextIndent(final String textIndent) throws DOMException {
     this.setPropertyValueLC(TEXT_INDENT, textIndent);
     this.context.informLayoutInvalid();
   }
 
-  public void setTextShadow(String textShadow) throws DOMException {
+  public void setTextShadow(final String textShadow) throws DOMException {
     this.setPropertyValueLC(TEXT_SHADOW, textShadow);
     this.context.informLookInvalid();
   }
 
-  public void setTextTransform(String textTransform) throws DOMException {
+  public void setTextTransform(final String textTransform) throws DOMException {
     this.setPropertyValueLC(TEXT_TRANSFORM, textTransform);
     this.context.informInvalid();
   }
 
-  public void setTop(String top) throws DOMException {
+  public void setTop(final String top) throws DOMException {
     this.setPropertyValueLC(TOP, top);
     this.context.informPositionInvalid();
   }
 
-  public void setUnicodeBidi(String unicodeBidi) throws DOMException {
+  public void setUnicodeBidi(final String unicodeBidi) throws DOMException {
     this.setPropertyValueLC(UNICODE_BIDI, unicodeBidi);
     this.context.informInvalid();
   }
 
-  public void setVerticalAlign(String verticalAlign) throws DOMException {
+  public void setVerticalAlign(final String verticalAlign) throws DOMException {
     this.setPropertyValueLC(VERTICAL_ALIGN, verticalAlign);
     this.context.informInvalid();
   }
 
-  public void setVisibility(String visibility) throws DOMException {
+  public void setVisibility(final String visibility) throws DOMException {
     this.setPropertyValueLC(VISIBILITY, visibility);
     this.context.informLookInvalid();
   }
 
-  public void setVoiceFamily(String voiceFamily) throws DOMException {
+  public void setVoiceFamily(final String voiceFamily) throws DOMException {
     this.setPropertyValueLC(VOICE_FAMILY, voiceFamily);
   }
 
-  public void setVolume(String volume) throws DOMException {
+  public void setVolume(final String volume) throws DOMException {
     this.setPropertyValueLC(VOLUME, volume);
   }
 
-  public void setWhiteSpace(String whiteSpace) throws DOMException {
+  public void setWhiteSpace(final String whiteSpace) throws DOMException {
     this.setPropertyValueLC(WHITE_SPACE, whiteSpace);
     this.context.informInvalid();
   }
 
-  public void setWidows(String widows) throws DOMException {
+  public void setWidows(final String widows) throws DOMException {
     this.setPropertyValueLC(WIDOWS, widows);
   }
 
-  public void setWidth(String width) throws DOMException {
+  public void setWidth(final String width) throws DOMException {
     this.setPropertyValueLC(WIDTH, width);
     this.context.informSizeInvalid();
   }
 
-  public void setWordSpacing(String wordSpacing) throws DOMException {
+  public void setWordSpacing(final String wordSpacing) throws DOMException {
     this.setPropertyValueLC(WORD_SPACING, wordSpacing);
     this.context.informInvalid();
   }
 
-  public void setZIndex(String zIndex) throws DOMException {
+  public void setZIndex(final String zIndex) throws DOMException {
     this.setPropertyValueLC(Z_INDEX, zIndex);
     this.context.informPositionInvalid();
   }
@@ -1529,7 +1529,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   public String toString() {
     int size;
     synchronized (this) {
-      Map<String, Property> map = this.valueMap;
+      final Map<String, Property> map = this.valueMap;
       size = map == null ? 0 : map.size();
     }
     final StringBuilder sb = new StringBuilder();
@@ -1562,11 +1562,11 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   }
 
   private static class BorderSetter1 implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration, final boolean important) {
       properties.setPropertyValueLCAlt(BORDER, newValue, important);
       properties.setPropertyValueProcessed(BORDER_TOP, newValue, declaration, important);
       properties.setPropertyValueProcessed(BORDER_LEFT, newValue, declaration, important);
@@ -1578,23 +1578,23 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   private static class BorderSetter2 implements SubPropertySetter {
     private final String name;
 
-    public BorderSetter2(String baseName) {
+    public BorderSetter2(final String baseName) {
       this.name = baseName;
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String value, CSSStyleDeclaration declaration) {
+    public void changeValue(final AbstractCSS2Properties properties, final String value, final CSSStyleDeclaration declaration) {
       this.changeValue(properties, value, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String value, CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(final AbstractCSS2Properties properties, final String value, final CSSStyleDeclaration declaration, final boolean important) {
       properties.setPropertyValueLCAlt(this.name, value, important);
       if (value != null && value.length() > 0) {
-        String[] array = HtmlValues.splitCssValue(value);
+        final String[] array = HtmlValues.splitCssValue(value);
         String color = null;
         String style = null;
         String width = null;
         for (int i = 0; i < array.length; i++) {
-          String token = array[i];
+          final String token = array[i];
           if (HtmlValues.isBorderStyle(token)) {
             style = token;
           } else if (org.lobobrowser.util.gui.ColorFactory.getInstance().isColor(token)) {
@@ -1603,7 +1603,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
             width = token;
           }
         }
-        String name = this.name;
+        final String name = this.name;
         if (color != null) {
           properties.setPropertyValueLCAlt(name + "-color", color, important);
         }
@@ -1622,46 +1622,46 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     private final String suffix;
     private final String property;
 
-    public FourCornersSetter(String property, String prefix, String suffix) {
+    public FourCornersSetter(final String property, final String prefix, final String suffix) {
       this.prefix = prefix;
       this.suffix = suffix;
       this.property = property;
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration, final boolean important) {
       properties.setPropertyValueLCAlt(this.property, newValue, important);
       if (newValue != null && newValue.length() > 0) {
-        String[] array = HtmlValues.splitCssValue(newValue);
-        int size = array.length;
+        final String[] array = HtmlValues.splitCssValue(newValue);
+        final int size = array.length;
         if (size == 1) {
-          String prefix = this.prefix;
-          String suffix = this.suffix;
-          String value = array[0];
+          final String prefix = this.prefix;
+          final String suffix = this.suffix;
+          final String value = array[0];
           properties.setPropertyValueLCAlt(prefix + "top" + suffix, value, important);
           properties.setPropertyValueLCAlt(prefix + "right" + suffix, value, important);
           properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, value, important);
           properties.setPropertyValueLCAlt(prefix + "left" + suffix, value, important);
         } else if (size >= 4) {
-          String prefix = this.prefix;
-          String suffix = this.suffix;
+          final String prefix = this.prefix;
+          final String suffix = this.suffix;
           properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0], important);
           properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1], important);
           properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, array[2], important);
           properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[3], important);
         } else if (size == 2) {
-          String prefix = this.prefix;
-          String suffix = this.suffix;
+          final String prefix = this.prefix;
+          final String suffix = this.suffix;
           properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0], important);
           properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1], important);
           properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, array[0], important);
           properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[1], important);
         } else if (size == 3) {
-          String prefix = this.prefix;
-          String suffix = this.suffix;
+          final String prefix = this.prefix;
+          final String suffix = this.suffix;
           properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0], important);
           properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1], important);
           properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, array[2], important);
@@ -1672,19 +1672,19 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   }
 
   private static class BackgroundImageSetter implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration, final boolean important) {
       String baseHref = null;
       String finalValue;
       if (declaration != null) {
-        CSSRule rule = declaration.getParentRule();
+        final CSSRule rule = declaration.getParentRule();
         if (rule != null) {
-          CSSStyleSheet sheet = rule.getParentStyleSheet();
+          final CSSStyleSheet sheet = rule.getParentStyleSheet();
           if (sheet instanceof com.steadystate.css.dom.CSSStyleSheetImpl) {
-            com.steadystate.css.dom.CSSStyleSheetImpl ssheet = (com.steadystate.css.dom.CSSStyleSheetImpl) sheet;
+            final com.steadystate.css.dom.CSSStyleSheetImpl ssheet = (com.steadystate.css.dom.CSSStyleSheetImpl) sheet;
             baseHref = ssheet.getHref();
           }
         }
@@ -1692,24 +1692,24 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
       if (baseHref == null) {
         baseHref = properties.context.getDocumentBaseURI();
       }
-      String start = "url(";
+      final String start = "url(";
       if (newValue == null || !newValue.toLowerCase().startsWith(start)) {
         finalValue = newValue;
       } else {
-        int startIdx = start.length();
-        int closingIdx = newValue.lastIndexOf(')');
+        final int startIdx = start.length();
+        final int closingIdx = newValue.lastIndexOf(')');
         if (closingIdx == -1) {
           finalValue = newValue;
         } else {
-          String quotedUri = newValue.substring(startIdx, closingIdx);
-          String tentativeUri = HtmlValues.unquoteAndUnescape(quotedUri);
+          final String quotedUri = newValue.substring(startIdx, closingIdx);
+          final String tentativeUri = HtmlValues.unquoteAndUnescape(quotedUri);
           if (baseHref == null) {
             finalValue = newValue;
           } else {
             try {
-              java.net.URL styleUrl = Urls.createURL(null, baseHref);
+              final java.net.URL styleUrl = Urls.createURL(null, baseHref);
               finalValue = "url(" + HtmlValues.quoteAndEscape(Urls.createURL(styleUrl, tentativeUri).toExternalForm()) + ")";
-            } catch (java.net.MalformedURLException mfu) {
+            } catch (final java.net.MalformedURLException mfu) {
               logger.log(Level.WARNING, "Unable to create URL for URI=[" + tentativeUri + "], with base=[" + baseHref + "].", mfu);
               finalValue = newValue;
             }
@@ -1721,14 +1721,14 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   }
 
   private static class BackgroundSetter implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration, final boolean important) {
       properties.setPropertyValueLCAlt(BACKGROUND, newValue, important);
       if (newValue != null && newValue.length() > 0) {
-        String[] tokens = HtmlValues.splitCssValue(newValue);
+        final String[] tokens = HtmlValues.splitCssValue(newValue);
         boolean hasXPosition = false;
         boolean hasYPosition = false;
         String color = null;
@@ -1736,7 +1736,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
         String backgroundRepeat = null;
         String position = null;
         for (int i = 0; i < tokens.length; i++) {
-          String token = tokens[i];
+          final String token = tokens[i];
           if (ColorFactory.getInstance().isColor(token)) {
             color = token;
           } else if (HtmlValues.isUrl(token)) {
@@ -1771,15 +1771,15 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   }
 
   private static class FontSetter implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(final AbstractCSS2Properties properties, final String newValue, final CSSStyleDeclaration declaration, final boolean important) {
       properties.setPropertyValueLCAlt(FONT, newValue, important);
       if (newValue != null && newValue.length() > 0) {
-        String fontSpecTL = newValue.toLowerCase();
-        FontInfo fontInfo = HtmlValues.SYSTEM_FONTS.get(fontSpecTL);
+        final String fontSpecTL = newValue.toLowerCase();
+        final FontInfo fontInfo = HtmlValues.SYSTEM_FONTS.get(fontSpecTL);
         if (fontInfo != null) {
           if (fontInfo.fontFamily != null) {
             properties.setPropertyValueLCAlt(FONT_FAMILY, fontInfo.fontFamily, important);
@@ -1798,9 +1798,9 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
           }
           return;
         }
-        String[] tokens = HtmlValues.splitCssValue(fontSpecTL);
+        final String[] tokens = HtmlValues.splitCssValue(fontSpecTL);
         String token = null;
-        int length = tokens.length;
+        final int length = tokens.length;
         int i;
         for (i = 0; i < length; i++) {
           token = tokens[i];
@@ -1820,15 +1820,15 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
           break;
         }
         if (token != null) {
-          int slashIdx = token.indexOf('/');
-          String fontSizeText = slashIdx == -1 ? token : token.substring(0, slashIdx);
+          final int slashIdx = token.indexOf('/');
+          final String fontSizeText = slashIdx == -1 ? token : token.substring(0, slashIdx);
           properties.setPropertyValueLCAlt(FONT_SIZE, fontSizeText, important);
-          String lineHeightText = slashIdx == -1 ? null : token.substring(slashIdx + 1);
+          final String lineHeightText = slashIdx == -1 ? null : token.substring(slashIdx + 1);
           if (lineHeightText != null) {
             properties.setPropertyValueLCAlt(LINE_HEIGHT, lineHeightText, important);
           }
           if (++i < length) {
-            StringBuffer fontFamilyBuff = new StringBuffer();
+            final StringBuffer fontFamilyBuff = new StringBuffer();
             do {
               token = tokens[i];
               fontFamilyBuff.append(token);

@@ -11,7 +11,7 @@ abstract class BaseRenderable implements Renderable {
     return 0;
   }
 
-  public void setOrdinal(int ordinal) {
+  public void setOrdinal(final int ordinal) {
     this.ordinal = ordinal;
   }
 }

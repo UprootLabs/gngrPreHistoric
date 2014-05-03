@@ -34,7 +34,7 @@ class OverflowException extends Exception {
   /**
 	 * 
 	 */
-  public OverflowException(Collection<Renderable> renderables) {
+  public OverflowException(final Collection<Renderable> renderables) {
     super();
     this.renderables = renderables;
   }

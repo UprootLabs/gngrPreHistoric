@@ -31,7 +31,7 @@ public class LineBreak {
   private final int breakType;
   private final ModelNode newLineNode;
 
-  public LineBreak(final int breakType, ModelNode newLineNode) {
+  public LineBreak(final int breakType, final ModelNode newLineNode) {
     super();
     this.breakType = breakType;
     this.newLineNode = newLineNode;
@@ -45,7 +45,7 @@ public class LineBreak {
     return this.newLineNode;
   }
 
-  public static int getBreakType(String clearAttr) {
+  public static int getBreakType(final String clearAttr) {
     if (clearAttr == null) {
       return NONE;
     } else if ("all".equalsIgnoreCase(clearAttr)) {

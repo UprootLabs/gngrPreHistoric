@@ -27,11 +27,11 @@ import org.lobobrowser.html.domimpl.*;
  * Render state for elements that are displayed as blocks by default.
  */
 public class BlockRenderState extends StyleSheetRenderState {
-  public BlockRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public BlockRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
-  public BlockRenderState(HTMLDocumentImpl document) {
+  public BlockRenderState(final HTMLDocumentImpl document) {
     super(document);
   }
 

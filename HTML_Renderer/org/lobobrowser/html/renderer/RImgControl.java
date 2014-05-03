@@ -24,11 +24,11 @@ import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.ModelNode;
 
 public class RImgControl extends RUIControl {
-  public RImgControl(ModelNode me, UIControl widget, RenderableContainer container, FrameContext frameContext, UserAgentContext ucontext) {
+  public RImgControl(final ModelNode me, final UIControl widget, final RenderableContainer container, final FrameContext frameContext, final UserAgentContext ucontext) {
     super(me, widget, container, frameContext, ucontext);
   }
 
-  protected void applyStyle(int availWidth, int availHeight) {
+  protected void applyStyle(final int availWidth, final int availHeight) {
     super.applyStyle(availWidth, availHeight);
   }
 }

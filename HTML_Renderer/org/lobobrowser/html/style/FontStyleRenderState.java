@@ -34,17 +34,17 @@ public class FontStyleRenderState extends RenderStateDelegator {
   private final int style;
   private final Integer superscript;
 
-  public FontStyleRenderState(RenderState prevRenderState, int style) {
+  public FontStyleRenderState(final RenderState prevRenderState, final int style) {
     this(prevRenderState, style, null);
   }
 
-  FontStyleRenderState(RenderState prevRenderState, int style, Integer superscript) {
+  FontStyleRenderState(final RenderState prevRenderState, final int style, final Integer superscript) {
     super(prevRenderState);
     this.style = style;
     this.superscript = superscript;
   }
 
-  public static FontStyleRenderState createSuperscriptFontStyleRenderState(RenderState prevRenderState, Integer superscript) {
+  public static FontStyleRenderState createSuperscriptFontStyleRenderState(final RenderState prevRenderState, final Integer superscript) {
     return new FontStyleRenderState(prevRenderState, prevRenderState.getFont().getStyle(), superscript);
   }
 
@@ -55,7 +55,7 @@ public class FontStyleRenderState extends RenderStateDelegator {
     if (f != null) {
       return f;
     }
-    Font parentFont = this.delegate.getFont();
+    final Font parentFont = this.delegate.getFont();
     if (parentFont.getStyle() != this.style) {
       f = parentFont.deriveFont(this.style | parentFont.getStyle());
     } else {
@@ -83,7 +83,7 @@ public class FontStyleRenderState extends RenderStateDelegator {
     this.delegate.invalidate();
     this.iFont = null;
     this.iFontMetrics = null;
-    Map<String, WordInfo> map = this.iWordInfoMap;
+    final Map<String, WordInfo> map = this.iWordInfoMap;
     if (map != null) {
       map.clear();
     }
@@ -91,7 +91,7 @@ public class FontStyleRenderState extends RenderStateDelegator {
 
   Map<String, WordInfo> iWordInfoMap = null;
 
-  public final WordInfo getWordInfo(String word) {
+  public final WordInfo getWordInfo(final String word) {
     // Expected to be called only in the GUI (rendering) thread.
     // No synchronization necessary.
     Map<String, WordInfo> map = this.iWordInfoMap;
@@ -104,7 +104,7 @@ public class FontStyleRenderState extends RenderStateDelegator {
       return wi;
     }
     wi = new WordInfo();
-    FontMetrics fm = this.getFontMetrics();
+    final FontMetrics fm = this.getFontMetrics();
     wi.fontMetrics = fm;
     wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
     wi.descent = fm.getDescent();

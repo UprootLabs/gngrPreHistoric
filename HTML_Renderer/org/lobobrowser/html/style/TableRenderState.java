@@ -25,7 +25,7 @@ import org.lobobrowser.html.domimpl.*;
 import org.lobobrowser.util.gui.ColorFactory;
 
 public class TableRenderState extends StyleSheetRenderState {
-  public TableRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public TableRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
@@ -51,11 +51,11 @@ public class TableRenderState extends StyleSheetRenderState {
     }
     // Apply style based on deprecated attributes.
     binfo = super.getBackgroundInfo();
-    HTMLTableElementImpl element = (HTMLTableElementImpl) this.element;
+    final HTMLTableElementImpl element = (HTMLTableElementImpl) this.element;
     if (binfo == null || binfo.backgroundColor == null) {
-      String bgColor = element.getBgColor();
+      final String bgColor = element.getBgColor();
       if (bgColor != null && !"".equals(bgColor)) {
-        Color bgc = ColorFactory.getInstance().getColor(bgColor);
+        final Color bgc = ColorFactory.getInstance().getColor(bgColor);
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
@@ -63,7 +63,7 @@ public class TableRenderState extends StyleSheetRenderState {
       }
     }
     if (binfo == null || binfo.backgroundImage == null) {
-      String background = element.getAttribute("background");
+      final String background = element.getAttribute("background");
       if (background != null && !"".equals(background)) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
@@ -87,7 +87,7 @@ public class TableRenderState extends StyleSheetRenderState {
       if (binfo == null) {
         binfo = new BorderInfo();
       }
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       if (element != null) {
         String border = element.getAttribute("border");
         if (border != null) {
@@ -98,18 +98,18 @@ public class TableRenderState extends StyleSheetRenderState {
             valueType = HtmlInsets.TYPE_PERCENT;
             try {
               value = Integer.parseInt(border.substring(0, border.length() - 1));
-            } catch (NumberFormatException nfe) {
+            } catch (final NumberFormatException nfe) {
               value = 0;
             }
           } else {
             valueType = HtmlInsets.TYPE_PIXELS;
             try {
               value = Integer.parseInt(border);
-            } catch (NumberFormatException nfe) {
+            } catch (final NumberFormatException nfe) {
               value = 0;
             }
           }
-          HtmlInsets borderInsets = new HtmlInsets();
+          final HtmlInsets borderInsets = new HtmlInsets();
           borderInsets.top = borderInsets.left = borderInsets.right = borderInsets.bottom = value;
           borderInsets.topType = borderInsets.leftType = borderInsets.rightType = borderInsets.bottomType = valueType;
           binfo.insets = borderInsets;

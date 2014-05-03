@@ -32,18 +32,18 @@ import org.lobobrowser.html.domimpl.InputContext;
 abstract class BaseInputControl extends BaseControl implements InputContext {
   protected String value;
 
-  public BaseInputControl(HTMLBaseInputElement modelNode) {
+  public BaseInputControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setOpaque(false);
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
-    String sizeText = this.controlElement.getAttribute("size");
+    final String sizeText = this.controlElement.getAttribute("size");
     if (sizeText != null) {
       try {
         this.size = Integer.parseInt(sizeText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         // ignore
       }
     }
@@ -155,7 +155,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setChecked(boolean)
    */
-  public void setChecked(boolean checked) {
+  public void setChecked(final boolean checked) {
   }
 
   /*
@@ -163,7 +163,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     this.setEnabled(!disabled);
   }
 
@@ -172,7 +172,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setMaxLength(int)
    */
-  public void setMaxLength(int maxLength) {
+  public void setMaxLength(final int maxLength) {
   }
 
   /*
@@ -180,7 +180,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setReadOnly(boolean)
    */
-  public void setReadOnly(boolean readOnly) {
+  public void setReadOnly(final boolean readOnly) {
   }
 
   /*
@@ -188,7 +188,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setSize(int)
    */
-  public void setControlSize(int size) {
+  public void setControlSize(final int size) {
     this.size = size;
     this.invalidate();
   }
@@ -198,7 +198,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setTabIndex(int)
    */
-  public void setTabIndex(int tabIndex) {
+  public void setTabIndex(final int tabIndex) {
   }
 
   /*
@@ -206,7 +206,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
    */
-  public void setValue(String value) {
+  public void setValue(final String value) {
     this.value = value;
   }
 
@@ -242,7 +242,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setCols(int)
    */
-  public void setCols(int cols) {
+  public void setCols(final int cols) {
   }
 
   /*
@@ -250,7 +250,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setRows(int)
    */
-  public void setRows(int rows) {
+  public void setRows(final int rows) {
   }
 
   /*
@@ -260,7 +260,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
    * boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     return inSelection;
   }
 
@@ -279,15 +279,15 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
     return 0;
   }
 
-  public void setMultiple(boolean value) {
+  public void setMultiple(final boolean value) {
     // For selects
   }
 
-  public void setSelectedIndex(int value) {
+  public void setSelectedIndex(final int value) {
     // For selects
   }
 
-  public void setVisibleSize(int value) {
+  public void setVisibleSize(final int value) {
     // For selects
   }
 

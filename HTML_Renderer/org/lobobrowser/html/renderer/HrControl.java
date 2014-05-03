@@ -32,34 +32,34 @@ import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.style.RenderState;
 
 class HrControl extends BaseControl {
-  public HrControl(HTMLElementImpl modelNode) {
+  public HrControl(final HTMLElementImpl modelNode) {
     super(modelNode);
   }
 
-  public void paintComponent(Graphics g) {
+  public void paintComponent(final Graphics g) {
     super.paintComponent(g);
-    Dimension size = this.getSize();
-    int offset = 8;
-    int x = offset;
-    int y = size.height / 2 - 1;
-    int width = size.width - offset * 2;
+    final Dimension size = this.getSize();
+    final int offset = 8;
+    final int x = offset;
+    final int y = size.height / 2 - 1;
+    final int width = size.width - offset * 2;
     g.setColor(Color.black);
     g.drawRect(x, y, width, 2);
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     return inSelection;
   }
 
   private int availWidth;
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     this.availWidth = availWidth;
   }
 
   public Dimension getPreferredSize() {
-    RenderState rs = this.controlElement.getRenderState();
-    FontMetrics fm = rs.getFontMetrics();
+    final RenderState rs = this.controlElement.getRenderState();
+    final FontMetrics fm = rs.getFontMetrics();
     return new Dimension(this.availWidth, fm.getHeight());
   }
 }

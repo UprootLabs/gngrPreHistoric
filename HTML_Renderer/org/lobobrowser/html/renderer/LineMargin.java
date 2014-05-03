@@ -25,7 +25,7 @@ class LineMargin {
   private final int clearY;
   private final LineMargin next;
 
-  public LineMargin(LineMargin next, int cleary, int totalXOffset) {
+  public LineMargin(final LineMargin next, final int cleary, final int totalXOffset) {
     super();
     this.next = next;
     this.clearY = cleary;
@@ -44,22 +44,22 @@ class LineMargin {
     return clearX;
   }
 
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (!(other instanceof LineMargin)) {
       return false;
     }
-    LineMargin olm = (LineMargin) other;
+    final LineMargin olm = (LineMargin) other;
     return olm.clearX == this.clearX && olm.clearY == this.clearY && org.lobobrowser.util.Objects.equals(olm.next, this.next);
   }
 
-  public LineMargin translated(int yoffset, int xoffset) {
-    int newClearY = this.clearY - yoffset;
+  public LineMargin translated(final int yoffset, final int xoffset) {
+    final int newClearY = this.clearY - yoffset;
     int newOffsetX = this.clearX - xoffset;
     if (newOffsetX < 0) {
       newOffsetX = 0;
     }
-    LineMargin oldNext = this.next;
-    LineMargin newNext = oldNext == null ? null : oldNext.translated(yoffset, xoffset);
+    final LineMargin oldNext = this.next;
+    final LineMargin newNext = oldNext == null ? null : oldNext.translated(yoffset, xoffset);
     return new LineMargin(newNext, newClearY, newOffsetX);
   }
 }

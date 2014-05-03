@@ -42,29 +42,29 @@ abstract class BaseInputTextControl extends BaseInputControl {
   public BaseInputTextControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    JTextComponent widget = this.createTextField();
-    Font font = widget.getFont();
+    final JTextComponent widget = this.createTextField();
+    final Font font = widget.getFont();
     widget.setFont(font.deriveFont(DEFAULT_FONT_SIZE));
     widget.setDocument(new LimitedDocument());
 
     // Note: Value attribute cannot be set in reset() method.
     // Otherwise, layout revalidation causes typed values to
     // be lost (including revalidation due to hover.)
-    ElementImpl element = this.controlElement;
-    String value = element.getAttribute("value");
+    final ElementImpl element = this.controlElement;
+    final String value = element.getAttribute("value");
     widget.setText(value);
 
     this.widget = widget;
     this.add(widget);
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
-    String maxLengthText = this.controlElement.getAttribute("maxlength");
+    final String maxLengthText = this.controlElement.getAttribute("maxlength");
     if (maxLengthText != null) {
       try {
         this.maxLength = Integer.parseInt(maxLengthText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         // ignore
       }
     }
@@ -116,7 +116,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
   }
@@ -126,7 +126,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setMaxLength(int)
    */
-  public void setMaxLength(int maxLength) {
+  public void setMaxLength(final int maxLength) {
     this.maxLength = maxLength;
   }
 
@@ -135,7 +135,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setReadOnly(boolean)
    */
-  public void setReadOnly(boolean readOnly) {
+  public void setReadOnly(final boolean readOnly) {
     this.widget.setEditable(!readOnly);
   }
 
@@ -144,15 +144,15 @@ abstract class BaseInputTextControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
    */
-  public void setValue(String value) {
+  public void setValue(final String value) {
     this.widget.setText(value);
   }
 
   public java.awt.Dimension getPreferredSize() {
-    int size = this.size;
-    JTextComponent widget = this.widget;
-    FontMetrics fm = widget.getFontMetrics(widget.getFont());
-    Insets insets = widget.getInsets();
+    final int size = this.size;
+    final JTextComponent widget = this.widget;
+    final FontMetrics fm = widget.getFontMetrics(widget.getFont());
+    final Insets insets = widget.getInsets();
     int pw, ph;
     if (size == -1) {
       pw = 100;
@@ -177,16 +177,16 @@ abstract class BaseInputTextControl extends BaseInputControl {
      * @see javax.swing.text.PlainDocument#insertString(int, java.lang.String,
      * javax.swing.text.AttributeSet)
      */
-    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-      int max = BaseInputTextControl.this.maxLength;
+    public void insertString(final int offs, final String str, final AttributeSet a) throws BadLocationException {
+      final int max = BaseInputTextControl.this.maxLength;
       if (max != -1) {
-        int docLength = this.getLength();
+        final int docLength = this.getLength();
         if (docLength >= max) {
           return;
         }
-        int strLen = str.length();
+        final int strLen = str.length();
         if (docLength + strLen > max) {
-          String shorterStr = str.substring(0, max - docLength);
+          final String shorterStr = str.substring(0, max - docLength);
           super.insertString(offs, shorterStr, a);
         } else {
           super.insertString(offs, str, a);

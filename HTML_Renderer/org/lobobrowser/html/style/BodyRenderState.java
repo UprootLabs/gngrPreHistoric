@@ -30,7 +30,7 @@ public class BodyRenderState extends StyleSheetRenderState {
   // block uses the element and treats its properties as those
   // of a block element.
 
-  public BodyRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public BodyRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
@@ -45,7 +45,7 @@ public class BodyRenderState extends StyleSheetRenderState {
     }
     binfo = super.getBackgroundInfo();
     if (binfo == null || binfo.backgroundColor == null) {
-      String bgcolor = this.element.getAttribute("bgcolor");
+      final String bgcolor = this.element.getAttribute("bgcolor");
       if (bgcolor != null && bgcolor.length() != 0) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
@@ -64,13 +64,13 @@ public class BodyRenderState extends StyleSheetRenderState {
     }
     insets = super.getMarginInsets();
     if (insets == null) {
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       String leftMargin = element.getAttribute("leftmargin");
       String rightMargin = element.getAttribute("rightmargin");
       String bottomMargin = element.getAttribute("rightmargin");
       String topMargin = element.getAttribute("topmargin");
-      String marginWidth = element.getAttribute("marginwidth");
-      String marginHeight = element.getAttribute("marginheight");
+      final String marginWidth = element.getAttribute("marginwidth");
+      final String marginHeight = element.getAttribute("marginheight");
       if (leftMargin == null) {
         leftMargin = marginWidth;
       }

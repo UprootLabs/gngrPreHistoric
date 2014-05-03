@@ -34,7 +34,7 @@ public class Event extends AbstractScriptableDelegate {
   private String type;
   private final java.awt.event.InputEvent inputEvent;
 
-  public Event(String type, HTMLElement srcElement, java.awt.event.InputEvent mouseEvent, int leafX, int leafY) {
+  public Event(final String type, final HTMLElement srcElement, final java.awt.event.InputEvent mouseEvent, final int leafX, final int leafY) {
     this.type = type;
     this.srcElement = srcElement;
     this.leafX = leafX;
@@ -42,35 +42,35 @@ public class Event extends AbstractScriptableDelegate {
     this.inputEvent = mouseEvent;
   }
 
-  public Event(String type, HTMLElement srcElement, java.awt.event.KeyEvent keyEvent) {
+  public Event(final String type, final HTMLElement srcElement, final java.awt.event.KeyEvent keyEvent) {
     this.type = type;
     this.srcElement = srcElement;
     this.inputEvent = keyEvent;
   }
 
-  public Event(String type, HTMLElement srcElement) {
+  public Event(final String type, final HTMLElement srcElement) {
     this.type = type;
     this.srcElement = srcElement;
     this.inputEvent = null;
   }
 
   public boolean getAltKey() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     return ie == null ? false : ie.isAltDown();
   }
 
   public boolean getShiftKey() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     return ie == null ? false : ie.isShiftDown();
   }
 
   public boolean getCtrlKey() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     return ie == null ? false : ie.isControlDown();
   }
 
   public int getButton() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     if (ie instanceof MouseEvent) {
       return ((MouseEvent) ie).getButton();
     } else {
@@ -82,7 +82,7 @@ public class Event extends AbstractScriptableDelegate {
     return cancelBubble;
   }
 
-  public void setCancelBubble(boolean cancelBubble) {
+  public void setCancelBubble(final boolean cancelBubble) {
     this.cancelBubble = cancelBubble;
   }
 
@@ -90,12 +90,12 @@ public class Event extends AbstractScriptableDelegate {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(final String type) {
     this.type = type;
   }
 
   public int getClientX() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     if (ie instanceof MouseEvent) {
       return ((MouseEvent) ie).getX();
     } else {
@@ -104,7 +104,7 @@ public class Event extends AbstractScriptableDelegate {
   }
 
   public int getClientY() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     if (ie instanceof MouseEvent) {
       return ((MouseEvent) ie).getY();
     } else {
@@ -113,7 +113,7 @@ public class Event extends AbstractScriptableDelegate {
   }
 
   public int getKeyCode() {
-    InputEvent ie = this.inputEvent;
+    final InputEvent ie = this.inputEvent;
     if (ie instanceof KeyEvent) {
       return ((KeyEvent) ie).getKeyCode();
     } else {
@@ -139,7 +139,7 @@ public class Event extends AbstractScriptableDelegate {
     return returnValue;
   }
 
-  public void setReturnValue(boolean returnValue) {
+  public void setReturnValue(final boolean returnValue) {
     this.returnValue = returnValue;
   }
 
@@ -147,7 +147,7 @@ public class Event extends AbstractScriptableDelegate {
     return srcElement;
   }
 
-  public void setSrcElement(HTMLElement srcElement) {
+  public void setSrcElement(final HTMLElement srcElement) {
     this.srcElement = srcElement;
   }
 
@@ -155,7 +155,7 @@ public class Event extends AbstractScriptableDelegate {
     return fromElement;
   }
 
-  public void setFromElement(HTMLElement fromElement) {
+  public void setFromElement(final HTMLElement fromElement) {
     this.fromElement = fromElement;
   }
 
@@ -163,7 +163,7 @@ public class Event extends AbstractScriptableDelegate {
     return toElement;
   }
 
-  public void setToElement(HTMLElement toElement) {
+  public void setToElement(final HTMLElement toElement) {
     this.toElement = toElement;
   }
 
@@ -171,7 +171,7 @@ public class Event extends AbstractScriptableDelegate {
     return leafX;
   }
 
-  public void setLeafX(int leafX) {
+  public void setLeafX(final int leafX) {
     this.leafX = leafX;
   }
 
@@ -179,7 +179,7 @@ public class Event extends AbstractScriptableDelegate {
     return leafY;
   }
 
-  public void setLeafY(int leafY) {
+  public void setLeafY(final int leafY) {
     this.leafY = leafY;
   }
 }

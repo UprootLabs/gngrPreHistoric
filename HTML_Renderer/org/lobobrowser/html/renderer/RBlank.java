@@ -36,7 +36,7 @@ final class RBlank extends BaseBoundableRenderable {
   public final int ascentPlusLeading;
   private final FontMetrics fontMetrics;
 
-  public RBlank(ModelNode me, FontMetrics fm, RenderableContainer container, int ascentPlusLeading, int width, int height) {
+  public RBlank(final ModelNode me, final FontMetrics fm, final RenderableContainer container, final int ascentPlusLeading, final int width, final int height) {
     super(container, me);
     this.fontMetrics = fm;
     this.ascentPlusLeading = ascentPlusLeading;
@@ -48,8 +48,8 @@ final class RBlank extends BaseBoundableRenderable {
   protected void invalidateLayoutLocal() {
   }
 
-  public boolean onMouseClick(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onMouseClick(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseClick(me, event, x, y);
     } else {
@@ -57,8 +57,8 @@ final class RBlank extends BaseBoundableRenderable {
     }
   }
 
-  public boolean onDoubleClick(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onDoubleClick(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onDoubleClick(me, event, x, y);
     } else {
@@ -66,8 +66,8 @@ final class RBlank extends BaseBoundableRenderable {
     }
   }
 
-  public boolean onMousePressed(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onMousePressed(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseDown(me, event, x, y);
     } else {
@@ -75,8 +75,8 @@ final class RBlank extends BaseBoundableRenderable {
     }
   }
 
-  public boolean onMouseReleased(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onMouseReleased(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseUp(me, event, x, y);
     } else {
@@ -84,8 +84,8 @@ final class RBlank extends BaseBoundableRenderable {
     }
   }
 
-  public boolean onMouseDisarmed(java.awt.event.MouseEvent event) {
-    ModelNode me = this.modelNode;
+  public boolean onMouseDisarmed(final java.awt.event.MouseEvent event) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseDisarmed(me, event);
     } else {
@@ -99,11 +99,11 @@ final class RBlank extends BaseBoundableRenderable {
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
-  public final void paint(Graphics g) {
-    RenderState rs = this.modelNode.getRenderState();
-    Color bkg = rs.getTextBackgroundColor();
+  public final void paint(final Graphics g) {
+    final RenderState rs = this.modelNode.getRenderState();
+    final Color bkg = rs.getTextBackgroundColor();
     if (bkg != null) {
-      Color oldColor = g.getColor();
+      final Color oldColor = g.getColor();
       try {
         g.setColor(bkg);
         g.fillRect(0, 0, this.width, this.height);
@@ -111,28 +111,28 @@ final class RBlank extends BaseBoundableRenderable {
         g.setColor(oldColor);
       }
     }
-    int td = rs.getTextDecorationMask();
+    final int td = rs.getTextDecorationMask();
     if (td != 0) {
       if ((td & RenderState.MASK_TEXTDECORATION_UNDERLINE) != 0) {
-        int lineOffset = this.ascentPlusLeading + 2;
+        final int lineOffset = this.ascentPlusLeading + 2;
         g.drawLine(0, lineOffset, this.width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_LINE_THROUGH) != 0) {
-        FontMetrics fm = this.fontMetrics;
-        int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent()) / 2;
+        final FontMetrics fm = this.fontMetrics;
+        final int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent()) / 2;
         g.drawLine(0, lineOffset, this.width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_OVERLINE) != 0) {
-        int lineOffset = this.fontMetrics.getLeading();
+        final int lineOffset = this.fontMetrics.getLeading();
         g.drawLine(0, lineOffset, this.width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_BLINK) != 0) {
         // TODO
       }
     }
-    Color over = rs.getOverlayColor();
+    final Color over = rs.getOverlayColor();
     if (over != null) {
-      Color oldColor = g.getColor();
+      final Color oldColor = g.getColor();
       try {
         g.setColor(over);
         g.fillRect(0, 0, width, height);
@@ -150,7 +150,7 @@ final class RBlank extends BaseBoundableRenderable {
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     if (this == startPoint.renderable || this == endPoint.renderable) {
       if (inSelection) {
         return false;
@@ -165,7 +165,7 @@ final class RBlank extends BaseBoundableRenderable {
     return true;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     if (this == startPoint.renderable || this == endPoint.renderable) {
       if (inSelection) {
         return false;
@@ -182,7 +182,7 @@ final class RBlank extends BaseBoundableRenderable {
    * 
    * @see org.xamjwg.html.renderer.BoundableRenderable#getRenderable(int, int)
    */
-  public RenderableSpot getLowestRenderableSpot(int x, int y) {
+  public RenderableSpot getLowestRenderableSpot(final int x, final int y) {
     return new RenderableSpot(this, x, y);
   }
 
@@ -190,8 +190,8 @@ final class RBlank extends BaseBoundableRenderable {
     return true;
   }
 
-  public boolean onRightClick(MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onRightClick(final MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onContextMenu(me, event, x, y);
     } else {

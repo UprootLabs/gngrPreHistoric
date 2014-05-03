@@ -11,7 +11,7 @@ class UIControlWrapper implements UIControl {
   private final Component component;
   private final HtmlObject htmlObject;
 
-  public UIControlWrapper(HtmlObject ho) {
+  public UIControlWrapper(final HtmlObject ho) {
     this.htmlObject = ho;
     Component c;
     if (ho == null) {
@@ -22,7 +22,7 @@ class UIControlWrapper implements UIControl {
     this.component = c;
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     this.htmlObject.reset(availWidth, availHeight);
   }
 
@@ -47,20 +47,20 @@ class UIControlWrapper implements UIControl {
     this.component.invalidate();
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     // Does not paint selection
     return inSelection;
   }
 
-  public void setBounds(int x, int y, int width, int height) {
+  public void setBounds(final int x, final int y, final int width, final int height) {
     this.component.setBounds(x, y, width, height);
   }
 
-  public void setRUIControl(RUIControl ruicontrol) {
+  public void setRUIControl(final RUIControl ruicontrol) {
     // Not doing anything with this.
   }
 
-  public void paint(Graphics g) {
+  public void paint(final Graphics g) {
     this.component.paint(g);
   }
 }

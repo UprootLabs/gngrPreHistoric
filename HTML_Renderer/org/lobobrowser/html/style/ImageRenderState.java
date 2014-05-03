@@ -26,7 +26,7 @@ import java.awt.Insets;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
 public class ImageRenderState extends StyleSheetRenderState {
-  public ImageRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public ImageRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
@@ -35,7 +35,7 @@ public class ImageRenderState extends StyleSheetRenderState {
     if (mi != INVALID_INSETS) {
       return mi;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props == null) {
       mi = null;
     } else {
@@ -45,21 +45,21 @@ public class ImageRenderState extends StyleSheetRenderState {
       int hspace = 0;
       int vspace = 0;
       boolean createNew = false;
-      String hspaceText = this.element.getAttribute("hspace");
+      final String hspaceText = this.element.getAttribute("hspace");
       if (hspaceText != null && hspaceText.length() != 0) {
         createNew = true;
         try {
           hspace = Integer.parseInt(hspaceText);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
           // TODO: Percentages?
         }
       }
-      String vspaceText = this.element.getAttribute("vspace");
+      final String vspaceText = this.element.getAttribute("vspace");
       if (vspaceText != null && vspaceText.length() != 0) {
         createNew = true;
         try {
           vspace = Integer.parseInt(vspaceText);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
           // TODO: Percentages?
         }
       }
@@ -91,7 +91,7 @@ public class ImageRenderState extends StyleSheetRenderState {
       if (binfo == null) {
         binfo = new BorderInfo();
       }
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       if (element != null) {
         String border = element.getAttribute("border");
         if (border != null) {
@@ -102,18 +102,18 @@ public class ImageRenderState extends StyleSheetRenderState {
             valueType = HtmlInsets.TYPE_PERCENT;
             try {
               value = Integer.parseInt(border.substring(0, border.length() - 1));
-            } catch (NumberFormatException nfe) {
+            } catch (final NumberFormatException nfe) {
               value = 0;
             }
           } else {
             valueType = HtmlInsets.TYPE_PIXELS;
             try {
               value = Integer.parseInt(border);
-            } catch (NumberFormatException nfe) {
+            } catch (final NumberFormatException nfe) {
               value = 0;
             }
           }
-          HtmlInsets borderInsets = new HtmlInsets();
+          final HtmlInsets borderInsets = new HtmlInsets();
           borderInsets.top = borderInsets.left = borderInsets.right = borderInsets.bottom = value;
           borderInsets.topType = borderInsets.leftType = borderInsets.rightType = borderInsets.bottomType = valueType;
           binfo.insets = borderInsets;

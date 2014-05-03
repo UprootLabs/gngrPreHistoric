@@ -30,7 +30,7 @@ public class Navigator extends AbstractScriptableDelegate {
   /**
    * @param context
    */
-  Navigator(UserAgentContext context) {
+  Navigator(final UserAgentContext context) {
     super();
     this.context = context;
   }
@@ -91,11 +91,11 @@ public class Navigator extends AbstractScriptableDelegate {
       return 0;
     }
 
-    public Object item(int index) {
+    public Object item(final int index) {
       return null;
     }
 
-    public Object namedItem(String name) {
+    public Object namedItem(final String name) {
       return null;
     }
   }

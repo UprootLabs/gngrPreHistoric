@@ -26,53 +26,53 @@ import org.lobobrowser.js.AbstractScriptableDelegate;
 public class History extends AbstractScriptableDelegate {
   private final Window window;
 
-  History(Window window) {
+  History(final Window window) {
     this.window = window;
   }
 
   public String getCurrent() {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     return ctx != null ? ctx.getCurrentURL() : null;
   }
 
   public String getNext() {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     return ctx != null ? ctx.getNextURL() : null;
   }
 
   public String getPrevious() {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     return ctx != null ? ctx.getPreviousURL() : null;
   }
 
   public int getLength() {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     return ctx != null ? ctx.getHistoryLength() : 0;
   }
 
   public void back() {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     if (ctx != null) {
       ctx.back();
     }
   }
 
   public void forward() {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     if (ctx != null) {
       ctx.forward();
     }
   }
 
-  public void go(int offset) {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+  public void go(final int offset) {
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     if (ctx != null) {
       ctx.moveInHistory(offset);
     }
   }
 
-  public void go(String url) {
-    HtmlRendererContext ctx = this.window.getHtmlRendererContext();
+  public void go(final String url) {
+    final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
     if (ctx != null) {
       ctx.goToHistoryURL(url);
     }

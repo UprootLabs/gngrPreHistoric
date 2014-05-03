@@ -20,7 +20,7 @@ class BrowserFrameUIControl implements UIControl {
   private final BrowserFrame browserFrame;
   private RUIControl ruiControl;
 
-  public BrowserFrameUIControl(HTMLElement element, BrowserFrame browserFrame) {
+  public BrowserFrameUIControl(final HTMLElement element, final BrowserFrame browserFrame) {
     this.component = browserFrame.getComponent();
     this.browserFrame = browserFrame;
     this.element = element;
@@ -45,14 +45,14 @@ class BrowserFrameUIControl implements UIControl {
   private int availWidth;
   private int availHeight;
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     this.availWidth = availWidth;
     this.availHeight = availHeight;
-    RUIControl ruiControl = this.ruiControl;
+    final RUIControl ruiControl = this.ruiControl;
     if (ruiControl != null) {
-      ModelNode node = ruiControl.getModelNode();
-      HTMLElement element = (HTMLElement) node;
-      RenderState renderState = node.getRenderState();
+      final ModelNode node = ruiControl.getModelNode();
+      final HTMLElement element = (HTMLElement) node;
+      final RenderState renderState = node.getRenderState();
       HtmlInsets insets = null;
       String marginwidth = element.getAttribute("marginwidth");
       String marginheight = element.getAttribute("marginheight");
@@ -65,7 +65,7 @@ class BrowserFrameUIControl implements UIControl {
           int value;
           try {
             value = Integer.parseInt(marginwidth.substring(0, marginwidth.length() - 1));
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             value = 0;
           }
           insets.left = value;
@@ -76,7 +76,7 @@ class BrowserFrameUIControl implements UIControl {
           int value;
           try {
             value = Integer.parseInt(marginwidth);
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             value = 0;
           }
           insets.left = value;
@@ -94,7 +94,7 @@ class BrowserFrameUIControl implements UIControl {
           int value;
           try {
             value = Integer.parseInt(marginheight.substring(0, marginheight.length() - 1));
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             value = 0;
           }
           insets.top = value;
@@ -105,7 +105,7 @@ class BrowserFrameUIControl implements UIControl {
           int value;
           try {
             value = Integer.parseInt(marginheight);
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             value = 0;
           }
           insets.top = value;
@@ -114,9 +114,9 @@ class BrowserFrameUIControl implements UIControl {
           insets.bottomType = HtmlInsets.TYPE_PIXELS;
         }
       }
-      Insets awtMarginInsets = insets == null ? null : insets.getSimpleAWTInsets(availWidth, availHeight);
-      int overflowX = renderState.getOverflowX();
-      int overflowY = renderState.getOverflowY();
+      final Insets awtMarginInsets = insets == null ? null : insets.getSimpleAWTInsets(availWidth, availHeight);
+      final int overflowX = renderState.getOverflowX();
+      final int overflowY = renderState.getOverflowY();
       if (awtMarginInsets != null) {
         this.browserFrame.setDefaultMarginInsets(awtMarginInsets);
       }
@@ -130,8 +130,8 @@ class BrowserFrameUIControl implements UIControl {
   }
 
   public Dimension getPreferredSize() {
-    int width = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("width"), this.availWidth, 100);
-    int height = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("height"), this.availHeight, 100);
+    final int width = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("width"), this.availWidth, 100);
+    final int height = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("height"), this.availHeight, 100);
     return new Dimension(width, height);
   }
 
@@ -139,21 +139,21 @@ class BrowserFrameUIControl implements UIControl {
     this.component.invalidate();
   }
 
-  public void paint(Graphics g) {
+  public void paint(final Graphics g) {
     // We actually have to paint it.
     this.component.paint(g);
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     // Selection does not cross in here?
     return false;
   }
 
-  public void setBounds(int x, int y, int width, int height) {
+  public void setBounds(final int x, final int y, final int width, final int height) {
     this.component.setBounds(x, y, width, height);
   }
 
-  public void setRUIControl(RUIControl ruicontrol) {
+  public void setRUIControl(final RUIControl ruicontrol) {
     this.ruiControl = ruicontrol;
   }
 }

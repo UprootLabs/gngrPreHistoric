@@ -68,13 +68,13 @@ public class StyleSheetRenderState implements RenderState {
   static {
   }
 
-  public StyleSheetRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public StyleSheetRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     this.prevRenderState = prevRenderState;
     this.element = element;
     this.document = (HTMLDocumentImpl) element.getOwnerDocument();
   }
 
-  public StyleSheetRenderState(HTMLDocumentImpl document) {
+  public StyleSheetRenderState(final HTMLDocumentImpl document) {
     this.prevRenderState = null;
     this.element = null;
     this.document = document;
@@ -96,11 +96,11 @@ public class StyleSheetRenderState implements RenderState {
     if (d != null) {
       return d.intValue();
     }
-    CSS2Properties props = this.getCssProperties();
-    String displayText = props == null ? null : props.getDisplay();
+    final CSS2Properties props = this.getCssProperties();
+    final String displayText = props == null ? null : props.getDisplay();
     int displayInt;
     if (displayText != null) {
-      String displayTextTL = displayText.toLowerCase();
+      final String displayTextTL = displayText.toLowerCase();
       if ("block".equals(displayTextTL)) {
         displayInt = DISPLAY_BLOCK;
       } else if ("inline".equals(displayTextTL)) {
@@ -133,7 +133,7 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public int getFontBase() {
-    RenderState prs = this.prevRenderState;
+    final RenderState prs = this.prevRenderState;
     return prs == null ? 3 : prs.getFontBase();
   }
 
@@ -142,12 +142,12 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   protected final AbstractCSS2Properties getCssProperties() {
-    HTMLElementImpl element = this.element;
+    final HTMLElementImpl element = this.element;
     return element == null ? null : element.getCurrentStyle();
   }
 
   public void invalidate() {
-    Map<String, WordInfo> map = this.iWordInfoMap;
+    final Map<String, WordInfo> map = this.iWordInfoMap;
     if (map != null) {
       map.clear();
     }
@@ -177,8 +177,8 @@ public class StyleSheetRenderState implements RenderState {
     if (f != null) {
       return f;
     }
-    AbstractCSS2Properties style = this.getCssProperties();
-    RenderState prs = this.prevRenderState;
+    final AbstractCSS2Properties style = this.getCssProperties();
+    final RenderState prs = this.prevRenderState;
     if (style == null) {
       if (prs != null) {
         f = prs.getFont();
@@ -195,14 +195,14 @@ public class StyleSheetRenderState implements RenderState {
     String fontWeight = null;
     String fontFamily = null;
 
-    String newFontSize = style == null ? null : style.getFontSize();
-    String newFontFamily = style == null ? null : style.getFontFamily();
-    String newFontStyle = style == null ? null : style.getFontStyle();
-    String newFontVariant = style == null ? null : style.getFontVariant();
-    String newFontWeight = style == null ? null : style.getFontWeight();
-    String verticalAlign = style == null ? null : style.getVerticalAlign();
-    boolean isSuper = verticalAlign != null && verticalAlign.equalsIgnoreCase("super");
-    boolean isSub = verticalAlign != null && verticalAlign.equalsIgnoreCase("sub");
+    final String newFontSize = style == null ? null : style.getFontSize();
+    final String newFontFamily = style == null ? null : style.getFontFamily();
+    final String newFontStyle = style == null ? null : style.getFontStyle();
+    final String newFontVariant = style == null ? null : style.getFontVariant();
+    final String newFontWeight = style == null ? null : style.getFontWeight();
+    final String verticalAlign = style == null ? null : style.getVerticalAlign();
+    final boolean isSuper = verticalAlign != null && verticalAlign.equalsIgnoreCase("super");
+    final boolean isSub = verticalAlign != null && verticalAlign.equalsIgnoreCase("sub");
     if (newFontSize == null && newFontWeight == null && newFontStyle == null && newFontFamily == null && newFontVariant == null) {
       if (!isSuper && !isSub) {
         if (prs != null) {
@@ -218,7 +218,7 @@ public class StyleSheetRenderState implements RenderState {
     if (newFontSize != null) {
       try {
         fontSize = new Float(HtmlValues.getFontSize(newFontSize, prs));
-      } catch (Exception err) {
+      } catch (final Exception err) {
         fontSize = HtmlValues.DEFAULT_FONT_SIZE_BOX;
       }
     } else if (fontSize == null) {
@@ -239,7 +239,7 @@ public class StyleSheetRenderState implements RenderState {
     if (newFontStyle != null) {
       fontStyle = newFontStyle;
     } else if (fontStyle == null && prs != null) {
-      int fstyle = prs.getFont().getStyle();
+      final int fstyle = prs.getFont().getStyle();
       if ((fstyle & Font.ITALIC) != 0) {
         fontStyle = "italic";
       }
@@ -252,13 +252,13 @@ public class StyleSheetRenderState implements RenderState {
     if (newFontWeight != null) {
       fontWeight = newFontWeight;
     } else if (fontWeight == null && prs != null) {
-      int fstyle = prs.getFont().getStyle();
+      final int fstyle = prs.getFont().getStyle();
       if ((fstyle & Font.BOLD) != 0) {
         fontWeight = "bold";
       }
     }
-    HTMLDocumentImpl document = this.document;
-    Set<String> locales = document == null ? null : document.getLocales();
+    final HTMLDocumentImpl document = this.document;
+    final Set<String> locales = document == null ? null : document.getLocales();
 
     Integer superscript = null;
     if (isSuper) {
@@ -279,10 +279,10 @@ public class StyleSheetRenderState implements RenderState {
     if (c != null) {
       return c;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getColor();
     if (colorValue == null || "".equals(colorValue)) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
         c = prs.getColor();
         this.iColor = c;
@@ -297,17 +297,17 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public Color getBackgroundColor() {
-    Color c = this.iBackgroundColor;
+    final Color c = this.iBackgroundColor;
     if (c != INVALID_COLOR) {
       return c;
     }
     Color localColor;
-    BackgroundInfo binfo = this.getBackgroundInfo();
+    final BackgroundInfo binfo = this.getBackgroundInfo();
     localColor = binfo == null ? null : binfo.backgroundColor;
     if (localColor == null && this.getDisplay() == DISPLAY_INLINE) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
-        Color ancestorColor = prs.getBackgroundColor();
+        final Color ancestorColor = prs.getBackgroundColor();
         if (ancestorColor != null) {
           this.iBackgroundColor = ancestorColor;
           return ancestorColor;
@@ -319,7 +319,7 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public Color getTextBackgroundColor() {
-    Color c = this.iTextBackgroundColor;
+    final Color c = this.iTextBackgroundColor;
     if (c != INVALID_COLOR) {
       return c;
     }
@@ -328,12 +328,12 @@ public class StyleSheetRenderState implements RenderState {
       // Background painted by block.
       localColor = null;
     } else {
-      BackgroundInfo binfo = this.getBackgroundInfo();
+      final BackgroundInfo binfo = this.getBackgroundInfo();
       localColor = binfo == null ? null : binfo.backgroundColor;
       if (localColor == null) {
-        RenderState prs = this.prevRenderState;
+        final RenderState prs = this.prevRenderState;
         if (prs != null) {
-          Color ancestorColor = prs.getTextBackgroundColor();
+          final Color ancestorColor = prs.getTextBackgroundColor();
           if (ancestorColor != null) {
             this.iTextBackgroundColor = ancestorColor;
             return ancestorColor;
@@ -350,10 +350,10 @@ public class StyleSheetRenderState implements RenderState {
     if (c != INVALID_COLOR) {
       return c;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getOverlayColor();
     if (colorValue == null || colorValue.length() == 0) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
         c = prs.getOverlayColor();
         this.iOverlayColor = c;
@@ -372,10 +372,10 @@ public class StyleSheetRenderState implements RenderState {
     if (td != -1) {
       return td;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
-    String tdText = props == null ? null : props.getTextDecoration();
+    final AbstractCSS2Properties props = this.getCssProperties();
+    final String tdText = props == null ? null : props.getTextDecoration();
     if (tdText == null) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
         td = prs.getTextDecorationMask();
         this.iTextDecoration = td;
@@ -384,9 +384,9 @@ public class StyleSheetRenderState implements RenderState {
     }
     td = 0;
     if (tdText != null) {
-      StringTokenizer tok = new StringTokenizer(tdText.toLowerCase(), ", \t\n\r");
+      final StringTokenizer tok = new StringTokenizer(tdText.toLowerCase(), ", \t\n\r");
       while (tok.hasMoreTokens()) {
-        String token = tok.nextToken();
+        final String token = tok.nextToken();
         if ("none".equals(token)) {
           // continue
         } else if ("underline".equals(token)) {
@@ -409,10 +409,10 @@ public class StyleSheetRenderState implements RenderState {
     if (tt != -1) {
       return tt;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
-    String tdText = props == null ? null : props.getTextTransform();
+    final AbstractCSS2Properties props = this.getCssProperties();
+    final String tdText = props == null ? null : props.getTextTransform();
     if (tdText == null) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
         tt = prs.getTextTransform();
         this.iTextTransform = tt;
@@ -472,13 +472,13 @@ public class StyleSheetRenderState implements RenderState {
    * @param highlight
    *          The iHighlight to set.
    */
-  public void setHighlight(boolean highlight) {
+  public void setHighlight(final boolean highlight) {
     this.iHighlight = highlight;
   }
 
   Map<String, WordInfo> iWordInfoMap = null;
 
-  public final WordInfo getWordInfo(String word) {
+  public final WordInfo getWordInfo(final String word) {
     // Expected to be called only in the GUI (rendering) thread.
     // No synchronization necessary.
     Map<String, WordInfo> map = this.iWordInfoMap;
@@ -491,7 +491,7 @@ public class StyleSheetRenderState implements RenderState {
       return wi;
     }
     wi = new WordInfo();
-    FontMetrics fm = this.getFontMetrics();
+    final FontMetrics fm = this.getFontMetrics();
     wi.fontMetrics = fm;
     wi.ascentPlusLeading = fm.getAscent() + fm.getLeading();
     wi.descent = fm.getDescent();
@@ -508,15 +508,15 @@ public class StyleSheetRenderState implements RenderState {
     if (axp != -1) {
       return axp;
     }
-    CSS2Properties props = this.getCssProperties();
+    final CSS2Properties props = this.getCssProperties();
     String textAlign = props == null ? null : props.getTextAlign();
     if (textAlign == null || textAlign.length() == 0) {
       // Fall back to align attribute.
-      HTMLElement element = this.element;
+      final HTMLElement element = this.element;
       if (element != null) {
         textAlign = element.getAttribute("align");
         if (textAlign == null || textAlign.length() == 0) {
-          RenderState prs = this.prevRenderState;
+          final RenderState prs = this.prevRenderState;
           if (prs != null) {
             return prs.getAlignXPercent();
           }
@@ -546,27 +546,27 @@ public class StyleSheetRenderState implements RenderState {
 
   private Map<String, ArrayList> counters = null;
 
-  public int getCount(String counter, int nesting) {
+  public int getCount(final String counter, final int nesting) {
     // Expected to be called only in GUI thread.
-    RenderState prs = this.prevRenderState;
+    final RenderState prs = this.prevRenderState;
     if (prs != null) {
       return prs.getCount(counter, nesting);
     }
-    Map<String, ArrayList> counters = this.counters;
+    final Map<String, ArrayList> counters = this.counters;
     if (counters == null) {
       return 0;
     }
-    ArrayList counterArray = counters.get(counter);
+    final ArrayList counterArray = counters.get(counter);
     if (nesting < 0 || nesting >= counterArray.size()) {
       return 0;
     }
-    Integer integer = (Integer) counterArray.get(nesting);
+    final Integer integer = (Integer) counterArray.get(nesting);
     return integer == null ? 0 : integer.intValue();
   }
 
-  public void resetCount(String counter, int nesting, int value) {
+  public void resetCount(final String counter, final int nesting, final int value) {
     // Expected to be called only in the GUI thread.
-    RenderState prs = this.prevRenderState;
+    final RenderState prs = this.prevRenderState;
     if (prs != null) {
       prs.resetCount(counter, nesting, value);
     } else {
@@ -576,7 +576,7 @@ public class StyleSheetRenderState implements RenderState {
         this.counters = counters;
         counters.put(counter, new ArrayList(0));
       }
-      ArrayList<Integer> counterArray = counters.get(counter);
+      final ArrayList<Integer> counterArray = counters.get(counter);
       while (counterArray.size() <= nesting) {
         counterArray.add(null);
       }
@@ -584,9 +584,9 @@ public class StyleSheetRenderState implements RenderState {
     }
   }
 
-  public int incrementCount(String counter, int nesting) {
+  public int incrementCount(final String counter, final int nesting) {
     // Expected to be called only in the GUI thread.
-    RenderState prs = this.prevRenderState;
+    final RenderState prs = this.prevRenderState;
     if (prs != null) {
       return prs.incrementCount(counter, nesting);
     }
@@ -596,12 +596,12 @@ public class StyleSheetRenderState implements RenderState {
       this.counters = counters;
       counters.put(counter, new ArrayList(0));
     }
-    ArrayList<Integer> counterArray = counters.get(counter);
+    final ArrayList<Integer> counterArray = counters.get(counter);
     while (counterArray.size() <= nesting) {
       counterArray.add(null);
     }
-    Integer integer = counterArray.get(nesting);
-    int prevValue = integer == null ? 0 : integer.intValue();
+    final Integer integer = counterArray.get(nesting);
+    final int prevValue = integer == null ? 0 : integer.intValue();
     counterArray.set(nesting, new Integer(prevValue + 1));
     return prevValue;
   }
@@ -612,18 +612,18 @@ public class StyleSheetRenderState implements RenderState {
       return binfo;
     }
     binfo = null;
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props != null) {
-      String backgroundColorText = props.getBackgroundColor();
+      final String backgroundColorText = props.getBackgroundColor();
       if (backgroundColorText != null) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
         binfo.backgroundColor = ColorFactory.getInstance().getColor(backgroundColorText);
       }
-      String backgroundImageText = props.getBackgroundImage();
+      final String backgroundImageText = props.getBackgroundImage();
       if (backgroundImageText != null && backgroundImageText.length() > 0) {
-        java.net.URL backgroundImage = HtmlValues.getURIFromStyleValue(backgroundImageText);
+        final java.net.URL backgroundImage = HtmlValues.getURIFromStyleValue(backgroundImageText);
         if (backgroundImage != null) {
           if (binfo == null) {
             binfo = new BackgroundInfo();
@@ -631,14 +631,14 @@ public class StyleSheetRenderState implements RenderState {
           binfo.backgroundImage = backgroundImage;
         }
       }
-      String backgroundRepeatText = props.getBackgroundRepeat();
+      final String backgroundRepeatText = props.getBackgroundRepeat();
       if (backgroundRepeatText != null) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
         this.applyBackgroundRepeat(binfo, backgroundRepeatText);
       }
-      String backgroundPositionText = props.getBackgroundPosition();
+      final String backgroundPositionText = props.getBackgroundPosition();
       if (backgroundPositionText != null) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
@@ -657,12 +657,12 @@ public class StyleSheetRenderState implements RenderState {
     if (tiText != null) {
       return tiText;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     tiText = props == null ? null : props.getTextIndent();
     if (tiText == null) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
-        String parentText = prs.getTextIndentText();
+        final String parentText = prs.getTextIndentText();
         this.iTextIndentText = parentText;
         return parentText;
       } else {
@@ -672,9 +672,9 @@ public class StyleSheetRenderState implements RenderState {
     return tiText;
   }
 
-  public int getTextIndent(int availSize) {
+  public int getTextIndent(final int availSize) {
     // No caching for this one.
-    String tiText = this.getTextIndentText();
+    final String tiText = this.getTextIndentText();
     if (tiText.length() == 0) {
       return 0;
     } else {
@@ -688,22 +688,22 @@ public class StyleSheetRenderState implements RenderState {
     if (RenderThreadState.getState().overrideNoWrap) {
       return WS_NOWRAP;
     }
-    Integer ws = this.iWhiteSpace;
+    final Integer ws = this.iWhiteSpace;
     if (ws != null) {
       return ws.intValue();
     }
-    AbstractCSS2Properties props = this.getCssProperties();
-    String whiteSpaceText = props == null ? null : props.getWhiteSpace();
+    final AbstractCSS2Properties props = this.getCssProperties();
+    final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;
     if (whiteSpaceText == null) {
-      RenderState prs = this.prevRenderState;
+      final RenderState prs = this.prevRenderState;
       if (prs != null) {
         wsValue = prs.getWhiteSpace();
       } else {
         wsValue = WS_NORMAL;
       }
     } else {
-      String whiteSpaceTextTL = whiteSpaceText.toLowerCase();
+      final String whiteSpaceTextTL = whiteSpaceText.toLowerCase();
       if ("nowrap".equals(whiteSpaceTextTL)) {
         wsValue = WS_NOWRAP;
       } else if ("pre".equals(whiteSpaceTextTL)) {
@@ -724,7 +724,7 @@ public class StyleSheetRenderState implements RenderState {
     if (mi != INVALID_INSETS) {
       return mi;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props == null) {
       mi = null;
     } else {
@@ -739,7 +739,7 @@ public class StyleSheetRenderState implements RenderState {
     if (mi != INVALID_INSETS) {
       return mi;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props == null) {
       mi = null;
     } else {
@@ -749,12 +749,12 @@ public class StyleSheetRenderState implements RenderState {
     return mi;
   }
 
-  private void applyBackgroundHorizontalPositon(BackgroundInfo binfo, String xposition) {
+  private void applyBackgroundHorizontalPositon(final BackgroundInfo binfo, final String xposition) {
     if (xposition.endsWith("%")) {
       binfo.backgroundXPositionAbsolute = false;
       try {
         binfo.backgroundXPosition = (int) Double.parseDouble(xposition.substring(0, xposition.length() - 1).trim());
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         binfo.backgroundXPosition = 0;
       }
     } else if ("center".equalsIgnoreCase(xposition)) {
@@ -780,12 +780,12 @@ public class StyleSheetRenderState implements RenderState {
     }
   }
 
-  private void applyBackgroundVerticalPosition(BackgroundInfo binfo, String yposition) {
+  private void applyBackgroundVerticalPosition(final BackgroundInfo binfo, final String yposition) {
     if (yposition.endsWith("%")) {
       binfo.backgroundYPositionAbsolute = false;
       try {
         binfo.backgroundYPosition = (int) Double.parseDouble(yposition.substring(0, yposition.length() - 1).trim());
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         binfo.backgroundYPosition = 0;
       }
     } else if ("center".equalsIgnoreCase(yposition)) {
@@ -811,17 +811,17 @@ public class StyleSheetRenderState implements RenderState {
     }
   }
 
-  private void applyBackgroundPosition(BackgroundInfo binfo, String position) {
+  private void applyBackgroundPosition(final BackgroundInfo binfo, final String position) {
     binfo.backgroundXPositionAbsolute = false;
     binfo.backgroundYPositionAbsolute = false;
     binfo.backgroundXPosition = 50;
     binfo.backgroundYPosition = 50;
-    StringTokenizer tok = new StringTokenizer(position, " \t\r\n");
+    final StringTokenizer tok = new StringTokenizer(position, " \t\r\n");
     if (tok.hasMoreTokens()) {
-      String xposition = tok.nextToken();
+      final String xposition = tok.nextToken();
       this.applyBackgroundHorizontalPositon(binfo, xposition);
       if (tok.hasMoreTokens()) {
-        String yposition = tok.nextToken();
+        final String yposition = tok.nextToken();
         this.applyBackgroundVerticalPosition(binfo, yposition);
       }
     }
@@ -855,8 +855,8 @@ public class StyleSheetRenderState implements RenderState {
   // }
   // }
 
-  private void applyBackgroundRepeat(BackgroundInfo binfo, String backgroundRepeatText) {
-    String brtl = backgroundRepeatText.toLowerCase();
+  private void applyBackgroundRepeat(final BackgroundInfo binfo, final String backgroundRepeatText) {
+    final String brtl = backgroundRepeatText.toLowerCase();
     if ("repeat".equals(brtl)) {
       binfo.backgroundRepeat = BackgroundInfo.BR_REPEAT;
     } else if ("repeat-x".equals(brtl)) {
@@ -871,20 +871,20 @@ public class StyleSheetRenderState implements RenderState {
   private Integer cachedVisibility;
 
   public int getVisibility() {
-    Integer v = this.cachedVisibility;
+    final Integer v = this.cachedVisibility;
     if (v != null) {
       return v.intValue();
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     int visibility;
     if (props == null) {
       visibility = VISIBILITY_VISIBLE;
     } else {
-      String visibText = props.getVisibility();
+      final String visibText = props.getVisibility();
       if (visibText == null || visibText.length() == 0) {
         visibility = VISIBILITY_VISIBLE;
       } else {
-        String visibTextTL = visibText.toLowerCase();
+        final String visibTextTL = visibText.toLowerCase();
         if (visibTextTL.equals("hidden")) {
           visibility = VISIBILITY_HIDDEN;
         } else if (visibTextTL.equals("visible")) {
@@ -903,20 +903,20 @@ public class StyleSheetRenderState implements RenderState {
   private Integer cachedPosition;
 
   public int getPosition() {
-    Integer p = this.cachedPosition;
+    final Integer p = this.cachedPosition;
     if (p != null) {
       return p.intValue();
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     int position;
     if (props == null) {
       position = POSITION_STATIC;
     } else {
-      String positionText = props.getPosition();
+      final String positionText = props.getPosition();
       if (positionText == null || positionText.length() == 0) {
         position = POSITION_STATIC;
       } else {
-        String positionTextTL = positionText.toLowerCase();
+        final String positionTextTL = positionText.toLowerCase();
         if (positionTextTL.equals("absolute")) {
           position = POSITION_ABSOLUTE;
         } else if (positionTextTL.equals("static")) {
@@ -937,20 +937,20 @@ public class StyleSheetRenderState implements RenderState {
   private Integer cachedFloat;
 
   public int getFloat() {
-    Integer p = this.cachedFloat;
+    final Integer p = this.cachedFloat;
     if (p != null) {
       return p.intValue();
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     int floatValue;
     if (props == null) {
       floatValue = FLOAT_NONE;
     } else {
-      String floatText = props.getFloat();
+      final String floatText = props.getFloat();
       if (floatText == null || floatText.length() == 0) {
         floatValue = FLOAT_NONE;
       } else {
-        String floatTextTL = floatText.toLowerCase();
+        final String floatTextTL = floatText.toLowerCase();
         if (floatTextTL.equals("left")) {
           floatValue = FLOAT_LEFT;
         } else if (floatTextTL.equals("right")) {
@@ -976,7 +976,7 @@ public class StyleSheetRenderState implements RenderState {
     if (overflow != -1) {
       return overflow;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props == null) {
       overflow = OVERFLOW_NONE;
     } else {
@@ -987,7 +987,7 @@ public class StyleSheetRenderState implements RenderState {
       if (overflowText == null) {
         overflow = OVERFLOW_NONE;
       } else {
-        String overflowTextTL = overflowText.toLowerCase();
+        final String overflowTextTL = overflowText.toLowerCase();
         if ("scroll".equals(overflowTextTL)) {
           overflow = OVERFLOW_SCROLL;
         } else if ("auto".equals(overflowTextTL)) {
@@ -1010,7 +1010,7 @@ public class StyleSheetRenderState implements RenderState {
     if (overflow != -1) {
       return overflow;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props == null) {
       overflow = OVERFLOW_NONE;
     } else {
@@ -1021,7 +1021,7 @@ public class StyleSheetRenderState implements RenderState {
       if (overflowText == null) {
         overflow = OVERFLOW_NONE;
       } else {
-        String overflowTextTL = overflowText.toLowerCase();
+        final String overflowTextTL = overflowText.toLowerCase();
         if ("scroll".equals(overflowTextTL)) {
           overflow = OVERFLOW_SCROLL;
         } else if ("auto".equals(overflowTextTL)) {
@@ -1046,7 +1046,7 @@ public class StyleSheetRenderState implements RenderState {
     if (binfo != INVALID_BORDER_INFO) {
       return binfo;
     }
-    AbstractCSS2Properties props = this.getCssProperties();
+    final AbstractCSS2Properties props = this.getCssProperties();
     if (props != null) {
       binfo = HtmlValues.getBorderInfo(props, this);
     } else {

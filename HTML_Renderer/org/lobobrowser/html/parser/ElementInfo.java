@@ -40,7 +40,7 @@ class ElementInfo {
    * @param ok
    * @param type
    */
-  public ElementInfo(boolean ok, int type) {
+  public ElementInfo(final boolean ok, final int type) {
     this.childElementOk = ok;
     this.endElementType = type;
     this.stopTags = null;
@@ -52,7 +52,7 @@ class ElementInfo {
    * @param ok
    * @param type
    */
-  public ElementInfo(boolean ok, int type, Set<String> stopTags) {
+  public ElementInfo(final boolean ok, final int type, final Set<String> stopTags) {
     this.childElementOk = ok;
     this.endElementType = type;
     this.stopTags = stopTags;
@@ -60,7 +60,7 @@ class ElementInfo {
     this.decodeEntities = true;
   }
 
-  public ElementInfo(boolean ok, int type, Set<String> stopTags, boolean noScriptElement) {
+  public ElementInfo(final boolean ok, final int type, final Set<String> stopTags, final boolean noScriptElement) {
     this.childElementOk = ok;
     this.endElementType = type;
     this.stopTags = stopTags;
@@ -68,7 +68,7 @@ class ElementInfo {
     this.decodeEntities = true;
   }
 
-  public ElementInfo(boolean ok, int type, boolean decodeEntities) {
+  public ElementInfo(final boolean ok, final int type, final boolean decodeEntities) {
     this.childElementOk = ok;
     this.endElementType = type;
     this.stopTags = null;

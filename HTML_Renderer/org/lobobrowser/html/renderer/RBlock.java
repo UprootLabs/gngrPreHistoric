@@ -87,13 +87,13 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   private LayoutValue lastLayoutValue = null;
   private LayoutKey lastLayoutKey = null;
 
-  public RBlock(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
-      RenderableContainer parentContainer) {
+  public RBlock(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+      final RenderableContainer parentContainer) {
     super(parentContainer, modelNode, pcontext);
     this.listNesting = listNesting;
     this.frameContext = frameContext;
     this.rendererContext = rcontext;
-    RBlockViewport bl = new RBlockViewport(modelNode, this, this.getViewportListNesting(listNesting), pcontext, rcontext, frameContext,
+    final RBlockViewport bl = new RBlockViewport(modelNode, this, this.getViewportListNesting(listNesting), pcontext, rcontext, frameContext,
         this);
     this.bodyLayout = bl;
     bl.setOriginalParent(this);
@@ -120,14 +120,14 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     return VALIGN_BASELINE;
   }
 
-  public void ensureVisible(Point point) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public void ensureVisible(final Point point) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
-      boolean hscroll = this.hasHScrollBar;
-      boolean vscroll = this.hasVScrollBar;
-      int origX = bodyLayout.x;
-      int origY = bodyLayout.y;
-      Insets insets = this.getInsets(hscroll, vscroll);
+      final boolean hscroll = this.hasHScrollBar;
+      final boolean vscroll = this.hasVScrollBar;
+      final int origX = bodyLayout.x;
+      final int origY = bodyLayout.y;
+      final Insets insets = this.getInsets(hscroll, vscroll);
       if (hscroll) {
         if (point.x < insets.left) {
           bodyLayout.x += (insets.left - point.x);
@@ -183,12 +183,12 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   // }
   //
   public final boolean isOverflowVisibleX() {
-    int overflow = this.overflowX;
+    final int overflow = this.overflowX;
     return overflow == RenderState.OVERFLOW_NONE || overflow == RenderState.OVERFLOW_VISIBLE;
   }
 
   public final boolean isOverflowVisibleY() {
-    int overflow = this.overflowY;
+    final int overflow = this.overflowY;
     return overflow == RenderState.OVERFLOW_NONE || overflow == RenderState.OVERFLOW_VISIBLE;
   }
 
@@ -200,40 +200,40 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     return this.bodyLayout.getFirstBaselineOffset();
   }
 
-  public void setSelectionEnd(RenderableSpot rpoint) {
+  public void setSelectionEnd(final RenderableSpot rpoint) {
     this.endSelection = rpoint;
   }
 
-  public void setSelectionStart(RenderableSpot rpoint) {
+  public void setSelectionStart(final RenderableSpot rpoint) {
     this.startSelection = rpoint;
   }
 
-  public int getViewportListNesting(int blockNesting) {
+  public int getViewportListNesting(final int blockNesting) {
     return blockNesting;
   }
 
-  public void paint(Graphics g) {
-    RenderState rs = this.modelNode.getRenderState();
+  public void paint(final Graphics g) {
+    final RenderState rs = this.modelNode.getRenderState();
     if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
       // Just don't paint it.
       return;
     }
-    boolean linfo = loggableInfo;
-    long time1 = linfo ? System.currentTimeMillis() : 0;
+    final boolean linfo = loggableInfo;
+    final long time1 = linfo ? System.currentTimeMillis() : 0;
     this.prePaint(g);
-    long time2 = linfo ? System.currentTimeMillis() : 0;
+    final long time2 = linfo ? System.currentTimeMillis() : 0;
     long time3 = 0;
     try {
-      Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
-      RBlockViewport bodyLayout = this.bodyLayout;
+      final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+      final RBlockViewport bodyLayout = this.bodyLayout;
       if (bodyLayout != null) {
-        int overflowX = this.overflowX;
-        int overflowY = this.overflowY;
+        final int overflowX = this.overflowX;
+        final int overflowY = this.overflowY;
         if ((overflowX == RenderState.OVERFLOW_NONE || overflowX == RenderState.OVERFLOW_VISIBLE)
             && (overflowY == RenderState.OVERFLOW_NONE || overflowY == RenderState.OVERFLOW_VISIBLE)) {
           // Simply translate.
-          int bx = bodyLayout.x;
-          int by = bodyLayout.y;
+          final int bx = bodyLayout.x;
+          final int by = bodyLayout.y;
           g.translate(bx, by);
           try {
             bodyLayout.paint(g);
@@ -243,7 +243,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
         } else {
           // Clip when there potential scrolling or hidden overflow
           // was requested.
-          Graphics newG = g.create(insets.left, insets.top, this.width - insets.left - insets.right, this.height - insets.top
+          final Graphics newG = g.create(insets.left, insets.top, this.width - insets.left - insets.right, this.height - insets.top
               - insets.bottom);
           try {
             // Second, translate
@@ -265,25 +265,25 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       // Paint FrameContext selection.
       // This is only done by root RBlock.
 
-      RenderableSpot start = this.startSelection;
-      RenderableSpot end = this.endSelection;
-      boolean inSelection = false;
+      final RenderableSpot start = this.startSelection;
+      final RenderableSpot end = this.endSelection;
+      final boolean inSelection = false;
       if (start != null && end != null && !start.equals(end)) {
         this.paintSelection(g, inSelection, start, end);
       }
       // Must paint scrollbars too.
-      JScrollBar hsb = this.hScrollBar;
+      final JScrollBar hsb = this.hScrollBar;
       if (hsb != null) {
-        Graphics sbg = g.create(insets.left, this.height - insets.bottom, this.width - insets.left - insets.right, SCROLL_BAR_THICKNESS);
+        final Graphics sbg = g.create(insets.left, this.height - insets.bottom, this.width - insets.left - insets.right, SCROLL_BAR_THICKNESS);
         try {
           hsb.paint(sbg);
         } finally {
           sbg.dispose();
         }
       }
-      JScrollBar vsb = this.vScrollBar;
+      final JScrollBar vsb = this.vScrollBar;
       if (vsb != null) {
-        Graphics sbg = g.create(this.width - insets.right, insets.top, SCROLL_BAR_THICKNESS, this.height - insets.top - insets.bottom);
+        final Graphics sbg = g.create(this.width - insets.right, insets.top, SCROLL_BAR_THICKNESS, this.height - insets.top - insets.bottom);
         try {
           vsb.paint(sbg);
         } finally {
@@ -296,7 +296,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       super.paint(g);
     }
     if (linfo) {
-      long time4 = System.currentTimeMillis();
+      final long time4 = System.currentTimeMillis();
       if (time4 - time1 > 100) {
         logger.info("paint(): Elapsed: " + (time4 - time1) + " ms. Prepaint: " + (time2 - time1) + " ms. Viewport: " + (time3 - time2)
             + " ms. RBlock: " + this + ".");
@@ -304,19 +304,19 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
   }
 
-  public final void layout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, int defaultOverflowX,
-      int defaultOverflowY, boolean sizeOnly) {
+  public final void layout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final int defaultOverflowX,
+      final int defaultOverflowY, final boolean sizeOnly) {
     this.layout(availWidth, availHeight, expandWidth, expandHeight, null, defaultOverflowX, defaultOverflowY, sizeOnly);
   }
 
-  public final void layout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight,
-      FloatingBoundsSource floatBoundsSource, boolean sizeOnly) {
+  public final void layout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight,
+      final FloatingBoundsSource floatBoundsSource, final boolean sizeOnly) {
     this.layout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, this.defaultOverflowX, this.defaultOverflowY,
         sizeOnly);
   }
 
-  public final void layout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight,
-      FloatingBoundsSource floatBoundsSource, int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
+  public final void layout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight,
+      final FloatingBoundsSource floatBoundsSource, final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
     try {
       this.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
     } finally {
@@ -326,13 +326,13 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
   }
 
-  public final void doLayout(int availWidth, int availHeight, boolean sizeOnly) {
+  public final void doLayout(final int availWidth, final int availHeight, final boolean sizeOnly) {
     // This is an override of an abstract method.
     this.doLayout(availWidth, availHeight, true, false, null, this.defaultOverflowX, this.defaultOverflowY, sizeOnly);
   }
 
-  public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
-      int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
+  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+      final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
     this.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly, true);
   }
 
@@ -346,18 +346,18 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * @param useCache
    *          For testing. Should always be true.
    */
-  public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
-      int defaultOverflowX, int defaultOverflowY, boolean sizeOnly, boolean useCache) {
+  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+      final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly, final boolean useCache) {
     // Expected to be invoked in the GUI thread.
-    RenderState renderState = this.modelNode.getRenderState();
-    Font font = renderState == null ? null : renderState.getFont();
-    int whiteSpace = renderState == null ? RenderState.WS_NORMAL : renderState.getWhiteSpace();
+    final RenderState renderState = this.modelNode.getRenderState();
+    final Font font = renderState == null ? null : renderState.getFont();
+    final int whiteSpace = renderState == null ? RenderState.WS_NORMAL : renderState.getWhiteSpace();
     // Having whiteSpace == NOWRAP and having a NOWRAP override
     // are not exactly the same thing.
-    boolean overrideNoWrap = RenderThreadState.getState().overrideNoWrap;
-    LayoutKey key = new LayoutKey(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX,
+    final boolean overrideNoWrap = RenderThreadState.getState().overrideNoWrap;
+    final LayoutKey key = new LayoutKey(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX,
         defaultOverflowY, whiteSpace, font, overrideNoWrap);
-    Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
+    final Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
     LayoutValue value;
     if (sizeOnly) {
       value = useCache ? cachedLayout.get(key) : null;
@@ -398,10 +398,10 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     this.sendDelayedPairsToParent();
   }
 
-  private final boolean correctViewportOrigin(Insets insets, int blockWidth, int blockHeight) {
-    RBlockViewport bodyLayout = this.bodyLayout;
-    int viewPortX = bodyLayout.x;
-    int viewPortY = bodyLayout.y;
+  private final boolean correctViewportOrigin(final Insets insets, final int blockWidth, final int blockHeight) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
+    final int viewPortX = bodyLayout.x;
+    final int viewPortY = bodyLayout.y;
     boolean corrected = false;
     if (viewPortX > insets.left) {
       bodyLayout.x = insets.left;
@@ -432,8 +432,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * @param tentativeHeight
    * @return
    */
-  private final LayoutValue forceLayout(RenderState renderState, int availWidth, int availHeight, boolean expandWidth,
-      boolean expandHeight, FloatingBoundsSource blockFloatBoundsSource, int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
+  private final LayoutValue forceLayout(final RenderState renderState, final int availWidth, final int availHeight, final boolean expandWidth,
+      final boolean expandHeight, final FloatingBoundsSource blockFloatBoundsSource, final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
     // Expected to be invoked in the GUI thread.
     // TODO: Not necessary to do full layout if only expandWidth or
     // expandHeight change (specifically in tables).
@@ -449,10 +449,10 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     // Probably doesn't need to be done in its entirety every time.
     this.applyStyle(availWidth, availHeight);
 
-    RBlockViewport bodyLayout = this.bodyLayout;
-    NodeImpl node = (NodeImpl) this.modelNode;
+    final RBlockViewport bodyLayout = this.bodyLayout;
+    final NodeImpl node = (NodeImpl) this.modelNode;
     if (node == null || bodyLayout == null) {
-      Insets insets = this.getInsets(false, false);
+      final Insets insets = this.getInsets(false, false);
       return new LayoutValue(insets.left + insets.right, insets.bottom + insets.top, false, false);
     }
 
@@ -468,8 +468,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     if (marginInsets == null) {
       marginInsets = RBlockViewport.ZERO_INSETS;
     }
-    int paddingTotalWidth = paddingInsets.left + paddingInsets.right;
-    int paddingTotalHeight = paddingInsets.top + paddingInsets.bottom;
+    final int paddingTotalWidth = paddingInsets.left + paddingInsets.right;
+    final int paddingTotalHeight = paddingInsets.top + paddingInsets.bottom;
 
     int overflowX = this.overflowX;
     if (overflowX == RenderState.OVERFLOW_NONE) {
@@ -479,18 +479,18 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     if (overflowY == RenderState.OVERFLOW_NONE) {
       overflowY = defaultOverflowY;
     }
-    boolean vauto = overflowY == RenderState.OVERFLOW_AUTO;
+    final boolean vauto = overflowY == RenderState.OVERFLOW_AUTO;
     boolean hscroll = overflowX == RenderState.OVERFLOW_SCROLL;
-    boolean hauto = overflowX == RenderState.OVERFLOW_AUTO;
+    final boolean hauto = overflowX == RenderState.OVERFLOW_AUTO;
     boolean vscroll = overflowY == RenderState.OVERFLOW_SCROLL;
 
     Insets insets = this.getInsets(hscroll, vscroll);
     int insetsTotalWidth = insets.left + insets.right;
     int insetsTotalHeight = insets.top + insets.bottom;
     int actualAvailWidth = availWidth - paddingTotalWidth - insetsTotalWidth;
-    int actualAvailHeight = availWidth - paddingTotalHeight - insetsTotalHeight;
+    final int actualAvailHeight = availWidth - paddingTotalHeight - insetsTotalHeight;
     Integer dw = this.getDeclaredWidth(renderState, actualAvailWidth);
-    Integer dh = this.getDeclaredHeight(renderState, actualAvailHeight);
+    final Integer dh = this.getDeclaredHeight(renderState, actualAvailHeight);
     int declaredWidth = -1;
     int declaredHeight = -1;
     if (dw != null) {
@@ -515,13 +515,13 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     tentativeWidth = declaredWidth == -1 ? availWidth : declaredWidth + insetsTotalWidth + paddingTotalWidth;
     tentativeHeight = declaredHeight == -1 ? availHeight : declaredHeight + insetsTotalHeight + paddingTotalHeight;
     if (declaredWidth == -1 && !expandWidth && availWidth > insetsTotalWidth + paddingTotalWidth) {
-      RenderThreadState state = RenderThreadState.getState();
-      boolean prevOverrideNoWrap = state.overrideNoWrap;
+      final RenderThreadState state = RenderThreadState.getState();
+      final boolean prevOverrideNoWrap = state.overrideNoWrap;
       if (!prevOverrideNoWrap) {
         state.overrideNoWrap = true;
         try {
-          int desiredViewportWidth = paddingTotalWidth;
-          int desiredViewportHeight = paddingTotalHeight;
+          final int desiredViewportWidth = paddingTotalWidth;
+          final int desiredViewportHeight = paddingTotalHeight;
           bodyLayout.layout(desiredViewportWidth, desiredViewportHeight, paddingInsets, -1, null, true);
           // If we find that the viewport is not as wide as we
           // presumed, then we'll use that as a new tentative width.
@@ -545,12 +545,12 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       viewportFloatBounds = new ShiftedFloatingBounds(blockFloatBounds, -insets.left, -insets.right, -insets.top);
     }
     int desiredViewportWidth = tentativeWidth - insetsTotalWidth;
-    int desiredViewportHeight = tentativeHeight - insets.top - insets.bottom;
-    int maxY = vauto ? (declaredHeight == -1 ? -1 : declaredHeight + paddingInsets.top) : -1;
-    boolean needToAddVScroll = false;
+    final int desiredViewportHeight = tentativeHeight - insets.top - insets.bottom;
+    final int maxY = vauto ? (declaredHeight == -1 ? -1 : declaredHeight + paddingInsets.top) : -1;
+    final boolean needToAddVScroll = false;
     try {
       bodyLayout.layout(desiredViewportWidth, desiredViewportHeight, paddingInsets, maxY, viewportFloatBounds, sizeOnly);
-    } catch (SizeExceededException see) {
+    } catch (final SizeExceededException see) {
       // Getting this exception means that we need to add a vertical scrollbar.
       // Wee need to relayout and adjust insets and widths for scrollbar.
       vscroll = true;
@@ -566,12 +566,12 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       bodyLayout.layout(desiredViewportWidth, desiredViewportHeight, paddingInsets, -1, viewportFloatBounds, sizeOnly);
     }
 
-    int bodyWidth = bodyLayout.width;
-    int bodyHeight = bodyLayout.height;
-    int prelimBlockWidth = bodyWidth + insetsTotalWidth;
+    final int bodyWidth = bodyLayout.width;
+    final int bodyHeight = bodyLayout.height;
+    final int prelimBlockWidth = bodyWidth + insetsTotalWidth;
     int prelimBlockHeight = bodyHeight + insetsTotalHeight;
-    int adjDeclaredWidth = declaredWidth == -1 ? -1 : declaredWidth + insets.left + insets.right + paddingInsets.left + paddingInsets.right;
-    int adjDeclaredHeight = declaredHeight == -1 ? -1 : declaredHeight + insets.top + insets.bottom + paddingInsets.top
+    final int adjDeclaredWidth = declaredWidth == -1 ? -1 : declaredWidth + insets.left + insets.right + paddingInsets.left + paddingInsets.right;
+    final int adjDeclaredHeight = declaredHeight == -1 ? -1 : declaredHeight + insets.top + insets.bottom + paddingInsets.top
         + paddingInsets.bottom;
 
     // Adjust insets and other dimensions base on overflow-y=auto.
@@ -582,8 +582,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       prelimBlockHeight = bodyHeight + insetsTotalHeight;
     }
 
-    boolean visibleX = overflowX == RenderState.OVERFLOW_VISIBLE || overflowX == RenderState.OVERFLOW_NONE;
-    boolean visibleY = overflowY == RenderState.OVERFLOW_VISIBLE || overflowY == RenderState.OVERFLOW_NONE;
+    final boolean visibleX = overflowX == RenderState.OVERFLOW_VISIBLE || overflowX == RenderState.OVERFLOW_NONE;
+    final boolean visibleY = overflowY == RenderState.OVERFLOW_VISIBLE || overflowY == RenderState.OVERFLOW_NONE;
     int resultingWidth;
     int resultingHeight;
     if (adjDeclaredWidth == -1) {
@@ -596,11 +596,11 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
     if (!sizeOnly) {
       // Align horizontally now. This may change canvas height.
-      int alignmentXPercent = rs.getAlignXPercent();
+      final int alignmentXPercent = rs.getAlignXPercent();
       if (alignmentXPercent > 0) {
         // TODO: OPTIMIZATION: alignment should not be done in table cell
         // sizing determination.
-        int canvasWidth = Math.max(bodyLayout.width, resultingWidth - insets.left - insets.right);
+        final int canvasWidth = Math.max(bodyLayout.width, resultingWidth - insets.left - insets.right);
         // Alignment is done afterwards because canvas dimensions might have
         // changed.
         bodyLayout.alignX(alignmentXPercent, canvasWidth, paddingInsets);
@@ -616,23 +616,23 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
     if (!sizeOnly) {
       // Align vertically now
-      int alignmentYPercent = rs.getAlignYPercent();
+      final int alignmentYPercent = rs.getAlignYPercent();
       if (alignmentYPercent > 0) {
         // TODO: OPTIMIZATION: alignment should not be done in table cell
         // sizing determination.
-        int canvasHeight = Math.max(bodyLayout.height, resultingHeight - insets.top - insets.bottom);
+        final int canvasHeight = Math.max(bodyLayout.height, resultingHeight - insets.top - insets.bottom);
         // Alignment is done afterwards because canvas dimensions might have
         // changed.
         bodyLayout.alignY(alignmentYPercent, canvasHeight, paddingInsets);
       }
     }
     if (vscroll) {
-      JScrollBar sb = this.getVScrollBar();
+      final JScrollBar sb = this.getVScrollBar();
       this.addComponent(sb);
       // Bounds set by updateWidgetBounds
     }
     if (hscroll) {
-      JScrollBar sb = this.getHScrollBar();
+      final JScrollBar sb = this.getHScrollBar();
       this.addComponent(sb);
       // Bounds set by updateWidgetBounds
     }
@@ -946,7 +946,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   // return new LayoutValue(resultingWidth, resultingHeight, hscroll, vscroll);
   // }
 
-  private int getVUnitIncrement(RenderState renderState) {
+  private int getVUnitIncrement(final RenderState renderState) {
     if (renderState != null) {
       return renderState.getFontMetrics().getHeight();
     } else {
@@ -959,29 +959,29 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   /**
    * Changes scroll bar state to match viewport origin.
    */
-  private void resetScrollBars(RenderState renderState) {
+  private void resetScrollBars(final RenderState renderState) {
     // Expected to be called only in the GUI thread.
     this.resettingScrollBars = true;
     try {
-      RBlockViewport bodyLayout = this.bodyLayout;
+      final RBlockViewport bodyLayout = this.bodyLayout;
       if (bodyLayout != null) {
-        Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
-        JScrollBar vsb = this.vScrollBar;
+        final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+        final JScrollBar vsb = this.vScrollBar;
         if (vsb != null) {
-          int newValue = insets.top - bodyLayout.y;
-          int newExtent = this.height - insets.top - insets.bottom;
-          int newMin = 0;
-          int newMax = bodyLayout.height;
+          final int newValue = insets.top - bodyLayout.y;
+          final int newExtent = this.height - insets.top - insets.bottom;
+          final int newMin = 0;
+          final int newMax = bodyLayout.height;
           vsb.setValues(newValue, newExtent, newMin, newMax);
           vsb.setUnitIncrement(this.getVUnitIncrement(renderState));
           vsb.setBlockIncrement(newExtent);
         }
-        JScrollBar hsb = this.hScrollBar;
+        final JScrollBar hsb = this.hScrollBar;
         if (hsb != null) {
-          int newValue = insets.left - bodyLayout.x;
-          int newExtent = this.width - insets.left - insets.right;
-          int newMin = 0;
-          int newMax = bodyLayout.width;
+          final int newValue = insets.left - bodyLayout.x;
+          final int newExtent = this.width - insets.left - insets.right;
+          final int newMin = 0;
+          final int newMax = bodyLayout.width;
           hsb.setValues(newValue, newExtent, newMin, newMax);
         }
       }
@@ -997,10 +997,10 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
-    Graphics newG = g.create();
+  public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
+    final Graphics newG = g.create();
     try {
-      Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+      final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
       // Just clip, don't translate.
       newG.clipRect(insets.left, insets.top, this.width - insets.left - insets.right, this.height - insets.top - insets.bottom);
       return super.paintSelection(newG, inSelection, startPoint, endPoint);
@@ -1055,10 +1055,10 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * @see org.xamjwg.html.renderer.BoundableRenderable#getRenderablePoint(int,
    * int)
    */
-  public RenderableSpot getLowestRenderableSpot(int x, int y) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public RenderableSpot getLowestRenderableSpot(final int x, final int y) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
-      Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+      final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
       if (x > insets.left && x < this.width - insets.right && y > insets.top && y < this.height - insets.bottom) {
         return bodyLayout.getLowestRenderableSpot(x - bodyLayout.x, y - bodyLayout.y);
       } else {
@@ -1079,19 +1079,19 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     this.cachedLayout.clear();
     this.lastLayoutKey = null;
     this.lastLayoutValue = null;
-    JScrollBar hScrollBar = this.hScrollBar;
+    final JScrollBar hScrollBar = this.hScrollBar;
     if (hScrollBar != null) {
       // Necessary
       hScrollBar.invalidate();
     }
-    JScrollBar vScrollBar = this.vScrollBar;
+    final JScrollBar vScrollBar = this.vScrollBar;
     if (vScrollBar != null) {
       // Necessary
       vScrollBar.invalidate();
     }
   }
 
-  protected void clearStyle(boolean isRootBlock) {
+  protected void clearStyle(final boolean isRootBlock) {
     super.clearStyle(isRootBlock);
     this.overflowX = this.defaultOverflowX;
     this.overflowY = this.defaultOverflowY;
@@ -1104,8 +1104,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * org.xamjwg.html.renderer.BoundableRenderable#onMouseClick(java.awt.event
    * .MouseEvent, int, int)
    */
-  public boolean onMouseClick(MouseEvent event, int x, int y) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public boolean onMouseClick(final MouseEvent event, final int x, final int y) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
       if (!bodyLayout.onMouseClick(event, x - bodyLayout.x, y - bodyLayout.y)) {
         return false;
@@ -1120,8 +1120,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     return true;
   }
 
-  public boolean onDoubleClick(MouseEvent event, int x, int y) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public boolean onDoubleClick(final MouseEvent event, final int x, final int y) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
       if (!bodyLayout.onDoubleClick(event, x - bodyLayout.x, y - bodyLayout.y)) {
         return false;
@@ -1140,8 +1140,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * org.xamjwg.html.renderer.BoundableRenderable#onMouseDisarmed(java.awt.event
    * .MouseEvent)
    */
-  public boolean onMouseDisarmed(MouseEvent event) {
-    BoundableRenderable br = this.armedRenderable;
+  public boolean onMouseDisarmed(final MouseEvent event) {
+    final BoundableRenderable br = this.armedRenderable;
     if (br != null) {
       try {
         return br.onMouseDisarmed(event);
@@ -1162,11 +1162,11 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * org.xamjwg.html.renderer.BoundableRenderable#onMousePressed(java.awt.event
    * .MouseEvent, int, int)
    */
-  public boolean onMousePressed(MouseEvent event, int x, int y) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public boolean onMousePressed(final MouseEvent event, final int x, final int y) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
-      int newX = x - bodyLayout.x;
-      int newY = y - bodyLayout.y;
+      final int newX = x - bodyLayout.x;
+      final int newY = y - bodyLayout.y;
       if (bodyLayout.contains(newX, newY)) {
         this.armedRenderable = bodyLayout;
         if (!bodyLayout.onMousePressed(event, newX, newY)) {
@@ -1194,18 +1194,18 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * org.xamjwg.html.renderer.BoundableRenderable#onMouseReleased(java.awt.event
    * .MouseEvent, int, int)
    */
-  public boolean onMouseReleased(MouseEvent event, int x, int y) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public boolean onMouseReleased(final MouseEvent event, final int x, final int y) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
-      int newX = x - bodyLayout.x;
-      int newY = y - bodyLayout.y;
+      final int newX = x - bodyLayout.x;
+      final int newY = y - bodyLayout.y;
       if (bodyLayout.contains(newX, newY)) {
         this.armedRenderable = null;
         if (!bodyLayout.onMouseReleased(event, newX, newY)) {
           return false;
         }
       } else {
-        BoundableRenderable br = this.armedRenderable;
+        final BoundableRenderable br = this.armedRenderable;
         if (br != null) {
           br.onMouseDisarmed(event);
         }
@@ -1262,7 +1262,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    * org.xamjwg.html.domimpl.ContainingBlockContext#repaint(org.xamjwg.html.
    * domimpl.RenderableContext)
    */
-  public void repaint(ModelNode modelNode) {
+  public void repaint(final ModelNode modelNode) {
     // this.invalidateRenderStyle();
     this.repaint();
   }
@@ -1281,21 +1281,21 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   // }
   // }
 
-  public void updateWidgetBounds(int guiX, int guiY) {
+  public void updateWidgetBounds(final int guiX, final int guiY) {
     super.updateWidgetBounds(guiX, guiY);
-    boolean hscroll = this.hasHScrollBar;
-    boolean vscroll = this.hasVScrollBar;
+    final boolean hscroll = this.hasHScrollBar;
+    final boolean vscroll = this.hasVScrollBar;
     if (hscroll || vscroll) {
-      Insets insets = this.getInsets(hscroll, vscroll);
+      final Insets insets = this.getInsets(hscroll, vscroll);
       if (hscroll) {
-        JScrollBar hsb = this.hScrollBar;
+        final JScrollBar hsb = this.hScrollBar;
         if (hsb != null) {
           hsb.setBounds(guiX + insets.left, guiY + this.height - insets.bottom, this.width - insets.left - insets.right,
               SCROLL_BAR_THICKNESS);
         }
       }
       if (vscroll) {
-        JScrollBar vsb = this.vScrollBar;
+        final JScrollBar vsb = this.vScrollBar;
         if (vsb != null) {
           vsb.setBounds(guiX + this.width - insets.right, guiY + insets.top, SCROLL_BAR_THICKNESS, this.height - insets.top - insets.bottom);
         }
@@ -1303,11 +1303,11 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
   }
 
-  public void scrollHorizontalTo(int newX) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public void scrollHorizontalTo(final int newX) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
-      Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
-      int viewPortX = newX;
+      final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+      final int viewPortX = newX;
       if (viewPortX > insets.left) {
         bodyLayout.x = insets.left;
       } else if (viewPortX < this.width - insets.right - bodyLayout.width) {
@@ -1321,11 +1321,11 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
   }
 
-  public void scrollVerticalTo(int newY) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public void scrollVerticalTo(final int newY) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
-      Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
-      int viewPortY = newY;
+      final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+      final int viewPortY = newY;
       if (viewPortY > insets.top) {
         bodyLayout.y = insets.top;
       } else if (viewPortY < this.height - insets.bottom - bodyLayout.height) {
@@ -1339,13 +1339,13 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
   }
 
-  public void scrollByUnits(int orientation, int units) {
-    int offset = orientation == JScrollBar.VERTICAL ? this.getVUnitIncrement(null) * units : units;
+  public void scrollByUnits(final int orientation, final int units) {
+    final int offset = orientation == JScrollBar.VERTICAL ? this.getVUnitIncrement(null) * units : units;
     this.scrollBy(orientation, offset);
   }
 
-  public void scrollBy(int orientation, int offset) {
-    RBlockViewport bodyLayout = this.bodyLayout;
+  public void scrollBy(final int orientation, final int offset) {
+    final RBlockViewport bodyLayout = this.bodyLayout;
     if (bodyLayout != null) {
       switch (orientation) {
       case JScrollBar.HORIZONTAL:
@@ -1373,16 +1373,16 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    *          If this parameter is <code>true</code> the y coordinate is changed
    *          only if the vertical bounds are not currently visible.
    */
-  public void scrollTo(Rectangle bounds, boolean xIfNeeded, boolean yIfNeeded) {
-    boolean hscroll = this.hasHScrollBar;
-    boolean vscroll = this.hasVScrollBar;
+  public void scrollTo(final Rectangle bounds, final boolean xIfNeeded, final boolean yIfNeeded) {
+    final boolean hscroll = this.hasHScrollBar;
+    final boolean vscroll = this.hasVScrollBar;
     if (hscroll || vscroll) {
-      RBlockViewport bv = this.bodyLayout;
-      Insets insets = this.getInsets(hscroll, vscroll);
-      int vpheight = this.height - insets.top - insets.bottom;
-      int vpwidth = this.width - insets.left - insets.right;
-      int tentativeX = insets.left - bounds.x;
-      int tentativeY = insets.top - bounds.y;
+      final RBlockViewport bv = this.bodyLayout;
+      final Insets insets = this.getInsets(hscroll, vscroll);
+      final int vpheight = this.height - insets.top - insets.bottom;
+      final int vpwidth = this.width - insets.left - insets.right;
+      final int tentativeX = insets.left - bounds.x;
+      final int tentativeY = insets.top - bounds.y;
       boolean needCorrection = false;
       if (!(xIfNeeded && tentativeX <= bv.x && -tentativeX + bv.x + bounds.width <= vpwidth)) {
         bv.setX(tentativeX);
@@ -1398,15 +1398,15 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
   }
 
-  private void scrollToSBValue(int orientation, int value) {
-    Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+  private void scrollToSBValue(final int orientation, final int value) {
+    final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
     switch (orientation) {
     case JScrollBar.HORIZONTAL:
-      int xOrigin = insets.left - value;
+      final int xOrigin = insets.left - value;
       this.scrollHorizontalTo(xOrigin);
       break;
     case JScrollBar.VERTICAL:
-      int yOrigin = insets.top - value;
+      final int yOrigin = insets.top - value;
       this.scrollVerticalTo(yOrigin);
       break;
     }
@@ -1416,9 +1416,9 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     return this.bodyLayout;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
-    boolean result = super.extractSelectionText(buffer, inSelection, startPoint, endPoint);
-    String br = System.getProperty("line.separator");
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
+    final boolean result = super.extractSelectionText(buffer, inSelection, startPoint, endPoint);
+    final String br = System.getProperty("line.separator");
     if (inSelection) {
       buffer.insert(0, br);
     }
@@ -1444,22 +1444,22 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   // }
 
   public FloatingInfo getExportableFloatingInfo() {
-    FloatingInfo info = this.bodyLayout.getExportableFloatingInfo();
+    final FloatingInfo info = this.bodyLayout.getExportableFloatingInfo();
     if (info == null) {
       return null;
     }
-    Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+    final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
     return new FloatingInfo(info.shiftX + insets.left, info.shiftY + insets.top, info.floats);
   }
 
   private class LocalAdjustmentListener implements AdjustmentListener {
     private final int orientation;
 
-    public LocalAdjustmentListener(int orientation) {
+    public LocalAdjustmentListener(final int orientation) {
       this.orientation = orientation;
     }
 
-    public void adjustmentValueChanged(AdjustmentEvent e) {
+    public void adjustmentValueChanged(final AdjustmentEvent e) {
       if (RBlock.this.resettingScrollBars) {
         return;
       }
@@ -1473,7 +1473,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       case AdjustmentEvent.BLOCK_DECREMENT:
         // fall through
       case AdjustmentEvent.TRACK: {
-        int value = e.getValue();
+        final int value = e.getValue();
         RBlock.this.scrollToSBValue(this.orientation, value);
         break;
       }
@@ -1482,7 +1482,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   }
 
   private static class BodyFilter implements NodeFilter {
-    public boolean accept(Node node) {
+    public boolean accept(final Node node) {
       return node instanceof org.w3c.dom.html2.HTMLBodyElement;
     }
   }
@@ -1495,11 +1495,11 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     return defaultOverflowY;
   }
 
-  public void setDefaultOverflowX(int defaultOverflowX) {
+  public void setDefaultOverflowX(final int defaultOverflowX) {
     this.defaultOverflowX = defaultOverflowX;
   }
 
-  public void setDefaultOverflowY(int defaultOverflowY) {
+  public void setDefaultOverflowY(final int defaultOverflowY) {
     this.defaultOverflowY = defaultOverflowY;
   }
 
@@ -1516,8 +1516,8 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     public final boolean useDeclaredSize;
     public final boolean overrideNoWrap;
 
-    public LayoutKey(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
-        int defaultOverflowX, int defaultOverflowY, int whitespace, Font font, boolean overrideNoWrap) {
+    public LayoutKey(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+        final int defaultOverflowX, final int defaultOverflowY, final int whitespace, final Font font, final boolean overrideNoWrap) {
       super();
       this.availWidth = availWidth;
       this.availHeight = availHeight;
@@ -1532,14 +1532,14 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       this.overrideNoWrap = overrideNoWrap;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
       if (obj == this) {
         return true;
       }
       if (!(obj instanceof LayoutKey)) {
         return false;
       }
-      LayoutKey other = (LayoutKey) obj;
+      final LayoutKey other = (LayoutKey) obj;
       return other.availWidth == this.availWidth && other.availHeight == this.availHeight
           && other.defaultOverflowX == this.defaultOverflowX && other.defaultOverflowY == this.defaultOverflowY
           && other.whitespace == this.whitespace && other.expandWidth == this.expandWidth && other.expandHeight == this.expandHeight
@@ -1548,7 +1548,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     }
 
     public int hashCode() {
-      Font font = this.font;
+      final Font font = this.font;
       return (this.availWidth * 1000 + this.availHeight) ^ (font == null ? 0 : font.hashCode()) ^ (this.expandWidth ? 2 : 0)
           ^ (this.expandHeight ? 1 : 0) ^ (this.whitespace << 2);
     }
@@ -1560,7 +1560,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
     public final boolean hasHScrollBar;
     public final boolean hasVScrollBar;
 
-    public LayoutValue(int width, int height, boolean hasHScrollBar, boolean hasVScrollBar) {
+    public LayoutValue(final int width, final int height, final boolean hasHScrollBar, final boolean hasVScrollBar) {
       this.width = width;
       this.height = height;
       this.hasHScrollBar = hasHScrollBar;

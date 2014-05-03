@@ -26,7 +26,7 @@ import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
 public class IFrameRenderState extends StyleSheetRenderState {
-  public IFrameRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public IFrameRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
@@ -37,7 +37,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
     }
     overflow = super.getOverflowX();
     if (overflow == OVERFLOW_NONE) {
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       if (element != null) {
         String scrolling = element.getAttribute("scrolling");
         if (scrolling != null) {
@@ -63,7 +63,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
     }
     overflow = super.getOverflowY();
     if (overflow == OVERFLOW_NONE) {
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       if (element != null) {
         String scrolling = element.getAttribute("scrolling");
         if (scrolling != null) {
@@ -94,7 +94,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
       if (binfo == null) {
         binfo = new BorderInfo();
       }
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       if (element != null) {
         String border = element.getAttribute("frameborder");
         if (border != null) {
@@ -104,13 +104,13 @@ public class IFrameRenderState extends StyleSheetRenderState {
         if (border != null) {
           try {
             value = Integer.parseInt(border);
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             value = 0;
           }
         } else {
           value = 1;
         }
-        HtmlInsets borderInsets = new HtmlInsets();
+        final HtmlInsets borderInsets = new HtmlInsets();
         borderInsets.top = borderInsets.left = borderInsets.right = borderInsets.bottom = (value != 0 ? 1 : 0);
         borderInsets.topType = borderInsets.leftType = borderInsets.rightType = borderInsets.bottomType = HtmlInsets.TYPE_PIXELS;
         binfo.insets = borderInsets;

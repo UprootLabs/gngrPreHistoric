@@ -28,27 +28,27 @@ import org.lobobrowser.html.style.ListStyle;
 import org.lobobrowser.html.style.RenderState;
 
 class RList extends BaseRListElement {
-  public RList(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
-      RenderableContainer parentContainer, RCollection parent) {
+  public RList(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+      final RenderableContainer parentContainer, final RCollection parent) {
     super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
     // this.defaultMarginInsets = new java.awt.Insets(5, 0, 5, 0);
   }
 
-  protected void applyStyle(int availWidth, int availHeight) {
+  protected void applyStyle(final int availWidth, final int availHeight) {
     super.applyStyle(availWidth, availHeight);
     ListStyle listStyle = this.listStyle;
     if (listStyle == null || listStyle.type == ListStyle.TYPE_UNSET) {
-      Object rootNode = this.modelNode;
+      final Object rootNode = this.modelNode;
       if (!(rootNode instanceof HTMLElementImpl)) {
         return;
       }
-      HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
+      final HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
       if (listStyle == null) {
         listStyle = new ListStyle();
         this.listStyle = listStyle;
       }
       if ("ul".equalsIgnoreCase(rootElement.getTagName())) {
-        int listNesting = this.listNesting;
+        final int listNesting = this.listNesting;
         if (listNesting == 0) {
           listStyle.type = ListStyle.TYPE_DISC;
         } else if (listNesting == 1) {
@@ -62,20 +62,20 @@ class RList extends BaseRListElement {
     }
   }
 
-  public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
-      int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
-    RenderState renderState = this.modelNode.getRenderState();
+  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+      final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
+    final RenderState renderState = this.modelNode.getRenderState();
     int counterStart = 1;
-    Object rootNode = this.modelNode;
+    final Object rootNode = this.modelNode;
     if (!(rootNode instanceof HTMLElementImpl)) {
       return;
     }
-    HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
-    String startText = rootElement.getAttribute("start");
+    final HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
+    final String startText = rootElement.getAttribute("start");
     if (startText != null) {
       try {
         counterStart = Integer.parseInt(startText);
-      } catch (NumberFormatException nfe) {
+      } catch (final NumberFormatException nfe) {
         // ignore
       }
     }

@@ -81,7 +81,7 @@ public abstract class RenderStateDelegator implements RenderState {
     return delegate.getTextTransform();
   }
 
-  public WordInfo getWordInfo(String word) {
+  public WordInfo getWordInfo(final String word) {
     return delegate.getWordInfo(word);
   }
 
@@ -93,19 +93,19 @@ public abstract class RenderStateDelegator implements RenderState {
     return delegate.isHighlight();
   }
 
-  public void setHighlight(boolean highlight) {
+  public void setHighlight(final boolean highlight) {
     delegate.setHighlight(highlight);
   }
 
-  public int getCount(String counter, int nesting) {
+  public int getCount(final String counter, final int nesting) {
     return this.delegate.getCount(counter, nesting);
   }
 
-  public void resetCount(String counter, int nesting, int value) {
+  public void resetCount(final String counter, final int nesting, final int value) {
     this.delegate.resetCount(counter, nesting, value);
   }
 
-  public int incrementCount(String counter, int nesting) {
+  public int incrementCount(final String counter, final int nesting) {
     return this.delegate.incrementCount(counter, nesting);
   }
 
@@ -121,7 +121,7 @@ public abstract class RenderStateDelegator implements RenderState {
     return this.delegate.getTextBackgroundColor();
   }
 
-  public int getTextIndent(int availWidth) {
+  public int getTextIndent(final int availWidth) {
     return this.delegate.getTextIndent(availWidth);
   }
 

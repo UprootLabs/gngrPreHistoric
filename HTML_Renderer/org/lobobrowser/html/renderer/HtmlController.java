@@ -29,9 +29,9 @@ class HtmlController {
   /**
    * @return True to propagate further and false if the event was consumed.
    */
-  public boolean onEnterPressed(ModelNode node, InputEvent event) {
+  public boolean onEnterPressed(final ModelNode node, final InputEvent event) {
     if (node instanceof HTMLInputElementImpl) {
-      HTMLInputElementImpl hie = (HTMLInputElementImpl) node;
+      final HTMLInputElementImpl hie = (HTMLInputElementImpl) node;
       if (hie.isSubmittableWithEnterKey()) {
         hie.submitForm(null);
         return false;
@@ -44,23 +44,23 @@ class HtmlController {
   /**
    * @return True to propagate further and false if the event was consumed.
    */
-  public boolean onMouseClick(ModelNode node, MouseEvent event, int x, int y) {
+  public boolean onMouseClick(final ModelNode node, final MouseEvent event, final int x, final int y) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("onMouseClick(): node=" + node + ",class=" + node.getClass().getName());
     }
     if (node instanceof HTMLAbstractUIElement) {
-      HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+      final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
 
       final Event jsEvent = new Event("click", uiElement, event, x, y);
       uiElement.dispatchEvent(jsEvent);
 
-      Function f = uiElement.getOnclick();
+      final Function f = uiElement.getOnclick();
       if (f != null) {
         if (!Executor.executeFunction(uiElement, f, jsEvent)) {
           return false;
         }
       }
-      HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+      final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
       if (rcontext != null) {
         if (!rcontext.onMouseClick(uiElement, event)) {
           return false;
@@ -71,8 +71,8 @@ class HtmlController {
       ((HTMLLinkElementImpl) node).navigate();
       return false;
     } else if (node instanceof HTMLButtonElementImpl) {
-      HTMLButtonElementImpl button = (HTMLButtonElementImpl) node;
-      String rawType = button.getAttribute("type");
+      final HTMLButtonElementImpl button = (HTMLButtonElementImpl) node;
+      final String rawType = button.getAttribute("type");
       String type;
       if (rawType == null) {
         type = "submit";
@@ -81,7 +81,7 @@ class HtmlController {
       }
       if ("submit".equals(type)) {
         FormInput[] formInputs;
-        String name = button.getName();
+        final String name = button.getName();
         if (name == null) {
           formInputs = null;
         } else {
@@ -95,27 +95,27 @@ class HtmlController {
       }
       return false;
     }
-    ModelNode parent = node.getParentModelNode();
+    final ModelNode parent = node.getParentModelNode();
     if (parent == null) {
       return true;
     }
     return this.onMouseClick(parent, event, x, y);
   }
 
-  public boolean onContextMenu(ModelNode node, MouseEvent event, int x, int y) {
+  public boolean onContextMenu(final ModelNode node, final MouseEvent event, final int x, final int y) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("onContextMenu(): node=" + node + ",class=" + node.getClass().getName());
     }
     if (node instanceof HTMLAbstractUIElement) {
-      HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-      Function f = uiElement.getOncontextmenu();
+      final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+      final Function f = uiElement.getOncontextmenu();
       if (f != null) {
-        Event jsEvent = new Event("contextmenu", uiElement, event, x, y);
+        final Event jsEvent = new Event("contextmenu", uiElement, event, x, y);
         if (!Executor.executeFunction(uiElement, f, jsEvent)) {
           return false;
         }
       }
-      HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+      final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
       if (rcontext != null) {
         // Needs to be done after Javascript, so the script
         // is able to prevent it.
@@ -124,27 +124,27 @@ class HtmlController {
         }
       }
     }
-    ModelNode parent = node.getParentModelNode();
+    final ModelNode parent = node.getParentModelNode();
     if (parent == null) {
       return true;
     }
     return this.onContextMenu(parent, event, x, y);
   }
 
-  public void onMouseOver(ModelNode node, MouseEvent event, int x, int y, ModelNode limit) {
+  public void onMouseOver(ModelNode node, final MouseEvent event, final int x, final int y, final ModelNode limit) {
     while (node != null) {
       if (node == limit) {
         break;
       }
       if (node instanceof HTMLAbstractUIElement) {
-        HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+        final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
         uiElement.setMouseOver(true);
-        Function f = uiElement.getOnmouseover();
+        final Function f = uiElement.getOnmouseover();
         if (f != null) {
-          Event jsEvent = new Event("mouseover", uiElement, event, x, y);
+          final Event jsEvent = new Event("mouseover", uiElement, event, x, y);
           Executor.executeFunction(uiElement, f, jsEvent);
         }
-        HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+        final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
         if (rcontext != null) {
           rcontext.onMouseOver(uiElement, event);
         }
@@ -153,20 +153,20 @@ class HtmlController {
     }
   }
 
-  public void onMouseOut(ModelNode node, MouseEvent event, int x, int y, ModelNode limit) {
+  public void onMouseOut(ModelNode node, final MouseEvent event, final int x, final int y, final ModelNode limit) {
     while (node != null) {
       if (node == limit) {
         break;
       }
       if (node instanceof HTMLAbstractUIElement) {
-        HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+        final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
         uiElement.setMouseOver(false);
-        Function f = uiElement.getOnmouseout();
+        final Function f = uiElement.getOnmouseout();
         if (f != null) {
-          Event jsEvent = new Event("mouseout", uiElement, event, x, y);
+          final Event jsEvent = new Event("mouseout", uiElement, event, x, y);
           Executor.executeFunction(uiElement, f, jsEvent);
         }
-        HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+        final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
         if (rcontext != null) {
           rcontext.onMouseOut(uiElement, event);
         }
@@ -178,27 +178,27 @@ class HtmlController {
   /**
    * @return True to propagate further, false if consumed.
    */
-  public boolean onDoubleClick(ModelNode node, MouseEvent event, int x, int y) {
+  public boolean onDoubleClick(final ModelNode node, final MouseEvent event, final int x, final int y) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("onDoubleClick(): node=" + node + ",class=" + node.getClass().getName());
     }
     if (node instanceof HTMLAbstractUIElement) {
-      HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-      Function f = uiElement.getOndblclick();
+      final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+      final Function f = uiElement.getOndblclick();
       if (f != null) {
-        Event jsEvent = new Event("dblclick", uiElement, event, x, y);
+        final Event jsEvent = new Event("dblclick", uiElement, event, x, y);
         if (!Executor.executeFunction(uiElement, f, jsEvent)) {
           return false;
         }
       }
-      HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+      final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
       if (rcontext != null) {
         if (!rcontext.onDoubleClick(uiElement, event)) {
           return false;
         }
       }
     }
-    ModelNode parent = node.getParentModelNode();
+    final ModelNode parent = node.getParentModelNode();
     if (parent == null) {
       return true;
     }
@@ -208,12 +208,12 @@ class HtmlController {
   /**
    * @return True to propagate further, false if consumed.
    */
-  public boolean onMouseDisarmed(ModelNode node, MouseEvent event) {
+  public boolean onMouseDisarmed(final ModelNode node, final MouseEvent event) {
     if (node instanceof HTMLLinkElementImpl) {
       ((HTMLLinkElementImpl) node).getCurrentStyle().setOverlayColor(null);
       return false;
     }
-    ModelNode parent = node.getParentModelNode();
+    final ModelNode parent = node.getParentModelNode();
     if (parent == null) {
       return true;
     }
@@ -223,13 +223,13 @@ class HtmlController {
   /**
    * @return True to propagate further, false if consumed.
    */
-  public boolean onMouseDown(ModelNode node, MouseEvent event, int x, int y) {
+  public boolean onMouseDown(final ModelNode node, final MouseEvent event, final int x, final int y) {
     boolean pass = true;
     if (node instanceof HTMLAbstractUIElement) {
-      HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-      Function f = uiElement.getOnmousedown();
+      final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+      final Function f = uiElement.getOnmousedown();
       if (f != null) {
-        Event jsEvent = new Event("mousedown", uiElement, event, x, y);
+        final Event jsEvent = new Event("mousedown", uiElement, event, x, y);
         pass = Executor.executeFunction(uiElement, f, jsEvent);
       }
     }
@@ -240,7 +240,7 @@ class HtmlController {
     if (!pass) {
       return false;
     }
-    ModelNode parent = node.getParentModelNode();
+    final ModelNode parent = node.getParentModelNode();
     if (parent == null) {
       return true;
     }
@@ -250,13 +250,13 @@ class HtmlController {
   /**
    * @return True to propagate further, false if consumed.
    */
-  public boolean onMouseUp(ModelNode node, MouseEvent event, int x, int y) {
+  public boolean onMouseUp(final ModelNode node, final MouseEvent event, final int x, final int y) {
     boolean pass = true;
     if (node instanceof HTMLAbstractUIElement) {
-      HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-      Function f = uiElement.getOnmouseup();
+      final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+      final Function f = uiElement.getOnmouseup();
       if (f != null) {
-        Event jsEvent = new Event("mouseup", uiElement, event, x, y);
+        final Event jsEvent = new Event("mouseup", uiElement, event, x, y);
         pass = Executor.executeFunction(uiElement, f, jsEvent);
       }
     }
@@ -267,7 +267,7 @@ class HtmlController {
     if (!pass) {
       return false;
     }
-    ModelNode parent = node.getParentModelNode();
+    final ModelNode parent = node.getParentModelNode();
     if (parent == null) {
       return true;
     }
@@ -283,22 +283,22 @@ class HtmlController {
    *          For images only, y coordinate of mouse click.
    * @return True to propagate further, false if consumed.
    */
-  public boolean onPressed(ModelNode node, InputEvent event, int x, int y) {
+  public boolean onPressed(final ModelNode node, final InputEvent event, final int x, final int y) {
     if (node instanceof HTMLAbstractUIElement) {
-      HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-      Function f = uiElement.getOnclick();
+      final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+      final Function f = uiElement.getOnclick();
       if (f != null) {
-        Event jsEvent = new Event("click", uiElement, event, x, y);
+        final Event jsEvent = new Event("click", uiElement, event, x, y);
         if (!Executor.executeFunction(uiElement, f, jsEvent)) {
           return false;
         }
       }
     }
     if (node instanceof HTMLInputElementImpl) {
-      HTMLInputElementImpl hie = (HTMLInputElementImpl) node;
+      final HTMLInputElementImpl hie = (HTMLInputElementImpl) node;
       if (hie.isSubmitInput()) {
         FormInput[] formInputs;
-        String name = hie.getName();
+        final String name = hie.getName();
         if (name == null) {
           formInputs = null;
         } else {
@@ -306,9 +306,9 @@ class HtmlController {
         }
         hie.submitForm(formInputs);
       } else if (hie.isImageInput()) {
-        String name = hie.getName();
-        String prefix = name == null ? "" : name + ".";
-        FormInput[] extraFormInputs = new FormInput[] { new FormInput(prefix + "x", String.valueOf(x)),
+        final String name = hie.getName();
+        final String prefix = name == null ? "" : name + ".";
+        final FormInput[] extraFormInputs = new FormInput[] { new FormInput(prefix + "x", String.valueOf(x)),
             new FormInput(prefix + "y", String.valueOf(y)) };
         hie.submitForm(extraFormInputs);
       } else if (hie.isResetInput()) {
@@ -319,12 +319,12 @@ class HtmlController {
     return false;
   }
 
-  public boolean onChange(ModelNode node) {
+  public boolean onChange(final ModelNode node) {
     if (node instanceof HTMLSelectElementImpl) {
-      HTMLSelectElementImpl uiElement = (HTMLSelectElementImpl) node;
-      Function f = uiElement.getOnchange();
+      final HTMLSelectElementImpl uiElement = (HTMLSelectElementImpl) node;
+      final Function f = uiElement.getOnchange();
       if (f != null) {
-        Event jsEvent = new Event("change", uiElement);
+        final Event jsEvent = new Event("change", uiElement);
         if (!Executor.executeFunction(uiElement, f, jsEvent)) {
           return false;
         }

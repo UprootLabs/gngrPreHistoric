@@ -38,14 +38,14 @@ class RListItem extends BaseRListElement {
   private static final int BULLET_RMARGIN = 5;
   private static final int BULLET_SPACE_WIDTH = 36;
 
-  public RListItem(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
-      RenderableContainer parentContainer, RCollection parent) {
+  public RListItem(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+      final RenderableContainer parentContainer, final RCollection parent) {
     super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
     // this.defaultMarginInsets = new java.awt.Insets(0, BULLET_SPACE_WIDTH, 0,
     // 0);
   }
 
-  public int getViewportListNesting(int blockNesting) {
+  public int getViewportListNesting(final int blockNesting) {
     return blockNesting + 1;
   }
 
@@ -60,14 +60,14 @@ class RListItem extends BaseRListElement {
   private Integer getValue() {
     Integer value = this.value;
     if (value == null) {
-      HTMLElement node = (HTMLElement) this.modelNode;
-      String valueText = node == null ? null : node.getAttribute("value");
+      final HTMLElement node = (HTMLElement) this.modelNode;
+      final String valueText = node == null ? null : node.getAttribute("value");
       if (valueText == null) {
         value = UNSET;
       } else {
         try {
           value = Integer.valueOf(valueText);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
           value = UNSET;
         }
       }
@@ -78,28 +78,28 @@ class RListItem extends BaseRListElement {
 
   private int count;
 
-  public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
-      int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
+  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+      final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
     super.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
     // Note: Count must be calculated even if layout is valid.
-    RenderState renderState = this.modelNode.getRenderState();
-    Integer value = this.getValue();
+    final RenderState renderState = this.modelNode.getRenderState();
+    final Integer value = this.getValue();
     if (value == UNSET) {
       this.count = renderState.incrementCount(DEFAULT_COUNTER_NAME, this.listNesting);
     } else {
-      int newCount = value.intValue();
+      final int newCount = value.intValue();
       this.count = newCount;
       renderState.resetCount(DEFAULT_COUNTER_NAME, this.listNesting, newCount + 1);
     }
   }
 
-  public void paint(Graphics g) {
+  public void paint(final Graphics g) {
     super.paint(g);
-    RenderState rs = this.modelNode.getRenderState();
-    Insets marginInsets = this.marginInsets;
-    RBlockViewport layout = this.bodyLayout;
+    final RenderState rs = this.modelNode.getRenderState();
+    final Insets marginInsets = this.marginInsets;
+    final RBlockViewport layout = this.bodyLayout;
     if (layout != null) {
-      ListStyle listStyle = this.listStyle;
+      final ListStyle listStyle = this.listStyle;
       int bulletType = listStyle == null ? ListStyle.TYPE_UNSET : listStyle.type;
       if (bulletType != ListStyle.TYPE_NONE) {
         if (bulletType == ListStyle.TYPE_UNSET) {
@@ -108,24 +108,24 @@ class RListItem extends BaseRListElement {
             parent = parent.getOriginalOrCurrentParent();
           }
           if (parent instanceof RList) {
-            ListStyle parentListStyle = ((RList) parent).listStyle;
+            final ListStyle parentListStyle = ((RList) parent).listStyle;
             bulletType = parentListStyle == null ? ListStyle.TYPE_DISC : parentListStyle.type;
           } else {
             bulletType = ListStyle.TYPE_DISC;
           }
         }
         // Paint bullets
-        Color prevColor = g.getColor();
+        final Color prevColor = g.getColor();
         g.setColor(rs.getColor());
         try {
-          Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
-          Insets paddingInsets = this.paddingInsets;
-          int baselineOffset = layout.getFirstBaselineOffset();
-          int bulletRight = (marginInsets == null ? 0 : marginInsets.left) - BULLET_RMARGIN;
-          int bulletBottom = insets.top + baselineOffset + (paddingInsets == null ? 0 : paddingInsets.top);
-          int bulletTop = bulletBottom - BULLET_HEIGHT;
-          int bulletLeft = bulletRight - BULLET_WIDTH;
-          int bulletNumber = this.count;
+          final Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
+          final Insets paddingInsets = this.paddingInsets;
+          final int baselineOffset = layout.getFirstBaselineOffset();
+          final int bulletRight = (marginInsets == null ? 0 : marginInsets.left) - BULLET_RMARGIN;
+          final int bulletBottom = insets.top + baselineOffset + (paddingInsets == null ? 0 : paddingInsets.top);
+          final int bulletTop = bulletBottom - BULLET_HEIGHT;
+          final int bulletLeft = bulletRight - BULLET_WIDTH;
+          final int bulletNumber = this.count;
           String numberText = null;
           switch (bulletType) {
           case ListStyle.TYPE_DECIMAL:
@@ -148,9 +148,9 @@ class RListItem extends BaseRListElement {
             break;
           }
           if (numberText != null) {
-            FontMetrics fm = g.getFontMetrics();
-            int numberLeft = bulletRight - fm.stringWidth(numberText);
-            int numberY = bulletBottom;
+            final FontMetrics fm = g.getFontMetrics();
+            final int numberLeft = bulletRight - fm.stringWidth(numberText);
+            final int numberY = bulletBottom;
             g.drawString(numberText, numberLeft, numberY);
           }
         } finally {

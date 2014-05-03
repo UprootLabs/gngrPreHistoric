@@ -27,7 +27,7 @@ public class ExportableFloat {
   public final int origX;
   public final int origY;
 
-  public ExportableFloat(BoundableRenderable element, boolean leftFloat, int origX, int origY) {
+  public ExportableFloat(final BoundableRenderable element, final boolean leftFloat, final int origX, final int origY) {
     super();
     this.element = element;
     this.leftFloat = leftFloat;

@@ -7,7 +7,7 @@ import java.awt.FontMetrics;
 public class AlignXRenderState extends RenderStateDelegator {
   private final int alignXPercent;
 
-  public AlignXRenderState(final RenderState prevRenderState, int alignXPercent) {
+  public AlignXRenderState(final RenderState prevRenderState, final int alignXPercent) {
     super(prevRenderState);
     this.alignXPercent = alignXPercent;
   }

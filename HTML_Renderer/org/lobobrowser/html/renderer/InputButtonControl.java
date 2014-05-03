@@ -38,30 +38,30 @@ class InputButtonControl extends BaseInputControl {
   public InputButtonControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    JButton widget = new JButton();
+    final JButton widget = new JButton();
     widget.setContentAreaFilled(false);
     this.widget = widget;
     this.add(widget);
     widget.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent event) {
+      public void actionPerformed(final ActionEvent event) {
         HtmlController.getInstance().onPressed(InputButtonControl.this.controlElement, null, 0, 0);
       }
     });
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
-    RUIControl ruiControl = this.ruicontrol;
-    JButton button = this.widget;
+    final RUIControl ruiControl = this.ruicontrol;
+    final JButton button = this.widget;
     button.setContentAreaFilled(!ruiControl.hasBackground());
-    java.awt.Color foregroundColor = ruiControl.getForegroundColor();
+    final java.awt.Color foregroundColor = ruiControl.getForegroundColor();
     if (foregroundColor != null) {
       button.setForeground(foregroundColor);
     }
-    HTMLInputElementImpl element = (HTMLInputElementImpl) this.controlElement;
+    final HTMLInputElementImpl element = (HTMLInputElementImpl) this.controlElement;
     String text = element.getAttribute("value");
     if (text == null || text.length() == 0) {
-      String type = element.getType();
+      final String type = element.getType();
       if ("submit".equalsIgnoreCase(type)) {
         text = "Submit Query";
       } else if ("reset".equalsIgnoreCase(type)) {
@@ -91,7 +91,7 @@ class InputButtonControl extends BaseInputControl {
     return this.widget.getText();
   }
 
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
   }
@@ -101,7 +101,7 @@ class InputButtonControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
    */
-  public void setValue(String value) {
+  public void setValue(final String value) {
     this.widget.setText(value);
   }
 

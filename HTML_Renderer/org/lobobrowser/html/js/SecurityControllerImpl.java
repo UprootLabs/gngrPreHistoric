@@ -40,52 +40,52 @@ public class SecurityControllerImpl extends SecurityController {
   private final java.security.Policy policy;
   private final CodeSource codesource;
 
-  public SecurityControllerImpl(java.net.URL url, Policy policy) {
+  public SecurityControllerImpl(final java.net.URL url, final Policy policy) {
     this.url = url;
     this.policy = policy;
     this.codesource = new CodeSource(this.url, (java.security.cert.Certificate[]) null);
   }
 
-  public Object callWithDomain(Object securityDomain, final Context ctx, final Callable callable, final Scriptable scope,
+  public Object callWithDomain(final Object securityDomain, final Context ctx, final Callable callable, final Scriptable scope,
       final Scriptable thisObj, final Object[] args) {
     if (securityDomain == null) {
       return callable.call(ctx, scope, thisObj, args);
     } else {
-      PrivilegedAction action = new PrivilegedAction() {
+      final PrivilegedAction action = new PrivilegedAction() {
         public Object run() {
           return callable.call(ctx, scope, thisObj, args);
         }
       };
       final ProtectionDomain protectionDomain = (ProtectionDomain) securityDomain;
-      AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { protectionDomain });
+      final AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { protectionDomain });
       return AccessController.doPrivileged(action, acctx);
     }
   }
 
-  public GeneratedClassLoader createClassLoader(ClassLoader parent, Object staticDomain) {
+  public GeneratedClassLoader createClassLoader(final ClassLoader parent, final Object staticDomain) {
     return new LocalSecureClassLoader(parent);
   }
 
-  public Object getDynamicSecurityDomain(Object securityDomain) {
-    Policy policy = this.policy;
+  public Object getDynamicSecurityDomain(final Object securityDomain) {
+    final Policy policy = this.policy;
     if (policy == null) {
       return null;
     } else {
-      PermissionCollection permissions = this.policy.getPermissions(codesource);
+      final PermissionCollection permissions = this.policy.getPermissions(codesource);
       return new ProtectionDomain(codesource, permissions);
     }
   }
 
   private class LocalSecureClassLoader extends SecureClassLoader implements GeneratedClassLoader {
-    public LocalSecureClassLoader(ClassLoader parent) {
+    public LocalSecureClassLoader(final ClassLoader parent) {
       super(parent);
     }
 
-    public Class defineClass(String name, byte[] b) {
+    public Class defineClass(final String name, final byte[] b) {
       return this.defineClass(name, b, 0, b.length, codesource);
     }
 
-    public void linkClass(Class clazz) {
+    public void linkClass(final Class clazz) {
       super.resolveClass(clazz);
     }
   }

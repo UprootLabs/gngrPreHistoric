@@ -58,13 +58,13 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     this.layoutUpTreeCanBeInvalidated = true;
   }
 
-  public BaseBoundableRenderable(RenderableContainer container, ModelNode modelNode) {
+  public BaseBoundableRenderable(final RenderableContainer container, final ModelNode modelNode) {
     this.container = container;
     this.modelNode = modelNode;
   }
 
-  public java.awt.Point getGUIPoint(int clientX, int clientY) {
-    Renderable parent = this.getParent();
+  public java.awt.Point getGUIPoint(final int clientX, final int clientY) {
+    final Renderable parent = this.getParent();
     if (parent instanceof BoundableRenderable) {
       return ((BoundableRenderable) parent).getGUIPoint(clientX + this.x, clientY + this.y);
     } else if (parent == null) {
@@ -74,8 +74,8 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     }
   }
 
-  public Point getRenderablePoint(int guiX, int guiY) {
-    Renderable parent = this.getParent();
+  public Point getRenderablePoint(final int guiX, final int guiY) {
+    final Renderable parent = this.getParent();
     if (parent instanceof BoundableRenderable) {
       return ((BoundableRenderable) parent).getRenderablePoint(guiX - this.x, guiY - this.y);
     } else if (parent == null) {
@@ -93,7 +93,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     return width;
   }
 
-  public void setWidth(int width) {
+  public void setWidth(final int width) {
     this.width = width;
   }
 
@@ -105,7 +105,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     return y;
   }
 
-  public boolean contains(int x, int y) {
+  public boolean contains(final int x, final int y) {
     return x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height;
   }
 
@@ -128,26 +128,26 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
   // return this.bounds;
   // }
   //
-  public void setBounds(int x, int y, int width, int height) {
+  public void setBounds(final int x, final int y, final int width, final int height) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
   }
 
-  public void setX(int x) {
+  public void setX(final int x) {
     this.x = x;
   }
 
-  public void setY(int y) {
+  public void setY(final int y) {
     this.y = y;
   }
 
-  public void setHeight(int height) {
+  public void setHeight(final int height) {
     this.height = height;
   }
 
-  public void setOrigin(int x, int y) {
+  public void setOrigin(final int x, final int y) {
     this.x = x;
     this.y = y;
   }
@@ -167,7 +167,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
         parent = this.parent;
         if (parent == null) {
           // Has to be top block
-          RenderableContainer rc = this.container;
+          final RenderableContainer rc = this.container;
           if (rc != null) {
             rc.invalidateLayoutUpTree();
           }
@@ -185,14 +185,14 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     return this.layoutUpTreeCanBeInvalidated;
   }
 
-  private final void relayoutImpl(boolean invalidateLocal, boolean onlyIfValid) {
+  private final void relayoutImpl(final boolean invalidateLocal, final boolean onlyIfValid) {
     if (onlyIfValid && !this.layoutUpTreeCanBeInvalidated) {
       return;
     }
     if (invalidateLocal) {
       this.invalidateLayoutUpTree();
     }
-    Renderable parent = this.parent;
+    final Renderable parent = this.parent;
     if (parent instanceof BaseBoundableRenderable) {
       ((BaseBoundableRenderable) parent).relayoutImpl(false, false);
     } else if (parent == null) {
@@ -239,7 +239,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
    */
   protected RCollection parent;
 
-  public void setParent(RCollection parent) {
+  public void setParent(final RCollection parent) {
     this.parent = parent;
   }
 
@@ -252,7 +252,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
    */
   protected RCollection originalParent;
 
-  public void setOriginalParent(RCollection origParent) {
+  public void setOriginalParent(final RCollection origParent) {
     this.originalParent = origParent;
   }
 
@@ -264,15 +264,15 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
   }
 
   public RCollection getOriginalOrCurrentParent() {
-    RCollection origParent = this.originalParent;
+    final RCollection origParent = this.originalParent;
     if (origParent == null) {
       return this.parent;
     }
     return origParent;
   }
 
-  public void repaint(int x, int y, int width, int height) {
-    Renderable parent = this.parent;
+  public void repaint(final int x, final int y, final int width, final int height) {
+    final Renderable parent = this.parent;
     if (parent instanceof BoundableRenderable) {
       ((BoundableRenderable) parent).repaint(x + this.x, y + this.y, width, height);
     } else if (parent == null) {
@@ -293,9 +293,9 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     return this.container.getPaintedBackgroundColor();
   }
 
-  public final void paintTranslated(Graphics g) {
-    int x = this.x;
-    int y = this.y;
+  public final void paintTranslated(final Graphics g) {
+    final int x = this.x;
+    final int y = this.y;
     g.translate(x, y);
     try {
       this.paint(g);
@@ -317,13 +317,13 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     return new Point(x, y);
   }
 
-  public void onMouseOut(MouseEvent event, int x, int y, ModelNode limit) {
+  public void onMouseOut(final MouseEvent event, final int x, final int y, final ModelNode limit) {
     if (this.isContainedByNode()) {
       HtmlController.getInstance().onMouseOut(this.modelNode, event, x, y, limit);
     }
   }
 
-  public void onMouseMoved(MouseEvent event, int x, int y, boolean triggerEvent, ModelNode limit) {
+  public void onMouseMoved(final MouseEvent event, final int x, final int y, final boolean triggerEvent, final ModelNode limit) {
     if (triggerEvent) {
       if (this.isContainedByNode()) {
         HtmlController.getInstance().onMouseOver(this.modelNode, event, x, y, limit);
@@ -335,7 +335,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     return new Point(this.x, this.y);
   }
 
-  public Point getOriginRelativeTo(RCollection ancestor) {
+  public Point getOriginRelativeTo(final RCollection ancestor) {
     int x = this.x;
     int y = this.y;
     RCollection parent = this.parent;

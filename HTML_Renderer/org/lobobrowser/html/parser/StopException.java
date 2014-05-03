@@ -31,7 +31,7 @@ class StopException extends Exception {
   /**
    * @param element
    */
-  public StopException(Element element) {
+  public StopException(final Element element) {
     super();
     this.element = element;
   }

@@ -54,7 +54,7 @@ public class InputSourceImpl extends InputSource {
    * @param uri
    *          The URI (or systemID) of the document.
    */
-  public InputSourceImpl(String uri) {
+  public InputSourceImpl(final String uri) {
     super(uri);
   }
 
@@ -65,7 +65,7 @@ public class InputSourceImpl extends InputSource {
    *          The input stream where content can be read.
    * @deprecated Use constructor with <code>uri</code> parameter.
    */
-  public InputSourceImpl(InputStream byteStream) {
+  public InputSourceImpl(final InputStream byteStream) {
     super(byteStream);
   }
 
@@ -76,7 +76,7 @@ public class InputSourceImpl extends InputSource {
    *          The <code>Reader</code> where characters can be read.
    * @deprecated Use constructor with <code>uri</code> parameter.
    */
-  public InputSourceImpl(Reader characterStream) {
+  public InputSourceImpl(final Reader characterStream) {
     super(characterStream);
   }
 
@@ -88,7 +88,7 @@ public class InputSourceImpl extends InputSource {
    * @param uri
    *          The URI of the document.
    */
-  public InputSourceImpl(Reader characterStream, String uri) {
+  public InputSourceImpl(final Reader characterStream, final String uri) {
     super(characterStream);
     this.setSystemId(uri);
   }
@@ -103,7 +103,7 @@ public class InputSourceImpl extends InputSource {
    * @param charset
    *          The character set of the input stream.
    */
-  public InputSourceImpl(InputStream byteStream, String uri, String charset) {
+  public InputSourceImpl(final InputStream byteStream, final String uri, final String charset) {
     super(byteStream);
     this.setEncoding(charset);
     this.setSystemId(uri);

@@ -34,7 +34,7 @@ class VirtualCell {
   /**
    * @param cell
    */
-  public VirtualCell(RTableCell cell, boolean isTopLeft) {
+  public VirtualCell(final RTableCell cell, final boolean isTopLeft) {
     actualCell = cell;
     this.isTopLeft = isTopLeft;
   }
@@ -54,7 +54,7 @@ class VirtualCell {
    * @param column
    *          The column to set.
    */
-  public void setColumn(int column) {
+  public void setColumn(final int column) {
     this.column = column;
   }
 
@@ -69,7 +69,7 @@ class VirtualCell {
    * @param row
    *          The row to set.
    */
-  public void setRow(int row) {
+  public void setRow(final int row) {
     this.row = row;
   }
 
@@ -82,12 +82,12 @@ class VirtualCell {
 
   public HtmlLength getHeightLength() {
     // TODO: Does not consider cellpadding and border
-    RTableCell cell = this.actualCell;
-    String heightText = cell.getHeightText();
+    final RTableCell cell = this.actualCell;
+    final String heightText = cell.getHeightText();
     HtmlLength length;
     try {
       length = heightText == null ? null : new HtmlLength(heightText);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       length = null;
     }
     if (length != null) {
@@ -97,12 +97,12 @@ class VirtualCell {
   }
 
   public HtmlLength getWidthLength() {
-    RTableCell cell = this.actualCell;
-    String widthText = cell.getWidthText();
+    final RTableCell cell = this.actualCell;
+    final String widthText = cell.getWidthText();
     HtmlLength length;
     try {
       length = widthText == null ? null : new HtmlLength(widthText);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       length = null;
     }
     if (length != null) {

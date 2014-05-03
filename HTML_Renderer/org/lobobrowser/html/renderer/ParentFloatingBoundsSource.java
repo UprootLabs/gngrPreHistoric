@@ -29,7 +29,7 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
   private final int newY;
   private final FloatingBounds floatBounds;
 
-  public ParentFloatingBoundsSource(int blockShiftRight, int expectedWidth, int newX, int newY, FloatingBounds floatBounds) {
+  public ParentFloatingBoundsSource(final int blockShiftRight, final int expectedWidth, final int newX, final int newY, final FloatingBounds floatBounds) {
     super();
     this.blockShiftRight = blockShiftRight;
     this.expectedBlockWidth = expectedWidth;
@@ -38,17 +38,17 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
     this.floatBounds = floatBounds;
   }
 
-  public FloatingBounds getChildBlockFloatingBounds(int apparentBlockWidth) {
-    int actualRightShift = this.blockShiftRight + (this.expectedBlockWidth - apparentBlockWidth);
+  public FloatingBounds getChildBlockFloatingBounds(final int apparentBlockWidth) {
+    final int actualRightShift = this.blockShiftRight + (this.expectedBlockWidth - apparentBlockWidth);
     return new ShiftedFloatingBounds(this.floatBounds, -this.newX, -actualRightShift, -this.newY);
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     // Important for layout caching.
     if (!(obj instanceof ParentFloatingBoundsSource)) {
       return false;
     }
-    ParentFloatingBoundsSource other = (ParentFloatingBoundsSource) obj;
+    final ParentFloatingBoundsSource other = (ParentFloatingBoundsSource) obj;
     return this.blockShiftRight == other.blockShiftRight && this.expectedBlockWidth == other.expectedBlockWidth && this.newX == other.newX
         && this.newY == other.newY && Objects.equals(this.floatBounds, other.floatBounds);
 

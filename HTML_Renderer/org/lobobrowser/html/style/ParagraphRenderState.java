@@ -24,14 +24,14 @@ import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import java.awt.*;
 
 public class ParagraphRenderState extends AbstractMarginRenderState {
-  public ParagraphRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public ParagraphRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 
   protected HtmlInsets getDefaultMarginInsets() {
-    HtmlInsets insets = new HtmlInsets();
-    RenderState prevRS = this.getPreviousRenderState();
-    FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
+    final HtmlInsets insets = new HtmlInsets();
+    final RenderState prevRS = this.getPreviousRenderState();
+    final FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
     insets.top = fm.getHeight();
     insets.bottom = fm.getHeight();
     insets.topType = HtmlInsets.TYPE_PIXELS;

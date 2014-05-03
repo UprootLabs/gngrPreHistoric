@@ -5,15 +5,15 @@ class SizeExceededException extends RuntimeException {
     super();
   }
 
-  public SizeExceededException(String message, Throwable cause) {
+  public SizeExceededException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public SizeExceededException(String message) {
+  public SizeExceededException(final String message) {
     super(message);
   }
 
-  public SizeExceededException(Throwable cause) {
+  public SizeExceededException(final Throwable cause) {
     super(cause);
   }
 }

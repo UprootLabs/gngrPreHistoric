@@ -59,7 +59,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          which may be an instance of
    *          {@link org.lobobrowser.html.test.SimpleUserAgentContext}.
    */
-  public DocumentBuilderImpl(UserAgentContext context) {
+  public DocumentBuilderImpl(final UserAgentContext context) {
     this.rcontext = null;
     this.bcontext = context;
   }
@@ -77,7 +77,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          which may be an instance of
    *          {@link org.lobobrowser.html.test.SimpleHtmlRendererContext}.
    */
-  public DocumentBuilderImpl(UserAgentContext ucontext, HtmlRendererContext rcontext) {
+  public DocumentBuilderImpl(final UserAgentContext ucontext, final HtmlRendererContext rcontext) {
     this.rcontext = rcontext;
     this.bcontext = ucontext;
   }
@@ -91,7 +91,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          which may be an instance of
    *          {@link org.lobobrowser.html.test.SimpleHtmlRendererContext}.
    */
-  public DocumentBuilderImpl(HtmlRendererContext rcontext) {
+  public DocumentBuilderImpl(final HtmlRendererContext rcontext) {
     this.rcontext = rcontext;
     this.bcontext = rcontext.getUserAgentContext();
   }
@@ -105,8 +105,8 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          {@link org.lobobrowser.html.parser.InputSourceImpl}.
    * @see #createDocument(InputSource)
    */
-  public Document parse(InputSource is) throws org.xml.sax.SAXException, IOException {
-    HTMLDocumentImpl document = (HTMLDocumentImpl) this.createDocument(is);
+  public Document parse(final InputSource is) throws org.xml.sax.SAXException, IOException {
+    final HTMLDocumentImpl document = (HTMLDocumentImpl) this.createDocument(is);
     document.load();
     return document;
   }
@@ -121,18 +121,18 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          source must provide either an input stream or a reader.
    * @see HTMLDocumentImpl#load()
    */
-  public Document createDocument(InputSource is) throws SAXException, IOException {
-    String encoding = is.getEncoding();
+  public Document createDocument(final InputSource is) throws SAXException, IOException {
+    final String encoding = is.getEncoding();
     String charset = encoding;
     if (charset == null) {
       charset = "US-ASCII";
     }
-    String uri = is.getSystemId();
+    final String uri = is.getSystemId();
     if (uri == null) {
       logger.warning("parse(): InputSource has no SystemId (URI); document item URLs will not be resolvable.");
     }
     WritableLineReader wis;
-    Reader reader = is.getCharacterStream();
+    final Reader reader = is.getCharacterStream();
     if (reader != null) {
       wis = new WritableLineReader(reader);
     } else {
@@ -142,7 +142,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
       } else if (uri != null) {
         // To comply with the InputSource documentation, we need
         // to do this:
-        java.net.URLConnection connection = new java.net.URL(uri).openConnection();
+        final java.net.URLConnection connection = new java.net.URL(uri).openConnection();
         in = connection.getInputStream();
         if (encoding == null) {
           charset = org.lobobrowser.util.Urls.getCharset(connection);
@@ -152,7 +152,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
         throw new IllegalArgumentException("The InputSource must have either a reader, an input stream or a URI.");
       }
     }
-    HTMLDocumentImpl document = new HTMLDocumentImpl(this.bcontext, this.rcontext, wis, uri);
+    final HTMLDocumentImpl document = new HTMLDocumentImpl(this.bcontext, this.rcontext, wis, uri);
     return document;
   }
 
@@ -164,11 +164,11 @@ public class DocumentBuilderImpl extends DocumentBuilder {
     return false;
   }
 
-  public void setEntityResolver(EntityResolver er) {
+  public void setEntityResolver(final EntityResolver er) {
     this.resolver = er;
   }
 
-  public void setErrorHandler(ErrorHandler eh) {
+  public void setErrorHandler(final ErrorHandler eh) {
     this.errorHandler = eh;
   }
 

@@ -47,27 +47,27 @@ class ShiftedFloatingBounds implements FloatingBounds {
     this.shiftY = shiftY;
   }
 
-  public int getClearY(int y) {
+  public int getClearY(final int y) {
     return this.prevBounds.getClearY(y - this.shiftY) + this.shiftY;
   }
 
-  public int getFirstClearY(int y) {
+  public int getFirstClearY(final int y) {
     return this.prevBounds.getFirstClearY(y - this.shiftY) + this.shiftY;
   }
 
-  public int getLeft(int y) {
+  public int getLeft(final int y) {
     return this.prevBounds.getLeft(y - this.shiftY) + this.shiftLeft;
   }
 
-  public int getLeftClearY(int y) {
+  public int getLeftClearY(final int y) {
     return this.prevBounds.getLeftClearY(y - this.shiftY) + this.shiftY;
   }
 
-  public int getRight(int y) {
+  public int getRight(final int y) {
     return this.prevBounds.getRight(y - this.shiftY) + this.shiftRight;
   }
 
-  public int getRightClearY(int y) {
+  public int getRightClearY(final int y) {
     return this.prevBounds.getRightClearY(y - this.shiftY) + this.shiftY;
   }
 
@@ -75,12 +75,12 @@ class ShiftedFloatingBounds implements FloatingBounds {
     return this.prevBounds.getMaxY() + this.shiftY;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     // Important for layout caching.
     if (!(obj instanceof ShiftedFloatingBounds)) {
       return false;
     }
-    ShiftedFloatingBounds other = (ShiftedFloatingBounds) obj;
+    final ShiftedFloatingBounds other = (ShiftedFloatingBounds) obj;
     return this.shiftY == other.shiftY && this.shiftLeft == other.shiftLeft && this.shiftRight == other.shiftRight
         && Objects.equals(this.prevBounds, other.prevBounds);
   }

@@ -32,31 +32,31 @@ class BaseRListElement extends RBlock {
   protected static final String DEFAULT_COUNTER_NAME = "$cobra.counter";
   protected ListStyle listStyle = null;
 
-  public BaseRListElement(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext,
-      FrameContext frameContext, RenderableContainer parentContainer) {
+  public BaseRListElement(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+      final FrameContext frameContext, final RenderableContainer parentContainer) {
     super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
   }
 
-  protected void applyStyle(int availWidth, int availHeight) {
+  protected void applyStyle(final int availWidth, final int availHeight) {
     this.listStyle = null;
     super.applyStyle(availWidth, availHeight);
-    Object rootNode = this.modelNode;
+    final Object rootNode = this.modelNode;
     if (!(rootNode instanceof HTMLElementImpl)) {
       return;
     }
-    HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
-    AbstractCSS2Properties props = rootElement.getCurrentStyle();
+    final HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
+    final AbstractCSS2Properties props = rootElement.getCurrentStyle();
     if (props == null) {
       return;
     }
     ListStyle listStyle = null;
-    String listStyleText = props.getListStyle();
+    final String listStyleText = props.getListStyle();
     if (listStyleText != null) {
       listStyle = HtmlValues.getListStyle(listStyleText);
     }
-    String listStyleTypeText = props.getListStyleType();
+    final String listStyleTypeText = props.getListStyleType();
     if (listStyleTypeText != null) {
-      int listType = HtmlValues.getListStyleType(listStyleTypeText);
+      final int listType = HtmlValues.getListStyleType(listStyleTypeText);
       if (listType != ListStyle.TYPE_UNSET) {
         if (listStyle == null) {
           listStyle = new ListStyle();
@@ -65,9 +65,9 @@ class BaseRListElement extends RBlock {
       }
     }
     if (listStyle == null || listStyle.type == ListStyle.TYPE_UNSET) {
-      String typeAttributeText = rootElement.getAttribute("type");
+      final String typeAttributeText = rootElement.getAttribute("type");
       if (typeAttributeText != null) {
-        int newStyleType = HtmlValues.getListStyleTypeDeprecated(typeAttributeText);
+        final int newStyleType = HtmlValues.getListStyleTypeDeprecated(typeAttributeText);
         if (newStyleType != ListStyle.TYPE_UNSET) {
           if (listStyle == null) {
             listStyle = new ListStyle();

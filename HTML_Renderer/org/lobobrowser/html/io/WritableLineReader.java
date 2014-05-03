@@ -28,12 +28,12 @@ import java.io.*;
 public class WritableLineReader extends LineNumberReader {
   private final Reader delegate;
 
-  public WritableLineReader(Reader reader, int bufferSize) {
+  public WritableLineReader(final Reader reader, final int bufferSize) {
     super(reader, bufferSize);
     this.delegate = reader;
   }
 
-  public WritableLineReader(Reader reader) {
+  public WritableLineReader(final Reader reader) {
     super(reader);
     this.delegate = reader;
   }
@@ -42,9 +42,9 @@ public class WritableLineReader extends LineNumberReader {
    * Note: Not implicitly thread safe.
    */
   public int read() throws IOException {
-    StringBuffer sb = this.writeBuffer;
+    final StringBuffer sb = this.writeBuffer;
     if (sb != null && sb.length() > 0) {
-      char ch = sb.charAt(0);
+      final char ch = sb.charAt(0);
       sb.deleteCharAt(0);
       if (sb.length() == 0) {
         this.writeBuffer = null;
@@ -59,10 +59,10 @@ public class WritableLineReader extends LineNumberReader {
    * 
    * @see java.io.Reader#read(byte[], int, int)
    */
-  public int read(char[] b, int off, int len) throws IOException {
-    StringBuffer sb = this.writeBuffer;
+  public int read(final char[] b, final int off, final int len) throws IOException {
+    final StringBuffer sb = this.writeBuffer;
     if (sb != null && sb.length() > 0) {
-      int srcEnd = Math.min(sb.length(), len);
+      final int srcEnd = Math.min(sb.length(), len);
       sb.getChars(0, srcEnd, b, off);
       sb.delete(0, srcEnd);
       if (sb.length() == 0) {
@@ -74,7 +74,7 @@ public class WritableLineReader extends LineNumberReader {
   }
 
   public boolean ready() throws IOException {
-    StringBuffer sb = this.writeBuffer;
+    final StringBuffer sb = this.writeBuffer;
     if (sb != null && sb.length() > 0) {
       return true;
     }
@@ -99,7 +99,7 @@ public class WritableLineReader extends LineNumberReader {
    * @param text
    * @throws IOException
    */
-  public void write(String text) throws IOException {
+  public void write(final String text) throws IOException {
     // Document overrides this to know that new data is coming.
     StringBuffer sb = this.writeBuffer;
     if (sb == null) {

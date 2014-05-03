@@ -36,13 +36,13 @@ public class InputFileControl extends BaseInputControl {
   private final JTextField textField = new JTextField();
   private final JButton browseButton = new JButton();
 
-  public InputFileControl(HTMLBaseInputElement modelNode) {
+  public InputFileControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-    JButton browseButton = this.browseButton;
+    final JButton browseButton = this.browseButton;
     browseButton.setAction(new BrowseAction());
     browseButton.setText("Browse");
-    java.awt.Dimension ps = this.textField.getPreferredSize();
+    final java.awt.Dimension ps = this.textField.getPreferredSize();
     this.textField.setPreferredSize(new java.awt.Dimension(128, ps.height));
     this.textField.setEditable(false);
     this.add(this.textField);
@@ -56,17 +56,17 @@ public class InputFileControl extends BaseInputControl {
     return this.textField.getText();
   }
 
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     this.browseButton.setEnabled(!disabled);
   }
 
-  public void setValue(String value) {
+  public void setValue(final String value) {
     // nop - security
   }
 
   private File fileValue;
 
-  private void setFileValue(File file) {
+  private void setFileValue(final File file) {
     this.fileValue = file;
     if (file == null) {
       this.textField.setText("");
@@ -84,8 +84,8 @@ public class InputFileControl extends BaseInputControl {
   }
 
   private class BrowseAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
-      JFileChooser chooser = new JFileChooser();
+    public void actionPerformed(final ActionEvent e) {
+      final JFileChooser chooser = new JFileChooser();
       if (chooser.showOpenDialog(InputFileControl.this) == JFileChooser.APPROVE_OPTION) {
         setFileValue(chooser.getSelectedFile());
       } else {

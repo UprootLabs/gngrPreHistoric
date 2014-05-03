@@ -32,8 +32,8 @@ class InputSelectControl extends BaseInputControl {
     this.setLayout(WrapperLayout.getInstance());
     final JComboBox<OptionItem> comboBox = new JComboBox<OptionItem>();
     comboBox.addItemListener(new ItemListener() {
-      public void itemStateChanged(ItemEvent e) {
-        OptionItem item = (OptionItem) e.getItem();
+      public void itemStateChanged(final ItemEvent e) {
+        final OptionItem item = (OptionItem) e.getItem();
         if (item != null) {
           switch (e.getStateChange()) {
           case ItemEvent.SELECTED:
@@ -42,8 +42,8 @@ class InputSelectControl extends BaseInputControl {
               // selected index. We don't want multiple selections.
               inSelectionEvent = true;
               try {
-                int selectedIndex = comboBox.getSelectedIndex();
-                HTMLSelectElementImpl selectElement = (HTMLSelectElementImpl) modelNode;
+                final int selectedIndex = comboBox.getSelectedIndex();
+                final HTMLSelectElementImpl selectElement = (HTMLSelectElementImpl) modelNode;
                 selectElement.setSelectedIndex(selectedIndex);
               } finally {
                 inSelectionEvent = false;
@@ -65,17 +65,17 @@ class InputSelectControl extends BaseInputControl {
     this.listModel = listModel;
     list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     list.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
+      public void valueChanged(final ListSelectionEvent e) {
         if (!e.getValueIsAdjusting() && !suspendSelections) {
           boolean changed = false;
           inSelectionEvent = true;
           try {
-            int modelSize = listModel.getSize();
+            final int modelSize = listModel.getSize();
             for (int i = 0; i < modelSize; i++) {
-              OptionItem item = listModel.get(i);
+              final OptionItem item = listModel.get(i);
               if (item != null) {
-                boolean oldIsSelected = item.isSelected();
-                boolean newIsSelected = list.isSelectedIndex(i);
+                final boolean oldIsSelected = item.isSelected();
+                final boolean newIsSelected = list.isSelectedIndex(i);
                 if (oldIsSelected != newIsSelected) {
                   changed = true;
                   item.setSelected(newIsSelected);
@@ -108,12 +108,12 @@ class InputSelectControl extends BaseInputControl {
   private boolean suspendSelections = false;
 
   private void resetItemList() {
-    HTMLSelectElementImpl selectElement = (HTMLSelectElementImpl) this.controlElement;
-    boolean isMultiple = selectElement.getMultiple();
+    final HTMLSelectElementImpl selectElement = (HTMLSelectElementImpl) this.controlElement;
+    final boolean isMultiple = selectElement.getMultiple();
     if (isMultiple && this.state != STATE_LIST) {
       this.state = STATE_LIST;
       this.removeAll();
-      JScrollPane scrollPane = new JScrollPane(this.list);
+      final JScrollPane scrollPane = new JScrollPane(this.list);
       this.add(scrollPane);
     } else if (!isMultiple && this.state != STATE_COMBO) {
       this.state = STATE_COMBO;
@@ -122,16 +122,16 @@ class InputSelectControl extends BaseInputControl {
     }
     this.suspendSelections = true;
     try {
-      HTMLOptionsCollection optionElements = selectElement.getOptions();
+      final HTMLOptionsCollection optionElements = selectElement.getOptions();
       if (this.state == STATE_COMBO) {
-        JComboBox<OptionItem> comboBox = this.comboBox;
+        final JComboBox<OptionItem> comboBox = this.comboBox;
         // First determine current selected option
         HTMLOptionElement priorSelectedOption = null;
-        int priorIndex = selectElement.getSelectedIndex();
+        final int priorIndex = selectElement.getSelectedIndex();
         if (priorIndex != -1) {
-          int numOptions = optionElements.getLength();
+          final int numOptions = optionElements.getLength();
           for (int index = 0; index < numOptions; index++) {
-            HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
+            final HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
             if (index == priorIndex) {
               priorSelectedOption = option;
             }
@@ -141,11 +141,11 @@ class InputSelectControl extends BaseInputControl {
         OptionItem defaultItem = null;
         OptionItem selectedItem = null;
         OptionItem firstItem = null;
-        int numOptions = optionElements.getLength();
+        final int numOptions = optionElements.getLength();
         for (int index = 0; index < numOptions; index++) {
-          HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
+          final HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
           if (option != null) {
-            OptionItem item = new OptionItem(option);
+            final OptionItem item = new OptionItem(option);
             if (firstItem == null) {
               firstItem = item;
               comboBox.addItem(item);
@@ -175,16 +175,16 @@ class InputSelectControl extends BaseInputControl {
           comboBox.setSelectedItem(firstItem);
         }
       } else {
-        JList<OptionItem> list = this.list;
+        final JList<OptionItem> list = this.list;
         Collection<Integer> defaultSelectedIndexes = null;
         Collection<Integer> selectedIndexes = null;
         OptionItem firstItem = null;
-        DefaultListModel<OptionItem> listModel = this.listModel;
+        final DefaultListModel<OptionItem> listModel = this.listModel;
         listModel.clear();
-        int numOptions = optionElements.getLength();
+        final int numOptions = optionElements.getLength();
         for (int index = 0; index < numOptions; index++) {
-          HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
-          OptionItem item = new OptionItem(option);
+          final HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
+          final OptionItem item = new OptionItem(option);
           if (firstItem == null) {
             firstItem = item;
             listModel.addElement(item);
@@ -207,15 +207,15 @@ class InputSelectControl extends BaseInputControl {
           }
         }
         if (selectedIndexes != null && selectedIndexes.size() != 0) {
-          Iterator<Integer> sii = selectedIndexes.iterator();
+          final Iterator<Integer> sii = selectedIndexes.iterator();
           while (sii.hasNext()) {
-            Integer si = sii.next();
+            final Integer si = sii.next();
             list.addSelectionInterval(si.intValue(), si.intValue());
           }
         } else if (defaultSelectedIndexes != null && defaultSelectedIndexes.size() != 0) {
-          Iterator<Integer> sii = defaultSelectedIndexes.iterator();
+          final Iterator<Integer> sii = defaultSelectedIndexes.iterator();
           while (sii.hasNext()) {
-            Integer si = sii.next();
+            final Integer si = sii.next();
             list.addSelectionInterval(si.intValue(), si.intValue());
           }
         }
@@ -225,7 +225,7 @@ class InputSelectControl extends BaseInputControl {
     }
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     // Need to do this here in case element was incomplete
     // when first rendered.
@@ -234,10 +234,10 @@ class InputSelectControl extends BaseInputControl {
 
   public String getValue() {
     if (this.state == STATE_COMBO) {
-      OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
+      final OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
       return item == null ? null : item.getValue();
     } else {
-      OptionItem item = this.list.getSelectedValue();
+      final OptionItem item = this.list.getSelectedValue();
       return item == null ? null : item.getValue();
     }
   }
@@ -248,31 +248,31 @@ class InputSelectControl extends BaseInputControl {
     return this.selectedIndex;
   }
 
-  public void setSelectedIndex(int value) {
+  public void setSelectedIndex(final int value) {
     this.selectedIndex = value;
-    boolean prevSuspend = this.suspendSelections;
+    final boolean prevSuspend = this.suspendSelections;
     this.suspendSelections = true;
     // Note that neither IE nor FireFox generate selection
     // events when the selection is changed programmatically.
     try {
       if (!this.inSelectionEvent) {
         if (this.state == STATE_COMBO) {
-          JComboBox<OptionItem> comboBox = this.comboBox;
+          final JComboBox<OptionItem> comboBox = this.comboBox;
           if (comboBox.getSelectedIndex() != value) {
             // This check is done to avoid an infinite recursion
             // on ItemListener.
-            int size = comboBox.getItemCount();
+            final int size = comboBox.getItemCount();
             if (value < size) {
               comboBox.setSelectedIndex(value);
             }
           }
         } else {
-          JList<OptionItem> list = this.list;
-          int[] selectedIndices = list.getSelectedIndices();
+          final JList<OptionItem> list = this.list;
+          final int[] selectedIndices = list.getSelectedIndices();
           if (selectedIndices == null || selectedIndices.length != 1 || selectedIndices[0] != value) {
             // This check is done to avoid an infinite recursion
             // on ItemListener.
-            int size = this.listModel.getSize();
+            final int size = this.listModel.getSize();
             if (value < size) {
               list.setSelectedIndex(value);
             }
@@ -288,7 +288,7 @@ class InputSelectControl extends BaseInputControl {
     return this.comboBox.getMaximumRowCount();
   }
 
-  public void setVisibleSize(int value) {
+  public void setVisibleSize(final int value) {
     this.comboBox.setMaximumRowCount(value);
   }
 
@@ -299,16 +299,16 @@ class InputSelectControl extends BaseInputControl {
 
   public String[] getValues() {
     if (this.state == STATE_COMBO) {
-      OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
+      final OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
       return item == null ? null : new String[] { item.getValue() };
     } else {
-      Object[] values = this.list.getSelectedValues();
+      final Object[] values = this.list.getSelectedValues();
       if (values == null) {
         return null;
       }
-      ArrayList<String> al = new ArrayList<String>();
+      final ArrayList<String> al = new ArrayList<String>();
       for (int i = 0; i < values.length; i++) {
-        OptionItem item = (OptionItem) values[i];
+        final OptionItem item = (OptionItem) values[i];
         al.add(item.getValue());
       }
       return al.toArray(new String[0]);
@@ -319,9 +319,9 @@ class InputSelectControl extends BaseInputControl {
     private final HTMLOptionElement option;
     private final String caption;
 
-    public OptionItem(HTMLOptionElement option) {
+    public OptionItem(final HTMLOptionElement option) {
       this.option = option;
-      String label = option.getLabel();
+      final String label = option.getLabel();
       if (label == null) {
         this.caption = option.getText();
       } else {
@@ -329,7 +329,7 @@ class InputSelectControl extends BaseInputControl {
       }
     }
 
-    public void setSelected(boolean value) {
+    public void setSelected(final boolean value) {
       this.option.setSelected(value);
     }
 

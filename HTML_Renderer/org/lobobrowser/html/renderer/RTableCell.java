@@ -39,13 +39,13 @@ class RTableCell extends RBlock {
   /**
    * @param element
    */
-  public RTableCell(HTMLTableCellElementImpl element, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
-      RenderableContainer tableAsContainer) {
+  public RTableCell(final HTMLTableCellElementImpl element, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+      final RenderableContainer tableAsContainer) {
     super(element, 0, pcontext, rcontext, frameContext, tableAsContainer);
     this.cellElement = element;
   }
 
-  protected Dimension doCellLayout(int width, int height, boolean expandWidth, boolean expandHeight, boolean sizeOnly) {
+  protected Dimension doCellLayout(final int width, final int height, final boolean expandWidth, final boolean expandHeight, final boolean sizeOnly) {
     return this.doCellLayout(width, height, expandWidth, expandHeight, sizeOnly, true);
   }
 
@@ -57,7 +57,7 @@ class RTableCell extends RBlock {
    * @param useCache
    *          Testing parameter. Should always be true.
    */
-  protected Dimension doCellLayout(int width, int height, boolean expandWidth, boolean expandHeight, boolean sizeOnly, boolean useCache) {
+  protected Dimension doCellLayout(final int width, final int height, final boolean expandWidth, final boolean expandHeight, final boolean sizeOnly, final boolean useCache) {
     try {
       this.doLayout(width, height, expandWidth, expandHeight, null, RenderState.OVERFLOW_NONE, RenderState.OVERFLOW_NONE, sizeOnly,
           useCache);
@@ -78,12 +78,12 @@ class RTableCell extends RBlock {
   // this.cellPadding = value;
   // }
 
-  protected Integer getDeclaredHeight(RenderState renderState, int availHeight) {
+  protected Integer getDeclaredHeight(final RenderState renderState, final int availHeight) {
     // Overridden since height declaration is handled by table.
     return null;
   }
 
-  protected Integer getDeclaredWidth(RenderState renderState, int availWidth) {
+  protected Integer getDeclaredWidth(final RenderState renderState, final int availWidth) {
     // Overridden since width declaration is handled by table.
     return null;
   }
@@ -92,7 +92,7 @@ class RTableCell extends RBlock {
     super.finalize();
   }
 
-  public void setTopLeftVirtualCell(VirtualCell vc) {
+  public void setTopLeftVirtualCell(final VirtualCell vc) {
     this.topLeftVirtualCell = vc;
   }
 
@@ -107,7 +107,7 @@ class RTableCell extends RBlock {
    * @return Returns the virtualColumn.
    */
   public int getVirtualColumn() {
-    VirtualCell vc = this.topLeftVirtualCell;
+    final VirtualCell vc = this.topLeftVirtualCell;
     return vc == null ? 0 : vc.getColumn();
   }
 
@@ -115,7 +115,7 @@ class RTableCell extends RBlock {
    * @return Returns the virtualRow.
    */
   public int getVirtualRow() {
-    VirtualCell vc = this.topLeftVirtualCell;
+    final VirtualCell vc = this.topLeftVirtualCell;
     return vc == null ? 0 : vc.getRow();
   }
 
@@ -143,7 +143,7 @@ class RTableCell extends RBlock {
     return rs;
   }
 
-  public void setRowSpan(int rowSpan) {
+  public void setRowSpan(final int rowSpan) {
     this.rowSpan = rowSpan;
   }
 
@@ -163,21 +163,21 @@ class RTableCell extends RBlock {
   //
   //
 
-  public void setCellBounds(TableMatrix.SizeInfo[] colSizes, TableMatrix.SizeInfo[] rowSizes, int hasBorder, int cellSpacingX,
-      int cellSpacingY) {
-    int vcol = this.getVirtualColumn();
-    int vrow = this.getVirtualRow();
-    TableMatrix.SizeInfo colSize = colSizes[vcol];
-    TableMatrix.SizeInfo rowSize = rowSizes[vrow];
-    int x = colSize.offset;
-    int y = rowSize.offset;
+  public void setCellBounds(final TableMatrix.SizeInfo[] colSizes, final TableMatrix.SizeInfo[] rowSizes, final int hasBorder, final int cellSpacingX,
+      final int cellSpacingY) {
+    final int vcol = this.getVirtualColumn();
+    final int vrow = this.getVirtualRow();
+    final TableMatrix.SizeInfo colSize = colSizes[vcol];
+    final TableMatrix.SizeInfo rowSize = rowSizes[vrow];
+    final int x = colSize.offset;
+    final int y = rowSize.offset;
     int width;
     int height;
-    int colSpan = this.getColSpan();
+    final int colSpan = this.getColSpan();
     if (colSpan > 1) {
       width = 0;
       for (int i = 0; i < colSpan; i++) {
-        int vc = vcol + i;
+        final int vc = vcol + i;
         width += colSizes[vc].actualSize;
         if (i + 1 < colSpan) {
           width += cellSpacingX + hasBorder * 2;
@@ -186,11 +186,11 @@ class RTableCell extends RBlock {
     } else {
       width = colSizes[vcol].actualSize;
     }
-    int rowSpan = this.getRowSpan();
+    final int rowSpan = this.getRowSpan();
     if (rowSpan > 1) {
       height = 0;
       for (int i = 0; i < rowSpan; i++) {
-        int vr = vrow + i;
+        final int vr = vrow + i;
         height += rowSizes[vr].actualSize;
         if (i + 1 < rowSpan) {
           height += cellSpacingY + hasBorder * 2;

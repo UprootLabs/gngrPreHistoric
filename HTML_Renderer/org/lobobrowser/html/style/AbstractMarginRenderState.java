@@ -26,7 +26,7 @@ import java.awt.Insets;
 ;
 
 public abstract class AbstractMarginRenderState extends BlockRenderState {
-  public AbstractMarginRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public AbstractMarginRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element);
   }
 

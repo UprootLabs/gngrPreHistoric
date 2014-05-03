@@ -18,21 +18,21 @@ public class Location extends AbstractScriptableDelegate {
   private URL getURL() {
     URL url;
     try {
-      Document document = this.window.getDocumentNode();
+      final Document document = this.window.getDocumentNode();
       url = document == null ? null : new URL(document.getDocumentURI());
-    } catch (java.net.MalformedURLException mfu) {
+    } catch (final java.net.MalformedURLException mfu) {
       url = null;
     }
     return url;
   }
 
   public String getHash() {
-    URL url = this.getURL();
+    final URL url = this.getURL();
     return url == null ? null : url.getRef();
   }
 
   public String getHost() {
-    URL url = this.getURL();
+    final URL url = this.getURL();
     if (url == null) {
       return null;
     }
@@ -40,7 +40,7 @@ public class Location extends AbstractScriptableDelegate {
   }
 
   public String getHostname() {
-    URL url = this.getURL();
+    final URL url = this.getURL();
     if (url == null) {
       return null;
     }
@@ -48,21 +48,21 @@ public class Location extends AbstractScriptableDelegate {
   }
 
   public String getPathname() {
-    URL url = this.getURL();
+    final URL url = this.getURL();
     return url == null ? null : url.getPath();
   }
 
   public String getPort() {
-    URL url = this.getURL();
+    final URL url = this.getURL();
     if (url == null) {
       return null;
     }
-    int port = url.getPort();
+    final int port = url.getPort();
     return port == -1 ? null : String.valueOf(port);
   }
 
   public String getProtocol() {
-    URL url = this.getURL();
+    final URL url = this.getURL();
     if (url == null) {
       return null;
     }
@@ -70,8 +70,8 @@ public class Location extends AbstractScriptableDelegate {
   }
 
   public String getSearch() {
-    URL url = this.getURL();
-    String query = url == null ? null : url.getQuery();
+    final URL url = this.getURL();
+    final String query = url == null ? null : url.getQuery();
     // Javascript requires "?" in its search string.
     return query == null ? "" : "?" + query;
   }
@@ -82,29 +82,29 @@ public class Location extends AbstractScriptableDelegate {
     return this.target;
   }
 
-  public void setTarget(String value) {
+  public void setTarget(final String value) {
     this.target = value;
   }
 
   public String getHref() {
-    Document document = this.window.getDocumentNode();
+    final Document document = this.window.getDocumentNode();
     return document == null ? null : document.getDocumentURI();
   }
 
-  public void setHref(String uri) {
-    HtmlRendererContext rcontext = this.window.getHtmlRendererContext();
+  public void setHref(final String uri) {
+    final HtmlRendererContext rcontext = this.window.getHtmlRendererContext();
     if (rcontext != null) {
       try {
         URL url;
-        Document document = this.window.getDocumentNode();
+        final Document document = this.window.getDocumentNode();
         if (document instanceof HTMLDocumentImpl) {
-          HTMLDocumentImpl docImpl = (HTMLDocumentImpl) document;
+          final HTMLDocumentImpl docImpl = (HTMLDocumentImpl) document;
           url = docImpl.getFullURL(uri);
         } else {
           url = new URL(uri);
         }
         rcontext.navigate(url, this.target);
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         logger.log(Level.WARNING, "setHref(): Malformed location: [" + uri + "].", mfu);
       }
     }
@@ -112,10 +112,10 @@ public class Location extends AbstractScriptableDelegate {
 
   public void reload() {
     // TODO: This is not really reload.
-    Document document = this.window.getDocumentNode();
+    final Document document = this.window.getDocumentNode();
     if (document instanceof HTMLDocumentImpl) {
-      HTMLDocumentImpl docImpl = (HTMLDocumentImpl) document;
-      HtmlRendererContext rcontext = docImpl.getHtmlRendererContext();
+      final HTMLDocumentImpl docImpl = (HTMLDocumentImpl) document;
+      final HtmlRendererContext rcontext = docImpl.getHtmlRendererContext();
       if (rcontext != null) {
         rcontext.reload();
       } else {
@@ -124,7 +124,7 @@ public class Location extends AbstractScriptableDelegate {
     }
   }
 
-  public void replace(String href) {
+  public void replace(final String href) {
     this.setHref(href);
   }
 

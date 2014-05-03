@@ -34,9 +34,9 @@ import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 class InputTextControl extends BaseInputTextControl {
   public InputTextControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
-    JTextField w = (JTextField) this.widget;
+    final JTextField w = (JTextField) this.widget;
     w.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent event) {
+      public void actionPerformed(final ActionEvent event) {
         HtmlController.getInstance().onEnterPressed(modelNode, null);
       }
     });

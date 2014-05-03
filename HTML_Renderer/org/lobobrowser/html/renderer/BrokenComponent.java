@@ -10,13 +10,13 @@ class BrokenComponent extends Component {
     return new Dimension(10, 10);
   }
 
-  public void update(Graphics g) {
+  public void update(final Graphics g) {
     this.paint(g);
   }
 
-  public void paint(Graphics g) {
+  public void paint(final Graphics g) {
     g.setColor(Color.RED);
-    Dimension size = this.getSize();
+    final Dimension size = this.getSize();
     g.drawRect(0, 0, size.width, size.height);
     g.drawLine(0, 0, size.width - 1, size.height - 1);
     g.drawLine(size.width - 1, 0, 0, size.height - 1);

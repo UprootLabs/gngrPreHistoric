@@ -36,8 +36,8 @@ public final class HtmlLength {
 
   public HtmlLength(String spec) throws IndexOutOfBoundsException, NumberFormatException {
     spec = spec.trim();
-    int length = spec.length();
-    char lastChar = spec.charAt(length - 1);
+    final int length = spec.length();
+    final char lastChar = spec.charAt(length - 1);
     String parseable;
     if (lastChar == '%') {
       this.lengthType = LENGTH;
@@ -56,7 +56,7 @@ public final class HtmlLength {
     this.value = Integer.parseInt(parseable);
   }
 
-  public HtmlLength(int pixels) {
+  public HtmlLength(final int pixels) {
     this.lengthType = PIXELS;
     this.value = pixels;
   }
@@ -75,8 +75,8 @@ public final class HtmlLength {
     return this.value;
   }
 
-  public final int getLength(int availLength) {
-    int lt = this.lengthType;
+  public final int getLength(final int availLength) {
+    final int lt = this.lengthType;
     if (lt == LENGTH) {
       return (availLength * this.value) / 100;
     } else {
@@ -84,13 +84,13 @@ public final class HtmlLength {
     }
   }
 
-  public final void divideBy(int denominator) {
+  public final void divideBy(final int denominator) {
     int val = this.value;
     val = val / denominator;
     this.value = val;
   }
 
-  public final boolean isPreferredOver(HtmlLength otherLength) {
+  public final boolean isPreferredOver(final HtmlLength otherLength) {
     if (otherLength == null) {
       return true;
     }

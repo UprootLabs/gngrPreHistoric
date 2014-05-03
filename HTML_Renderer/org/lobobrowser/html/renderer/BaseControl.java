@@ -41,7 +41,7 @@ abstract class BaseControl extends JComponent implements UIControl {
   /**
    * @param context
    */
-  public BaseControl(HTMLElementImpl modelNode) {
+  public BaseControl(final HTMLElementImpl modelNode) {
     this.controlElement = modelNode;
   }
 
@@ -49,7 +49,7 @@ abstract class BaseControl extends JComponent implements UIControl {
     return this;
   }
 
-  public void setRUIControl(RUIControl ruicontrol) {
+  public void setRUIControl(final RUIControl ruicontrol) {
     this.ruicontrol = ruicontrol;
   }
 
@@ -62,7 +62,7 @@ abstract class BaseControl extends JComponent implements UIControl {
    * the GUI thread.
    */
   protected void invalidateAndRepaint() {
-    RUIControl rc = this.ruicontrol;
+    final RUIControl rc = this.ruicontrol;
     if (rc == null) {
       logger.severe("invalidateAndPaint(): RUIControl not set.");
       return;
@@ -81,6 +81,6 @@ abstract class BaseControl extends JComponent implements UIControl {
     return this.getBackground();
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
   }
 }

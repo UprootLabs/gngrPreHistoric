@@ -48,7 +48,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
   protected final ModelNode modelNode;
   private final FrameContext frameContext;
 
-  public RUIControl(ModelNode me, UIControl widget, RenderableContainer container, FrameContext frameContext, UserAgentContext ucontext) {
+  public RUIControl(final ModelNode me, final UIControl widget, final RenderableContainer container, final FrameContext frameContext, final UserAgentContext ucontext) {
     super(container, me, ucontext);
     this.modelNode = me;
     this.widget = widget;
@@ -58,7 +58,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
 
   public void focus() {
     super.focus();
-    java.awt.Component c = this.widget.getComponent();
+    final java.awt.Component c = this.widget.getComponent();
     c.requestFocus();
   }
 
@@ -80,8 +80,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     return this.backgroundColor != null || this.backgroundImage != null || this.lastBackgroundImageUri != null;
   }
 
-  public final void paint(Graphics g) {
-    RenderState rs = this.modelNode.getRenderState();
+  public final void paint(final Graphics g) {
+    final RenderState rs = this.modelNode.getRenderState();
     if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
       // Just don't paint it.
       return;
@@ -91,7 +91,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
     // We need to paint the GUI component.
     // For various reasons, we need to do that
     // instead of letting AWT do it.
-    Insets insets = this.getInsets(false, false);
+    final Insets insets = this.getInsets(false, false);
     g.translate(insets.left, insets.top);
     try {
       this.widget.paint(g);
@@ -100,8 +100,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public boolean onMouseClick(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onMouseClick(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseClick(me, event, x, y);
     } else {
@@ -109,8 +109,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public boolean onDoubleClick(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onDoubleClick(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onDoubleClick(me, event, x, y);
     } else {
@@ -118,8 +118,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public boolean onMousePressed(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onMousePressed(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseDown(me, event, x, y);
     } else {
@@ -127,8 +127,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public boolean onMouseReleased(java.awt.event.MouseEvent event, int x, int y) {
-    ModelNode me = this.modelNode;
+  public boolean onMouseReleased(final java.awt.event.MouseEvent event, final int x, final int y) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseUp(me, event, x, y);
     } else {
@@ -136,8 +136,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public boolean onMouseDisarmed(java.awt.event.MouseEvent event) {
-    ModelNode me = this.modelNode;
+  public boolean onMouseDisarmed(final java.awt.event.MouseEvent event) {
+    final ModelNode me = this.modelNode;
     if (me != null) {
       return HtmlController.getInstance().onMouseDisarmed(me, event);
     } else {
@@ -163,8 +163,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
    * org.xamjwg.html.domimpl.ContainingBlockContext#repaint(org.xamjwg.html.
    * renderer.RenderableContext)
    */
-  public void repaint(ModelNode modelNode) {
-    Object widget = this.widget;
+  public void repaint(final ModelNode modelNode) {
+    final Object widget = this.widget;
     if (widget instanceof UINode) {
       ((UINode) widget).repaint(modelNode);
     } else {
@@ -172,10 +172,10 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public void updateWidgetBounds(int guiX, int guiY) {
+  public void updateWidgetBounds(final int guiX, final int guiY) {
     // Overrides
     super.updateWidgetBounds(guiX, guiY);
-    Insets insets = this.getInsets(false, false);
+    final Insets insets = this.getInsets(false, false);
     this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width - insets.left - insets.right, this.height - insets.top
         - insets.bottom);
   }
@@ -192,12 +192,12 @@ class RUIControl extends BaseElementRenderable implements RElement {
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(final Graphics g, boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     inSelection = super.paintSelection(g, inSelection, startPoint, endPoint);
     if (inSelection) {
-      Color over = new Color(0, 0, 255, 50);
+      final Color over = new Color(0, 0, 255, 50);
       if (over != null) {
-        Color oldColor = g.getColor();
+        final Color oldColor = g.getColor();
         try {
           g.setColor(over);
           g.fillRect(0, 0, this.width, this.height);
@@ -209,12 +209,12 @@ class RUIControl extends BaseElementRenderable implements RElement {
     return inSelection;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     // No text here
     return inSelection;
   }
 
-  public RenderableSpot getLowestRenderableSpot(int x, int y) {
+  public RenderableSpot getLowestRenderableSpot(final int x, final int y) {
     // Nothing draggable - return self
     return new RenderableSpot(this, x, y);
   }
@@ -225,12 +225,12 @@ class RUIControl extends BaseElementRenderable implements RElement {
   private LayoutValue lastLayoutValue = null;
   private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<LayoutKey, LayoutValue>(5);
 
-  public void doLayout(int availWidth, int availHeight, boolean sizeOnly) {
-    Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
-    RenderState rs = this.modelNode.getRenderState();
-    int whitespace = rs == null ? RenderState.WS_NORMAL : rs.getWhiteSpace();
-    Font font = rs == null ? null : rs.getFont();
-    LayoutKey layoutKey = new LayoutKey(availWidth, availHeight, whitespace, font);
+  public void doLayout(final int availWidth, final int availHeight, final boolean sizeOnly) {
+    final Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
+    final RenderState rs = this.modelNode.getRenderState();
+    final int whitespace = rs == null ? RenderState.WS_NORMAL : rs.getWhiteSpace();
+    final Font font = rs == null ? null : rs.getFont();
+    final LayoutKey layoutKey = new LayoutKey(availWidth, availHeight, whitespace, font);
     LayoutValue layoutValue;
     if (sizeOnly) {
       layoutValue = cachedLayout.get(layoutKey);
@@ -243,7 +243,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
     if (layoutValue == null) {
       this.applyStyle(availWidth, availHeight);
-      RenderState renderState = this.modelNode.getRenderState();
+      final RenderState renderState = this.modelNode.getRenderState();
       Insets paddingInsets = this.paddingInsets;
       if (paddingInsets == null) {
         paddingInsets = RBlockViewport.ZERO_INSETS;
@@ -256,24 +256,24 @@ class RUIControl extends BaseElementRenderable implements RElement {
       if (marginInsets == null) {
         marginInsets = RBlockViewport.ZERO_INSETS;
       }
-      int actualAvailWidth = availWidth - paddingInsets.left - paddingInsets.right - borderInsets.left - borderInsets.right
+      final int actualAvailWidth = availWidth - paddingInsets.left - paddingInsets.right - borderInsets.left - borderInsets.right
           - marginInsets.left - marginInsets.right;
-      int actualAvailHeight = availHeight - paddingInsets.top - paddingInsets.bottom - borderInsets.top - borderInsets.bottom
+      final int actualAvailHeight = availHeight - paddingInsets.top - paddingInsets.bottom - borderInsets.top - borderInsets.bottom
           - marginInsets.top - marginInsets.bottom;
-      Integer dw = this.getDeclaredWidth(renderState, actualAvailWidth);
-      Integer dh = this.getDeclaredHeight(renderState, actualAvailHeight);
-      int declaredWidth = dw == null ? -1 : dw.intValue();
-      int declaredHeight = dh == null ? -1 : dh.intValue();
+      final Integer dw = this.getDeclaredWidth(renderState, actualAvailWidth);
+      final Integer dh = this.getDeclaredHeight(renderState, actualAvailHeight);
+      final int declaredWidth = dw == null ? -1 : dw.intValue();
+      final int declaredHeight = dh == null ? -1 : dh.intValue();
       this.declaredWidth = declaredWidth;
       this.declaredHeight = declaredHeight;
 
-      UIControl widget = this.widget;
+      final UIControl widget = this.widget;
       widget.reset(availWidth, availHeight);
-      Insets insets = this.getInsets(false, false);
+      final Insets insets = this.getInsets(false, false);
       int finalWidth = declaredWidth == -1 ? -1 : declaredWidth - insets.left - insets.right;
       int finalHeight = declaredHeight == -1 ? -1 : declaredHeight - insets.top - insets.bottom;
       if (finalWidth == -1 || finalHeight == -1) {
-        Dimension size = widget.getPreferredSize();
+        final Dimension size = widget.getPreferredSize();
         if (finalWidth == -1) {
           finalWidth = size.width + insets.left + insets.right;
         }
@@ -305,8 +305,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
    * thread.
    */
   public final void preferredSizeInvalidated() {
-    int dw = RUIControl.this.declaredWidth;
-    int dh = RUIControl.this.declaredHeight;
+    final int dw = RUIControl.this.declaredWidth;
+    final int dh = RUIControl.this.declaredHeight;
     if (dw == -1 || dh == -1) {
       this.frameContext.delayedRelayout((NodeImpl) this.modelNode);
     } else {
@@ -324,7 +324,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
   }
 
   public Color getForegroundColor() {
-    RenderState rs = this.modelNode.getRenderState();
+    final RenderState rs = this.modelNode.getRenderState();
     return rs == null ? null : rs.getColor();
   }
 
@@ -334,27 +334,27 @@ class RUIControl extends BaseElementRenderable implements RElement {
     public final int whitespace;
     public final Font font;
 
-    public LayoutKey(int availWidth, int availHeight, int whitespace, Font font) {
+    public LayoutKey(final int availWidth, final int availHeight, final int whitespace, final Font font) {
       this.availWidth = availWidth;
       this.availHeight = availHeight;
       this.whitespace = whitespace;
       this.font = font;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
       if (obj == this) {
         return true;
       }
       if (!(obj instanceof LayoutKey)) {
         return false;
       }
-      LayoutKey other = (LayoutKey) obj;
+      final LayoutKey other = (LayoutKey) obj;
       return other.availWidth == this.availWidth && other.availHeight == this.availHeight && other.whitespace == this.whitespace
           && Objects.equals(other.font, this.font);
     }
 
     public int hashCode() {
-      Font font = this.font;
+      final Font font = this.font;
       return (this.availWidth * 1000 + this.availHeight) ^ (font == null ? 0 : font.hashCode());
     }
   }
@@ -363,7 +363,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
     public final int width;
     public final int height;
 
-    public LayoutValue(int width, int height) {
+    public LayoutValue(final int width, final int height) {
       this.width = width;
       this.height = height;
     }

@@ -9,7 +9,7 @@ import org.w3c.dom.css.CSS2Properties;
 import org.w3c.dom.html2.*;
 
 public class TableCellRenderState extends DisplayRenderState {
-  public TableCellRenderState(RenderState prevRenderState, HTMLElementImpl element) {
+  public TableCellRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     super(prevRenderState, element, RenderState.DISPLAY_TABLE_CELL);
   }
 
@@ -30,18 +30,18 @@ public class TableCellRenderState extends DisplayRenderState {
     if (axp != -1) {
       return axp;
     }
-    CSS2Properties props = this.getCssProperties();
+    final CSS2Properties props = this.getCssProperties();
     if (props != null) {
-      String textAlign = props.getTextAlign();
+      final String textAlign = props.getTextAlign();
       if (textAlign != null && textAlign.length() != 0) {
         return super.getAlignXPercent();
       }
     }
     // Parent already knows about "align" attribute, but override because of TH.
     String align = this.element.getAttribute("align");
-    HTMLElement element = this.element;
+    final HTMLElement element = this.element;
     HTMLElement rowElement = null;
-    Object parent = element.getParentNode();
+    final Object parent = element.getParentNode();
     if (parent instanceof HTMLElement) {
       rowElement = (HTMLElement) parent;
     }
@@ -80,17 +80,17 @@ public class TableCellRenderState extends DisplayRenderState {
     if (ayp != -1) {
       return ayp;
     }
-    CSS2Properties props = this.getCssProperties();
+    final CSS2Properties props = this.getCssProperties();
     if (props != null) {
-      String textAlign = props.getVerticalAlign();
+      final String textAlign = props.getVerticalAlign();
       if (textAlign != null && textAlign.length() != 0) {
         return super.getAlignYPercent();
       }
     }
     String valign = this.element.getAttribute("valign");
-    HTMLElement element = this.element;
+    final HTMLElement element = this.element;
     HTMLElement rowElement = null;
-    Object parent = element.getParentNode();
+    final Object parent = element.getParentNode();
     if (parent instanceof HTMLElement) {
       rowElement = (HTMLElement) parent;
     }
@@ -127,9 +127,9 @@ public class TableCellRenderState extends DisplayRenderState {
     }
     // Apply style based on deprecated attributes.
     binfo = super.getBackgroundInfo();
-    HTMLTableCellElementImpl element = (HTMLTableCellElementImpl) this.element;
+    final HTMLTableCellElementImpl element = (HTMLTableCellElementImpl) this.element;
     HTMLTableRowElementImpl rowElement = null;
-    Object parentNode = element.getParentNode();
+    final Object parentNode = element.getParentNode();
     if (parentNode instanceof HTMLTableRowElementImpl) {
       rowElement = (HTMLTableRowElementImpl) parentNode;
     }
@@ -141,7 +141,7 @@ public class TableCellRenderState extends DisplayRenderState {
         }
       }
       if (bgColor != null && !"".equals(bgColor)) {
-        Color bgc = ColorFactory.getInstance().getColor(bgColor);
+        final Color bgc = ColorFactory.getInstance().getColor(bgColor);
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
@@ -149,7 +149,7 @@ public class TableCellRenderState extends DisplayRenderState {
       }
     }
     if (binfo == null || binfo.backgroundImage == null) {
-      String background = element.getAttribute("background");
+      final String background = element.getAttribute("background");
       if (background != null && !"".equals(background)) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
@@ -178,7 +178,7 @@ public class TableCellRenderState extends DisplayRenderState {
     }
     insets = super.getPaddingInsets();
     if (insets == null) {
-      HTMLTableElement tableElement = this.getTableElement();
+      final HTMLTableElement tableElement = this.getTableElement();
       if (tableElement == null) {
         // Return without caching
         return null;
@@ -192,14 +192,14 @@ public class TableCellRenderState extends DisplayRenderState {
           cellPaddingType = HtmlInsets.TYPE_PERCENT;
           try {
             cellPadding = Integer.parseInt(cellPaddingText.substring(0, cellPaddingText.length() - 1));
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             cellPadding = 0;
           }
         } else {
           cellPaddingType = HtmlInsets.TYPE_PIXELS;
           try {
             cellPadding = Integer.parseInt(cellPaddingText);
-          } catch (NumberFormatException nfe) {
+          } catch (final NumberFormatException nfe) {
             cellPadding = 0;
           }
         }
@@ -217,19 +217,19 @@ public class TableCellRenderState extends DisplayRenderState {
     if (RenderThreadState.getState().overrideNoWrap) {
       return WS_NOWRAP;
     }
-    Integer ws = this.iWhiteSpace;
+    final Integer ws = this.iWhiteSpace;
     if (ws != null) {
       return ws.intValue();
     }
-    AbstractCSS2Properties props = this.getCssProperties();
-    String whiteSpaceText = props == null ? null : props.getWhiteSpace();
+    final AbstractCSS2Properties props = this.getCssProperties();
+    final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;
     if (whiteSpaceText == null) {
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       if (element != null && element.getAttributeAsBoolean("nowrap")) {
         wsValue = WS_NOWRAP;
       } else {
-        RenderState prs = this.prevRenderState;
+        final RenderState prs = this.prevRenderState;
         if (prs != null) {
           wsValue = prs.getWhiteSpace();
         } else {
@@ -237,7 +237,7 @@ public class TableCellRenderState extends DisplayRenderState {
         }
       }
     } else {
-      String whiteSpaceTextTL = whiteSpaceText.toLowerCase();
+      final String whiteSpaceTextTL = whiteSpaceText.toLowerCase();
       if ("nowrap".equals(whiteSpaceTextTL)) {
         wsValue = WS_NOWRAP;
       } else if ("pre".equals(whiteSpaceTextTL)) {
@@ -249,7 +249,7 @@ public class TableCellRenderState extends DisplayRenderState {
     if (wsValue == WS_NOWRAP) {
       // In table cells, if the width is defined as an absolute value,
       // nowrap has no effect (IE and FireFox behavior).
-      HTMLElementImpl element = this.element;
+      final HTMLElementImpl element = this.element;
       String width = props == null ? null : props.getWidth();
       if (width == null) {
         width = element.getAttribute("width");

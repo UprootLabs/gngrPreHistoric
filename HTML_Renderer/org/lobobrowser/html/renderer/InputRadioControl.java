@@ -33,10 +33,10 @@ import org.lobobrowser.util.gui.WrapperLayout;
 class InputRadioControl extends BaseInputControl {
   private final JRadioButton widget;
 
-  public InputRadioControl(HTMLBaseInputElement modelNode) {
+  public InputRadioControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    JRadioButton radio = new JRadioButton();
+    final JRadioButton radio = new JRadioButton();
     radio.setOpaque(false);
     this.widget = radio;
 
@@ -44,14 +44,14 @@ class InputRadioControl extends BaseInputControl {
     // Otherwise, layout revalidation causes typed values to
     // be lost (including revalidation due to hover.)
 
-    HTMLElementImpl controlElement = this.controlElement;
-    String name = controlElement.getAttribute("name");
-    ButtonGroup prevGroup = this.buttonGroup;
+    final HTMLElementImpl controlElement = this.controlElement;
+    final String name = controlElement.getAttribute("name");
+    final ButtonGroup prevGroup = this.buttonGroup;
     if (prevGroup != null) {
       prevGroup.remove(radio);
     }
     if (name != null) {
-      String key = "cobra.radio.group." + name;
+      final String key = "cobra.radio.group." + name;
       ButtonGroup group = (ButtonGroup) controlElement.getDocumentItem(key);
       if (group == null) {
         group = new ButtonGroup();
@@ -69,7 +69,7 @@ class InputRadioControl extends BaseInputControl {
 
   private ButtonGroup buttonGroup;
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
   }
 
@@ -96,7 +96,7 @@ class InputRadioControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setChecked(boolean)
    */
-  public void setChecked(boolean checked) {
+  public void setChecked(final boolean checked) {
     this.widget.setSelected(checked);
   }
 
@@ -105,7 +105,7 @@ class InputRadioControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
   }

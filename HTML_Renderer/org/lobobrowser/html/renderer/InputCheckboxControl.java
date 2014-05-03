@@ -31,10 +31,10 @@ import org.lobobrowser.util.gui.WrapperLayout;
 class InputCheckboxControl extends BaseInputControl {
   private final JCheckBox widget;
 
-  public InputCheckboxControl(HTMLBaseInputElement modelNode) {
+  public InputCheckboxControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    JCheckBox checkBox = new JCheckBox();
+    final JCheckBox checkBox = new JCheckBox();
     checkBox.setOpaque(false);
     this.widget = checkBox;
 
@@ -46,7 +46,7 @@ class InputCheckboxControl extends BaseInputControl {
     this.add(checkBox);
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
   }
 
@@ -73,7 +73,7 @@ class InputCheckboxControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setChecked(boolean)
    */
-  public void setChecked(boolean checked) {
+  public void setChecked(final boolean checked) {
     this.widget.setSelected(checked);
   }
 
@@ -82,7 +82,7 @@ class InputCheckboxControl extends BaseInputControl {
    * 
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
-  public void setDisabled(boolean disabled) {
+  public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
   }

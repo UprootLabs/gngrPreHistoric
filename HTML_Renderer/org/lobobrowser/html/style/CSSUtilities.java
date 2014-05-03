@@ -47,15 +47,15 @@ public class CSSUtilities {
   private CSSUtilities() {
   }
 
-  public static String preProcessCss(String text) {
+  public static String preProcessCss(final String text) {
     try {
-      BufferedReader reader = new BufferedReader(new StringReader(text));
+      final BufferedReader reader = new BufferedReader(new StringReader(text));
       String line;
-      StringBuffer sb = new StringBuffer();
+      final StringBuffer sb = new StringBuffer();
       String pendingLine = null;
       // Only last line should be trimmed.
       while ((line = reader.readLine()) != null) {
-        String tline = line.trim();
+        final String tline = line.trim();
         if (tline.length() != 0) {
           if (pendingLine != null) {
             sb.append(pendingLine);
@@ -71,15 +71,15 @@ public class CSSUtilities {
         }
       }
       return sb.toString();
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       // not possible
       throw new IllegalStateException(ioe.getMessage());
     }
   }
 
-  public static InputSource getCssInputSourceForStyleSheet(String text, String scriptURI) {
-    java.io.Reader reader = new StringReader(text);
-    InputSource is = new InputSource(reader);
+  public static InputSource getCssInputSourceForStyleSheet(final String text, final String scriptURI) {
+    final java.io.Reader reader = new StringReader(text);
+    final InputSource is = new InputSource(reader);
     is.setURI(scriptURI);
     return is;
   }
@@ -88,20 +88,20 @@ public class CSSUtilities {
     return new CSSOMParser(new SACParserCSS3());
   }
 
-  public static CSSStyleSheet parse(org.w3c.dom.Node ownerNode, String href, HTMLDocumentImpl doc, String baseUri,
-      boolean considerDoubleSlashComments) throws MalformedURLException {
-    UserAgentContext bcontext = doc.getUserAgentContext();
+  public static CSSStyleSheet parse(final org.w3c.dom.Node ownerNode, final String href, final HTMLDocumentImpl doc, final String baseUri,
+      final boolean considerDoubleSlashComments) throws MalformedURLException {
+    final UserAgentContext bcontext = doc.getUserAgentContext();
     final HttpRequest request = bcontext.createHttpRequest();
-    URL baseURL = new URL(baseUri);
-    URL scriptURL = Urls.createURL(baseURL, href);
+    final URL baseURL = new URL(baseUri);
+    final URL scriptURL = Urls.createURL(baseURL, href);
     final String scriptURI = scriptURL == null ? href : scriptURL.toExternalForm();
     // Perform a synchronous request
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm == null) {
       try {
         request.open("GET", scriptURI, false);
         request.send(null);
-      } catch (java.io.IOException thrown) {
+      } catch (final java.io.IOException thrown) {
         logger.log(Level.WARNING, "parse()", thrown);
       }
 
@@ -112,29 +112,29 @@ public class CSSUtilities {
           try {
             request.open("GET", scriptURI, false);
             request.send(null);
-          } catch (java.io.IOException thrown) {
+          } catch (final java.io.IOException thrown) {
             logger.log(Level.WARNING, "parse()", thrown);
           }
           return null;
         }
       });
     }
-    int status = request.getStatus();
+    final int status = request.getStatus();
     if (status != 200 && status != 0) {
       logger.warning("Unable to parse CSS. URI=[" + scriptURI + "]. Response status was " + status + ".");
       return null;
     }
 
-    String text = request.getResponseText();
+    final String text = request.getResponseText();
     if (text != null && !"".equals(text)) {
-      String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
-      CSSOMParser parser = mkParser();
-      InputSource is = getCssInputSourceForStyleSheet(processedText, scriptURI);
+      final String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
+      final CSSOMParser parser = mkParser();
+      final InputSource is = getCssInputSourceForStyleSheet(processedText, scriptURI);
       is.setURI(scriptURI);
       try {
-        CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, scriptURI);
+        final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, scriptURI);
         return sheet;
-      } catch (Throwable err) {
+      } catch (final Throwable err) {
         logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + scriptURI + "].", err);
         return null;
       }
@@ -143,17 +143,17 @@ public class CSSUtilities {
     }
   }
 
-  public static boolean matchesMedia(String mediaValues, UserAgentContext rcontext) {
+  public static boolean matchesMedia(final String mediaValues, final UserAgentContext rcontext) {
     if (mediaValues == null || mediaValues.length() == 0) {
       return true;
     }
     if (rcontext == null) {
       return false;
     }
-    StringTokenizer tok = new StringTokenizer(mediaValues, ",");
+    final StringTokenizer tok = new StringTokenizer(mediaValues, ",");
     while (tok.hasMoreTokens()) {
-      String token = tok.nextToken().trim();
-      String mediaName = Strings.trimForAlphaNumDash(token);
+      final String token = tok.nextToken().trim();
+      final String mediaName = Strings.trimForAlphaNumDash(token);
       if (rcontext.isMedia(mediaName)) {
         return true;
       }
@@ -161,11 +161,11 @@ public class CSSUtilities {
     return false;
   }
 
-  public static boolean matchesMedia(MediaList mediaList, UserAgentContext rcontext) {
+  public static boolean matchesMedia(final MediaList mediaList, final UserAgentContext rcontext) {
     if (mediaList == null) {
       return true;
     }
-    int length = mediaList.getLength();
+    final int length = mediaList.getLength();
     if (length == 0) {
       return true;
     }
@@ -173,7 +173,7 @@ public class CSSUtilities {
       return false;
     }
     for (int i = 0; i < length; i++) {
-      String mediaName = mediaList.item(i);
+      final String mediaName = mediaList.item(i);
       if (rcontext.isMedia(mediaName)) {
         return true;
       }

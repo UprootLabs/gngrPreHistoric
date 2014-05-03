@@ -32,7 +32,7 @@ public class RRelative extends BaseRCollection {
   private final int xoffset;
   private final int yoffset;
 
-  public RRelative(RenderableContainer container, ModelNode modelNode, final RElement child, final int xoffset, final int yoffset) {
+  public RRelative(final RenderableContainer container, final ModelNode modelNode, final RElement child, final int xoffset, final int yoffset) {
     super(container, modelNode);
     child.setOriginalParent(this);
     child.setParent(this);
@@ -43,13 +43,13 @@ public class RRelative extends BaseRCollection {
   }
 
   public void assignDimension() {
-    RElement child = this.child;
+    final RElement child = this.child;
     this.width = child.getWidth();
     this.height = child.getHeight();
   }
 
   public FloatingInfo getExportableFloatingInfo() {
-    RElement child = this.child;
+    final RElement child = this.child;
     if (child instanceof RBlock) {
       // There are no insets, and hence no shift.
       return ((RBlock) child).getExportableFloatingInfo();
@@ -99,7 +99,7 @@ public class RRelative extends BaseRCollection {
     // nop
   }
 
-  public RenderableSpot getLowestRenderableSpot(int x, int y) {
+  public RenderableSpot getLowestRenderableSpot(final int x, final int y) {
     return this.child.getLowestRenderableSpot(x - this.xoffset, y - this.yoffset);
   }
 
@@ -107,27 +107,27 @@ public class RRelative extends BaseRCollection {
     return true;
   }
 
-  public boolean onDoubleClick(MouseEvent event, int x, int y) {
+  public boolean onDoubleClick(final MouseEvent event, final int x, final int y) {
     return this.child.onDoubleClick(event, x - this.xoffset, y - this.yoffset);
   }
 
-  public boolean onMouseClick(MouseEvent event, int x, int y) {
+  public boolean onMouseClick(final MouseEvent event, final int x, final int y) {
     return this.child.onMouseClick(event, x - this.xoffset, y - this.yoffset);
   }
 
-  public boolean onMouseDisarmed(MouseEvent event) {
+  public boolean onMouseDisarmed(final MouseEvent event) {
     return this.child.onMouseDisarmed(event);
   }
 
-  public boolean onMousePressed(MouseEvent event, int x, int y) {
+  public boolean onMousePressed(final MouseEvent event, final int x, final int y) {
     return this.child.onMousePressed(event, x - this.xoffset, y - this.yoffset);
   }
 
-  public boolean onMouseReleased(MouseEvent event, int x, int y) {
+  public boolean onMouseReleased(final MouseEvent event, final int x, final int y) {
     return this.child.onMouseReleased(event, x - this.xoffset, y - this.yoffset);
   }
 
-  public void paint(Graphics g) {
+  public void paint(final Graphics g) {
     this.child.paintTranslated(g);
   }
 }

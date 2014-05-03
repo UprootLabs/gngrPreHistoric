@@ -22,16 +22,16 @@
 package org.lobobrowser.html.style;
 
 public class TextDecorationRenderState extends RenderStateDelegator {
-  private int textDecorationMask;
+  private final int textDecorationMask;
 
-  public TextDecorationRenderState(RenderState prevRenderState, int textDecorationMask) {
+  public TextDecorationRenderState(final RenderState prevRenderState, final int textDecorationMask) {
     super(prevRenderState);
     this.textDecorationMask = textDecorationMask;
   }
 
   public int getTextDecorationMask() {
-    RenderState prs = this.delegate;
-    int parentMask = prs == null ? 0 : prs.getTextDecorationMask();
+    final RenderState prs = this.delegate;
+    final int parentMask = prs == null ? 0 : prs.getTextDecorationMask();
     return parentMask | this.textDecorationMask;
   }
 }

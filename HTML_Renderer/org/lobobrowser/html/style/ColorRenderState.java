@@ -26,7 +26,7 @@ import java.awt.Color;
 public class ColorRenderState extends RenderStateDelegator {
   private final Color color;
 
-  public ColorRenderState(RenderState prevRenderState, Color color) {
+  public ColorRenderState(final RenderState prevRenderState, final Color color) {
     super(prevRenderState);
     this.color = color;
   }
