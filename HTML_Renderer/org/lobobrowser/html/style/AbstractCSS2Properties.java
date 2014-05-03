@@ -159,15 +159,15 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 	public static final String WORD_SPACING = "word_spacing";
 	public static final String Z_INDEX = "z-index";	
 	
-	private static final Map SUB_SETTERS = new HashMap(20); 
+	private static final Map<String, SubPropertySetter> SUB_SETTERS = new HashMap<String, SubPropertySetter>(20); 
 	
 	private final CSS2PropertiesContext context;
 	private AbstractCSS2Properties localStyleProperties;
-	private Collection styleDeclarations;
-	private Map valueMap = null;
+	private Collection<CSSStyleDeclaration> styleDeclarations;
+	private Map<String, Property> valueMap = null;
 
 	static {
-		Map subSetters = SUB_SETTERS;
+		Map<String, SubPropertySetter> subSetters = SUB_SETTERS;
 		subSetters.put(MARGIN, new FourCornersSetter(MARGIN, "margin-", ""));
 		subSetters.put(PADDING, new FourCornersSetter(PADDING, "padding-", ""));
 		subSetters.put(BORDER, new BorderSetter1());
@@ -189,9 +189,9 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 
 	public void addStyleDeclaration(CSSStyleDeclaration styleDeclaration) {
 		synchronized(this) {
-			Collection sd = this.styleDeclarations;
+			Collection<CSSStyleDeclaration> sd = this.styleDeclarations;
 			if(sd == null) {
-				sd = new LinkedList();
+				sd = new LinkedList<CSSStyleDeclaration>();
 				this.styleDeclarations = sd;
 			}
 			sd.add(styleDeclaration);
@@ -231,7 +231,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 	}
 
 	private final String getPropertyValueLC(String lowerCaseName) {
-		Map vm = this.valueMap;
+		Map<String, Property> vm = this.valueMap;
 		synchronized(this) {
 			// Local properties have precedence
 			AbstractCSS2Properties localProps = this.localStyleProperties;
@@ -242,7 +242,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 				}
 			}
 			if(vm != null) {
-				Property p = (Property) vm.get(lowerCaseName);
+				Property p = vm.get(lowerCaseName);
 				return p == null ? null : p.value;
 			}
 		}		
@@ -255,10 +255,10 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 	 * @param value The property value.
 	 */
 	protected void setPropertyValueLC(String lowerCaseName, String value) {
-		Map vm = this.valueMap;
+		Map<String, Property> vm = this.valueMap;
 		synchronized(this) {
 			if(vm == null) {
-				vm = new HashMap(1);
+				vm = new HashMap<String, Property>(1);
 				this.valueMap = vm;
 			}
 			vm.put(lowerCaseName, new Property(value, true));
@@ -274,15 +274,15 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 	 * @param value The property value.
 	 */
 	protected final void setPropertyValueLCAlt(String lowerCaseName, String value, boolean important) {
-		Map vm = this.valueMap;
+		Map<String, Property> vm = this.valueMap;
 		synchronized(this) {
 			if(vm == null) {
-				vm = new HashMap(1);
+				vm = new HashMap<String, Property>(1);
 				this.valueMap = vm;
 			}
 			else {
 				if(!important) {
-					Property oldProperty = (Property) vm.get(lowerCaseName);
+					Property oldProperty = vm.get(lowerCaseName);
 					if(oldProperty != null && oldProperty.important) {
 						// Ignore setting
 						return;
@@ -294,7 +294,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 	}
 
 	protected final void setPropertyValueProcessed(String lowerCaseName, String value, CSSStyleDeclaration declaration, boolean important) {
-		SubPropertySetter setter = (SubPropertySetter) SUB_SETTERS.get(lowerCaseName);
+		SubPropertySetter setter = SUB_SETTERS.get(lowerCaseName);
 		if(setter != null) {
 			setter.changeValue(this, value, declaration, important);
 		}
@@ -1527,10 +1527,32 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
 	public String toString() {
 		int size;
 		synchronized(this) {
-			Map map = this.valueMap;
+			Map<String, Property> map = this.valueMap;
 			size = map == null ? 0 : map.size();
 		}
-		return this.getClass().getSimpleName() + "[size=" + size + "]";
+		final StringBuilder sb = new StringBuilder();
+		if (this.localStyleProperties.valueMap != null) {
+		  sb.append("local: {");
+		for(final String key: this.localStyleProperties.valueMap.keySet()) {
+		  final Property value = this.localStyleProperties.valueMap.get(key);
+		  sb.append(key);
+		  sb.append(": ");
+		  sb.append(value.value);
+		  sb.append(", ");
+		}
+		  sb.append("} ");
+		}
+		if (this.valueMap != null) {
+		for(final String key: this.valueMap.keySet()) {
+		  final Property value = this.valueMap.get(key);
+		  sb.append(key);
+		  sb.append(": ");
+		  sb.append(value.value);
+		  sb.append(", ");
+		}
+		}
+		return this.getClass().getSimpleName() + "[" + sb.toString() + "]";
+		// return this.getClass().getSimpleName() + "[size=" + size + "]";
 	}
 	
 	private static interface SubPropertySetter {
