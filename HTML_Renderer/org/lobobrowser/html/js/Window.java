@@ -550,6 +550,14 @@ public class Window extends AbstractScriptableDelegate implements AbstractView  
 		return timeID;
 	}
 
+	public int setTimeout(final Function function) {
+	  return setTimeout(function, 0);
+	}
+
+	public int setTimeout(final String expr) {
+	  return setTimeout(expr, 0);
+	}
+
 	public boolean isClosed() {
 		HtmlRendererContext rcontext = this.rcontext;
 		if(rcontext != null) {
