@@ -43,7 +43,7 @@ public class SimpleBrowserFrame extends HtmlPanel implements BrowserFrame {
   private final HtmlRendererContext rcontext;
   private final HtmlRendererContext parentRcontext;
 
-  public SimpleBrowserFrame(HtmlRendererContext parentRcontext) {
+  public SimpleBrowserFrame(final HtmlRendererContext parentRcontext) {
     this.parentRcontext = parentRcontext;
     this.rcontext = this.createHtmlRendererContext(parentRcontext);
   }
@@ -55,7 +55,7 @@ public class SimpleBrowserFrame extends HtmlPanel implements BrowserFrame {
    * @param parentRcontext
    *          The parent context.
    */
-  protected HtmlRendererContext createHtmlRendererContext(HtmlRendererContext parentRcontext) {
+  protected HtmlRendererContext createHtmlRendererContext(final HtmlRendererContext parentRcontext) {
     return new SimpleHtmlRendererContext(this, parentRcontext);
   }
 
@@ -67,7 +67,7 @@ public class SimpleBrowserFrame extends HtmlPanel implements BrowserFrame {
     return this;
   }
 
-  public void loadURL(URL url) {
+  public void loadURL(final URL url) {
     this.rcontext.navigate(url, "_this");
   }
 
@@ -79,16 +79,16 @@ public class SimpleBrowserFrame extends HtmlPanel implements BrowserFrame {
     return this.parentRcontext;
   }
 
-  public void setDefaultMarginInsets(Insets insets) {
+  public void setDefaultMarginInsets(final Insets insets) {
     // Current implementation is the frame HtmlPanel.
     super.setDefaultMarginInsets(insets);
   }
 
-  public void setDefaultOverflowX(int overflowX) {
+  public void setDefaultOverflowX(final int overflowX) {
     super.setDefaultOverflowX(overflowX);
   }
 
-  public void setDefaultOverflowY(int overflowY) {
+  public void setDefaultOverflowY(final int overflowY) {
     super.setDefaultOverflowY(overflowY);
   }
 }

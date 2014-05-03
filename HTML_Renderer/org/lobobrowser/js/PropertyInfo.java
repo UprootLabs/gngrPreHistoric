@@ -27,7 +27,7 @@ public class PropertyInfo {
   private final Class propertyType;
   private Method getter, setter;
 
-  public PropertyInfo(String name, Class propType) {
+  public PropertyInfo(final String name, final Class propType) {
     super();
     this.name = name;
     this.propertyType = propType;
@@ -37,7 +37,7 @@ public class PropertyInfo {
     return getter;
   }
 
-  public void setGetter(Method getter) {
+  public void setGetter(final Method getter) {
     this.getter = getter;
   }
 
@@ -45,7 +45,7 @@ public class PropertyInfo {
     return setter;
   }
 
-  public void setSetter(Method setter) {
+  public void setSetter(final Method setter) {
     this.setter = setter;
   }
 

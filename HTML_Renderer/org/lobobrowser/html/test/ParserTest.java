@@ -36,17 +36,17 @@ public class ParserTest extends JFrame {
     this("HTML Parser-Only Test Tool");
   }
 
-  public ParserTest(String title) throws HeadlessException {
+  public ParserTest(final String title) throws HeadlessException {
     super(title);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BorderLayout());
-    JPanel topPanel = new JPanel();
+    final JPanel topPanel = new JPanel();
     topPanel.setLayout(new BorderLayout());
-    JPanel bottomPanel = new JPanel();
+    final JPanel bottomPanel = new JPanel();
     bottomPanel.setLayout(new BorderLayout());
     final JTextField textField = new JTextField();
-    JButton button = new JButton("Parse & Render");
+    final JButton button = new JButton("Parse & Render");
     final JTabbedPane tabbedPane = new JTabbedPane();
     final JTree tree = new JTree();
     tree.setModel(null);
@@ -72,19 +72,19 @@ public class ParserTest extends JFrame {
     tabbedPane.addTab("Source Code", textAreaSp);
 
     button.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent event) {
+      public void actionPerformed(final ActionEvent event) {
         process(textField.getText());
       }
     });
   }
 
-  private void process(String uri) {
+  private void process(final String uri) {
     try {
       URL url;
       try {
         url = new URL(uri);
-      } catch (java.net.MalformedURLException mfu) {
-        int idx = uri.indexOf(':');
+      } catch (final java.net.MalformedURLException mfu) {
+        final int idx = uri.indexOf(':');
         if (idx == -1 || idx == 1) {
           // try file
           url = new URL("file:" + uri);
@@ -93,43 +93,43 @@ public class ParserTest extends JFrame {
         }
       }
       logger.info("process(): Loading URI=[" + uri + "].");
-      long time0 = System.currentTimeMillis();
-      URLConnection connection = url.openConnection();
+      final long time0 = System.currentTimeMillis();
+      final URLConnection connection = url.openConnection();
       connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible;) Cobra/0.96.1+");
       connection.setRequestProperty("Cookie", "");
       if (connection instanceof HttpURLConnection) {
-        HttpURLConnection hc = (HttpURLConnection) connection;
+        final HttpURLConnection hc = (HttpURLConnection) connection;
         hc.setInstanceFollowRedirects(true);
-        int responseCode = hc.getResponseCode();
+        final int responseCode = hc.getResponseCode();
         logger.info("process(): HTTP response code: " + responseCode);
       }
-      InputStream in = connection.getInputStream();
+      final InputStream in = connection.getInputStream();
       byte[] content;
       try {
         content = IORoutines.load(in, 8192);
       } finally {
         in.close();
       }
-      String source = new String(content, "ISO-8859-1");
+      final String source = new String(content, "ISO-8859-1");
       this.textArea.setText(source);
-      long time1 = System.currentTimeMillis();
-      InputStream bin = new ByteArrayInputStream(content);
-      UserAgentContext ucontext = new SimpleUserAgentContext();
-      DocumentBuilderImpl builder = new DocumentBuilderImpl(ucontext);
+      final long time1 = System.currentTimeMillis();
+      final InputStream bin = new ByteArrayInputStream(content);
+      final UserAgentContext ucontext = new SimpleUserAgentContext();
+      final DocumentBuilderImpl builder = new DocumentBuilderImpl(ucontext);
       // Provide a proper URI, in case it was a file.
-      String actualURI = url.toExternalForm();
+      final String actualURI = url.toExternalForm();
       // Should change to use proper charset.
-      Document document = builder.parse(new InputSourceImpl(bin, actualURI, "ISO-8859-1"));
-      long time2 = System.currentTimeMillis();
+      final Document document = builder.parse(new InputSourceImpl(bin, actualURI, "ISO-8859-1"));
+      final long time2 = System.currentTimeMillis();
       logger.info("Parsed URI=[" + uri + "]: Parse elapsed: " + (time2 - time1) + " ms. Load elapsed: " + (time1 - time0) + " ms.");
       this.tree.setModel(new NodeTreeModel(document));
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.SEVERE, "Error trying to load URI=[" + uri + "].", err);
     }
   }
 
-  public static void main(String[] args) {
-    ParserTest frame = new ParserTest();
+  public static void main(final String[] args) {
+    final ParserTest frame = new ParserTest();
     frame.setSize(800, 400);
     frame.setExtendedState(TestFrame.MAXIMIZED_BOTH);
     frame.setVisible(true);

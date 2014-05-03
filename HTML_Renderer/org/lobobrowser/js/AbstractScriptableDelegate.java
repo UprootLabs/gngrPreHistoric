@@ -29,7 +29,7 @@ public abstract class AbstractScriptableDelegate implements ScriptableDelegate {
     return this.scriptable;
   }
 
-  public void setScriptable(Scriptable scriptable) {
+  public void setScriptable(final Scriptable scriptable) {
     this.scriptable = scriptable;
   }
 }

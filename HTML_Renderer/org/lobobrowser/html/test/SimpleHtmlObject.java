@@ -12,13 +12,13 @@ import org.w3c.dom.html2.*;
 public class SimpleHtmlObject extends JComponent implements HtmlObject {
   protected final HTMLElement element;
 
-  public SimpleHtmlObject(HTMLElement element) {
+  public SimpleHtmlObject(final HTMLElement element) {
     this.element = element;
     this.setLayout(new FlowLayout());
     this.add(new JLabel("[" + element.getTagName() + "]"));
   }
 
-  public void reset(int availWidth, int availHeight) {
+  public void reset(final int availWidth, final int availHeight) {
     // nop
   }
 

@@ -77,7 +77,7 @@ public class SimpleHttpRequest implements HttpRequest {
    */
   protected String responseHeaders;
 
-  public SimpleHttpRequest(UserAgentContext context, java.net.Proxy proxy) {
+  public SimpleHttpRequest(final UserAgentContext context, final java.net.Proxy proxy) {
     super();
     this.context = context;
     this.proxy = proxy;
@@ -88,19 +88,19 @@ public class SimpleHttpRequest implements HttpRequest {
   }
 
   public synchronized String getResponseText() {
-    byte[] bytes = this.responseBytes;
-    java.net.URLConnection connection = this.connection;
+    final byte[] bytes = this.responseBytes;
+    final java.net.URLConnection connection = this.connection;
     String encoding = connection == null ? "ISO-8859-1" : Urls.getCharset(connection);
     if (encoding == null) {
       encoding = "ISO-8859-1";
     }
     try {
       return bytes == null ? null : new String(bytes, encoding);
-    } catch (UnsupportedEncodingException uee) {
+    } catch (final UnsupportedEncodingException uee) {
       logger.log(Level.WARNING, "getResponseText(): Charset '" + encoding + "' did not work. Retrying with ISO-8859-1.", uee);
       try {
         return new String(bytes, "ISO-8859-1");
-      } catch (UnsupportedEncodingException uee2) {
+      } catch (final UnsupportedEncodingException uee2) {
         // Ignore this time
         return null;
       }
@@ -108,14 +108,14 @@ public class SimpleHttpRequest implements HttpRequest {
   }
 
   public synchronized Document getResponseXML() {
-    byte[] bytes = this.responseBytes;
+    final byte[] bytes = this.responseBytes;
     if (bytes == null) {
       return null;
     }
-    java.io.InputStream in = new ByteArrayInputStream(bytes);
+    final java.io.InputStream in = new ByteArrayInputStream(bytes);
     try {
       return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Unable to parse response as XML.", err);
       return null;
     }
@@ -131,7 +131,7 @@ public class SimpleHttpRequest implements HttpRequest {
    * @see org.xamjwg.html.HttpRequest#getResponseImage()
    */
   public synchronized Image getResponseImage() {
-    byte[] bytes = this.responseBytes;
+    final byte[] bytes = this.responseBytes;
     if (bytes == null) {
       return null;
     }
@@ -156,7 +156,7 @@ public class SimpleHttpRequest implements HttpRequest {
     } else if (c != null) {
       try {
         c.getInputStream().close();
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         ioe.printStackTrace();
       }
     }
@@ -166,29 +166,29 @@ public class SimpleHttpRequest implements HttpRequest {
     return this.responseHeaders;
   }
 
-  public synchronized String getResponseHeader(String headerName) {
-    Map headers = this.responseHeadersMap;
+  public synchronized String getResponseHeader(final String headerName) {
+    final Map headers = this.responseHeadersMap;
     return headers == null ? null : (String) headers.get(headerName);
   }
 
-  public void open(String method, String url) throws IOException {
+  public void open(final String method, final String url) throws IOException {
     this.open(method, url, true);
   }
 
-  public void open(String method, URL url) throws IOException {
+  public void open(final String method, final URL url) throws IOException {
     this.open(method, url, true, null, null);
   }
 
-  public void open(String method, URL url, boolean asyncFlag) throws IOException {
+  public void open(final String method, final URL url, final boolean asyncFlag) throws IOException {
     this.open(method, url, asyncFlag, null, null);
   }
 
-  public void open(String method, String url, boolean asyncFlag) throws IOException {
-    URL urlObj = Urls.createURL(null, url);
+  public void open(final String method, final String url, final boolean asyncFlag) throws IOException {
+    final URL urlObj = Urls.createURL(null, url);
     this.open(method, urlObj, asyncFlag, null);
   }
 
-  public void open(String method, java.net.URL url, boolean asyncFlag, String userName) throws IOException {
+  public void open(final String method, final java.net.URL url, final boolean asyncFlag, final String userName) throws IOException {
     this.open(method, url, asyncFlag, userName, null);
   }
 
@@ -206,11 +206,11 @@ public class SimpleHttpRequest implements HttpRequest {
    * @param password
    *          The password of the request (not supported.)
    */
-  public void open(final String method, final java.net.URL url, boolean asyncFlag, final String userName, final String password)
+  public void open(final String method, final java.net.URL url, final boolean asyncFlag, final String userName, final String password)
       throws java.io.IOException {
     this.abort();
-    Proxy proxy = this.proxy;
-    URLConnection c = proxy == null || proxy == Proxy.NO_PROXY ? url.openConnection() : url.openConnection(proxy);
+    final Proxy proxy = this.proxy;
+    final URLConnection c = proxy == null || proxy == Proxy.NO_PROXY ? url.openConnection() : url.openConnection(proxy);
     synchronized (this) {
       this.connection = c;
       this.isAsync = asyncFlag;
@@ -241,7 +241,7 @@ public class SimpleHttpRequest implements HttpRequest {
         public void run() {
           try {
             sendSync(content);
-          } catch (Throwable thrown) {
+          } catch (final Throwable thrown) {
             logger.log(Level.WARNING, "send(): Error in asynchronous request on " + url, thrown);
           }
         }
@@ -267,7 +267,7 @@ public class SimpleHttpRequest implements HttpRequest {
    *          POST content if any. It may be <code>null</code>.
    * @throws IOException
    */
-  protected void sendSync(String content) throws IOException {
+  protected void sendSync(final String content) throws IOException {
     try {
       // FireFox posts a "loading" state twice as well.
       this.changeState(HttpRequest.STATE_LOADING, 0, null, null);
@@ -280,7 +280,7 @@ public class SimpleHttpRequest implements HttpRequest {
       String istatusText;
       java.io.InputStream err;
       if (c instanceof HttpURLConnection) {
-        HttpURLConnection hc = (HttpURLConnection) c;
+        final HttpURLConnection hc = (HttpURLConnection) c;
         String method = this.requestMethod;
         if (method == null) {
           throw new java.io.IOException("Null method.");
@@ -289,9 +289,9 @@ public class SimpleHttpRequest implements HttpRequest {
         hc.setRequestMethod(method);
         if ("POST".equals(method) && content != null) {
           hc.setDoOutput(true);
-          byte[] contentBytes = content.getBytes(this.getPostCharset());
+          final byte[] contentBytes = content.getBytes(this.getPostCharset());
           hc.setFixedLengthStreamingMode(contentBytes.length);
-          OutputStream out = hc.getOutputStream();
+          final OutputStream out = hc.getOutputStream();
           try {
             out.write(contentBytes);
           } finally {
@@ -311,12 +311,12 @@ public class SimpleHttpRequest implements HttpRequest {
         this.responseHeadersMap = c.getHeaderFields();
       }
       this.changeState(HttpRequest.STATE_LOADED, istatus, istatusText, null);
-      java.io.InputStream in = err == null ? c.getInputStream() : err;
-      int contentLength = c.getContentLength();
+      final java.io.InputStream in = err == null ? c.getInputStream() : err;
+      final int contentLength = c.getContentLength();
       // TODO: In the "interactive" state, some response text is supposed to be
       // available.
       this.changeState(HttpRequest.STATE_INTERACTIVE, istatus, istatusText, null);
-      byte[] bytes = IORoutines.load(in, contentLength == -1 ? 4096 : contentLength);
+      final byte[] bytes = IORoutines.load(in, contentLength == -1 ? 4096 : contentLength);
       this.changeState(HttpRequest.STATE_COMPLETE, istatus, istatusText, bytes);
     } finally {
       synchronized (this) {
@@ -329,13 +329,13 @@ public class SimpleHttpRequest implements HttpRequest {
 
   public void addReadyStateChangeListener(final ReadyStateChangeListener listener) {
     readyEvent.addListener(new GenericEventListener() {
-      public void processEvent(EventObject event) {
+      public void processEvent(final EventObject event) {
         listener.readyStateChanged();
       }
     });
   }
 
-  private void changeState(int readyState, int status, String statusMessage, byte[] bytes) {
+  private void changeState(final int readyState, final int status, final String statusMessage, final byte[] bytes) {
     synchronized (this) {
       this.readyState = readyState;
       this.status = status;
@@ -345,12 +345,12 @@ public class SimpleHttpRequest implements HttpRequest {
     this.readyEvent.fireEvent(null);
   }
 
-  private String getAllResponseHeaders(URLConnection c) {
+  private String getAllResponseHeaders(final URLConnection c) {
     int idx = 0;
     String value;
-    StringBuffer buf = new StringBuffer();
+    final StringBuffer buf = new StringBuffer();
     while ((value = c.getHeaderField(idx)) != null) {
-      String key = c.getHeaderFieldKey(idx);
+      final String key = c.getHeaderFieldKey(idx);
       buf.append(key);
       buf.append(": ");
       buf.append(value);

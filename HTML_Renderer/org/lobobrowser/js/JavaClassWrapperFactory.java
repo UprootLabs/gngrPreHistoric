@@ -42,12 +42,12 @@ public class JavaClassWrapperFactory {
     return instance;
   }
 
-  public JavaClassWrapper getClassWrapper(Class clazz) {
+  public JavaClassWrapper getClassWrapper(final Class clazz) {
     synchronized (this) {
       // WeakHashMaps where the value refers to
       // the key will retain keys. Must make it
       // refer to the value weakly too.
-      WeakReference jcwr = this.classWrappers.get(clazz);
+      final WeakReference jcwr = this.classWrappers.get(clazz);
       JavaClassWrapper jcw = null;
       if (jcwr != null) {
         jcw = (JavaClassWrapper) jcwr.get();

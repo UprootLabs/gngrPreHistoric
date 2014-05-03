@@ -34,7 +34,7 @@ public class JavaClassWrapper {
   private PropertyInfo nameIndexer;
   private PropertyInfo integerIndexer;
 
-  public JavaClassWrapper(Class class1) {
+  public JavaClassWrapper(final Class class1) {
     super();
     this.javaClass = class1;
     this.scanMethods();
@@ -45,25 +45,25 @@ public class JavaClassWrapper {
   }
 
   public String getClassName() {
-    String className = this.javaClass.getName();
-    int lastDotIdx = className.lastIndexOf('.');
+    final String className = this.javaClass.getName();
+    final int lastDotIdx = className.lastIndexOf('.');
     return lastDotIdx == -1 ? className : className.substring(lastDotIdx + 1);
   }
 
-  public Function getFunction(String name) {
+  public Function getFunction(final String name) {
     return this.functions.get(name);
   }
 
-  public PropertyInfo getProperty(String name) {
+  public PropertyInfo getProperty(final String name) {
     return this.properties.get(name);
   }
 
   private void scanMethods() {
-    Method[] methods = this.javaClass.getMethods();
-    int len = methods.length;
+    final Method[] methods = this.javaClass.getMethods();
+    final int len = methods.length;
     for (int i = 0; i < len; i++) {
-      Method method = methods[i];
-      String name = method.getName();
+      final Method method = methods[i];
+      final String name = method.getName();
       if (isPropertyMethod(name, method)) {
         this.ensurePropertyKnown(name, method);
       } else {
@@ -82,17 +82,17 @@ public class JavaClassWrapper {
     }
   }
 
-  private boolean isNameIndexer(String name, Method method) {
+  private boolean isNameIndexer(final String name, final Method method) {
     return ("namedItem".equals(name) && method.getParameterTypes().length == 1)
         || ("setNamedItem".equals(name) && method.getParameterTypes().length == 2);
   }
 
-  private boolean isIntegerIndexer(String name, Method method) {
+  private boolean isIntegerIndexer(final String name, final Method method) {
     return ("item".equals(name) && method.getParameterTypes().length == 1)
         || ("setItem".equals(name) && method.getParameterTypes().length == 2);
   }
 
-  private void updateNameIndexer(String methodName, Method method) {
+  private void updateNameIndexer(final String methodName, final Method method) {
     boolean getter = true;
     if (methodName.startsWith("set")) {
       getter = false;
@@ -109,14 +109,14 @@ public class JavaClassWrapper {
     }
   }
 
-  private void updateIntegerIndexer(String methodName, Method method) {
+  private void updateIntegerIndexer(final String methodName, final Method method) {
     boolean getter = true;
     if (methodName.startsWith("set")) {
       getter = false;
     }
     PropertyInfo indexer = this.integerIndexer;
     if (indexer == null) {
-      Class pt = getter ? method.getReturnType() : method.getParameterTypes()[1];
+      final Class pt = getter ? method.getReturnType() : method.getParameterTypes()[1];
       indexer = new PropertyInfo("$item", pt);
       this.integerIndexer = indexer;
     }
@@ -135,7 +135,7 @@ public class JavaClassWrapper {
     return this.nameIndexer;
   }
 
-  private boolean isPropertyMethod(String name, Method method) {
+  private boolean isPropertyMethod(final String name, final Method method) {
     if (name.startsWith("get") || name.startsWith("is")) {
       return method.getParameterTypes().length == 0;
     } else if (name.startsWith("set")) {
@@ -145,7 +145,7 @@ public class JavaClassWrapper {
     }
   }
 
-  private String propertyUncapitalize(String text) {
+  private String propertyUncapitalize(final String text) {
     try {
       if (text.length() > 1 && Character.isUpperCase(text.charAt(1))) {
         // If second letter is capitalized, don't uncapitalize,
@@ -153,12 +153,12 @@ public class JavaClassWrapper {
         return text;
       }
       return Character.toLowerCase(text.charAt(0)) + text.substring(1);
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return text;
     }
   }
 
-  private void ensurePropertyKnown(String methodName, Method method) {
+  private void ensurePropertyKnown(final String methodName, final Method method) {
     String capPropertyName;
     boolean getter = false;
     if (methodName.startsWith("get")) {
@@ -173,12 +173,12 @@ public class JavaClassWrapper {
       throw new IllegalArgumentException("methodName=" + methodName);
     }
 
-    PropertyName propertyNameAnnotation = method.getAnnotation(PropertyName.class);
-    String propertyName = (propertyNameAnnotation != null) ? propertyNameAnnotation.value() : propertyUncapitalize(capPropertyName);
+    final PropertyName propertyNameAnnotation = method.getAnnotation(PropertyName.class);
+    final String propertyName = (propertyNameAnnotation != null) ? propertyNameAnnotation.value() : propertyUncapitalize(capPropertyName);
 
     PropertyInfo pinfo = this.properties.get(propertyName);
     if (pinfo == null) {
-      Class pt = getter ? method.getReturnType() : method.getParameterTypes()[0];
+      final Class pt = getter ? method.getReturnType() : method.getParameterTypes()[0];
       pinfo = new PropertyInfo(propertyName, pt);
       this.properties.put(propertyName, pinfo);
     }

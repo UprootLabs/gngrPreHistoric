@@ -40,12 +40,12 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
   private final String className;
   private final ArrayList<Method> methods = new ArrayList<Method>();
 
-  public JavaFunctionObject(String name) {
+  public JavaFunctionObject(final String name) {
     super();
     this.className = name;
   }
 
-  public void addMethod(Method m) {
+  public void addMethod(final Method m) {
     this.methods.add(m);
   }
 
@@ -53,18 +53,18 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     return this.className;
   }
 
-  private String getTypeName(Object object) {
+  private String getTypeName(final Object object) {
     return object == null ? "[null]" : object.getClass().getName();
   }
 
-  private Method getBestMethod(Object[] args) {
-    ArrayList<Method> methods = this.methods;
-    int size = methods.size();
+  private Method getBestMethod(final Object[] args) {
+    final ArrayList<Method> methods = this.methods;
+    final int size = methods.size();
     int matchingNumParams = 0;
     Method matchingMethod = null;
     for (int i = 0; i < size; i++) {
-      Method m = methods.get(i);
-      Class[] parameterTypes = m.getParameterTypes();
+      final Method m = methods.get(i);
+      final Class[] parameterTypes = m.getParameterTypes();
       if (args == null) {
         if (parameterTypes == null || parameterTypes.length == 0) {
           return m;
@@ -85,19 +85,19 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     return matchingMethod;
   }
 
-  public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
-    Method method = this.getBestMethod(args);
+  public Object call(final Context cx, final Scriptable scope, final Scriptable thisObj, final Object[] args) {
+    final Method method = this.getBestMethod(args);
     if (method == null) {
       throw new EvaluatorException("No method matching " + this.className + " with " + (args == null ? 0 : args.length) + " arguments.");
     }
-    Class[] actualArgTypes = method.getParameterTypes();
-    int numParams = actualArgTypes.length;
-    Object[] actualArgs = args == null ? new Object[0] : new Object[numParams];
-    boolean linfo = loggableInfo;
-    JavaScript manager = JavaScript.getInstance();
+    final Class[] actualArgTypes = method.getParameterTypes();
+    final int numParams = actualArgTypes.length;
+    final Object[] actualArgs = args == null ? new Object[0] : new Object[numParams];
+    final boolean linfo = loggableInfo;
+    final JavaScript manager = JavaScript.getInstance();
     for (int i = 0; i < numParams; i++) {
-      Object arg = args[i];
-      Object actualArg = manager.getJavaObject(arg, actualArgTypes[i]);
+      final Object arg = args[i];
+      final Object actualArg = manager.getJavaObject(arg, actualArgTypes[i]);
       if (linfo) {
         logger.info("call(): For method=" + method.getName() + ": Converted arg=" + arg + " (type=" + this.getTypeName(arg)
             + ") into actualArg=" + actualArg + ". Type expected by method is " + actualArgTypes[i].getName() + ".");
@@ -106,14 +106,14 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     }
     try {
       if (thisObj instanceof JavaObjectWrapper) {
-        JavaObjectWrapper jcw = (JavaObjectWrapper) thisObj;
+        final JavaObjectWrapper jcw = (JavaObjectWrapper) thisObj;
         // if(linfo) {
         // Object javaObject = jcw.getJavaObject();
         // logger.info("call(): Calling method " + method.getName() +
         // " on object " + javaObject + " of type " +
         // this.getTypeName(javaObject));
         // }
-        Object raw = method.invoke(jcw.getJavaObject(), actualArgs);
+        final Object raw = method.invoke(jcw.getJavaObject(), actualArgs);
         // System.out.println("Invoked.");
         return manager.getJavascriptObject(raw, scope);
       } else {
@@ -123,22 +123,22 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
         // args.length));
         // return manager.getJavascriptObject(raw, scope);
         // } else {
-        Object raw = method.invoke(thisObj, actualArgs);
+        final Object raw = method.invoke(thisObj, actualArgs);
         return manager.getJavascriptObject(raw, scope);
         // }
 
         // Based on http://stackoverflow.com/a/16479685/161257
         // return call(cx, scope, getParentScope(), args);
       }
-    } catch (IllegalAccessException iae) {
+    } catch (final IllegalAccessException iae) {
       throw new IllegalStateException("Unable to call " + this.className + ".", iae);
-    } catch (InvocationTargetException ite) {
+    } catch (final InvocationTargetException ite) {
       // throw new WrappedException(new
       // InvocationTargetException(ite.getCause(), "Unable to call " +
       // this.className + " on " + jcw.getJavaObject() + "."));
       throw new WrappedException(new InvocationTargetException(ite.getCause(), "Unable to call " + this.className + " on " + thisObj + "."));
-    } catch (IllegalArgumentException iae) {
-      StringBuffer argTypes = new StringBuffer();
+    } catch (final IllegalArgumentException iae) {
+      final StringBuffer argTypes = new StringBuffer();
       for (int i = 0; i < actualArgs.length; i++) {
         if (i > 0) {
           argTypes.append(", ");
@@ -150,7 +150,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     }
   }
 
-  public java.lang.Object getDefaultValue(java.lang.Class hint) {
+  public java.lang.Object getDefaultValue(final java.lang.Class hint) {
     if (loggableInfo) {
       logger.info("getDefaultValue(): hint=" + hint + ",this=" + this);
     }
@@ -161,7 +161,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     }
   }
 
-  public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
+  public Scriptable construct(final Context cx, final Scriptable scope, final Object[] args) {
     throw new UnsupportedOperationException();
   }
 }

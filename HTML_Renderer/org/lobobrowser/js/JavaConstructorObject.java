@@ -30,13 +30,13 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
   private final JavaInstantiator instantiator;
   private final String name;
 
-  public JavaConstructorObject(String name, JavaClassWrapper classWrapper) {
+  public JavaConstructorObject(final String name, final JavaClassWrapper classWrapper) {
     this.name = name;
     this.classWrapper = classWrapper;
     this.instantiator = new SimpleInstantiator(classWrapper);
   }
 
-  public JavaConstructorObject(String name, JavaClassWrapper classWrapper, JavaInstantiator instantiator) {
+  public JavaConstructorObject(final String name, final JavaClassWrapper classWrapper, final JavaInstantiator instantiator) {
     this.name = name;
     this.classWrapper = classWrapper;
     this.instantiator = instantiator;
@@ -46,22 +46,22 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
     return this.name;
   }
 
-  public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
+  public Object call(final Context cx, final Scriptable scope, final Scriptable thisObj, final Object[] args) {
     throw new UnsupportedOperationException();
   }
 
-  public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
+  public Scriptable construct(final Context cx, final Scriptable scope, final Object[] args) {
     try {
-      Object javaObject = this.instantiator.newInstance();
-      Scriptable newObject = new JavaObjectWrapper(this.classWrapper, javaObject);
+      final Object javaObject = this.instantiator.newInstance();
+      final Scriptable newObject = new JavaObjectWrapper(this.classWrapper, javaObject);
       newObject.setParentScope(scope);
       return newObject;
-    } catch (Exception err) {
+    } catch (final Exception err) {
       throw new IllegalStateException(err.getMessage());
     }
   }
 
-  public java.lang.Object getDefaultValue(java.lang.Class hint) {
+  public java.lang.Object getDefaultValue(final java.lang.Class hint) {
     if (String.class.equals(hint)) {
       return "function " + this.name;
     } else {

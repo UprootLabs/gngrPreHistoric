@@ -34,7 +34,7 @@ class NodeTreeModel implements TreeModel {
   /**
    * @param node
    */
-  public NodeTreeModel(Node node) {
+  public NodeTreeModel(final Node node) {
     super();
     rootNode = node;
   }
@@ -43,34 +43,34 @@ class NodeTreeModel implements TreeModel {
     return this.rootNode;
   }
 
-  public Object getChild(Object parent, int index) {
-    Node parentNode = (Node) parent;
+  public Object getChild(final Object parent, final int index) {
+    final Node parentNode = (Node) parent;
     return parentNode == null ? null : parentNode.getChildNodes().item(index);
   }
 
-  public int getChildCount(Object parent) {
-    Node parentNode = (Node) parent;
+  public int getChildCount(final Object parent) {
+    final Node parentNode = (Node) parent;
     return parentNode == null ? 0 : parentNode.getChildNodes().getLength();
   }
 
-  public boolean isLeaf(Object node) {
+  public boolean isLeaf(final Object node) {
     if (node == this.rootNode) {
       return false;
     }
-    Node domNode = (Node) node;
+    final Node domNode = (Node) node;
     return domNode == null ? true : domNode.getChildNodes().getLength() == 0;
   }
 
-  public void valueForPathChanged(TreePath path, Object newValue) {
+  public void valueForPathChanged(final TreePath path, final Object newValue) {
   }
 
-  public int getIndexOfChild(Object parent, Object child) {
-    Node parentNode = (Node) parent;
-    NodeList nodeList = parentNode == null ? null : parentNode.getChildNodes();
+  public int getIndexOfChild(final Object parent, final Object child) {
+    final Node parentNode = (Node) parent;
+    final NodeList nodeList = parentNode == null ? null : parentNode.getChildNodes();
     if (nodeList == null) {
       return -1;
     }
-    int length = nodeList.getLength();
+    final int length = nodeList.getLength();
     for (int i = 0; i < length; i++) {
       if (nodeList.item(i) == child) {
         return i;
@@ -79,11 +79,11 @@ class NodeTreeModel implements TreeModel {
     return -1;
   }
 
-  public void addTreeModelListener(TreeModelListener l) {
+  public void addTreeModelListener(final TreeModelListener l) {
     // nop
   }
 
-  public void removeTreeModelListener(TreeModelListener l) {
+  public void removeTreeModelListener(final TreeModelListener l) {
     // nop
   }
 }

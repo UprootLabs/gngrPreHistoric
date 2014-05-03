@@ -40,8 +40,8 @@ public class TestEntry {
    * @param args
    *          Program arguments.
    */
-  public static void main(String[] args) {
-    TestFrame frame = new TestFrame("Cobra Test Tool");
+  public static void main(final String[] args) {
+    final TestFrame frame = new TestFrame("Cobra Test Tool");
     frame.setSize(800, 400);
     frame.setExtendedState(TestFrame.MAXIMIZED_BOTH);
     frame.setVisible(true);

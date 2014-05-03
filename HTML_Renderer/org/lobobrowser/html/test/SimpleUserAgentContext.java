@@ -20,7 +20,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
 
   static {
     // Media names claimed by this context.
-    Set<String> mn = mediaNames;
+    final Set<String> mn = mediaNames;
     mn.add("screen");
     mn.add("tv");
     mn.add("tty");
@@ -31,7 +31,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * This implementation returns true for certain media names, such as
    * <code>screen</code>.
    */
-  public boolean isMedia(String mediaName) {
+  public boolean isMedia(final String mediaName) {
     return mediaNames.contains(mediaName.toLowerCase());
   }
 
@@ -65,7 +65,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param proxy
    *          A <code>java.net.Proxy</code> instance.
    */
-  public void setProxy(java.net.Proxy proxy) {
+  public void setProxy(final java.net.Proxy proxy) {
     this.proxy = proxy;
   }
 
@@ -88,7 +88,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param appCodeName
    *          An application "code name."
    */
-  public void setAppCodeName(String appCodeName) {
+  public void setAppCodeName(final String appCodeName) {
     this.appCodeName = appCodeName;
   }
 
@@ -110,7 +110,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param appMinorVersion
    *          The application's "minor version."
    */
-  public void setAppMinorVersion(String appMinorVersion) {
+  public void setAppMinorVersion(final String appMinorVersion) {
     this.appMinorVersion = appMinorVersion;
   }
 
@@ -132,7 +132,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param appName
    *          The application name.
    */
-  public void setAppName(String appName) {
+  public void setAppName(final String appName) {
     this.appName = appName;
   }
 
@@ -154,7 +154,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param appVersion
    *          The application version.
    */
-  public void setAppVersion(String appVersion) {
+  public void setAppVersion(final String appVersion) {
     this.appVersion = appVersion;
   }
 
@@ -192,7 +192,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param userAgent
    *          A User-Agent string.
    */
-  public void setUserAgent(String userAgent) {
+  public void setUserAgent(final String userAgent) {
     this.userAgent = userAgent;
   }
 
@@ -211,32 +211,32 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * if any, to get cookie information for the given URL. If no cookie handler
    * is available, this method returns the empty string.
    */
-  public String getCookie(java.net.URL url) {
-    java.net.CookieHandler handler = java.net.CookieHandler.getDefault();
+  public String getCookie(final java.net.URL url) {
+    final java.net.CookieHandler handler = java.net.CookieHandler.getDefault();
     if (handler == null) {
       return "";
     }
     Map results;
     try {
       results = handler.get(url.toURI(), new HashMap<String, List<String>>());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getCookie()", err);
       return "";
     }
     if (results == null) {
       return "";
     }
-    StringBuffer buffer = new StringBuffer();
-    Iterator i = results.entrySet().iterator();
+    final StringBuffer buffer = new StringBuffer();
+    final Iterator i = results.entrySet().iterator();
     boolean firstTime = true;
     while (i.hasNext()) {
-      Map.Entry entry = (Map.Entry) i.next();
-      String key = (String) entry.getKey();
+      final Map.Entry entry = (Map.Entry) i.next();
+      final String key = (String) entry.getKey();
       if ("Cookie".equalsIgnoreCase(key) || "Cookie2".equalsIgnoreCase(key)) {
-        List list = (List) entry.getValue();
-        Iterator li = list.iterator();
+        final List list = (List) entry.getValue();
+        final Iterator li = list.iterator();
         while (li.hasNext()) {
-          String value = (String) li.next();
+          final String value = (String) li.next();
           if (firstTime) {
             firstTime = false;
           } else {
@@ -267,7 +267,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param enable
    *          A boolean value.
    */
-  public void setScriptingEnabled(boolean enable) {
+  public void setScriptingEnabled(final boolean enable) {
     this.scriptingEnabled = enable;
   }
 
@@ -275,16 +275,16 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * This method uses the default CookieHandler, if one is available, to set a
    * cookie value.
    */
-  public void setCookie(java.net.URL url, String cookieSpec) {
-    java.net.CookieHandler handler = java.net.CookieHandler.getDefault();
+  public void setCookie(final java.net.URL url, final String cookieSpec) {
+    final java.net.CookieHandler handler = java.net.CookieHandler.getDefault();
     if (handler == null) {
       return;
     }
-    Map<String, List<String>> headers = new HashMap<String, List<String>>(2);
+    final Map<String, List<String>> headers = new HashMap<String, List<String>>(2);
     headers.put("Set-Cookie", Collections.singletonList(cookieSpec));
     try {
       handler.put(url.toURI(), headers);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "setCookie()", err);
     }
   }
@@ -316,7 +316,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param level
    *          A Rhino optimization level.
    */
-  public void setScriptingOptimizationLevel(int level) {
+  public void setScriptingOptimizationLevel(final int level) {
     this.scriptingOptimizationLevel = level;
   }
 
@@ -326,7 +326,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
     return this.vendor;
   }
 
-  public void setVendor(String vendor) {
+  public void setVendor(final String vendor) {
     this.vendor = vendor;
   }
 
@@ -336,7 +336,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
     return this.product;
   }
 
-  public void setProduct(String product) {
+  public void setProduct(final String product) {
     this.product = product;
   }
 
@@ -359,7 +359,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param enabled
    *          A boolean value.
    */
-  public void setExternalCSSEnabled(boolean enabled) {
+  public void setExternalCSSEnabled(final boolean enabled) {
     this.externalCSSEnabled = enabled;
   }
 
@@ -381,7 +381,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
    * @param enabled
    *          A boolean value.
    */
-  public void setInternalCSSEnabled(boolean internalCSSEnabled) {
+  public void setInternalCSSEnabled(final boolean internalCSSEnabled) {
     this.internalCSSEnabled = internalCSSEnabled;
   }
 }
