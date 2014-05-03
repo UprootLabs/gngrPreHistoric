@@ -1840,7 +1840,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
       properties.setPropertyValueLCAlt(FONT, newValue, important);
       if (newValue != null && newValue.length() > 0) {
         String fontSpecTL = newValue.toLowerCase();
-        FontInfo fontInfo = (FontInfo) HtmlValues.SYSTEM_FONTS.get(fontSpecTL);
+        FontInfo fontInfo = HtmlValues.SYSTEM_FONTS.get(fontSpecTL);
         if (fontInfo != null) {
           if (fontInfo.fontFamily != null) {
             properties.setPropertyValueLCAlt(FONT_FAMILY, fontInfo.fontFamily,

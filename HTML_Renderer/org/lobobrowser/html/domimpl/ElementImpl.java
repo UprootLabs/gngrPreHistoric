@@ -45,7 +45,7 @@ public class ElementImpl extends NodeImpl implements Element {
     this.name = name;
   }
 
-  protected Map attributes;
+  protected Map<String, String> attributes;
 
   /*
    * (non-Javadoc)
@@ -54,9 +54,9 @@ public class ElementImpl extends NodeImpl implements Element {
    */
   public NamedNodeMap getAttributes() {
     synchronized (this) {
-      Map attrs = this.attributes;
+      Map<String, String> attrs = this.attributes;
       if (attrs == null) {
-        attrs = new HashMap();
+        attrs = new HashMap<String, String>();
         this.attributes = attrs;
       }
       return new NamedNodeMapImpl(this, this.attributes);
@@ -65,7 +65,7 @@ public class ElementImpl extends NodeImpl implements Element {
 
   public boolean hasAttributes() {
     synchronized (this) {
-      Map attrs = this.attributes;
+      Map<String, String> attrs = this.attributes;
       return attrs == null ? false : !attrs.isEmpty();
     }
   }
@@ -73,11 +73,11 @@ public class ElementImpl extends NodeImpl implements Element {
   public boolean equalAttributes(Node arg) {
     if (arg instanceof ElementImpl) {
       synchronized (this) {
-        Map attrs1 = this.attributes;
+        Map<String, String> attrs1 = this.attributes;
         if (attrs1 == null) {
           attrs1 = Collections.EMPTY_MAP;
         }
-        Map attrs2 = ((ElementImpl) arg).attributes;
+        Map<String, String> attrs2 = ((ElementImpl) arg).attributes;
         if (attrs2 == null) {
           attrs2 = Collections.EMPTY_MAP;
         }
@@ -128,8 +128,8 @@ public class ElementImpl extends NodeImpl implements Element {
   public final String getAttribute(String name) {
     String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map attributes = this.attributes;
-      return attributes == null ? null : (String) attributes.get(normalName);
+      Map<String, String> attributes = this.attributes;
+      return attributes == null ? null : attributes.get(normalName);
     }
   }
 
@@ -141,8 +141,8 @@ public class ElementImpl extends NodeImpl implements Element {
   public Attr getAttributeNode(String name) {
     String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map attributes = this.attributes;
-      String value = attributes == null ? null : (String) attributes
+      Map<String, String> attributes = this.attributes;
+      String value = attributes == null ? null : attributes
           .get(normalName);
       return value == null ? null : this.getAttr(normalName, value);
     }
@@ -166,11 +166,11 @@ public class ElementImpl extends NodeImpl implements Element {
 
   public NodeList getElementsByTagName(String name) {
     boolean matchesAll = "*".equals(name);
-    List descendents = new LinkedList();
+    List<Object> descendents = new LinkedList<Object>();
     synchronized (this.treeLock) {
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        Iterator i = nl.iterator();
+        Iterator<Node> i = nl.iterator();
         while (i.hasNext()) {
           Object child = i.next();
           if (child instanceof Element) {
@@ -208,7 +208,7 @@ public class ElementImpl extends NodeImpl implements Element {
   public boolean hasAttribute(String name) {
     String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map attributes = this.attributes;
+      Map<String, String> attributes = this.attributes;
       return attributes == null ? false : attributes.containsKey(normalName);
     }
   }
@@ -222,7 +222,7 @@ public class ElementImpl extends NodeImpl implements Element {
   public void removeAttribute(String name) throws DOMException {
     String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map attributes = this.attributes;
+      Map<String, String> attributes = this.attributes;
       if (attributes == null) {
         return;
       }
@@ -233,11 +233,11 @@ public class ElementImpl extends NodeImpl implements Element {
   public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
     String normalName = this.normalizeAttributeName(oldAttr.getName());
     synchronized (this) {
-      Map attributes = this.attributes;
+      Map<String, String> attributes = this.attributes;
       if (attributes == null) {
         return null;
       }
-      String oldValue = (String) attributes.remove(normalName);
+      String oldValue = attributes.remove(normalName);
       // TODO: "specified" attributes
       return oldValue == null ? null : this.getAttr(normalName, oldValue);
     }
@@ -287,9 +287,9 @@ public class ElementImpl extends NodeImpl implements Element {
   public void setAttribute(String name, String value) throws DOMException {
     String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
-      Map attribs = this.attributes;
+      Map<String, String> attribs = this.attributes;
       if (attribs == null) {
-        attribs = new HashMap(2);
+        attribs = new HashMap<String, String>(2);
         this.attributes = attribs;
       }
       attribs.put(normalName, value);
@@ -303,9 +303,9 @@ public class ElementImpl extends NodeImpl implements Element {
    */
   public void setAttributeImpl(String name, String value) throws DOMException {
     String normalName = this.normalizeAttributeName(name);
-    Map attribs = this.attributes;
+    Map<String, String> attribs = this.attributes;
     if (attribs == null) {
-      attribs = new HashMap(2);
+      attribs = new HashMap<String, String>(2);
       this.attributes = attribs;
     }
     this.assignAttributeField(normalName, value);
@@ -317,7 +317,7 @@ public class ElementImpl extends NodeImpl implements Element {
     String value = newAttr.getValue();
     synchronized (this) {
       if (this.attributes == null) {
-        this.attributes = new HashMap();
+        this.attributes = new HashMap<String, String>();
       }
       this.attributes.put(normalName, value);
       // this.setIdAttribute(normalName, newAttr.isId());
@@ -412,9 +412,9 @@ public class ElementImpl extends NodeImpl implements Element {
    */
   protected String getRawInnerText(boolean includeComment) {
     synchronized (this.treeLock) {
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        Iterator i = nl.iterator();
+        Iterator<Node> i = nl.iterator();
         StringBuffer sb = null;
         while (i.hasNext()) {
           Object node = i.next();
@@ -481,7 +481,7 @@ public class ElementImpl extends NodeImpl implements Element {
       return;
     }
     synchronized (this.treeLock) {
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         nl.clear();
       }

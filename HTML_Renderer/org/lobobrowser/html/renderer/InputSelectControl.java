@@ -21,16 +21,16 @@ import org.w3c.dom.html2.HTMLOptionElement;
 import org.w3c.dom.html2.HTMLOptionsCollection;
 
 class InputSelectControl extends BaseInputControl {
-  private final JComboBox comboBox;
-  private final JList list;
-  private final DefaultListModel listModel;
+  private final JComboBox<OptionItem> comboBox;
+  private final JList<OptionItem> list;
+  private final DefaultListModel<OptionItem> listModel;
 
   private boolean inSelectionEvent;
 
   public InputSelectControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    final JComboBox comboBox = new JComboBox();
+    final JComboBox<OptionItem> comboBox = new JComboBox<OptionItem>();
     comboBox.addItemListener(new ItemListener() {
       public void itemStateChanged(ItemEvent e) {
         OptionItem item = (OptionItem) e.getItem();
@@ -60,8 +60,8 @@ class InputSelectControl extends BaseInputControl {
         }
       }
     });
-    final DefaultListModel listModel = new DefaultListModel();
-    final JList list = new JList(listModel);
+    final DefaultListModel<OptionItem> listModel = new DefaultListModel<OptionItem>();
+    final JList<OptionItem> list = new JList<OptionItem>(listModel);
     this.listModel = listModel;
     list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     list.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -72,7 +72,7 @@ class InputSelectControl extends BaseInputControl {
           try {
             int modelSize = listModel.getSize();
             for (int i = 0; i < modelSize; i++) {
-              OptionItem item = (OptionItem) listModel.get(i);
+              OptionItem item = listModel.get(i);
               if (item != null) {
                 boolean oldIsSelected = item.isSelected();
                 boolean newIsSelected = list.isSelectedIndex(i);
@@ -124,7 +124,7 @@ class InputSelectControl extends BaseInputControl {
     try {
       HTMLOptionsCollection optionElements = selectElement.getOptions();
       if (this.state == STATE_COMBO) {
-        JComboBox comboBox = this.comboBox;
+        JComboBox<OptionItem> comboBox = this.comboBox;
         // First determine current selected option
         HTMLOptionElement priorSelectedOption = null;
         int priorIndex = selectElement.getSelectedIndex();
@@ -177,11 +177,11 @@ class InputSelectControl extends BaseInputControl {
           comboBox.setSelectedItem(firstItem);
         }
       } else {
-        JList list = this.list;
-        Collection defaultSelectedIndexes = null;
-        Collection selectedIndexes = null;
+        JList<OptionItem> list = this.list;
+        Collection<Integer> defaultSelectedIndexes = null;
+        Collection<Integer> selectedIndexes = null;
         OptionItem firstItem = null;
-        DefaultListModel listModel = this.listModel;
+        DefaultListModel<OptionItem> listModel = this.listModel;
         listModel.clear();
         int numOptions = optionElements.getLength();
         for (int index = 0; index < numOptions; index++) {
@@ -198,28 +198,28 @@ class InputSelectControl extends BaseInputControl {
           }
           if (option.getSelected()) {
             if (selectedIndexes == null) {
-              selectedIndexes = new LinkedList();
+              selectedIndexes = new LinkedList<Integer>();
             }
             selectedIndexes.add(new Integer(index));
           }
           if (option.getDefaultSelected()) {
             if (defaultSelectedIndexes == null) {
-              defaultSelectedIndexes = new LinkedList();
+              defaultSelectedIndexes = new LinkedList<Integer>();
             }
             defaultSelectedIndexes.add(new Integer(index));
           }
         }
         if (selectedIndexes != null && selectedIndexes.size() != 0) {
-          Iterator sii = selectedIndexes.iterator();
+          Iterator<Integer> sii = selectedIndexes.iterator();
           while (sii.hasNext()) {
-            Integer si = (Integer) sii.next();
+            Integer si = sii.next();
             list.addSelectionInterval(si.intValue(), si.intValue());
           }
         } else if (defaultSelectedIndexes != null
             && defaultSelectedIndexes.size() != 0) {
-          Iterator sii = defaultSelectedIndexes.iterator();
+          Iterator<Integer> sii = defaultSelectedIndexes.iterator();
           while (sii.hasNext()) {
-            Integer si = (Integer) sii.next();
+            Integer si = sii.next();
             list.addSelectionInterval(si.intValue(), si.intValue());
           }
         }
@@ -241,7 +241,7 @@ class InputSelectControl extends BaseInputControl {
       OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
       return item == null ? null : item.getValue();
     } else {
-      OptionItem item = (OptionItem) this.list.getSelectedValue();
+      OptionItem item = this.list.getSelectedValue();
       return item == null ? null : item.getValue();
     }
   }
@@ -261,7 +261,7 @@ class InputSelectControl extends BaseInputControl {
     try {
       if (!this.inSelectionEvent) {
         if (this.state == STATE_COMBO) {
-          JComboBox comboBox = this.comboBox;
+          JComboBox<OptionItem> comboBox = this.comboBox;
           if (comboBox.getSelectedIndex() != value) {
             // This check is done to avoid an infinite recursion
             // on ItemListener.
@@ -271,7 +271,7 @@ class InputSelectControl extends BaseInputControl {
             }
           }
         } else {
-          JList list = this.list;
+          JList<OptionItem> list = this.list;
           int[] selectedIndices = list.getSelectedIndices();
           if (selectedIndices == null || selectedIndices.length != 1
               || selectedIndices[0] != value) {
@@ -311,12 +311,12 @@ class InputSelectControl extends BaseInputControl {
       if (values == null) {
         return null;
       }
-      ArrayList al = new ArrayList();
+      ArrayList<String> al = new ArrayList<String>();
       for (int i = 0; i < values.length; i++) {
         OptionItem item = (OptionItem) values[i];
         al.add(item.getValue());
       }
-      return (String[]) al.toArray(new String[0]);
+      return al.toArray(new String[0]);
     }
   }
 

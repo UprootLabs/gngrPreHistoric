@@ -104,9 +104,9 @@ public class RBlockViewport extends BaseRCollection {
   private final HtmlRendererContext rendererContext;
   private final FrameContext frameContext;
 
-  private SortedSet positionedRenderables;
-  private ArrayList seqRenderables = null;
-  private ArrayList exportableFloats = null;
+  private SortedSet<PositionedRenderable> positionedRenderables;
+  private ArrayList<BoundableRenderable> seqRenderables = null;
+  private ArrayList<ExportableFloat> exportableFloats = null;
   // private Collection exportedRenderables;
   private RLine currentLine;
   private int maxX;
@@ -125,11 +125,11 @@ public class RBlockViewport extends BaseRCollection {
   private boolean sizeOnly;
   private BoundableRenderable lastSeqBlock;
 
-  private static final Map elementLayout = new HashMap(70);
+  private static final Map<String, MarkupLayout> elementLayout = new HashMap<String, MarkupLayout>(70);
   private static final MarkupLayout miscLayout = new MiscLayout();
 
   static {
-    Map el = elementLayout;
+    Map<String, MarkupLayout> el = elementLayout;
     EmLayout em = new EmLayout();
     el.put("I", em);
     el.put("EM", em);
@@ -286,12 +286,12 @@ public class RBlockViewport extends BaseRCollection {
     // New floating algorithm.
     this.layoutPass((NodeImpl) this.modelNode);
 
-    Collection delayedPairs = container.getDelayedPairs();
+    Collection<DelayedPair> delayedPairs = container.getDelayedPairs();
     if (delayedPairs != null && delayedPairs.size() > 0) {
       // Add positioned renderables that belong here
-      Iterator i = delayedPairs.iterator();
+      Iterator<DelayedPair> i = delayedPairs.iterator();
       while (i.hasNext()) {
-        DelayedPair pair = (DelayedPair) i.next();
+        DelayedPair pair = i.next();
         if (pair.targetParent == container) {
           this.importDelayedPair(pair);
         }
@@ -327,12 +327,12 @@ public class RBlockViewport extends BaseRCollection {
     }
 
     // Check positioned renderables for maxX and maxY
-    SortedSet posRenderables = this.positionedRenderables;
+    SortedSet<PositionedRenderable> posRenderables = this.positionedRenderables;
     if (posRenderables != null) {
       boolean isFloatLimit = this.isFloatLimit();
-      Iterator i = posRenderables.iterator();
+      Iterator<PositionedRenderable> i = posRenderables.iterator();
       while (i.hasNext()) {
-        PositionedRenderable pr = (PositionedRenderable) i.next();
+        PositionedRenderable pr = i.next();
         BoundableRenderable br = pr.renderable;
         if (br.getX() + br.getWidth() > this.maxX) {
           this.maxX = br.getX() + br.getWidth();
@@ -386,7 +386,7 @@ public class RBlockViewport extends BaseRCollection {
     int prevMaxY = this.maxY;
     // Horizontal alignment
     if (alignXPercent > 0) {
-      ArrayList renderables = this.seqRenderables;
+      ArrayList<BoundableRenderable> renderables = this.seqRenderables;
       if (renderables != null) {
         Insets insets = this.paddingInsets;
         FloatingBounds floatBounds = this.floatBounds;
@@ -461,10 +461,10 @@ public class RBlockViewport extends BaseRCollection {
       int difference = availContentHeight - usedHeight;
       if (difference > 0) {
         int shift = (difference * alignYPercent) / 100;
-        ArrayList rlist = this.seqRenderables;
+        ArrayList<BoundableRenderable> rlist = this.seqRenderables;
         if (rlist != null) {
           // Try sequential renderables first.
-          Iterator renderables = rlist.iterator();
+          Iterator<BoundableRenderable> renderables = rlist.iterator();
           while (renderables.hasNext()) {
             Object r = renderables.next();
             if (r instanceof BoundableRenderable) {
@@ -480,11 +480,11 @@ public class RBlockViewport extends BaseRCollection {
 
         // Now other renderables, but only those that can be
         // vertically aligned
-        Set others = this.positionedRenderables;
+        Set<PositionedRenderable> others = this.positionedRenderables;
         if (others != null) {
-          Iterator i2 = others.iterator();
+          Iterator<PositionedRenderable> i2 = others.iterator();
           while (i2.hasNext()) {
-            PositionedRenderable pr = (PositionedRenderable) i2.next();
+            PositionedRenderable pr = i2.next();
             if (pr.verticalAlignable) {
               BoundableRenderable br = pr.renderable;
               int newY = br.getY() + shift;
@@ -563,9 +563,9 @@ public class RBlockViewport extends BaseRCollection {
     rline = new RLine(startNode, this.container, newX, newLineY, newMaxWidth,
         0, initialAllowOverflow);
     rline.setParent(this);
-    ArrayList sr = this.seqRenderables;
+    ArrayList<BoundableRenderable> sr = this.seqRenderables;
     if (sr == null) {
-      sr = new ArrayList(1);
+      sr = new ArrayList<BoundableRenderable>(1);
       this.seqRenderables = sr;
     }
     sr.add(rline);
@@ -625,7 +625,7 @@ public class RBlockViewport extends BaseRCollection {
           // depends on there being a style changer for inline elements.
           this.currentLine.addStyleChanger(new RStyleChanger(child));
           String nodeName = child.getNodeName().toUpperCase();
-          MarkupLayout ml = (MarkupLayout) elementLayout.get(nodeName);
+          MarkupLayout ml = elementLayout.get(nodeName);
           if (ml == null) {
             ml = miscLayout;
           }
@@ -1040,10 +1040,10 @@ public class RBlockViewport extends BaseRCollection {
     } catch (OverflowException oe) {
       int nextY = emptyLine ? cleary : liney + line.height;
       this.addLine(renderable.getModelNode(), line, nextY);
-      Collection renderables = oe.getRenderables();
-      Iterator i = renderables.iterator();
+      Collection<Renderable> renderables = oe.getRenderables();
+      Iterator<Renderable> i = renderables.iterator();
       while (i.hasNext()) {
-        Renderable r = (Renderable) i.next();
+        Renderable r = i.next();
         this.addRenderableToLine(r);
       }
     }
@@ -1079,10 +1079,10 @@ public class RBlockViewport extends BaseRCollection {
     } catch (OverflowException oe) {
       int nextY = emptyLine ? cleary : liney + line.height;
       this.addLine(renderable.getModelNode(), line, nextY);
-      Collection renderables = oe.getRenderables();
-      Iterator i = renderables.iterator();
+      Collection<Renderable> renderables = oe.getRenderables();
+      Iterator<Renderable> i = renderables.iterator();
       while (i.hasNext()) {
-        Renderable r = (Renderable) i.next();
+        Renderable r = i.next();
         this.addRenderableToLine(r);
       }
     }
@@ -1133,9 +1133,9 @@ public class RBlockViewport extends BaseRCollection {
       boolean informLineDone, boolean addLine, boolean centerBlock) {
     Insets insets = this.paddingInsets;
     int insetsl = insets.left;
-    ArrayList sr = this.seqRenderables;
+    ArrayList<BoundableRenderable> sr = this.seqRenderables;
     if (sr == null) {
-      sr = new ArrayList(1);
+      sr = new ArrayList<BoundableRenderable>(1);
       this.seqRenderables = sr;
     }
     RLine prevLine = this.currentLine;
@@ -1210,9 +1210,9 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   private void addLineAfterBlock(RBlock block, boolean informLineDone) {
-    ArrayList sr = this.seqRenderables;
+    ArrayList<BoundableRenderable> sr = this.seqRenderables;
     if (sr == null) {
-      sr = new ArrayList(1);
+      sr = new ArrayList<BoundableRenderable>(1);
       this.seqRenderables = sr;
     }
     RLine prevLine = this.currentLine;
@@ -1350,10 +1350,9 @@ public class RBlockViewport extends BaseRCollection {
    * @param seqRenderables
    * @param destination
    */
-  private void populateZIndexGroups(Collection others,
-      Collection seqRenderables, ArrayList destination) {
-    this.populateZIndexGroups(others, seqRenderables == null ? null
-        : seqRenderables.iterator(), destination);
+  private void populateZIndexGroups(Collection<PositionedRenderable> others,
+      Collection<? extends Renderable> seqRenderables, ArrayList<Renderable> destination) {
+    this.populateZIndexGroups(others, seqRenderables == null ? null : seqRenderables.iterator(), destination);
   }
 
   /**
@@ -1363,13 +1362,13 @@ public class RBlockViewport extends BaseRCollection {
    * @param seqRenderablesIterator
    * @param destination
    */
-  private void populateZIndexGroups(Collection others,
-      Iterator seqRenderablesIterator, ArrayList destination) {
+  private void populateZIndexGroups(Collection<PositionedRenderable> others,
+      Iterator<? extends Renderable> seqRenderablesIterator, ArrayList<Renderable> destination) {
     // First, others with z-index < 0
-    Iterator i1 = others.iterator();
+    Iterator<PositionedRenderable> i1 = others.iterator();
     Renderable pending = null;
     while (i1.hasNext()) {
-      PositionedRenderable pr = (PositionedRenderable) i1.next();
+      PositionedRenderable pr = i1.next();
       BoundableRenderable r = pr.renderable;
       if (r.getZIndex() >= 0) {
         pending = r;
@@ -1379,7 +1378,7 @@ public class RBlockViewport extends BaseRCollection {
     }
 
     // Second, sequential renderables
-    Iterator i2 = seqRenderablesIterator;
+    Iterator<? extends Renderable> i2 = seqRenderablesIterator;
     if (i2 != null) {
       while (i2.hasNext()) {
         destination.add(i2.next());
@@ -1390,7 +1389,7 @@ public class RBlockViewport extends BaseRCollection {
     if (pending != null) {
       destination.add(pending);
       while (i1.hasNext()) {
-        PositionedRenderable pr = (PositionedRenderable) i1.next();
+        PositionedRenderable pr = i1.next();
         Renderable r = pr.renderable;
         destination.add(r);
       }
@@ -1398,52 +1397,52 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   public Renderable[] getRenderablesArray() {
-    SortedSet others = this.positionedRenderables;
+    SortedSet<PositionedRenderable> others = this.positionedRenderables;
     int othersSize = others == null ? 0 : others.size();
     if (othersSize == 0) {
-      ArrayList sr = this.seqRenderables;
-      return sr == null ? Renderable.EMPTY_ARRAY : (Renderable[]) sr
+      ArrayList<BoundableRenderable> sr = this.seqRenderables;
+      return sr == null ? Renderable.EMPTY_ARRAY : sr
           .toArray(Renderable.EMPTY_ARRAY);
     } else {
-      ArrayList allRenderables = new ArrayList();
+      ArrayList<Renderable> allRenderables = new ArrayList<Renderable>();
       this.populateZIndexGroups(others, this.seqRenderables, allRenderables);
-      return (Renderable[]) allRenderables.toArray(Renderable.EMPTY_ARRAY);
+      return allRenderables.toArray(Renderable.EMPTY_ARRAY);
     }
   }
 
-  public Iterator getRenderables() {
-    SortedSet others = this.positionedRenderables;
+  public Iterator<? extends Renderable> getRenderables() {
+    SortedSet<PositionedRenderable> others = this.positionedRenderables;
     if (others == null || others.size() == 0) {
-      ArrayList sr = this.seqRenderables;
+      ArrayList<? extends Renderable> sr = this.seqRenderables;
       return sr == null ? null : sr.iterator();
     } else {
-      ArrayList allRenderables = new ArrayList();
+      ArrayList<Renderable> allRenderables = new ArrayList<Renderable>();
       this.populateZIndexGroups(others, this.seqRenderables, allRenderables);
       return allRenderables.iterator();
     }
   }
 
-  public Iterator getRenderables(Rectangle clipBounds) {
+  public Iterator<Renderable> getRenderables(Rectangle clipBounds) {
     if (!EventQueue.isDispatchThread() && logger.isLoggable(Level.INFO)) {
       logger.warning("getRenderables(): Invoked outside GUI dispatch thread.");
     }
-    ArrayList sr = this.seqRenderables;
-    Iterator baseIterator = null;
+    ArrayList<BoundableRenderable> sr = this.seqRenderables;
+    Iterator<Renderable> baseIterator = null;
     if (sr != null) {
-      Renderable[] array = (Renderable[]) sr.toArray(Renderable.EMPTY_ARRAY);
+      Renderable[] array = sr.toArray(Renderable.EMPTY_ARRAY);
       Range range = MarkupUtilities.findRenderables(array, clipBounds, true);
       baseIterator = org.lobobrowser.util.ArrayUtilities.iterator(array,
           range.offset, range.length);
     }
-    SortedSet others = this.positionedRenderables;
+    SortedSet<PositionedRenderable> others = this.positionedRenderables;
     if (others == null || others.size() == 0) {
       return baseIterator;
     } else {
-      ArrayList matches = new ArrayList();
+      ArrayList<PositionedRenderable> matches = new ArrayList<PositionedRenderable>();
       // ArrayList "matches" keeps the order from "others".
-      Iterator i = others.iterator();
+      Iterator<PositionedRenderable> i = others.iterator();
       while (i.hasNext()) {
-        PositionedRenderable pr = (PositionedRenderable) i.next();
+        PositionedRenderable pr = i.next();
         Object r = pr.renderable;
         if (r instanceof BoundableRenderable) {
           BoundableRenderable br = (BoundableRenderable) r;
@@ -1456,7 +1455,7 @@ public class RBlockViewport extends BaseRCollection {
       if (matches.size() == 0) {
         return baseIterator;
       } else {
-        ArrayList destination = new ArrayList();
+        ArrayList<Renderable> destination = new ArrayList<Renderable>();
         this.populateZIndexGroups(matches, baseIterator, destination);
         return destination.iterator();
       }
@@ -1464,7 +1463,7 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   public BoundableRenderable getRenderable(int x, int y) {
-    Iterator i = this.getRenderables(x, y);
+    Iterator<? extends Renderable> i = this.getRenderables(x, y);
     return i == null ? null : (i.hasNext() ? (BoundableRenderable) i.next()
         : null);
   }
@@ -1473,19 +1472,19 @@ public class RBlockViewport extends BaseRCollection {
     return this.getRenderable(point.x, point.y);
   }
 
-  public Iterator getRenderables(java.awt.Point point) {
+  public Iterator<? extends Renderable> getRenderables(java.awt.Point point) {
     return this.getRenderables(point.x, point.y);
   }
 
-  public Iterator getRenderables(int pointx, int pointy) {
+  public Iterator<? extends Renderable> getRenderables(int pointx, int pointy) {
     if (!EventQueue.isDispatchThread() && logger.isLoggable(Level.INFO)) {
       logger.warning("getRenderable(): Invoked outside GUI dispatch thread.");
     }
-    Collection result = null;
-    SortedSet others = this.positionedRenderables;
+    Collection<BoundableRenderable> result = null;
+    SortedSet<PositionedRenderable> others = this.positionedRenderables;
     int size = others == null ? 0 : others.size();
     PositionedRenderable[] otherArray = size == 0 ? null
-        : (PositionedRenderable[]) others
+        : others
             .toArray(PositionedRenderable.EMPTY_ARRAY);
     // Try to find in other renderables with z-index >= 0 first.
     int index = 0;
@@ -1504,7 +1503,7 @@ public class RBlockViewport extends BaseRCollection {
           Rectangle rbounds = br.getBounds();
           if (rbounds.contains(px, py)) {
             if (result == null) {
-              result = new LinkedList();
+              result = new LinkedList<BoundableRenderable>();
             }
             result.add(br);
           }
@@ -1513,14 +1512,14 @@ public class RBlockViewport extends BaseRCollection {
     }
 
     // Now do a "binary" search on sequential renderables.
-    ArrayList sr = this.seqRenderables;
+    ArrayList<BoundableRenderable> sr = this.seqRenderables;
     if (sr != null) {
-      Renderable[] array = (Renderable[]) sr.toArray(Renderable.EMPTY_ARRAY);
+      Renderable[] array = sr.toArray(Renderable.EMPTY_ARRAY);
       BoundableRenderable found = MarkupUtilities.findRenderable(array, pointx,
           pointy, true);
       if (found != null) {
         if (result == null) {
-          result = new LinkedList();
+          result = new LinkedList<BoundableRenderable>();
         }
         result.add(found);
       }
@@ -1539,7 +1538,7 @@ public class RBlockViewport extends BaseRCollection {
           Rectangle rbounds = br.getBounds();
           if (rbounds.contains(px, py)) {
             if (result == null) {
-              result = new LinkedList();
+              result = new LinkedList<BoundableRenderable>();
             }
             result.add(br);
           }
@@ -1725,9 +1724,9 @@ public class RBlockViewport extends BaseRCollection {
   private final void addPositionedRenderable(BoundableRenderable renderable,
       boolean verticalAlignable, boolean isFloat) {
     // Expected to be called only in GUI thread.
-    SortedSet others = this.positionedRenderables;
+    SortedSet<PositionedRenderable> others = this.positionedRenderables;
     if (others == null) {
-      others = new TreeSet(new ZIndexComparator());
+      others = new TreeSet<PositionedRenderable>(new ZIndexComparator());
       this.positionedRenderables = others;
     }
     others.add(new PositionedRenderable(renderable, verticalAlignable,
@@ -1740,14 +1739,14 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   public int getFirstLineHeight() {
-    ArrayList renderables = this.seqRenderables;
+    ArrayList<BoundableRenderable> renderables = this.seqRenderables;
     if (renderables != null) {
       int size = renderables.size();
       if (size == 0) {
         return 0;
       }
       for (int i = 0; i < size; i++) {
-        BoundableRenderable br = (BoundableRenderable) renderables.get(0);
+        BoundableRenderable br = renderables.get(0);
         int height = br.getHeight();
         if (height != 0) {
           return height;
@@ -1759,9 +1758,9 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   public int getFirstBaselineOffset() {
-    ArrayList renderables = this.seqRenderables;
+    ArrayList<BoundableRenderable> renderables = this.seqRenderables;
     if (renderables != null) {
-      Iterator i = renderables.iterator();
+      Iterator<BoundableRenderable> i = renderables.iterator();
       while (i.hasNext()) {
         Object r = i.next();
         if (r instanceof RLine) {
@@ -1802,7 +1801,7 @@ public class RBlockViewport extends BaseRCollection {
    * .MouseEvent, int, int)
    */
   public boolean onMouseClick(MouseEvent event, int x, int y) {
-    Iterator i = this.getRenderables(new Point(x, y));
+    Iterator<? extends Renderable> i = this.getRenderables(new Point(x, y));
     if (i != null) {
       while (i.hasNext()) {
         BoundableRenderable br = (BoundableRenderable) i.next();
@@ -1818,7 +1817,7 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   public boolean onDoubleClick(MouseEvent event, int x, int y) {
-    Iterator i = this.getRenderables(new Point(x, y));
+    Iterator<? extends Renderable> i = this.getRenderables(new Point(x, y));
     if (i != null) {
       while (i.hasNext()) {
         BoundableRenderable br = (BoundableRenderable) i.next();
@@ -1863,7 +1862,7 @@ public class RBlockViewport extends BaseRCollection {
    * .MouseEvent, int, int)
    */
   public boolean onMousePressed(MouseEvent event, int x, int y) {
-    Iterator i = this.getRenderables(new Point(x, y));
+    Iterator<? extends Renderable> i = this.getRenderables(new Point(x, y));
     if (i != null) {
       while (i.hasNext()) {
         BoundableRenderable br = (BoundableRenderable) i.next();
@@ -1887,7 +1886,7 @@ public class RBlockViewport extends BaseRCollection {
    * .MouseEvent, int, int)
    */
   public boolean onMouseReleased(MouseEvent event, int x, int y) {
-    Iterator i = this.getRenderables(new Point(x, y));
+    Iterator<? extends Renderable> i = this.getRenderables(new Point(x, y));
     if (i != null) {
       while (i.hasNext()) {
         BoundableRenderable br = (BoundableRenderable) i.next();
@@ -1914,7 +1913,7 @@ public class RBlockViewport extends BaseRCollection {
 
   public void paint(Graphics g) {
     Rectangle clipBounds = g.getClipBounds();
-    Iterator i = this.getRenderables(clipBounds);
+    Iterator<Renderable> i = this.getRenderables(clipBounds);
     if (i != null) {
       int renderableCount = 0;
       while (i.hasNext()) {
@@ -2125,7 +2124,7 @@ public class RBlockViewport extends BaseRCollection {
      * Must use this ThreadLocal because an ObjectLayout instance is shared
      * across renderers.
      */
-    private final ThreadLocal htmlObject = new ThreadLocal();
+    private final ThreadLocal<HtmlObject> htmlObject = new ThreadLocal<HtmlObject>();
 
     public void layoutMarkup(RBlockViewport bodyLayout,
         HTMLElementImpl markupElement) {
@@ -2141,7 +2140,7 @@ public class RBlockViewport extends BaseRCollection {
 
     protected RElement createRenderable(RBlockViewport bodyLayout,
         HTMLElementImpl markupElement) {
-      HtmlObject ho = (HtmlObject) this.htmlObject.get();
+      HtmlObject ho = this.htmlObject.get();
       UIControl uiControl = new UIControlWrapper(ho);
       RUIControl ruiControl = new RUIControl(markupElement, uiControl,
           bodyLayout.container, bodyLayout.frameContext,
@@ -2655,26 +2654,26 @@ public class RBlockViewport extends BaseRCollection {
     } else {
       // These pending floats are positioned when
       // lineDone() is called.
-      Collection c = this.pendingFloats;
+      Collection<RFloatInfo> c = this.pendingFloats;
       if (c == null) {
-        c = new LinkedList();
+        c = new LinkedList<RFloatInfo>();
         this.pendingFloats = c;
       }
       c.add(floatInfo);
     }
   }
 
-  private Collection pendingFloats = null;
+  private Collection<RFloatInfo> pendingFloats = null;
 
   private void lineDone(RLine line) {
     int yAfterLine = line == null ? this.paddingInsets.top : line.y
         + line.height;
-    Collection pfs = this.pendingFloats;
+    Collection<RFloatInfo> pfs = this.pendingFloats;
     if (pfs != null) {
       this.pendingFloats = null;
-      Iterator i = pfs.iterator();
+      Iterator<RFloatInfo> i = pfs.iterator();
       while (i.hasNext()) {
-        RFloatInfo pf = (RFloatInfo) i.next();
+        RFloatInfo pf = i.next();
         this.placeFloat(pf.getRenderable(), yAfterLine, pf.isLeftFloat());
       }
     }
@@ -2682,9 +2681,9 @@ public class RBlockViewport extends BaseRCollection {
 
   private void addExportableFloat(BoundableRenderable element,
       boolean leftFloat, int origX, int origY) {
-    ArrayList ep = this.exportableFloats;
+    ArrayList<ExportableFloat> ep = this.exportableFloats;
     if (ep == null) {
-      ep = new ArrayList(1);
+      ep = new ArrayList<ExportableFloat>(1);
       this.exportableFloats = ep;
     }
     ep.add(new ExportableFloat(element, leftFloat, origX, origY));
@@ -2847,11 +2846,11 @@ public class RBlockViewport extends BaseRCollection {
   // }
 
   public FloatingInfo getExportableFloatingInfo() {
-    ArrayList ef = this.exportableFloats;
+    ArrayList<ExportableFloat> ef = this.exportableFloats;
     if (ef == null) {
       return null;
     }
-    ExportableFloat[] floats = (ExportableFloat[]) ef
+    ExportableFloat[] floats = ef
         .toArray(ExportableFloat.EMPTY_ARRAY);
     return new FloatingInfo(0, 0, floats);
   }

@@ -29,13 +29,13 @@ import java.util.*;
  * @author J. H. S.
  */
 public class EventDispatch {
-  private Collection listeners;
+  private Collection<GenericEventListener> listeners;
 
   public EventDispatch() {
   }
 
-  public Collection createListenerCollection() {
-    return new LinkedList();
+  public Collection<GenericEventListener> createListenerCollection() {
+    return new LinkedList<GenericEventListener>();
   }
 
   public final void addListener(GenericEventListener listener) {
@@ -59,7 +59,7 @@ public class EventDispatch {
     GenericEventListener[] larray = null;
     synchronized (this) {
       if (this.listeners != null) {
-        larray = (GenericEventListener[]) this.listeners
+        larray = this.listeners
             .toArray(GenericEventListener.EMPTY_ARRAY);
       }
     }

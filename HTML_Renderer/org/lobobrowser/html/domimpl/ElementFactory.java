@@ -24,15 +24,16 @@
 package org.lobobrowser.html.domimpl;
 
 import java.util.*;
+
 import org.w3c.dom.html2.*;
 import org.w3c.dom.*;
 
 class ElementFactory {
-  private final Map builders = new HashMap(80);
+  private final Map<String, HTMLElementBuilder> builders = new HashMap<String, HTMLElementBuilder>(80);
 
   private ElementFactory() {
     // This sets up builders for each known element tag.
-    Map builders = this.builders;
+    Map<String, HTMLElementBuilder> builders = this.builders;
     builders.put("HTML", new HTMLElementBuilder.Html());
     builders.put("TITLE", new HTMLElementBuilder.Title());
     builders.put("BASE", new HTMLElementBuilder.Base());
@@ -118,7 +119,7 @@ class ElementFactory {
       throws DOMException {
     String normalName = name.toUpperCase();
     // No need to synchronize; read-only map at this point.
-    HTMLElementBuilder builder = (HTMLElementBuilder) this.builders
+    HTMLElementBuilder builder = this.builders
         .get(normalName);
     if (builder == null) {
       // TODO: IE would assume name is html text here?

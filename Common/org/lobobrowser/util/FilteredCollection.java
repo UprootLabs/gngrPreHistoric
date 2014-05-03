@@ -27,16 +27,16 @@ import java.util.*;
 
 public class FilteredCollection implements Collection {
   private final ObjectFilter filter;
-  private final Collection sourceCollection;
+  private final Collection<Object> sourceCollection;
 
-  public FilteredCollection(Collection sourceCollection, ObjectFilter filter) {
+  public FilteredCollection(Collection<Object> sourceCollection, ObjectFilter filter) {
     this.filter = filter;
     this.sourceCollection = sourceCollection;
   }
 
   public int size() {
     int count = 0;
-    Iterator i = this.sourceCollection.iterator();
+    Iterator<Object> i = this.sourceCollection.iterator();
     while (i.hasNext()) {
       if (this.filter.decode(i.next()) != null) {
         count++;
@@ -46,7 +46,7 @@ public class FilteredCollection implements Collection {
   }
 
   public boolean isEmpty() {
-    Iterator i = this.sourceCollection.iterator();
+    Iterator<Object> i = this.sourceCollection.iterator();
     while (i.hasNext()) {
       if (this.filter.decode(i.next()) != null) {
         return false;
@@ -59,8 +59,8 @@ public class FilteredCollection implements Collection {
     return this.sourceCollection.contains(this.filter.encode(o));
   }
 
-  public Iterator iterator() {
-    final Iterator sourceIterator = this.sourceCollection.iterator();
+  public Iterator<Object> iterator() {
+    final Iterator<Object> sourceIterator = this.sourceCollection.iterator();
     return new Iterator() {
       private Boolean hasNext;
       private Object next;
@@ -121,8 +121,8 @@ public class FilteredCollection implements Collection {
   }
 
   public Object[] toArray(Object[] a) {
-    Collection bucket = new ArrayList();
-    Iterator i = this.sourceCollection.iterator();
+    Collection<Object> bucket = new ArrayList<Object>();
+    Iterator<Object> i = this.sourceCollection.iterator();
     while (i.hasNext()) {
       Object item = this.filter.decode(i.next());
       if (item != null) {

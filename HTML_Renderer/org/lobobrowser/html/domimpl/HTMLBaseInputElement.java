@@ -29,7 +29,6 @@ import org.lobobrowser.html.FormInput;
 import org.lobobrowser.html.js.Executor;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLFormElement;
-
 import org.mozilla.javascript.Function;
 
 public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
@@ -325,7 +324,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     }
   }
 
-  private final ArrayList imageListeners = new ArrayList(1);
+  private final ArrayList<ImageListener> imageListeners = new ArrayList<ImageListener>(1);
 
   /**
    * Adds a listener of image loading events. The listener gets called right
@@ -334,7 +333,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
    * @param listener
    */
   public void addImageListener(ImageListener listener) {
-    ArrayList l = this.imageListeners;
+    ArrayList<ImageListener> l = this.imageListeners;
     java.awt.Image currentImage;
     synchronized (l) {
       currentImage = this.image;
@@ -350,7 +349,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   }
 
   public void removeImageListener(ImageListener listener) {
-    ArrayList l = this.imageListeners;
+    ArrayList<ImageListener> l = this.imageListeners;
     synchronized (l) {
       l.remove(l);
     }
@@ -364,7 +363,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   }
 
   private void dispatchEvent(String expectedImgSrc, ImageEvent event) {
-    ArrayList l = this.imageListeners;
+    ArrayList<ImageListener> l = this.imageListeners;
     ImageListener[] listenerArray;
     synchronized (l) {
       if (!expectedImgSrc.equals(this.imageSrc)) {
@@ -372,7 +371,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
       }
       this.image = event.image;
       // Get array of listeners while holding lock.
-      listenerArray = (ImageListener[]) l.toArray(ImageListener.EMPTY_ARRAY);
+      listenerArray = l.toArray(ImageListener.EMPTY_ARRAY);
     }
     int llength = listenerArray.length;
     for (int i = 0; i < llength; i++) {

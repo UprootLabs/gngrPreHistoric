@@ -32,7 +32,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
    * Updates bounds of all descendent's GUI components, based on root bounds.
    */
   public void updateWidgetBounds(int guiX, int guiY) {
-    Iterator i = this.getRenderables();
+    Iterator<? extends Renderable> i = this.getRenderables();
     if (i != null) {
       while (i.hasNext()) {
         Object r = i.next();
@@ -92,7 +92,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
         checkPoint1 = endPoint.getPoint();
       }
     }
-    Iterator i = this.getRenderables();
+    Iterator<? extends Renderable> i = this.getRenderables();
     if (i != null) {
       while (i.hasNext()) {
         Object robj = i.next();
@@ -169,7 +169,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
         checkPoint1 = endPoint.getPoint();
       }
     }
-    Iterator i = this.getRenderables();
+    Iterator<? extends Renderable> i = this.getRenderables();
     if (i != null) {
       while (i.hasNext()) {
         Object robj = i.next();
@@ -222,7 +222,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
     // if it's true that non-layable components
     // are not in RLine's anymore.
     this.invalidateLayoutLocal();
-    Iterator renderables = this.getRenderables();
+    Iterator<? extends Renderable> renderables = this.getRenderables();
     if (renderables != null) {
       while (renderables.hasNext()) {
         Object r = renderables.next();
@@ -280,7 +280,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
   }
 
   public BoundableRenderable getRenderable(int x, int y) {
-    Iterator i = this.getRenderables();
+    Iterator<? extends Renderable> i = this.getRenderables();
     if (i != null) {
       while (i.hasNext()) {
         Object r = i.next();

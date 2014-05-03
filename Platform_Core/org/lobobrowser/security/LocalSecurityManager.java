@@ -24,7 +24,7 @@
 package org.lobobrowser.security;
 
 public class LocalSecurityManager extends SecurityManager {
-  private static final ThreadLocal threadGroupTL = new ThreadLocal<ThreadGroup>();
+  private static final ThreadLocal<ThreadGroup> threadGroupTL = new ThreadLocal<ThreadGroup>();
 
   public LocalSecurityManager() {
     super();
@@ -47,6 +47,6 @@ public class LocalSecurityManager extends SecurityManager {
   }
 
   public static ThreadGroup getCurrentThreadGroup() {
-    return (ThreadGroup) threadGroupTL.get();
+    return threadGroupTL.get();
   }
 }

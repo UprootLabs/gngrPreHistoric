@@ -31,6 +31,7 @@ import org.w3c.css.sac.InputSource;
 import org.w3c.dom.*;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.html2.*;
+
 import com.steadystate.css.parser.CSSOMParser;
 
 import java.io.*;
@@ -71,9 +72,9 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
       this.isHoverStyle = null;
       this.hasHoverStyleByElement = null;
       if (deep) {
-        java.util.ArrayList nl = this.nodeList;
+        java.util.ArrayList<Node> nl = this.nodeList;
         if (nl != null) {
-          Iterator i = nl.iterator();
+          Iterator<Node> i = nl.iterator();
           while (i.hasNext()) {
             Object node = i.next();
             if (node instanceof HTMLElementImpl) {
@@ -160,16 +161,16 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     return null;
   }
 
-  private Map computedStyles;
+  private Map<String, AbstractCSS2Properties> computedStyles;
 
   public AbstractCSS2Properties getComputedStyle(String pseudoElement) {
     if (pseudoElement == null) {
       pseudoElement = "";
     }
     synchronized (this) {
-      Map cs = this.computedStyles;
+      Map<String, AbstractCSS2Properties> cs = this.computedStyles;
       if (cs != null) {
-        AbstractCSS2Properties sds = (AbstractCSS2Properties) cs
+        AbstractCSS2Properties sds = cs
             .get(pseudoElement);
         if (sds != null) {
           return sds;
@@ -179,7 +180,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     // Can't do the following in synchronized block (reverse locking order with
     // document).
     // First, add declarations from stylesheet
-    Set pes = pseudoElement.length() == 0 ? null : Collections
+    Set<String> pes = pseudoElement.length() == 0 ? null : Collections
         .singleton(pseudoElement);
     AbstractCSS2Properties sds = this.createDefaultStyleSheet();
     sds = this.addStyleSheetDeclarations(sds, pes);
@@ -195,12 +196,12 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
       // Check if style properties were set while outside
       // the synchronized block (can happen). We need to
       // return instance already set for consistency.
-      Map cs = this.computedStyles;
+      Map<String, AbstractCSS2Properties> cs = this.computedStyles;
       if (cs == null) {
-        cs = new HashMap(2);
+        cs = new HashMap<String, AbstractCSS2Properties>(2);
         this.computedStyles = cs;
       } else {
-        AbstractCSS2Properties sds2 = (AbstractCSS2Properties) cs
+        AbstractCSS2Properties sds2 = cs
             .get(pseudoElement);
         if (sds2 != null) {
           return sds2;
@@ -285,7 +286,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
    * @param style
    */
   protected final AbstractCSS2Properties addStyleSheetDeclarations(
-      AbstractCSS2Properties style, Set pseudoNames) {
+      AbstractCSS2Properties style, Set<String> pseudoNames) {
     Node pn = this.parentNode;
     if (pn == null) {
       // do later
@@ -298,12 +299,12 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
       String[] classNameArray = Strings.split(classNames);
       for (int i = classNameArray.length; --i >= 0;) {
         String className = classNameArray[i];
-        Collection sds = this.findStyleDeclarations(elementName, id, className,
+        Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, className,
             pseudoNames);
         if (sds != null) {
-          Iterator sdsi = sds.iterator();
+          Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
           while (sdsi.hasNext()) {
-            CSSStyleDeclaration sd = (CSSStyleDeclaration) sdsi.next();
+            CSSStyleDeclaration sd = sdsi.next();
             if (style == null) {
               style = new ComputedCSS2Properties(this);
             }
@@ -314,12 +315,12 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     } else {
       String id = this.getId();
       String elementName = this.getTagName();
-      Collection sds = this.findStyleDeclarations(elementName, id, null,
+      Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, null,
           pseudoNames);
       if (sds != null) {
-        Iterator sdsi = sds.iterator();
+        Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
         while (sdsi.hasNext()) {
-          CSSStyleDeclaration sd = (CSSStyleDeclaration) sdsi.next();
+          CSSStyleDeclaration sd = sdsi.next();
           if (style == null) {
             style = new ComputedCSS2Properties(this);
           }
@@ -353,7 +354,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
   }
 
   private void invalidateDescendentsForHoverImpl(HTMLElementImpl ancestor) {
-    ArrayList nodeList = this.nodeList;
+    ArrayList<Node> nodeList = this.nodeList;
     if (nodeList != null) {
       int size = nodeList.size();
       for (int i = 0; i < size; i++) {
@@ -370,7 +371,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
   }
 
   private Boolean isHoverStyle = null;
-  private Map hasHoverStyleByElement = null;
+  private Map<HTMLElementImpl, Boolean> hasHoverStyleByElement = null;
 
   private boolean hasHoverStyle() {
     Boolean ihs;
@@ -402,11 +403,11 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
   }
 
   private boolean hasHoverStyle(HTMLElementImpl ancestor) {
-    Map ihs;
+    Map<HTMLElementImpl, Boolean> ihs;
     synchronized (this) {
       ihs = this.hasHoverStyleByElement;
       if (ihs != null) {
-        Boolean f = (Boolean) ihs.get(ancestor);
+        Boolean f = ihs.get(ancestor);
         if (f != null) {
           return f.booleanValue();
         }
@@ -431,7 +432,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     synchronized (this) {
       ihs = this.hasHoverStyleByElement;
       if (ihs == null) {
-        ihs = new HashMap(2);
+        ihs = new HashMap<HTMLElementImpl, Boolean>(2);
         this.hasHoverStyleByElement = ihs;
       }
       ihs.put(ancestor, hhs);
@@ -444,19 +445,19 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
    * element. Method must return <code>null</code> if there are no such
    * pseudo-elements.
    */
-  public Set getPseudoNames() {
-    Set pnset = null;
+  public Set<String> getPseudoNames() {
+    Set<String> pnset = null;
     if (this.isMouseOver) {
       if (pnset == null) {
-        pnset = new HashSet(1);
+        pnset = new HashSet<String>(1);
       }
       pnset.add("hover");
     }
     return pnset;
   }
 
-  protected final Collection findStyleDeclarations(String elementName,
-      String id, String className, Set pseudoNames) {
+  protected final Collection<CSSStyleDeclaration> findStyleDeclarations(String elementName,
+      String id, String className, Set<String> pseudoNames) {
     HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc == null) {
       return null;
@@ -674,7 +675,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     return null;
   }
 
-  protected Object getAncestorForJavaClass(Class javaClass) {
+  protected Object getAncestorForJavaClass(Class<HTMLFormElement> javaClass) {
     Object nodeObj = this.getParentNode();
     if (nodeObj == null || javaClass.isInstance(nodeObj)) {
       return nodeObj;
@@ -695,7 +696,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     HtmlParser parser = new HtmlParser(document.getUserAgentContext(),
         document, null, null, null);
     synchronized (this) {
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         nl.clear();
       }
@@ -725,7 +726,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
     String tagName = this.getTagName();
     buffer.append('<');
     buffer.append(tagName);
-    Map attributes = this.attributes;
+    Map<String, String> attributes = this.attributes;
     if (attributes != null) {
       Iterator i = attributes.entrySet().iterator();
       while (i.hasNext()) {
@@ -740,7 +741,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement,
         }
       }
     }
-    ArrayList nl = this.nodeList;
+    ArrayList<Node> nl = this.nodeList;
     if (nl == null || nl.size() == 0) {
       buffer.append("/>");
       return;

@@ -149,7 +149,7 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public void invalidate() {
-    Map map = this.iWordInfoMap;
+    Map<String, WordInfo> map = this.iWordInfoMap;
     if (map != null) {
       map.clear();
     }
@@ -263,7 +263,7 @@ public class StyleSheetRenderState implements RenderState {
       }
     }
     HTMLDocumentImpl document = this.document;
-    Set locales = document == null ? null : document.getLocales();
+    Set<String> locales = document == null ? null : document.getLocales();
 
     Integer superscript = null;
     if (isSuper) {
@@ -485,17 +485,17 @@ public class StyleSheetRenderState implements RenderState {
     this.iHighlight = highlight;
   }
 
-  Map iWordInfoMap = null;
+  Map<String, WordInfo> iWordInfoMap = null;
 
   public final WordInfo getWordInfo(String word) {
     // Expected to be called only in the GUI (rendering) thread.
     // No synchronization necessary.
-    Map map = this.iWordInfoMap;
+    Map<String, WordInfo> map = this.iWordInfoMap;
     if (map == null) {
-      map = new HashMap(1);
+      map = new HashMap<String, WordInfo>(1);
       this.iWordInfoMap = map;
     }
-    WordInfo wi = (WordInfo) map.get(word);
+    WordInfo wi = map.get(word);
     if (wi != null) {
       return wi;
     }
@@ -553,7 +553,7 @@ public class StyleSheetRenderState implements RenderState {
     return 0;
   }
 
-  private Map counters = null;
+  private Map<String, ArrayList> counters = null;
 
   public int getCount(String counter, int nesting) {
     // Expected to be called only in GUI thread.
@@ -561,11 +561,11 @@ public class StyleSheetRenderState implements RenderState {
     if (prs != null) {
       return prs.getCount(counter, nesting);
     }
-    Map counters = this.counters;
+    Map<String, ArrayList> counters = this.counters;
     if (counters == null) {
       return 0;
     }
-    ArrayList counterArray = (ArrayList) counters.get(counter);
+    ArrayList counterArray = counters.get(counter);
     if (nesting < 0 || nesting >= counterArray.size()) {
       return 0;
     }
@@ -579,13 +579,13 @@ public class StyleSheetRenderState implements RenderState {
     if (prs != null) {
       prs.resetCount(counter, nesting, value);
     } else {
-      Map counters = this.counters;
+      Map<String, ArrayList> counters = this.counters;
       if (counters == null) {
-        counters = new HashMap(2);
+        counters = new HashMap<String, ArrayList>(2);
         this.counters = counters;
         counters.put(counter, new ArrayList(0));
       }
-      ArrayList counterArray = (ArrayList) counters.get(counter);
+      ArrayList<Integer> counterArray = counters.get(counter);
       while (counterArray.size() <= nesting) {
         counterArray.add(null);
       }
@@ -599,17 +599,17 @@ public class StyleSheetRenderState implements RenderState {
     if (prs != null) {
       return prs.incrementCount(counter, nesting);
     }
-    Map counters = this.counters;
+    Map<String, ArrayList> counters = this.counters;
     if (counters == null) {
-      counters = new HashMap(2);
+      counters = new HashMap<String, ArrayList>(2);
       this.counters = counters;
       counters.put(counter, new ArrayList(0));
     }
-    ArrayList counterArray = (ArrayList) counters.get(counter);
+    ArrayList<Integer> counterArray = counters.get(counter);
     while (counterArray.size() <= nesting) {
       counterArray.add(null);
     }
-    Integer integer = (Integer) counterArray.get(nesting);
+    Integer integer = counterArray.get(nesting);
     int prevValue = integer == null ? 0 : integer.intValue();
     counterArray.set(nesting, new Integer(prevValue + 1));
     return prevValue;

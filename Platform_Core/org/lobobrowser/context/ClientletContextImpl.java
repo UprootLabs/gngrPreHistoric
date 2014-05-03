@@ -62,7 +62,7 @@ public class ClientletContextImpl implements ClientletContext {
 
   public Object getItem(String name) {
     synchronized (this) {
-      Map items = this.items;
+      Map<String, Object> items = this.items;
       if (items == null) {
         return null;
       }

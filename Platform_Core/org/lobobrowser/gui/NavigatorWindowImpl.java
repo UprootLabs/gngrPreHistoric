@@ -497,7 +497,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   }
 
   public void addMenu(String menuId, JMenu menu) {
-    Map map = this.menusById;
+    Map<String, JMenu> map = this.menusById;
     synchronized (this) {
       if (map.containsKey(menuId)) {
         throw new IllegalArgumentException("Menu " + menuId

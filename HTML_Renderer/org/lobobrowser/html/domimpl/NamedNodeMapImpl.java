@@ -25,15 +25,16 @@ package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.js.*;
 import org.w3c.dom.*;
+
 import java.util.*;
 
 public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
     NamedNodeMap {
   // Note: class must be public for reflection to work.
-  private final Map attributes = new HashMap();
-  private final ArrayList attributeList = new ArrayList();
+  private final Map<String, Node> attributes = new HashMap<String, Node>();
+  private final ArrayList<Node> attributeList = new ArrayList<Node>();
 
-  public NamedNodeMapImpl(Element owner, Map attribs) {
+  public NamedNodeMapImpl(Element owner, Map<String, String> attribs) {
     Iterator i = attribs.entrySet().iterator();
     while (i.hasNext()) {
       Map.Entry entry = (Map.Entry) i.next();
@@ -51,7 +52,7 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
   }
 
   public Node getNamedItem(String name) {
-    return (Node) this.attributes.get(name);
+    return this.attributes.get(name);
   }
 
   /**
@@ -70,14 +71,14 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
 
   public Node item(int index) {
     try {
-      return (Node) this.attributeList.get(index);
+      return this.attributeList.get(index);
     } catch (IndexOutOfBoundsException iob) {
       return null;
     }
   }
 
   public Node removeNamedItem(String name) throws DOMException {
-    return (Node) this.attributes.remove(name);
+    return this.attributes.remove(name);
   }
 
   public Node removeNamedItemNS(String namespaceURI, String localName)

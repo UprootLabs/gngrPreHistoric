@@ -67,7 +67,7 @@ import org.w3c.dom.views.DocumentView;
 
 public class Window extends AbstractScriptableDelegate implements AbstractView {
   private static final Logger logger = Logger.getLogger(Window.class.getName());
-  private static final Map CONTEXT_WINDOWS = new WeakHashMap();
+  private static final Map<HtmlRendererContext, WeakReference<Window>> CONTEXT_WINDOWS = new WeakHashMap<HtmlRendererContext, WeakReference<Window>>();
   // private static final JavaClassWrapper IMAGE_WRAPPER =
   // JavaClassWrapperFactory.getInstance().getClassWrapper(Image.class);
   private static final JavaClassWrapper XMLHTTPREQUEST_WRAPPER = JavaClassWrapperFactory
@@ -81,7 +81,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   private Navigator navigator;
   private Screen screen;
   private Location location;
-  private Map taskMap;
+  private Map<Integer, TaskWrapper> taskMap;
   private volatile HTMLDocumentImpl document;
 
   public Window(HtmlRendererContext rcontext, UserAgentContext uaContext) {
@@ -156,12 +156,12 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   private void putAndStartTask(Integer timeoutID, Timer timer, Object retained) {
     TaskWrapper oldTaskWrapper = null;
     synchronized (this) {
-      Map taskMap = this.taskMap;
+      Map<Integer, TaskWrapper> taskMap = this.taskMap;
       if (taskMap == null) {
-        taskMap = new HashMap(4);
+        taskMap = new HashMap<Integer, TaskWrapper>(4);
         this.taskMap = taskMap;
       } else {
-        oldTaskWrapper = (TaskWrapper) taskMap.get(timeoutID);
+        oldTaskWrapper = taskMap.get(timeoutID);
       }
       taskMap.put(timeoutID, new TaskWrapper(timer, retained));
     }
@@ -175,9 +175,9 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   private void forgetTask(Integer timeoutID, boolean cancel) {
     TaskWrapper oldTimer = null;
     synchronized (this) {
-      Map taskMap = this.taskMap;
+      Map<Integer, TaskWrapper> taskMap = this.taskMap;
       if (taskMap != null) {
-        oldTimer = (TaskWrapper) taskMap.remove(timeoutID);
+        oldTimer = taskMap.remove(timeoutID);
       }
     }
     if (oldTimer != null && cancel) {
@@ -188,9 +188,9 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   private void forgetAllTasks() {
     TaskWrapper[] oldTaskWrappers = null;
     synchronized (this) {
-      Map taskMap = this.taskMap;
+      Map<Integer, TaskWrapper> taskMap = this.taskMap;
       if (taskMap != null) {
-        oldTaskWrappers = (TaskWrapper[]) taskMap.values().toArray(
+        oldTaskWrappers = taskMap.values().toArray(
             new TaskWrapper[0]);
         this.taskMap = null;
       }
@@ -446,7 +446,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       return null;
     }
     synchronized (CONTEXT_WINDOWS) {
-      Reference wref = (Reference) CONTEXT_WINDOWS.get(rcontext);
+      Reference wref = CONTEXT_WINDOWS.get(rcontext);
       if (wref != null) {
         Window window = (Window) wref.get();
         if (window != null) {
@@ -454,7 +454,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
         }
       }
       Window window = new Window(rcontext, rcontext.getUserAgentContext());
-      CONTEXT_WINDOWS.put(rcontext, new WeakReference(window));
+      CONTEXT_WINDOWS.put(rcontext, new WeakReference<Window>(window));
       return window;
     }
   }
@@ -811,15 +811,15 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   }
 
   private static abstract class WeakWindowTask implements ActionListener {
-    private final WeakReference windowRef;
+    private final WeakReference<Window> windowRef;
 
     public WeakWindowTask(Window window) {
-      this.windowRef = new WeakReference(window);
+      this.windowRef = new WeakReference<Window>(window);
     }
 
     protected Window getWindow() {
-      WeakReference ref = this.windowRef;
-      return ref == null ? null : (Window) ref.get();
+      WeakReference<Window> ref = this.windowRef;
+      return ref == null ? null : ref.get();
     }
   }
 
@@ -828,14 +828,14 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     // to get garbage collected, especially in infinite loop
     // scenarios.
     private final Integer timeIDInt;
-    private final WeakReference functionRef;
+    private final WeakReference<Function> functionRef;
     private final boolean removeTask;
 
     public FunctionTimerTask(Window window, Integer timeIDInt,
         Function function, boolean removeTask) {
       super(window);
       this.timeIDInt = timeIDInt;
-      this.functionRef = new WeakReference(function);
+      this.functionRef = new WeakReference<Function>(function);
       this.removeTask = removeTask;
     }
 
@@ -857,7 +857,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
           throw new IllegalStateException(
               "Cannot perform operation when document is unset.");
         }
-        Function function = (Function) this.functionRef.get();
+        Function function = this.functionRef.get();
         if (function == null) {
           throw new IllegalStateException(
               "Cannot perform operation. Function is no longer available.");

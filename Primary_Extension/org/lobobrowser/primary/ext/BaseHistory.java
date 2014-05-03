@@ -53,10 +53,10 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public Collection<String> getRecentItems(int maxNumItems) {
     synchronized (this) {
       Collection<String> items = new LinkedList<String>();
-      Iterator i = this.historyTimedSet.iterator();
+      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       int count = 0;
       while (i.hasNext() && count++ < maxNumItems) {
-        TimedEntry entry = (TimedEntry) i.next();
+        TimedEntry entry = i.next();
         items.add(entry.value);
       }
       return items;
@@ -66,10 +66,10 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public Collection<T> getRecentItemInfo(int maxNumItems) {
     synchronized (this) {
       Collection<T> items = new LinkedList<T>();
-      Iterator i = this.historyTimedSet.iterator();
+      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       int count = 0;
       while (i.hasNext() && count++ < maxNumItems) {
-        TimedEntry entry = (TimedEntry) i.next();
+        TimedEntry entry = i.next();
         items.add(entry.itemInfo);
       }
       return items;
@@ -79,10 +79,10 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public Collection<HostEntry> getRecentHostEntries(int maxNumItems) {
     synchronized (this) {
       Collection<HostEntry> items = new LinkedList<HostEntry>();
-      Iterator i = this.historyTimedSet.iterator();
+      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       Set<String> hosts = new HashSet<String>();
       while (i.hasNext()) {
-        TimedEntry entry = (TimedEntry) i.next();
+        TimedEntry entry = i.next();
         String host = entry.url.getHost();
         if (host != null && host.length() != 0) {
           if (!hosts.contains(host)) {
@@ -101,9 +101,9 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public Collection<HistoryEntry<T>> getAllEntries() {
     synchronized (this) {
       Collection<HistoryEntry<T>> items = new LinkedList<HistoryEntry<T>>();
-      Iterator i = this.historyTimedSet.iterator();
+      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       while (i.hasNext()) {
-        TimedEntry entry = (TimedEntry) i.next();
+        TimedEntry entry = i.next();
         items.add(new HistoryEntry<T>(entry.url, entry.timestamp,
             entry.itemInfo));
       }
@@ -114,9 +114,9 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public Collection<HistoryEntry<T>> getRecentEntries(int maxNumItems) {
     synchronized (this) {
       Collection<HistoryEntry<T>> items = new LinkedList<HistoryEntry<T>>();
-      Iterator i = this.historyTimedSet.iterator();
+      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       while (i.hasNext()) {
-        TimedEntry entry = (TimedEntry) i.next();
+        TimedEntry entry = i.next();
         if (items.size() >= maxNumItems) {
           break;
         }
@@ -149,7 +149,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public void addAsRecent(java.net.URL url, T itemInfo) {
     String item = url.toExternalForm();
     synchronized (this) {
-      TimedEntry entry = (TimedEntry) this.historyMap.get(item);
+      TimedEntry entry = this.historyMap.get(item);
       if (entry != null) {
         this.historyTimedSet.remove(entry);
         entry.touch();
@@ -162,7 +162,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
         this.historySortedSet.add(item);
         while (this.historyTimedSet.size() > this.commonEntriesCapacity) {
           // Most outdated goes last
-          TimedEntry entryToRemove = (TimedEntry) this.historyTimedSet.last();
+          TimedEntry entryToRemove = this.historyTimedSet.last();
           this.historyMap.remove(entryToRemove.value);
           this.historySortedSet.remove(entryToRemove.value);
           this.historyTimedSet.remove(entryToRemove);
@@ -174,7 +174,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
   public void touch(java.net.URL url) {
     String item = url.toExternalForm();
     synchronized (this) {
-      TimedEntry entry = (TimedEntry) this.historyMap.get(item);
+      TimedEntry entry = this.historyMap.get(item);
       if (entry != null) {
         this.historyTimedSet.remove(entry);
         entry.touch();

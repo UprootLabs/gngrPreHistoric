@@ -95,7 +95,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   private final HtmlRendererContext rcontext;
   private final UserAgentContext ucontext;
   private final Window window;
-  private final Map elementsById = new WeakValueHashMap();
+  private final Map<String, Element> elementsById = new WeakValueHashMap();
   private String documentURI;
   private java.net.URL documentURL;
 
@@ -535,9 +535,9 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
 
   public Element getDocumentElement() {
     synchronized (this.treeLock) {
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        Iterator i = nl.iterator();
+        Iterator<Node> i = nl.iterator();
         while (i.hasNext()) {
           Object node = i.next();
           if (node instanceof Element) {
@@ -636,17 +636,17 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   public Element getElementById(String elementId) {
     Element element;
     synchronized (this) {
-      element = (Element) this.elementsById.get(elementId);
+      element = this.elementsById.get(elementId);
     }
     return element;
   }
 
-  private final Map elementsByName = new HashMap(0);
+  private final Map<String, Element> elementsByName = new HashMap<String, Element>(0);
 
   public Element namedItem(String name) {
     Element element;
     synchronized (this) {
-      element = (Element) this.elementsByName.get(name);
+      element = this.elementsByName.get(name);
     }
     return element;
   }
@@ -861,7 +861,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     }
   }
 
-  private final Collection styleSheets = new CSSStyleSheetList();
+  private final Collection<CSSStyleSheet> styleSheets = new CSSStyleSheetList();
 
   public class CSSStyleSheetList extends ArrayList {
     public int getLength() {
@@ -881,9 +881,9 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
       // this point.
       this.forgetRenderState();
       // TODO: this might be ineffcient.
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        Iterator i = nl.iterator();
+        Iterator<Node> i = nl.iterator();
         while (i.hasNext()) {
           Object node = i.next();
           if (node instanceof HTMLElementImpl) {
@@ -903,9 +903,9 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
         // this point.
         this.forgetRenderState();
         // TODO: this might be ineffcient.
-        ArrayList nl = this.nodeList;
+        ArrayList<Node> nl = this.nodeList;
         if (nl != null) {
-          Iterator i = nl.iterator();
+          Iterator<Node> i = nl.iterator();
           while (i.hasNext()) {
             Object node = i.next();
             if (node instanceof HTMLElementImpl) {
@@ -918,7 +918,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     this.allInvalidated();
   }
 
-  public Collection getStyleSheets() {
+  public Collection<CSSStyleSheet> getStyleSheets() {
     return this.styleSheets;
   }
 
@@ -940,7 +940,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     }
   }
 
-  private final ArrayList documentNotificationListeners = new ArrayList(1);
+  private final ArrayList<DocumentNotificationListener> documentNotificationListeners = new ArrayList<DocumentNotificationListener>(1);
 
   /**
    * Adds a document notification listener, which is informed about changes to
@@ -951,7 +951,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    */
   public void addDocumentNotificationListener(
       DocumentNotificationListener listener) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     synchronized (listenersList) {
       listenersList.add(listener);
     }
@@ -959,14 +959,14 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
 
   public void removeDocumentNotificationListener(
       DocumentNotificationListener listener) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     synchronized (listenersList) {
       listenersList.remove(listener);
     }
   }
 
   public void sizeInvalidated(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -977,7 +977,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.sizeInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -994,7 +994,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @param node
    */
   public void lookInvalidated(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1005,7 +1005,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.lookInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -1021,7 +1021,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @param node
    */
   public void positionInParentInvalidated(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1032,7 +1032,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.positionInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -1048,7 +1048,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @param node
    */
   public void invalidated(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1059,7 +1059,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.invalidated(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -1074,7 +1074,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @param node
    */
   public void structureInvalidated(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1085,7 +1085,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.structureInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -1095,7 +1095,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   }
 
   public void nodeLoaded(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1106,7 +1106,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.nodeLoaded(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -1116,7 +1116,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   }
 
   public void externalScriptLoading(NodeImpl node) {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1127,7 +1127,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.externalScriptLoading(node);
       } catch (IndexOutOfBoundsException iob) {
@@ -1140,7 +1140,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * Informs listeners that the whole document has been invalidated.
    */
   public void allInvalidated() {
-    ArrayList listenersList = this.documentNotificationListeners;
+    ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     int size;
     synchronized (listenersList) {
       size = listenersList.size();
@@ -1151,7 +1151,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = (DocumentNotificationListener) listenersList
+        DocumentNotificationListener dnl = listenersList
             .get(i);
         dnl.allInvalidated();
       } catch (IndexOutOfBoundsException iob) {
@@ -1164,7 +1164,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     return new StyleSheetRenderState(this);
   }
 
-  private final Map imageInfos = new HashMap(4);
+  private final Map<String, ImageInfo> imageInfos = new HashMap<String, ImageInfo>(4);
   private final ImageEvent BLANK_IMAGE_EVENT = new ImageEvent(this, null);
 
   /**
@@ -1189,10 +1189,10 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
       return;
     }
     final String urlText = url.toExternalForm();
-    final Map map = this.imageInfos;
+    final Map<String, ImageInfo> map = this.imageInfos;
     ImageEvent event = null;
     synchronized (map) {
-      ImageInfo info = (ImageInfo) map.get(urlText);
+      ImageInfo info = map.get(urlText);
       if (info != null) {
         if (info.loaded) {
           // TODO: This can't really happen because ImageInfo
@@ -1305,14 +1305,14 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // Access to this class is synchronized on imageInfos.
     public ImageEvent imageEvent;
     public boolean loaded;
-    private ArrayList listeners = new ArrayList(1);
+    private ArrayList<ImageListener> listeners = new ArrayList<ImageListener>(1);
 
     void addListener(ImageListener listener) {
       this.listeners.add(listener);
     }
 
     ImageListener[] getListeners() {
-      return (ImageListener[]) this.listeners
+      return this.listeners
           .toArray(ImageListener.EMPTY_ARRAY);
     }
   }

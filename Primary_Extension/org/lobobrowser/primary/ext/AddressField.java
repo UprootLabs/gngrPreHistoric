@@ -23,6 +23,7 @@ package org.lobobrowser.primary.ext;
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+
 import java.util.*;
 import java.awt.event.*;
 
@@ -104,13 +105,13 @@ public class AddressField extends JComboBox {
     // Expected to be called in GUI thread.
     this.populatingMatches = true;
     try {
-      JComboBox urlComboBox = this;
+      JComboBox<String> urlComboBox = this;
       urlComboBox.removeAllItems();
       Collection<String> recentUrls = this.componentSource
           .getRecentLocations(30);
-      Iterator i = recentUrls.iterator();
+      Iterator<String> i = recentUrls.iterator();
       while (i.hasNext()) {
-        String matchUrl = (String) i.next();
+        String matchUrl = i.next();
         urlComboBox.addItem(matchUrl);
       }
       this.setText(comboBoxText);

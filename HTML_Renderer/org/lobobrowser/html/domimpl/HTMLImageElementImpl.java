@@ -29,7 +29,6 @@ import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.html.style.ImageRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html2.HTMLImageElement;
-
 import org.mozilla.javascript.Function;
 
 public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
@@ -184,7 +183,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
     }
   }
 
-  private final ArrayList listeners = new ArrayList(1);
+  private final ArrayList<ImageListener> listeners = new ArrayList<ImageListener>(1);
 
   /**
    * Adds a listener of image loading events. The listener gets called right
@@ -193,7 +192,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
    * @param listener
    */
   public void addImageListener(ImageListener listener) {
-    ArrayList l = this.listeners;
+    ArrayList<ImageListener> l = this.listeners;
     java.awt.Image currentImage;
     synchronized (l) {
       currentImage = this.image;
@@ -209,14 +208,14 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
   }
 
   public void removeImageListener(ImageListener listener) {
-    ArrayList l = this.listeners;
+    ArrayList<ImageListener> l = this.listeners;
     synchronized (l) {
       l.remove(l);
     }
   }
 
   private void dispatchEvent(String expectedImgSrc, ImageEvent event) {
-    ArrayList l = this.listeners;
+    ArrayList<ImageListener> l = this.listeners;
     ImageListener[] listenerArray;
     synchronized (l) {
       if (!expectedImgSrc.equals(this.imageSrc)) {
@@ -224,7 +223,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
       }
       this.image = event.image;
       // Get array of listeners while holding lock.
-      listenerArray = (ImageListener[]) l.toArray(ImageListener.EMPTY_ARRAY);
+      listenerArray = l.toArray(ImageListener.EMPTY_ARRAY);
     }
     int llength = listenerArray.length;
     for (int i = 0; i < llength; i++) {

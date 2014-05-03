@@ -25,7 +25,7 @@ import java.util.*;
 
 public class VerifiedHostsStore {
   private static final VerifiedHostsStore instance = new VerifiedHostsStore();
-  private final Set hosts = new HashSet();
+  private final Set<String> hosts = new HashSet<String>();
 
   public static VerifiedHostsStore getInstance() {
     return instance;

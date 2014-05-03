@@ -238,12 +238,12 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements
         this.appendChild(rowElement);
         return rowElement;
       }
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         int size = nl.size();
         int trcount = 0;
         for (int i = 0; i < size; i++) {
-          Node node = (Node) nl.get(i);
+          Node node = nl.get(i);
           if ("TR".equalsIgnoreCase(node.getNodeName())) {
             if (trcount == index) {
               this.insertAt(rowElement, i);
@@ -262,12 +262,12 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements
 
   public void deleteRow(int index) throws DOMException {
     synchronized (this.treeLock) {
-      ArrayList nl = this.nodeList;
+      ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         int size = nl.size();
         int trcount = 0;
         for (int i = 0; i < size; i++) {
-          Node node = (Node) nl.get(i);
+          Node node = nl.get(i);
           if ("TR".equalsIgnoreCase(node.getNodeName())) {
             if (trcount == index) {
               this.removeChildAt(i);

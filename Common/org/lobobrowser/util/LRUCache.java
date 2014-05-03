@@ -30,13 +30,13 @@ public class LRUCache implements java.io.Serializable {
   private static final long serialVersionUID = 940427225784212823L;
   private int approxMaxSize;
 
-  private final Map cacheMap = new HashMap();
+  private final Map<Object, OrderedValue> cacheMap = new HashMap<Object, OrderedValue>();
   private volatile transient EventDispatch2 removalEvent;
 
   /**
    * Ascending timestamp order. First is least recently used.
    */
-  private final TreeSet timedSet = new TreeSet();
+  private final TreeSet<OrderedValue> timedSet = new TreeSet<OrderedValue>();
   private int currentSize = 0;
 
   public LRUCache(int approxMaxSize) {
@@ -64,7 +64,7 @@ public class LRUCache implements java.io.Serializable {
       // Can't be inserted.
       return;
     }
-    OrderedValue ordVal = (OrderedValue) this.cacheMap.get(key);
+    OrderedValue ordVal = this.cacheMap.get(key);
     if (ordVal != null) {
       if (ordVal.value != value) {
         this.removalEvent.fireEvent(new RemovalEvent(this, ordVal.value));
@@ -87,7 +87,7 @@ public class LRUCache implements java.io.Serializable {
   }
 
   private void removeLRU() {
-    OrderedValue ordVal = (OrderedValue) this.timedSet.first();
+    OrderedValue ordVal = this.timedSet.first();
     if (ordVal != null) {
       this.removalEvent.fireEvent(new RemovalEvent(this, ordVal.value));
       if (this.timedSet.remove(ordVal)) {
@@ -103,7 +103,7 @@ public class LRUCache implements java.io.Serializable {
   }
 
   public Object get(Object key) {
-    OrderedValue ordVal = (OrderedValue) this.cacheMap.get(key);
+    OrderedValue ordVal = this.cacheMap.get(key);
     if (ordVal != null) {
       this.timedSet.remove(ordVal);
       ordVal.touch();
@@ -115,7 +115,7 @@ public class LRUCache implements java.io.Serializable {
   }
 
   public Object remove(Object key) {
-    OrderedValue ordVal = (OrderedValue) this.cacheMap.get(key);
+    OrderedValue ordVal = this.cacheMap.get(key);
     if (ordVal != null) {
       this.removalEvent.fireEvent(new RemovalEvent(this, ordVal.value));
       this.currentSize -= ordVal.approximateSize;
@@ -142,30 +142,30 @@ public class LRUCache implements java.io.Serializable {
     return this.cacheMap.size();
   }
 
-  public List getEntryInfoList() {
-    List list = new ArrayList();
-    Iterator i = this.cacheMap.values().iterator();
+  public List<EntryInfo> getEntryInfoList() {
+    List<EntryInfo> list = new ArrayList<EntryInfo>();
+    Iterator<OrderedValue> i = this.cacheMap.values().iterator();
     while (i.hasNext()) {
-      OrderedValue ov = (OrderedValue) i.next();
+      OrderedValue ov = i.next();
       Object value = ov.value;
-      Class vc = value == null ? null : value.getClass();
+      Class<? extends Object> vc = value == null ? null : value.getClass();
       list.add(new EntryInfo(vc, ov.approximateSize));
     }
     return list;
   }
 
   public static class EntryInfo {
-    public final Class valueClass;
+    public final Class<? extends Object> valueClass;
     public final int approximateSize;
 
-    public EntryInfo(final Class valueClass, final int approximateSize) {
+    public EntryInfo(final Class<? extends Object> valueClass, final int approximateSize) {
       super();
       this.valueClass = valueClass;
       this.approximateSize = approximateSize;
     }
 
     public String toString() {
-      Class vc = this.valueClass;
+      Class<? extends Object> vc = this.valueClass;
       String vcName = vc == null ? "<none>" : vc.getName();
       return "[class=" + vcName + ",approx-size=" + this.approximateSize + "]";
     }

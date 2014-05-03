@@ -71,7 +71,7 @@ public class RBlock extends BaseElementRenderable implements
   protected final int listNesting;
   protected final HtmlRendererContext rendererContext;
   protected final RBlockViewport bodyLayout;
-  protected final Map cachedLayout = new Hashtable(5);
+  protected final Map<LayoutKey, LayoutValue> cachedLayout = new Hashtable<LayoutKey, LayoutValue>(5);
 
   protected RenderableSpot startSelection;
   protected RenderableSpot endSelection;
@@ -383,10 +383,10 @@ public class RBlock extends BaseElementRenderable implements
     LayoutKey key = new LayoutKey(availWidth, availHeight, expandWidth,
         expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY,
         whiteSpace, font, overrideNoWrap);
-    Map cachedLayout = this.cachedLayout;
+    Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
     LayoutValue value;
     if (sizeOnly) {
-      value = useCache ? (LayoutValue) cachedLayout.get(key) : null;
+      value = useCache ? cachedLayout.get(key) : null;
     } else {
       if (Objects.equals(key, this.lastLayoutKey)) {
         value = this.lastLayoutValue;
@@ -1286,7 +1286,7 @@ public class RBlock extends BaseElementRenderable implements
    * 
    * @see org.xamjwg.html.renderer.RCollection#getRenderables()
    */
-  public Iterator getRenderables() {
+  public Iterator<Renderable> getRenderables() {
     final RBlockViewport bodyLayout = this.bodyLayout;
     return new Iterator() {
       private RBlockViewport bl = bodyLayout;

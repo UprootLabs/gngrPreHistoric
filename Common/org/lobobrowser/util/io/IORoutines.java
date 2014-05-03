@@ -191,8 +191,8 @@ public class IORoutines {
     }
   }
 
-  public static java.util.List loadStrings(File file) throws IOException {
-    java.util.List list = new java.util.LinkedList();
+  public static java.util.List<String> loadStrings(File file) throws IOException {
+    java.util.List<String> list = new java.util.LinkedList<String>();
     InputStream in = new FileInputStream(file);
     try {
       BufferedReader reader = new BufferedReader(new InputStreamReader(in));

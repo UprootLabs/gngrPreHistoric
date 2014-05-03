@@ -92,7 +92,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
           .toLowerCase();
       String value = colonIdx == -1 ? line.trim() : line
           .substring(colonIdx + 1).trim();
-      List<String> hvalues = (List<String>) headersMap.get(name);
+      List<String> hvalues = headersMap.get(name);
       if (hvalues == null) {
         hvalues = new ArrayList<String>(1);
         headersMap.put(name, hvalues);
@@ -120,7 +120,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
   public String getHeaderField(int n) {
     try {
       this.connect();
-      NameValuePair pair = (NameValuePair) this.headersList.get(n);
+      NameValuePair pair = this.headersList.get(n);
       return pair.value;
     } catch (IndexOutOfBoundsException iob) {
       return null;
@@ -140,7 +140,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
     } catch (IOException ioe) {
       return null;
     }
-    List hvalues = (List) this.headersMap.get(name.toLowerCase());
+    List hvalues = this.headersMap.get(name.toLowerCase());
     if (hvalues == null || hvalues.size() == 0) {
       return null;
     }
@@ -155,7 +155,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
   public String getHeaderFieldKey(int n) {
     try {
       this.connect();
-      NameValuePair pair = (NameValuePair) this.headersList.get(n);
+      NameValuePair pair = this.headersList.get(n);
       return pair.name;
     } catch (IndexOutOfBoundsException iob) {
       return null;

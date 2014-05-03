@@ -64,23 +64,23 @@ public class FontNameRenderState extends RenderStateDelegator {
     super.invalidate();
     this.iFont = null;
     this.iFontMetrics = null;
-    Map map = this.iWordInfoMap;
+    Map<String, WordInfo> map = this.iWordInfoMap;
     if (map != null) {
       map.clear();
     }
   }
 
-  Map iWordInfoMap = null;
+  Map<String, WordInfo> iWordInfoMap = null;
 
   public final WordInfo getWordInfo(String word) {
     // Expected to be called only in the GUI (rendering) thread.
     // No synchronization necessary.
-    Map map = this.iWordInfoMap;
+    Map<String, WordInfo> map = this.iWordInfoMap;
     if (map == null) {
-      map = new HashMap(1);
+      map = new HashMap<String, WordInfo>(1);
       this.iWordInfoMap = map;
     }
-    WordInfo wi = (WordInfo) map.get(word);
+    WordInfo wi = map.get(word);
     if (wi != null) {
       return wi;
     }

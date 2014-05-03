@@ -40,7 +40,7 @@ import org.lobobrowser.util.*;
 import org.lobobrowser.html.domimpl.*;
 
 public class HtmlValues {
-  public static final Map SYSTEM_FONTS = new HashMap();
+  public static final Map<String, FontInfo> SYSTEM_FONTS = new HashMap<String, FontInfo>();
   private static final Logger logger = Logger.getLogger(HtmlValues.class
       .getName());
   public static final float DEFAULT_FONT_SIZE = 14.0f;
@@ -762,7 +762,7 @@ public class HtmlValues {
   }
 
   public static String[] splitCssValue(String cssValue) {
-    ArrayList tokens = new ArrayList(4);
+    ArrayList<String> tokens = new ArrayList<String>(4);
     int len = cssValue.length();
     int parenCount = 0;
     StringBuffer currentWord = null;
@@ -805,7 +805,7 @@ public class HtmlValues {
     if (currentWord != null) {
       tokens.add(currentWord.toString());
     }
-    return (String[]) tokens.toArray(new String[tokens.size()]);
+    return tokens.toArray(new String[tokens.size()]);
   }
 
   public static boolean isUrl(String token) {

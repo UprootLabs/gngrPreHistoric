@@ -29,17 +29,17 @@ import java.util.Collection;
  * @author J. H. S.
  */
 class OverflowException extends Exception {
-  private final Collection renderables;
+  private final Collection<Renderable> renderables;
 
   /**
 	 * 
 	 */
-  public OverflowException(Collection renderables) {
+  public OverflowException(Collection<Renderable> renderables) {
     super();
     this.renderables = renderables;
   }
 
-  public Collection getRenderables() {
+  public Collection<Renderable> getRenderables() {
     return this.renderables;
   }
 }

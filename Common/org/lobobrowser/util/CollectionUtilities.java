@@ -48,10 +48,10 @@ public class CollectionUtilities {
     };
   }
 
-  public static Iterator iteratorUnion(final Iterator[] iterators) {
+  public static Iterator<Object> iteratorUnion(final Iterator[] iterators) {
     return new Iterator() {
       private int iteratorIndex = 0;
-      private Iterator current = iterators.length > 0 ? iterators[0] : null;
+      private Iterator<Object> current = iterators.length > 0 ? iterators[0] : null;
 
       public boolean hasNext() {
         for (;;) {
@@ -100,15 +100,15 @@ public class CollectionUtilities {
     return newCollection;
   }
 
-  public static Iterator singletonIterator(final Object item) {
-    return new Iterator() {
+  public static <T> Iterator<T> singletonIterator(final T item) {
+    return new Iterator<T>() {
       private boolean gotItem = false;
 
       public boolean hasNext() {
         return !this.gotItem;
       }
 
-      public Object next() {
+      public T next() {
         if (this.gotItem) {
           throw new NoSuchElementException();
         }

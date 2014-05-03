@@ -10,8 +10,8 @@ import java.util.logging.*;
 public class SimpleThreadPool {
   private static final Logger logger = Logger.getLogger(SimpleThreadPool.class
       .getName());
-  private final LinkedList taskList = new LinkedList();
-  private final Set runningSet = new HashSet();
+  private final LinkedList<SimpleThreadPoolTask> taskList = new LinkedList<SimpleThreadPoolTask>();
+  private final Set<SimpleThreadPoolTask> runningSet = new HashSet<SimpleThreadPoolTask>();
   private final int minThreads;
   private final int maxThreads;
   private final String name;
@@ -73,9 +73,9 @@ public class SimpleThreadPool {
   public void cancelAll() {
     synchronized (this.taskMonitor) {
       this.taskList.clear();
-      Iterator i = this.runningSet.iterator();
+      Iterator<SimpleThreadPoolTask> i = this.runningSet.iterator();
       while (i.hasNext()) {
-        ((SimpleThreadPoolTask) i.next()).cancel();
+        i.next().cancel();
       }
     }
   }
@@ -83,8 +83,8 @@ public class SimpleThreadPool {
   private class ThreadRunnable implements Runnable {
     public void run() {
       Object monitor = taskMonitor;
-      LinkedList tl = taskList;
-      Set rs = runningSet;
+      LinkedList<SimpleThreadPoolTask> tl = taskList;
+      Set<SimpleThreadPoolTask> rs = runningSet;
       int iam = idleAliveMillis;
       SimpleThreadPoolTask task = null;
       for (;;) {
@@ -113,7 +113,7 @@ public class SimpleThreadPool {
             } finally {
               numIdleThreads--;
             }
-            task = (SimpleThreadPoolTask) taskList.removeFirst();
+            task = taskList.removeFirst();
             rs.add(task);
           }
           Thread currentThread = Thread.currentThread();

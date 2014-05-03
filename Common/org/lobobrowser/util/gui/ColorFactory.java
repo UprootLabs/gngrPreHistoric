@@ -35,10 +35,10 @@ public class ColorFactory {
       .getName());
   public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
   private static ColorFactory instance;
-  private final Map colorMap = new HashMap(256);
+  private final Map<String, Color> colorMap = new HashMap<String, Color>(256);
 
   private ColorFactory() {
-    Map colorMap = this.colorMap;
+    Map<String, Color> colorMap = this.colorMap;
     synchronized (this) {
       colorMap.put("transparent", TRANSPARENT);
       // http://www.w3schools.com/css/css_colornames.asp
@@ -221,7 +221,7 @@ public class ColorFactory {
   public Color getColor(String colorSpec) {
     String normalSpec = colorSpec.toLowerCase();
     synchronized (this) {
-      Color color = (Color) colorMap.get(normalSpec);
+      Color color = colorMap.get(normalSpec);
       if (color == null) {
         if (normalSpec.startsWith(RGB_START)) {
           // CssParser produces this format.

@@ -130,11 +130,11 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements
     if (name == null) {
       return null;
     }
-    ArrayList formInputs = new ArrayList();
+    ArrayList<FormInput> formInputs = new ArrayList<FormInput>();
     for (int i = 0; i < values.length; i++) {
       formInputs.add(new FormInput(name, values[i]));
     }
-    return (FormInput[]) formInputs.toArray(FormInput.EMPTY_ARRAY);
+    return formInputs.toArray(FormInput.EMPTY_ARRAY);
   }
 
   public void resetInput() {

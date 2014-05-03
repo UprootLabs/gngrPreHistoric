@@ -8,7 +8,6 @@ import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.js.JavaScript;
 import org.w3c.dom.Document;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Function;
@@ -144,7 +143,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     }
   }
 
-  private Map functionByAttribute = null;
+  private Map<String, Function> functionByAttribute = null;
 
   protected Function getEventFunction(Function varValue, String attributeName) {
     if (varValue != null) {
@@ -152,8 +151,8 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     }
     String normalAttributeName = this.normalizeAttributeName(attributeName);
     synchronized (this) {
-      Map fba = this.functionByAttribute;
-      Function f = fba == null ? null : (Function) fba.get(normalAttributeName);
+      Map<String, Function> fba = this.functionByAttribute;
+      Function f = fba == null ? null : fba.get(normalAttributeName);
       if (f != null) {
         return f;
       }
@@ -206,7 +205,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
           }
         }
         if (fba == null) {
-          fba = new HashMap(1);
+          fba = new HashMap<String, Function>(1);
           this.functionByAttribute = fba;
         }
         fba.put(normalAttributeName, f);
@@ -219,7 +218,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     super.assignAttributeField(normalName, value);
     if (normalName.startsWith("on")) {
       synchronized (this) {
-        Map fba = this.functionByAttribute;
+        Map<String, Function> fba = this.functionByAttribute;
         if (fba != null) {
           fba.remove(normalName);
         }

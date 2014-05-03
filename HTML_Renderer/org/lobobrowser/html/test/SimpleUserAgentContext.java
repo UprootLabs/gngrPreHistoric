@@ -17,11 +17,11 @@ import org.lobobrowser.html.UserAgentContext;
 public class SimpleUserAgentContext implements UserAgentContext {
   private static final Logger logger = Logger
       .getLogger(SimpleUserAgentContext.class.getName());
-  private static final Set mediaNames = new HashSet();
+  private static final Set<String> mediaNames = new HashSet<String>();
 
   static {
     // Media names claimed by this context.
-    Set mn = mediaNames;
+    Set<String> mn = mediaNames;
     mn.add("screen");
     mn.add("tv");
     mn.add("tty");
@@ -219,7 +219,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
     }
     Map results;
     try {
-      results = handler.get(url.toURI(), new HashMap());
+      results = handler.get(url.toURI(), new HashMap<String, List<String>>());
     } catch (Exception err) {
       logger.log(Level.WARNING, "getCookie()", err);
       return "";
@@ -281,7 +281,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
     if (handler == null) {
       return;
     }
-    Map headers = new HashMap(2);
+    Map<String, List<String>> headers = new HashMap<String, List<String>>(2);
     headers.put("Set-Cookie", Collections.singletonList(cookieSpec));
     try {
       handler.put(url.toURI(), headers);

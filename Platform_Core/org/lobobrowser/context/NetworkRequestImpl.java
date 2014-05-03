@@ -43,7 +43,9 @@ import org.lobobrowser.ua.*;
 import org.lobobrowser.request.*;
 import org.lobobrowser.store.*;
 import org.lobobrowser.util.*;
+
 import java.security.*;
+
 import org.w3c.dom.Document;
 
 public class NetworkRequestImpl implements NetworkRequest {
@@ -419,7 +421,7 @@ public class NetworkRequestImpl implements NetworkRequest {
     private final CacheableResponse cacheable;
 
     // Caching fields:
-    private Map headers;
+    private Map<String, String> headers;
 
     /**
      * @param status
@@ -459,8 +461,8 @@ public class NetworkRequestImpl implements NetworkRequest {
       this.cacheable.complete = complete;
     }
 
-    public Map getHeaders() {
-      Map h = this.headers;
+    public Map<String, String> getHeaders() {
+      Map<String, String> h = this.headers;
       if (h == null) {
         h = this.getHeadersImpl();
         this.headers = h;
@@ -468,7 +470,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       return h;
     }
 
-    private Map getHeadersImpl() {
+    private Map<String, String> getHeadersImpl() {
       Map<String, String> headers = new HashMap<String, String>();
       ClientletResponse cresponse = this.cresponse;
       Iterator headerNames = cresponse.getHeaderNames();
@@ -504,7 +506,7 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
 
     public String getResponseHeader(String headerName) {
-      return (String) this.getHeaders().get(headerName.toLowerCase());
+      return this.getHeaders().get(headerName.toLowerCase());
     }
 
     public String getAllResponseHeaders() {

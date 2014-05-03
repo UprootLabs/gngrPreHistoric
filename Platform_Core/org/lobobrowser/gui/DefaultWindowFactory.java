@@ -24,9 +24,12 @@
 package org.lobobrowser.gui;
 
 import javax.swing.*;
+
+import java.awt.Frame;
 import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.logging.*;
+
 import org.lobobrowser.main.*;
 import org.lobobrowser.settings.*;
 import org.lobobrowser.ua.*;
@@ -77,7 +80,7 @@ public class DefaultWindowFactory implements WindowFactory {
    */
   private ImageIcon getImageIcon(String urlOrPath) {
     synchronized (this) {
-      ImageIcon icon = (ImageIcon) this.imageMap.get(urlOrPath);
+      ImageIcon icon = this.imageMap.get(urlOrPath);
       if (icon == null) {
         try {
           byte[] imageBytes = org.lobobrowser.request.RequestEngine
@@ -140,7 +143,7 @@ public class DefaultWindowFactory implements WindowFactory {
         @Override
         public void windowClosed(java.awt.event.WindowEvent e) {
           super.windowClosed(e);
-          Set frames = DefaultWindowFactory.this.frames;
+          Set<Frame> frames = DefaultWindowFactory.this.frames;
           synchronized (DefaultWindowFactory.this) {
             if (logger.isLoggable(Level.INFO)) {
               logger.info("windowClosed(): frames.size()=" + frames.size()

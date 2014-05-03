@@ -24,7 +24,6 @@ import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 
 import org.lobobrowser.util.Objects;
-
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
 
@@ -33,7 +32,7 @@ public class JavaScript {
   // objectMap must be a map that uses weak keys
   // and refers to values using weak references.
   // Keys are java objects other than ScriptableDelegate instances.
-  private final WeakHashMap javaObjectToWrapper = new WeakHashMap();
+  private final WeakHashMap<Object, WeakReference<JavaObjectWrapper>> javaObjectToWrapper = new WeakHashMap<Object, WeakReference<JavaObjectWrapper>>();
 
   public static JavaScript getInstance() {
     return instance;
@@ -75,7 +74,7 @@ public class JavaScript {
       synchronized (this.javaObjectToWrapper) {
         // WeakHashMaps will retain keys if the value refers to the key.
         // That's why we need to refer to the value weakly too.
-        WeakReference valueRef = (WeakReference) this.javaObjectToWrapper
+        WeakReference valueRef = this.javaObjectToWrapper
             .get(raw);
         JavaObjectWrapper jow = null;
         if (valueRef != null) {
@@ -86,7 +85,7 @@ public class JavaScript {
           JavaClassWrapper wrapper = JavaClassWrapperFactory.getInstance()
               .getClassWrapper(javaClass);
           jow = new JavaObjectWrapper(wrapper, raw);
-          this.javaObjectToWrapper.put(raw, new WeakReference(jow));
+          this.javaObjectToWrapper.put(raw, new WeakReference<JavaObjectWrapper>(jow));
         }
         jow.setParentScope(scope);
         return jow;

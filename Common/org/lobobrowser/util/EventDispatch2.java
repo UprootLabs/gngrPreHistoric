@@ -29,14 +29,14 @@ import java.util.*;
  * @author J. H. S.
  */
 public abstract class EventDispatch2 {
-  private Collection listeners;
+  private Collection<EventListener> listeners;
   private static final EventListener[] EMPTY_ARRAY = new EventListener[0];
 
   public EventDispatch2() {
   }
 
-  public Collection createListenerCollection() {
-    return new ArrayList();
+  public Collection<EventListener> createListenerCollection() {
+    return new ArrayList<EventListener>();
   }
 
   public final void addListener(EventListener listener) {
@@ -59,11 +59,11 @@ public abstract class EventDispatch2 {
   public final boolean fireEvent(EventObject event) {
     EventListener[] larray;
     synchronized (this) {
-      Collection listeners = this.listeners;
+      Collection<EventListener> listeners = this.listeners;
       if (listeners == null || listeners.size() == 0) {
         return false;
       }
-      larray = (EventListener[]) this.listeners.toArray(EMPTY_ARRAY);
+      larray = this.listeners.toArray(EMPTY_ARRAY);
     }
     int length = larray.length;
     for (int i = 0; i < length; i++) {

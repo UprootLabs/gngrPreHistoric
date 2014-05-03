@@ -185,7 +185,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
     }
     HtmlRendererContext context = this.getHtmlRendererContext();
     if (context != null) {
-      final ArrayList formInputs = new ArrayList();
+      final ArrayList<FormInput> formInputs = new ArrayList<FormInput>();
       if (extraFormInputs != null) {
         for (int i = 0; i < extraFormInputs.length; i++) {
           formInputs.add(extraFormInputs[i]);
@@ -208,7 +208,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
           }
         }
       });
-      FormInput[] fia = (FormInput[]) formInputs.toArray(FormInput.EMPTY_ARRAY);
+      FormInput[] fia = formInputs.toArray(FormInput.EMPTY_ARRAY);
       String href = this.getAction();
       if (href == null) {
         href = this.getBaseURI();

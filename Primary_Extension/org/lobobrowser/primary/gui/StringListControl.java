@@ -22,16 +22,18 @@ package org.lobobrowser.primary.gui;
 
 import java.awt.event.*;
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.io.*;
 import java.util.*;
 
 public class StringListControl extends JComponent {
-  private final JComboBox comboBox;
+  private final JComboBox<String> comboBox;
 
   public StringListControl() {
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-    this.comboBox = new JComboBox();
+    this.comboBox = new JComboBox<String>();
     this.comboBox.setEditable(false);
     JButton editButton = new JButton();
     editButton.setAction(new EditAction());
@@ -44,7 +46,7 @@ public class StringListControl extends JComponent {
 
   public void setStrings(String[] strings) {
     this.strings = strings;
-    JComboBox comboBox = this.comboBox;
+    JComboBox<String> comboBox = this.comboBox;
     comboBox.removeAllItems();
     for (String string : strings) {
       comboBox.addItem(string);

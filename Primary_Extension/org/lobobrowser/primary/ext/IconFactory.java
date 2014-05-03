@@ -43,7 +43,7 @@ public class IconFactory {
   public ImageIcon getIcon(String resourcePath) {
     try {
       synchronized (this) {
-        ImageIcon icon = (ImageIcon) this.iconMap.get(resourcePath);
+        ImageIcon icon = this.iconMap.get(resourcePath);
         if (icon == null) {
           InputStream in = this.getClass().getResourceAsStream(resourcePath);
           if (in == null) {

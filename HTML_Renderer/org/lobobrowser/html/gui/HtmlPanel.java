@@ -27,6 +27,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.*;
 import java.io.*;
+
 import javax.swing.*;
 
 import org.lobobrowser.html.*;
@@ -694,11 +695,11 @@ public class HtmlPanel extends JComponent implements FrameContext {
     }
   }
 
-  private ArrayList notifications = new ArrayList(1);
+  private ArrayList<DocumentNotification> notifications = new ArrayList<DocumentNotification>(1);
 
   private void addNotification(DocumentNotification notification) {
     // This can be called in a random thread.
-    ArrayList notifs = this.notifications;
+    ArrayList<DocumentNotification> notifs = this.notifications;
     synchronized (notifs) {
       notifs.add(notification);
     }
@@ -719,7 +720,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * later. Multiple invalidations may be processed in a single document layout.
    */
   public void delayedRelayout(NodeImpl node) {
-    ArrayList notifs = this.notifications;
+    ArrayList<DocumentNotification> notifs = this.notifications;
     synchronized (notifs) {
       notifs.add(new DocumentNotification(DocumentNotification.SIZE, node));
     }
@@ -728,7 +729,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
 
   private void processNotifications() {
     // This is called in the GUI thread.
-    ArrayList notifs = this.notifications;
+    ArrayList<DocumentNotification> notifs = this.notifications;
     DocumentNotification[] notifsArray;
     synchronized (notifs) {
       int size = notifs.size();
@@ -736,7 +737,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
         return;
       }
       notifsArray = new DocumentNotification[size];
-      notifsArray = (DocumentNotification[]) notifs.toArray(notifsArray);
+      notifsArray = notifs.toArray(notifsArray);
       notifs.clear();
     }
     int length = notifsArray.length;

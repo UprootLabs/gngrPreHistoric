@@ -29,10 +29,10 @@ import java.util.*;
  * @author J. H. S.
  */
 public class Domains {
-  private static final Collection gTLDs;
+  private static final Collection<String> gTLDs;
 
   static {
-    gTLDs = new HashSet();
+    gTLDs = new HashSet<String>();
     gTLDs.add(".com");
     gTLDs.add(".edu");
     gTLDs.add(".gov");
@@ -93,9 +93,9 @@ public class Domains {
    * @return
    */
   public static boolean endsWithGTLD(String host) {
-    Iterator i = gTLDs.iterator();
+    Iterator<String> i = gTLDs.iterator();
     while (i.hasNext()) {
-      String ending = (String) i.next();
+      String ending = i.next();
       if (host.endsWith(ending)) {
         return true;
       }
@@ -119,8 +119,8 @@ public class Domains {
     return lastDotIdx == nameTL.length() - 3;
   }
 
-  public static Collection getPossibleDomains(String hostName) {
-    Collection domains = new LinkedList();
+  public static Collection<String> getPossibleDomains(String hostName) {
+    Collection<String> domains = new LinkedList<String>();
     domains.add(hostName);
     int dotIdx = hostName.indexOf('.', 1);
     if (dotIdx == -1) {

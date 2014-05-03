@@ -99,7 +99,7 @@ public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>,
   public void exceptionReceived(AsyncResultEvent<Throwable> event) {
     AsyncResultListener[] listenersArray;
     synchronized (this) {
-      listenersArray = (AsyncResultListener[]) this.listeners
+      listenersArray = this.listeners
           .toArray(new AsyncResultListener[0]);
     }
     for (int i = 0; i < listenersArray.length; i++) {
@@ -118,11 +118,11 @@ public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>,
   public void resultReceived(AsyncResultEvent<TResult> event) {
     AsyncResultListener[] listenersArray;
     synchronized (this) {
-      listenersArray = (AsyncResultListener[]) this.listeners
+      listenersArray = this.listeners
           .toArray(new AsyncResultListener[0]);
     }
     for (int i = 0; i < listenersArray.length; i++) {
-      AsyncResultListener arl = listenersArray[i];
+      AsyncResultListener<TResult> arl = listenersArray[i];
       arl.resultReceived(event);
     }
   }

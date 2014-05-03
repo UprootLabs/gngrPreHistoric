@@ -96,7 +96,7 @@ public class MemoryURLConnection extends URLConnection {
     } catch (IOException ioe) {
       return null;
     }
-    List hvalues = (List) this.headersMap.get(name.toLowerCase());
+    List hvalues = this.headersMap.get(name.toLowerCase());
     if (hvalues == null || hvalues.size() == 0) {
       return null;
     }

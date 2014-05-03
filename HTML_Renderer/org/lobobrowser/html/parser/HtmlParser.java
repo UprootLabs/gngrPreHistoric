@@ -26,6 +26,7 @@ package org.lobobrowser.html.parser;
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,8 +52,8 @@ public class HtmlParser {
   private final String publicId;
   private final String systemId;
 
-  private static final Map ENTITIES = new HashMap(256);
-  private static final Map ELEMENT_INFOS = new HashMap(35);
+  private static final Map<String, Character> ENTITIES = new HashMap<String, Character>(256);
+  private static final Map<String, ElementInfo> ELEMENT_INFOS = new HashMap<String, ElementInfo>(35);
 
   /**
    * A node <code>UserData</code> key used to tell nodes that their content may
@@ -63,7 +64,7 @@ public class HtmlParser {
   public static final String MODIFYING_KEY = "cobra.suspend";
 
   static {
-    Map entities = ENTITIES;
+    Map<String, Character> entities = ENTITIES;
     entities.put("amp", new Character('&'));
     entities.put("lt", new Character('<'));
     entities.put("gt", new Character('>'));
@@ -342,7 +343,7 @@ public class HtmlParser {
     entities.put("circ", new Character((char) 710));
     entities.put("tilde", new Character((char) 732));
 
-    Map elementInfos = ELEMENT_INFOS;
+    Map<String, ElementInfo> elementInfos = ELEMENT_INFOS;
 
     elementInfos.put("NOSCRIPT", new ElementInfo(true,
         ElementInfo.END_ELEMENT_REQUIRED, null, true));
@@ -356,14 +357,14 @@ public class HtmlParser {
     ElementInfo onlyText = new ElementInfo(false,
         ElementInfo.END_ELEMENT_REQUIRED, false);
 
-    Set tableCellStopElements = new HashSet();
+    Set<String> tableCellStopElements = new HashSet<String>();
     tableCellStopElements.add("TH");
     tableCellStopElements.add("TD");
     tableCellStopElements.add("TR");
     ElementInfo tableCellElement = new ElementInfo(true,
         ElementInfo.END_ELEMENT_OPTIONAL, tableCellStopElements);
 
-    Set headStopElements = new HashSet();
+    Set<String> headStopElements = new HashSet<String>();
     headStopElements.add("BODY");
     headStopElements.add("DIV");
     headStopElements.add("SPAN");
@@ -371,13 +372,13 @@ public class HtmlParser {
     ElementInfo headElement = new ElementInfo(true,
         ElementInfo.END_ELEMENT_OPTIONAL, headStopElements);
 
-    Set optionStopElements = new HashSet();
+    Set<String> optionStopElements = new HashSet<String>();
     optionStopElements.add("OPTION");
     optionStopElements.add("SELECT");
     ElementInfo optionElement = new ElementInfo(true,
         ElementInfo.END_ELEMENT_OPTIONAL, optionStopElements);
 
-    Set paragraphStopElements = new HashSet();
+    Set<String> paragraphStopElements = new HashSet<String>();
     paragraphStopElements.add("P");
     paragraphStopElements.add("DIV");
     paragraphStopElements.add("TABLE");
@@ -486,7 +487,7 @@ public class HtmlParser {
   }
 
   public static boolean isDecodeEntities(String elementName) {
-    ElementInfo einfo = (ElementInfo) ELEMENT_INFOS.get(elementName
+    ElementInfo einfo = ELEMENT_INFOS.get(elementName
         .toUpperCase());
     return einfo == null ? true : einfo.decodeEntities;
   }
@@ -580,7 +581,7 @@ public class HtmlParser {
     try {
       parent.setUserData(MODIFYING_KEY, Boolean.TRUE, null);
       try {
-        while (this.parseToken(parent, reader, null, new LinkedList()) != TOKEN_EOD) {
+        while (this.parseToken(parent, reader, null, new LinkedList<String>()) != TOKEN_EOD) {
           ;
         }
       } catch (StopException se) {
@@ -624,7 +625,7 @@ public class HtmlParser {
    * @throws SAXException
    */
   private final int parseToken(Node parent, LineNumberReader reader,
-      Set stopTags, LinkedList ancestors) throws IOException, StopException,
+      Set<String> stopTags, LinkedList<String> ancestors) throws IOException, StopException,
       SAXException {
     Document doc = this.document;
     StringBuffer textSb = this.readUpToTagBegin(reader);
@@ -694,13 +695,13 @@ public class HtmlParser {
             // This is necessary for incremental rendering.
             parent.appendChild(element);
             if (!this.justReadEmptyElement) {
-              ElementInfo einfo = (ElementInfo) ELEMENT_INFOS.get(normalTag);
+              ElementInfo einfo = ELEMENT_INFOS.get(normalTag);
               int endTagType = einfo == null ? ElementInfo.END_ELEMENT_REQUIRED
                   : einfo.endElementType;
               if (endTagType != ElementInfo.END_ELEMENT_FORBIDDEN) {
                 boolean childrenOk = einfo == null ? true
                     : einfo.childElementOk;
-                Set newStopSet = einfo == null ? null : einfo.stopTags;
+                Set<String> newStopSet = einfo == null ? null : einfo.stopTags;
                 if (newStopSet == null) {
                   if (endTagType == ElementInfo.END_ELEMENT_OPTIONAL) {
                     newStopSet = Collections.singleton(normalTag);
@@ -708,7 +709,7 @@ public class HtmlParser {
                 }
                 if (stopTags != null) {
                   if (newStopSet != null) {
-                    Set newStopSet2 = new HashSet();
+                    Set<String> newStopSet2 = new HashSet<String>();
                     newStopSet2.addAll(stopTags);
                     newStopSet2.addAll(newStopSet);
                     newStopSet = newStopSet2;
@@ -741,17 +742,17 @@ public class HtmlParser {
                         if (normalTag.equals(normalLastTag)) {
                           return TOKEN_FULL_ELEMENT;
                         } else {
-                          ElementInfo closeTagInfo = (ElementInfo) ELEMENT_INFOS
+                          ElementInfo closeTagInfo = ELEMENT_INFOS
                               .get(normalLastTag);
                           if (closeTagInfo == null
                               || closeTagInfo.endElementType != ElementInfo.END_ELEMENT_FORBIDDEN) {
                             // TODO: Rather inefficient algorithm, but it's
                             // probably executed infrequently?
-                            Iterator i = ancestors.iterator();
+                            Iterator<String> i = ancestors.iterator();
                             if (i.hasNext()) {
                               i.next();
                               while (i.hasNext()) {
-                                String normalAncestorTag = (String) i.next();
+                                String normalAncestorTag = i.next();
                                 if (normalLastTag.equals(normalAncestorTag)) {
                                   normalTag = normalLastTag;
                                   return TOKEN_END_ELEMENT;
@@ -775,7 +776,7 @@ public class HtmlParser {
                       if (stopTags != null && stopTags.contains(normalTag)) {
                         throw se;
                       }
-                      einfo = (ElementInfo) ELEMENT_INFOS.get(normalTag);
+                      einfo = ELEMENT_INFOS.get(normalTag);
                       endTagType = einfo == null ? ElementInfo.END_ELEMENT_REQUIRED
                           : einfo.endElementType;
                       childrenOk = einfo == null ? true : einfo.childElementOk;
@@ -786,7 +787,7 @@ public class HtmlParser {
                         }
                       }
                       if (stopTags != null && newStopSet != null) {
-                        Set newStopSet2 = new HashSet();
+                        Set<String> newStopSet2 = new HashSet<String>();
                         newStopSet2.addAll(stopTags);
                         newStopSet2.addAll(newStopSet);
                         newStopSet = newStopSet2;
@@ -1428,10 +1429,10 @@ public class HtmlParser {
 
   private final int getEntityChar(String spec) {
     // TODO: Declared entities
-    Character c = (Character) ENTITIES.get(spec);
+    Character c = ENTITIES.get(spec);
     if (c == null) {
       String specTL = spec.toLowerCase();
-      c = (Character) ENTITIES.get(specTL);
+      c = ENTITIES.get(specTL);
       if (c == null) {
         return -1;
       }

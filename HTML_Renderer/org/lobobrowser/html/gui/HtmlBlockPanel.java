@@ -251,12 +251,12 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
    */
   private Rectangle scanNodeBounds(RCollection root, Node node,
       RCollection relativeTo) {
-    Iterator i = root.getRenderables();
+    Iterator<? extends Renderable> i = root.getRenderables();
     Rectangle resultBounds = null;
     BoundableRenderable prevBoundable = null;
     if (i != null) {
       while (i.hasNext()) {
-        Renderable r = (Renderable) i.next();
+        Renderable r = i.next();
         Rectangle subBounds = null;
         if (r instanceof RCollection) {
           RCollection rc = (RCollection) r;
@@ -734,7 +734,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
       // notifications come in batches. Other types
       // of noitifications probably come one by one.
       boolean topLayout = false;
-      java.util.ArrayList repainters = null;
+      java.util.ArrayList<RElement> repainters = null;
       int length = notifications.length;
       for (int i = 0; i < length; i++) {
         DocumentNotification dn = notifications[i];
@@ -789,7 +789,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
           UINode uiNode = node.findUINode();
           if (uiNode != null) {
             if (repainters == null) {
-              repainters = new ArrayList(1);
+              repainters = new ArrayList<RElement>(1);
             }
             RElement relement = (RElement) uiNode;
             // relement.invalidateRenderStyle();
@@ -805,9 +805,9 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
         this.revalidatePanel();
       } else {
         if (repainters != null) {
-          Iterator i = repainters.iterator();
+          Iterator<RElement> i = repainters.iterator();
           while (i.hasNext()) {
-            RElement element = (RElement) i.next();
+            RElement element = i.next();
             element.repaint();
           }
         }
@@ -825,26 +825,26 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
     return null;
   }
 
-  public Collection getDelayedPairs() {
+  public Collection<DelayedPair> getDelayedPairs() {
     return null;
   }
 
   public void clearDelayedPairs() {
   }
 
-  private Set components;
+  private Set<Component> components;
 
   private void clearComponents() {
-    Set c = this.components;
+    Set<Component> c = this.components;
     if (c != null) {
       c.clear();
     }
   }
 
   public Component addComponent(Component component) {
-    Set c = this.components;
+    Set<Component> c = this.components;
     if (c == null) {
-      c = new HashSet();
+      c = new HashSet<Component>();
       this.components = c;
     }
     if (c.add(component)) {
@@ -859,14 +859,14 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
     // adding them back, because removal of components can cause
     // them to lose focus.
 
-    Set c = this.components;
+    Set<Component> c = this.components;
     if (c == null) {
       if (this.getComponentCount() != 0) {
         this.removeAll();
       }
     } else {
       // Remove children not in the set.
-      Set workingSet = new HashSet();
+      Set<Component> workingSet = new HashSet<Component>();
       workingSet.addAll(c);
       int count = this.getComponentCount();
       for (int i = 0; i < count;) {
@@ -880,9 +880,9 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
         }
       }
       // Add components in set that were not previously children.
-      Iterator wsi = workingSet.iterator();
+      Iterator<Component> wsi = workingSet.iterator();
       while (wsi.hasNext()) {
-        Component component = (Component) wsi.next();
+        Component component = wsi.next();
         this.add(component);
       }
     }

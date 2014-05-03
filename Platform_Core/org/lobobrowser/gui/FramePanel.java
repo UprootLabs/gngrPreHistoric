@@ -1318,7 +1318,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     }
   }
 
-  private Map contentProperties = null;
+  private Map<String, Object> contentProperties = null;
 
   public void setProperty(String name, Object value) {
     ComponentContent content = this.getComponentContent();
@@ -1326,9 +1326,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       if (content != null) {
         content.setProperty(name, value);
       }
-      Map props = this.contentProperties;
+      Map<String, Object> props = this.contentProperties;
       if (props == null) {
-        props = new HashMap(5);
+        props = new HashMap<String, Object>(5);
         this.contentProperties = props;
       }
       props.put(name, value);
@@ -1337,7 +1337,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   private void updateContentProperties(ComponentContent content) {
     synchronized (this.propertiesMonitor) {
-      Map props = this.contentProperties;
+      Map<String, Object> props = this.contentProperties;
       if (props != null) {
         Iterator i = props.entrySet().iterator();
         while (i.hasNext()) {

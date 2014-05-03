@@ -31,11 +31,11 @@ import java.util.*;
 public class History implements java.io.Serializable {
   private static final long serialVersionUID = 2257845000800300100L;
 
-  private transient ArrayList historySequence;
+  private transient ArrayList<String> historySequence;
 
-  private final SortedSet historySortedSet = new TreeSet();
-  private final Map historyMap = new HashMap();
-  private final SortedSet historyTimedSet = new TreeSet();
+  private final SortedSet<String> historySortedSet = new TreeSet<String>();
+  private final Map<String, TimedEntry> historyMap = new HashMap<String, TimedEntry>();
+  private final SortedSet<TimedEntry> historyTimedSet = new TreeSet<TimedEntry>();
 
   private int sequenceCapacity;
   private int commonEntriesCapacity;
@@ -48,7 +48,7 @@ public class History implements java.io.Serializable {
    */
   public History(int sequenceCapacity, int commonEntriesCapacity) {
     super();
-    this.historySequence = new ArrayList();
+    this.historySequence = new ArrayList<String>();
     this.sequenceIndex = -1;
     this.sequenceCapacity = sequenceCapacity;
     this.commonEntriesCapacity = commonEntriesCapacity;
@@ -56,7 +56,7 @@ public class History implements java.io.Serializable {
 
   private void readObject(java.io.ObjectInputStream in)
       throws ClassNotFoundException, java.io.IOException {
-    this.historySequence = new ArrayList();
+    this.historySequence = new ArrayList<String>();
     this.sequenceIndex = -1;
     in.defaultReadObject();
   }
@@ -93,7 +93,7 @@ public class History implements java.io.Serializable {
 
   public String getCurrentItem() {
     if (this.sequenceIndex >= 0) {
-      return (String) this.historySequence.get(this.sequenceIndex);
+      return this.historySequence.get(this.sequenceIndex);
     } else {
       return null;
     }
@@ -117,23 +117,23 @@ public class History implements java.io.Serializable {
     }
   }
 
-  public Collection getRecentItems(int maxNumItems) {
-    Collection items = new LinkedList();
-    Iterator i = this.historyTimedSet.iterator();
+  public Collection<String> getRecentItems(int maxNumItems) {
+    Collection<String> items = new LinkedList<String>();
+    Iterator<TimedEntry> i = this.historyTimedSet.iterator();
     int count = 0;
     while (i.hasNext() && count++ < maxNumItems) {
-      TimedEntry entry = (TimedEntry) i.next();
+      TimedEntry entry = i.next();
       items.add(entry.value);
     }
     return items;
   }
 
-  public Collection getHeadMatchItems(String item, int maxNumItems) {
+  public Collection<String> getHeadMatchItems(String item, int maxNumItems) {
     Object[] array = this.historySortedSet.toArray();
     int idx = Arrays.binarySearch(array, item);
     int startIdx = idx >= 0 ? idx : (-idx - 1);
     int count = 0;
-    Collection items = new LinkedList();
+    Collection<String> items = new LinkedList<String>();
     for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
       String potentialItem = (String) array[i];
       if (potentialItem.startsWith(item)) {
@@ -146,7 +146,7 @@ public class History implements java.io.Serializable {
   }
 
   public void addAsRecentOnly(String item) {
-    TimedEntry entry = (TimedEntry) this.historyMap.get(item);
+    TimedEntry entry = this.historyMap.get(item);
     if (entry != null) {
       this.historyTimedSet.remove(entry);
       entry.touch();
@@ -158,7 +158,7 @@ public class History implements java.io.Serializable {
       this.historySortedSet.add(item);
       if (this.historyTimedSet.size() > this.commonEntriesCapacity) {
         // Most outdated goes last
-        TimedEntry entryToRemove = (TimedEntry) this.historyTimedSet.last();
+        TimedEntry entryToRemove = this.historyTimedSet.last();
         this.historyMap.remove(entryToRemove.value);
         this.historySortedSet.remove(entryToRemove.value);
         this.historyTimedSet.remove(entryToRemove);

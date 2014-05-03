@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import javax.swing.*;
+
 import java.util.logging.*;
 
 import org.lobobrowser.html.*;
@@ -63,7 +64,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
       return new HtmlLength[] { new HtmlLength("1*") };
     }
     StringTokenizer tok = new StringTokenizer(spec, ",");
-    ArrayList lengths = new ArrayList();
+    ArrayList<HtmlLength> lengths = new ArrayList<HtmlLength>();
     while (tok.hasMoreTokens()) {
       String token = tok.nextToken().trim();
       try {
@@ -72,12 +73,12 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
         logger.warning("Frame rows or cols value [" + spec + "] is invalid.");
       }
     }
-    return (HtmlLength[]) lengths.toArray(HtmlLength.EMPTY_ARRAY);
+    return lengths.toArray(HtmlLength.EMPTY_ARRAY);
   }
 
   private HTMLElementImpl[] getSubFrames(HTMLElementImpl parent) {
     NodeImpl[] children = parent.getChildrenArray();
-    ArrayList subFrames = new ArrayList();
+    ArrayList<NodeImpl> subFrames = new ArrayList<NodeImpl>();
     for (int i = 0; i < children.length; i++) {
       NodeImpl child = children[i];
       if (child instanceof HTMLElementImpl) {
@@ -88,7 +89,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
         }
       }
     }
-    return (HTMLElementImpl[]) subFrames.toArray(new HTMLElementImpl[0]);
+    return subFrames.toArray(new HTMLElementImpl[0]);
   }
 
   private HTMLElementImpl rootNode;

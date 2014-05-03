@@ -43,8 +43,8 @@ public class FontFactory {
       .getName());
   private static final boolean loggableFine = logger.isLoggable(Level.FINE);
   private static final FontFactory instance = new FontFactory();
-  private final Set fontFamilies = new HashSet(40);
-  private final Map fontMap = new HashMap(50);
+  private final Set<String> fontFamilies = new HashSet<String>(40);
+  private final Map<FontKey, Font> fontMap = new HashMap<FontKey, Font>(50);
 
   /**
 	 * 
@@ -53,7 +53,7 @@ public class FontFactory {
     boolean liflag = loggableFine;
     String[] ffns = GraphicsEnvironment.getLocalGraphicsEnvironment()
         .getAvailableFontFamilyNames();
-    Set fontFamilies = this.fontFamilies;
+    Set<String> fontFamilies = this.fontFamilies;
     synchronized (this) {
       for (int i = 0; i < ffns.length; i++) {
         String ffn = ffns[i];
@@ -69,7 +69,7 @@ public class FontFactory {
     return instance;
   }
 
-  private final Map registeredFonts = new HashMap(0);
+  private final Map<String, Font> registeredFonts = new HashMap<String, Font>(0);
 
   /**
    * Registers a font family. It does not close the stream provided. Fonts
@@ -109,7 +109,7 @@ public class FontFactory {
     FontKey key = new FontKey(fontFamily, fontStyle, fontVariant, fontWeight,
         fontSize, locales, superscript);
     synchronized (this) {
-      Font font = (Font) this.fontMap.get(key);
+      Font font = this.fontMap.get(key);
       if (font == null) {
         font = this.createFont(key);
         this.fontMap.put(key, font);
@@ -157,7 +157,7 @@ public class FontFactory {
     if (fontSuperScript.equals(newSuperscript)) {
       return baseFont;
     } else {
-      Map additionalAttributes = new HashMap();
+      Map<TextAttribute, Integer> additionalAttributes = new HashMap<TextAttribute, Integer>();
       additionalAttributes.put(TextAttribute.SUPERSCRIPT, newSuperscript);
       return baseFont.deriveFont(additionalAttributes);
     }
@@ -166,8 +166,8 @@ public class FontFactory {
   private final Font createFont_Impl(FontKey key) {
     String fontNames = key.fontFamily;
     String matchingFace = null;
-    Set fontFamilies = this.fontFamilies;
-    Map registeredFonts = this.registeredFonts;
+    Set<String> fontFamilies = this.fontFamilies;
+    Map<String, Font> registeredFonts = this.registeredFonts;
     Font baseFont = null;
     if (fontNames != null) {
       StringTokenizer tok = new StringTokenizer(fontNames, ",");
@@ -175,7 +175,7 @@ public class FontFactory {
         String face = tok.nextToken().trim();
         String faceTL = face.toLowerCase();
         if (registeredFonts.containsKey(faceTL)) {
-          baseFont = (Font) registeredFonts.get(faceTL);
+          baseFont = registeredFonts.get(faceTL);
           break;
         } else if (fontFamilies.contains(faceTL)) {
           matchingFace = faceTL;

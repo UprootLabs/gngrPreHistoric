@@ -29,8 +29,8 @@ import org.mozilla.javascript.Function;
 
 public class JavaClassWrapper {
   private final Class javaClass;
-  private final Map functions = new HashMap();
-  private final Map properties = new HashMap();
+  private final Map<String, JavaFunctionObject> functions = new HashMap<String, JavaFunctionObject>();
+  private final Map<String, PropertyInfo> properties = new HashMap<String, PropertyInfo>();
   private PropertyInfo nameIndexer;
   private PropertyInfo integerIndexer;
 
@@ -52,11 +52,11 @@ public class JavaClassWrapper {
   }
 
   public Function getFunction(String name) {
-    return (Function) this.functions.get(name);
+    return this.functions.get(name);
   }
 
   public PropertyInfo getProperty(String name) {
-    return (PropertyInfo) this.properties.get(name);
+    return this.properties.get(name);
   }
 
   private void scanMethods() {
@@ -73,7 +73,7 @@ public class JavaClassWrapper {
         } else if (this.isIntegerIndexer(name, method)) {
           this.updateIntegerIndexer(name, method);
         }
-        JavaFunctionObject f = (JavaFunctionObject) this.functions.get(name);
+        JavaFunctionObject f = this.functions.get(name);
         if (f == null) {
           f = new JavaFunctionObject(name);
           this.functions.put(name, f);
@@ -180,7 +180,7 @@ public class JavaClassWrapper {
     String propertyName = (propertyNameAnnotation != null) ? propertyNameAnnotation
         .value() : propertyUncapitalize(capPropertyName);
 
-    PropertyInfo pinfo = (PropertyInfo) this.properties.get(propertyName);
+    PropertyInfo pinfo = this.properties.get(propertyName);
     if (pinfo == null) {
       Class pt = getter ? method.getReturnType()
           : method.getParameterTypes()[0];

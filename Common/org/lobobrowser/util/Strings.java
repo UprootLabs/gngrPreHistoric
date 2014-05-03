@@ -300,7 +300,7 @@ public class Strings {
 
   public static String[] split(String phrase) {
     int length = phrase.length();
-    ArrayList wordList = new ArrayList();
+    ArrayList<String> wordList = new ArrayList<String>();
     StringBuffer word = null;
     for (int i = 0; i < length; i++) {
       char ch = phrase.charAt(i);
@@ -324,7 +324,7 @@ public class Strings {
     if (word != null) {
       wordList.add(word.toString());
     }
-    return (String[]) wordList.toArray(EMPTY_ARRAY);
+    return wordList.toArray(EMPTY_ARRAY);
   }
 
   public static String truncate(String text, int maxLength) {

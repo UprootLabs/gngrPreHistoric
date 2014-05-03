@@ -27,7 +27,7 @@ import java.util.*;
 import java.lang.ref.*;
 
 public class WeakValueHashMap implements Map {
-  private final Map map = new HashMap();
+  private final Map<Object, Object> map = new HashMap<Object, Object>();
   private final ReferenceQueue queue = new ReferenceQueue();
 
   public WeakValueHashMap() {
@@ -91,7 +91,7 @@ public class WeakValueHashMap implements Map {
     this.map.clear();
   }
 
-  public Set keySet() {
+  public Set<Object> keySet() {
     return this.map.keySet();
   }
 

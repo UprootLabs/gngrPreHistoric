@@ -39,7 +39,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
       .getLogger(JavaFunctionObject.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
   private final String className;
-  private final ArrayList methods = new ArrayList();
+  private final ArrayList<Method> methods = new ArrayList<Method>();
 
   public JavaFunctionObject(String name) {
     super();
@@ -59,12 +59,12 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
   }
 
   private Method getBestMethod(Object[] args) {
-    ArrayList methods = this.methods;
+    ArrayList<Method> methods = this.methods;
     int size = methods.size();
     int matchingNumParams = 0;
     Method matchingMethod = null;
     for (int i = 0; i < size; i++) {
-      Method m = (Method) methods.get(i);
+      Method m = methods.get(i);
       Class[] parameterTypes = m.getParameterTypes();
       if (args == null) {
         if (parameterTypes == null || parameterTypes.length == 0) {

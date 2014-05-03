@@ -30,7 +30,7 @@ public interface RCollection extends BoundableRenderable {
   /**
    * Gets the collection of {@link Renderable} children.
    */
-  public Iterator getRenderables();
+  public Iterator<? extends Renderable> getRenderables();
 
   public void updateWidgetBounds(int guiX, int guiY);
 

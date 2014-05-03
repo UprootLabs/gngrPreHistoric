@@ -58,12 +58,12 @@ abstract class BaseElementRenderable extends BaseRCollection implements
   /**
    * A collection of all GUI components added by descendents.
    */
-  private Collection guiComponents = null;
+  private Collection<Component> guiComponents = null;
 
   /**
    * A list of absolute positioned or float parent-child pairs.
    */
-  protected Collection delayedPairs = null;
+  protected Collection<DelayedPair> delayedPairs = null;
 
   // protected boolean renderStyleCanBeInvalidated = true;
 
@@ -122,7 +122,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements
     if (this.layoutDeepCanBeInvalidated) {
       this.layoutDeepCanBeInvalidated = false;
       this.invalidateLayoutLocal();
-      Iterator i = this.getRenderables();
+      Iterator<? extends Renderable> i = this.getRenderables();
       if (i != null) {
         while (i.hasNext()) {
           Object r = i.next();
@@ -257,20 +257,20 @@ abstract class BaseElementRenderable extends BaseRCollection implements
   protected final void sendGUIComponentsToParent() {
     // Ensures that parent has all the components
     // below this renderer node. (Parent expected to have removed them).
-    Collection gc = this.guiComponents;
+    Collection<Component> gc = this.guiComponents;
     int count = 0;
     if (gc != null) {
       RenderableContainer rc = this.container;
-      Iterator i = gc.iterator();
+      Iterator<Component> i = gc.iterator();
       while (i.hasNext()) {
         count++;
-        rc.addComponent((Component) i.next());
+        rc.addComponent(i.next());
       }
     }
   }
 
   protected final void clearGUIComponents() {
-    Collection gc = this.guiComponents;
+    Collection<Component> gc = this.guiComponents;
     if (gc != null) {
       gc.clear();
     }
@@ -287,9 +287,9 @@ abstract class BaseElementRenderable extends BaseRCollection implements
     // Does not remove from parent.
     // Sending components to parent is done
     // by sendGUIComponentsToParent().
-    Collection gc = this.guiComponents;
+    Collection<Component> gc = this.guiComponents;
     if (gc == null) {
-      gc = new HashSet(1);
+      gc = new HashSet<Component>(1);
       this.guiComponents = gc;
     }
     gc.add(component);
@@ -846,12 +846,12 @@ abstract class BaseElementRenderable extends BaseRCollection implements
   protected final void sendDelayedPairsToParent() {
     // Ensures that parent has all the components
     // below this renderer node. (Parent expected to have removed them).
-    Collection gc = this.delayedPairs;
+    Collection<DelayedPair> gc = this.delayedPairs;
     if (gc != null) {
       RenderableContainer rc = this.container;
-      Iterator i = gc.iterator();
+      Iterator<DelayedPair> i = gc.iterator();
       while (i.hasNext()) {
-        DelayedPair pair = (DelayedPair) i.next();
+        DelayedPair pair = i.next();
         if (pair.targetParent != this) {
           rc.addDelayedPair(pair);
         }
@@ -860,13 +860,13 @@ abstract class BaseElementRenderable extends BaseRCollection implements
   }
 
   public final void clearDelayedPairs() {
-    Collection gc = this.delayedPairs;
+    Collection<DelayedPair> gc = this.delayedPairs;
     if (gc != null) {
       gc.clear();
     }
   }
 
-  public final Collection getDelayedPairs() {
+  public final Collection<DelayedPair> getDelayedPairs() {
     return this.delayedPairs;
   }
 
@@ -881,12 +881,12 @@ abstract class BaseElementRenderable extends BaseRCollection implements
     // Does not remove from parent.
     // Sending components to parent is done
     // by sendDelayedPairsToParent().
-    Collection gc = this.delayedPairs;
+    Collection<DelayedPair> gc = this.delayedPairs;
     if (gc == null) {
       // Sequence is important.
       // TODO: But possibly added multiple
       // times in table layout?
-      gc = new java.util.LinkedList();
+      gc = new java.util.LinkedList<DelayedPair>();
       this.delayedPairs = gc;
     }
     gc.add(pair);

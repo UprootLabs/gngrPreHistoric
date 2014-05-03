@@ -114,7 +114,7 @@ public class StorageManager implements Runnable {
     final String normHost = hostName;
     RestrictedStore store;
     synchronized (this) {
-      store = (RestrictedStore) this.restrictedStoreCache.get(normHost);
+      store = this.restrictedStoreCache.get(normHost);
       if (store == null) {
         store = AccessController
             .doPrivileged(new PrivilegedAction<RestrictedStore>() {
@@ -236,7 +236,7 @@ public class StorageManager implements Runnable {
         Thread.sleep(MANAGED_STORE_UPDATE_DELAY);
         RestrictedStore[] stores;
         synchronized (this) {
-          stores = (RestrictedStore[]) this.restrictedStoreCache.values()
+          stores = this.restrictedStoreCache.values()
               .toArray(new RestrictedStore[0]);
         }
         for (int i = 0; i < stores.length; i++) {

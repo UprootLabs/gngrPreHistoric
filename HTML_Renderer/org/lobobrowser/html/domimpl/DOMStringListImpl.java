@@ -24,20 +24,21 @@
 package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.DOMStringList;
+
 import java.util.*;
 
 public class DOMStringListImpl implements DOMStringList {
-  private final List sourceList;
+  private final List<String> sourceList;
 
-  public DOMStringListImpl(Collection sourceList) {
-    List list = new ArrayList();
+  public DOMStringListImpl(Collection<String> sourceList) {
+    List<String> list = new ArrayList<String>();
     list.addAll(sourceList);
     this.sourceList = list;
   }
 
   public String item(int index) {
     try {
-      return (String) this.sourceList.get(index);
+      return this.sourceList.get(index);
     } catch (IndexOutOfBoundsException iob) {
       return null;
     }

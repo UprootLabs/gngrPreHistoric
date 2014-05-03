@@ -305,7 +305,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         // the baseDirectory of the RestrictedStore. The user must have
         // proper hosts privileges to be able to get the RestrictedStore
         // instance.
-        public Collection run() {
+        public Collection<String> run() {
           try {
             return getPaths(pattern, baseDirectory);
           } catch (IOException ioe) {
@@ -318,15 +318,15 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     }
   }
 
-  private Collection getPaths(Pattern pattern, File directory)
+  private Collection<String> getPaths(Pattern pattern, File directory)
       throws IOException {
     // Security: This method is expected to be private.
-    Collection paths = new LinkedList();
+    Collection<String> paths = new LinkedList<String>();
     File[] localFiles = directory.listFiles();
     for (int i = 0; i < localFiles.length; i++) {
       File file = localFiles[i];
       if (file.isDirectory()) {
-        Collection subPaths = this.getPaths(pattern, file);
+        Collection<String> subPaths = this.getPaths(pattern, file);
         paths.addAll(subPaths);
       } else {
         String canonical = file.getCanonicalPath();

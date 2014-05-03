@@ -92,8 +92,8 @@ public class RRelative extends BaseRCollection {
     return yoffset;
   }
 
-  public Iterator getRenderables() {
-    return CollectionUtilities.singletonIterator(this.child);
+  public Iterator<? extends Renderable> getRenderables() {
+    return CollectionUtilities.singletonIterator((Renderable) this.child);
   }
 
   protected void invalidateLayoutLocal() {

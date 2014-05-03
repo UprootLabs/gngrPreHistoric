@@ -228,10 +228,10 @@ class RUIControl extends BaseElementRenderable implements RElement {
   private int declaredHeight = -1;
   private LayoutKey lastLayoutKey = null;
   private LayoutValue lastLayoutValue = null;
-  private final Map cachedLayout = new HashMap(5);
+  private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<LayoutKey, LayoutValue>(5);
 
   public void doLayout(int availWidth, int availHeight, boolean sizeOnly) {
-    Map cachedLayout = this.cachedLayout;
+    Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
     RenderState rs = this.modelNode.getRenderState();
     int whitespace = rs == null ? RenderState.WS_NORMAL : rs.getWhiteSpace();
     Font font = rs == null ? null : rs.getFont();
@@ -239,7 +239,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
         font);
     LayoutValue layoutValue;
     if (sizeOnly) {
-      layoutValue = (LayoutValue) cachedLayout.get(layoutKey);
+      layoutValue = cachedLayout.get(layoutKey);
     } else {
       if (Objects.equals(this.lastLayoutKey, layoutKey)) {
         layoutValue = this.lastLayoutValue;
@@ -324,7 +324,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
     }
   }
 
-  public Iterator getRenderables() {
+  public Iterator<Renderable> getRenderables() {
     // No children for GUI controls
     return null;
   }

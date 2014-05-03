@@ -73,7 +73,7 @@ public class ConsoleModel extends PlainDocument {
   }
 
   private class LocalOutputStream extends OutputStream implements Runnable {
-    private final LinkedList dataQueue = new LinkedList();
+    private final LinkedList<byte[]> dataQueue = new LinkedList<byte[]>();
 
     public LocalOutputStream() {
       Thread t = new Thread(this, "ConsoleOutputStream");
@@ -135,9 +135,9 @@ public class ConsoleModel extends PlainDocument {
             while (this.dataQueue.size() == 0) {
               this.dataQueue.wait();
             }
-            Iterator i = this.dataQueue.iterator();
+            Iterator<byte[]> i = this.dataQueue.iterator();
             while (i.hasNext()) {
-              byte[] data = (byte[]) i.next();
+              byte[] data = i.next();
               buffer.write(data);
             }
             this.dataQueue.clear();

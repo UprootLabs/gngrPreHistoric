@@ -41,9 +41,9 @@ public class Bean {
     this.clazz = clazz;
   }
 
-  private Map propertyDescriptors = null;
+  private Map<String, PropertyDescriptor> propertyDescriptors = null;
 
-  private void populateDescriptors(Map map, Class clazz)
+  private void populateDescriptors(Map<String, PropertyDescriptor> map, Class clazz)
       throws IntrospectionException {
     BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
     PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
@@ -62,17 +62,17 @@ public class Bean {
       throws IntrospectionException {
     synchronized (this) {
       if (this.propertyDescriptors == null) {
-        this.propertyDescriptors = new HashMap();
+        this.propertyDescriptors = new HashMap<String, PropertyDescriptor>();
         this.populateDescriptors(this.propertyDescriptors, this.clazz);
       }
-      return (PropertyDescriptor) this.propertyDescriptors.get(propertyName);
+      return this.propertyDescriptors.get(propertyName);
     }
   }
 
-  public Map getPropertyDescriptorsMap() throws IntrospectionException {
+  public Map<String, PropertyDescriptor> getPropertyDescriptorsMap() throws IntrospectionException {
     synchronized (this) {
       if (this.propertyDescriptors == null) {
-        this.propertyDescriptors = new HashMap();
+        this.propertyDescriptors = new HashMap<String, PropertyDescriptor>();
         this.populateDescriptors(this.propertyDescriptors, this.clazz);
       }
       return this.propertyDescriptors;
@@ -82,7 +82,7 @@ public class Bean {
   public PropertyDescriptor[] getPropertyDescriptors()
       throws IntrospectionException {
     synchronized (this) {
-      return (PropertyDescriptor[]) this.getPropertyDescriptorsMap().values()
+      return this.getPropertyDescriptorsMap().values()
           .toArray(new PropertyDescriptor[0]);
     }
   }

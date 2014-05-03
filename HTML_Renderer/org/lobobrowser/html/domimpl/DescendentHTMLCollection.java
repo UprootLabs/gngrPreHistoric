@@ -28,7 +28,6 @@ import java.lang.ref.*;
 
 import org.lobobrowser.js.*;
 import org.lobobrowser.util.*;
-
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
 
@@ -59,17 +58,17 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate
         document, this));
   }
 
-  private Map itemsByName = null;
-  private List itemsByIndex = null;
+  private Map<String, ElementImpl> itemsByName = null;
+  private List<Object> itemsByIndex = null;
 
   private void ensurePopulatedImpl() {
     if (this.itemsByName == null) {
-      ArrayList descendents = this.rootNode.getDescendents(this.nodeFilter,
+      ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter,
           this.nestIntoMatchingNodes);
       this.itemsByIndex = descendents == null ? Collections.EMPTY_LIST
           : descendents;
       int size = descendents == null ? 0 : descendents.size();
-      Map itemsByName = new HashMap(size * 3 / 2);
+      Map<String, ElementImpl> itemsByName = new HashMap<String, ElementImpl>(size * 3 / 2);
       this.itemsByName = itemsByName;
       for (int i = 0; i < size; i++) {
         Object descNode = descendents.get(i);
@@ -122,7 +121,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate
   public Node namedItem(String name) {
     synchronized (this.treeLock) {
       this.ensurePopulatedImpl();
-      return (Node) this.itemsByName.get(name);
+      return this.itemsByName.get(name);
     }
   }
 
@@ -203,17 +202,17 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate
     // Needs to be a static class with a weak reference to
     // the collection object.
     private final HTMLDocumentImpl document;
-    private final WeakReference collectionRef;
+    private final WeakReference<DescendentHTMLCollection> collectionRef;
 
     public LocalNotificationListener(final HTMLDocumentImpl document,
         final DescendentHTMLCollection collection) {
       super();
       this.document = document;
-      this.collectionRef = new WeakReference(collection);
+      this.collectionRef = new WeakReference<DescendentHTMLCollection>(collection);
     }
 
     public void structureInvalidated(NodeImpl node) {
-      DescendentHTMLCollection collection = (DescendentHTMLCollection) this.collectionRef
+      DescendentHTMLCollection collection = this.collectionRef
           .get();
       if (collection == null) {
         // Gone!

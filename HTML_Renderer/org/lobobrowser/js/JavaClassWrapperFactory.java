@@ -26,7 +26,7 @@ import java.util.WeakHashMap;
 
 public class JavaClassWrapperFactory {
   private static JavaClassWrapperFactory instance;
-  private final Map classWrappers = new WeakHashMap();
+  private final Map<Class, WeakReference<JavaClassWrapper>> classWrappers = new WeakHashMap<Class, WeakReference<JavaClassWrapper>>();
 
   private JavaClassWrapperFactory() {
   }
@@ -47,14 +47,14 @@ public class JavaClassWrapperFactory {
       // WeakHashMaps where the value refers to
       // the key will retain keys. Must make it
       // refer to the value weakly too.
-      WeakReference jcwr = (WeakReference) this.classWrappers.get(clazz);
+      WeakReference jcwr = this.classWrappers.get(clazz);
       JavaClassWrapper jcw = null;
       if (jcwr != null) {
         jcw = (JavaClassWrapper) jcwr.get();
       }
       if (jcw == null) {
         jcw = new JavaClassWrapper(clazz);
-        this.classWrappers.put(clazz, new WeakReference(jcw));
+        this.classWrappers.put(clazz, new WeakReference<JavaClassWrapper>(jcw));
       }
       return jcw;
     }

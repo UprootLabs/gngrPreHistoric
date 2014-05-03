@@ -57,7 +57,7 @@ public class Objects {
     return true;
   }
 
-  public static boolean isAssignableOrBox(Object value, Class clazz) {
+  public static boolean isAssignableOrBox(Object value, Class<? extends Object> clazz) {
     if (clazz.isInstance(value)) {
       return true;
     }
@@ -82,7 +82,7 @@ public class Objects {
     return false;
   }
 
-  private static boolean isNumeric(Class clazz) {
+  private static boolean isNumeric(Class<? extends Object> clazz) {
     return Number.class.isAssignableFrom(clazz)
         || (clazz.isPrimitive() && (clazz == int.class || clazz == double.class
             || clazz == byte.class || clazz == short.class

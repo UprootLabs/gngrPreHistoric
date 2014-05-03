@@ -26,8 +26,8 @@ package org.lobobrowser.util;
 import java.util.*;
 
 public class ListSet implements List, Set {
-  private final List list = new ArrayList();
-  private final Set set = new HashSet();
+  private final List<Object> list = new ArrayList<Object>();
+  private final Set<Object> set = new HashSet<Object>();
 
   public ListSet() {
     super();
@@ -153,7 +153,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#iterator()
    */
-  public Iterator iterator() {
+  public Iterator<Object> iterator() {
     return this.list.iterator();
   }
 
@@ -171,7 +171,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#listIterator()
    */
-  public ListIterator listIterator() {
+  public ListIterator<Object> listIterator() {
     return this.list.listIterator();
   }
 
@@ -180,7 +180,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#listIterator(int)
    */
-  public ListIterator listIterator(int index) {
+  public ListIterator<Object> listIterator(int index) {
     return this.list.listIterator(index);
   }
 
@@ -263,7 +263,7 @@ public class ListSet implements List, Set {
    * 
    * @see java.util.List#subList(int, int)
    */
-  public List subList(int fromIndex, int toIndex) {
+  public List<Object> subList(int fromIndex, int toIndex) {
     return this.list.subList(fromIndex, toIndex);
   }
 

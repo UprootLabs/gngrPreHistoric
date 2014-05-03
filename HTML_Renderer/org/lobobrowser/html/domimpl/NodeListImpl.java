@@ -25,14 +25,15 @@ package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.js.*;
 import org.w3c.dom.*;
+
 import java.util.*;
 
 public class NodeListImpl extends AbstractScriptableDelegate implements
     NodeList {
   // Note: class must be public for reflection to work.
-  private final ArrayList nodeList = new ArrayList();
+  private final ArrayList<Object> nodeList = new ArrayList<Object>();
 
-  public NodeListImpl(Collection collection) {
+  public NodeListImpl(Collection<Object> collection) {
     super();
     nodeList.addAll(collection);
   }

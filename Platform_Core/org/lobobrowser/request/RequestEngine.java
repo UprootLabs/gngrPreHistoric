@@ -26,7 +26,9 @@ import java.util.*;
 import java.security.*;
 
 import javax.net.ssl.HttpsURLConnection;
+
 import java.util.logging.*;
+
 import org.lobobrowser.async.AsyncResult;
 import org.lobobrowser.async.AsyncResultImpl;
 import org.lobobrowser.clientlet.*;
@@ -43,7 +45,7 @@ public final class RequestEngine {
   private static final boolean loggerInfo = logger.isLoggable(Level.INFO);
 
   private final SimpleThreadPool threadPool;
-  private final Collection processingRequests = new HashSet();
+  private final Collection<RequestInfo> processingRequests = new HashSet<RequestInfo>();
   private final CookieStore cookieStore = CookieStore.getInstance();
   private final CacheSettings cacheSettings;
   private final BooleanSettings booleanSettings;
@@ -103,19 +105,19 @@ public final class RequestEngine {
 
   public void cancelRequestIfRunning(RequestHandler rhToDelete) {
     rhToDelete.cancel();
-    List handlersToCancel = new ArrayList();
+    List<RequestInfo> handlersToCancel = new ArrayList<RequestInfo>();
     synchronized (this.processingRequests) {
-      Iterator ri = this.processingRequests.iterator();
+      Iterator<RequestInfo> ri = this.processingRequests.iterator();
       while (ri.hasNext()) {
-        RequestInfo rinfo = (RequestInfo) ri.next();
+        RequestInfo rinfo = ri.next();
         if (rinfo.getRequestHandler() == rhToDelete) {
           handlersToCancel.add(rinfo);
         }
       }
     }
-    Iterator ri2 = handlersToCancel.iterator();
+    Iterator<RequestInfo> ri2 = handlersToCancel.iterator();
     while (ri2.hasNext()) {
-      RequestInfo rinfo = (RequestInfo) ri2.next();
+      RequestInfo rinfo = ri2.next();
       rinfo.abort();
     }
   }
