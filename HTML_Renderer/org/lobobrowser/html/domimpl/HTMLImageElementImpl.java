@@ -31,8 +31,7 @@ import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html2.HTMLImageElement;
 import org.mozilla.javascript.Function;
 
-public class HTMLImageElementImpl extends HTMLAbstractUIElement implements
-    HTMLImageElement {
+public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLImageElement {
   public HTMLImageElementImpl() {
     super("IMG");
   }

@@ -24,8 +24,7 @@ package org.lobobrowser.html.domimpl;
  * An abstract implementation of {@link DocumentNotificationListener} with blank
  * methods, provided for convenience.
  */
-public abstract class DocumentNotificationAdapter implements
-    DocumentNotificationListener {
+public abstract class DocumentNotificationAdapter implements DocumentNotificationListener {
   public void allInvalidated() {
   }
 

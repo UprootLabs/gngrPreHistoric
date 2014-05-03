@@ -17,8 +17,7 @@ public class Screen extends AbstractScriptableDelegate {
       this.graphicsEnvironment = null;
       this.graphicsDevice = null;
     } else {
-      this.graphicsEnvironment = GraphicsEnvironment
-          .getLocalGraphicsEnvironment();
+      this.graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
       this.graphicsDevice = this.graphicsEnvironment.getDefaultScreenDevice();
     }
   }

@@ -52,7 +52,6 @@ public class RenderableSpot {
       return false;
     }
     RenderableSpot otherRp = (RenderableSpot) other;
-    return otherRp.renderable == this.renderable && otherRp.x == this.x
-        && otherRp.y == this.y;
+    return otherRp.renderable == this.renderable && otherRp.x == this.x && otherRp.y == this.y;
   }
 }

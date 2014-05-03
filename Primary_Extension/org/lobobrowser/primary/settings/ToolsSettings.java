@@ -8,8 +8,7 @@ import java.io.*;
 import org.lobobrowser.store.StorageManager;
 
 public class ToolsSettings implements Serializable {
-  private static final Logger logger = Logger.getLogger(ToolsSettings.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ToolsSettings.class.getName());
   private static final ToolsSettings instance;
   private static final long serialVersionUID = 22574500006000800L;
 
@@ -21,12 +20,10 @@ public class ToolsSettings implements Serializable {
   static {
     ToolsSettings ins = null;
     try {
-      ins = (ToolsSettings) StorageManager.getInstance().retrieveSettings(
-          ToolsSettings.class.getSimpleName(),
+      ins = (ToolsSettings) StorageManager.getInstance().retrieveSettings(ToolsSettings.class.getSimpleName(),
           ToolsSettings.class.getClassLoader());
     } catch (Exception err) {
-      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
-          err);
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
       ins = new ToolsSettings();
@@ -66,45 +63,35 @@ public class ToolsSettings implements Serializable {
   }
 
   private SearchEngine googleWebSearch() {
-    return new SearchEngine("Google Web Search",
-        "Google's main search engine.", "http://google.com/search", "q");
+    return new SearchEngine("Google Web Search", "Google's main search engine.", "http://google.com/search", "q");
   }
 
   private SearchEngine yahooWebSearch() {
-    return new SearchEngine("Yahoo! Web Search", "Yahoo's web search engine.",
-        "http://search.yahoo.com/search", "p");
+    return new SearchEngine("Yahoo! Web Search", "Yahoo's web search engine.", "http://search.yahoo.com/search", "p");
   }
 
   private SearchEngine wikipediaSearch() {
-    return new SearchEngine("Wikipedia", "English Wikipedia article search.",
-        "http://en.wikipedia.org/wiki/Special:Search", "search");
+    return new SearchEngine("Wikipedia", "English Wikipedia article search.", "http://en.wikipedia.org/wiki/Special:Search", "search");
   }
 
   private SearchEngine googleBlogSearch() {
-    return new SearchEngine("Google Blog Search",
-        "Google's blog search engine.",
-        "http://blogsearch.google.com/blogsearch", "q");
+    return new SearchEngine("Google Blog Search", "Google's blog search engine.", "http://blogsearch.google.com/blogsearch", "q");
   }
 
   private SearchEngine googleCodeSearch() {
-    return new SearchEngine("Google Code Search",
-        "Google's program source code search engine.",
-        "http://google.com/codesearch?lr=", "q");
+    return new SearchEngine("Google Code Search", "Google's program source code search engine.", "http://google.com/codesearch?lr=", "q");
   }
 
   private SearchEngine googleScholarSearch() {
-    return new SearchEngine("Google Scholar Search",
-        "Google's search engine for scholarly literature.",
+    return new SearchEngine("Google Scholar Search", "Google's search engine for scholarly literature.",
         "http://scholar.google.com/scholar", "q");
   }
 
   public void save() {
     try {
-      StorageManager.getInstance().saveSettings(
-          this.getClass().getSimpleName(), this);
+      StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
     } catch (java.io.IOException ioe) {
-      logger.log(Level.WARNING, "Unable to save settings: "
-          + this.getClass().getSimpleName() + ".", ioe);
+      logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName() + ".", ioe);
     }
   }
 

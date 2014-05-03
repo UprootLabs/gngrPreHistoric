@@ -142,22 +142,17 @@ public class ElementImpl extends NodeImpl implements Element {
     String normalName = this.normalizeAttributeName(name);
     synchronized (this) {
       Map<String, String> attributes = this.attributes;
-      String value = attributes == null ? null : attributes
-          .get(normalName);
+      String value = attributes == null ? null : attributes.get(normalName);
       return value == null ? null : this.getAttr(normalName, value);
     }
   }
 
-  public Attr getAttributeNodeNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public Attr getAttributeNodeNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  public String getAttributeNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public String getAttributeNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   protected static boolean isTagName(Node node, String name) {
@@ -190,15 +185,12 @@ public class ElementImpl extends NodeImpl implements Element {
     return new NodeListImpl(descendents);
   }
 
-  public NodeList getElementsByTagNameNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public NodeList getElementsByTagNameNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   public TypeInfo getSchemaTypeInfo() {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   public String getTagName() {
@@ -213,10 +205,8 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
-  public boolean hasAttributeNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   public void removeAttribute(String name) throws DOMException {
@@ -243,10 +233,8 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
-  public void removeAttributeNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   protected void assignAttributeField(String normalName, String value) {
@@ -327,36 +315,29 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
-  public void setAttributeNS(String namespaceURI, String qualifiedName,
-      String value) throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   public void setIdAttribute(String name, boolean isId) throws DOMException {
     String normalName = this.normalizeAttributeName(name);
     if (!"id".equals(normalName)) {
-      throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-          "IdAttribute can't be anything other than ID");
+      throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "IdAttribute can't be anything other than ID");
     }
   }
 
   public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
     String normalName = this.normalizeAttributeName(idAttr.getName());
     if (!"id".equals(normalName)) {
-      throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-          "IdAttribute can't be anything other than ID");
+      throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "IdAttribute can't be anything other than ID");
     }
   }
 
-  public void setIdAttributeNS(String namespaceURI, String localName,
-      boolean isId) throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+  public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   /*
@@ -476,8 +457,7 @@ public class ElementImpl extends NodeImpl implements Element {
   public void setInnerText(String newText) {
     org.w3c.dom.Document document = this.document;
     if (document == null) {
-      this.warn("setInnerText(): Element " + this
-          + " does not belong to a document.");
+      this.warn("setInnerText(): Element " + this + " does not belong to a document.");
       return;
     }
     synchronized (this.treeLock) {

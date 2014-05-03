@@ -39,8 +39,7 @@ import org.lobobrowser.util.*;
  * Browser windows are created by this factory by default.
  */
 public class DefaultWindowFactory implements WindowFactory {
-  private static final Logger logger = Logger
-      .getLogger(DefaultWindowFactory.class.getName());
+  private static final Logger logger = Logger.getLogger(DefaultWindowFactory.class.getName());
   private static DefaultWindowFactory instance = new DefaultWindowFactory();
   private static final String DEFAULT_ICON_URL = "res:/images/LoboLogo16.png";
   public final EventDispatch evtWindowShown = new EventDispatch();
@@ -83,13 +82,11 @@ public class DefaultWindowFactory implements WindowFactory {
       ImageIcon icon = this.imageMap.get(urlOrPath);
       if (icon == null) {
         try {
-          byte[] imageBytes = org.lobobrowser.request.RequestEngine
-              .getInstance().loadBytes(urlOrPath);
+          byte[] imageBytes = org.lobobrowser.request.RequestEngine.getInstance().loadBytes(urlOrPath);
           icon = new ImageIcon(imageBytes);
           this.imageMap.put(urlOrPath, icon);
         } catch (Exception err) {
-          logger.log(Level.WARNING, "getImageIcon(): Unable to load image: "
-              + urlOrPath, err);
+          logger.log(Level.WARNING, "getImageIcon(): Unable to load image: " + urlOrPath, err);
         }
       }
       return icon;
@@ -109,20 +106,17 @@ public class DefaultWindowFactory implements WindowFactory {
     return null;
   }
 
-  private AbstractBrowserWindow createBaseWindow(String windowId,
-      NavigatorWindow windowContext, boolean hasMenuBar, boolean hasAddressBar,
+  private AbstractBrowserWindow createBaseWindow(String windowId, NavigatorWindow windowContext, boolean hasMenuBar, boolean hasAddressBar,
       boolean hasToolBar, boolean hasStatusBar) {
     final NavigatorWindowImpl pwc = (NavigatorWindowImpl) windowContext;
     synchronized (this) {
-      final DefaultBrowserWindow window = new DefaultBrowserWindow(hasMenuBar,
-          hasAddressBar, hasToolBar, hasStatusBar, pwc);
+      final DefaultBrowserWindow window = new DefaultBrowserWindow(hasMenuBar, hasAddressBar, hasToolBar, hasStatusBar, pwc);
       if (windowId != null) {
         this.framesById.put(windowId, window);
       }
       window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       if (logger.isLoggable(Level.INFO)) {
-        logger.info("createBaseWindow(): Adding window listener: window="
-            + window + ",windowId=" + windowId);
+        logger.info("createBaseWindow(): Adding window listener: window=" + window + ",windowId=" + windowId);
       }
       window.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
@@ -130,8 +124,7 @@ public class DefaultWindowFactory implements WindowFactory {
           super.windowClosing(e);
           if (!window.isBoundsAssigned()) {
             if (logger.isLoggable(Level.INFO)) {
-              logger.info("windowClosing(): Saving general settings: bounds="
-                  + window.getBounds());
+              logger.info("windowClosing(): Saving general settings: bounds=" + window.getBounds());
             }
             GeneralSettings settings = generalSettings;
             settings.setInitialWindowBounds(window.getBounds());
@@ -146,8 +139,7 @@ public class DefaultWindowFactory implements WindowFactory {
           Set<Frame> frames = DefaultWindowFactory.this.frames;
           synchronized (DefaultWindowFactory.this) {
             if (logger.isLoggable(Level.INFO)) {
-              logger.info("windowClosed(): frames.size()=" + frames.size()
-                  + ",exitWhenAllWindowsClosed=" + exitWhenAllWindowsClosed);
+              logger.info("windowClosed(): frames.size()=" + frames.size() + ",exitWhenAllWindowsClosed=" + exitWhenAllWindowsClosed);
             }
             frames.remove(window);
             if (frames.size() == 0 && exitWhenAllWindowsClosed) {
@@ -167,8 +159,7 @@ public class DefaultWindowFactory implements WindowFactory {
     }
   }
 
-  private final boolean isPropertyTrue(Properties properties, String name,
-      boolean defaultValue) {
+  private final boolean isPropertyTrue(Properties properties, String name, boolean defaultValue) {
     if (properties == null) {
       return defaultValue;
     }
@@ -184,25 +175,16 @@ public class DefaultWindowFactory implements WindowFactory {
    * platform to persist window settings and shut itself down when all windows
    * are closed.
    */
-  public AbstractBrowserWindow createWindow(String windowId,
-      Properties properties, NavigatorWindow windowContext) {
-    String widthText = properties == null ? null : properties
-        .getProperty("width");
-    String heightText = properties == null ? null : properties
-        .getProperty("height");
+  public AbstractBrowserWindow createWindow(String windowId, Properties properties, NavigatorWindow windowContext) {
+    String widthText = properties == null ? null : properties.getProperty("width");
+    String heightText = properties == null ? null : properties.getProperty("height");
     boolean defaultValue = widthText == null && heightText == null;
-    boolean hasMenuBar = this.isPropertyTrue(properties, "menubar",
-        defaultValue);
-    boolean hasToolBar = this.isPropertyTrue(properties, "toolbar",
-        defaultValue);
-    boolean hasAddressBar = this.isPropertyTrue(properties, "location",
-        defaultValue);
-    boolean hasStatusBar = this.isPropertyTrue(properties, "status",
-        defaultValue);
-    boolean isResizable = this.isPropertyTrue(properties, "resizable",
-        defaultValue);
-    String iconText = properties == null ? null : properties
-        .getProperty("icon");
+    boolean hasMenuBar = this.isPropertyTrue(properties, "menubar", defaultValue);
+    boolean hasToolBar = this.isPropertyTrue(properties, "toolbar", defaultValue);
+    boolean hasAddressBar = this.isPropertyTrue(properties, "location", defaultValue);
+    boolean hasStatusBar = this.isPropertyTrue(properties, "status", defaultValue);
+    boolean isResizable = this.isPropertyTrue(properties, "resizable", defaultValue);
+    String iconText = properties == null ? null : properties.getProperty("icon");
     String title = properties == null ? null : properties.getProperty("title");
     int width = -1;
     int height = -1;
@@ -210,23 +192,20 @@ public class DefaultWindowFactory implements WindowFactory {
       try {
         width = Integer.parseInt(widthText);
       } catch (NumberFormatException nfe) {
-        logger.log(Level.WARNING,
-            "PlatformWindowContextImpl(): Unable to parse window width.", nfe);
+        logger.log(Level.WARNING, "PlatformWindowContextImpl(): Unable to parse window width.", nfe);
       }
     }
     if (heightText != null) {
       try {
         height = Integer.parseInt(heightText);
       } catch (NumberFormatException nfe) {
-        logger.log(Level.WARNING,
-            "PlatformWindowContextImpl(): Unable to parse window height.", nfe);
+        logger.log(Level.WARNING, "PlatformWindowContextImpl(): Unable to parse window height.", nfe);
       }
     }
-    final AbstractBrowserWindow window = this.createBaseWindow(windowId,
-        windowContext, hasMenuBar, hasAddressBar, hasToolBar, hasStatusBar);
+    final AbstractBrowserWindow window = this
+        .createBaseWindow(windowId, windowContext, hasMenuBar, hasAddressBar, hasToolBar, hasStatusBar);
     window.setTitle(title);
-    java.awt.Rectangle windowBounds = this.generalSettings
-        .getInitialWindowBounds();
+    java.awt.Rectangle windowBounds = this.generalSettings.getInitialWindowBounds();
     if (width != -1 || height != -1) {
       if (width != -1) {
         windowBounds.width = width;
@@ -249,8 +228,7 @@ public class DefaultWindowFactory implements WindowFactory {
       window.setIconImage(icon.getImage());
     }
     java.awt.Dimension windowSize = windowBounds.getSize();
-    java.awt.Rectangle maxBounds = java.awt.GraphicsEnvironment
-        .getLocalGraphicsEnvironment().getMaximumWindowBounds();
+    java.awt.Rectangle maxBounds = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     int maxX = maxBounds.width - windowSize.width;
     int maxY = maxBounds.height - windowSize.height;
     int x = ID.random(0, maxX);
@@ -260,13 +238,11 @@ public class DefaultWindowFactory implements WindowFactory {
     return window;
   }
 
-  public void overrideProperties(AbstractBrowserWindow window,
-      Properties properties) {
+  public void overrideProperties(AbstractBrowserWindow window, Properties properties) {
     String widthText = properties.getProperty("width");
     String heightText = properties.getProperty("height");
     boolean defaultValue = widthText == null && heightText == null;
-    boolean isResizable = this.isPropertyTrue(properties, "resizable",
-        defaultValue);
+    boolean isResizable = this.isPropertyTrue(properties, "resizable", defaultValue);
     String iconText = properties.getProperty("icon");
     String title = properties.getProperty("title");
     int width = -1;
@@ -275,21 +251,18 @@ public class DefaultWindowFactory implements WindowFactory {
       try {
         width = Integer.parseInt(widthText);
       } catch (NumberFormatException nfe) {
-        logger.log(Level.WARNING,
-            "PlatformWindowContextImpl(): Unable to parse window width.", nfe);
+        logger.log(Level.WARNING, "PlatformWindowContextImpl(): Unable to parse window width.", nfe);
       }
     }
     if (heightText != null) {
       try {
         height = Integer.parseInt(heightText);
       } catch (NumberFormatException nfe) {
-        logger.log(Level.WARNING,
-            "PlatformWindowContextImpl(): Unable to parse window height.", nfe);
+        logger.log(Level.WARNING, "PlatformWindowContextImpl(): Unable to parse window height.", nfe);
       }
     }
     window.setResizable(isResizable);
-    window.setSize(width == -1 ? window.getWidth() : width,
-        height == -1 ? window.getHeight() : height);
+    window.setSize(width == -1 ? window.getWidth() : width, height == -1 ? window.getHeight() : height);
   }
 
 }

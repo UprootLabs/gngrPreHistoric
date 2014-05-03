@@ -28,8 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.util.*;
 
-class FilteredNodeListImpl extends AbstractScriptableDelegate implements
-    NodeList {
+class FilteredNodeListImpl extends AbstractScriptableDelegate implements NodeList {
   private final Collection sourceNodeList;
   private final NodeFilter filter;
   private final Object lock;

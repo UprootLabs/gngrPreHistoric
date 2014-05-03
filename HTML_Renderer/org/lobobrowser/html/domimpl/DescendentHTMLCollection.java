@@ -31,15 +31,13 @@ import org.lobobrowser.util.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
 
-public class DescendentHTMLCollection extends AbstractScriptableDelegate
-    implements HTMLCollection {
+public class DescendentHTMLCollection extends AbstractScriptableDelegate implements HTMLCollection {
   private final NodeImpl rootNode;
   private final NodeFilter nodeFilter;
   private final Object treeLock;
   private final boolean nestIntoMatchingNodes;
 
-  public DescendentHTMLCollection(NodeImpl node, NodeFilter filter,
-      Object treeLock) {
+  public DescendentHTMLCollection(NodeImpl node, NodeFilter filter, Object treeLock) {
     this(node, filter, treeLock, true);
   }
 
@@ -47,15 +45,13 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate
    * @param node
    * @param filter
    */
-  public DescendentHTMLCollection(NodeImpl node, NodeFilter filter,
-      Object treeLock, boolean nestMatchingNodes) {
+  public DescendentHTMLCollection(NodeImpl node, NodeFilter filter, Object treeLock, boolean nestMatchingNodes) {
     rootNode = node;
     nodeFilter = filter;
     this.treeLock = treeLock;
     this.nestIntoMatchingNodes = nestMatchingNodes;
     HTMLDocumentImpl document = (HTMLDocumentImpl) node.getOwnerDocument();
-    document.addDocumentNotificationListener(new LocalNotificationListener(
-        document, this));
+    document.addDocumentNotificationListener(new LocalNotificationListener(document, this));
   }
 
   private Map<String, ElementImpl> itemsByName = null;
@@ -63,10 +59,8 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate
 
   private void ensurePopulatedImpl() {
     if (this.itemsByName == null) {
-      ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter,
-          this.nestIntoMatchingNodes);
-      this.itemsByIndex = descendents == null ? Collections.EMPTY_LIST
-          : descendents;
+      ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter, this.nestIntoMatchingNodes);
+      this.itemsByIndex = descendents == null ? Collections.EMPTY_LIST : descendents;
       int size = descendents == null ? 0 : descendents.size();
       Map<String, ElementImpl> itemsByName = new HashMap<String, ElementImpl>(size * 3 / 2);
       this.itemsByName = itemsByName;
@@ -197,23 +191,20 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate
   // }
   // }
 
-  private static class LocalNotificationListener extends
-      DocumentNotificationAdapter {
+  private static class LocalNotificationListener extends DocumentNotificationAdapter {
     // Needs to be a static class with a weak reference to
     // the collection object.
     private final HTMLDocumentImpl document;
     private final WeakReference<DescendentHTMLCollection> collectionRef;
 
-    public LocalNotificationListener(final HTMLDocumentImpl document,
-        final DescendentHTMLCollection collection) {
+    public LocalNotificationListener(final HTMLDocumentImpl document, final DescendentHTMLCollection collection) {
       super();
       this.document = document;
       this.collectionRef = new WeakReference<DescendentHTMLCollection>(collection);
     }
 
     public void structureInvalidated(NodeImpl node) {
-      DescendentHTMLCollection collection = this.collectionRef
-          .get();
+      DescendentHTMLCollection collection = this.collectionRef.get();
       if (collection == null) {
         // Gone!
         this.document.removeDocumentNotificationListener(this);

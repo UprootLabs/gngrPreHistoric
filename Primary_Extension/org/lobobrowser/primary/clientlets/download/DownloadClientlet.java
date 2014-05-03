@@ -32,15 +32,12 @@ public class DownloadClientlet implements Clientlet {
     java.net.URL url = response.getResponseURL();
     if (url.getProtocol().equals("file") && "".equals(url.getHost())) {
       String shorterPath = Strings.truncate(Urls.getNoRefForm(url), 64);
-      context.getNavigatorFrame().alert(
-          "There are no extensions that can render\r\n" + shorterPath + ".");
+      context.getNavigatorFrame().alert("There are no extensions that can render\r\n" + shorterPath + ".");
       throw new CancelClientletException("cancel");
     }
     if (!"GET".equals(response.getLastRequestMethod())) {
       String shorterPath = Strings.truncate(Urls.getNoRefForm(url), 64);
-      context.getNavigatorFrame().alert(
-          "Cannot download document that is not accessed with method GET:\r\n"
-              + shorterPath + ".");
+      context.getNavigatorFrame().alert("Cannot download document that is not accessed with method GET:\r\n" + shorterPath + ".");
       throw new CancelClientletException("cancel");
     }
     // Load a bit of content to determine transfer speed
@@ -55,8 +52,7 @@ public class DownloadClientlet implements Clientlet {
           byte[] buffer = new byte[4096];
           int numRead;
           int totalRead = 0;
-          while ((System.currentTimeMillis() - baseTime) < maxElapsed
-              && (numRead = in.read(buffer)) != -1) {
+          while ((System.currentTimeMillis() - baseTime) < maxElapsed && (numRead = in.read(buffer)) != -1) {
             totalRead += numRead;
           }
           // Note: This calcuation depends on

@@ -63,16 +63,14 @@ public class OrigUserAgentImpl implements UserAgent {
   public String getUserAgentString() {
     String tv = this.textValue;
     if (tv == null) {
-      GeneralSettings settings = AccessController
-          .doPrivileged(new java.security.PrivilegedAction<GeneralSettings>() {
-            public GeneralSettings run() {
-              return GeneralSettings.getInstance();
-            }
-          });
+      GeneralSettings settings = AccessController.doPrivileged(new java.security.PrivilegedAction<GeneralSettings>() {
+        public GeneralSettings run() {
+          return GeneralSettings.getInstance();
+        }
+      });
       boolean spoofIE = settings.isSpoofIE();
       String ieVersion = settings.getIeVersion();
-      tv = "Mozilla/" + settings.getMozVersion() + " (compatible"
-          + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + this.getOs() + ") "
+      tv = "Mozilla/" + settings.getMozVersion() + " (compatible" + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + this.getOs() + ") "
           + this.getName() + "/" + this.getVersion();
       this.textValue = tv;
     }
@@ -104,8 +102,7 @@ public class OrigUserAgentImpl implements UserAgent {
   }
 
   private String getOs() {
-    return System.getProperty("os.name") + " "
-        + System.getProperty("os.version");
+    return System.getProperty("os.name") + " " + System.getProperty("os.version");
   }
 
   // //Note: This is not being used, but generally use of Strings a WeakHashMap

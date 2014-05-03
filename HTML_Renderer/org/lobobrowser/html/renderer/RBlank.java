@@ -36,8 +36,7 @@ final class RBlank extends BaseBoundableRenderable {
   public final int ascentPlusLeading;
   private final FontMetrics fontMetrics;
 
-  public RBlank(ModelNode me, FontMetrics fm, RenderableContainer container,
-      int ascentPlusLeading, int width, int height) {
+  public RBlank(ModelNode me, FontMetrics fm, RenderableContainer container, int ascentPlusLeading, int width, int height) {
     super(container, me);
     this.fontMetrics = fm;
     this.ascentPlusLeading = ascentPlusLeading;
@@ -120,8 +119,7 @@ final class RBlank extends BaseBoundableRenderable {
       }
       if ((td & RenderState.MASK_TEXTDECORATION_LINE_THROUGH) != 0) {
         FontMetrics fm = this.fontMetrics;
-        int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent())
-            / 2;
+        int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent()) / 2;
         g.drawLine(0, lineOffset, this.width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_OVERLINE) != 0) {
@@ -152,8 +150,7 @@ final class RBlank extends BaseBoundableRenderable {
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     if (this == startPoint.renderable || this == endPoint.renderable) {
       if (inSelection) {
         return false;
@@ -168,8 +165,7 @@ final class RBlank extends BaseBoundableRenderable {
     return true;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     if (this == startPoint.renderable || this == endPoint.renderable) {
       if (inSelection) {
         return false;

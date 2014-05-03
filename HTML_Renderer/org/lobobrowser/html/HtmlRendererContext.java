@@ -67,8 +67,7 @@ public interface HtmlRendererContext {
    *          Same as the target attribute in the HTML anchor tag, i.e. _top,
    *          _blank, etc.
    */
-  public void linkClicked(org.w3c.dom.html2.HTMLElement linkNode, URL url,
-      String target);
+  public void linkClicked(org.w3c.dom.html2.HTMLElement linkNode, URL url, String target);
 
   /**
    * Gets a collection of frames from the document currently in the context.
@@ -91,8 +90,7 @@ public interface HtmlRendererContext {
    * @param formInputs
    *          An array of {@link org.lobobrowser.html.FormInput} instances.
    */
-  public void submitForm(String method, URL action, String target,
-      String enctype, FormInput[] formInputs);
+  public void submitForm(String method, URL action, String target, String enctype, FormInput[] formInputs);
 
   /**
    * Creates a {@link org.lobobrowser.html.BrowserFrame} instance.
@@ -129,8 +127,7 @@ public interface HtmlRendererContext {
    * @return The method should return true to continue propagating the event, or
    *         false to stop propagating it.
    */
-  public boolean onContextMenu(org.w3c.dom.html2.HTMLElement element,
-      java.awt.event.MouseEvent event);
+  public boolean onContextMenu(org.w3c.dom.html2.HTMLElement element, java.awt.event.MouseEvent event);
 
   /**
    * This method is called when there's a mouse click on an element.
@@ -142,8 +139,7 @@ public interface HtmlRendererContext {
    * @return The method should return true to continue propagating the event, or
    *         false to stop propagating it.
    */
-  public boolean onMouseClick(org.w3c.dom.html2.HTMLElement element,
-      java.awt.event.MouseEvent event);
+  public boolean onMouseClick(org.w3c.dom.html2.HTMLElement element, java.awt.event.MouseEvent event);
 
   /**
    * This method is called when there's a mouse double-click on an element.
@@ -155,8 +151,7 @@ public interface HtmlRendererContext {
    * @return The method should return true to continue propagating the event, or
    *         false to stop propagating it.
    */
-  public boolean onDoubleClick(org.w3c.dom.html2.HTMLElement element,
-      java.awt.event.MouseEvent event);
+  public boolean onDoubleClick(org.w3c.dom.html2.HTMLElement element, java.awt.event.MouseEvent event);
 
   /**
    * This method is called when the mouse first hovers over an element.
@@ -166,8 +161,7 @@ public interface HtmlRendererContext {
    * @param event
    *          The mouse event.
    */
-  public void onMouseOver(org.w3c.dom.html2.HTMLElement element,
-      java.awt.event.MouseEvent event);
+  public void onMouseOver(org.w3c.dom.html2.HTMLElement element, java.awt.event.MouseEvent event);
 
   /**
    * This method is called when the mouse no longer hovers a given element.
@@ -177,8 +171,7 @@ public interface HtmlRendererContext {
    * @param event
    *          The mouse event.
    */
-  public void onMouseOut(org.w3c.dom.html2.HTMLElement element,
-      java.awt.event.MouseEvent event);
+  public void onMouseOut(org.w3c.dom.html2.HTMLElement element, java.awt.event.MouseEvent event);
 
   /**
    * This method should return true if and only if image loading needs to be
@@ -240,8 +233,7 @@ public interface HtmlRendererContext {
    * @return A new {@link org.lobobrowser.html.HtmlRendererContext} instance.
    * @deprecated Use {@link #open(URL, String, String, boolean)} instead.
    */
-  public HtmlRendererContext open(String absoluteUrl, String windowName,
-      String windowFeatures, boolean replace);
+  public HtmlRendererContext open(String absoluteUrl, String windowName, String windowFeatures, boolean replace);
 
   /**
    * Opens a separate browser window and renders a URL.
@@ -256,8 +248,7 @@ public interface HtmlRendererContext {
    * @param replace
    * @return A new {@link org.lobobrowser.html.HtmlRendererContext} instance.
    */
-  public HtmlRendererContext open(java.net.URL url, String windowName,
-      String windowFeatures, boolean replace);
+  public HtmlRendererContext open(java.net.URL url, String windowName, String windowFeatures, boolean replace);
 
   /**
    * Shows a prompt dialog.

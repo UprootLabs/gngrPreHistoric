@@ -47,8 +47,7 @@ class HrControl extends BaseControl {
     g.drawRect(x, y, width, 2);
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     return inSelection;
   }
 

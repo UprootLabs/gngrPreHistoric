@@ -37,16 +37,16 @@ public class ArrayUtilities {
     super();
   }
 
-  public static Iterator iterator(Object[] array, int offset, int length) {
-    return new ArrayIterator(array, offset, length);
+  public static <T> Iterator<T> iterator(T[] array, int offset, int length) {
+    return new ArrayIterator<T>(array, offset, length);
   }
 
-  private static class ArrayIterator implements Iterator {
-    private final Object[] array;
+  private static class ArrayIterator<T> implements Iterator<T> {
+    private final T[] array;
     private final int top;
     private int offset;
 
-    public ArrayIterator(Object[] array, int offset, int length) {
+    public ArrayIterator(T[] array, int offset, int length) {
       this.array = array;
       this.offset = offset;
       this.top = offset + length;
@@ -66,7 +66,7 @@ public class ArrayUtilities {
      * 
      * @see java.util.Iterator#next()
      */
-    public Object next() {
+    public T next() {
       return this.array[this.offset++];
     }
 

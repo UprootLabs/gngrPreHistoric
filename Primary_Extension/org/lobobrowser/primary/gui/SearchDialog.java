@@ -29,8 +29,7 @@ import javax.swing.border.*;
 public class SearchDialog extends JDialog {
   private final FormField tagsField = new FormField(FieldType.TEXT, "Keywords:");
 
-  public SearchDialog(Frame owner, boolean modal, String keywordsTooltip)
-      throws HeadlessException {
+  public SearchDialog(Frame owner, boolean modal, String keywordsTooltip) throws HeadlessException {
     super(owner, modal);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.tagsField.setToolTip(keywordsTooltip);

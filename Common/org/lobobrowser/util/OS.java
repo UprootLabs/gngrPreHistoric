@@ -58,8 +58,7 @@ public class OS {
    */
   public static void launchPath(String path) throws java.io.IOException {
     if (isWindows()) {
-      Runtime.getRuntime().exec(
-          new String[] { "cmd.exe", "/c", "start", "\"title\"", path });
+      Runtime.getRuntime().exec(new String[] { "cmd.exe", "/c", "start", "\"title\"", path });
     } else {
       throw new UnsupportedOperationException("Unsupported");
     }

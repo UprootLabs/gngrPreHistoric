@@ -100,8 +100,7 @@ public class ItemListControl<T> extends JComponent {
 
   private class RemoveAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
-      if (JOptionPane.showConfirmDialog(ItemListControl.this,
-          "Are you sure you want to remove the selected item?", "Confirm",
+      if (JOptionPane.showConfirmDialog(ItemListControl.this, "Are you sure you want to remove the selected item?", "Confirm",
           JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         removeSelectedItem();
       }

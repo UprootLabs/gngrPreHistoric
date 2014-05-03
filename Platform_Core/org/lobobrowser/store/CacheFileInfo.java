@@ -88,7 +88,6 @@ public class CacheFileInfo implements Comparable {
   }
 
   public String toString() {
-    return "CacheFileInfo[path=" + this.path + ",lastModified="
-        + new java.util.Date(this.initialLastModified) + "]";
+    return "CacheFileInfo[path=" + this.path + ",lastModified=" + new java.util.Date(this.initialLastModified) + "]";
   }
 }

@@ -87,10 +87,8 @@ import org.xml.sax.SAXException;
 /**
  * Implementation of the W3C <code>HTMLDocument</code> interface.
  */
-public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
-    DocumentView {
-  private static final Logger logger = Logger.getLogger(HTMLDocumentImpl.class
-      .getName());
+public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, DocumentView {
+  private static final Logger logger = Logger.getLogger(HTMLDocumentImpl.class.getName());
   private final ElementFactory factory;
   private final HtmlRendererContext rcontext;
   private final UserAgentContext ucontext;
@@ -109,9 +107,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     this(ucontext, null, null, null);
   }
 
-  public HTMLDocumentImpl(final UserAgentContext ucontext,
-      final HtmlRendererContext rcontext, WritableLineReader reader,
-      String documentURI) {
+  public HTMLDocumentImpl(final UserAgentContext ucontext, final HtmlRendererContext rcontext, WritableLineReader reader, String documentURI) {
     this.factory = ElementFactory.getInstance();
     this.rcontext = rcontext;
     this.ucontext = ucontext;
@@ -125,14 +121,12 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
         // no permission to connect to the host of the URL.
         // This is so that cookies cannot be written arbitrarily
         // with setCookie() method.
-        sm.checkPermission(new java.net.SocketPermission(docURL.getHost(),
-            "connect"));
+        sm.checkPermission(new java.net.SocketPermission(docURL.getHost(), "connect"));
       }
       this.documentURL = docURL;
       this.domain = docURL.getHost();
     } catch (java.net.MalformedURLException mfu) {
-      logger.warning("HTMLDocumentImpl(): Document URI [" + documentURI
-          + "] is malformed.");
+      logger.warning("HTMLDocumentImpl(): Document URI [" + documentURI + "] is malformed.");
     }
     this.document = this;
     // Get Window object
@@ -265,8 +259,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     if (oldDomain != null && Domains.isValidCookieDomain(domain, oldDomain)) {
       this.domain = domain;
     } else {
-      throw new SecurityException("Cannot set domain to '" + domain
-          + "' when current domain is '" + oldDomain + "'");
+      throw new SecurityException("Cannot set domain to '" + domain + "' when current domain is '" + oldDomain + "'");
     }
   }
 
@@ -286,8 +279,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   public HTMLCollection getImages() {
     synchronized (this) {
       if (this.images == null) {
-        this.images = new DescendentHTMLCollection(this, new ImageFilter(),
-            this.treeLock);
+        this.images = new DescendentHTMLCollection(this, new ImageFilter(), this.treeLock);
       }
       return this.images;
     }
@@ -297,8 +289,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     synchronized (this) {
       if (this.applets == null) {
         // TODO: Should include OBJECTs that are applets?
-        this.applets = new DescendentHTMLCollection(this, new AppletFilter(),
-            this.treeLock);
+        this.applets = new DescendentHTMLCollection(this, new AppletFilter(), this.treeLock);
       }
       return this.applets;
     }
@@ -307,8 +298,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   public HTMLCollection getLinks() {
     synchronized (this) {
       if (this.links == null) {
-        this.links = new DescendentHTMLCollection(this, new LinkFilter(),
-            this.treeLock);
+        this.links = new DescendentHTMLCollection(this, new LinkFilter(), this.treeLock);
       }
       return this.links;
     }
@@ -317,8 +307,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   public HTMLCollection getForms() {
     synchronized (this) {
       if (this.forms == null) {
-        this.forms = new DescendentHTMLCollection(this, new FormFilter(),
-            this.treeLock);
+        this.forms = new DescendentHTMLCollection(this, new FormFilter(), this.treeLock);
       }
       return this.forms;
     }
@@ -327,8 +316,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   public HTMLCollection getFrames() {
     synchronized (this) {
       if (this.frames == null) {
-        this.frames = new DescendentHTMLCollection(this, new FrameFilter(),
-            this.treeLock);
+        this.frames = new DescendentHTMLCollection(this, new FrameFilter(), this.treeLock);
       }
       return this.frames;
     }
@@ -337,8 +325,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   public HTMLCollection getAnchors() {
     synchronized (this) {
       if (this.anchors == null) {
-        this.anchors = new DescendentHTMLCollection(this, new AnchorFilter(),
-            this.treeLock);
+        this.anchors = new DescendentHTMLCollection(this, new AnchorFilter(), this.treeLock);
       }
       return this.anchors;
     }
@@ -414,13 +401,11 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @throws SAXException
    * @throws UnsupportedEncodingException
    */
-  public void load() throws IOException, SAXException,
-      UnsupportedEncodingException {
+  public void load() throws IOException, SAXException, UnsupportedEncodingException {
     this.load(true);
   }
 
-  public void load(boolean closeReader) throws IOException, SAXException,
-      UnsupportedEncodingException {
+  public void load(boolean closeReader) throws IOException, SAXException, UnsupportedEncodingException {
     WritableLineReader reader;
     synchronized (this.treeLock) {
       this.removeAllChildrenImpl();
@@ -436,8 +421,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
         ErrorHandler errorHandler = new LocalErrorHandler();
         String systemId = this.documentURI;
         String publicId = systemId;
-        HtmlParser parser = new HtmlParser(this.ucontext, this, errorHandler,
-            publicId, systemId);
+        HtmlParser parser = new HtmlParser(this.ucontext, this, errorHandler, publicId, systemId);
         parser.parse(reader);
       } finally {
         if (closeReader) {
@@ -502,16 +486,13 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     ErrorHandler errorHandler = new LocalErrorHandler();
     String systemId = this.documentURI;
     String publicId = systemId;
-    HtmlParser parser = new HtmlParser(this.ucontext, this, errorHandler,
-        publicId, systemId);
+    HtmlParser parser = new HtmlParser(this.ucontext, this, errorHandler, publicId, systemId);
     StringReader strReader = new StringReader(text);
     try {
       // This sets up another Javascript scope Window. Does it matter?
       parser.parse(strReader);
     } catch (Exception err) {
-      this.warn(
-          "Unable to parse written HTML text. BaseURI=[" + this.getBaseURI()
-              + "].", err);
+      this.warn("Unable to parse written HTML text. BaseURI=[" + this.getBaseURI() + "].", err);
     }
   }
 
@@ -585,8 +566,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     return node;
   }
 
-  public ProcessingInstruction createProcessingInstruction(String target,
-      String data) throws DOMException {
+  public ProcessingInstruction createProcessingInstruction(String target, String data) throws DOMException {
     HTMLProcessingInstruction node = new HTMLProcessingInstruction(target, data);
     node.setOwnerDocument(this);
     return node;
@@ -619,13 +599,11 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Not implemented");
   }
 
-  public Element createElementNS(String namespaceURI, String qualifiedName)
-      throws DOMException {
+  public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
   }
 
-  public Attr createAttributeNS(String namespaceURI, String qualifiedName)
-      throws DOMException {
+  public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
   }
 
@@ -720,8 +698,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
       node.setOwnerDocument(this, true);
       return node;
     } else {
-      throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-          "Invalid Node implementation");
+      throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Invalid Node implementation");
     }
   }
 
@@ -747,8 +724,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     }
   }
 
-  public Node renameNode(Node n, String namespaceURI, String qualifiedName)
-      throws DOMException {
+  public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No renaming");
   }
 
@@ -812,8 +788,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @see org.xamjwg.html.domimpl.NodeImpl#setNodeValue(java.lang.String)
    */
   public void setNodeValue(String nodeValue) throws DOMException {
-    throw new DOMException(DOMException.INVALID_MODIFICATION_ERR,
-        "Cannot set node value of document");
+    throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "Cannot set node value of document");
   }
 
   public final HtmlRendererContext getHtmlRendererContext() {
@@ -834,8 +809,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
       try {
         return new URL(uri);
       } catch (MalformedURLException mfu2) {
-        logger.log(Level.WARNING, "Unable to create URL for URI=[" + uri
-            + "], with base=[" + this.getBaseURI() + "].", mfu);
+        logger.log(Level.WARNING, "Unable to create URL for URI=[" + uri + "], with base=[" + this.getBaseURI() + "].", mfu);
         return null;
       }
     }
@@ -863,7 +837,9 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
 
   private final Collection<CSSStyleSheet> styleSheets = new CSSStyleSheetList();
 
-  public class CSSStyleSheetList extends ArrayList {
+  public class CSSStyleSheetList extends ArrayList<CSSStyleSheet> {
+    private static final long serialVersionUID = -7972017267951066017L;
+
     public int getLength() {
       return this.size();
     }
@@ -949,16 +925,14 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
    * @param listener
    *          An instance of {@link DocumentNotificationListener}.
    */
-  public void addDocumentNotificationListener(
-      DocumentNotificationListener listener) {
+  public void addDocumentNotificationListener(DocumentNotificationListener listener) {
     ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     synchronized (listenersList) {
       listenersList.add(listener);
     }
   }
 
-  public void removeDocumentNotificationListener(
-      DocumentNotificationListener listener) {
+  public void removeDocumentNotificationListener(DocumentNotificationListener listener) {
     ArrayList<DocumentNotificationListener> listenersList = this.documentNotificationListeners;
     synchronized (listenersList) {
       listenersList.remove(listener);
@@ -977,8 +951,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.sizeInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1005,8 +978,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.lookInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1032,8 +1004,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.positionInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1059,8 +1030,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.invalidated(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1085,8 +1055,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.structureInvalidated(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1106,8 +1075,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.nodeLoaded(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1127,8 +1095,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.externalScriptLoading(node);
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1151,8 +1118,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     // been changed.
     for (int i = 0; i < size; i++) {
       try {
-        DocumentNotificationListener dnl = listenersList
-            .get(i);
+        DocumentNotificationListener dnl = listenersList.get(i);
         dnl.allInvalidated();
       } catch (IndexOutOfBoundsException iob) {
         // ignore
@@ -1211,8 +1177,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
           public void readyStateChanged() {
             if (httpRequest.getReadyState() == HttpRequest.STATE_COMPLETE) {
               java.awt.Image newImage = httpRequest.getResponseImage();
-              ImageEvent newEvent = newImage == null ? null : new ImageEvent(
-                  HTMLDocumentImpl.this, newImage);
+              ImageEvent newEvent = newImage == null ? null : new ImageEvent(HTMLDocumentImpl.this, newImage);
               ImageListener[] listeners;
               synchronized (map) {
                 newInfo.imageEvent = newEvent;
@@ -1277,8 +1242,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
 
   public Object setUserData(String key, Object data, UserDataHandler handler) {
     Function onloadHandler = this.onloadHandler;
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
-        && data == Boolean.FALSE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
       if (onloadHandler != null) {
         // TODO: onload event object?
         Executor.executeFunction(this, onloadHandler, null);
@@ -1289,16 +1253,22 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
                                                             // this event?
       dispatchEventToHandlers(loadEvent, onloadHandlers);
 
-      final Event domContentLoadedEvent = new Event("DOMContentLoaded",
-          getBody()); // TODO: What should be the target for this event?
+      final Event domContentLoadedEvent = new Event("DOMContentLoaded", getBody()); // TODO:
+                                                                                    // What
+                                                                                    // should
+                                                                                    // be
+                                                                                    // the
+                                                                                    // target
+                                                                                    // for
+                                                                                    // this
+                                                                                    // event?
       dispatchEvent(domContentLoadedEvent);
     }
     return super.setUserData(key, data, handler);
   }
 
   protected Node createSimilarNode() {
-    return new HTMLDocumentImpl(this.ucontext, this.rcontext, this.reader,
-        this.documentURI);
+    return new HTMLDocumentImpl(this.ucontext, this.rcontext, this.reader, this.documentURI);
   }
 
   private static class ImageInfo {
@@ -1312,8 +1282,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
     }
 
     ImageListener[] getListeners() {
-      return this.listeners
-          .toArray(ImageListener.EMPTY_ARRAY);
+      return this.listeners.toArray(ImageListener.EMPTY_ARRAY);
     }
   }
 
@@ -1339,8 +1308,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
   private class AnchorFilter implements NodeFilter {
     public boolean accept(Node node) {
       String nodeName = node.getNodeName();
-      return "A".equalsIgnoreCase(nodeName)
-          || "ANCHOR".equalsIgnoreCase(nodeName);
+      return "A".equalsIgnoreCase(nodeName) || "ANCHOR".equalsIgnoreCase(nodeName);
     }
   }
 
@@ -1353,8 +1321,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
 
   private class FrameFilter implements NodeFilter {
     public boolean accept(Node node) {
-      return node instanceof org.w3c.dom.html2.HTMLFrameElement
-          || node instanceof org.w3c.dom.html2.HTMLIFrameElement;
+      return node instanceof org.w3c.dom.html2.HTMLFrameElement || node instanceof org.w3c.dom.html2.HTMLIFrameElement;
     }
   }
 
@@ -1373,8 +1340,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument,
 
     public boolean accept(Node node) {
       // TODO: Case sensitive?
-      return (node instanceof Element)
-          && this.name.equals(((Element) node).getAttribute("name"));
+      return (node instanceof Element) && this.name.equals(((Element) node).getAttribute("name"));
     }
   }
 

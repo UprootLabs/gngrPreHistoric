@@ -43,14 +43,11 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     this.iePanel = iePanel;
     iePanel.addField(this.ieVersionField);
     iePanel.setBorder(new EmptyBorder(1, 8, 8, 0));
-    this.ieSpoofPanel = new CheckBoxPanel(
-        "Include \"MSIE\" in User-Agent header.", iePanel);
+    this.ieSpoofPanel = new CheckBoxPanel("Include \"MSIE\" in User-Agent header.", iePanel);
     this.mozPanel = new FormPanel();
     mozPanel.addField(this.mozillaVersionField);
     this.startupPagesStringListControl = new StringListControl();
-    this.startupPagesStringListControl
-        .setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES
-            + " startup URLs, one per line.");
+    this.startupPagesStringListControl.setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES + " startup URLs, one per line.");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.add(this.getStartupGroupBox());
     this.add(Box.createRigidArea(new Dimension(8, 8)));
@@ -67,8 +64,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     startupGroupBox.setBorder(new TitledBorder(new EtchedBorder(), "Startup"));
     Box startupPagesBox = new Box(BoxLayout.X_AXIS);
     JLabel pagesLabel = new JLabel("Pages:");
-    pagesLabel.setToolTipText("Up to " + MAX_STARTUP_PAGES
-        + " pages launched when you first run the browser.");
+    pagesLabel.setToolTipText("Up to " + MAX_STARTUP_PAGES + " pages launched when you first run the browser.");
     startupPagesBox.add(pagesLabel);
     startupPagesBox.add(this.startupPagesStringListControl);
     startupGroupBox.add(startupPagesBox);

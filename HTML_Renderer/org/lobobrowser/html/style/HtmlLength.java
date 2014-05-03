@@ -34,8 +34,7 @@ public final class HtmlLength {
   private final int lengthType;
   private volatile int value;
 
-  public HtmlLength(String spec) throws IndexOutOfBoundsException,
-      NumberFormatException {
+  public HtmlLength(String spec) throws IndexOutOfBoundsException, NumberFormatException {
     spec = spec.trim();
     int length = spec.length();
     char lastChar = spec.charAt(length - 1);

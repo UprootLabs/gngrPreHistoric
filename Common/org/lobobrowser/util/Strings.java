@@ -41,8 +41,7 @@ public class Strings {
   private Strings() {
   }
 
-  public static int compareVersions(String version1, String version2,
-      boolean startsWithDigits) {
+  public static int compareVersions(String version1, String version2, boolean startsWithDigits) {
     if (version1 == null) {
       return version2 == null ? 0 : -1;
     } else if (version2 == null) {
@@ -66,8 +65,7 @@ public class Strings {
         diff = 0;
       }
       if (diff == 0) {
-        return compareVersions(version1.substring(v1prefix.length()),
-            version2.substring(v2prefix.length()), false);
+        return compareVersions(version1.substring(v1prefix.length()), version2.substring(v2prefix.length()), false);
       }
       return diff;
     } else {
@@ -83,8 +81,7 @@ public class Strings {
       }
       int diff = v1prefix.compareTo(v2prefix);
       if (diff == 0) {
-        return compareVersions(version1.substring(v1prefix.length()),
-            version2.substring(v2prefix.length()), true);
+        return compareVersions(version1.substring(v1prefix.length()), version2.substring(v2prefix.length()), true);
       }
       return diff;
     }
@@ -195,8 +192,7 @@ public class Strings {
     StringBuffer buf = new StringBuffer();
     for (int i = 0; i < len; i++) {
       char ch = candidateID.charAt(i);
-      boolean good = i == 0 ? Character.isJavaIdentifierStart(ch) : Character
-          .isJavaIdentifierPart(ch);
+      boolean good = i == 0 ? Character.isJavaIdentifierStart(ch) : Character.isJavaIdentifierPart(ch);
       if (good) {
         buf.append(ch);
       } else {
@@ -232,14 +228,12 @@ public class Strings {
     return new String(resChars);
   }
 
-  public static String getHash32(String source)
-      throws UnsupportedEncodingException {
+  public static String getHash32(String source) throws UnsupportedEncodingException {
     String md5 = getMD5(source);
     return md5.substring(0, 8);
   }
 
-  public static String getHash64(String source)
-      throws UnsupportedEncodingException {
+  public static String getHash64(String source) throws UnsupportedEncodingException {
     String md5 = getMD5(source);
     return md5.substring(0, 16);
   }
@@ -370,8 +364,7 @@ public class Strings {
     int length = rawText.length();
     for (int i = 0; i < length; i++) {
       char ch = rawText.charAt(i);
-      if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')
-          || (ch >= '0' && ch <= '9') || ch == '-') {
+      if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '-') {
         continue;
       }
       return rawText.substring(0, i);

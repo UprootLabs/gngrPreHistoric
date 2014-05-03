@@ -31,8 +31,7 @@ import org.w3c.dom.html2.HTMLLinkElement;
  * Abstract implementation of the {@link HtmlRendererContext} interface with
  * blank methods, provided for developer convenience.
  */
-public abstract class AbstractHtmlRendererContext implements
-    HtmlRendererContext {
+public abstract class AbstractHtmlRendererContext implements HtmlRendererContext {
 
   public void alert(String message) {
   }
@@ -133,13 +132,11 @@ public abstract class AbstractHtmlRendererContext implements
   public void onMouseOver(HTMLElement element, MouseEvent event) {
   }
 
-  public HtmlRendererContext open(String absoluteUrl, String windowName,
-      String windowFeatures, boolean replace) {
+  public HtmlRendererContext open(String absoluteUrl, String windowName, String windowFeatures, boolean replace) {
     return null;
   }
 
-  public HtmlRendererContext open(URL url, String windowName,
-      String windowFeatures, boolean replace) {
+  public HtmlRendererContext open(URL url, String windowName, String windowFeatures, boolean replace) {
     return null;
   }
 
@@ -162,8 +159,7 @@ public abstract class AbstractHtmlRendererContext implements
   public void setStatus(String message) {
   }
 
-  public void submitForm(String method, URL action, String target,
-      String enctype, FormInput[] formInputs) {
+  public void submitForm(String method, URL action, String target, String enctype, FormInput[] formInputs) {
   }
 
   /**

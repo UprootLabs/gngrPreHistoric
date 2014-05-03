@@ -55,8 +55,7 @@ class ImgControl extends BaseControl implements ImageListener {
     }
     Image image = this.image;
     if (image != null) {
-      g.drawImage(image, insets.left, insets.top, size.width - insets.left
-          - insets.right, size.height - insets.top - insets.bottom, this);
+      g.drawImage(image, insets.left, insets.top, size.width - insets.left - insets.right, size.height - insets.top - insets.bottom, this);
     } else {
       // TODO: alt
     }
@@ -70,10 +69,8 @@ class ImgControl extends BaseControl implements ImageListener {
   public void reset(int availWidth, int availHeight) {
     // Expected in the GUI thread.
     HTMLElementImpl element = this.controlElement;
-    int dw = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("width"),
-        availWidth, -1);
-    int dh = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("height"),
-        availHeight, -1);
+    int dw = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("width"), availWidth, -1);
+    int dh = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("height"), availHeight, -1);
     this.declaredWidth = dw;
     this.declaredHeight = dh;
     this.preferredSize = this.createPreferredSize(dw, dh);
@@ -153,8 +150,7 @@ class ImgControl extends BaseControl implements ImageListener {
   }
 
   private final boolean checkPreferredSizeChange() {
-    Dimension newPs = this.createPreferredSize(this.declaredWidth,
-        this.declaredHeight);
+    Dimension newPs = this.createPreferredSize(this.declaredWidth, this.declaredHeight);
     Dimension ps = this.preferredSize;
     if (ps == null) {
       return true;
@@ -173,10 +169,8 @@ class ImgControl extends BaseControl implements ImageListener {
    * @see java.awt.Component#imageUpdate(java.awt.Image, int, int, int, int,
    * int)
    */
-  public boolean imageUpdate(Image img, int infoflags, int x, int y,
-      final int w, final int h) {
-    if ((infoflags & ImageObserver.ALLBITS) != 0
-        || (infoflags & ImageObserver.FRAMEBITS) != 0) {
+  public boolean imageUpdate(Image img, int infoflags, int x, int y, final int w, final int h) {
+    if ((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
       EventQueue.invokeLater(new Runnable() {
         public void run() {
           if (!checkPreferredSizeChange()) {
@@ -208,8 +202,7 @@ class ImgControl extends BaseControl implements ImageListener {
     });
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     return inSelection;
   }
 

@@ -50,8 +50,7 @@ import org.w3c.dom.Document;
 
 public class NetworkRequestImpl implements NetworkRequest {
   // TODO: Class not thread safe?
-  private static final Logger logger = Logger
-      .getLogger(NetworkRequestImpl.class.getName());
+  private static final Logger logger = Logger.getLogger(NetworkRequestImpl.class.getName());
   private final EventDispatch READY_STATE_CHANGE = new EventDispatch();
   private volatile int readyState = NetworkRequest.STATE_UNINITIALIZED;
   private volatile LocalResponse localResponse;
@@ -138,14 +137,12 @@ public class NetworkRequestImpl implements NetworkRequest {
     this.open(method, url, asyncFlag, null, null);
   }
 
-  public void open(String method, String url, boolean asyncFlag)
-      throws IOException {
+  public void open(String method, String url, boolean asyncFlag) throws IOException {
     URL urlObj = Urls.createURL(null, url);
     this.open(method, urlObj, asyncFlag, null, null);
   }
 
-  public void open(String method, java.net.URL url, boolean asyncFlag,
-      String userName) {
+  public void open(String method, java.net.URL url, boolean asyncFlag, String userName) {
     this.open(method, url, asyncFlag, userName, null);
   }
 
@@ -155,8 +152,7 @@ public class NetworkRequestImpl implements NetworkRequest {
   private String requestUserName;
   private String requestPassword;
 
-  public void open(String method, java.net.URL url, boolean asyncFlag,
-      String userName, String password) {
+  public void open(String method, java.net.URL url, boolean asyncFlag, String userName, String password) {
     this.isAsynchronous = asyncFlag;
     this.requestMethod = method;
     this.requestURL = url;
@@ -167,8 +163,7 @@ public class NetworkRequestImpl implements NetworkRequest {
 
   public void send(String content) throws IOException {
     try {
-      RequestHandler rhandler = new LocalRequestHandler(this.requestURL,
-          this.requestMethod, content);
+      RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content);
       this.currentRequestHandler = rhandler;
       try {
         // TODO: Username and password support
@@ -224,8 +219,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       int numRead;
       int readSoFar = 0;
       boolean firstTime = true;
-      ClientletContext threadContext = ClientletAccess
-          .getCurrentClientletContext();
+      ClientletContext threadContext = ClientletAccess.getCurrentClientletContext();
       NavigatorProgressEvent prevProgress = null;
       if (threadContext != null) {
         prevProgress = threadContext.getProgressEvent();
@@ -235,8 +229,7 @@ public class NetworkRequestImpl implements NetworkRequest {
         while ((numRead = in.read(buffer)) != -1) {
           if (numRead == 0) {
             if (logger.isLoggable(Level.INFO)) {
-              logger.info("setResponse(): Read zero bytes from "
-                  + response.getResponseURL());
+              logger.info("setResponse(): Read zero bytes from " + response.getResponseURL());
             }
             break;
           }
@@ -245,8 +238,7 @@ public class NetworkRequestImpl implements NetworkRequest {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastProgress > 500) {
               lastProgress = currentTime;
-              threadContext.setProgressEvent(ProgressType.CONTENT_LOADING,
-                  readSoFar, cl, response.getResponseURL());
+              threadContext.setProgressEvent(ProgressType.CONTENT_LOADING, readSoFar, cl, response.getResponseURL());
             }
           }
           newResponse.writeBytes(buffer, 0, numRead);
@@ -264,8 +256,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       // The following should return non-null if the response is complete.
       CacheableResponse cacheable = newResponse.getCacheableResponse();
       if (cacheable != null) {
-        response.setNewTransientCachedObject(cacheable,
-            cacheable.getEstimatedSize());
+        response.setNewTransientCachedObject(cacheable, cacheable.getEstimatedSize());
       }
       this.changeReadyState(NetworkRequest.STATE_COMPLETE);
     } catch (IOException ioe) {
@@ -296,11 +287,8 @@ public class NetworkRequestImpl implements NetworkRequest {
      * .URL, java.lang.Exception)
      */
     @Override
-    public boolean handleException(ClientletResponse response,
-        Throwable exception) throws ClientletException {
-      logger.log(Level.WARNING,
-          "handleException(): url=" + this.getLatestRequestURL()
-              + ",response=[" + response + "]", exception);
+    public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+      logger.log(Level.WARNING, "handleException(): url=" + this.getLatestRequestURL() + ",response=[" + response + "]", exception);
       return true;
     }
 
@@ -311,8 +299,7 @@ public class NetworkRequestImpl implements NetworkRequest {
      * net.sourceforge.xamj.http.BaseRequestHandler#processResponse(org.xamjwg
      * .clientlet.ClientletResponse)
      */
-    public void processResponse(ClientletResponse response)
-        throws ClientletException, IOException {
+    public void processResponse(ClientletResponse response) throws ClientletException, IOException {
       NetworkRequestImpl.this.setResponse(response);
     }
 
@@ -322,8 +309,7 @@ public class NetworkRequestImpl implements NetworkRequest {
      * @see net.sourceforge.xamj.http.RequestHandler#handleProgress(int,
      * java.net.URL, int, int)
      */
-    public void handleProgress(org.lobobrowser.ua.ProgressType progressType,
-        URL url, int value, int max) {
+    public void handleProgress(org.lobobrowser.ua.ProgressType progressType, URL url, int value, int max) {
     }
   }
 
@@ -404,8 +390,7 @@ public class NetworkRequestImpl implements NetworkRequest {
         if (bytes != null) {
           InputStream in = new ByteArrayInputStream(bytes);
           try {
-            doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                .parse(in);
+            doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
           } catch (Exception err) {
             logger.log(Level.SEVERE, "getResponseXML()", err);
           }
@@ -447,8 +432,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       return c;
     }
 
-    public void writeBytes(byte[] bytes, int offset, int length)
-        throws java.io.IOException {
+    public void writeBytes(byte[] bytes, int offset, int length) throws java.io.IOException {
       ByteArrayOutputStream out = this.cacheable.buffer;
       if (out == null) {
         out = new ByteArrayOutputStream();

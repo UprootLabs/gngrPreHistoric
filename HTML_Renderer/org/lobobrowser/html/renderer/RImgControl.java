@@ -24,9 +24,7 @@ import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.ModelNode;
 
 public class RImgControl extends RUIControl {
-  public RImgControl(ModelNode me, UIControl widget,
-      RenderableContainer container, FrameContext frameContext,
-      UserAgentContext ucontext) {
+  public RImgControl(ModelNode me, UIControl widget, RenderableContainer container, FrameContext frameContext, UserAgentContext ucontext) {
     super(me, widget, container, frameContext, ucontext);
   }
 

@@ -56,8 +56,7 @@ public class ClientletFactory {
     }
   }
 
-  public Clientlet getClientlet(ClientletRequest request,
-      ClientletResponse response) {
+  public Clientlet getClientlet(ClientletRequest request, ClientletResponse response) {
     synchronized (this) {
       for (ClientletSelector selector : this.selectors) {
         Clientlet clientlet = selector.select(request, response);
@@ -67,7 +66,6 @@ public class ClientletFactory {
         return clientlet;
       }
     }
-    throw new IllegalStateException("No clientlets found for response: "
-        + response + ".");
+    throw new IllegalStateException("No clientlets found for response: " + response + ".");
   }
 }

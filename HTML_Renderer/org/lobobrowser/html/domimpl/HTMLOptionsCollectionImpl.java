@@ -4,8 +4,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.*;
 
-public class HTMLOptionsCollectionImpl extends DescendentHTMLCollection
-    implements HTMLOptionsCollection {
+public class HTMLOptionsCollectionImpl extends DescendentHTMLCollection implements HTMLOptionsCollection {
   public static final NodeFilter OPTION_FILTER = new OptionFilter();
 
   public HTMLOptionsCollectionImpl(HTMLElementImpl selectElement) {

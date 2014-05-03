@@ -145,8 +145,7 @@ public interface NetworkRequest {
    * @param asyncFlag
    *          Whether the request is asynchronous.
    */
-  public void open(String method, URL url, boolean asyncFlag)
-      throws java.io.IOException;
+  public void open(String method, URL url, boolean asyncFlag) throws java.io.IOException;
 
   /**
    * Opens a request.
@@ -158,8 +157,7 @@ public interface NetworkRequest {
    * @param asyncFlag
    *          Whether the request should be asynchronous.
    */
-  public void open(String method, String url, boolean asyncFlag)
-      throws java.io.IOException;
+  public void open(String method, String url, boolean asyncFlag) throws java.io.IOException;
 
   /**
    * Opens a request.
@@ -173,8 +171,7 @@ public interface NetworkRequest {
    * @param userName
    *          The HTTP authentication user name.
    */
-  public void open(String method, java.net.URL url, boolean asyncFlag,
-      String userName) throws java.io.IOException;
+  public void open(String method, java.net.URL url, boolean asyncFlag, String userName) throws java.io.IOException;
 
   /**
    * Opens a request.
@@ -190,8 +187,7 @@ public interface NetworkRequest {
    * @param password
    *          The HTTP authentication password.
    */
-  public void open(String method, java.net.URL url, boolean asyncFlag,
-      String userName, String password) throws java.io.IOException;
+  public void open(String method, java.net.URL url, boolean asyncFlag, String userName, String password) throws java.io.IOException;
 
   /**
    * Sends POST content if any.

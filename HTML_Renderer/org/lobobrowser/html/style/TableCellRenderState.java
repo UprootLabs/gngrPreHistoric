@@ -9,8 +9,7 @@ import org.w3c.dom.css.CSS2Properties;
 import org.w3c.dom.html2.*;
 
 public class TableCellRenderState extends DisplayRenderState {
-  public TableCellRenderState(RenderState prevRenderState,
-      HTMLElementImpl element) {
+  public TableCellRenderState(RenderState prevRenderState, HTMLElementImpl element) {
     super(prevRenderState, element, RenderState.DISPLAY_TABLE_CELL);
   }
 
@@ -62,8 +61,7 @@ public class TableCellRenderState extends DisplayRenderState {
       } else {
         axp = 0;
       }
-    } else if ("center".equalsIgnoreCase(align)
-        || "middle".equalsIgnoreCase(align)) {
+    } else if ("center".equalsIgnoreCase(align) || "middle".equalsIgnoreCase(align)) {
       axp = 50;
     } else if ("left".equalsIgnoreCase(align)) {
       axp = 0;
@@ -110,8 +108,7 @@ public class TableCellRenderState extends DisplayRenderState {
       ayp = 50;
     } else if ("top".equalsIgnoreCase(valign)) {
       ayp = 0;
-    } else if ("middle".equalsIgnoreCase(valign)
-        || "center".equalsIgnoreCase(valign)) {
+    } else if ("middle".equalsIgnoreCase(valign) || "center".equalsIgnoreCase(valign)) {
       ayp = 50;
     } else if ("bottom".equalsIgnoreCase(valign)) {
       ayp = 100;
@@ -194,8 +191,7 @@ public class TableCellRenderState extends DisplayRenderState {
         if (cellPaddingText.endsWith("%")) {
           cellPaddingType = HtmlInsets.TYPE_PERCENT;
           try {
-            cellPadding = Integer.parseInt(cellPaddingText.substring(0,
-                cellPaddingText.length() - 1));
+            cellPadding = Integer.parseInt(cellPaddingText.substring(0, cellPaddingText.length() - 1));
           } catch (NumberFormatException nfe) {
             cellPadding = 0;
           }

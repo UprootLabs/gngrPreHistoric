@@ -68,8 +68,7 @@ public class ReuseServer implements Runnable {
         }
       }
     }
-    throw new IllegalStateException(
-        "Unable to bind reuse server after many tries.");
+    throw new IllegalStateException("Unable to bind reuse server after many tries.");
   }
 
   public void stop() {
@@ -110,8 +109,7 @@ public class ReuseServer implements Runnable {
           String line;
           while ((line = br.readLine()) != null) {
             int blankIdx = line.indexOf(' ');
-            String command = blankIdx == -1 ? line : line
-                .substring(0, blankIdx).trim();
+            String command = blankIdx == -1 ? line : line.substring(0, blankIdx).trim();
             if ("LAUNCH".equals(command)) {
               if (blankIdx == -1) {
                 PlatformInit.getInstance().launch();

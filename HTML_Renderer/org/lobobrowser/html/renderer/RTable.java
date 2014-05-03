@@ -54,12 +54,10 @@ class RTable extends BaseElementRenderable {
   private LayoutKey lastLayoutKey = null;
   private LayoutValue lastLayoutValue = null;
 
-  public RTable(HTMLElementImpl modelNode, UserAgentContext pcontext,
-      HtmlRendererContext rcontext, FrameContext frameContext,
+  public RTable(HTMLElementImpl modelNode, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
       RenderableContainer container) {
     super(container, modelNode, pcontext);
-    this.tableMatrix = new TableMatrix(modelNode, pcontext, rcontext,
-        frameContext, this, this);
+    this.tableMatrix = new TableMatrix(modelNode, pcontext, rcontext, frameContext, this, this);
   }
 
   public int getVAlign() {
@@ -102,8 +100,7 @@ class RTable extends BaseElementRenderable {
     // Having whiteSpace == NOWRAP and having a NOWRAP override
     // are not exactly the same thing.
     boolean overrideNoWrap = RenderThreadState.getState().overrideNoWrap;
-    LayoutKey layoutKey = new LayoutKey(availWidth, availHeight, whitespace,
-        font, overrideNoWrap);
+    LayoutKey layoutKey = new LayoutKey(availWidth, availHeight, whitespace, font, overrideNoWrap);
     LayoutValue layoutValue;
     if (sizeOnly) {
       layoutValue = cachedLayout.get(layoutKey);
@@ -349,20 +346,17 @@ class RTable extends BaseElementRenderable {
     return this.container.getPaintedBackgroundColor();
   }
 
-  private final void addPositionedRenderable(BoundableRenderable renderable,
-      boolean verticalAlignable, boolean isFloat) {
+  private final void addPositionedRenderable(BoundableRenderable renderable, boolean verticalAlignable, boolean isFloat) {
     // Expected to be called only in GUI thread.
     SortedSet<PositionedRenderable> others = this.positionedRenderables;
     if (others == null) {
       others = new TreeSet<PositionedRenderable>(new ZIndexComparator());
       this.positionedRenderables = others;
     }
-    others.add(new PositionedRenderable(renderable, verticalAlignable,
-        this.otherOrdinal++, isFloat));
+    others.add(new PositionedRenderable(renderable, verticalAlignable, this.otherOrdinal++, isFloat));
     renderable.setParent(this);
     if (renderable instanceof RUIControl) {
-      this.container.addComponent(((RUIControl) renderable).widget
-          .getComponent());
+      this.container.addComponent(((RUIControl) renderable).widget.getComponent());
     }
   }
 
@@ -373,8 +367,7 @@ class RTable extends BaseElementRenderable {
   }
 
   public String toString() {
-    return "RTable[this=" + System.identityHashCode(this) + ",node="
-        + this.modelNode + "]";
+    return "RTable[this=" + System.identityHashCode(this) + ",node=" + this.modelNode + "]";
   }
 
   private static class LayoutKey {
@@ -384,8 +377,7 @@ class RTable extends BaseElementRenderable {
     public final Font font;
     public final boolean overrideNoWrap;
 
-    public LayoutKey(int availWidth, int availHeight, int whitespace,
-        Font font, boolean overrideNoWrap) {
+    public LayoutKey(int availWidth, int availHeight, int whitespace, Font font, boolean overrideNoWrap) {
       super();
       this.availWidth = availWidth;
       this.availHeight = availHeight;
@@ -402,17 +394,13 @@ class RTable extends BaseElementRenderable {
         return false;
       }
       LayoutKey other = (LayoutKey) obj;
-      return other.availWidth == this.availWidth
-          && other.availHeight == this.availHeight
-          && other.whitespace == this.whitespace
-          && other.overrideNoWrap == this.overrideNoWrap
-          && Objects.equals(other.font, this.font);
+      return other.availWidth == this.availWidth && other.availHeight == this.availHeight && other.whitespace == this.whitespace
+          && other.overrideNoWrap == this.overrideNoWrap && Objects.equals(other.font, this.font);
     }
 
     public int hashCode() {
       Font font = this.font;
-      return (this.availWidth * 1000 + this.availHeight)
-          ^ (font == null ? 0 : font.hashCode()) ^ this.whitespace;
+      return (this.availWidth * 1000 + this.availHeight) ^ (font == null ? 0 : font.hashCode()) ^ this.whitespace;
     }
   }
 

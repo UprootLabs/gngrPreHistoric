@@ -37,8 +37,7 @@ public interface NavigationListener extends java.util.EventListener {
    * @throws NavigationVetoException
    *           Thrown to cancel navigation.
    */
-  public void beforeNavigate(NavigationEvent event)
-      throws NavigationVetoException;
+  public void beforeNavigate(NavigationEvent event) throws NavigationVetoException;
 
   /**
    * Called any time a navigation trigger needs to be processed in the event
@@ -49,8 +48,7 @@ public interface NavigationListener extends java.util.EventListener {
    * @throws NavigationVetoException
    *           Thrown to cancel navigation.
    */
-  public void beforeLocalNavigate(NavigationEvent event)
-      throws NavigationVetoException;
+  public void beforeLocalNavigate(NavigationEvent event) throws NavigationVetoException;
 
   /**
    * Called any time a window open trigger originates in the event frame.
@@ -60,6 +58,5 @@ public interface NavigationListener extends java.util.EventListener {
    * @throws NavigationVetoException
    *           Thrown to cancel navigation.
    */
-  public void beforeWindowOpen(NavigationEvent event)
-      throws NavigationVetoException;
+  public void beforeWindowOpen(NavigationEvent event) throws NavigationVetoException;
 }

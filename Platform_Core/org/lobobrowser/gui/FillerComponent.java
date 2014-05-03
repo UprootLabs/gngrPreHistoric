@@ -29,15 +29,13 @@ import java.awt.*;
  */
 public class FillerComponent extends Filler {
   public FillerComponent(Component wrappedComponent, boolean forMax) {
-    super(new Dimension(0, 0), forMax ? new Dimension(0, 0) : new Dimension(
-        Short.MAX_VALUE, Short.MAX_VALUE), new Dimension(Short.MAX_VALUE,
-        Short.MAX_VALUE));
+    super(new Dimension(0, 0), forMax ? new Dimension(0, 0) : new Dimension(Short.MAX_VALUE, Short.MAX_VALUE), new Dimension(
+        Short.MAX_VALUE, Short.MAX_VALUE));
     this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
     this.add(wrappedComponent);
   }
 
-  public FillerComponent(Component wrappedComponent, Dimension minSize,
-      Dimension prefSize, Dimension maxSize) {
+  public FillerComponent(Component wrappedComponent, Dimension minSize, Dimension prefSize, Dimension maxSize) {
     super(minSize, prefSize, maxSize);
     this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
     this.add(wrappedComponent);

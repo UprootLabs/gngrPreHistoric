@@ -73,6 +73,5 @@ public abstract class EventDispatch2 {
     return true;
   }
 
-  protected abstract void dispatchEvent(EventListener listener,
-      EventObject event);
+  protected abstract void dispatchEvent(EventListener listener, EventObject event);
 }

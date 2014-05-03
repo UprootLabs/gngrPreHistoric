@@ -4,8 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.html2.HTMLFormElement;
 import org.w3c.dom.html2.HTMLObjectElement;
 
-public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements
-    HTMLObjectElement {
+public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTMLObjectElement {
   public HTMLObjectElementImpl(String name) {
     super(name);
   }
@@ -103,8 +102,7 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements
   }
 
   public HTMLFormElement getForm() {
-    return (HTMLFormElement) this
-        .getAncestorForJavaClass(HTMLFormElement.class);
+    return (HTMLFormElement) this.getAncestorForJavaClass(HTMLFormElement.class);
   }
 
   public int getHspace() {

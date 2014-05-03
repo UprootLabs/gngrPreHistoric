@@ -24,8 +24,7 @@ import org.lobobrowser.html.style.*;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.html2.HTMLBaseFontElement;
 
-public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements
-    HTMLBaseFontElement {
+public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HTMLBaseFontElement {
   public HTMLBaseFontElementImpl(String name) {
     super(name);
   }
@@ -50,8 +49,7 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements
     try {
       return Integer.parseInt(this.getAttribute("size"));
     } catch (Exception thrown) {
-      this.warn("getSize(): Unable to parse size attribute in " + this + ".",
-          thrown);
+      this.warn("getSize(): Unable to parse size attribute in " + this + ".", thrown);
       return 0;
     }
   }
@@ -75,8 +73,7 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements
     String color = this.getAttribute("color");
     String size = this.getAttribute("size");
     ModelNode parentModelNode = this.getParentModelNode();
-    RenderState parentRS = parentModelNode == null ? null : parentModelNode
-        .getRenderState();
+    RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
     String fontSize = null;
     if (parentRS != null) {
       int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);

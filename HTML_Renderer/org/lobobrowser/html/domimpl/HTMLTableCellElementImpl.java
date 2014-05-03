@@ -26,8 +26,7 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLTableCellElement;
 
-public class HTMLTableCellElementImpl extends HTMLAbstractUIElement implements
-    HTMLTableCellElement {
+public class HTMLTableCellElementImpl extends HTMLAbstractUIElement implements HTMLTableCellElement {
   public HTMLTableCellElementImpl(String name) {
     super(name);
   }

@@ -34,13 +34,11 @@ import org.lobobrowser.util.*;
 public class AddBookmarkDialog extends JDialog {
   private final FormField urlField = new FormField(FieldType.TEXT, "URL:");
   private final FormField titleField = new FormField(FieldType.TEXT, "Title:");
-  private final FormField descriptionField = new FormField(FieldType.TEXT,
-      "Description:");
+  private final FormField descriptionField = new FormField(FieldType.TEXT, "Description:");
   private final FormField tagsField = new FormField(FieldType.TEXT, "Tags:");
   private final java.net.URL url;
 
-  public AddBookmarkDialog(Frame owner, boolean modal, BookmarkInfo existingInfo)
-      throws HeadlessException {
+  public AddBookmarkDialog(Frame owner, boolean modal, BookmarkInfo existingInfo) throws HeadlessException {
     super(owner, modal);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.url = existingInfo.getUrl();

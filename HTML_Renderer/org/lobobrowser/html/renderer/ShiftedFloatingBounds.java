@@ -39,8 +39,7 @@ class ShiftedFloatingBounds implements FloatingBounds {
    * @param shiftY
    *          How much the original bounds have shifted in the Y axis.
    */
-  public ShiftedFloatingBounds(final FloatingBounds prevBounds,
-      final int shiftLeft, final int shiftRight, final int shiftY) {
+  public ShiftedFloatingBounds(final FloatingBounds prevBounds, final int shiftLeft, final int shiftRight, final int shiftY) {
     super();
     this.prevBounds = prevBounds;
     this.shiftLeft = shiftLeft;
@@ -82,8 +81,7 @@ class ShiftedFloatingBounds implements FloatingBounds {
       return false;
     }
     ShiftedFloatingBounds other = (ShiftedFloatingBounds) obj;
-    return this.shiftY == other.shiftY && this.shiftLeft == other.shiftLeft
-        && this.shiftRight == other.shiftRight
+    return this.shiftY == other.shiftY && this.shiftLeft == other.shiftLeft && this.shiftRight == other.shiftRight
         && Objects.equals(this.prevBounds, other.prevBounds);
   }
 

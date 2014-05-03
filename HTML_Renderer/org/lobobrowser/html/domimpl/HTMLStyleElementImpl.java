@@ -32,8 +32,7 @@ import org.w3c.dom.html2.HTMLStyleElement;
 import com.steadystate.css.dom.CSSStyleSheetImpl;
 import com.steadystate.css.parser.CSSOMParser;
 
-public class HTMLStyleElementImpl extends HTMLElementImpl implements
-    HTMLStyleElement {
+public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleElement {
   private CSSStyleSheet styleSheet;
 
   public HTMLStyleElementImpl() {
@@ -75,8 +74,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements
   }
 
   public Object setUserData(String key, Object data, UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
-        && data != Boolean.TRUE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processStyle();
     }
     // else
@@ -91,19 +89,16 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements
     this.styleSheet = null;
     UserAgentContext uacontext = this.getUserAgentContext();
     if (uacontext.isInternalCSSEnabled()) {
-      if (CSSUtilities
-          .matchesMedia(this.getMedia(), this.getUserAgentContext())) {
+      if (CSSUtilities.matchesMedia(this.getMedia(), this.getUserAgentContext())) {
         String text = this.getRawInnerText(true);
         if (text != null && !"".equals(text)) {
           String processedText = CSSUtilities.preProcessCss(text);
           HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
           CSSOMParser parser = CSSUtilities.mkParser();
           String baseURI = doc.getBaseURI();
-          InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(
-              processedText, baseURI);
+          InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(processedText, baseURI);
           try {
-            CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser
-                .parseStyleSheet(is, this, baseURI);
+            CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, this, baseURI);
             doc.addStyleSheet(sheet);
             this.styleSheet = sheet;
             if (sheet instanceof CSSStyleSheetImpl) {

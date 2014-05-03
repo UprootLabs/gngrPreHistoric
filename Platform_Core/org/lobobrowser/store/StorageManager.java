@@ -36,8 +36,7 @@ import org.lobobrowser.util.*;
  * * @author J. H. S.
  */
 public class StorageManager implements Runnable {
-  private static final Logger logger = Logger.getLogger(StorageManager.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(StorageManager.class.getName());
   private static final long HOST_STORE_QUOTA = 200 * 1024;
   // Note that the installer makes assumptions about these names.
   private static final String HOST_STORE_DIR = "HostStore";
@@ -89,8 +88,7 @@ public class StorageManager implements Runnable {
     return new File(cacheDir, normalizedFileName(hostName));
   }
 
-  public File getContentCacheFile(String hostName, String fileName)
-      throws IOException {
+  public File getContentCacheFile(String hostName, String fileName) throws IOException {
     File domainDir = this.getCacheHostDirectory(hostName);
     File xamjDir = new File(domainDir, CONTENT_DIR);
     return new File(xamjDir, fileName);
@@ -102,8 +100,7 @@ public class StorageManager implements Runnable {
 
   private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<String, RestrictedStore>();
 
-  public RestrictedStore getRestrictedStore(String hostName,
-      final boolean createIfNotExists) throws IOException {
+  public RestrictedStore getRestrictedStore(String hostName, final boolean createIfNotExists) throws IOException {
     SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(StoreHostPermission.forHost(hostName));
@@ -116,24 +113,22 @@ public class StorageManager implements Runnable {
     synchronized (this) {
       store = this.restrictedStoreCache.get(normHost);
       if (store == null) {
-        store = AccessController
-            .doPrivileged(new PrivilegedAction<RestrictedStore>() {
-              // Reason: Since we are checking StoreHostPermission previously,
-              // this is fine.
-              public RestrictedStore run() {
-                File hostStoreDir = new File(storeDirectory, HOST_STORE_DIR);
-                File domainDir = new File(hostStoreDir,
-                    normalizedFileName(normHost));
-                if (!createIfNotExists && !domainDir.exists()) {
-                  return null;
-                }
-                try {
-                  return new RestrictedStore(domainDir, HOST_STORE_QUOTA);
-                } catch (IOException ioe) {
-                  throw new IllegalStateException(ioe);
-                }
-              }
-            });
+        store = AccessController.doPrivileged(new PrivilegedAction<RestrictedStore>() {
+          // Reason: Since we are checking StoreHostPermission previously,
+          // this is fine.
+          public RestrictedStore run() {
+            File hostStoreDir = new File(storeDirectory, HOST_STORE_DIR);
+            File domainDir = new File(hostStoreDir, normalizedFileName(normHost));
+            if (!createIfNotExists && !domainDir.exists()) {
+              return null;
+            }
+            try {
+              return new RestrictedStore(domainDir, HOST_STORE_QUOTA);
+            } catch (IOException ioe) {
+              throw new IllegalStateException(ioe);
+            }
+          }
+        });
         if (store != null) {
           this.restrictedStoreCache.put(normHost, store);
         }
@@ -166,8 +161,7 @@ public class StorageManager implements Runnable {
     }
   }
 
-  public Serializable retrieveSettings(String name, ClassLoader classLoader)
-      throws IOException, ClassNotFoundException {
+  public Serializable retrieveSettings(String name, ClassLoader classLoader) throws IOException, ClassNotFoundException {
     File dir = this.getSettingsDirectory();
     if (!dir.exists()) {
       return null;
@@ -236,8 +230,7 @@ public class StorageManager implements Runnable {
         Thread.sleep(MANAGED_STORE_UPDATE_DELAY);
         RestrictedStore[] stores;
         synchronized (this) {
-          stores = this.restrictedStoreCache.values()
-              .toArray(new RestrictedStore[0]);
+          stores = this.restrictedStoreCache.values().toArray(new RestrictedStore[0]);
         }
         for (int i = 0; i < stores.length; i++) {
           Thread.yield();

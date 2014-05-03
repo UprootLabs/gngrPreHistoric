@@ -45,8 +45,7 @@ public class JavaVersionException extends ClientletException {
    * @param message
    * @param rootCause
    */
-  public JavaVersionException(String message, String expectingVersion,
-      Throwable rootCause) {
+  public JavaVersionException(String message, String expectingVersion, Throwable rootCause) {
     super(message, rootCause);
     this.expectingVersion = expectingVersion;
   }

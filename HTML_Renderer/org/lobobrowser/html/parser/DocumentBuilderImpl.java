@@ -44,8 +44,7 @@ import org.xml.sax.SAXException;
  * @author J. H. S.
  */
 public class DocumentBuilderImpl extends DocumentBuilder {
-  private static final Logger logger = Logger
-      .getLogger(DocumentBuilderImpl.class.getName());
+  private static final Logger logger = Logger.getLogger(DocumentBuilderImpl.class.getName());
   private EntityResolver resolver;
   private ErrorHandler errorHandler;
   private final UserAgentContext bcontext;
@@ -78,8 +77,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          which may be an instance of
    *          {@link org.lobobrowser.html.test.SimpleHtmlRendererContext}.
    */
-  public DocumentBuilderImpl(UserAgentContext ucontext,
-      HtmlRendererContext rcontext) {
+  public DocumentBuilderImpl(UserAgentContext ucontext, HtmlRendererContext rcontext) {
     this.rcontext = rcontext;
     this.bcontext = ucontext;
   }
@@ -107,8 +105,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          {@link org.lobobrowser.html.parser.InputSourceImpl}.
    * @see #createDocument(InputSource)
    */
-  public Document parse(InputSource is) throws org.xml.sax.SAXException,
-      IOException {
+  public Document parse(InputSource is) throws org.xml.sax.SAXException, IOException {
     HTMLDocumentImpl document = (HTMLDocumentImpl) this.createDocument(is);
     document.load();
     return document;
@@ -124,8 +121,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
    *          source must provide either an input stream or a reader.
    * @see HTMLDocumentImpl#load()
    */
-  public Document createDocument(InputSource is) throws SAXException,
-      IOException {
+  public Document createDocument(InputSource is) throws SAXException, IOException {
     String encoding = is.getEncoding();
     String charset = encoding;
     if (charset == null) {
@@ -133,8 +129,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
     }
     String uri = is.getSystemId();
     if (uri == null) {
-      logger
-          .warning("parse(): InputSource has no SystemId (URI); document item URLs will not be resolvable.");
+      logger.warning("parse(): InputSource has no SystemId (URI); document item URLs will not be resolvable.");
     }
     WritableLineReader wis;
     Reader reader = is.getCharacterStream();
@@ -147,20 +142,17 @@ public class DocumentBuilderImpl extends DocumentBuilder {
       } else if (uri != null) {
         // To comply with the InputSource documentation, we need
         // to do this:
-        java.net.URLConnection connection = new java.net.URL(uri)
-            .openConnection();
+        java.net.URLConnection connection = new java.net.URL(uri).openConnection();
         in = connection.getInputStream();
         if (encoding == null) {
           charset = org.lobobrowser.util.Urls.getCharset(connection);
         }
         wis = new WritableLineReader(new InputStreamReader(in, charset));
       } else {
-        throw new IllegalArgumentException(
-            "The InputSource must have either a reader, an input stream or a URI.");
+        throw new IllegalArgumentException("The InputSource must have either a reader, an input stream or a URI.");
       }
     }
-    HTMLDocumentImpl document = new HTMLDocumentImpl(this.bcontext,
-        this.rcontext, wis, uri);
+    HTMLDocumentImpl document = new HTMLDocumentImpl(this.bcontext, this.rcontext, wis, uri);
     return document;
   }
 

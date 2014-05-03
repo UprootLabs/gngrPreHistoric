@@ -34,8 +34,7 @@ public class Event extends AbstractScriptableDelegate {
   private String type;
   private final java.awt.event.InputEvent inputEvent;
 
-  public Event(String type, HTMLElement srcElement,
-      java.awt.event.InputEvent mouseEvent, int leafX, int leafY) {
+  public Event(String type, HTMLElement srcElement, java.awt.event.InputEvent mouseEvent, int leafX, int leafY) {
     this.type = type;
     this.srcElement = srcElement;
     this.leafX = leafX;
@@ -43,8 +42,7 @@ public class Event extends AbstractScriptableDelegate {
     this.inputEvent = mouseEvent;
   }
 
-  public Event(String type, HTMLElement srcElement,
-      java.awt.event.KeyEvent keyEvent) {
+  public Event(String type, HTMLElement srcElement, java.awt.event.KeyEvent keyEvent) {
     this.type = type;
     this.srcElement = srcElement;
     this.inputEvent = keyEvent;

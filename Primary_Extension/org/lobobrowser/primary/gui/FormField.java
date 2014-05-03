@@ -34,8 +34,7 @@ public class FormField {
     this(type, caption, true);
   }
 
-  public FormField(final FieldType type, final String caption,
-      final boolean editable) {
+  public FormField(final FieldType type, final String caption, final boolean editable) {
     this.type = type;
     this.setCaption(caption);
     this.setEditable(editable);

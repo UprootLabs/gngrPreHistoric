@@ -30,8 +30,7 @@ import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.html2.HTMLFontElement;
 
-public class HTMLFontElementImpl extends HTMLAbstractUIElement implements
-    HTMLFontElement {
+public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFontElement {
   public HTMLFontElementImpl(String name) {
     super(name);
   }
@@ -71,8 +70,7 @@ public class HTMLFontElementImpl extends HTMLAbstractUIElement implements
     String fontSize = null;
     if (size != null) {
       ModelNode parentModelNode = this.getParentModelNode();
-      RenderState parentRS = parentModelNode == null ? null : parentModelNode
-          .getRenderState();
+      RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
       if (parentRS != null) {
         int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
         fontSize = HtmlValues.getFontSizeSpec(fontNumber);

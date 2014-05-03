@@ -10,8 +10,7 @@ import org.w3c.dom.html2.HTMLSelectElement;
 
 import org.mozilla.javascript.Function;
 
-public class HTMLSelectElementImpl extends HTMLBaseInputElement implements
-    HTMLSelectElement {
+public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLSelectElement {
   public HTMLSelectElementImpl(String name) {
     super(name);
   }

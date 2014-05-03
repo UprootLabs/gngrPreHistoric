@@ -124,8 +124,7 @@ public class FormInput {
    */
   public java.io.InputStream getInputStream() throws java.io.IOException {
     if (this.isText()) {
-      return new java.io.ByteArrayInputStream(this.getTextValue().getBytes(
-          "UTF-8"));
+      return new java.io.ByteArrayInputStream(this.getTextValue().getBytes("UTF-8"));
     } else if (this.isFile()) {
       return new java.io.FileInputStream(this.getFileValue());
     } else {

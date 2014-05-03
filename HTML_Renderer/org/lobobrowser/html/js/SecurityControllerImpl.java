@@ -43,12 +43,10 @@ public class SecurityControllerImpl extends SecurityController {
   public SecurityControllerImpl(java.net.URL url, Policy policy) {
     this.url = url;
     this.policy = policy;
-    this.codesource = new CodeSource(this.url,
-        (java.security.cert.Certificate[]) null);
+    this.codesource = new CodeSource(this.url, (java.security.cert.Certificate[]) null);
   }
 
-  public Object callWithDomain(Object securityDomain, final Context ctx,
-      final Callable callable, final Scriptable scope,
+  public Object callWithDomain(Object securityDomain, final Context ctx, final Callable callable, final Scriptable scope,
       final Scriptable thisObj, final Object[] args) {
     if (securityDomain == null) {
       return callable.call(ctx, scope, thisObj, args);
@@ -59,14 +57,12 @@ public class SecurityControllerImpl extends SecurityController {
         }
       };
       final ProtectionDomain protectionDomain = (ProtectionDomain) securityDomain;
-      AccessControlContext acctx = new AccessControlContext(
-          new ProtectionDomain[] { protectionDomain });
+      AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { protectionDomain });
       return AccessController.doPrivileged(action, acctx);
     }
   }
 
-  public GeneratedClassLoader createClassLoader(ClassLoader parent,
-      Object staticDomain) {
+  public GeneratedClassLoader createClassLoader(ClassLoader parent, Object staticDomain) {
     return new LocalSecureClassLoader(parent);
   }
 
@@ -80,8 +76,7 @@ public class SecurityControllerImpl extends SecurityController {
     }
   }
 
-  private class LocalSecureClassLoader extends SecureClassLoader implements
-      GeneratedClassLoader {
+  private class LocalSecureClassLoader extends SecureClassLoader implements GeneratedClassLoader {
     public LocalSecureClassLoader(ClassLoader parent) {
       super(parent);
     }

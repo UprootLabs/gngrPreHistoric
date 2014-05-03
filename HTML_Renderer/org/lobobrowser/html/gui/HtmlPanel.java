@@ -75,8 +75,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     super();
     this.setLayout(WrapperLayout.getInstance());
     this.setOpaque(false);
-    this.notificationTimer = new javax.swing.Timer(NOTIF_TIMER_DELAY,
-        new NotificationTimerAction());
+    this.notificationTimer = new javax.swing.Timer(NOTIF_TIMER_DELAY, new NotificationTimerAction());
     this.notificationTimer.setRepeats(false);
     this.notificationListener = new LocalDocumentNotificationListener();
     this.notificationImmediateAction = new Runnable() {
@@ -178,8 +177,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     return null;
   }
 
-  private void setUpAsBlock(UserAgentContext ucontext,
-      HtmlRendererContext rcontext) {
+  private void setUpAsBlock(UserAgentContext ucontext, HtmlRendererContext rcontext) {
     HtmlBlockPanel shp = this.createHtmlBlockPanel(ucontext, rcontext);
     shp.setPreferredWidth(this.preferredWidth);
     shp.setDefaultMarginInsets(this.defaultMarginInsets);
@@ -207,10 +205,8 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * Method invoked internally to create a {@link HtmlBlockPanel}. It is made
    * available so it can be overridden.
    */
-  protected HtmlBlockPanel createHtmlBlockPanel(UserAgentContext ucontext,
-      HtmlRendererContext rcontext) {
-    return new HtmlBlockPanel(java.awt.Color.WHITE, true, ucontext, rcontext,
-        this);
+  protected HtmlBlockPanel createHtmlBlockPanel(UserAgentContext ucontext, HtmlRendererContext rcontext) {
+    return new HtmlBlockPanel(java.awt.Color.WHITE, true, ucontext, rcontext, this);
   }
 
   /**
@@ -286,8 +282,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
   private void clearDocumentImpl() {
     HTMLDocumentImpl prevDocument = (HTMLDocumentImpl) this.rootNode;
     if (prevDocument != null) {
-      prevDocument
-          .removeDocumentNotificationListener(this.notificationListener);
+      prevDocument.removeDocumentNotificationListener(this.notificationListener);
     }
     NodeRenderer nr = this.nodeRenderer;
     if (nr != null) {
@@ -320,8 +315,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * @see org.lobobrowser.html.parser.DocumentBuilderImpl#parse(org.xml.sax.InputSource)
    * @see org.lobobrowser.html.test.SimpleHtmlRendererContext
    */
-  public void setDocument(final Document node,
-      final HtmlRendererContext rcontext) {
+  public void setDocument(final Document node, final HtmlRendererContext rcontext) {
     if (java.awt.EventQueue.isDispatchThread()) {
       this.setDocumentImpl(node, rcontext);
     } else {
@@ -368,13 +362,11 @@ public class HtmlPanel extends JComponent implements FrameContext {
   private void setDocumentImpl(Document node, HtmlRendererContext rcontext) {
     // Expected to be called in the GUI thread.
     if (!(node instanceof HTMLDocumentImpl)) {
-      throw new IllegalArgumentException(
-          "Only nodes of type HTMLDocumentImpl are currently supported. Use DocumentBuilderImpl.");
+      throw new IllegalArgumentException("Only nodes of type HTMLDocumentImpl are currently supported. Use DocumentBuilderImpl.");
     }
     HTMLDocumentImpl prevDocument = (HTMLDocumentImpl) this.rootNode;
     if (prevDocument != null) {
-      prevDocument
-          .removeDocumentNotificationListener(this.notificationListener);
+      prevDocument.removeDocumentNotificationListener(this.notificationListener);
     }
     HTMLDocumentImpl nodeImpl = (HTMLDocumentImpl) node;
     nodeImpl.addDocumentNotificationListener(this.notificationListener);
@@ -417,11 +409,9 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * @see org.lobobrowser.html.test.SimpleHtmlRendererContext
    * @see #setDocument(Document, HtmlRendererContext)
    */
-  public void setHtml(String htmlSource, String uri,
-      HtmlRendererContext rcontext) {
+  public void setHtml(String htmlSource, String uri, HtmlRendererContext rcontext) {
     try {
-      DocumentBuilderImpl builder = new DocumentBuilderImpl(
-          rcontext.getUserAgentContext(), rcontext);
+      DocumentBuilderImpl builder = new DocumentBuilderImpl(rcontext.getUserAgentContext(), rcontext);
       Reader reader = new StringReader(htmlSource);
       try {
         InputSourceImpl is = new InputSourceImpl(reader, uri);
@@ -465,8 +455,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
 
   private NodeImpl getFrameSetRootNode(NodeImpl node) {
     if (node instanceof Document) {
-      ElementImpl element = (ElementImpl) ((Document) node)
-          .getDocumentElement();
+      ElementImpl element = (ElementImpl) ((Document) node).getDocumentElement();
       if (element != null && "HTML".equalsIgnoreCase(element.getTagName())) {
         return this.getFrameSet(element);
       } else {
@@ -490,12 +479,8 @@ public class HtmlPanel extends JComponent implements FrameContext {
         // Ignore
       } else if (child instanceof ElementImpl) {
         String tagName = child.getNodeName();
-        if ("HEAD".equalsIgnoreCase(tagName)
-            || "NOFRAMES".equalsIgnoreCase(tagName)
-            || "TITLE".equalsIgnoreCase(tagName)
-            || "META".equalsIgnoreCase(tagName)
-            || "SCRIPT".equalsIgnoreCase(tagName)
-            || "NOSCRIPT".equalsIgnoreCase(tagName)) {
+        if ("HEAD".equalsIgnoreCase(tagName) || "NOFRAMES".equalsIgnoreCase(tagName) || "TITLE".equalsIgnoreCase(tagName)
+            || "META".equalsIgnoreCase(tagName) || "SCRIPT".equalsIgnoreCase(tagName) || "NOSCRIPT".equalsIgnoreCase(tagName)) {
           // ignore it
         } else if ("FRAMESET".equalsIgnoreCase(tagName)) {
           frameSet = child;
@@ -512,8 +497,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
 
   private boolean hasSomeHtml(ElementImpl element) {
     String tagName = element.getTagName();
-    if ("HEAD".equalsIgnoreCase(tagName) || "TITLE".equalsIgnoreCase(tagName)
-        || "META".equalsIgnoreCase(tagName)) {
+    if ("HEAD".equalsIgnoreCase(tagName) || "TITLE".equalsIgnoreCase(tagName) || "META".equalsIgnoreCase(tagName)) {
       return false;
     }
     NodeImpl[] children = element.getChildrenArray();
@@ -546,8 +530,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     if (block != null) {
       block.setSelectionEnd(rpoint);
       block.repaint();
-      this.selectionDispatch.fireEvent(new SelectionChangeEvent(this, block
-          .isSelectionAvailable()));
+      this.selectionDispatch.fireEvent(new SelectionChangeEvent(this, block.isSelectionAvailable()));
     }
   }
 
@@ -769,36 +752,29 @@ public class HtmlPanel extends JComponent implements FrameContext {
      * java.util.EventObject)
      */
     protected void dispatchEvent(EventListener listener, EventObject event) {
-      ((SelectionChangeListener) listener)
-          .selectionChanged((SelectionChangeEvent) event);
+      ((SelectionChangeListener) listener).selectionChanged((SelectionChangeEvent) event);
     }
   }
 
-  private class LocalDocumentNotificationListener implements
-      DocumentNotificationListener {
+  private class LocalDocumentNotificationListener implements DocumentNotificationListener {
     public void allInvalidated() {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.GENERIC, null));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.GENERIC, null));
     }
 
     public void invalidated(NodeImpl node) {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.GENERIC, node));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.GENERIC, node));
     }
 
     public void lookInvalidated(NodeImpl node) {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.LOOK, node));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.LOOK, node));
     }
 
     public void positionInvalidated(NodeImpl node) {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.POSITION, node));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.POSITION, node));
     }
 
     public void sizeInvalidated(NodeImpl node) {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.SIZE, node));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.SIZE, node));
     }
 
     public void externalScriptLoading(NodeImpl node) {
@@ -806,18 +782,15 @@ public class HtmlPanel extends JComponent implements FrameContext {
     }
 
     public void nodeLoaded(NodeImpl node) {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.GENERIC, node));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.GENERIC, node));
     }
 
     public void structureInvalidated(NodeImpl node) {
-      HtmlPanel.this.addNotification(new DocumentNotification(
-          DocumentNotification.GENERIC, node));
+      HtmlPanel.this.addNotification(new DocumentNotification(DocumentNotification.GENERIC, node));
     }
   }
 
-  private class NotificationTimerAction implements
-      java.awt.event.ActionListener {
+  private class NotificationTimerAction implements java.awt.event.ActionListener {
     public void actionPerformed(ActionEvent e) {
       HtmlPanel.this.processNotifications();
     }

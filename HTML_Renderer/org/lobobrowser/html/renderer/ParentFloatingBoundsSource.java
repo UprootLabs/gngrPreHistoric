@@ -29,8 +29,7 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
   private final int newY;
   private final FloatingBounds floatBounds;
 
-  public ParentFloatingBoundsSource(int blockShiftRight, int expectedWidth,
-      int newX, int newY, FloatingBounds floatBounds) {
+  public ParentFloatingBoundsSource(int blockShiftRight, int expectedWidth, int newX, int newY, FloatingBounds floatBounds) {
     super();
     this.blockShiftRight = blockShiftRight;
     this.expectedBlockWidth = expectedWidth;
@@ -40,10 +39,8 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
   }
 
   public FloatingBounds getChildBlockFloatingBounds(int apparentBlockWidth) {
-    int actualRightShift = this.blockShiftRight
-        + (this.expectedBlockWidth - apparentBlockWidth);
-    return new ShiftedFloatingBounds(this.floatBounds, -this.newX,
-        -actualRightShift, -this.newY);
+    int actualRightShift = this.blockShiftRight + (this.expectedBlockWidth - apparentBlockWidth);
+    return new ShiftedFloatingBounds(this.floatBounds, -this.newX, -actualRightShift, -this.newY);
   }
 
   public boolean equals(Object obj) {
@@ -52,15 +49,12 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
       return false;
     }
     ParentFloatingBoundsSource other = (ParentFloatingBoundsSource) obj;
-    return this.blockShiftRight == other.blockShiftRight
-        && this.expectedBlockWidth == other.expectedBlockWidth
-        && this.newX == other.newX && this.newY == other.newY
-        && Objects.equals(this.floatBounds, other.floatBounds);
+    return this.blockShiftRight == other.blockShiftRight && this.expectedBlockWidth == other.expectedBlockWidth && this.newX == other.newX
+        && this.newY == other.newY && Objects.equals(this.floatBounds, other.floatBounds);
 
   }
 
   public int hashCode() {
-    return this.newX ^ this.newY ^ this.blockShiftRight
-        ^ this.expectedBlockWidth;
+    return this.newX ^ this.newY ^ this.blockShiftRight ^ this.expectedBlockWidth;
   }
 }

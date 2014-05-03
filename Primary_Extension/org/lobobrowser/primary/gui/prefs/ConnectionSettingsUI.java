@@ -82,10 +82,8 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
   }
 
   private void updateEnabling() {
-    SwingTasks.setNestedEnabled(this.proxyHostArea,
-        !this.noProxyRadioButton.isSelected());
-    SwingTasks.setNestedEnabled(this.authenticationPanel,
-        this.authenticatedCheckBox.isSelected());
+    SwingTasks.setNestedEnabled(this.proxyHostArea, !this.noProxyRadioButton.isSelected());
+    SwingTasks.setNestedEnabled(this.authenticationPanel, this.authenticatedCheckBox.isSelected());
   }
 
   private Component getProxyBox() {
@@ -146,12 +144,10 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
     settings.setAuthenticated(this.authenticatedCheckBox.isSelected());
     settings.setUserName(this.userNameField.getValue());
     settings.setPassword(this.passwordField.getValue());
-    settings.setDisableProxyForLocalAddresses(this.bypassLocalCheckBox
-        .isSelected());
+    settings.setDisableProxyForLocalAddresses(this.bypassLocalCheckBox.isSelected());
     String host = this.hostField.getValue();
     if ("".equals(host) && proxyType != Proxy.Type.DIRECT) {
-      throw new ValidationException(
-          "To set up a proxy, a host name must be provided.");
+      throw new ValidationException("To set up a proxy, a host name must be provided.");
     }
     int port;
     try {
@@ -184,8 +180,7 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
     this.authenticatedCheckBox.setSelected(settings.isAuthenticated());
     this.userNameField.setValue(settings.getUserName());
     this.passwordField.setValue(settings.getPassword());
-    this.bypassLocalCheckBox.setSelected(settings
-        .isDisableProxyForLocalAddresses());
+    this.bypassLocalCheckBox.setSelected(settings.isDisableProxyForLocalAddresses());
     InetSocketAddress socketAddress = settings.getInetSocketAddress();
     if (socketAddress == null) {
       this.hostField.setValue("");

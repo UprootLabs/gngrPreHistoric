@@ -63,68 +63,54 @@ public class DirectorySource {
   }
 
   private JMenuItem getGoogleSearchMenu() {
-    return ComponentSource.menuItem("Google",
-        this.actionPool.createNavigateAction("http://google.com"));
+    return ComponentSource.menuItem("Google", this.actionPool.createNavigateAction("http://google.com"));
   }
 
   private JMenuItem getYahooSearchMenu() {
-    return ComponentSource.menuItem("Yahoo!",
-        this.actionPool.createNavigateAction("http://search.yahoo.com"));
+    return ComponentSource.menuItem("Yahoo!", this.actionPool.createNavigateAction("http://search.yahoo.com"));
   }
 
   private JMenuItem getYahooNewsMenu() {
-    return ComponentSource.menuItem("Yahoo! News",
-        this.actionPool.createNavigateAction("http://news.yahoo.com"));
+    return ComponentSource.menuItem("Yahoo! News", this.actionPool.createNavigateAction("http://news.yahoo.com"));
   }
 
   private JMenuItem getGoogleNewsMenu() {
-    return ComponentSource.menuItem("Google News",
-        this.actionPool.createNavigateAction("http://news.google.com"));
+    return ComponentSource.menuItem("Google News", this.actionPool.createNavigateAction("http://news.google.com"));
   }
 
   private JMenuItem getCnnMenu() {
-    return ComponentSource.menuItem("CNN",
-        this.actionPool.createNavigateAction("http://cnn.com"));
+    return ComponentSource.menuItem("CNN", this.actionPool.createNavigateAction("http://cnn.com"));
   }
 
   private JMenu getTechNewsMenu() {
     JMenu menu = new JMenu("Tech News");
-    menu.add(ComponentSource.menuItem("Slashdot",
-        this.actionPool.createNavigateAction("http://slashdot.org")));
-    menu.add(ComponentSource.menuItem("DZone",
-        this.actionPool.createNavigateAction("http://dzone.com")));
-    menu.add(ComponentSource.menuItem("Javalobby",
-        this.actionPool.createNavigateAction("http://javalobby.org")));
+    menu.add(ComponentSource.menuItem("Slashdot", this.actionPool.createNavigateAction("http://slashdot.org")));
+    menu.add(ComponentSource.menuItem("DZone", this.actionPool.createNavigateAction("http://dzone.com")));
+    menu.add(ComponentSource.menuItem("Javalobby", this.actionPool.createNavigateAction("http://javalobby.org")));
     return menu;
   }
 
   private JMenuItem getDiggMenu() {
-    return ComponentSource.menuItem("Digg.com",
-        this.actionPool.createNavigateAction("http://digg.com"));
+    return ComponentSource.menuItem("Digg.com", this.actionPool.createNavigateAction("http://digg.com"));
   }
 
   private JMenuItem getWikipediaMenu() {
-    return ComponentSource.menuItem("Wikipedia",
-        this.actionPool.createNavigateAction("http://wikipedia.org"));
+    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("http://wikipedia.org"));
   }
 
   private JMenuItem getWiktionaryMenu() {
-    return ComponentSource.menuItem("Wiktionary",
-        this.actionPool.createNavigateAction("http://wiktionary.org"));
+    return ComponentSource.menuItem("Wiktionary", this.actionPool.createNavigateAction("http://wiktionary.org"));
   }
 
   private JMenuItem getSourceforgeMenu() {
-    return ComponentSource.menuItem("Wikipedia",
-        this.actionPool.createNavigateAction("http://sourceforge.net"));
+    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("http://sourceforge.net"));
   }
 
   private JMenuItem getFreshmeatMenu() {
-    return ComponentSource.menuItem("Wikipedia",
-        this.actionPool.createNavigateAction("http://freshmeat.net"));
+    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("http://freshmeat.net"));
   }
 
   private JMenuItem getDownloadComMenu() {
-    return ComponentSource.menuItem("Download.com",
-        this.actionPool.createNavigateAction("http://download.com"));
+    return ComponentSource.menuItem("Download.com", this.actionPool.createNavigateAction("http://download.com"));
   }
 }

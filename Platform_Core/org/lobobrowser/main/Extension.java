@@ -85,19 +85,16 @@ public class Extension implements Comparable, NavigatorExtensionContext {
       this.jarFile = null;
       this.extId = extRoot.getName();
       File propsFile = new File(extRoot, EXTENSION_PROPERTIES_FILE);
-      propsInputStream = propsFile.exists() ? new FileInputStream(propsFile)
-          : null;
+      propsInputStream = propsFile.exists() ? new FileInputStream(propsFile) : null;
     } else {
       JarFile jarFile = new JarFile(extRoot);
-      this.isPrimary = extRoot.getName().toLowerCase()
-          .equals(PRIMARY_EXTENSION_FILE_NAME);
+      this.isPrimary = extRoot.getName().toLowerCase().equals(PRIMARY_EXTENSION_FILE_NAME);
       this.jarFile = jarFile;
       String name = extRoot.getName();
       int dotIdx = name.lastIndexOf('.');
       this.extId = dotIdx == -1 ? name : name.substring(0, dotIdx);
       JarEntry jarEntry = jarFile.getJarEntry(EXTENSION_PROPERTIES_FILE);
-      propsInputStream = jarEntry == null ? null : jarFile
-          .getInputStream(jarEntry);
+      propsInputStream = jarEntry == null ? null : jarFile.getInputStream(jarEntry);
     }
     this.isLibrary = propsInputStream == null;
     if (!this.isLibrary) {
@@ -109,9 +106,8 @@ public class Extension implements Comparable, NavigatorExtensionContext {
       }
       String extClassName = mattribs.getProperty(ATTRIBUTE_EXTENSION_CLASS);
       if (extClassName == null) {
-        throw new IOException("Property " + ATTRIBUTE_EXTENSION_CLASS
-            + " missing in " + EXTENSION_PROPERTIES_FILE + ", part of "
-            + extRoot + ".");
+        throw new IOException("Property " + ATTRIBUTE_EXTENSION_CLASS + " missing in " + EXTENSION_PROPERTIES_FILE + ", part of " + extRoot
+            + ".");
       }
       this.extClassName = extClassName;
       String priorityText = mattribs.getProperty(ATTRIBUTE_EXTENSION_PRIORITY);
@@ -151,13 +147,11 @@ public class Extension implements Comparable, NavigatorExtensionContext {
   private ClassLoader classLoader;
   private NavigatorExtension platformExtension;
 
-  public void initClassLoader(ClassLoader parentClassLoader)
-      throws java.net.MalformedURLException, ClassNotFoundException,
+  public void initClassLoader(ClassLoader parentClassLoader) throws java.net.MalformedURLException, ClassNotFoundException,
       IllegalAccessException, InstantiationException {
     URL url = this.extRoot.toURL();
     java.net.URL[] urls = new java.net.URL[] { url };
-    ExtensionClassLoader classLoader = new ExtensionClassLoader(urls,
-        parentClassLoader);
+    ExtensionClassLoader classLoader = new ExtensionClassLoader(urls, parentClassLoader);
     String extClassName = this.extClassName;
     NavigatorExtension pe = null;
     if (extClassName != null) {
@@ -253,8 +247,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
     }
   }
 
-  public Clientlet getClientlet(ClientletRequest request,
-      ClientletResponse response) {
+  public Clientlet getClientlet(ClientletRequest request, ClientletResponse response) {
     // Need to set the class loader in thread context, otherwise
     // some library classes may not be found.
     Thread currentThread = Thread.currentThread();
@@ -278,8 +271,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
     }
   }
 
-  public Clientlet getLastResortClientlet(ClientletRequest request,
-      ClientletResponse response) {
+  public Clientlet getLastResortClientlet(ClientletRequest request, ClientletResponse response) {
     Thread currentThread = Thread.currentThread();
     ClassLoader prevClassLoader = currentThread.getContextClassLoader();
     ClassLoader loader = this.classLoader;
@@ -321,8 +313,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
   public void addURLStreamHandlerFactory(URLStreamHandlerFactory factory) {
     // TODO: Since extensions are intialized in parallel,
     // this is not necessarily done in order of priority.
-    org.lobobrowser.main.PlatformStreamHandlerFactory.getInstance().addFactory(
-        factory);
+    org.lobobrowser.main.PlatformStreamHandlerFactory.getInstance().addFactory(factory);
   }
 
   public UserAgent getUserAgent() {
@@ -351,8 +342,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
   }
 
   public String toString() {
-    return "ExtensionInfo[extRoot=" + this.extRoot + ",isLibrary="
-        + this.isLibrary + "]";
+    return "ExtensionInfo[extRoot=" + this.extRoot + ",isLibrary=" + this.isLibrary + "]";
   }
 
   public void addConnectionProcessor(ConnectionProcessor processor) {
@@ -405,8 +395,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
     }
   }
 
-  void dispatchBeforeNavigate(NavigationEvent event)
-      throws NavigationVetoException {
+  void dispatchBeforeNavigate(NavigationEvent event) throws NavigationVetoException {
     // Should not be public
     Thread currentThread = Thread.currentThread();
     ClassLoader prevClassLoader = currentThread.getContextClassLoader();
@@ -431,8 +420,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
     }
   }
 
-  void dispatchBeforeLocalNavigate(NavigationEvent event)
-      throws NavigationVetoException {
+  void dispatchBeforeLocalNavigate(NavigationEvent event) throws NavigationVetoException {
     // Should not be public
     Thread currentThread = Thread.currentThread();
     ClassLoader prevClassLoader = currentThread.getContextClassLoader();
@@ -457,8 +445,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
     }
   }
 
-  void dispatchBeforeWindowOpen(NavigationEvent event)
-      throws NavigationVetoException {
+  void dispatchBeforeWindowOpen(NavigationEvent event) throws NavigationVetoException {
     // Should not be public
     Thread currentThread = Thread.currentThread();
     ClassLoader prevClassLoader = currentThread.getContextClassLoader();
@@ -520,8 +507,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
     try {
       ConnectionProcessor[] processors;
       synchronized (this) {
-        processors = this.connectionProcessors
-            .toArray(ConnectionProcessor.EMPTY_ARRAY);
+        processors = this.connectionProcessors.toArray(ConnectionProcessor.EMPTY_ARRAY);
       }
       for (int i = 0; i < processors.length; i++) {
         connection = processors[i].processPostConnection(connection);
@@ -535,8 +521,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
   private static class NavigatorErrorEventDispatch extends EventDispatch2 {
     @Override
     protected void dispatchEvent(EventListener listener, EventObject event) {
-      ((NavigatorErrorListener) listener)
-          .errorOcurred((NavigatorExceptionEvent) event);
+      ((NavigatorErrorListener) listener).errorOcurred((NavigatorExceptionEvent) event);
     }
   }
 }

@@ -39,17 +39,14 @@ class RTableCell extends RBlock {
   /**
    * @param element
    */
-  public RTableCell(HTMLTableCellElementImpl element,
-      UserAgentContext pcontext, HtmlRendererContext rcontext,
-      FrameContext frameContext, RenderableContainer tableAsContainer) {
+  public RTableCell(HTMLTableCellElementImpl element, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
+      RenderableContainer tableAsContainer) {
     super(element, 0, pcontext, rcontext, frameContext, tableAsContainer);
     this.cellElement = element;
   }
 
-  protected Dimension doCellLayout(int width, int height, boolean expandWidth,
-      boolean expandHeight, boolean sizeOnly) {
-    return this.doCellLayout(width, height, expandWidth, expandHeight,
-        sizeOnly, true);
+  protected Dimension doCellLayout(int width, int height, boolean expandWidth, boolean expandHeight, boolean sizeOnly) {
+    return this.doCellLayout(width, height, expandWidth, expandHeight, sizeOnly, true);
   }
 
   /**
@@ -60,11 +57,9 @@ class RTableCell extends RBlock {
    * @param useCache
    *          Testing parameter. Should always be true.
    */
-  protected Dimension doCellLayout(int width, int height, boolean expandWidth,
-      boolean expandHeight, boolean sizeOnly, boolean useCache) {
+  protected Dimension doCellLayout(int width, int height, boolean expandWidth, boolean expandHeight, boolean sizeOnly, boolean useCache) {
     try {
-      this.doLayout(width, height, expandWidth, expandHeight, null,
-          RenderState.OVERFLOW_NONE, RenderState.OVERFLOW_NONE, sizeOnly,
+      this.doLayout(width, height, expandWidth, expandHeight, null, RenderState.OVERFLOW_NONE, RenderState.OVERFLOW_NONE, sizeOnly,
           useCache);
       this.layout(width, height, expandWidth, expandHeight, null, sizeOnly);
       return new Dimension(this.width, this.height);
@@ -168,8 +163,7 @@ class RTableCell extends RBlock {
   //
   //
 
-  public void setCellBounds(TableMatrix.SizeInfo[] colSizes,
-      TableMatrix.SizeInfo[] rowSizes, int hasBorder, int cellSpacingX,
+  public void setCellBounds(TableMatrix.SizeInfo[] colSizes, TableMatrix.SizeInfo[] rowSizes, int hasBorder, int cellSpacingX,
       int cellSpacingY) {
     int vcol = this.getVirtualColumn();
     int vrow = this.getVirtualRow();

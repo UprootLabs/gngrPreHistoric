@@ -30,8 +30,7 @@ public class SwingTasks {
   private static final String NESTED_ENABLING = "$nested.enabling";
 
   public static void setNestedEnabled(JComponent component, boolean enabled) {
-    Boolean nestedEnabling = (Boolean) component
-        .getClientProperty(NESTED_ENABLING);
+    Boolean nestedEnabling = (Boolean) component.getClientProperty(NESTED_ENABLING);
     if (nestedEnabling == null || nestedEnabling.booleanValue() != enabled) {
       component.putClientProperty(NESTED_ENABLING, enabled);
       Container parent = component.getParent();
@@ -49,8 +48,7 @@ public class SwingTasks {
       if (child instanceof JComponent) {
         JComponent jchild = (JComponent) child;
         if (enabled) {
-          Boolean nestedEnabling = (Boolean) jchild
-              .getClientProperty(NESTED_ENABLING);
+          Boolean nestedEnabling = (Boolean) jchild.getClientProperty(NESTED_ENABLING);
           if (nestedEnabling == null || nestedEnabling.booleanValue()) {
             setEnabledRecursive(jchild, true);
           }

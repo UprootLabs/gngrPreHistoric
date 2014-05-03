@@ -115,12 +115,10 @@ class ElementFactory {
     return instance;
   }
 
-  public final HTMLElement createElement(HTMLDocumentImpl document, String name)
-      throws DOMException {
+  public final HTMLElement createElement(HTMLDocumentImpl document, String name) throws DOMException {
     String normalName = name.toUpperCase();
     // No need to synchronize; read-only map at this point.
-    HTMLElementBuilder builder = this.builders
-        .get(normalName);
+    HTMLElementBuilder builder = this.builders.get(normalName);
     if (builder == null) {
       // TODO: IE would assume name is html text here?
       HTMLElementImpl element = new HTMLElementImpl(name);

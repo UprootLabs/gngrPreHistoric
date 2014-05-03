@@ -26,8 +26,7 @@ import java.awt.*;
 import java.util.logging.*;
 
 public class ProgressBar extends JProgressBar {
-  private static final Logger logger = Logger.getLogger(ProgressBar.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ProgressBar.class.getName());
 
   public ProgressBar() {
     this.setStringPainted(true);

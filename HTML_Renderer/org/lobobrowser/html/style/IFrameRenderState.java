@@ -89,8 +89,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
     }
     binfo = super.getBorderInfo();
     if (binfo == null
-        || (binfo.topStyle == HtmlValues.BORDER_STYLE_NONE
-            && binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE
+        || (binfo.topStyle == HtmlValues.BORDER_STYLE_NONE && binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE
             && binfo.leftStyle == HtmlValues.BORDER_STYLE_NONE && binfo.rightStyle == HtmlValues.BORDER_STYLE_NONE)) {
       if (binfo == null) {
         binfo = new BorderInfo();
@@ -112,8 +111,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
           value = 1;
         }
         HtmlInsets borderInsets = new HtmlInsets();
-        borderInsets.top = borderInsets.left = borderInsets.right = borderInsets.bottom = (value != 0 ? 1
-            : 0);
+        borderInsets.top = borderInsets.left = borderInsets.right = borderInsets.bottom = (value != 0 ? 1 : 0);
         borderInsets.topType = borderInsets.leftType = borderInsets.rightType = borderInsets.bottomType = HtmlInsets.TYPE_PIXELS;
         binfo.insets = borderInsets;
         if (binfo.topColor == null) {

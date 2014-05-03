@@ -32,8 +32,7 @@ import java.util.logging.*;
 import java.net.*;
 
 public class ActionPool {
-  private static final Logger logger = Logger.getLogger(ActionPool.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ActionPool.class.getName());
   private final ComponentSource componentSource;
   private final NavigatorWindow window;
   private final Collection<EnableableAction> enableableActions;
@@ -62,8 +61,7 @@ public class ActionPool {
   public final ClonedWindowAction clonedWindowAction = new ClonedWindowAction();
   public final PreferencesAction preferencesAction = new PreferencesAction();
 
-  public ActionPool(final ComponentSource componentSource,
-      final NavigatorWindow window) {
+  public ActionPool(final ComponentSource componentSource, final NavigatorWindow window) {
     super();
     this.componentSource = componentSource;
     this.window = window;
@@ -127,11 +125,9 @@ public class ActionPool {
       }
       java.awt.Window awtWindow = window.getAwtWindow();
       if (!(awtWindow instanceof java.awt.Frame)) {
-        throw new java.lang.IllegalStateException(
-            "Bookmaks dialog only supported when an AWT Frame is available.");
+        throw new java.lang.IllegalStateException("Bookmaks dialog only supported when an AWT Frame is available.");
       }
-      AddBookmarkDialog dialog = new AddBookmarkDialog(
-          (java.awt.Frame) awtWindow, true, existingInfo);
+      AddBookmarkDialog dialog = new AddBookmarkDialog((java.awt.Frame) awtWindow, true, existingInfo);
       dialog.setTitle("Add/Edit Bookmark");
       dialog.setLocationByPlatform(true);
       // dialog.setLocationRelativeTo(window.getAwtFrame());
@@ -149,8 +145,7 @@ public class ActionPool {
   public void searchBookmarks() {
     java.awt.Window awtWindow = window.getAwtWindow();
     if (!(awtWindow instanceof java.awt.Frame)) {
-      throw new java.lang.IllegalStateException(
-          "Search dialog only supported when an AWT Frame is available.");
+      throw new java.lang.IllegalStateException("Search dialog only supported when an AWT Frame is available.");
     }
     SearchDialog dialog = new SearchDialog((java.awt.Frame) awtWindow, true,
         "Keywords will be matched against URL, title, description and tags.");
@@ -162,9 +157,7 @@ public class ActionPool {
     String keywordsText = dialog.getSearchKeywords();
     if (keywordsText != null) {
       try {
-        window.getTopFrame().navigate(
-            "about:bookmark-search?"
-                + java.net.URLEncoder.encode(keywordsText, "UTF-8"));
+        window.getTopFrame().navigate("about:bookmark-search?" + java.net.URLEncoder.encode(keywordsText, "UTF-8"));
       } catch (Exception thrown) {
         throw new IllegalStateException("not expected", thrown);
       }
@@ -174,8 +167,7 @@ public class ActionPool {
   public void showPreferences() {
     java.awt.Window awtWindow = window.getAwtWindow();
     if (!(awtWindow instanceof java.awt.Frame)) {
-      throw new java.lang.IllegalStateException(
-          "Preferences dialog only supported when an AWT Frame is available.");
+      throw new java.lang.IllegalStateException("Preferences dialog only supported when an AWT Frame is available.");
     }
     PreferencesDialog dialog = new PreferencesDialog((java.awt.Frame) awtWindow);
     dialog.setTitle("Preferences");
@@ -193,8 +185,7 @@ public class ActionPool {
     private final String urlPrefix;
     private final boolean urlEncode;
 
-    public UrlPrefixNavigateAction(final String urlPrefix,
-        final boolean urlEncode) {
+    public UrlPrefixNavigateAction(final String urlPrefix, final boolean urlEncode) {
       super();
       this.urlPrefix = urlPrefix;
       this.urlEncode = urlEncode;
@@ -203,8 +194,7 @@ public class ActionPool {
     @Override
     public void updateEnabling() {
       NavigationEntry entry = window.getCurrentNavigationEntry();
-      this.setEnabled(entry != null
-          && !entry.getUrl().toExternalForm().startsWith(this.urlPrefix));
+      this.setEnabled(entry != null && !entry.getUrl().toExternalForm().startsWith(this.urlPrefix));
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -214,8 +204,7 @@ public class ActionPool {
       }
       try {
         String roughLocation = this.urlPrefix
-            + (this.urlEncode ? URLEncoder.encode(entry.getUrl()
-                .toExternalForm(), "UTF-8") : entry.getUrl().toExternalForm());
+            + (this.urlEncode ? URLEncoder.encode(entry.getUrl().toExternalForm(), "UTF-8") : entry.getUrl().toExternalForm());
         componentSource.navigate(roughLocation, RequestType.PROGRAMMATIC);
       } catch (java.io.UnsupportedEncodingException uee) {
         // not expected - ignore
@@ -275,12 +264,10 @@ public class ActionPool {
       if (directory != null) {
         fileChooser.setSelectedFile(directory);
       }
-      int returnValue = fileChooser.showOpenDialog(window.getTopFrame()
-          .getComponent());
+      int returnValue = fileChooser.showOpenDialog(window.getTopFrame().getComponent());
       if (returnValue == JFileChooser.APPROVE_OPTION) {
         java.io.File selectedFile = fileChooser.getSelectedFile();
-        componentSource.navigate(selectedFile.toURI().toString(),
-            RequestType.PROGRAMMATIC);
+        componentSource.navigate(selectedFile.toURI().toString(), RequestType.PROGRAMMATIC);
         settings.setOpenFileDirectory(selectedFile);
         settings.save();
       }
@@ -292,8 +279,7 @@ public class ActionPool {
       String name = window.getUserAgent().getName();
       String userAgent = window.getUserAgent().getNameAndVersion();
       window.getTopFrame().alert(
-          "This is " + userAgent + ", a pure Java web browser.\r\n"
-              + "Copyright (c) 2005, 2008 The " + name + " Project.\r\n"
+          "This is " + userAgent + ", a pure Java web browser.\r\n" + "Copyright (c) 2005, 2008 The " + name + " Project.\r\n"
               + window.getUserAgent().getInfoUrl());
 
     }

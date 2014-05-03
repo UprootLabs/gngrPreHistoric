@@ -25,8 +25,7 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.html2.HTMLHtmlElement;
 
-public class HTMLHtmlElementImpl extends HTMLElementImpl implements
-    HTMLHtmlElement {
+public class HTMLHtmlElementImpl extends HTMLElementImpl implements HTMLHtmlElement {
   public HTMLHtmlElementImpl() {
     super("HTML", true);
   }

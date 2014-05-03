@@ -59,8 +59,7 @@ public class EventDispatch {
     GenericEventListener[] larray = null;
     synchronized (this) {
       if (this.listeners != null) {
-        larray = this.listeners
-            .toArray(GenericEventListener.EMPTY_ARRAY);
+        larray = this.listeners.toArray(GenericEventListener.EMPTY_ARRAY);
       }
     }
     if (larray != null) {

@@ -27,20 +27,17 @@ import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
 
 class CookieSettings implements Serializable {
-  private static final Logger logger = Logger.getLogger(CookieSettings.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(CookieSettings.class.getName());
   private static final CookieSettings instance;
   private static final long serialVersionUID = 22574500005000503L;
 
   static {
     CookieSettings ins = null;
     try {
-      ins = (CookieSettings) StorageManager.getInstance().retrieveSettings(
-          CookieSettings.class.getSimpleName(),
+      ins = (CookieSettings) StorageManager.getInstance().retrieveSettings(CookieSettings.class.getSimpleName(),
           CookieSettings.class.getClassLoader());
     } catch (Exception err) {
-      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
-          err);
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
       ins = new CookieSettings();

@@ -23,8 +23,7 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLHeadingElement;
 
-public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements
-    HTMLHeadingElement {
+public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTMLHeadingElement {
   public HTMLHeadingElementImpl(String name) {
     super(name);
   }
@@ -56,8 +55,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements
         return 8.0f;
       }
     } catch (Exception thrown) {
-      this.warn("getHeadingFontSize(): Bad heading tag: " + this.getTagName(),
-          thrown);
+      this.warn("getHeadingFontSize(): Bad heading tag: " + this.getTagName(), thrown);
     }
     return 14.0f;
   }
@@ -81,9 +79,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements
         return "7.55pt";
       }
     } catch (Exception thrown) {
-      this.warn(
-          "getHeadingFontSizeText(): Bad heading tag: " + this.getTagName(),
-          thrown);
+      this.warn("getHeadingFontSizeText(): Bad heading tag: " + this.getTagName(), thrown);
     }
     return "14px";
   }

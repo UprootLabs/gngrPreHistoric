@@ -31,8 +31,7 @@ import org.w3c.dom.html2.HTMLDocument;
 
 import org.mozilla.javascript.Function;
 
-public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements
-    HTMLBodyElement {
+public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBodyElement {
   public HTMLBodyElementImpl(String name) {
     super(name);
   }

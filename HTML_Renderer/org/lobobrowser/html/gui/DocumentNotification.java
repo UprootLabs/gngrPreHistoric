@@ -17,7 +17,6 @@ class DocumentNotification {
   }
 
   public String toString() {
-    return "DocumentNotification[type=" + this.type + ",node=" + this.node
-        + "]";
+    return "DocumentNotification[type=" + this.type + ",node=" + this.node + "]";
   }
 }

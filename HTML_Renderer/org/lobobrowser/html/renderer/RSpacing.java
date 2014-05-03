@@ -32,8 +32,7 @@ import org.lobobrowser.html.domimpl.ModelNode;
  * This is used when there's padding or margins in inline elements.
  */
 final class RSpacing extends BaseBoundableRenderable {
-  public RSpacing(ModelNode me, RenderableContainer container, int width,
-      int height) {
+  public RSpacing(ModelNode me, RenderableContainer container, int width, int height) {
     super(container, me);
     // Dimensions set when constructed.
     this.width = width;
@@ -106,8 +105,7 @@ final class RSpacing extends BaseBoundableRenderable {
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     if (this == startPoint.renderable || this == endPoint.renderable) {
       if (inSelection) {
         return false;
@@ -122,8 +120,7 @@ final class RSpacing extends BaseBoundableRenderable {
     return true;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     if (this == startPoint.renderable || this == endPoint.renderable) {
       if (inSelection) {
         return false;

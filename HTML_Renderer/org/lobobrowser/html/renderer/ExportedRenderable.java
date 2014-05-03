@@ -34,8 +34,7 @@ class ExportedRenderable {
    */
   public final int alignment;
 
-  public ExportedRenderable(final RBlockViewport originalTarget,
-      final BoundableRenderable renderable, final int x, final int y,
+  public ExportedRenderable(final RBlockViewport originalTarget, final BoundableRenderable renderable, final int x, final int y,
       final int alignment) {
     super();
     this.originalTarget = originalTarget;

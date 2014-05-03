@@ -146,8 +146,7 @@ public class WeakValueHashMap implements Map {
 
     public boolean equals(Object other) {
       Object target1 = this.get();
-      Object target2 = other instanceof LocalWeakReference ? ((LocalWeakReference) other)
-          .get() : null;
+      Object target2 = other instanceof LocalWeakReference ? ((LocalWeakReference) other).get() : null;
       return Objects.equals(target1, target2);
     }
 

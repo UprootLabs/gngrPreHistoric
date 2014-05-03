@@ -2,8 +2,7 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.html2.*;
 
-public class HTMLOptionElementImpl extends HTMLElementImpl implements
-    HTMLOptionElement {
+public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOptionElement {
   public HTMLOptionElementImpl(String name) {
     super(name, true);
   }
@@ -23,8 +22,7 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements
   public int getIndex() {
     Object parent = this.getParentNode();
     if (parent instanceof HTMLSelectElement) {
-      HTMLOptionsCollectionImpl options = (HTMLOptionsCollectionImpl) ((HTMLSelectElement) parent)
-          .getOptions();
+      HTMLOptionsCollectionImpl options = (HTMLOptionsCollectionImpl) ((HTMLSelectElement) parent).getOptions();
       return options.indexOf(this);
     } else {
       return -1;
@@ -94,7 +92,6 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements
   }
 
   public String toString() {
-    return "HTMLOptionElementImpl[text=" + this.getText() + ",selected="
-        + this.getSelected() + "]";
+    return "HTMLOptionElementImpl[text=" + this.getText() + ",selected=" + this.getSelected() + "]";
   }
 }

@@ -36,11 +36,9 @@ public class SearchEngineEditor extends AbstractItemEditor<SearchEngine> {
     this.nameField.setCaption("Name:");
     this.descriptionField.setCaption("Description:");
     this.baseUrlField.setCaption("Base URL:");
-    this.baseUrlField
-        .setToolTip("The search URL, excluding the query parameter.");
+    this.baseUrlField.setToolTip("The search URL, excluding the query parameter.");
     this.queryParameterField.setCaption("Query Parameter:");
-    this.queryParameterField
-        .setToolTip("The name of the URL query parameter that is assigned the search string.");
+    this.queryParameterField.setToolTip("The name of the URL query parameter that is assigned the search string.");
     this.formPanel.addField(this.nameField);
     this.formPanel.addField(this.descriptionField);
     this.formPanel.addField(this.baseUrlField);
@@ -51,8 +49,7 @@ public class SearchEngineEditor extends AbstractItemEditor<SearchEngine> {
 
   @Override
   public SearchEngine getItem() {
-    return new SearchEngine(this.nameField.getValue(),
-        this.descriptionField.getValue(), this.baseUrlField.getValue(),
+    return new SearchEngine(this.nameField.getValue(), this.descriptionField.getValue(), this.baseUrlField.getValue(),
         this.queryParameterField.getValue());
   }
 
@@ -67,11 +64,9 @@ public class SearchEngineEditor extends AbstractItemEditor<SearchEngine> {
 
   @Override
   public void validateItem() throws ValidationException {
-    if (Strings.isBlank(this.nameField.getValue())
-        || Strings.isBlank(this.baseUrlField.getValue())
+    if (Strings.isBlank(this.nameField.getValue()) || Strings.isBlank(this.baseUrlField.getValue())
         || Strings.isBlank(this.queryParameterField.getValue())) {
-      throw new ValidationException(
-          "Name, base URL and query parameter are required.");
+      throw new ValidationException("Name, base URL and query parameter are required.");
     }
   }
 

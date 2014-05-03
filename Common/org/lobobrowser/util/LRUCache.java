@@ -44,8 +44,7 @@ public class LRUCache implements java.io.Serializable {
     this.removalEvent = new RemovalDispatch();
   }
 
-  private void readObject(java.io.ObjectInputStream in)
-      throws java.io.IOException, ClassNotFoundException {
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     in.defaultReadObject();
     // Need to initialize transient fields here.
     this.removalEvent = new RemovalDispatch();
@@ -97,8 +96,7 @@ public class LRUCache implements java.io.Serializable {
         throw new IllegalStateException("Could not remove existing tree node.");
       }
     } else {
-      throw new IllegalStateException(
-          "Cannot remove LRU since the cache is empty.");
+      throw new IllegalStateException("Cannot remove LRU since the cache is empty.");
     }
   }
 

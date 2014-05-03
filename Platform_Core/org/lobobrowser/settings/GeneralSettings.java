@@ -32,8 +32,7 @@ import org.lobobrowser.store.StorageManager;
  * by calling {@link #getInstance()}.
  */
 public class GeneralSettings implements java.io.Serializable {
-  private static final Logger logger = Logger.getLogger(GeneralSettings.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(GeneralSettings.class.getName());
   private static final String DEFAULT_STARTUP = "http://lobobrowser.org/browser/home.jsp";
   private static final long serialVersionUID = 22574500070000402L;
   private static final GeneralSettings instance;
@@ -47,12 +46,10 @@ public class GeneralSettings implements java.io.Serializable {
   static {
     GeneralSettings ins = null;
     try {
-      ins = (GeneralSettings) StorageManager.getInstance().retrieveSettings(
-          GeneralSettings.class.getSimpleName(),
+      ins = (GeneralSettings) StorageManager.getInstance().retrieveSettings(GeneralSettings.class.getSimpleName(),
           GeneralSettings.class.getClassLoader());
     } catch (Exception err) {
-      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
-          err);
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
       ins = new GeneralSettings();
@@ -92,8 +89,7 @@ public class GeneralSettings implements java.io.Serializable {
   }
 
   public void saveChecked() throws java.io.IOException {
-    StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(),
-        this);
+    StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
   }
 
   /**
@@ -117,8 +113,7 @@ public class GeneralSettings implements java.io.Serializable {
   public java.awt.Rectangle getInitialWindowBounds() {
     java.awt.Rectangle bounds = initialWindowBounds;
     if (bounds == null) {
-      return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-          .getMaximumWindowBounds();
+      return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     }
     if (bounds.width < 100) {
       bounds.width = 100;

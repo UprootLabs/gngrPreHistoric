@@ -29,8 +29,7 @@ public class SimpleComponentContent extends AbstractComponentContent {
   private final String title;
   private final String sourceCode;
 
-  public SimpleComponentContent(Component component, String title,
-      String sourceCode) {
+  public SimpleComponentContent(Component component, String title, String sourceCode) {
     this.component = component;
     this.title = title;
     this.sourceCode = sourceCode;

@@ -36,8 +36,7 @@ public class AttrImpl extends NodeImpl implements Attr {
    * @param name
    * @param value
    */
-  public AttrImpl(String name, String value, boolean specified, Element owner,
-      boolean isId) {
+  public AttrImpl(String name, String value, boolean specified, Element owner, boolean isId) {
     super();
     this.name = name;
     this.value = value;
@@ -99,8 +98,7 @@ public class AttrImpl extends NodeImpl implements Attr {
   }
 
   public TypeInfo getSchemaTypeInfo() {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Namespaces not supported");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Namespaces not supported");
   }
 
   public boolean isId() {
@@ -112,7 +110,6 @@ public class AttrImpl extends NodeImpl implements Attr {
   }
 
   protected Node createSimilarNode() {
-    return new AttrImpl(this.name, this.value, this.specified,
-        this.ownerElement, this.isId);
+    return new AttrImpl(this.name, this.value, this.specified, this.ownerElement, this.isId);
   }
 }

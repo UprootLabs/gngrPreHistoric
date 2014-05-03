@@ -19,8 +19,7 @@ import org.lobobrowser.html.js.Executor;
 import org.mozilla.javascript.Function;
 
 class HtmlController {
-  private static final Logger logger = Logger.getLogger(HtmlController.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(HtmlController.class.getName());
   private static final HtmlController instance = new HtmlController();
 
   static HtmlController getInstance() {
@@ -47,8 +46,7 @@ class HtmlController {
    */
   public boolean onMouseClick(ModelNode node, MouseEvent event, int x, int y) {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("onMouseClick(): node=" + node + ",class="
-          + node.getClass().getName());
+      logger.info("onMouseClick(): node=" + node + ",class=" + node.getClass().getName());
     }
     if (node instanceof HTMLAbstractUIElement) {
       HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
@@ -106,8 +104,7 @@ class HtmlController {
 
   public boolean onContextMenu(ModelNode node, MouseEvent event, int x, int y) {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("onContextMenu(): node=" + node + ",class="
-          + node.getClass().getName());
+      logger.info("onContextMenu(): node=" + node + ",class=" + node.getClass().getName());
     }
     if (node instanceof HTMLAbstractUIElement) {
       HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
@@ -134,8 +131,7 @@ class HtmlController {
     return this.onContextMenu(parent, event, x, y);
   }
 
-  public void onMouseOver(ModelNode node, MouseEvent event, int x, int y,
-      ModelNode limit) {
+  public void onMouseOver(ModelNode node, MouseEvent event, int x, int y, ModelNode limit) {
     while (node != null) {
       if (node == limit) {
         break;
@@ -157,8 +153,7 @@ class HtmlController {
     }
   }
 
-  public void onMouseOut(ModelNode node, MouseEvent event, int x, int y,
-      ModelNode limit) {
+  public void onMouseOut(ModelNode node, MouseEvent event, int x, int y, ModelNode limit) {
     while (node != null) {
       if (node == limit) {
         break;
@@ -185,8 +180,7 @@ class HtmlController {
    */
   public boolean onDoubleClick(ModelNode node, MouseEvent event, int x, int y) {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("onDoubleClick(): node=" + node + ",class="
-          + node.getClass().getName());
+      logger.info("onDoubleClick(): node=" + node + ",class=" + node.getClass().getName());
     }
     if (node instanceof HTMLAbstractUIElement) {
       HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
@@ -240,8 +234,7 @@ class HtmlController {
       }
     }
     if (node instanceof HTMLLinkElementImpl) {
-      ((HTMLLinkElementImpl) node).getCurrentStyle().setOverlayColor(
-          "#9090FF80");
+      ((HTMLLinkElementImpl) node).getCurrentStyle().setOverlayColor("#9090FF80");
       return false;
     }
     if (!pass) {
@@ -315,8 +308,7 @@ class HtmlController {
       } else if (hie.isImageInput()) {
         String name = hie.getName();
         String prefix = name == null ? "" : name + ".";
-        FormInput[] extraFormInputs = new FormInput[] {
-            new FormInput(prefix + "x", String.valueOf(x)),
+        FormInput[] extraFormInputs = new FormInput[] { new FormInput(prefix + "x", String.valueOf(x)),
             new FormInput(prefix + "y", String.valueOf(y)) };
         hie.submitForm(extraFormInputs);
       } else if (hie.isResetInput()) {

@@ -28,8 +28,7 @@ import org.lobobrowser.html.js.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.html2.HTMLFrameElement;
 
-public class HTMLFrameElementImpl extends HTMLElementImpl implements
-    HTMLFrameElement, FrameNode {
+public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameElement, FrameNode {
   private volatile BrowserFrame browserFrame;
 
   public HTMLFrameElementImpl(String name, boolean noStyleSheet) {

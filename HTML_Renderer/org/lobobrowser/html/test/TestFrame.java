@@ -38,8 +38,7 @@ import org.lobobrowser.html.*;
  * A Swing frame that can be used to test the Cobra HTML rendering engine.
  */
 public class TestFrame extends JFrame {
-  private static final Logger logger = Logger.getLogger(TestFrame.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(TestFrame.class.getName());
   private final SimpleHtmlRendererContext rcontext;
   private final JTree tree;
   private final HtmlPanel htmlPanel;
@@ -81,8 +80,7 @@ public class TestFrame extends JFrame {
     panel.addSelectionChangeListener(new SelectionChangeListener() {
       public void selectionChanged(SelectionChangeEvent event) {
         if (logger.isLoggable(Level.INFO)) {
-          logger.info("selectionChanged(): selection node: "
-              + panel.getSelectionNode());
+          logger.info("selectionChanged(): selection node: " + panel.getSelectionNode());
         }
       }
     });
@@ -148,13 +146,11 @@ public class TestFrame extends JFrame {
   }
 
   private class LocalHtmlRendererContext extends SimpleHtmlRendererContext {
-    public LocalHtmlRendererContext(HtmlPanel contextComponent,
-        UserAgentContext ucontext) {
+    public LocalHtmlRendererContext(HtmlPanel contextComponent, UserAgentContext ucontext) {
       super(contextComponent, ucontext);
     }
 
-    public HtmlRendererContext open(URL url, String windowName,
-        String windowFeatures, boolean replace) {
+    public HtmlRendererContext open(URL url, String windowName, String windowFeatures, boolean replace) {
       TestFrame frame = new TestFrame("Cobra Test Tool");
       frame.setSize(600, 400);
       frame.setExtendedState(TestFrame.NORMAL);

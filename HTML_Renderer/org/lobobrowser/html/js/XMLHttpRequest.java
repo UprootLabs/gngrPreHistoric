@@ -20,15 +20,13 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   // TODO: See reference:
   // http://www.xulplanet.com/references/objref/XMLHttpRequest.html
 
-  private static final Logger logger = Logger.getLogger(XMLHttpRequest.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(XMLHttpRequest.class.getName());
   private final HttpRequest request;
   private final UserAgentContext pcontext;
   private final Scriptable scope;
   private final java.net.URL codeSource;
 
-  public XMLHttpRequest(UserAgentContext pcontext, java.net.URL codeSource,
-      Scriptable scope) {
+  public XMLHttpRequest(UserAgentContext pcontext, java.net.URL codeSource, Scriptable scope) {
     this.request = pcontext.createHttpRequest();
     this.pcontext = pcontext;
     this.scope = scope;
@@ -71,23 +69,19 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     return request.getStatusText();
   }
 
-  private URL getFullURL(String relativeUrl)
-      throws java.net.MalformedURLException {
+  private URL getFullURL(String relativeUrl) throws java.net.MalformedURLException {
     return Urls.createURL(this.codeSource, relativeUrl);
   }
 
-  public void open(String method, String url, boolean asyncFlag,
-      String userName, String password) throws java.io.IOException {
+  public void open(String method, String url, boolean asyncFlag, String userName, String password) throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag, userName, password);
   }
 
-  public void open(String method, String url, boolean asyncFlag, String userName)
-      throws java.io.IOException {
+  public void open(String method, String url, boolean asyncFlag, String userName) throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag, userName);
   }
 
-  public void open(String method, String url, boolean asyncFlag)
-      throws java.io.IOException {
+  public void open(String method, String url, boolean asyncFlag) throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag);
   }
 
@@ -112,13 +106,12 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     synchronized (this) {
       this.onreadystatechange = value;
       if (value != null && !this.listenerAdded) {
-        this.request
-            .addReadyStateChangeListener(new ReadyStateChangeListener() {
-              public void readyStateChanged() {
-                // Not called in GUI thread to ensure consistency of readyState.
-                executeReadyStateChange();
-              }
-            });
+        this.request.addReadyStateChangeListener(new ReadyStateChangeListener() {
+          public void readyStateChanged() {
+            // Not called in GUI thread to ensure consistency of readyState.
+            executeReadyStateChange();
+          }
+        });
         this.listenerAdded = true;
       }
     }
@@ -131,8 +124,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
       if (f != null) {
         Context ctx = Executor.createContext(this.codeSource, this.pcontext);
         try {
-          Scriptable newScope = (Scriptable) JavaScript.getInstance()
-              .getJavascriptObject(XMLHttpRequest.this, this.scope);
+          Scriptable newScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(XMLHttpRequest.this, this.scope);
           f.call(ctx, newScope, newScope, new Object[0]);
         } finally {
           Context.exit();

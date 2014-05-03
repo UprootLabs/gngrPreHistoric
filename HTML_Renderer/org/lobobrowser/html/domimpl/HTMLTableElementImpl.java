@@ -33,8 +33,7 @@ import org.w3c.dom.html2.HTMLTableElement;
 import org.w3c.dom.html2.HTMLTableSectionElement;
 import java.util.*;
 
-public class HTMLTableElementImpl extends HTMLAbstractUIElement implements
-    HTMLTableElement {
+public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLTableElement {
 
   public HTMLTableElementImpl() {
     super("TABLE");
@@ -75,13 +74,11 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements
   }
 
   public HTMLCollection getRows() {
-    return new DescendentHTMLCollection(this, new ElementFilter("TR"),
-        this.treeLock, false);
+    return new DescendentHTMLCollection(this, new ElementFilter("TR"), this.treeLock, false);
   }
 
   public HTMLCollection getTBodies() {
-    return new DescendentHTMLCollection(this, new ElementFilter("TBODY"),
-        this.treeLock, false);
+    return new DescendentHTMLCollection(this, new ElementFilter("TBODY"), this.treeLock, false);
   }
 
   public String getAlign() {
@@ -168,8 +165,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements
       if (heightText == null) {
         return new HtmlLength(this.getAttribute("height"));
       } else {
-        return new HtmlLength(HtmlValues.getPixelSize(heightText,
-            this.getRenderState(), 0, availHeight));
+        return new HtmlLength(HtmlValues.getPixelSize(heightText, this.getRenderState(), 0, availHeight));
       }
     } catch (Exception err) {
       return null;
@@ -188,8 +184,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements
       if (widthText == null) {
         return new HtmlLength(this.getAttribute("width"));
       } else {
-        return new HtmlLength(HtmlValues.getPixelSize(widthText,
-            this.getRenderState(), 0, availWidth));
+        return new HtmlLength(HtmlValues.getPixelSize(widthText, this.getRenderState(), 0, availWidth));
       }
     } catch (Exception err) {
       return null;

@@ -88,8 +88,7 @@ class InputCheckboxControl extends BaseInputControl {
   }
 
   public void resetInput() {
-    this.widget.setSelected(this.controlElement
-        .getAttributeAsBoolean("checked"));
+    this.widget.setSelected(this.controlElement.getAttributeAsBoolean("checked"));
   }
 
   public String getValue() {

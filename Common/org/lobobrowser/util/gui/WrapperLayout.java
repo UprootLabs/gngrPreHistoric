@@ -59,11 +59,9 @@ public class WrapperLayout implements LayoutManager {
     int count = arg0.getComponentCount();
     if (count > 0) {
       Dimension d = arg0.getComponent(0).getPreferredSize();
-      return new Dimension(d.width + insets.left + insets.right, d.height
-          + insets.top + insets.bottom);
+      return new Dimension(d.width + insets.left + insets.right, d.height + insets.top + insets.bottom);
     } else {
-      return new Dimension(insets.left + insets.right, insets.top
-          + insets.bottom);
+      return new Dimension(insets.left + insets.right, insets.top + insets.bottom);
     }
   }
 
@@ -77,11 +75,9 @@ public class WrapperLayout implements LayoutManager {
     int count = arg0.getComponentCount();
     if (count > 0) {
       Dimension d = arg0.getComponent(0).getMinimumSize();
-      return new Dimension(d.width + insets.left + insets.right, d.height
-          + insets.top + insets.bottom);
+      return new Dimension(d.width + insets.left + insets.right, d.height + insets.top + insets.bottom);
     } else {
-      return new Dimension(insets.left + insets.right, insets.top
-          + insets.bottom);
+      return new Dimension(insets.left + insets.right, insets.top + insets.bottom);
     }
   }
 
@@ -95,8 +91,7 @@ public class WrapperLayout implements LayoutManager {
     if (count > 0) {
       Component child = arg0.getComponent(0);
       java.awt.Insets insets = arg0.getInsets();
-      child.setBounds(insets.left, insets.top, arg0.getWidth() - insets.left
-          - insets.right, arg0.getHeight() - insets.top - insets.bottom);
+      child.setBounds(insets.left, insets.top, arg0.getWidth() - insets.left - insets.right, arg0.getHeight() - insets.top - insets.bottom);
     }
   }
 

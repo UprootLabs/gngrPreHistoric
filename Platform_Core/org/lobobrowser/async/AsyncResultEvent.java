@@ -33,6 +33,7 @@ import java.util.EventObject;
  * @author J. H. S.
  */
 public class AsyncResultEvent<TResult> extends EventObject {
+  private static final long serialVersionUID = -4837654436436995017L;
   private final TResult result;
 
   /**

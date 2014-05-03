@@ -31,8 +31,7 @@ import org.lobobrowser.store.StorageManager;
  * class with an instance obtained by calling {@link #getInstance()}.
  */
 public class BooleanSettings implements Serializable {
-  private static final Logger logger = Logger.getLogger(BooleanSettings.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(BooleanSettings.class.getName());
   private static final BooleanSettings instance;
   private static final long serialVersionUID = 22574500900000604L;
 
@@ -45,8 +44,7 @@ public class BooleanSettings implements Serializable {
   static {
     BooleanSettings ins = null;
     try {
-      ins = (BooleanSettings) StorageManager.getInstance().retrieveSettings(
-          BooleanSettings.class.getSimpleName(),
+      ins = (BooleanSettings) StorageManager.getInstance().retrieveSettings(BooleanSettings.class.getSimpleName(),
           BooleanSettings.class.getClassLoader());
     } catch (Exception err) {
       logger.log(Level.WARNING, "Unable to retrieve settings.", err);
@@ -78,11 +76,9 @@ public class BooleanSettings implements Serializable {
 
   public void save() {
     try {
-      StorageManager.getInstance().saveSettings(
-          this.getClass().getSimpleName(), this);
+      StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
     } catch (java.io.IOException ioe) {
-      logger.log(Level.WARNING, "Unable to save settings: "
-          + this.getClass().getSimpleName(), ioe);
+      logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
     }
   }
 

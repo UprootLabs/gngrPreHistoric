@@ -31,8 +31,7 @@ import java.util.logging.*;
 
 public class Urls {
   private static final Logger logger = Logger.getLogger(Urls.class.getName());
-  public static final DateFormat PATTERN_RFC1123 = new SimpleDateFormat(
-      "EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
+  public static final DateFormat PATTERN_RFC1123 = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
 
   static {
     DateFormat df = PATTERN_RFC1123;
@@ -78,8 +77,7 @@ public class Urls {
   /**
    * Creates an absolute URL in a manner equivalent to major browsers.
    */
-  public static URL createURL(URL baseUrl, String relativeUrl)
-      throws java.net.MalformedURLException {
+  public static URL createURL(URL baseUrl, String relativeUrl) throws java.net.MalformedURLException {
     return new URL(baseUrl, relativeUrl);
   }
 
@@ -105,9 +103,7 @@ public class Urls {
               seconds = Integer.parseInt(value);
               return new Long(baseTime + seconds * 1000);
             } catch (NumberFormatException nfe) {
-              logger
-                  .warning("getExpiration(): Bad Cache-Control max-age value: "
-                      + value);
+              logger.warning("getExpiration(): Bad Cache-Control max-age value: " + value);
               // ignore
             }
           }
@@ -127,8 +123,7 @@ public class Urls {
           seconds = Integer.parseInt(expires);
           return new Long(baseTime + seconds * 1000);
         } catch (NumberFormatException nfe) {
-          logger.warning("getExpiration(): Bad Expires header value: "
-              + expires);
+          logger.warning("getExpiration(): Bad Expires header value: " + expires);
         }
       }
     }
@@ -152,16 +147,13 @@ public class Urls {
     return headers;
   }
 
-  public static URL guessURL(URL baseURL, String spec)
-      throws MalformedURLException {
+  public static URL guessURL(URL baseURL, String spec) throws MalformedURLException {
     URL finalURL;
     try {
       if (baseURL != null) {
         int colonIdx = spec.indexOf(':');
-        String newProtocol = colonIdx == -1 ? null : spec
-            .substring(0, colonIdx);
-        if (newProtocol != null
-            && !newProtocol.equalsIgnoreCase(baseURL.getProtocol())) {
+        String newProtocol = colonIdx == -1 ? null : spec.substring(0, colonIdx);
+        if (newProtocol != null && !newProtocol.equalsIgnoreCase(baseURL.getProtocol())) {
           baseURL = null;
         }
       }
@@ -196,10 +188,8 @@ public class Urls {
         }
       }
     }
-    if (!"".equals(finalURL.getHost())
-        && finalURL.toExternalForm().indexOf(' ') != -1) {
-      throw new MalformedURLException("There are blanks in the URL: "
-          + finalURL.toExternalForm());
+    if (!"".equals(finalURL.getHost()) && finalURL.toExternalForm().indexOf(' ') != -1) {
+      throw new MalformedURLException("There are blanks in the URL: " + finalURL.toExternalForm());
     }
     return finalURL;
   }
@@ -246,10 +236,8 @@ public class Urls {
     int port = url.getPort();
     String portText = port == -1 ? "" : ":" + port;
     String userInfo = url.getUserInfo();
-    String userInfoText = userInfo == null || userInfo.length() == 0 ? ""
-        : userInfo + "@";
-    String hostPort = host == null || host.length() == 0 ? "" : "//"
-        + userInfoText + host + portText;
+    String userInfoText = userInfo == null || userInfo.length() == 0 ? "" : userInfo + "@";
+    String hostPort = host == null || host.length() == 0 ? "" : "//" + userInfoText + host + portText;
     return url.getProtocol() + ":" + hostPort + url.getFile();
   }
 
@@ -260,10 +248,8 @@ public class Urls {
    * @param url2
    */
   public static boolean sameNoRefURL(URL url1, URL url2) {
-    return Objects.equals(url1.getHost(), url2.getHost())
-        && Objects.equals(url1.getProtocol(), url2.getProtocol())
-        && url1.getPort() == url2.getPort()
-        && Objects.equals(url1.getFile(), url2.getFile())
+    return Objects.equals(url1.getHost(), url2.getHost()) && Objects.equals(url1.getProtocol(), url2.getProtocol())
+        && url1.getPort() == url2.getPort() && Objects.equals(url1.getFile(), url2.getFile())
         && Objects.equals(url1.getUserInfo(), url2.getUserInfo());
   }
 }

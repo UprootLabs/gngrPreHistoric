@@ -27,8 +27,7 @@ import java.util.logging.*;
 import org.lobobrowser.util.io.*;
 
 public class IconFactory {
-  private static final Logger logger = Logger.getLogger(IconFactory.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(IconFactory.class.getName());
   private static final IconFactory instance = new IconFactory();
 
   private IconFactory() {
@@ -47,8 +46,7 @@ public class IconFactory {
         if (icon == null) {
           InputStream in = this.getClass().getResourceAsStream(resourcePath);
           if (in == null) {
-            logger.warning("getIcon(): Resource path " + resourcePath
-                + " not found.");
+            logger.warning("getIcon(): Resource path " + resourcePath + " not found.");
             return null;
           }
           try {
@@ -62,8 +60,7 @@ public class IconFactory {
         return icon;
       }
     } catch (java.io.IOException ioe) {
-      logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath
-          + " gave error.", ioe);
+      logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath + " gave error.", ioe);
       return null;
     }
   }

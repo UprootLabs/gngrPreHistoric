@@ -35,8 +35,7 @@ import org.lobobrowser.util.io.IORoutines;
 import javax.swing.*;
 
 public class ImageClientlet implements Clientlet {
-  private static final Logger logger = Logger.getLogger(ImageClientlet.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ImageClientlet.class.getName());
 
   public ImageClientlet() {
     super();

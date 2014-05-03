@@ -55,8 +55,7 @@ import org.lobobrowser.security.*;
  * @see PlatformInit#init(boolean, boolean)
  */
 public class FramePanel extends JPanel implements NavigatorFrame {
-  private static final Logger logger = Logger.getLogger(FramePanel.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(FramePanel.class.getName());
   private final String windowId;
   private final NavigationEngine navigationEngine = new NavigationEngine();
   private final FramePanel knownParentFrame;
@@ -215,8 +214,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     }
   }
 
-  private void dispatchBeforeNavigate(final NavigationEvent event)
-      throws NavigationVetoException {
+  private void dispatchBeforeNavigate(final NavigationEvent event) throws NavigationVetoException {
     try {
       AccessController.doPrivileged(new PrivilegedAction<Object>() {
         // Reason: Dispatching an event to extensions requires permission to,
@@ -226,8 +224,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
             ExtensionManager.getInstance().dispatchBeforeNavigate(event);
             NavigationListener[] listeners;
             synchronized (this) {
-              listeners = navigationListeners
-                  .toArray(NavigationListener.EMPTY_ARRAY);
+              listeners = navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
             }
             for (int i = 0; i < listeners.length; i++) {
               listeners[i].beforeNavigate(event);
@@ -243,8 +240,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     }
   }
 
-  private void dispatchBeforeLocalNavigate(final NavigationEvent event)
-      throws NavigationVetoException {
+  private void dispatchBeforeLocalNavigate(final NavigationEvent event) throws NavigationVetoException {
     try {
       AccessController.doPrivileged(new PrivilegedAction<Object>() {
         // Reason: Dispatching an event to extensions requires permission to,
@@ -254,8 +250,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
             ExtensionManager.getInstance().dispatchBeforeLocalNavigate(event);
             NavigationListener[] listeners;
             synchronized (this) {
-              listeners = navigationListeners
-                  .toArray(NavigationListener.EMPTY_ARRAY);
+              listeners = navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
             }
             for (int i = 0; i < listeners.length; i++) {
               listeners[i].beforeLocalNavigate(event);
@@ -271,8 +266,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     }
   }
 
-  private void dispatchBeforeWindowOpen(final NavigationEvent event)
-      throws NavigationVetoException {
+  private void dispatchBeforeWindowOpen(final NavigationEvent event) throws NavigationVetoException {
     try {
       AccessController.doPrivileged(new PrivilegedAction<Object>() {
         // Reason: Dispatching an event to extensions requires permission to,
@@ -282,8 +276,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
             ExtensionManager.getInstance().dispatchBeforeWindowOpen(event);
             NavigationListener[] listeners;
             synchronized (this) {
-              listeners = navigationListeners
-                  .toArray(NavigationListener.EMPTY_ARRAY);
+              listeners = navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
             }
             for (int i = 0; i < listeners.length; i++) {
               listeners[i].beforeWindowOpen(event);
@@ -453,8 +446,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * Replaces the content of the frame. This method can be safely called outside
    * the GUI dispatch thread.
    */
-  public void replaceContent(final ClientletResponse response,
-      final ComponentContent content) {
+  public void replaceContent(final ClientletResponse response, final ComponentContent content) {
     // Method probably invoked outside GUI thread.
     if (EventQueue.isDispatchThread()) {
       this.replaceContentImpl(response, content);
@@ -520,11 +512,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     super.removeAll();
   }
 
-  protected void replaceContentImpl(final ClientletResponse response,
-      final ComponentContent content) {
+  protected void replaceContentImpl(final ClientletResponse response, final ComponentContent content) {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("replaceContentImpl(): this=" + this + ",response="
-          + response + ", content=" + content);
+      logger.info("replaceContentImpl(): this=" + this + ",response=" + response + ", content=" + content);
     }
     // Security note: Currently expected to be private.
     // Always called in GUI thread.
@@ -537,8 +527,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     if (content != null) {
       Component component = content.getComponent();
       if (component == null) {
-        throw new java.lang.IllegalStateException("Component from " + content
-            + " is null: " + response.getResponseURL() + ".");
+        throw new java.lang.IllegalStateException("Component from " + content + " is null: " + response.getResponseURL() + ".");
       }
       this.add(component);
     }
@@ -557,8 +546,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     if (response != null) {
       String title = content == null ? null : content.getTitle();
       String description = content == null ? null : content.getDescription();
-      NavigationEntry navigationEntry = NavigationEntry.fromResponse(this,
-          response, title, description);
+      NavigationEntry navigationEntry = NavigationEntry.fromResponse(this, response, title, description);
       if (response.isNewNavigationAction()) {
         synchronized (this) {
           this.navigationEngine.addNavigationEntry(navigationEntry);
@@ -630,27 +618,23 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     EventQueue.invokeLater(runnable);
   }
 
-  public final void navigate(String urlOrPath)
-      throws java.net.MalformedURLException {
+  public final void navigate(String urlOrPath) throws java.net.MalformedURLException {
     URL url = Urls.guessURL(urlOrPath);
     this.navigate(url, "GET", null, TargetType.SELF, RequestType.PROGRAMMATIC);
   }
 
-  public final void navigate(String urlOrPath, RequestType requestType)
-      throws java.net.MalformedURLException {
+  public final void navigate(String urlOrPath, RequestType requestType) throws java.net.MalformedURLException {
     URL url = Urls.guessURL(urlOrPath);
     this.navigate(url, "GET", null, TargetType.SELF, requestType);
   }
 
-  public void navigate(URL url, String method, ParameterInfo paramInfo,
-      TargetType type, RequestType requestType) {
+  public void navigate(URL url, String method, ParameterInfo paramInfo, TargetType type, RequestType requestType) {
     this.navigate(url, method, paramInfo, type, requestType, this);
   }
 
-  public void navigate(URL url, String method, ParameterInfo paramInfo,
-      TargetType type, RequestType requestType, NavigatorFrame originatingFrame) {
-    NavigationEvent event = new NavigationEvent(this, url, method, paramInfo,
-        type, requestType, originatingFrame);
+  public void navigate(URL url, String method, ParameterInfo paramInfo, TargetType type, RequestType requestType,
+      NavigatorFrame originatingFrame) {
+    NavigationEvent event = new NavigationEvent(this, url, method, paramInfo, type, requestType, originatingFrame);
     this.navigate(event);
   }
 
@@ -659,8 +643,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       this.dispatchBeforeNavigate(event);
     } catch (NavigationVetoException nve) {
       if (logger.isLoggable(Level.INFO)) {
-        logger.info("navigateLocal(): Navigation was vetoed: "
-            + nve.getMessage());
+        logger.info("navigateLocal(): Navigation was vetoed: " + nve.getMessage());
       }
       return;
     }
@@ -673,8 +656,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     case PARENT:
       NavigatorFrame parent = this.getParentFrame();
       if (parent != null) {
-        parent.navigate(url, method, paramInfo, TargetType.SELF, requestType,
-            this);
+        parent.navigate(url, method, paramInfo, TargetType.SELF, requestType, this);
       } else {
         this.navigateLocal(event);
       }
@@ -701,18 +683,13 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   protected boolean isOKToAddReferrer(RequestType requestType) {
-    return requestType == RequestType.CLICK
-        || requestType == RequestType.PROGRAMMATIC
-        || requestType == RequestType.PROGRAMMATIC_FROM_CLICK
-        || requestType == RequestType.OPEN_WINDOW
-        || requestType == RequestType.OPEN_WINDOW_FROM_CLICK
-        || requestType == RequestType.FORM;
+    return requestType == RequestType.CLICK || requestType == RequestType.PROGRAMMATIC
+        || requestType == RequestType.PROGRAMMATIC_FROM_CLICK || requestType == RequestType.OPEN_WINDOW
+        || requestType == RequestType.OPEN_WINDOW_FROM_CLICK || requestType == RequestType.FORM;
   }
 
-  private void navigateLocal(URL url, String method, RequestType requestType,
-      FramePanel originatingFrame) {
-    NavigationEvent event = new NavigationEvent(this, url, method, requestType,
-        originatingFrame);
+  private void navigateLocal(URL url, String method, RequestType requestType, FramePanel originatingFrame) {
+    NavigationEvent event = new NavigationEvent(this, url, method, requestType, originatingFrame);
     this.navigateLocal(event);
   }
 
@@ -721,8 +698,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       this.dispatchBeforeLocalNavigate(event);
     } catch (NavigationVetoException nve) {
       if (logger.isLoggable(Level.INFO)) {
-        logger.info("navigateLocal(): Navigation was vetoed: "
-            + nve.getMessage());
+        logger.info("navigateLocal(): Navigation was vetoed: " + nve.getMessage());
       }
       return;
     }
@@ -739,10 +715,8 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         referrer = entry.getUrl().toExternalForm();
       }
     }
-    ClientletRequest request = new ClientletRequestImpl(false, url, method,
-        paramInfo, null, referrer, null, requestType);
-    final RequestHandler handler = new ClientletRequestHandler(request,
-        this.getWindowCallback(), this);
+    ClientletRequest request = new ClientletRequestImpl(false, url, method, paramInfo, null, referrer, null, requestType);
+    final RequestHandler handler = new ClientletRequestHandler(request, this.getWindowCallback(), this);
     SecurityManager sm = System.getSecurityManager();
     if (sm == null) {
       RequestEngine.getInstance().scheduleRequest(handler);
@@ -764,8 +738,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * 
    * @return The top frame of the new window.
    */
-  public final NavigatorFrame open(String urlOrPath)
-      throws MalformedURLException {
+  public final NavigatorFrame open(String urlOrPath) throws MalformedURLException {
     URL url = Urls.guessURL(urlOrPath);
     return this.open(url, (Properties) null);
   }
@@ -796,8 +769,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    *          conventions.
    * @return The top frame of the new window.
    */
-  public final NavigatorFrame open(URL url, String windowId,
-      Properties windowProperties) {
+  public final NavigatorFrame open(URL url, String windowId, Properties windowProperties) {
     return this.open(url, "GET", null, windowId, windowProperties);
   }
 
@@ -821,21 +793,17 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * @return The top frame of the new window. The method may return
    *         <code>null</code> if navigation was vetoed by a listener.
    */
-  public NavigatorFrame open(java.net.URL url, String method,
-      ParameterInfo pinfo, String windowId, Properties windowProperties) {
-    NavigationEvent event = new NavigationEvent(this, url, method, pinfo,
-        TargetType.BLANK, RequestType.OPEN_WINDOW, this);
+  public NavigatorFrame open(java.net.URL url, String method, ParameterInfo pinfo, String windowId, Properties windowProperties) {
+    NavigationEvent event = new NavigationEvent(this, url, method, pinfo, TargetType.BLANK, RequestType.OPEN_WINDOW, this);
     try {
       this.dispatchBeforeWindowOpen(event);
     } catch (NavigationVetoException nve) {
       if (logger.isLoggable(Level.INFO)) {
-        logger.info("navigateLocal(): Navigation was vetoed: "
-            + nve.getMessage());
+        logger.info("navigateLocal(): Navigation was vetoed: " + nve.getMessage());
       }
       return null;
     }
-    return FramePanel.openWindow(this, url, windowId, windowProperties, method,
-        pinfo);
+    return FramePanel.openWindow(this, url, windowId, windowProperties, method, pinfo);
   }
 
   /**
@@ -858,39 +826,33 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * 
    * @return The top frame in the window that was opened.
    */
-  public static NavigatorFrame openWindow(final FramePanel opener, URL url,
-      final String windowId, final Properties windowProperties, String method,
-      ParameterInfo pinfo) {
-    ClientletRequest request = new ClientletRequestImpl(true, url, method,
-        pinfo, RequestType.OPEN_WINDOW);
-    final NavigatorWindowImpl wcontext = AccessController
-        .doPrivileged(new PrivilegedAction<NavigatorWindowImpl>() {
-          // Reason: Window creation can require special permissions at various
-          // levels, e.g. ExtensionManager access and os.version check in Swing.
-          public NavigatorWindowImpl run() {
-            return new NavigatorWindowImpl(opener, windowId, windowProperties);
-          }
-        });
+  public static NavigatorFrame openWindow(final FramePanel opener, URL url, final String windowId, final Properties windowProperties,
+      String method, ParameterInfo pinfo) {
+    ClientletRequest request = new ClientletRequestImpl(true, url, method, pinfo, RequestType.OPEN_WINDOW);
+    final NavigatorWindowImpl wcontext = AccessController.doPrivileged(new PrivilegedAction<NavigatorWindowImpl>() {
+      // Reason: Window creation can require special permissions at various
+      // levels, e.g. ExtensionManager access and os.version check in Swing.
+      public NavigatorWindowImpl run() {
+        return new NavigatorWindowImpl(opener, windowId, windowProperties);
+      }
+    });
     final FramePanel newFrame = wcontext.getFramePanel();
-    final ClientletRequestHandler handler = new ClientletRequestHandler(
-        request, wcontext, newFrame);
-    handler.evtProgress
-        .addListener(new org.lobobrowser.util.GenericEventListener() {
-          public void processEvent(java.util.EventObject event) {
-            // Assumed to execute in GUI thread.
-            NavigatorProgressEvent pe = (NavigatorProgressEvent) event;
-            if (pe == null || pe.getProgressType() == ProgressType.DONE) {
-              SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                  wcontext.resetAsNavigator(handler
-                      .getContextWindowProperties());
-                }
-              });
-              // We don't want to reset as navigator twice.
-              handler.evtProgress.removeListener(this);
+    final ClientletRequestHandler handler = new ClientletRequestHandler(request, wcontext, newFrame);
+    handler.evtProgress.addListener(new org.lobobrowser.util.GenericEventListener() {
+      public void processEvent(java.util.EventObject event) {
+        // Assumed to execute in GUI thread.
+        NavigatorProgressEvent pe = (NavigatorProgressEvent) event;
+        if (pe == null || pe.getProgressType() == ProgressType.DONE) {
+          SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+              wcontext.resetAsNavigator(handler.getContextWindowProperties());
             }
-          }
-        });
+          });
+          // We don't want to reset as navigator twice.
+          handler.evtProgress.removeListener(this);
+        }
+      }
+    });
     SecurityManager sm = System.getSecurityManager();
     if (sm == null) {
       RequestEngine.getInstance().scheduleRequest(handler);
@@ -916,8 +878,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       // Reason: We don't want an "Applet Window" message and
       // it's no big deal to allow it here.
       public String run() {
-        return JOptionPane.showInputDialog(FramePanel.this, message,
-            inputDefault);
+        return JOptionPane.showInputDialog(FramePanel.this, message, inputDefault);
       }
     });
   }
@@ -964,8 +925,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    */
   public boolean goTo(NavigationEntry entry) {
     if (!"GET".equals(entry.getMethod())) {
-      throw new IllegalArgumentException(
-          "Method only accepts entries with GET method.");
+      throw new IllegalArgumentException("Method only accepts entries with GET method.");
     }
     this.navigateToHistoryEntry(entry.getUrl());
     synchronized (this) {
@@ -1039,14 +999,11 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       String method = entry.getMethod();
       if (!"GET".equals(method)) {
         String lineBreak = System.getProperty("line.separator");
-        this.alert("Reloading a document not obtained with the GET "
-            + lineBreak + "method is disallowed for security reasons."
-            + lineBreak + "The request method of the current page is " + method
-            + ".");
+        this.alert("Reloading a document not obtained with the GET " + lineBreak + "method is disallowed for security reasons." + lineBreak
+            + "The request method of the current page is " + method + ".");
 
       } else {
-        this.navigateLocal(entry.getUrl(), entry.getMethod(),
-            RequestType.SOFT_RELOAD, this);
+        this.navigateLocal(entry.getUrl(), entry.getMethod(), RequestType.SOFT_RELOAD, this);
       }
     }
   }
@@ -1067,8 +1024,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * Creates a frame that is expected to be used as a child of the current one.
    */
   public NavigatorFrame createFrame() {
-    return FramePanelFactorySource.getInstance().getActiveFactory()
-        .createFramePanel(this);
+    return FramePanelFactorySource.getInstance().getActiveFactory().createFramePanel(this);
   }
 
   /**
@@ -1220,27 +1176,23 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   public String toString() {
-    return "FramePanel[windowId=" + windowId + ",hashCode=" + this.hashCode()
-        + ",parent=" + this.getParent() + "]";
+    return "FramePanel[windowId=" + windowId + ",hashCode=" + this.hashCode() + ",parent=" + this.getParent() + "]";
   }
 
   public void resizeWindowBy(int byWidth, int byHeight) {
     Window window = this.getWindow();
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("resizeWindowBy(): byWidth=" + byWidth + ",byHeight="
-          + byHeight + "; window=" + window);
+      logger.info("resizeWindowBy(): byWidth=" + byWidth + ",byHeight=" + byHeight + "; window=" + window);
     }
     if (window != null) {
-      window
-          .setSize(window.getWidth() + byWidth, window.getHeight() + byHeight);
+      window.setSize(window.getWidth() + byWidth, window.getHeight() + byHeight);
     }
   }
 
   public void resizeWindowTo(int width, int height) {
     Window window = this.getWindow();
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("resizeWindowTo(): width=" + width + ",height=" + height
-          + "; window=" + window);
+      logger.info("resizeWindowTo(): width=" + width + ",height=" + height + "; window=" + window);
     }
     if (window != null) {
       window.setSize(width, height);
@@ -1277,8 +1229,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   public void linkClicked(URL url, TargetType targetType, Object linkObject) {
-    NavigationEvent event = new NavigationEvent(this, url, targetType,
-        RequestType.CLICK, linkObject, this);
+    NavigationEvent event = new NavigationEvent(this, url, targetType, RequestType.CLICK, linkObject, this);
     this.navigate(event);
   }
 
@@ -1290,16 +1241,14 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   public NavigationEntry getNextNavigationEntry() {
     synchronized (this) {
-      NavigationEntry[] entries = this.navigationEngine
-          .getForwardNavigationEntries();
+      NavigationEntry[] entries = this.navigationEngine.getForwardNavigationEntries();
       return entries.length == 0 ? null : entries[0];
     }
   }
 
   public NavigationEntry getPreviousNavigationEntry() {
     synchronized (this) {
-      NavigationEntry[] entries = this.navigationEngine
-          .getBackNavigationEntries();
+      NavigationEntry[] entries = this.navigationEngine.getBackNavigationEntries();
       return entries.length == 0 ? null : entries[0];
     }
   }

@@ -41,9 +41,8 @@ public class StyleSheetRenderState implements RenderState {
   // Default font needs to be something that displays in all languages.
   // Serif, SansSerif, Monospaced.
   private static final String DEFAULT_FONT_FAMILY = "SansSerif";
-  private static final Font DEFAULT_FONT = FONT_FACTORY.getFont(
-      DEFAULT_FONT_FAMILY, null, null, null, HtmlValues.DEFAULT_FONT_SIZE,
-      null, null);
+  private static final Font DEFAULT_FONT = FONT_FACTORY.getFont(DEFAULT_FONT_FAMILY, null, null, null, HtmlValues.DEFAULT_FONT_SIZE, null,
+      null);
   protected static final HtmlInsets INVALID_INSETS = new HtmlInsets();
   protected static final BackgroundInfo INVALID_BACKGROUND_INFO = new BackgroundInfo();
   protected static final BorderInfo INVALID_BORDER_INFO = new BorderInfo();
@@ -69,8 +68,7 @@ public class StyleSheetRenderState implements RenderState {
   static {
   }
 
-  public StyleSheetRenderState(RenderState prevRenderState,
-      HTMLElementImpl element) {
+  public StyleSheetRenderState(RenderState prevRenderState, HTMLElementImpl element) {
     this.prevRenderState = prevRenderState;
     this.element = element;
     this.document = (HTMLDocumentImpl) element.getOwnerDocument();
@@ -203,12 +201,9 @@ public class StyleSheetRenderState implements RenderState {
     String newFontVariant = style == null ? null : style.getFontVariant();
     String newFontWeight = style == null ? null : style.getFontWeight();
     String verticalAlign = style == null ? null : style.getVerticalAlign();
-    boolean isSuper = verticalAlign != null
-        && verticalAlign.equalsIgnoreCase("super");
-    boolean isSub = verticalAlign != null
-        && verticalAlign.equalsIgnoreCase("sub");
-    if (newFontSize == null && newFontWeight == null && newFontStyle == null
-        && newFontFamily == null && newFontVariant == null) {
+    boolean isSuper = verticalAlign != null && verticalAlign.equalsIgnoreCase("super");
+    boolean isSub = verticalAlign != null && verticalAlign.equalsIgnoreCase("sub");
+    if (newFontSize == null && newFontWeight == null && newFontStyle == null && newFontFamily == null && newFontVariant == null) {
       if (!isSuper && !isSub) {
         if (prs != null) {
           f = prs.getFont();
@@ -272,11 +267,9 @@ public class StyleSheetRenderState implements RenderState {
       superscript = new Integer(-1);
     }
     if (superscript == null && prs != null) {
-      superscript = (Integer) prs.getFont().getAttributes()
-          .get(TextAttribute.SUPERSCRIPT);
+      superscript = (Integer) prs.getFont().getAttributes().get(TextAttribute.SUPERSCRIPT);
     }
-    f = FONT_FACTORY.getFont(fontFamily, fontStyle, fontVariant, fontWeight,
-        fontSize.floatValue(), locales, superscript);
+    f = FONT_FACTORY.getFont(fontFamily, fontStyle, fontVariant, fontWeight, fontSize.floatValue(), locales, superscript);
     this.iFont = f;
     return f;
   }
@@ -369,8 +362,7 @@ public class StyleSheetRenderState implements RenderState {
         colorValue = null;
       }
     }
-    c = colorValue == null ? null : ColorFactory.getInstance().getColor(
-        colorValue);
+    c = colorValue == null ? null : ColorFactory.getInstance().getColor(colorValue);
     this.iOverlayColor = c;
     return c;
   }
@@ -392,8 +384,7 @@ public class StyleSheetRenderState implements RenderState {
     }
     td = 0;
     if (tdText != null) {
-      StringTokenizer tok = new StringTokenizer(tdText.toLowerCase(),
-          ", \t\n\r");
+      StringTokenizer tok = new StringTokenizer(tdText.toLowerCase(), ", \t\n\r");
       while (tok.hasMoreTokens()) {
         String token = tok.nextToken();
         if ("none".equals(token)) {
@@ -628,13 +619,11 @@ public class StyleSheetRenderState implements RenderState {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
-        binfo.backgroundColor = ColorFactory.getInstance().getColor(
-            backgroundColorText);
+        binfo.backgroundColor = ColorFactory.getInstance().getColor(backgroundColorText);
       }
       String backgroundImageText = props.getBackgroundImage();
       if (backgroundImageText != null && backgroundImageText.length() > 0) {
-        java.net.URL backgroundImage = HtmlValues
-            .getURIFromStyleValue(backgroundImageText);
+        java.net.URL backgroundImage = HtmlValues.getURIFromStyleValue(backgroundImageText);
         if (backgroundImage != null) {
           if (binfo == null) {
             binfo = new BackgroundInfo();
@@ -760,13 +749,11 @@ public class StyleSheetRenderState implements RenderState {
     return mi;
   }
 
-  private void applyBackgroundHorizontalPositon(BackgroundInfo binfo,
-      String xposition) {
+  private void applyBackgroundHorizontalPositon(BackgroundInfo binfo, String xposition) {
     if (xposition.endsWith("%")) {
       binfo.backgroundXPositionAbsolute = false;
       try {
-        binfo.backgroundXPosition = (int) Double.parseDouble(xposition
-            .substring(0, xposition.length() - 1).trim());
+        binfo.backgroundXPosition = (int) Double.parseDouble(xposition.substring(0, xposition.length() - 1).trim());
       } catch (NumberFormatException nfe) {
         binfo.backgroundXPosition = 0;
       }
@@ -793,13 +780,11 @@ public class StyleSheetRenderState implements RenderState {
     }
   }
 
-  private void applyBackgroundVerticalPosition(BackgroundInfo binfo,
-      String yposition) {
+  private void applyBackgroundVerticalPosition(BackgroundInfo binfo, String yposition) {
     if (yposition.endsWith("%")) {
       binfo.backgroundYPositionAbsolute = false;
       try {
-        binfo.backgroundYPosition = (int) Double.parseDouble(yposition
-            .substring(0, yposition.length() - 1).trim());
+        binfo.backgroundYPosition = (int) Double.parseDouble(yposition.substring(0, yposition.length() - 1).trim());
       } catch (NumberFormatException nfe) {
         binfo.backgroundYPosition = 0;
       }
@@ -870,8 +855,7 @@ public class StyleSheetRenderState implements RenderState {
   // }
   // }
 
-  private void applyBackgroundRepeat(BackgroundInfo binfo,
-      String backgroundRepeatText) {
+  private void applyBackgroundRepeat(BackgroundInfo binfo, String backgroundRepeatText) {
     String brtl = backgroundRepeatText.toLowerCase();
     if ("repeat".equals(brtl)) {
       binfo.backgroundRepeat = BackgroundInfo.BR_REPEAT;
@@ -981,8 +965,7 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public String toString() {
-    return "StyleSheetRenderState[font=" + this.getFont() + ",textDecoration="
-        + this.getTextDecorationMask() + "]";
+    return "StyleSheetRenderState[font=" + this.getFont() + ",textDecoration=" + this.getTextDecorationMask() + "]";
   }
 
   protected int overflowX = -1;

@@ -31,16 +31,14 @@ import org.lobobrowser.security.*;
  * instance obtained by calling {@link #getInstance()}.
  */
 public class AssociatedSettings implements Serializable {
-  private static final Logger logger = Logger
-      .getLogger(AssociatedSettings.class.getName());
+  private static final Logger logger = Logger.getLogger(AssociatedSettings.class.getName());
   private static final AssociatedSettings instance;
   private static final long serialVersionUID = 22574500005000804L;
 
   static {
     AssociatedSettings ins = null;
     try {
-      ins = (AssociatedSettings) StorageManager.getInstance().retrieveSettings(
-          AssociatedSettings.class.getSimpleName(),
+      ins = (AssociatedSettings) StorageManager.getInstance().retrieveSettings(AssociatedSettings.class.getSimpleName(),
           AssociatedSettings.class.getClassLoader());
     } catch (Exception err) {
       logger.log(Level.WARNING, "Unable to retrieve settings.", err);
@@ -67,11 +65,9 @@ public class AssociatedSettings implements Serializable {
 
   public void save() {
     try {
-      StorageManager.getInstance().saveSettings(
-          this.getClass().getSimpleName(), this);
+      StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
     } catch (java.io.IOException ioe) {
-      logger.log(Level.WARNING, "Unable to save settings: "
-          + this.getClass().getSimpleName(), ioe);
+      logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
     }
   }
 

@@ -36,8 +36,7 @@ public class RestrictedOutputStream extends OutputStream {
   /**
 	 * 
 	 */
-  public RestrictedOutputStream(OutputStream out, QuotaSource quotaSource)
-      throws IOException {
+  public RestrictedOutputStream(OutputStream out, QuotaSource quotaSource) throws IOException {
     this.out = out;
     this.quotaSource = quotaSource;
   }

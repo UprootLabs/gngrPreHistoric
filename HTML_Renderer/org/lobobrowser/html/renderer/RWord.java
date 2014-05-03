@@ -37,12 +37,10 @@ final class RWord extends BaseBoundableRenderable {
   public final int descent;
   public final int ascentPlusLeading;
 
-  public RWord(ModelNode me, String word, RenderableContainer container,
-      FontMetrics fontMetrics, int descent, int ascentPlusLeading, int height,
-      int textTransform) {
+  public RWord(ModelNode me, String word, RenderableContainer container, FontMetrics fontMetrics, int descent, int ascentPlusLeading,
+      int height, int textTransform) {
     super(container, me);
-    String renderedWord = textTransform == RenderState.TEXTTRANSFORM_NONE ? word
-        : transformText(word, textTransform);
+    String renderedWord = textTransform == RenderState.TEXTTRANSFORM_NONE ? word : transformText(word, textTransform);
     this.shownWord = renderedWord;
     this.fontMetrics = fontMetrics;
     this.descent = descent;
@@ -57,8 +55,7 @@ final class RWord extends BaseBoundableRenderable {
     String string;
     switch (textTransform) {
     case RenderState.TEXTTRANSFORM_CAPITALIZE:
-      string = Character.toTitleCase(word.charAt(0))
-          + word.substring(1).toLowerCase();
+      string = Character.toTitleCase(word.charAt(0)) + word.substring(1).toLowerCase();
       break;
     case RenderState.TEXTTRANSFORM_LOWERCASE:
       string = word.toLowerCase();
@@ -107,8 +104,7 @@ final class RWord extends BaseBoundableRenderable {
       }
       if ((td & RenderState.MASK_TEXTDECORATION_LINE_THROUGH) != 0) {
         FontMetrics fm = this.fontMetrics;
-        int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent())
-            / 2;
+        int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent()) / 2;
         g.drawLine(0, lineOffset, width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_OVERLINE) != 0) {
@@ -132,8 +128,7 @@ final class RWord extends BaseBoundableRenderable {
     }
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     int startX = -1;
     int endX = -1;
     if (this == startPoint.renderable) {
@@ -202,8 +197,7 @@ final class RWord extends BaseBoundableRenderable {
     }
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     int startX = -1;
     int endX = -1;
     if (this == startPoint.renderable) {

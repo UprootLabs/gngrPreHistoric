@@ -45,8 +45,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    */
   public final EventDispatch evtProgress = new EventDispatch();
 
-  public ClientletRequestHandler(ClientletRequest request,
-      WindowCallback clientletUI, FramePanel frame) {
+  public ClientletRequestHandler(ClientletRequest request, WindowCallback clientletUI, FramePanel frame) {
     super(request, frame.getComponent());
     this.windowCallback = clientletUI;
     this.frame = frame;
@@ -59,8 +58,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception
    * )
    */
-  public boolean handleException(ClientletResponse response, Throwable exception)
-      throws ClientletException {
+  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
     if (this.windowCallback != null) {
       this.windowCallback.handleError(this.frame, response, exception);
       return true;
@@ -82,20 +80,16 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    * net.sourceforge.xamj.http.RequestHandler#processResponse(org.xamjwg.dom
    * .ClientletResponse)
    */
-  public void processResponse(final ClientletResponse response)
-      throws ClientletException, IOException {
+  public void processResponse(final ClientletResponse response) throws ClientletException, IOException {
     if (this.windowCallback != null) {
       this.windowCallback.handleDocumentAccess(this.frame, response);
     }
-    Clientlet clientlet = ClientletFactory.getInstance().getClientlet(
-        this.getRequest(), response);
+    Clientlet clientlet = ClientletFactory.getInstance().getClientlet(this.getRequest(), response);
     if (clientlet == null) {
-      throw new ClientletException("Unable to find clientlet for response: "
-          + response + ".");
+      throw new ClientletException("Unable to find clientlet for response: " + response + ".");
     }
     this.frame.setProgressEvent(null);
-    ClientletContext ctx = new ClientletContextImpl(this.frame, this.request,
-        response) {
+    ClientletContext ctx = new ClientletContextImpl(this.frame, this.request, response) {
       @Override
       public void setResultingContent(ComponentContent content) {
         // Frame content should be replaced as
@@ -136,10 +130,8 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     this.frame.informResponseProcessed(response);
   }
 
-  public void handleProgress(ProgressType progressType, URL url, String method,
-      int value, int max) {
-    NavigatorProgressEvent event = new NavigatorProgressEvent(this, this.frame,
-        progressType, url, method, value, max);
+  public void handleProgress(ProgressType progressType, URL url, String method, int value, int max) {
+    NavigatorProgressEvent event = new NavigatorProgressEvent(this, this.frame, progressType, url, method, value, max);
     this.evtProgress.fireEvent(event);
     this.frame.setProgressEvent(event);
   }

@@ -107,8 +107,7 @@ public class AddressField extends JComboBox {
     try {
       JComboBox<String> urlComboBox = this;
       urlComboBox.removeAllItems();
-      Collection<String> recentUrls = this.componentSource
-          .getRecentLocations(30);
+      Collection<String> recentUrls = this.componentSource.getRecentLocations(30);
       Iterator<String> i = recentUrls.iterator();
       while (i.hasNext()) {
         String matchUrl = i.next();
@@ -133,8 +132,7 @@ public class AddressField extends JComboBox {
     char releasedChar = event.getKeyChar();
     if (validPopupChar(releasedChar)) {
       String urlText = urlComboBox.getText();
-      Collection headMatches = this.componentSource.getPotentialMatches(
-          urlText, 30);
+      Collection headMatches = this.componentSource.getPotentialMatches(urlText, 30);
       if (headMatches.size() == 0) {
         if (urlComboBox.isPopupVisible()) {
           urlComboBox.hidePopup();

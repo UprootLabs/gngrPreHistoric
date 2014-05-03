@@ -82,8 +82,7 @@ public class TableRenderState extends StyleSheetRenderState {
     }
     binfo = super.getBorderInfo();
     if (binfo == null
-        || (binfo.topStyle == HtmlValues.BORDER_STYLE_NONE
-            && binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE
+        || (binfo.topStyle == HtmlValues.BORDER_STYLE_NONE && binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE
             && binfo.leftStyle == HtmlValues.BORDER_STYLE_NONE && binfo.rightStyle == HtmlValues.BORDER_STYLE_NONE)) {
       if (binfo == null) {
         binfo = new BorderInfo();
@@ -98,8 +97,7 @@ public class TableRenderState extends StyleSheetRenderState {
           if (border.endsWith("%")) {
             valueType = HtmlInsets.TYPE_PERCENT;
             try {
-              value = Integer
-                  .parseInt(border.substring(0, border.length() - 1));
+              value = Integer.parseInt(border.substring(0, border.length() - 1));
             } catch (NumberFormatException nfe) {
               value = 0;
             }

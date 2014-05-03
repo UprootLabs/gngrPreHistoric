@@ -44,8 +44,7 @@ import org.lobobrowser.html.io.*;
  * may be used directly when a different DOM implementation is preferred.
  */
 public class HtmlParser {
-  private static final Logger logger = Logger.getLogger(HtmlParser.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(HtmlParser.class.getName());
   private final Document document;
   private final UserAgentContext ucontext;
   private final ErrorHandler errorHandler;
@@ -345,38 +344,30 @@ public class HtmlParser {
 
     Map<String, ElementInfo> elementInfos = ELEMENT_INFOS;
 
-    elementInfos.put("NOSCRIPT", new ElementInfo(true,
-        ElementInfo.END_ELEMENT_REQUIRED, null, true));
+    elementInfos.put("NOSCRIPT", new ElementInfo(true, ElementInfo.END_ELEMENT_REQUIRED, null, true));
 
-    ElementInfo optionalEndElement = new ElementInfo(true,
-        ElementInfo.END_ELEMENT_OPTIONAL);
-    ElementInfo forbiddenEndElement = new ElementInfo(false,
-        ElementInfo.END_ELEMENT_FORBIDDEN);
-    ElementInfo onlyTextDE = new ElementInfo(false,
-        ElementInfo.END_ELEMENT_REQUIRED, true);
-    ElementInfo onlyText = new ElementInfo(false,
-        ElementInfo.END_ELEMENT_REQUIRED, false);
+    ElementInfo optionalEndElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL);
+    ElementInfo forbiddenEndElement = new ElementInfo(false, ElementInfo.END_ELEMENT_FORBIDDEN);
+    ElementInfo onlyTextDE = new ElementInfo(false, ElementInfo.END_ELEMENT_REQUIRED, true);
+    ElementInfo onlyText = new ElementInfo(false, ElementInfo.END_ELEMENT_REQUIRED, false);
 
     Set<String> tableCellStopElements = new HashSet<String>();
     tableCellStopElements.add("TH");
     tableCellStopElements.add("TD");
     tableCellStopElements.add("TR");
-    ElementInfo tableCellElement = new ElementInfo(true,
-        ElementInfo.END_ELEMENT_OPTIONAL, tableCellStopElements);
+    ElementInfo tableCellElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, tableCellStopElements);
 
     Set<String> headStopElements = new HashSet<String>();
     headStopElements.add("BODY");
     headStopElements.add("DIV");
     headStopElements.add("SPAN");
     headStopElements.add("TABLE");
-    ElementInfo headElement = new ElementInfo(true,
-        ElementInfo.END_ELEMENT_OPTIONAL, headStopElements);
+    ElementInfo headElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, headStopElements);
 
     Set<String> optionStopElements = new HashSet<String>();
     optionStopElements.add("OPTION");
     optionStopElements.add("SELECT");
-    ElementInfo optionElement = new ElementInfo(true,
-        ElementInfo.END_ELEMENT_OPTIONAL, optionStopElements);
+    ElementInfo optionElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, optionStopElements);
 
     Set<String> paragraphStopElements = new HashSet<String>();
     paragraphStopElements.add("P");
@@ -385,8 +376,7 @@ public class HtmlParser {
     paragraphStopElements.add("PRE");
     paragraphStopElements.add("UL");
     paragraphStopElements.add("OL");
-    ElementInfo paragraphElement = new ElementInfo(true,
-        ElementInfo.END_ELEMENT_OPTIONAL, paragraphStopElements);
+    ElementInfo paragraphElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, paragraphStopElements);
 
     // Set liStopElements = new HashSet();
     // liStopElements.add("LI");
@@ -438,8 +428,7 @@ public class HtmlParser {
    *          The system ID of the document.
    * @deprecated UserAgentContext should be passed in constructor.
    */
-  public HtmlParser(Document document, ErrorHandler errorHandler,
-      String publicId, String systemId) {
+  public HtmlParser(Document document, ErrorHandler errorHandler, String publicId, String systemId) {
     this.ucontext = null;
     this.document = document;
     this.errorHandler = errorHandler;
@@ -461,8 +450,7 @@ public class HtmlParser {
    * @param systemId
    *          The system ID of the document.
    */
-  public HtmlParser(UserAgentContext ucontext, Document document,
-      ErrorHandler errorHandler, String publicId, String systemId) {
+  public HtmlParser(UserAgentContext ucontext, Document document, ErrorHandler errorHandler, String publicId, String systemId) {
     this.ucontext = ucontext;
     this.document = document;
     this.errorHandler = errorHandler;
@@ -487,8 +475,7 @@ public class HtmlParser {
   }
 
   public static boolean isDecodeEntities(String elementName) {
-    ElementInfo einfo = ELEMENT_INFOS.get(elementName
-        .toUpperCase());
+    ElementInfo einfo = ELEMENT_INFOS.get(elementName.toUpperCase());
     return einfo == null ? true : einfo.decodeEntities;
   }
 
@@ -502,8 +489,7 @@ public class HtmlParser {
    * @throws SAXException
    *           Thrown when there are parse errors.
    */
-  public void parse(InputStream in) throws IOException, SAXException,
-      UnsupportedEncodingException {
+  public void parse(InputStream in) throws IOException, SAXException, UnsupportedEncodingException {
     this.parse(in, "ISO-8859-1");
   }
 
@@ -521,10 +507,8 @@ public class HtmlParser {
    * @throws UnsupportedEncodingException
    *           Thrown if the character set is not supported.
    */
-  public void parse(InputStream in, String charset) throws IOException,
-      SAXException, UnsupportedEncodingException {
-    WritableLineReader reader = new WritableLineReader(new InputStreamReader(
-        in, charset));
+  public void parse(InputStream in, String charset) throws IOException, SAXException, UnsupportedEncodingException {
+    WritableLineReader reader = new WritableLineReader(new InputStreamReader(in, charset));
     this.parse(reader);
   }
 
@@ -559,8 +543,7 @@ public class HtmlParser {
    * @throws IOException
    * @throws SAXException
    */
-  public void parse(Reader reader, Node parent) throws IOException,
-      SAXException {
+  public void parse(Reader reader, Node parent) throws IOException, SAXException {
     this.parse(new LineNumberReader(reader), parent);
   }
 
@@ -575,8 +558,7 @@ public class HtmlParser {
    * @throws IOException
    * @throws SAXException
    */
-  public void parse(LineNumberReader reader, Node parent) throws IOException,
-      SAXException {
+  public void parse(LineNumberReader reader, Node parent) throws IOException, SAXException {
     // Note: Parser does not clear document. It could be used incrementally.
     try {
       parent.setUserData(MODIFYING_KEY, Boolean.TRUE, null);
@@ -624,9 +606,8 @@ public class HtmlParser {
    * @throws StopException
    * @throws SAXException
    */
-  private final int parseToken(Node parent, LineNumberReader reader,
-      Set<String> stopTags, LinkedList<String> ancestors) throws IOException, StopException,
-      SAXException {
+  private final int parseToken(Node parent, LineNumberReader reader, Set<String> stopTags, LinkedList<String> ancestors)
+      throws IOException, StopException, SAXException {
     Document doc = this.document;
     StringBuffer textSb = this.readUpToTagBegin(reader);
     if (textSb == null) {
@@ -639,10 +620,8 @@ public class HtmlParser {
       try {
         parent.appendChild(textNode);
       } catch (DOMException de) {
-        if (parent.getNodeType() != Node.DOCUMENT_NODE
-            || de.code != DOMException.HIERARCHY_REQUEST_ERR) {
-          logger.log(Level.WARNING, "parseToken(): Unable to append child to "
-              + parent + ".", de);
+        if (parent.getNodeType() != Node.DOCUMENT_NODE || de.code != DOMException.HIERARCHY_REQUEST_ERR) {
+          logger.log(Level.WARNING, "parseToken(): Unable to append child to " + parent + ".", de);
         }
       }
     }
@@ -673,8 +652,7 @@ public class HtmlParser {
         } else if (tag.startsWith("?")) {
           tag = tag.substring(1);
           StringBuffer data = readProcessingInstruction(reader);
-          parent.appendChild(doc.createProcessingInstruction(tag,
-              data.toString()));
+          parent.appendChild(doc.createProcessingInstruction(tag, data.toString()));
           return TOKEN_FULL_ELEMENT;
         } else {
           Element element = doc.createElement(tag);
@@ -696,11 +674,9 @@ public class HtmlParser {
             parent.appendChild(element);
             if (!this.justReadEmptyElement) {
               ElementInfo einfo = ELEMENT_INFOS.get(normalTag);
-              int endTagType = einfo == null ? ElementInfo.END_ELEMENT_REQUIRED
-                  : einfo.endElementType;
+              int endTagType = einfo == null ? ElementInfo.END_ELEMENT_REQUIRED : einfo.endElementType;
               if (endTagType != ElementInfo.END_ELEMENT_FORBIDDEN) {
-                boolean childrenOk = einfo == null ? true
-                    : einfo.childElementOk;
+                boolean childrenOk = einfo == null ? true : einfo.childElementOk;
                 Set<String> newStopSet = einfo == null ? null : einfo.stopTags;
                 if (newStopSet == null) {
                   if (endTagType == ElementInfo.END_ELEMENT_OPTIONAL) {
@@ -714,8 +690,7 @@ public class HtmlParser {
                     newStopSet2.addAll(newStopSet);
                     newStopSet = newStopSet2;
                   } else {
-                    newStopSet = endTagType == ElementInfo.END_ELEMENT_REQUIRED ? null
-                        : stopTags;
+                    newStopSet = endTagType == ElementInfo.END_ELEMENT_REQUIRED ? null : stopTags;
                   }
                 }
                 ancestors.addFirst(normalTag);
@@ -726,26 +701,21 @@ public class HtmlParser {
                       if (einfo != null && einfo.noScriptElement) {
                         UserAgentContext ucontext = this.ucontext;
                         if (ucontext == null || ucontext.isScriptingEnabled()) {
-                          token = this.parseForEndTag(parent, reader, tag,
-                              false, einfo.decodeEntities);
+                          token = this.parseForEndTag(parent, reader, tag, false, einfo.decodeEntities);
                         } else {
-                          token = this.parseToken(element, reader, newStopSet,
-                              ancestors);
+                          token = this.parseToken(element, reader, newStopSet, ancestors);
                         }
                       } else {
-                        token = childrenOk ? this.parseToken(element, reader,
-                            newStopSet, ancestors) : this.parseForEndTag(
-                            element, reader, tag, true, einfo.decodeEntities);
+                        token = childrenOk ? this.parseToken(element, reader, newStopSet, ancestors) : this.parseForEndTag(element, reader,
+                            tag, true, einfo.decodeEntities);
                       }
                       if (token == TOKEN_END_ELEMENT) {
                         String normalLastTag = this.normalLastTag;
                         if (normalTag.equals(normalLastTag)) {
                           return TOKEN_FULL_ELEMENT;
                         } else {
-                          ElementInfo closeTagInfo = ELEMENT_INFOS
-                              .get(normalLastTag);
-                          if (closeTagInfo == null
-                              || closeTagInfo.endElementType != ElementInfo.END_ELEMENT_FORBIDDEN) {
+                          ElementInfo closeTagInfo = ELEMENT_INFOS.get(normalLastTag);
+                          if (closeTagInfo == null || closeTagInfo.endElementType != ElementInfo.END_ELEMENT_FORBIDDEN) {
                             // TODO: Rather inefficient algorithm, but it's
                             // probably executed infrequently?
                             Iterator<String> i = ancestors.iterator();
@@ -777,8 +747,7 @@ public class HtmlParser {
                         throw se;
                       }
                       einfo = ELEMENT_INFOS.get(normalTag);
-                      endTagType = einfo == null ? ElementInfo.END_ELEMENT_REQUIRED
-                          : einfo.endElementType;
+                      endTagType = einfo == null ? ElementInfo.END_ELEMENT_REQUIRED : einfo.endElementType;
                       childrenOk = einfo == null ? true : einfo.childElementOk;
                       newStopSet = einfo == null ? null : einfo.stopTags;
                       if (newStopSet == null) {
@@ -830,8 +799,7 @@ public class HtmlParser {
    * Reads text until the beginning of the next tag. Leaves the reader offset
    * past the opening angle bracket. Returns null only on EOF.
    */
-  private final StringBuffer readUpToTagBegin(LineNumberReader reader)
-      throws IOException, SAXException {
+  private final StringBuffer readUpToTagBegin(LineNumberReader reader) throws IOException, SAXException {
     StringBuffer sb = null;
     int intCh;
     while ((intCh = reader.read()) != -1) {
@@ -866,8 +834,7 @@ public class HtmlParser {
    * @return
    * @throws IOException
    */
-  private final int parseForEndTag(Node parent, LineNumberReader reader,
-      String tagName, boolean addTextNode, boolean decodeEntities)
+  private final int parseForEndTag(Node parent, LineNumberReader reader, String tagName, boolean addTextNode, boolean decodeEntities)
       throws IOException, SAXException {
     Document doc = this.document;
     int intCh;
@@ -938,8 +905,7 @@ public class HtmlParser {
    * @param reader
    * @return
    */
-  private final String readTag(Node parent, LineNumberReader reader)
-      throws IOException {
+  private final String readTag(Node parent, LineNumberReader reader) throws IOException {
     StringBuffer sb = new StringBuffer();
     int chInt;
     chInt = reader.read();
@@ -991,13 +957,8 @@ public class HtmlParser {
           try {
             parent.appendChild(textNode);
           } catch (DOMException de) {
-            if (parent.getNodeType() != Node.DOCUMENT_NODE
-                || de.code != DOMException.HIERARCHY_REQUEST_ERR) {
-              logger
-                  .log(
-                      Level.WARNING,
-                      "parseToken(): Unable to append child to " + parent + ".",
-                      de);
+            if (parent.getNodeType() != Node.DOCUMENT_NODE || de.code != DOMException.HIERARCHY_REQUEST_ERR) {
+              logger.log(Level.WARNING, "parseToken(): Unable to append child to " + parent + ".", de);
             }
           }
           if (chInt == -1) {
@@ -1022,13 +983,8 @@ public class HtmlParser {
           try {
             parent.appendChild(textNode);
           } catch (DOMException de) {
-            if (parent.getNodeType() != Node.DOCUMENT_NODE
-                || de.code != DOMException.HIERARCHY_REQUEST_ERR) {
-              logger
-                  .log(
-                      Level.WARNING,
-                      "parseToken(): Unable to append child to " + parent + ".",
-                      de);
+            if (parent.getNodeType() != Node.DOCUMENT_NODE || de.code != DOMException.HIERARCHY_REQUEST_ERR) {
+              logger.log(Level.WARNING, "parseToken(): Unable to append child to " + parent + ".", de);
             }
           }
           if (chInt == -1) {
@@ -1076,8 +1032,7 @@ public class HtmlParser {
     return tag;
   }
 
-  private final StringBuffer passEndOfComment(LineNumberReader reader)
-      throws IOException {
+  private final StringBuffer passEndOfComment(LineNumberReader reader) throws IOException {
     if (this.justReadTagEnd) {
       return new StringBuffer(0);
     }
@@ -1170,8 +1125,7 @@ public class HtmlParser {
     }
   }
 
-  private final StringBuffer readProcessingInstruction(LineNumberReader reader)
-      throws IOException {
+  private final StringBuffer readProcessingInstruction(LineNumberReader reader) throws IOException {
     StringBuffer pidata = new StringBuffer();
     if (this.justReadTagEnd) {
       return pidata;
@@ -1185,8 +1139,7 @@ public class HtmlParser {
     return pidata;
   }
 
-  private final boolean readAttribute(LineNumberReader reader, Element element)
-      throws IOException, SAXException {
+  private final boolean readAttribute(LineNumberReader reader, Element element) throws IOException, SAXException {
     if (this.justReadTagEnd) {
       return false;
     }
@@ -1303,10 +1256,8 @@ public class HtmlParser {
             // processed by major browsers.
             element.setAttribute(attributeNameStr, "");
           } else {
-            StringBuffer actualAttributeValue = this
-                .entityDecode(attributeValue);
-            element.setAttribute(attributeNameStr,
-                actualAttributeValue.toString());
+            StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+            element.setAttribute(attributeNameStr, actualAttributeValue.toString());
           }
         }
         this.justReadTagBegin = false;
@@ -1318,10 +1269,8 @@ public class HtmlParser {
           if (attributeValue == null) {
             element.setAttribute(attributeNameStr, null);
           } else {
-            StringBuffer actualAttributeValue = this
-                .entityDecode(attributeValue);
-            element.setAttribute(attributeNameStr,
-                actualAttributeValue.toString());
+            StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+            element.setAttribute(attributeNameStr, actualAttributeValue.toString());
           }
         }
         this.justReadTagBegin = false;
@@ -1335,10 +1284,8 @@ public class HtmlParser {
           if (attributeValue == null) {
             element.setAttribute(attributeNameStr, null);
           } else {
-            StringBuffer actualAttributeValue = this
-                .entityDecode(attributeValue);
-            element.setAttribute(attributeNameStr,
-                actualAttributeValue.toString());
+            StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+            element.setAttribute(attributeNameStr, actualAttributeValue.toString());
           }
         }
         this.justReadTagBegin = false;
@@ -1369,8 +1316,7 @@ public class HtmlParser {
     return false;
   }
 
-  private final StringBuffer entityDecode(StringBuffer rawText)
-      throws org.xml.sax.SAXException {
+  private final StringBuffer entityDecode(StringBuffer rawText) throws org.xml.sax.SAXException {
     int startIdx = 0;
     StringBuffer sb = null;
     for (;;) {
@@ -1423,8 +1369,7 @@ public class HtmlParser {
   }
 
   private final Locator getLocator(int lineNumber, int columnNumber) {
-    return new LocatorImpl(this.publicId, this.systemId, lineNumber,
-        columnNumber);
+    return new LocatorImpl(this.publicId, this.systemId, lineNumber, columnNumber);
   }
 
   private final int getEntityChar(String spec) {

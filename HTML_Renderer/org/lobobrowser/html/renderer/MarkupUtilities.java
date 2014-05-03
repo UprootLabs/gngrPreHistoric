@@ -49,24 +49,19 @@ class MarkupUtilities {
     super();
   }
 
-  public static BoundableRenderable findRenderable(Renderable[] renderables,
-      Point point, boolean vertical) {
+  public static BoundableRenderable findRenderable(Renderable[] renderables, Point point, boolean vertical) {
     return findRenderable(renderables, point, 0, renderables.length, vertical);
   }
 
-  public static BoundableRenderable findRenderable(Renderable[] renderables,
-      int x, int y, boolean vertical) {
+  public static BoundableRenderable findRenderable(Renderable[] renderables, int x, int y, boolean vertical) {
     return findRenderable(renderables, x, y, 0, renderables.length, vertical);
   }
 
-  private static BoundableRenderable findRenderable(Renderable[] renderables,
-      Point point, int firstIndex, int length, boolean vertical) {
-    return findRenderable(renderables, point.x, point.y, firstIndex, length,
-        vertical);
+  private static BoundableRenderable findRenderable(Renderable[] renderables, Point point, int firstIndex, int length, boolean vertical) {
+    return findRenderable(renderables, point.x, point.y, firstIndex, length, vertical);
   }
 
-  private static BoundableRenderable findRenderable(Renderable[] renderables,
-      int x, int y, int firstIndex, int length, boolean vertical) {
+  private static BoundableRenderable findRenderable(Renderable[] renderables, int x, int y, int firstIndex, int length, boolean vertical) {
     if (length == 0) {
       return null;
     }
@@ -85,52 +80,41 @@ class MarkupUtilities {
       if (r instanceof BoundableRenderable) {
         rbounds = ((BoundableRenderable) r).getBounds();
       } else {
-        BoundableRenderable rleft = findRenderable(renderables, x, y,
-            firstIndex, middleIndex - firstIndex, vertical);
+        BoundableRenderable rleft = findRenderable(renderables, x, y, firstIndex, middleIndex - firstIndex, vertical);
         if (rleft != null) {
           return rleft;
         }
-        return findRenderable(renderables, x, y, middleIndex + 1, length
-            - (middleIndex - firstIndex + 1), vertical);
+        return findRenderable(renderables, x, y, middleIndex + 1, length - (middleIndex - firstIndex + 1), vertical);
       }
       if (rbounds.contains(x, y)) {
         return (BoundableRenderable) r;
       }
       if (vertical) {
         if (y < rbounds.y) {
-          return findRenderable(renderables, x, y, firstIndex, middleIndex
-              - firstIndex, vertical);
+          return findRenderable(renderables, x, y, firstIndex, middleIndex - firstIndex, vertical);
         } else {
-          return findRenderable(renderables, x, y, middleIndex + 1, length
-              - (middleIndex - firstIndex + 1), vertical);
+          return findRenderable(renderables, x, y, middleIndex + 1, length - (middleIndex - firstIndex + 1), vertical);
         }
       } else {
         if (x < rbounds.x) {
-          return findRenderable(renderables, x, y, firstIndex, middleIndex
-              - firstIndex, vertical);
+          return findRenderable(renderables, x, y, firstIndex, middleIndex - firstIndex, vertical);
         } else {
-          return findRenderable(renderables, x, y, middleIndex + 1, length
-              - (middleIndex - firstIndex + 1), vertical);
+          return findRenderable(renderables, x, y, middleIndex + 1, length - (middleIndex - firstIndex + 1), vertical);
         }
       }
     }
   }
 
-  public static Range findRenderables(Renderable[] renderables,
-      Rectangle clipArea, boolean vertical) {
-    return findRenderables(renderables, clipArea, 0, renderables.length,
-        vertical);
+  public static Range findRenderables(Renderable[] renderables, Rectangle clipArea, boolean vertical) {
+    return findRenderables(renderables, clipArea, 0, renderables.length, vertical);
   }
 
-  private static Range findRenderables(Renderable[] renderables,
-      Rectangle clipArea, int firstIndex, int length, boolean vertical) {
+  private static Range findRenderables(Renderable[] renderables, Rectangle clipArea, int firstIndex, int length, boolean vertical) {
     if (length == 0) {
       return new Range(0, 0);
     }
-    int offset1 = findFirstIndex(renderables, clipArea, firstIndex, length,
-        vertical);
-    int offset2 = findLastIndex(renderables, clipArea, firstIndex, length,
-        vertical);
+    int offset1 = findFirstIndex(renderables, clipArea, firstIndex, length, vertical);
+    int offset2 = findLastIndex(renderables, clipArea, firstIndex, length, vertical);
     if (offset1 == -1 && offset2 == -1) {
       // if(logger.isLoggable(Level.INFO))logger.info("findRenderables(): Range not found for clipArea="
       // + clipArea + ",length=" + length);
@@ -149,8 +133,7 @@ class MarkupUtilities {
     return new Range(offset1, offset2 - offset1 + 1);
   }
 
-  private static int findFirstIndex(Renderable[] renderables,
-      Rectangle clipArea, int index, int length, boolean vertical) {
+  private static int findFirstIndex(Renderable[] renderables, Rectangle clipArea, int index, int length, boolean vertical) {
     Diagnostics.Assert(length > 0, "length=" + length);
     if (length == 1) {
       Renderable r = renderables[index];
@@ -172,23 +155,19 @@ class MarkupUtilities {
       if (r instanceof BoundableRenderable) {
         rbounds = ((BoundableRenderable) r).getBounds();
       } else {
-        int leftIndex = findFirstIndex(renderables, clipArea, index,
-            middleIndex - index, vertical);
+        int leftIndex = findFirstIndex(renderables, clipArea, index, middleIndex - index, vertical);
         if (leftIndex != -1) {
           return leftIndex;
         }
-        return findFirstIndex(renderables, clipArea, middleIndex + 1, length
-            - (middleIndex - index + 1), vertical);
+        return findFirstIndex(renderables, clipArea, middleIndex + 1, length - (middleIndex - index + 1), vertical);
       }
       if (vertical) {
         if (rbounds.y + rbounds.height < clipArea.y) {
           int newLen = length - (middleIndex - index + 1);
-          return newLen == 0 ? -1 : findFirstIndex(renderables, clipArea,
-              middleIndex + 1, newLen, vertical);
+          return newLen == 0 ? -1 : findFirstIndex(renderables, clipArea, middleIndex + 1, newLen, vertical);
         } else {
           int newLen = middleIndex - index;
-          int resultIdx = newLen == 0 ? -1 : findFirstIndex(renderables,
-              clipArea, index, newLen, vertical);
+          int resultIdx = newLen == 0 ? -1 : findFirstIndex(renderables, clipArea, index, newLen, vertical);
           if (resultIdx == -1) {
             if (intersects(clipArea, rbounds, vertical)) {
               return middleIndex;
@@ -198,11 +177,9 @@ class MarkupUtilities {
         }
       } else {
         if (rbounds.x + rbounds.width < clipArea.x) {
-          return findFirstIndex(renderables, clipArea, middleIndex + 1, length
-              - (middleIndex - index), vertical);
+          return findFirstIndex(renderables, clipArea, middleIndex + 1, length - (middleIndex - index), vertical);
         } else {
-          int resultIdx = findFirstIndex(renderables, clipArea, index,
-              middleIndex - index, vertical);
+          int resultIdx = findFirstIndex(renderables, clipArea, index, middleIndex - index, vertical);
           if (resultIdx == -1) {
             if (intersects(clipArea, rbounds, vertical)) {
               return middleIndex;
@@ -214,8 +191,7 @@ class MarkupUtilities {
     }
   }
 
-  private static int findLastIndex(Renderable[] renderables,
-      Rectangle clipArea, int index, int length, boolean vertical) {
+  private static int findLastIndex(Renderable[] renderables, Rectangle clipArea, int index, int length, boolean vertical) {
     Diagnostics.Assert(length > 0, "length<=0");
     if (length == 1) {
       Renderable r = renderables[index];
@@ -237,22 +213,18 @@ class MarkupUtilities {
       if (r instanceof BoundableRenderable) {
         rbounds = ((BoundableRenderable) r).getBounds();
       } else {
-        int rightIndex = findLastIndex(renderables, clipArea, middleIndex + 1,
-            length - (middleIndex - index + 1), vertical);
+        int rightIndex = findLastIndex(renderables, clipArea, middleIndex + 1, length - (middleIndex - index + 1), vertical);
         if (rightIndex != -1) {
           return rightIndex;
         }
-        return findLastIndex(renderables, clipArea, index, middleIndex - index,
-            vertical);
+        return findLastIndex(renderables, clipArea, index, middleIndex - index, vertical);
       }
       if (vertical) {
         if (rbounds.y > clipArea.y + clipArea.height) {
-          return findLastIndex(renderables, clipArea, index, middleIndex
-              - index, vertical);
+          return findLastIndex(renderables, clipArea, index, middleIndex - index, vertical);
         } else {
           int newLen = length - (middleIndex - index + 1);
-          int resultIdx = newLen == 0 ? -1 : findLastIndex(renderables,
-              clipArea, middleIndex + 1, newLen, vertical);
+          int resultIdx = newLen == 0 ? -1 : findLastIndex(renderables, clipArea, middleIndex + 1, newLen, vertical);
           if (resultIdx == -1) {
             if (intersects(clipArea, rbounds, vertical)) {
               return middleIndex;
@@ -262,11 +234,9 @@ class MarkupUtilities {
         }
       } else {
         if (rbounds.x > clipArea.x + clipArea.width) {
-          return findLastIndex(renderables, clipArea, index, middleIndex
-              - index, vertical);
+          return findLastIndex(renderables, clipArea, index, middleIndex - index, vertical);
         } else {
-          int resultIdx = findLastIndex(renderables, clipArea, middleIndex + 1,
-              length - (middleIndex - index + 1), vertical);
+          int resultIdx = findLastIndex(renderables, clipArea, middleIndex + 1, length - (middleIndex - index + 1), vertical);
           if (resultIdx == -1) {
             if (intersects(clipArea, rbounds, vertical)) {
               return middleIndex;
@@ -278,14 +248,11 @@ class MarkupUtilities {
     }
   }
 
-  private static boolean intersects(Rectangle rect1, Rectangle rect2,
-      boolean vertical) {
+  private static boolean intersects(Rectangle rect1, Rectangle rect2, boolean vertical) {
     if (vertical) {
-      return !((rect1.y > rect2.y + rect2.height) || (rect2.y > rect1.y
-          + rect1.height));
+      return !((rect1.y > rect2.y + rect2.height) || (rect2.y > rect1.y + rect1.height));
     } else {
-      return !((rect1.x > rect2.x + rect2.width) || (rect2.x > rect1.x
-          + rect1.width));
+      return !((rect1.x > rect2.x + rect2.width) || (rect2.x > rect1.x + rect1.width));
     }
   }
 }

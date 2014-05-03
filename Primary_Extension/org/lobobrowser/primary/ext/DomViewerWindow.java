@@ -27,8 +27,7 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
 
   public DomViewerWindow() {
     super("Lobo DOM Viewer");
-    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon()
-        .getImage());
+    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
     Container contentPane = this.getContentPane();
     this.domTree = new JTree();
     this.domTree.setRootVisible(false);
@@ -36,8 +35,7 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
     this.domTree.addTreeSelectionListener(this);
     JTextArea textArea = this.createTextArea();
     this.textArea = textArea;
-    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-        new JScrollPane(domTree), new JScrollPane(textArea));
+    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(domTree), new JScrollPane(textArea));
     contentPane.setLayout(WrapperLayout.getInstance());
     contentPane.add(splitPane);
   }
@@ -84,8 +82,7 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
     if (path != null) {
       DomTreeNode domNode = (DomTreeNode) path.getLastPathComponent();
       Node node = domNode.getNode();
-      if (node.getNodeType() == Node.TEXT_NODE
-          || node.getNodeType() == Node.COMMENT_NODE) {
+      if (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.COMMENT_NODE) {
         this.textArea.setText(node.getNodeValue());
       } else {
         this.textArea.setText("");

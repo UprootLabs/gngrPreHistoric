@@ -33,16 +33,13 @@ import org.lobobrowser.html.*;
 import org.lobobrowser.ua.*;
 
 public class BrowserFrameImpl implements BrowserFrame {
-  private static final Logger logger = Logger.getLogger(BrowserFrameImpl.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(BrowserFrameImpl.class.getName());
   private final NavigatorFrame frame;
   private final HtmlRendererContextImpl rcontext;
 
-  public BrowserFrameImpl(NavigatorFrame frame,
-      HtmlRendererContext parentrcontext) {
+  public BrowserFrameImpl(NavigatorFrame frame, HtmlRendererContext parentrcontext) {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("BrowserFrameImpl(): frame=" + frame + ",parentrcontext="
-          + parentrcontext);
+      logger.info("BrowserFrameImpl(): frame=" + frame + ",parentrcontext=" + parentrcontext);
     }
     this.frame = frame;
     this.rcontext = HtmlRendererContextImpl.getHtmlRendererContext(frame);

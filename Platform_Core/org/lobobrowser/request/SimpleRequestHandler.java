@@ -36,13 +36,11 @@ import org.lobobrowser.ua.*;
  * @author J. H. S.
  */
 public abstract class SimpleRequestHandler implements RequestHandler {
-  private static final Logger logger = Logger
-      .getLogger(SimpleRequestHandler.class.getName());
+  private static final Logger logger = Logger.getLogger(SimpleRequestHandler.class.getName());
   private final ClientletRequest request;
   private final RequestType requestType;
 
-  public SimpleRequestHandler(boolean forNewWindow, URL url,
-      RequestType requestType) {
+  public SimpleRequestHandler(boolean forNewWindow, URL url, RequestType requestType) {
     this.requestType = requestType;
     this.request = new ClientletRequestImpl(forNewWindow, url, requestType);
   }
@@ -52,11 +50,9 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     this.request = new ClientletRequestImpl(url, requestType);
   }
 
-  public SimpleRequestHandler(URL url, String method, String altPostData,
-      RequestType requestType) {
+  public SimpleRequestHandler(URL url, String method, String altPostData, RequestType requestType) {
     this.requestType = requestType;
-    this.request = new ClientletRequestImpl(url, method, altPostData,
-        requestType);
+    this.request = new ClientletRequestImpl(url, method, altPostData, requestType);
   }
 
   public boolean isNewNavigationEntry() {
@@ -83,15 +79,12 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     return this.request;
   }
 
-  public void handleProgress(ProgressType progressType, URL url, String method,
-      int value, int max) {
+  public void handleProgress(ProgressType progressType, URL url, String method, int value, int max) {
     // nop
   }
 
-  public boolean handleException(ClientletResponse response, Throwable exception)
-      throws ClientletException {
-    logger.log(Level.WARNING, "handleException(): Error processing response=["
-        + response + "]", exception);
+  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+    logger.log(Level.WARNING, "handleException(): Error processing response=[" + response + "]", exception);
     return true;
   }
 

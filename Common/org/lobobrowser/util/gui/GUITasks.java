@@ -36,8 +36,7 @@ public class GUITasks {
     return null;
   }
 
-  public static void drawDashed(Graphics g, int x1, int y1, int x2, int y2,
-      int dashSize, int gapSize) {
+  public static void drawDashed(Graphics g, int x1, int y1, int x2, int y2, int dashSize, int gapSize) {
     if (x2 < x1) {
       int temp = x1;
       x1 = x2;

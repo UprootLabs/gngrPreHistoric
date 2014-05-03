@@ -7,8 +7,7 @@ import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.html2.HTMLIFrameElement;
 
-public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements
-    HTMLIFrameElement, FrameNode {
+public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTMLIFrameElement, FrameNode {
   private volatile BrowserFrame browserFrame;
 
   public HTMLIFrameElementImpl(String name) {

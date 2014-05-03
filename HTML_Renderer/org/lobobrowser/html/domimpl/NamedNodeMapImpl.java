@@ -28,8 +28,7 @@ import org.w3c.dom.*;
 
 import java.util.*;
 
-public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
-    NamedNodeMap {
+public class NamedNodeMapImpl extends AbstractScriptableDelegate implements NamedNodeMap {
   // Note: class must be public for reflection to work.
   private final Map<String, Node> attributes = new HashMap<String, Node>();
   private final ArrayList<Node> attributeList = new ArrayList<Node>();
@@ -63,10 +62,8 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
     return this.getNamedItem(name);
   }
 
-  public Node getNamedItemNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "No namespace support");
+  public Node getNamedItemNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
   }
 
   public Node item(int index) {
@@ -81,10 +78,8 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
     return this.attributes.remove(name);
   }
 
-  public Node removeNamedItemNS(String namespaceURI, String localName)
-      throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "No namespace support");
+  public Node removeNamedItemNS(String namespaceURI, String localName) throws DOMException {
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
   }
 
   public Node setNamedItem(Node arg) throws DOMException {
@@ -97,7 +92,6 @@ public class NamedNodeMapImpl extends AbstractScriptableDelegate implements
   }
 
   public Node setNamedItemNS(Node arg) throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "No namespace support");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "No namespace support");
   }
 }

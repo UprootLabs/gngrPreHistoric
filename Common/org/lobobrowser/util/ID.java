@@ -47,8 +47,7 @@ public class ID {
     try {
       InetAddress inetAddress;
       inetAddress = InetAddress.getLocalHost();
-      addressHashCode = inetAddress.getHostName().hashCode()
-          ^ inetAddress.getHostAddress().hashCode();
+      addressHashCode = inetAddress.getHostName().hashCode() ^ inetAddress.getHostAddress().hashCode();
     } catch (Exception err) {
       logger.log(Level.WARNING, "Unable to get local host information.", err);
       addressHashCode = ID.class.hashCode();
@@ -63,8 +62,7 @@ public class ID {
   }
 
   public static long generateLong() {
-    return Math.abs(RANDOM1.nextLong() ^ RANDOM2.nextLong()
-        ^ RANDOM3.nextLong());
+    return Math.abs(RANDOM1.nextLong() ^ RANDOM2.nextLong() ^ RANDOM3.nextLong());
   }
 
   public static int generateInt() {

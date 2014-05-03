@@ -28,8 +28,7 @@ import java.util.logging.*;
 import org.lobobrowser.html.FormInput;
 import org.w3c.dom.html2.*;
 
-public class HTMLInputElementImpl extends HTMLBaseInputElement implements
-    HTMLInputElement {
+public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLInputElement {
   public HTMLInputElementImpl(String name) {
     super(name);
   }
@@ -121,8 +120,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements
 
   public boolean isSubmittableWithEnterKey() {
     String type = this.getType();
-    return (type == null || "".equals(type) || "text".equals(type) || "password"
-        .equals(type));
+    return (type == null || "".equals(type) || "text".equals(type) || "password".equals(type));
   }
 
   public boolean isSubmittableWithPress() {
@@ -161,8 +159,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements
     if (type == null) {
       return new FormInput[] { new FormInput(name, this.getValue()) };
     } else {
-      if ("text".equals(type) || "password".equals(type)
-          || "hidden".equals(type) || "".equals(type)) {
+      if ("text".equals(type) || "password".equals(type) || "hidden".equals(type) || "".equals(type)) {
         return new FormInput[] { new FormInput(name, this.getValue()) };
       } else if ("submit".equals(type)) {
         // It's done as an "extra" form input
@@ -184,8 +181,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements
         java.io.File file = this.getFileValue();
         if (file == null) {
           if (logger.isLoggable(Level.INFO)) {
-            logger.info("getFormInputs(): File input named " + name
-                + " has null file.");
+            logger.info("getFormInputs(): File input named " + name + " has null file.");
           }
           return null;
         } else {

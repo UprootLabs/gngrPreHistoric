@@ -26,8 +26,7 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLUListElement;
 
-public class HTMLUListElementImpl extends HTMLAbstractUIElement implements
-    HTMLUListElement {
+public class HTMLUListElementImpl extends HTMLAbstractUIElement implements HTMLUListElement {
   public HTMLUListElementImpl(String name) {
     super(name);
   }

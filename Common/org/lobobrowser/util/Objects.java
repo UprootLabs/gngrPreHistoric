@@ -38,10 +38,8 @@ public class Objects {
   }
 
   public static boolean isBoxClass(Class clazz) {
-    return clazz == Integer.class || clazz == Boolean.class
-        || clazz == Double.class || clazz == Float.class || clazz == Long.class
-        || clazz == Byte.class || clazz == Short.class
-        || clazz == Character.class;
+    return clazz == Integer.class || clazz == Boolean.class || clazz == Double.class || clazz == Float.class || clazz == Long.class
+        || clazz == Byte.class || clazz == Short.class || clazz == Character.class;
   }
 
   public static boolean areAssignableTo(Object[] objects, Class[] types) {
@@ -62,14 +60,10 @@ public class Objects {
       return true;
     }
     if (clazz.isPrimitive()) {
-      if ((clazz == double.class && value instanceof Double)
-          || (clazz == int.class && value instanceof Integer)
-          || (clazz == long.class && value instanceof Long)
-          || (clazz == boolean.class && value instanceof Boolean)
-          || (clazz == byte.class && value instanceof Byte)
-          || (clazz == char.class && value instanceof Character)
-          || (clazz == short.class && value instanceof Short)
-          || (clazz == float.class && value instanceof Float)) {
+      if ((clazz == double.class && value instanceof Double) || (clazz == int.class && value instanceof Integer)
+          || (clazz == long.class && value instanceof Long) || (clazz == boolean.class && value instanceof Boolean)
+          || (clazz == byte.class && value instanceof Byte) || (clazz == char.class && value instanceof Character)
+          || (clazz == short.class && value instanceof Short) || (clazz == float.class && value instanceof Float)) {
         return true;
       }
     }
@@ -84,8 +78,7 @@ public class Objects {
 
   private static boolean isNumeric(Class<? extends Object> clazz) {
     return Number.class.isAssignableFrom(clazz)
-        || (clazz.isPrimitive() && (clazz == int.class || clazz == double.class
-            || clazz == byte.class || clazz == short.class
+        || (clazz.isPrimitive() && (clazz == int.class || clazz == double.class || clazz == byte.class || clazz == short.class
             || clazz == float.class || clazz == long.class));
   }
 

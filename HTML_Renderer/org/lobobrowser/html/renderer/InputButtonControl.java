@@ -44,8 +44,7 @@ class InputButtonControl extends BaseInputControl {
     this.add(widget);
     widget.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        HtmlController.getInstance().onPressed(
-            InputButtonControl.this.controlElement, null, 0, 0);
+        HtmlController.getInstance().onPressed(InputButtonControl.this.controlElement, null, 0, 0);
       }
     });
   }

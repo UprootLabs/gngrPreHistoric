@@ -24,8 +24,7 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLDivElement;
 
-public class HTMLDivElementImpl extends HTMLAbstractUIElement implements
-    HTMLDivElement {
+public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDivElement {
 
   public HTMLDivElementImpl(String name) {
     super(name);

@@ -8,8 +8,7 @@ import java.net.*;
 import java.util.logging.*;
 
 public class Location extends AbstractScriptableDelegate {
-  private static final Logger logger = Logger.getLogger(Location.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(Location.class.getName());
   private final Window window;
 
   Location(final Window window) {
@@ -106,8 +105,7 @@ public class Location extends AbstractScriptableDelegate {
         }
         rcontext.navigate(url, this.target);
       } catch (java.net.MalformedURLException mfu) {
-        logger.log(Level.WARNING, "setHref(): Malformed location: [" + uri
-            + "].", mfu);
+        logger.log(Level.WARNING, "setHref(): Malformed location: [" + uri + "].", mfu);
       }
     }
   }

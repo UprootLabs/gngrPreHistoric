@@ -31,13 +31,11 @@ import java.io.*;
 public class IORoutines {
   public static final byte[] LINE_BREAK_BYTES = { (byte) 13, (byte) 10 };
 
-  public static String loadAsText(InputStream in, String encoding)
-      throws IOException {
+  public static String loadAsText(InputStream in, String encoding) throws IOException {
     return loadAsText(in, encoding, 4096);
   }
 
-  public static String loadAsText(InputStream in, String encoding,
-      int bufferSize) throws IOException {
+  public static String loadAsText(InputStream in, String encoding, int bufferSize) throws IOException {
     InputStreamReader reader = new InputStreamReader(in, encoding);
     char[] buffer = new char[bufferSize];
     int offset = 0;
@@ -75,8 +73,7 @@ public class IORoutines {
     return load(in, 4096);
   }
 
-  public static byte[] load(InputStream in, int initialBufferSize)
-      throws IOException {
+  public static byte[] load(InputStream in, int initialBufferSize) throws IOException {
     if (initialBufferSize == 0) {
       initialBufferSize = 1;
     }
@@ -115,16 +112,14 @@ public class IORoutines {
       }
       int numRead = in.read(buffer, offset, remain);
       if (numRead == -1) {
-        throw new IOException("Reached EOF, read " + offset + " expecting "
-            + length);
+        throw new IOException("Reached EOF, read " + offset + " expecting " + length);
       }
       offset += numRead;
     }
     return buffer;
   }
 
-  public static boolean equalContent(File file, byte[] content)
-      throws IOException {
+  public static boolean equalContent(File file, byte[] content) throws IOException {
     long length = file.length();
     if (length > Integer.MAX_VALUE) {
       throw new IOException("File '" + file + "' too big");
@@ -174,10 +169,8 @@ public class IORoutines {
     file.setLastModified(System.currentTimeMillis());
   }
 
-  public static void saveStrings(File file, java.util.Collection list)
-      throws IOException {
-    BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
-        file));
+  public static void saveStrings(File file, java.util.Collection list) throws IOException {
+    BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(file));
     try {
       PrintWriter writer = new PrintWriter(bout);
       java.util.Iterator i = list.iterator();

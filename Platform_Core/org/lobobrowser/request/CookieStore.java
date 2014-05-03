@@ -44,8 +44,7 @@ public class CookieStore {
   private static final DateFormat EXPIRES_FORMAT_BAK2;
   private static final CookieStore instance = new CookieStore();
 
-  private static final Logger logger = Logger.getLogger(CookieStore.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(CookieStore.class.getName());
 
   private final Map<String, Map<String, CookieValue>> transientMapByHost = new HashMap<String, Map<String, CookieValue>>();
 
@@ -53,12 +52,9 @@ public class CookieStore {
     // Note: Using yy in case years are given as two digits.
     // Note: Must use US locale for cookie dates.
     Locale locale = Locale.US;
-    SimpleDateFormat ef1 = new SimpleDateFormat(
-        "EEE, dd MMM yy HH:mm:ss 'GMT'", locale);
-    SimpleDateFormat ef2 = new SimpleDateFormat(
-        "EEE, dd-MMM-yy HH:mm:ss 'GMT'", locale);
-    SimpleDateFormat ef3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss yy 'GMT'",
-        locale);
+    SimpleDateFormat ef1 = new SimpleDateFormat("EEE, dd MMM yy HH:mm:ss 'GMT'", locale);
+    SimpleDateFormat ef2 = new SimpleDateFormat("EEE, dd-MMM-yy HH:mm:ss 'GMT'", locale);
+    SimpleDateFormat ef3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss yy 'GMT'", locale);
     TimeZone gmtTimeZone = TimeZone.getTimeZone("GMT");
     ef1.setTimeZone(gmtTimeZone);
     ef2.setTimeZone(gmtTimeZone);
@@ -82,8 +78,7 @@ public class CookieStore {
   public void saveCookie(String urlHostName, String cookieSpec) {
     // TODO: SECURITY
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=["
-          + cookieSpec + "]");
+      logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
     }
     StringTokenizer tok = new StringTokenizer(cookieSpec, ";");
     String cookieName = null;
@@ -98,8 +93,7 @@ public class CookieStore {
       String token = tok.nextToken();
       int idx = token.indexOf('=');
       String name = idx == -1 ? token.trim() : token.substring(0, idx).trim();
-      String value = idx == -1 ? "" : Strings.unquote(token.substring(idx + 1)
-          .trim());
+      String value = idx == -1 ? "" : Strings.unquote(token.substring(idx + 1).trim());
       if (!hasCookieName) {
         cookieName = name;
         cookieValue = value;
@@ -120,8 +114,7 @@ public class CookieStore {
       }
     }
     if (cookieName == null) {
-      logger.log(Level.SEVERE, "saveCookie(): Invalid cookie spec from '"
-          + urlHostName + "'");
+      logger.log(Level.SEVERE, "saveCookie(): Invalid cookie spec from '" + urlHostName + "'");
       return;
     }
     if (path == null || path.length() == 0) {
@@ -132,14 +125,10 @@ public class CookieStore {
         // One of the RFCs says transient cookies should not have
         // a domain specified, but websites apparently rely on that,
         // specifically Paypal.
-        logger.log(Level.INFO,
-            "saveCookie(): Not rejecting transient cookie that specifies domain '"
-                + domain + "'.");
+        logger.log(Level.INFO, "saveCookie(): Not rejecting transient cookie that specifies domain '" + domain + "'.");
       }
       if (!Domains.isValidCookieDomain(domain, urlHostName)) {
-        logger.log(Level.WARNING,
-            "saveCookie(): Rejecting cookie with invalid domain '" + domain
-                + "' for host '" + urlHostName + "'.");
+        logger.log(Level.WARNING, "saveCookie(): Rejecting cookie with invalid domain '" + domain + "' for host '" + urlHostName + "'.");
         return;
       }
     }
@@ -152,13 +141,9 @@ public class CookieStore {
     java.util.Date expiresDate = null;
     if (maxAge != null) {
       try {
-        expiresDate = new java.util.Date(System.currentTimeMillis()
-            + Integer.parseInt(maxAge) * 1000);
+        expiresDate = new java.util.Date(System.currentTimeMillis() + Integer.parseInt(maxAge) * 1000);
       } catch (java.lang.NumberFormatException nfe) {
-        logger
-            .log(Level.WARNING,
-                "saveCookie(): Max-age is not formatted correctly: " + maxAge
-                    + ".");
+        logger.log(Level.WARNING, "saveCookie(): Max-age is not formatted correctly: " + maxAge + ".");
       }
     } else if (expires != null) {
       synchronized (EXPIRES_FORMAT) {
@@ -166,8 +151,7 @@ public class CookieStore {
           expiresDate = EXPIRES_FORMAT.parse(expires);
         } catch (Exception pe) {
           if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, "saveCookie(): Bad date format: " + expires
-                + ". Will try again.", pe);
+            logger.log(Level.INFO, "saveCookie(): Bad date format: " + expires + ". Will try again.", pe);
           }
           try {
             expiresDate = EXPIRES_FORMAT_BAK1.parse(expires);
@@ -175,9 +159,7 @@ public class CookieStore {
             try {
               expiresDate = EXPIRES_FORMAT_BAK2.parse(expires);
             } catch (Exception pe3) {
-              logger.log(Level.SEVERE,
-                  "saveCookie(): Giving up on cookie date format: " + expires,
-                  pe3);
+              logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + expires, pe3);
               return;
             }
           }
@@ -187,12 +169,10 @@ public class CookieStore {
     this.saveCookie(domain, path, cookieName, expiresDate, cookieValue);
   }
 
-  public void saveCookie(String domain, String path, String name,
-      java.util.Date expires, String value) {
+  public void saveCookie(String domain, String path, String name, java.util.Date expires, String value) {
     // TODO: SECURITY
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("saveCookie(): domain=" + domain + ",name=" + name
-          + ",expires=" + expires + ",value=[" + value + "].");
+      logger.info("saveCookie(): domain=" + domain + ",name=" + name + ",expires=" + expires + ",value=[" + value + "].");
     }
     Long expiresLong = expires == null ? null : expires.getTime();
     CookieValue cookieValue = new CookieValue(value, path, expiresLong);
@@ -207,12 +187,10 @@ public class CookieStore {
     }
     if (expiresLong != null) {
       try {
-        RestrictedStore store = StorageManager.getInstance()
-            .getRestrictedStore(domain, true);
+        RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domain, true);
         store.saveObject(this.getPathFromCookieName(name), cookieValue);
       } catch (IOException ioe) {
-        logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '"
-            + name + "' with domain '" + domain + "'", ioe);
+        logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domain + "'", ioe);
       }
     }
   }
@@ -242,16 +220,13 @@ public class CookieStore {
     synchronized (this) {
       Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
       if (hostMap != null) {
-        Iterator<Map.Entry<String, CookieValue>> i = hostMap.entrySet()
-            .iterator();
+        Iterator<Map.Entry<String, CookieValue>> i = hostMap.entrySet().iterator();
         while (i.hasNext()) {
           Map.Entry<String, CookieValue> entry = i.next();
           CookieValue cookieValue = entry.getValue();
           if (cookieValue.isExpired()) {
             if (liflag) {
-              logger.info("getCookiesStrict(): Cookie " + entry.getKey()
-                  + " from " + hostName + " expired: "
-                  + cookieValue.getExpires());
+              logger.info("getCookiesStrict(): Cookie " + entry.getKey() + " from " + hostName + " expired: " + cookieValue.getExpires());
             }
           } else {
             if (path.startsWith(cookieValue.getPath())) {
@@ -260,8 +235,7 @@ public class CookieStore {
               cookies.add(new Cookie(cookieName, cookieValue.getValue()));
             } else {
               if (liflag) {
-                logger.info("getCookiesStrict(): Skipping cookie "
-                    + cookieValue + " since it does not match path " + path);
+                logger.info("getCookiesStrict(): Skipping cookie " + cookieValue + " since it does not match path " + path);
               }
             }
           }
@@ -269,8 +243,7 @@ public class CookieStore {
       }
     }
     try {
-      RestrictedStore store = StorageManager.getInstance().getRestrictedStore(
-          hostName, false);
+      RestrictedStore store = StorageManager.getInstance().getRestrictedStore(hostName, false);
       if (store != null) {
         Collection paths;
         paths = store.getPaths(COOKIE_PATH_PATTERN);
@@ -279,22 +252,18 @@ public class CookieStore {
           String filePath = (String) pathsIterator.next();
           String cookieName = this.getCookieNameFromPath(filePath);
           if (!transientCookieNames.contains(cookieName)) {
-            CookieValue cookieValue = (CookieValue) store
-                .retrieveObject(filePath);
+            CookieValue cookieValue = (CookieValue) store.retrieveObject(filePath);
             if (cookieValue != null) {
               if (cookieValue.isExpired()) {
                 if (logger.isLoggable(Level.INFO)) {
-                  logger.info("getCookiesStrict(): Cookie " + cookieName
-                      + " from " + hostName + " expired: "
-                      + cookieValue.getExpires());
+                  logger.info("getCookiesStrict(): Cookie " + cookieName + " from " + hostName + " expired: " + cookieValue.getExpires());
                 }
                 store.removeObject(filePath);
               } else {
                 if (path.startsWith(cookieValue.getPath())) {
                   // Found one that is not in main memory. Cache it.
                   synchronized (this) {
-                    Map<String, CookieValue> hostMap = this.transientMapByHost
-                        .get(hostName);
+                    Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
                     if (hostMap == null) {
                       hostMap = new HashMap<String, CookieValue>();
                       this.transientMapByHost.put(hostName, hostMap);
@@ -305,17 +274,12 @@ public class CookieStore {
                   cookies.add(new Cookie(cookieName, cookieValue.getValue()));
                 } else {
                   if (logger.isLoggable(Level.INFO)) {
-                    logger
-                        .info("getCookiesStrict(): Skipping cookie "
-                            + cookieValue + " since it does not match path "
-                            + path);
+                    logger.info("getCookiesStrict(): Skipping cookie " + cookieValue + " since it does not match path " + path);
                   }
                 }
               }
             } else {
-              logger
-                  .warning("getCookiesStrict(): Expected to find cookie named "
-                      + cookieName + " but file is missing.");
+              logger.warning("getCookiesStrict(): Expected to find cookie named " + cookieName + " but file is missing.");
             }
           }
         }
@@ -323,8 +287,7 @@ public class CookieStore {
     } catch (IOException ioe) {
       logger.log(Level.SEVERE, "getCookiesStrict()", ioe);
     } catch (ClassNotFoundException cnf) {
-      logger.log(Level.SEVERE,
-          "getCookiesStrict(): Possible engine versioning error.", cnf);
+      logger.log(Level.SEVERE, "getCookiesStrict(): Possible engine versioning error.", cnf);
     }
     return cookies;
   }
@@ -337,8 +300,7 @@ public class CookieStore {
       cookies.addAll(this.getCookiesStrict(domain, path));
     }
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("getCookies(): For host=" + hostName + ", found "
-          + cookies.size() + " cookies: " + cookies);
+      logger.info("getCookies(): For host=" + hostName + ", found " + cookies.size() + " cookies: " + cookies);
     }
     return cookies;
   }

@@ -39,8 +39,7 @@ public interface NavigatorFrame {
    *          The absolute URL or file path to open.
    * @throws java.net.MalformedURLException
    */
-  public NavigatorFrame open(String urlOrPath)
-      throws java.net.MalformedURLException;
+  public NavigatorFrame open(String urlOrPath) throws java.net.MalformedURLException;
 
   /**
    * Opens a URL in a separate window.
@@ -59,8 +58,7 @@ public interface NavigatorFrame {
    *          Window properties, following Javascript Window.open() conventions.
    * @throws java.net.MalformedURLException
    */
-  public NavigatorFrame open(java.net.URL url, Properties windowProperties)
-      throws java.net.MalformedURLException;
+  public NavigatorFrame open(java.net.URL url, Properties windowProperties) throws java.net.MalformedURLException;
 
   /**
    * Opens a URL in a separate window.
@@ -74,8 +72,7 @@ public interface NavigatorFrame {
    * @param pinfo
    *          The URL parameter information.
    */
-  public NavigatorFrame open(java.net.URL url, String method,
-      ParameterInfo pinfo, String windowId, Properties windowProperties);
+  public NavigatorFrame open(java.net.URL url, String method, ParameterInfo pinfo, String windowId, Properties windowProperties);
 
   /**
    * Opens a URL in a separate window.
@@ -87,8 +84,7 @@ public interface NavigatorFrame {
    * @param pinfo
    *          The URL parameter information.
    */
-  public NavigatorFrame open(java.net.URL url, String method,
-      ParameterInfo pinfo);
+  public NavigatorFrame open(java.net.URL url, String method, ParameterInfo pinfo);
 
   /**
    * Navigates to a URL in the current frame.
@@ -106,8 +102,7 @@ public interface NavigatorFrame {
    * @param requestType
    *          The request type.
    */
-  public void navigate(String urlOrPath, RequestType requestType)
-      throws java.net.MalformedURLException;
+  public void navigate(String urlOrPath, RequestType requestType) throws java.net.MalformedURLException;
 
   /**
    * Navigates to a URL in the current frame.
@@ -141,8 +136,7 @@ public interface NavigatorFrame {
    * @param requestType
    *          The request type.
    */
-  public void navigate(java.net.URL url, String method,
-      ParameterInfo paramInfo, TargetType targetType, RequestType requestType);
+  public void navigate(java.net.URL url, String method, ParameterInfo paramInfo, TargetType targetType, RequestType requestType);
 
   /**
    * Navigates to a URL in the current frame. This method should be used when
@@ -161,8 +155,7 @@ public interface NavigatorFrame {
    * @param originatingFrame
    *          The frame where the request originated.
    */
-  public void navigate(java.net.URL url, String method,
-      ParameterInfo paramInfo, TargetType targetType, RequestType requestType,
+  public void navigate(java.net.URL url, String method, ParameterInfo paramInfo, TargetType targetType, RequestType requestType,
       NavigatorFrame originatingFrame);
 
   /**
@@ -180,8 +173,7 @@ public interface NavigatorFrame {
    *          For example, in HTML documents the <code>linkObject</code> might
    *          be of type <code>org.w3c.dom.html2.HTMLElement</code>.
    */
-  public void linkClicked(java.net.URL url, TargetType targetType,
-      Object linkObject);
+  public void linkClicked(java.net.URL url, TargetType targetType, Object linkObject);
 
   /**
    * Closes the current window, if allowed.
@@ -310,9 +302,7 @@ public interface NavigatorFrame {
    *           content of the frame.
    * @see org.lobobrowser.clientlet.ClientletContext#setResultingContent(Component)
    */
-  public void replaceContent(
-      org.lobobrowser.clientlet.ClientletResponse response,
-      org.lobobrowser.clientlet.ComponentContent component);
+  public void replaceContent(org.lobobrowser.clientlet.ClientletResponse response, org.lobobrowser.clientlet.ComponentContent component);
 
   /**
    * A simple alternative to

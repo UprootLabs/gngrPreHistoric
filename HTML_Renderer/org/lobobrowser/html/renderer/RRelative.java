@@ -32,8 +32,7 @@ public class RRelative extends BaseRCollection {
   private final int xoffset;
   private final int yoffset;
 
-  public RRelative(RenderableContainer container, ModelNode modelNode,
-      final RElement child, final int xoffset, final int yoffset) {
+  public RRelative(RenderableContainer container, ModelNode modelNode, final RElement child, final int xoffset, final int yoffset) {
     super(container, modelNode);
     child.setOriginalParent(this);
     child.setParent(this);
@@ -101,8 +100,7 @@ public class RRelative extends BaseRCollection {
   }
 
   public RenderableSpot getLowestRenderableSpot(int x, int y) {
-    return this.child.getLowestRenderableSpot(x - this.xoffset, y
-        - this.yoffset);
+    return this.child.getLowestRenderableSpot(x - this.xoffset, y - this.yoffset);
   }
 
   public boolean isContainedByNode() {
@@ -126,8 +124,7 @@ public class RRelative extends BaseRCollection {
   }
 
   public boolean onMouseReleased(MouseEvent event, int x, int y) {
-    return this.child
-        .onMouseReleased(event, x - this.xoffset, y - this.yoffset);
+    return this.child.onMouseReleased(event, x - this.xoffset, y - this.yoffset);
   }
 
   public void paint(Graphics g) {

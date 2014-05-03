@@ -54,8 +54,7 @@ public class History implements java.io.Serializable {
     this.commonEntriesCapacity = commonEntriesCapacity;
   }
 
-  private void readObject(java.io.ObjectInputStream in)
-      throws ClassNotFoundException, java.io.IOException {
+  private void readObject(java.io.ObjectInputStream in) throws ClassNotFoundException, java.io.IOException {
     this.historySequence = new ArrayList<String>();
     this.sequenceIndex = -1;
     in.defaultReadObject();
@@ -229,8 +228,7 @@ public class History implements java.io.Serializable {
       } else if (time2 > time1) {
         return +1;
       } else {
-        int diff = System.identityHashCode(this)
-            - System.identityHashCode(other);
+        int diff = System.identityHashCode(this) - System.identityHashCode(other);
         if (diff == 0) {
           return +1;
         }

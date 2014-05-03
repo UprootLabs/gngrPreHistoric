@@ -42,8 +42,7 @@ public class VcURLConnection extends URLConnection {
       long id = Long.parseLong(file.trim());
       this.vc = VolatileContentImpl.getVolatileContent(id);
       if (this.vc == null) {
-        throw new IllegalArgumentException(
-            "Content either invalid or no longer available");
+        throw new IllegalArgumentException("Content either invalid or no longer available");
       }
     } catch (NumberFormatException nfe) {
       throw new IllegalArgumentException("Bad path: " + file);

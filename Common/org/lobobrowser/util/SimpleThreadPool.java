@@ -8,8 +8,7 @@ import java.util.logging.*;
  * the thread pool.
  */
 public class SimpleThreadPool {
-  private static final Logger logger = Logger.getLogger(SimpleThreadPool.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(SimpleThreadPool.class.getName());
   private final LinkedList<SimpleThreadPoolTask> taskList = new LinkedList<SimpleThreadPoolTask>();
   private final Set<SimpleThreadPoolTask> runningSet = new HashSet<SimpleThreadPoolTask>();
   private final int minThreads;
@@ -23,8 +22,7 @@ public class SimpleThreadPool {
   private int numIdleThreads = 0;
   private int threadNumber = 0;
 
-  public SimpleThreadPool(String name, int minShrinkToThreads, int maxThreads,
-      int idleAliveMillis) {
+  public SimpleThreadPool(String name, int minShrinkToThreads, int maxThreads, int idleAliveMillis) {
     this.minThreads = minShrinkToThreads;
     this.maxThreads = maxThreads;
     this.idleAliveMillis = idleAliveMillis;
@@ -59,8 +57,7 @@ public class SimpleThreadPool {
 
   private void addThreadImpl() {
     if (this.numThreads < this.maxThreads) {
-      Thread t = new Thread(this.threadGroup, new ThreadRunnable(), this.name
-          + this.threadNumber++);
+      Thread t = new Thread(this.threadGroup, new ThreadRunnable(), this.name + this.threadNumber++);
       t.setDaemon(true);
       t.start();
       this.numThreads++;
@@ -122,21 +119,18 @@ public class SimpleThreadPool {
             try {
               currentThread.setName(baseName + ":" + task.toString());
             } catch (Throwable thrown) {
-              logger.log(Level.WARNING, "run(): Unable to set task name.",
-                  thrown);
+              logger.log(Level.WARNING, "run(): Unable to set task name.", thrown);
             }
             try {
               task.run();
             } catch (Throwable thrown) {
-              logger.log(Level.SEVERE, "run(): Error in task: " + task + ".",
-                  thrown);
+              logger.log(Level.SEVERE, "run(): Error in task: " + task + ".", thrown);
             }
           } finally {
             currentThread.setName(baseName);
           }
         } catch (Throwable thrown) {
-          logger.log(Level.SEVERE, "run(): Error in thread pool: "
-              + SimpleThreadPool.this.name + ".", thrown);
+          logger.log(Level.SEVERE, "run(): Error in thread pool: " + SimpleThreadPool.this.name + ".", thrown);
         }
       }
     }

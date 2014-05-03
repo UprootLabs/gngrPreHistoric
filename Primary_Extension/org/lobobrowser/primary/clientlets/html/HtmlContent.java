@@ -33,16 +33,14 @@ import org.w3c.dom.html2.HTMLElement;
 import java.util.logging.*;
 
 public class HtmlContent implements ComponentContent {
-  private static final Logger logger = Logger.getLogger(HtmlContent.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(HtmlContent.class.getName());
   private final HTMLDocument document;
   private final HtmlPanel panel;
   private final RecordedInputStream ris;
   private final String charset;
   private final String sourceCode;
 
-  public HtmlContent(final HTMLDocument document, final HtmlPanel panel,
-      RecordedInputStream ris, String charset) {
+  public HtmlContent(final HTMLDocument document, final HtmlPanel panel, RecordedInputStream ris, String charset) {
     super();
     this.document = document;
     this.panel = panel;
@@ -51,8 +49,7 @@ public class HtmlContent implements ComponentContent {
     this.sourceCode = null;
   }
 
-  public HtmlContent(final HTMLDocument document, final HtmlPanel panel,
-      String sourceCode) {
+  public HtmlContent(final HTMLDocument document, final HtmlPanel panel, String sourceCode) {
     super();
     this.document = document;
     this.panel = panel;

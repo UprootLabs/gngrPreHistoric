@@ -44,12 +44,9 @@ public class MultipartFormDataWriter {
    * @param in
    *          Data stream. The caller is responsible for closing it.
    */
-  public final void writeFileData(String name, String fileName,
-      String contentType, InputStream in) throws java.io.IOException {
-    String headers = "--" + this.boundary + "\r\n"
-        + "Content-Disposition: form-data; name=\"" + name + "\"; filename=\""
-        + fileName + "\"\r\n" + "Content-Type: " + contentType + "\r\n"
-        + "\r\n";
+  public final void writeFileData(String name, String fileName, String contentType, InputStream in) throws java.io.IOException {
+    String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName
+        + "\"\r\n" + "Content-Type: " + contentType + "\r\n" + "\r\n";
     OutputStream out = this.out;
     out.write(headers.getBytes("ISO-8859-1"));
     byte[] buffer = new byte[4096];
@@ -60,10 +57,8 @@ public class MultipartFormDataWriter {
     out.write(LINE_BREAK_BYTES);
   }
 
-  public final void writeText(String name, String value, String charset)
-      throws IOException {
-    String headers = "--" + this.boundary + "\r\n"
-        + "Content-Disposition: form-data; name=\"" + name + "\"\r\n"
+  public final void writeText(String name, String value, String charset) throws IOException {
+    String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"\r\n"
         + "Content-Type: text/plain; charset=\"" + charset + "\"\r\n" + "\r\n";
     OutputStream out = this.out;
     out.write(headers.getBytes("ISO-8859-1"));

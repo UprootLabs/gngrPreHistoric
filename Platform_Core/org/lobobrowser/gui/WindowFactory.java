@@ -44,14 +44,12 @@ public interface WindowFactory {
    *          should be supported.
    * @see DefaultBrowserWindow
    */
-  public AbstractBrowserWindow createWindow(String windowId,
-      Properties windowProperties, NavigatorWindow windowContext);
+  public AbstractBrowserWindow createWindow(String windowId, Properties windowProperties, NavigatorWindow windowContext);
 
   /**
    * Gets an existing window given a windowId.
    */
   public AbstractBrowserWindow getExistingWindow(String windowId);
 
-  public void overrideProperties(AbstractBrowserWindow window,
-      Properties properties);
+  public void overrideProperties(AbstractBrowserWindow window, Properties properties);
 }

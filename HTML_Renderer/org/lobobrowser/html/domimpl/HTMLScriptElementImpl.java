@@ -43,10 +43,8 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Scriptable;
 
-public class HTMLScriptElementImpl extends HTMLElementImpl implements
-    HTMLScriptElement {
-  private static final Logger logger = Logger
-      .getLogger(HTMLScriptElementImpl.class.getName());
+public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScriptElement {
+  private static final Logger logger = Logger.getLogger(HTMLScriptElementImpl.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
 
   public HTMLScriptElementImpl() {
@@ -115,8 +113,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements
   }
 
   public Object setUserData(String key, Object data, UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
-        && data != Boolean.TRUE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processScript();
     }
     return super.setUserData(key, data, handler);
@@ -174,17 +171,14 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements
           }
           int status = request.getStatus();
           if (status != 200 && status != 0) {
-            this.warn("Script at [" + scriptURI
-                + "] failed to load; HTTP status: " + status + ".");
+            this.warn("Script at [" + scriptURI + "] failed to load; HTTP status: " + status + ".");
             return;
           }
           text = request.getResponseText();
         } finally {
           if (liflag) {
             long time2 = System.currentTimeMillis();
-            logger
-                .info("processScript(): Loaded external Javascript from URI=["
-                    + scriptURI + "] in " + (time2 - time1) + " ms.");
+            logger.info("processScript(): Loaded external Javascript from URI=[" + scriptURI + "] in " + (time2 - time1) + " ms.");
           }
         }
         baseLineNumber = 1;
@@ -193,27 +187,22 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements
       try {
         Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
         if (scope == null) {
-          throw new IllegalStateException(
-              "Scriptable (scope) instance was expected to be keyed as UserData to document using "
-                  + Executor.SCOPE_KEY);
+          throw new IllegalStateException("Scriptable (scope) instance was expected to be keyed as UserData to document using "
+              + Executor.SCOPE_KEY);
         }
         try {
           long time1 = liflag ? System.currentTimeMillis() : 0;
           if (text == null) {
-            throw new java.lang.IllegalStateException("Script source is null: "
-                + this + ".");
+            throw new java.lang.IllegalStateException("Script source is null: " + this + ".");
           }
           ctx.evaluateString(scope, text, scriptURI, baseLineNumber, null);
           if (liflag) {
             long time2 = System.currentTimeMillis();
-            logger
-                .info("addNotify(): Evaluated (or attempted to evaluate) Javascript in "
-                    + (time2 - time1) + " ms.");
+            logger.info("addNotify(): Evaluated (or attempted to evaluate) Javascript in " + (time2 - time1) + " ms.");
           }
         } catch (EcmaError ecmaError) {
           logger.log(Level.WARNING,
-              "Javascript error at " + ecmaError.getSourceName() + ":"
-                  + ecmaError.getLineNumber() + ": " + ecmaError.getMessage(),
+              "Javascript error at " + ecmaError.getSourceName() + ":" + ecmaError.getLineNumber() + ": " + ecmaError.getMessage(),
               ecmaError);
         } catch (Throwable err) {
           logger.log(Level.WARNING, "Unable to evaluate Javascript code", err);

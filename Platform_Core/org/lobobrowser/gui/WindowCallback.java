@@ -39,15 +39,13 @@ public interface WindowCallback {
    * Called when a document has been accessed, but has not yet rendered.
    * Processing could be cancelled.
    */
-  public void handleDocumentAccess(NavigatorFrame frame,
-      ClientletResponse response);
+  public void handleDocumentAccess(NavigatorFrame frame, ClientletResponse response);
 
   /**
    * Called when the document has either rendered or is beginning to be
    * incrementally rendered.
    */
-  public void handleDocumentRendering(NavigatorFrame frame,
-      ClientletResponse response, ComponentContent content);
+  public void handleDocumentRendering(NavigatorFrame frame, ClientletResponse response, ComponentContent content);
 
   /**
    * Updates request progress.
@@ -57,8 +55,7 @@ public interface WindowCallback {
   /**
    * Invoked when there's a request error.
    */
-  public void handleError(NavigatorFrame frame, ClientletResponse response,
-      Throwable exception);
+  public void handleError(NavigatorFrame frame, ClientletResponse response, Throwable exception);
 
   /**
    * Called to set a status message.

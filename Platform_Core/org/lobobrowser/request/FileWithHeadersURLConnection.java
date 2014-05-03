@@ -88,10 +88,8 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
         break;
       }
       int colonIdx = line.indexOf(':');
-      String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim()
-          .toLowerCase();
-      String value = colonIdx == -1 ? line.trim() : line
-          .substring(colonIdx + 1).trim();
+      String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim().toLowerCase();
+      String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
       List<String> hvalues = headersMap.get(name);
       if (hvalues == null) {
         hvalues = new ArrayList<String>(1);

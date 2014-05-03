@@ -51,14 +51,11 @@ public interface RequestHandler {
    */
   public HostnameVerifier getHostnameVerifier();
 
-  public void processResponse(ClientletResponse response)
-      throws ClientletException, IOException;
+  public void processResponse(ClientletResponse response) throws ClientletException, IOException;
 
-  public boolean handleException(ClientletResponse response, Throwable exception)
-      throws ClientletException;
+  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException;
 
-  public void handleProgress(ProgressType progressType, java.net.URL url,
-      String method, int value, int max);
+  public void handleProgress(ProgressType progressType, java.net.URL url, String method, int value, int max);
 
   public void cancel();
 

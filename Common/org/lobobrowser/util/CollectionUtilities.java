@@ -62,8 +62,7 @@ public class CollectionUtilities {
             return true;
           }
           iteratorIndex++;
-          current = iteratorIndex >= iterators.length ? null
-              : iterators[iteratorIndex];
+          current = iteratorIndex >= iterators.length ? null : iterators[iteratorIndex];
         }
       }
 
@@ -76,8 +75,7 @@ public class CollectionUtilities {
             return this.current.next();
           } catch (NoSuchElementException nse) {
             this.iteratorIndex++;
-            this.current = this.iteratorIndex >= iterators.length ? null
-                : iterators[this.iteratorIndex];
+            this.current = this.iteratorIndex >= iterators.length ? null : iterators[this.iteratorIndex];
           }
         }
       }

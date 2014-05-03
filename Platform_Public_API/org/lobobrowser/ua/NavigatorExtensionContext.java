@@ -85,6 +85,5 @@ public interface NavigatorExtensionContext {
    *          An implementation of <code>java.net.URLStreamHandlerFactory</code>
    *          .
    */
-  public void addURLStreamHandlerFactory(
-      java.net.URLStreamHandlerFactory factory);
+  public void addURLStreamHandlerFactory(java.net.URLStreamHandlerFactory factory);
 }

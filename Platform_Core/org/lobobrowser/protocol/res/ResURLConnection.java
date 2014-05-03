@@ -62,8 +62,7 @@ public class ResURLConnection extends URLConnection {
         file = file.substring(1);
         in = classLoader.getResourceAsStream(file);
         if (in == null) {
-          throw new IOException("Resource " + file + " not found in " + host
-              + ".");
+          throw new IOException("Resource " + file + " not found in " + host + ".");
         }
       }
     }

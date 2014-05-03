@@ -51,10 +51,8 @@ import java.util.*;
  * @see FrameSetPanel
  * @author J. H. S.
  */
-public class HtmlBlockPanel extends JComponent implements NodeRenderer,
-    RenderableContainer, ClipboardOwner {
-  private static final Logger logger = Logger.getLogger(HtmlBlockPanel.class
-      .getName());
+public class HtmlBlockPanel extends JComponent implements NodeRenderer, RenderableContainer, ClipboardOwner {
+  private static final Logger logger = Logger.getLogger(HtmlBlockPanel.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
   protected final FrameContext frameContext;
   protected final UserAgentContext ucontext;
@@ -69,14 +67,11 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
   protected int defaultOverflowX = RenderState.OVERFLOW_AUTO;
   protected int defaultOverflowY = RenderState.OVERFLOW_SCROLL;
 
-  public HtmlBlockPanel(UserAgentContext pcontext,
-      HtmlRendererContext rcontext, FrameContext frameContext) {
+  public HtmlBlockPanel(UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext) {
     this(ColorFactory.TRANSPARENT, false, pcontext, rcontext, frameContext);
   }
 
-  public HtmlBlockPanel(Color background, boolean opaque,
-      UserAgentContext pcontext, HtmlRendererContext rcontext,
-      FrameContext frameContext) {
+  public HtmlBlockPanel(Color background, boolean opaque, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext) {
     this.setLayout(null);
     this.setAutoscrolls(true);
     this.frameContext = frameContext;
@@ -93,11 +88,9 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
       }
     };
     if (!GraphicsEnvironment.isHeadless()) {
+      this.registerKeyboardAction(actionListener, "copy", KeyStroke.getKeyStroke(KeyEvent.VK_COPY, 0), JComponent.WHEN_FOCUSED);
       this.registerKeyboardAction(actionListener, "copy",
-          KeyStroke.getKeyStroke(KeyEvent.VK_COPY, 0), JComponent.WHEN_FOCUSED);
-      this.registerKeyboardAction(actionListener, "copy", KeyStroke
-          .getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit()
-              .getMenuShortcutKeyMask()), JComponent.WHEN_FOCUSED);
+          KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), JComponent.WHEN_FOCUSED);
     }
     this.addMouseListener(new MouseListener() {
       public void mouseClicked(MouseEvent e) {
@@ -234,8 +227,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
     if (uiNode == null) {
       return null;
     }
-    RCollection relativeTo = relativeToScrollable ? (RCollection) block
-        .getRBlockViewport() : (RCollection) block;
+    RCollection relativeTo = relativeToScrollable ? (RCollection) block.getRBlockViewport() : (RCollection) block;
     if (node == currentNode) {
       BoundableRenderable br = (BoundableRenderable) uiNode;
       Point guiPoint = br.getOriginRelativeTo(relativeTo);
@@ -249,8 +241,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
   /**
    * Gets an aggregate of the bounds of renderer leaf nodes.
    */
-  private Rectangle scanNodeBounds(RCollection root, Node node,
-      RCollection relativeTo) {
+  private Rectangle scanNodeBounds(RCollection root, Node node, RCollection relativeTo) {
     Iterator<? extends Renderable> i = root.getRenderables();
     Rectangle resultBounds = null;
     BoundableRenderable prevBoundable = null;
@@ -274,11 +265,9 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
           // This would have to be a RStyleChanger. We rely on these
           // when the target node has blank content.
           if (Nodes.isSameOrAncestorOf(node, (Node) r.getModelNode())) {
-            int xInRoot = prevBoundable == null ? 0 : prevBoundable.getX()
-                + prevBoundable.getWidth();
+            int xInRoot = prevBoundable == null ? 0 : prevBoundable.getX() + prevBoundable.getWidth();
             Point rootOrigin = root.getOriginRelativeTo(relativeTo);
-            subBounds = new Rectangle(rootOrigin.x + xInRoot, rootOrigin.y, 0,
-                root.getHeight());
+            subBounds = new Rectangle(rootOrigin.x + xInRoot, rootOrigin.y, 0, root.getHeight());
           }
         }
         if (subBounds != null) {
@@ -329,19 +318,16 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
       if (block != null) {
         // Layout should always be done in the GUI thread.
         if (EventQueue.isDispatchThread()) {
-          block.layout(pw, 0, false, false, RenderState.OVERFLOW_VISIBLE,
-              RenderState.OVERFLOW_VISIBLE, true);
+          block.layout(pw, 0, false, false, RenderState.OVERFLOW_VISIBLE, RenderState.OVERFLOW_VISIBLE, true);
         } else {
           try {
             EventQueue.invokeAndWait(new Runnable() {
               public void run() {
-                block.layout(pw, 0, false, false, RenderState.OVERFLOW_VISIBLE,
-                    RenderState.OVERFLOW_VISIBLE, true);
+                block.layout(pw, 0, false, false, RenderState.OVERFLOW_VISIBLE, RenderState.OVERFLOW_VISIBLE, true);
               }
             });
           } catch (Exception err) {
-            logger
-                .log(Level.SEVERE, "Unable to do preferred size layout.", err);
+            logger.log(Level.SEVERE, "Unable to do preferred size layout.", err);
           }
         }
         // Adjust for permanent vertical scrollbar.
@@ -360,8 +346,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
     String selection = HtmlBlockPanel.this.getSelectionText();
     if (selection != null) {
       Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-      clipboard
-          .setContents(new StringSelection(selection), HtmlBlockPanel.this);
+      clipboard.setContents(new StringSelection(selection), HtmlBlockPanel.this);
       return true;
     } else {
       return false;
@@ -399,8 +384,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
     RenderableSpot start = this.startSelection;
     RenderableSpot end = this.endSelection;
     if (start != null && end != null) {
-      return Nodes.getCommonAncestor((Node) start.renderable.getModelNode(),
-          (Node) end.renderable.getModelNode());
+      return Nodes.getCommonAncestor((Node) start.renderable.getModelNode(), (Node) end.renderable.getModelNode());
     } else {
       return null;
     }
@@ -412,8 +396,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
    */
   public void setRootNode(NodeImpl node) {
     if (node != null) {
-      RBlock block = new RBlock(node, 0, this.ucontext, this.rcontext,
-          this.frameContext, this);
+      RBlock block = new RBlock(node, 0, this.ucontext, this.rcontext, this.frameContext, this);
       block.setDefaultMarginInsets(this.defaultMarginInsets);
       // block.setDefaultPaddingInsets(this.defaultPaddingInsets);
       block.setDefaultOverflowX(this.defaultOverflowX);
@@ -568,15 +551,12 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
       // Background not painted by default in JComponent.
       Rectangle clipBounds = g.getClipBounds();
       g.setColor(this.getBackground());
-      g.fillRect(clipBounds.x, clipBounds.y, clipBounds.width,
-          clipBounds.height);
+      g.fillRect(clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height);
     }
     if (g instanceof Graphics2D) {
       Graphics2D g2 = (Graphics2D) g;
-      g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON);
+      g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
     RBlock block = this.rblock;
     if (block != null) {
@@ -586,10 +566,8 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
       if (liflag) {
         long time2 = System.currentTimeMillis();
         Node rootNode = this.getRootNode();
-        String uri = rootNode instanceof Document ? ((Document) rootNode)
-            .getDocumentURI() : "";
-        logger.info("paintComponent(): URI=[" + uri
-            + "]. Block paint elapsed: " + (time2 - time1) + " ms.");
+        String uri = rootNode instanceof Document ? ((Document) rootNode).getDocumentURI() : "";
+        logger.info("paintComponent(): URI=[" + uri + "]. Block paint elapsed: " + (time2 - time1) + " ms.");
       }
 
       // Paint FrameContext selection
@@ -621,10 +599,8 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
         this.updateGUIComponents();
         if (liflag) {
           long time2 = System.currentTimeMillis();
-          String uri = rootNode instanceof Document ? ((Document) rootNode)
-              .getDocumentURI() : "";
-          logger.info("doLayout(): URI=[" + uri + "]. Block layout elapsed: "
-              + (time2 - time1) + " ms. Component count: "
+          String uri = rootNode instanceof Document ? ((Document) rootNode).getDocumentURI() : "";
+          logger.info("doLayout(): URI=[" + uri + "]. Block layout elapsed: " + (time2 - time1) + " ms. Component count: "
               + this.getComponentCount() + ".");
         }
       } else {
@@ -633,10 +609,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
         }
       }
     } catch (Throwable thrown) {
-      logger.log(
-          Level.SEVERE,
-          "Unexpected error in layout engine. Document is "
-              + this.getRootNode(), thrown);
+      logger.log(Level.SEVERE, "Unexpected error in layout engine. Document is " + this.getRootNode(), thrown);
     }
   }
 
@@ -746,8 +719,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
           if (node == null) {
             // This is all-invalidate (new style sheet)
             if (loggableInfo) {
-              logger
-                  .info("processDocumentNotifications(): Calling invalidateLayoutDeep().");
+              logger.info("processDocumentNotifications(): Calling invalidateLayoutDeep().");
             }
             this.rblock.invalidateLayoutDeep();
             // this.rblock.invalidateRenderStyle();
@@ -761,9 +733,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer,
               // }
             } else {
               if (loggableInfo) {
-                logger
-                    .info("processDocumentNotifications(): Unable to find UINode for "
-                        + node);
+                logger.info("processDocumentNotifications(): Unable to find UINode for " + node);
               }
             }
           }

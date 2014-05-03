@@ -36,8 +36,7 @@ import java.io.*;
 import java.util.logging.*;
 
 public class ExtensionImpl implements NavigatorExtension {
-  private static final Logger logger = Logger.getLogger(ExtensionImpl.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ExtensionImpl.class.getName());
 
   public void destroy() {
   }
@@ -47,8 +46,7 @@ public class ExtensionImpl implements NavigatorExtension {
     pcontext.addClientletSelector(new PrimaryClientletSelector());
     pcontext.addNavigatorErrorListener(new NavigatorErrorListener() {
       public void errorOcurred(NavigatorExceptionEvent event) {
-        showError(event.getNavigatorFrame(), event.getResponse(),
-            event.getException());
+        showError(event.getNavigatorFrame(), event.getResponse(), event.getException());
       }
     });
   }
@@ -82,25 +80,20 @@ public class ExtensionImpl implements NavigatorExtension {
     cs.setNavigationEntry(firstEntry);
   }
 
-  public static void showError(NavigatorFrame frame,
-      ClientletResponse response, Throwable exception) {
+  public static void showError(NavigatorFrame frame, ClientletResponse response, Throwable exception) {
     if (logger.isLoggable(Level.WARNING)) {
       logger.log(Level.WARNING,
-          "showError(): An error occurred trying to process document "
-              + (response == null ? "[null]" : response.getResponseURL()),
+          "showError(): An error occurred trying to process document " + (response == null ? "[null]" : response.getResponseURL()),
           exception);
     }
-    ComponentContent errorComponent = getErrorComponent(frame, response,
-        exception);
+    ComponentContent errorComponent = getErrorComponent(frame, response, exception);
     frame.replaceContent(response, errorComponent);
     // TODO: Get window or something, and ensure current URL is shown.
   }
 
-  private static ComponentContent getErrorComponent(NavigatorFrame frame,
-      ClientletResponse response, Throwable exception) {
+  private static ComponentContent getErrorComponent(NavigatorFrame frame, ClientletResponse response, Throwable exception) {
     HtmlPanel panel = new HtmlPanel();
-    HtmlRendererContext rcontext = HtmlRendererContextImpl
-        .getHtmlRendererContext(frame);
+    HtmlRendererContext rcontext = HtmlRendererContextImpl.getHtmlRendererContext(frame);
     panel.setHtml(getErrorHtml(response, exception), "about:error", rcontext);
     String sourceCode = "[NOT AVAILABLE]";
     if (exception instanceof ClientletException) {
@@ -110,8 +103,7 @@ public class ExtensionImpl implements NavigatorExtension {
         sourceCode = sc;
       }
     }
-    return new HtmlContent((HTMLDocument) panel.getRootNode(), panel,
-        sourceCode);
+    return new HtmlContent((HTMLDocument) panel.getRootNode(), panel, sourceCode);
   }
 
   private static Throwable getRootCause(Throwable t) {
@@ -127,10 +119,8 @@ public class ExtensionImpl implements NavigatorExtension {
     Writer swriter = new StringWriter();
     PrintWriter writer = new PrintWriter(swriter);
     writer.println("<html><body>");
-    writer
-        .println("<dl style='background-color: #FFB0B0; border: solid red 2px; padding: 2px;'>");
-    writer
-        .println("  <big>An <strong>error</strong> occurred trying to process a request.</big>");
+    writer.println("<dl style='background-color: #FFB0B0; border: solid red 2px; padding: 2px;'>");
+    writer.println("  <big>An <strong>error</strong> occurred trying to process a request.</big>");
     writer.println("  <br>");
     if (url != null) {
       writer.println("  <dt><strong>URL</strong>:</dt>");
@@ -141,12 +131,10 @@ public class ExtensionImpl implements NavigatorExtension {
     writer.println("  <dt><strong>Meaning</strong>:</dt>");
     writer.println("  <dd>" + getExceptionMeaning(url, exception) + "</dd>");
     writer.println("  <dt><strong>Message</strong>:</dt>");
-    writer
-        .println("  <dd>" + Html.textToHTML(exception.getMessage()) + "</dd>");
+    writer.println("  <dd>" + Html.textToHTML(exception.getMessage()) + "</dd>");
     writer.println("</dl>");
     writer.println("<p></p>");
-    writer
-        .println("<table border='1' width='100%' style='background-color: #B0B0FF; bolder: solid red 2px;'>");
+    writer.println("<table border='1' width='100%' style='background-color: #B0B0FF; bolder: solid red 2px;'>");
     writer.println("  <tr><th>");
     writer.println("  Details");
     writer.println("  </th></tr>");
@@ -189,26 +177,17 @@ public class ExtensionImpl implements NavigatorExtension {
     return buf.toString();
   }
 
-  private static String getExceptionMeaning(java.net.URL url,
-      Throwable exception) {
+  private static String getExceptionMeaning(java.net.URL url, Throwable exception) {
     if (exception instanceof org.lobobrowser.clientlet.JavaVersionException) {
       JavaVersionException jve = (JavaVersionException) exception;
       return "This exception is thrown when the content expects the user's Java Virtual Machine "
-          + "to be more up to date than it currently is. In this case the content is "
-          + "expecting version "
-          + jve.getExpectingVersion()
-          + " whereas the version running "
-          + "the browser is "
-          + System.getProperty("java.version") + ".";
+          + "to be more up to date than it currently is. In this case the content is " + "expecting version " + jve.getExpectingVersion()
+          + " whereas the version running " + "the browser is " + System.getProperty("java.version") + ".";
     } else if (exception instanceof NavigatorVersionException) {
       NavigatorVersionException nve = (NavigatorVersionException) exception;
       return "This exception is thrown when the content expects the browser version "
-          + "to be more up to date than it currently is. In this case the content is "
-          + "expecting version "
-          + nve.getExpectingVersion()
-          + " whereas the user agent "
-          + "version is "
-          + UserAgentImpl.getInstance().getVersion() + ".";
+          + "to be more up to date than it currently is. In this case the content is " + "expecting version " + nve.getExpectingVersion()
+          + " whereas the user agent " + "version is " + UserAgentImpl.getInstance().getVersion() + ".";
     } else {
       Throwable cause = exception;
       if (exception instanceof ClientletException) {
@@ -218,14 +197,12 @@ public class ExtensionImpl implements NavigatorExtension {
           cause = exception;
         }
       } else if (exception instanceof java.lang.reflect.InvocationTargetException) {
-        cause = ((java.lang.reflect.InvocationTargetException) exception)
-            .getCause();
+        cause = ((java.lang.reflect.InvocationTargetException) exception).getCause();
       }
       if (cause instanceof java.net.MalformedURLException) {
         return "A URL or URI was not formatted correctly.";
       } else if (cause instanceof java.net.UnknownHostException) {
-        return "The host named '"
-            + ((java.net.UnknownHostException) cause).getMessage()
+        return "The host named '" + ((java.net.UnknownHostException) cause).getMessage()
             + "' could not be found by the Domain Name Service (DNS).";
       } else if (cause instanceof java.lang.SecurityException) {
         return "An attempted security violation has been detected and stopped.";
@@ -241,13 +218,11 @@ public class ExtensionImpl implements NavigatorExtension {
         return "Indicates an Input/Output error has occurred. This is typically due "
             + "to a network connection that cannot be establised or one that has failed, "
             + "but it can also mean that a file could not be accessed or found.";
-      } else if (cause instanceof java.lang.NullPointerException
-          || cause instanceof java.lang.ClassCastException) {
+      } else if (cause instanceof java.lang.NullPointerException || cause instanceof java.lang.ClassCastException) {
         return "This is a common Java exception that generally occurs due to a programming error. "
             + "The stack trace will show if the error is in browser code, an extension or the document itself.";
       } else if (cause instanceof ClientletException) {
-        return "A "
-            + ClientletException.class.getSimpleName()
+        return "A " + ClientletException.class.getSimpleName()
             + " is thrown by extensions or documents typically to indicate an unexpected state has been encountered.";
       } else {
         return "Unknown.";

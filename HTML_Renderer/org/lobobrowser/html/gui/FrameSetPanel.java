@@ -49,8 +49,7 @@ import org.lobobrowser.util.gui.WrapperLayout;
  * @see HtmlBlockPanel
  */
 public class FrameSetPanel extends JComponent implements NodeRenderer {
-  private static final Logger logger = Logger.getLogger(FrameSetPanel.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(FrameSetPanel.class.getName());
 
   public FrameSetPanel() {
     super();
@@ -83,8 +82,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
       NodeImpl child = children[i];
       if (child instanceof HTMLElementImpl) {
         String nodeName = child.getNodeName();
-        if ("FRAME".equalsIgnoreCase(nodeName)
-            || "FRAMESET".equalsIgnoreCase(nodeName)) {
+        if ("FRAME".equalsIgnoreCase(nodeName) || "FRAMESET".equalsIgnoreCase(nodeName)) {
           subFrames.add(child);
         }
       }
@@ -125,8 +123,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     toValidate.validate();
   }
 
-  public final void processDocumentNotifications(
-      DocumentNotification[] notifications) {
+  public final void processDocumentNotifications(DocumentNotification[] notifications) {
     // Called in the GUI thread.
     if (notifications.length > 0) {
       // Not very efficient, but it will do.
@@ -167,8 +164,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
         this.frameComponents = frameComponents;
         for (int i = 0; i < subframes.length; i++) {
           HTMLElementImpl frameElement = subframes[i];
-          if (frameElement != null
-              && "FRAMESET".equalsIgnoreCase(frameElement.getTagName())) {
+          if (frameElement != null && "FRAMESET".equalsIgnoreCase(frameElement.getTagName())) {
             FrameSetPanel fsp = new FrameSetPanel();
             fsp.setRootNode(frameElement);
             frameComponents[i] = fsp;
@@ -205,8 +201,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
           int height = size.height - insets.left - insets.right;
           int[] absColLengths = this.getAbsoluteLengths(chl, width);
           int[] absRowLengths = this.getAbsoluteLengths(rhl, height);
-          this.add(this.getSplitPane(this.htmlContext, absColLengths, 0,
-              absColLengths.length, absRowLengths, 0, absRowLengths.length, fc));
+          this.add(this.getSplitPane(this.htmlContext, absColLengths, 0, absColLengths.length, absRowLengths, 0, absRowLengths.length, fc));
         }
       }
     }
@@ -245,32 +240,25 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     return absLengths;
   }
 
-  private Component getSplitPane(HtmlRendererContext context, int[] colLengths,
-      int firstCol, int numCols, int[] rowLengths, int firstRow, int numRows,
-      Component[] frameComponents) {
+  private Component getSplitPane(HtmlRendererContext context, int[] colLengths, int firstCol, int numCols, int[] rowLengths, int firstRow,
+      int numRows, Component[] frameComponents) {
     if (numCols == 1) {
       int frameindex = colLengths.length * firstRow + firstCol;
-      Component topComponent = frameindex < frameComponents.length ? frameComponents[frameindex]
-          : null;
+      Component topComponent = frameindex < frameComponents.length ? frameComponents[frameindex] : null;
       if (numRows == 1) {
         return topComponent;
       } else {
-        Component bottomComponent = this.getSplitPane(context, colLengths,
-            firstCol, numCols, rowLengths, firstRow + 1, numRows - 1,
+        Component bottomComponent = this.getSplitPane(context, colLengths, firstCol, numCols, rowLengths, firstRow + 1, numRows - 1,
             frameComponents);
-        JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topComponent,
-            bottomComponent);
+        JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topComponent, bottomComponent);
         sp.setDividerLocation(rowLengths[firstRow]);
         return sp;
       }
     } else {
-      Component rightComponent = this.getSplitPane(context, colLengths,
-          firstCol + 1, numCols - 1, rowLengths, firstRow, numRows,
+      Component rightComponent = this.getSplitPane(context, colLengths, firstCol + 1, numCols - 1, rowLengths, firstRow, numRows,
           frameComponents);
-      Component leftComponent = this.getSplitPane(context, colLengths,
-          firstCol, 1, rowLengths, firstRow, numRows, frameComponents);
-      JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-          leftComponent, rightComponent);
+      Component leftComponent = this.getSplitPane(context, colLengths, firstCol, 1, rowLengths, firstRow, numRows, frameComponents);
+      JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftComponent, rightComponent);
       sp.setDividerLocation(colLengths[firstCol]);
       return sp;
     }

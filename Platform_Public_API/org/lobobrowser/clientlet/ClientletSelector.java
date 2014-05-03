@@ -60,6 +60,5 @@ public interface ClientletSelector {
    * have this method return <code>null</code> unless they would like to allow
    * extensions with lower priority to override the selection.
    */
-  public Clientlet lastResortSelect(ClientletRequest request,
-      ClientletResponse response);
+  public Clientlet lastResortSelect(ClientletRequest request, ClientletResponse response);
 }

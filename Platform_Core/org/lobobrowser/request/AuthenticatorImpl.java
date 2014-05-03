@@ -49,8 +49,7 @@ public class AuthenticatorImpl extends Authenticator {
     RequestorType requestorType = this.getRequestorType();
     if (requestorType == RequestorType.PROXY) {
       try {
-        PasswordAuthentication pa = this.connectionSettings
-            .getPasswordAuthentication();
+        PasswordAuthentication pa = this.connectionSettings.getPasswordAuthentication();
         if (pa != null) {
           // This could get it into an infinite loop if the credentials are
           // wrong?

@@ -48,8 +48,7 @@ public interface ManagedStore {
    * 
    * @throws java.io.IOException
    */
-  public ManagedFile getManagedFile(ManagedFile parent, String relativePath)
-      throws java.io.IOException;
+  public ManagedFile getManagedFile(ManagedFile parent, String relativePath) throws java.io.IOException;
 
   /**
    * Gets the top-level directory of the managed store.
@@ -74,8 +73,7 @@ public interface ManagedStore {
    * 
    * @throws java.io.IOException
    */
-  public void saveObject(String path, java.io.Serializable object)
-      throws java.io.IOException;
+  public void saveObject(String path, java.io.Serializable object) throws java.io.IOException;
 
   /**
    * Retrieves a serializable object. If the file identified by
@@ -89,12 +87,10 @@ public interface ManagedStore {
    * @throws java.io.IOException
    * @throws ClassNotFoundException
    */
-  public Object retrieveObject(String path, ClassLoader classLoader)
-      throws java.io.IOException, ClassNotFoundException;
+  public Object retrieveObject(String path, ClassLoader classLoader) throws java.io.IOException, ClassNotFoundException;
 
   /**
    * @deprecated Use {@link #retrieveObject(String, ClassLoader)}.
    */
-  public Object retrieveObject(String path) throws java.io.IOException,
-      ClassNotFoundException;
+  public Object retrieveObject(String path) throws java.io.IOException, ClassNotFoundException;
 }

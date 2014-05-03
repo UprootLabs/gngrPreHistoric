@@ -30,8 +30,7 @@ import java.util.*;
  * 
  * @author J. H. S.
  */
-public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>,
-    AsyncResultListener<TResult> {
+public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncResultListener<TResult> {
   private AsyncResult<TResult> ar;
   private final Collection<AsyncResultListener<TResult>> listeners = new LinkedList<AsyncResultListener<TResult>>();
 
@@ -99,8 +98,7 @@ public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>,
   public void exceptionReceived(AsyncResultEvent<Throwable> event) {
     AsyncResultListener[] listenersArray;
     synchronized (this) {
-      listenersArray = this.listeners
-          .toArray(new AsyncResultListener[0]);
+      listenersArray = this.listeners.toArray(new AsyncResultListener[0]);
     }
     for (int i = 0; i < listenersArray.length; i++) {
       AsyncResultListener arl = listenersArray[i];
@@ -118,8 +116,7 @@ public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>,
   public void resultReceived(AsyncResultEvent<TResult> event) {
     AsyncResultListener[] listenersArray;
     synchronized (this) {
-      listenersArray = this.listeners
-          .toArray(new AsyncResultListener[0]);
+      listenersArray = this.listeners.toArray(new AsyncResultListener[0]);
     }
     for (int i = 0; i < listenersArray.length; i++) {
       AsyncResultListener<TResult> arl = listenersArray[i];

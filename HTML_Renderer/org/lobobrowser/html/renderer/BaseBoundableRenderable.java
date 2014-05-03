@@ -38,10 +38,8 @@ import org.lobobrowser.html.domimpl.ModelNode;
 /**
  * @author J. H. S.
  */
-abstract class BaseBoundableRenderable extends BaseRenderable implements
-    BoundableRenderable {
-  protected static final Logger logger = Logger
-      .getLogger(BaseBoundableRenderable.class.getName());
+abstract class BaseBoundableRenderable extends BaseRenderable implements BoundableRenderable {
+  protected static final Logger logger = Logger.getLogger(BaseBoundableRenderable.class.getName());
   protected static final Color SELECTION_COLOR = Color.BLUE;
   protected static final Color SELECTION_XOR = Color.LIGHT_GRAY;
 
@@ -60,8 +58,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
     this.layoutUpTreeCanBeInvalidated = true;
   }
 
-  public BaseBoundableRenderable(RenderableContainer container,
-      ModelNode modelNode) {
+  public BaseBoundableRenderable(RenderableContainer container, ModelNode modelNode) {
     this.container = container;
     this.modelNode = modelNode;
   }
@@ -69,8 +66,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
   public java.awt.Point getGUIPoint(int clientX, int clientY) {
     Renderable parent = this.getParent();
     if (parent instanceof BoundableRenderable) {
-      return ((BoundableRenderable) parent).getGUIPoint(clientX + this.x,
-          clientY + this.y);
+      return ((BoundableRenderable) parent).getGUIPoint(clientX + this.x, clientY + this.y);
     } else if (parent == null) {
       return this.container.getGUIPoint(clientX + this.x, clientY + this.y);
     } else {
@@ -81,8 +77,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
   public Point getRenderablePoint(int guiX, int guiY) {
     Renderable parent = this.getParent();
     if (parent instanceof BoundableRenderable) {
-      return ((BoundableRenderable) parent).getRenderablePoint(guiX - this.x,
-          guiY - this.y);
+      return ((BoundableRenderable) parent).getRenderablePoint(guiX - this.x, guiY - this.y);
     } else if (parent == null) {
       return new Point(guiX - this.x, guiY - this.y);
     } else {
@@ -111,8 +106,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
   }
 
   public boolean contains(int x, int y) {
-    return x >= this.x && y >= this.y && x < this.x + this.width
-        && y < this.y + this.height;
+    return x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height;
   }
 
   public Rectangle getBounds() {
@@ -206,8 +200,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
       this.container.relayout();
     } else {
       if (logger.isLoggable(Level.INFO)) {
-        logger.warning("relayout(): Don't know how to relayout " + this
-            + ", parent being " + parent);
+        logger.warning("relayout(): Don't know how to relayout " + this + ", parent being " + parent);
       }
     }
   }
@@ -281,15 +274,13 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
   public void repaint(int x, int y, int width, int height) {
     Renderable parent = this.parent;
     if (parent instanceof BoundableRenderable) {
-      ((BoundableRenderable) parent).repaint(x + this.x, y + this.y, width,
-          height);
+      ((BoundableRenderable) parent).repaint(x + this.x, y + this.y, width, height);
     } else if (parent == null) {
       // Has to be top RBlock.
       this.container.repaint(x, y, width, height);
     } else {
       if (logger.isLoggable(Level.INFO)) {
-        logger.warning("repaint(): Don't know how to repaint " + this
-            + ", parent being " + parent);
+        logger.warning("repaint(): Don't know how to repaint " + this + ", parent being " + parent);
       }
     }
   }
@@ -313,8 +304,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
     }
   }
 
-  protected final java.awt.Point translateDescendentPoint(
-      BoundableRenderable descendent, int x, int y) {
+  protected final java.awt.Point translateDescendentPoint(BoundableRenderable descendent, int x, int y) {
     while (descendent != this) {
       if (descendent == null) {
         throw new IllegalStateException("Not descendent");
@@ -329,17 +319,14 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
 
   public void onMouseOut(MouseEvent event, int x, int y, ModelNode limit) {
     if (this.isContainedByNode()) {
-      HtmlController.getInstance().onMouseOut(this.modelNode, event, x, y,
-          limit);
+      HtmlController.getInstance().onMouseOut(this.modelNode, event, x, y, limit);
     }
   }
 
-  public void onMouseMoved(MouseEvent event, int x, int y,
-      boolean triggerEvent, ModelNode limit) {
+  public void onMouseMoved(MouseEvent event, int x, int y, boolean triggerEvent, ModelNode limit) {
     if (triggerEvent) {
       if (this.isContainedByNode()) {
-        HtmlController.getInstance().onMouseOver(this.modelNode, event, x, y,
-            limit);
+        HtmlController.getInstance().onMouseOver(this.modelNode, event, x, y, limit);
       }
     }
   }
@@ -354,8 +341,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements
     RCollection parent = this.parent;
     for (;;) {
       if (parent == null) {
-        throw new java.lang.IllegalArgumentException("Not an ancestor: "
-            + ancestor);
+        throw new java.lang.IllegalArgumentException("Not an ancestor: " + ancestor);
       }
       if (parent == ancestor) {
         return new Point(x, y);

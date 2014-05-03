@@ -55,8 +55,7 @@ public class SimpleBrowserFrame extends HtmlPanel implements BrowserFrame {
    * @param parentRcontext
    *          The parent context.
    */
-  protected HtmlRendererContext createHtmlRendererContext(
-      HtmlRendererContext parentRcontext) {
+  protected HtmlRendererContext createHtmlRendererContext(HtmlRendererContext parentRcontext) {
     return new SimpleHtmlRendererContext(this, parentRcontext);
   }
 

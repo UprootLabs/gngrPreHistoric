@@ -12,8 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserAgentContextImpl implements UserAgentContext {
-  private static final Logger logger = Logger
-      .getLogger(UserAgentContextImpl.class.getName());
+  private static final Logger logger = Logger.getLogger(UserAgentContextImpl.class.getName());
   private static final Set<String> mediaNames = new HashSet<String>();
   private final NavigatorFrame frame;
 

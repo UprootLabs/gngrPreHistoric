@@ -40,8 +40,7 @@ import java.io.*;
  * @author J. H. S.
  */
 public class ClientletResponseImpl implements ClientletResponse {
-  private static final Logger logger = Logger
-      .getLogger(ClientletResponseImpl.class.getName());
+  private static final Logger logger = Logger.getLogger(ClientletResponseImpl.class.getName());
   private static final int MAX_CACHE_BUFFER_SIZE = 10 * 1024 * 1024;
 
   private final URLConnection connection;
@@ -55,9 +54,8 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   private InputStream inputStream;
 
-  public ClientletResponseImpl(RequestHandler rhandler,
-      URLConnection connection, URL responseURL, boolean fromCache,
-      CacheInfo cacheInfo, boolean isCacheable, RequestType requestType) {
+  public ClientletResponseImpl(RequestHandler rhandler, URLConnection connection, URL responseURL, boolean fromCache, CacheInfo cacheInfo,
+      boolean isCacheable, RequestType requestType) {
     this.connection = connection;
     this.responseURL = responseURL;
     this.requestHandler = rhandler;
@@ -67,8 +65,7 @@ public class ClientletResponseImpl implements ClientletResponse {
     this.requestType = requestType;
   }
 
-  public ClientletResponseImpl(RequestHandler rhandler, URL url,
-      boolean fromCache, CacheInfo cacheInfo, boolean isCacheable,
+  public ClientletResponseImpl(RequestHandler rhandler, URL url, boolean fromCache, CacheInfo cacheInfo, boolean isCacheable,
       String requestMethod, RequestType requestType) throws IOException {
     this.connection = url.openConnection();
     this.responseURL = url;
@@ -81,14 +78,12 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   public boolean isNewNavigationAction() {
     RequestType rt = this.requestType;
-    return rt != RequestType.HISTORY && rt != RequestType.SOFT_RELOAD
-        && rt != RequestType.HARD_RELOAD;
+    return rt != RequestType.HISTORY && rt != RequestType.SOFT_RELOAD && rt != RequestType.HARD_RELOAD;
   }
 
   public boolean matches(String mimeType, String[] fileExtensions) {
     String responseMimeType = this.getMimeType();
-    if (responseMimeType == null
-        || "application/octet-stream".equalsIgnoreCase(responseMimeType)
+    if (responseMimeType == null || "application/octet-stream".equalsIgnoreCase(responseMimeType)
         || "content/unknown".equalsIgnoreCase(responseMimeType)) {
       String path = this.responseURL.getPath();
       if (path == null) {
@@ -114,8 +109,7 @@ public class ClientletResponseImpl implements ClientletResponse {
     return this.requestHandler.getLatestRequestMethod();
   }
 
-  public void handleProgress(ProgressType progressType, java.net.URL url,
-      String method, int value, int max) {
+  public void handleProgress(ProgressType progressType, java.net.URL url, String method, int value, int max) {
     this.requestHandler.handleProgress(progressType, url, method, value, max);
   }
 
@@ -190,8 +184,7 @@ public class ClientletResponseImpl implements ClientletResponse {
         in = connection.getInputStream();
       }
       final int contentLength = connection.getContentLength();
-      final int bufferSize = contentLength <= 0 ? 4096 : Math.min(
-          contentLength, 8192);
+      final int bufferSize = contentLength <= 0 ? 4096 : Math.min(contentLength, 8192);
       final URL responseURL = this.getResponseURL();
       // if(logger.isLoggable(Level.INFO))logger.info("getInputStream(): Connection stream is "
       // + in);
@@ -201,9 +194,8 @@ public class ClientletResponseImpl implements ClientletResponse {
         mis.evtProgress.addListener(new GenericEventListener() {
           public void processEvent(EventObject event) {
             InputProgressEvent pe = (InputProgressEvent) event;
-            requestHandler.handleProgress(
-                org.lobobrowser.ua.ProgressType.CONTENT_LOADING, responseURL,
-                getLastRequestMethod(), pe.getProgress(), contentLength);
+            requestHandler.handleProgress(org.lobobrowser.ua.ProgressType.CONTENT_LOADING, responseURL, getLastRequestMethod(),
+                pe.getProgress(), contentLength);
           }
         });
         // TODO Buffer size too big if contentLength small
@@ -240,8 +232,7 @@ public class ClientletResponseImpl implements ClientletResponse {
       return null;
     }
     int scIdx = contentType.indexOf(';');
-    return scIdx == -1 ? contentType.trim() : contentType.substring(0, scIdx)
-        .trim();
+    return scIdx == -1 ? contentType.trim() : contentType.substring(0, scIdx).trim();
   }
 
   public int getContentLength() {
@@ -269,8 +260,7 @@ public class ClientletResponseImpl implements ClientletResponse {
         try {
           return rin.getBytesRead();
         } catch (BufferExceededException bee) {
-          logger
-              .warning("getStoredContent(): Recorded stream buffer size exceeded.");
+          logger.warning("getStoredContent(): Recorded stream buffer size exceeded.");
           return null;
         }
       }
@@ -365,16 +355,13 @@ public class ClientletResponseImpl implements ClientletResponse {
   }
 
   public String toString() {
-    return "ClientletResponseImpl[url=" + this.responseURL + ",method="
-        + this.getLastRequestMethod() + ",mimeType=" + this.getMimeType()
-        + ",fromCache=" + this.isFromCache() + ",requestType="
-        + this.requestType + "]";
+    return "ClientletResponseImpl[url=" + this.responseURL + ",method=" + this.getLastRequestMethod() + ",mimeType=" + this.getMimeType()
+        + ",fromCache=" + this.isFromCache() + ",requestType=" + this.requestType + "]";
   }
 
   public Object getPersistentCachedObject(ClassLoader classLoader) {
     CacheInfo cacheInfo = this.cacheInfo;
-    return cacheInfo == null ? null : cacheInfo
-        .getPersistentObject(classLoader);
+    return cacheInfo == null ? null : cacheInfo.getPersistentObject(classLoader);
   }
 
   public Object getTransientCachedObject() {
@@ -420,8 +407,7 @@ public class ClientletResponseImpl implements ClientletResponse {
     try {
       return Urls.PATTERN_RFC1123.parse(dateText);
     } catch (java.text.ParseException pe) {
-      logger.warning("getDate(): Bad date '" + dateText + "' from "
-          + this.getResponseURL() + ".");
+      logger.warning("getDate(): Bad date '" + dateText + "' from " + this.getResponseURL() + ".");
       return null;
     }
   }

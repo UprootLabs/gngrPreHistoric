@@ -25,8 +25,7 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.html2.HTMLFrameSetElement;
 
-public class HTMLFrameSetElementImpl extends HTMLElementImpl implements
-    HTMLFrameSetElement {
+public class HTMLFrameSetElementImpl extends HTMLElementImpl implements HTMLFrameSetElement {
 
   public HTMLFrameSetElementImpl(String name, boolean noStyleSheet) {
     super(name, noStyleSheet);

@@ -38,8 +38,7 @@ public class ToolsSettingsUI extends AbstractSettingsUI {
       }
     };
     this.searchEngineListControl = new ItemListControl<SearchEngine>(factory);
-    this.searchEngineListControl
-        .setEditorCaption("Please enter search engine information below.");
+    this.searchEngineListControl.setEditorCaption("Please enter search engine information below.");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.add(this.getSearchEnginePane());
     this.add(SwingTasks.createVerticalFill());

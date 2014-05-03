@@ -44,8 +44,7 @@ import org.lobobrowser.util.io.IORoutines;
  * @author J. H. S.
  */
 public class ArchiveClassLoader extends BaseClassLoader {
-  private static final Logger logger = Logger
-      .getLogger(ArchiveClassLoader.class.getName());
+  private static final Logger logger = Logger.getLogger(ArchiveClassLoader.class.getName());
 
   /**
    * @author J. H. S.
@@ -67,8 +66,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
      * @see java.net.URLStreamHandler#openConnection(java.net.URL)
      */
     protected URLConnection openConnection(URL u) throws IOException {
-      return new GenericURLConnection(u,
-          getResourceAsStreamImpl(this.resourceName));
+      return new GenericURLConnection(u, getResourceAsStreamImpl(this.resourceName));
     }
 
     /*
@@ -90,8 +88,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
    */
   ArchiveClassLoader(java.util.Collection archiveInfos) throws IOException {
     super(ArchiveClassLoader.class.getClassLoader());
-    this.archiveInfos = (ArchiveInfo[]) archiveInfos
-        .toArray(ArchiveInfo.EMPTY_ARRAY);
+    this.archiveInfos = (ArchiveInfo[]) archiveInfos.toArray(ArchiveInfo.EMPTY_ARRAY);
   }
 
   /*
@@ -109,28 +106,26 @@ public class ArchiveClassLoader extends BaseClassLoader {
       final ArchiveInfo ainfo = ainfos[i];
       try {
         final JarFile jarFile = ainfo.getJarFile();
-        classBytes = (byte[]) AccessController
-            .doPrivileged(new PrivilegedAction() {
-              public Object run() {
-                try {
-                  ZipEntry entry = jarFile.getEntry(subPath);
-                  if (entry == null) {
-                    return null;
-                  }
-                  java.io.InputStream in = jarFile.getInputStream(entry);
-                  try {
-                    byte[] bytes = IORoutines.loadExact(in,
-                        (int) entry.getSize());
-                    foundAinfo[0] = ainfo;
-                    return bytes;
-                  } finally {
-                    in.close();
-                  }
-                } catch (IOException ioe) {
-                  return null;
-                }
+        classBytes = (byte[]) AccessController.doPrivileged(new PrivilegedAction() {
+          public Object run() {
+            try {
+              ZipEntry entry = jarFile.getEntry(subPath);
+              if (entry == null) {
+                return null;
               }
-            });
+              java.io.InputStream in = jarFile.getInputStream(entry);
+              try {
+                byte[] bytes = IORoutines.loadExact(in, (int) entry.getSize());
+                foundAinfo[0] = ainfo;
+                return bytes;
+              } finally {
+                in.close();
+              }
+            } catch (IOException ioe) {
+              return null;
+            }
+          }
+        });
       } catch (IOException ioe2) {
         continue;
       }
@@ -139,12 +134,10 @@ public class ArchiveClassLoader extends BaseClassLoader {
       }
     }
     if (classBytes == null) {
-      throw new ClassNotFoundException("I/O error or entry not found: "
-          + subPath);
+      throw new ClassNotFoundException("I/O error or entry not found: " + subPath);
     }
     // TODO Signers Certificates
-    CodeSource cs = new CodeSource(foundAinfo[0].url,
-        new java.security.cert.Certificate[0]);
+    CodeSource cs = new CodeSource(foundAinfo[0].url, new java.security.cert.Certificate[0]);
     return this.defineClass(arg0, classBytes, 0, classBytes.length, cs);
   }
 
@@ -155,17 +148,15 @@ public class ArchiveClassLoader extends BaseClassLoader {
    */
   protected URL findResource(final String name) {
     try {
-      return AccessController
-          .doPrivileged(new PrivilegedAction<java.net.URL>() {
-            public java.net.URL run() {
-              try {
-                return new java.net.URL(null, "volatile:" + name,
-                    new LocalURLStreamHandler(name));
-              } catch (java.net.MalformedURLException mfu) {
-                throw new IllegalStateException(mfu.getMessage());
-              }
-            }
-          });
+      return AccessController.doPrivileged(new PrivilegedAction<java.net.URL>() {
+        public java.net.URL run() {
+          try {
+            return new java.net.URL(null, "volatile:" + name, new LocalURLStreamHandler(name));
+          } catch (java.net.MalformedURLException mfu) {
+            throw new IllegalStateException(mfu.getMessage());
+          }
+        }
+      });
     } catch (RuntimeException err) {
       logger.log(Level.SEVERE, "findResource()", err);
       throw err;
@@ -180,11 +171,9 @@ public class ArchiveClassLoader extends BaseClassLoader {
   protected Enumeration findResources(String name) throws IOException {
     URL url = this.findResource(name);
     if (url != null) {
-      return CollectionUtilities.getIteratorEnumeration(Collections
-          .singletonList(url).iterator());
+      return CollectionUtilities.getIteratorEnumeration(Collections.singletonList(url).iterator());
     } else {
-      return CollectionUtilities.getIteratorEnumeration(Collections.EMPTY_LIST
-          .iterator());
+      return CollectionUtilities.getIteratorEnumeration(Collections.EMPTY_LIST.iterator());
     }
   }
 
@@ -196,20 +185,19 @@ public class ArchiveClassLoader extends BaseClassLoader {
       final ArchiveInfo ainfo = ainfos[i];
       try {
         final JarFile jarFile = ainfo.getJarFile();
-        in = (java.io.InputStream) AccessController
-            .doPrivileged(new PrivilegedAction() {
-              public Object run() {
-                try {
-                  ZipEntry entry = jarFile.getEntry(resourceName);
-                  if (entry == null) {
-                    return null;
-                  }
-                  return jarFile.getInputStream(entry);
-                } catch (IOException ioe) {
-                  return null;
-                }
+        in = (java.io.InputStream) AccessController.doPrivileged(new PrivilegedAction() {
+          public Object run() {
+            try {
+              ZipEntry entry = jarFile.getEntry(resourceName);
+              if (entry == null) {
+                return null;
               }
-            });
+              return jarFile.getInputStream(entry);
+            } catch (IOException ioe) {
+              return null;
+            }
+          }
+        });
       } catch (IOException ioe2) {
         continue;
       }

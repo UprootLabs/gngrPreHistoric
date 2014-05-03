@@ -42,8 +42,7 @@ public class NavigatorVersionException extends ClientletException {
    * @param message
    * @param rootCause
    */
-  public NavigatorVersionException(String message, String expectingVersion,
-      Throwable rootCause) {
+  public NavigatorVersionException(String message, String expectingVersion, Throwable rootCause) {
     super(message, rootCause);
     this.expectingVersion = expectingVersion;
   }

@@ -31,8 +31,7 @@ public class NavigatorResponseEvent extends NavigatorEvent {
   private final ClientletResponse response;
   private final RequestType requestType;
 
-  public NavigatorResponseEvent(Object source, NavigatorEventType eventType,
-      NavigatorFrame clientletFrame, ClientletResponse response,
+  public NavigatorResponseEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response,
       RequestType requestType) {
     super(source, eventType, clientletFrame);
     this.response = response;
@@ -56,7 +55,6 @@ public class NavigatorResponseEvent extends NavigatorEvent {
   }
 
   public String toString() {
-    return "NavigatorWindowEvent[type=" + this.getEventType() + ",url="
-        + this.getUrl() + "]";
+    return "NavigatorWindowEvent[type=" + this.getEventType() + ",url=" + this.getUrl() + "]";
   }
 }

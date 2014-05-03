@@ -25,8 +25,7 @@ import org.lobobrowser.html.domimpl.*;
 public class DisplayRenderState extends StyleSheetRenderState {
   private final int defaultDisplay;
 
-  public DisplayRenderState(RenderState prevRenderState,
-      HTMLElementImpl element, final int defaultDisplay) {
+  public DisplayRenderState(RenderState prevRenderState, HTMLElementImpl element, final int defaultDisplay) {
     super(prevRenderState, element);
     this.defaultDisplay = defaultDisplay;
   }

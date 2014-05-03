@@ -59,13 +59,10 @@ import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 
 // TODO: Implement org.w3c.dom.events.EventTarget ?
-public abstract class NodeImpl extends AbstractScriptableDelegate implements
-    Node, ModelNode {
+public abstract class NodeImpl extends AbstractScriptableDelegate implements Node, ModelNode {
   private static final NodeImpl[] EMPTY_ARRAY = new NodeImpl[0];
-  private static final RenderState INVALID_RENDER_STATE = new StyleSheetRenderState(
-      null);
-  protected static final Logger logger = Logger.getLogger(NodeImpl.class
-      .getName());
+  private static final RenderState INVALID_RENDER_STATE = new StyleSheetRenderState(null);
+  protected static final Logger logger = Logger.getLogger(NodeImpl.class.getName());
   protected UINode uiNode;
   protected ArrayList<Node> nodeList;
   protected volatile Document document;
@@ -189,8 +186,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
    * Creates an <code>ArrayList</code> of descendent nodes that the given filter
    * condition.
    */
-  public ArrayList<NodeImpl> getDescendents(NodeFilter filter,
-      boolean nestIntoMatchingNodes) {
+  public ArrayList<NodeImpl> getDescendents(NodeFilter filter, boolean nestIntoMatchingNodes) {
     ArrayList<NodeImpl> al = new ArrayList<NodeImpl>();
     synchronized (this.treeLock) {
       this.extractDescendentsArrayImpl(filter, al, nestIntoMatchingNodes);
@@ -205,8 +201,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
    * @param filter
    * @param al
    */
-  private void extractDescendentsArrayImpl(NodeFilter filter, ArrayList<NodeImpl> al,
-      boolean nestIntoMatchingNodes) {
+  private void extractDescendentsArrayImpl(NodeFilter filter, ArrayList<NodeImpl> al, boolean nestIntoMatchingNodes) {
     ArrayList<Node> nl = this.nodeList;
     if (nl != null) {
       Iterator<Node> i = nl.iterator();
@@ -224,8 +219,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
     }
   }
 
-  private void appendChildrenToCollectionImpl(NodeFilter filter,
-      Collection<Object> collection) {
+  private void appendChildrenToCollectionImpl(NodeFilter filter, Collection<Object> collection) {
     ArrayList<Node> nl = this.nodeList;
     if (nl != null) {
       Iterator<Node> i = nl.iterator();
@@ -269,13 +263,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
 
       synchronized (this) {
         if (userDataHandlers != null && userData != null) {
-          for (Iterator handlers = userDataHandlers.entrySet().iterator(); handlers
-              .hasNext();) {
+          for (Iterator handlers = userDataHandlers.entrySet().iterator(); handlers.hasNext();) {
             Map.Entry entry = (Map.Entry) handlers.next();
             UserDataHandler handler = (UserDataHandler) entry.getValue();
-            handler.handle(UserDataHandler.NODE_CLONED,
-                (String) entry.getKey(), userData.get(entry.getKey()), this,
-                newNode);
+            handler.handle(UserDataHandler.NODE_CLONED, (String) entry.getKey(), userData.get(entry.getKey()), this, newNode);
           }
         }
       }
@@ -304,8 +295,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
       try {
         return nl == null ? null : nl.get(index);
       } catch (IndexOutOfBoundsException iob) {
-        this.warn("getChildAtIndex(): Bad index=" + index + " for node=" + this
-            + ".");
+        this.warn("getChildAtIndex(): Bad index=" + index + " for node=" + this + ".");
         return null;
       }
     }
@@ -325,8 +315,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
   public short compareDocumentPosition(Node other) throws DOMException {
     Node parent = this.getParentNode();
     if (!(other instanceof NodeImpl)) {
-      throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-          "Unknwon node implementation");
+      throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Unknwon node implementation");
     }
     if (parent != null && parent == other.getParentNode()) {
       int thisIndex = this.getNodeIndex();
@@ -476,13 +465,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
       synchronized (this.treeLock) {
         ArrayList<Node> nl = this.nodeList;
         if (nl == null) {
-          throw new DOMException(DOMException.INDEX_SIZE_ERR,
-              "Empty list of children");
+          throw new DOMException(DOMException.INDEX_SIZE_ERR, "Empty list of children");
         }
         Node n = nl.remove(index);
         if (n == null) {
-          throw new DOMException(DOMException.INDEX_SIZE_ERR,
-              "No node with that index");
+          throw new DOMException(DOMException.INDEX_SIZE_ERR, "No node with that index");
         }
         return n;
       }
@@ -852,12 +839,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
   }
 
   public boolean isEqualNode(Node arg) {
-    return arg instanceof NodeImpl && this.getNodeType() == arg.getNodeType()
-        && Objects.equals(this.getNodeName(), arg.getNodeName())
-        && Objects.equals(this.getNodeValue(), arg.getNodeValue())
-        && Objects.equals(this.getLocalName(), arg.getLocalName())
-        && Objects.equals(this.nodeList, ((NodeImpl) arg).nodeList)
-        && this.equalAttributes(arg);
+    return arg instanceof NodeImpl && this.getNodeType() == arg.getNodeType() && Objects.equals(this.getNodeName(), arg.getNodeName())
+        && Objects.equals(this.getNodeValue(), arg.getNodeValue()) && Objects.equals(this.getLocalName(), arg.getLocalName())
+        && Objects.equals(this.nodeList, ((NodeImpl) arg).nodeList) && this.equalAttributes(arg);
   }
 
   public boolean isDefaultNamespace(String namespaceURI) {
@@ -1224,8 +1208,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
     }
   }
 
-  protected void dispatchEventToHandlers(final Event event,
-      final List<Function> handlers) {
+  protected void dispatchEventToHandlers(final Event event, final List<Function> handlers) {
     if (handlers != null) {
       // We clone the collection and check if original collection still contains
       // the handler before dispatching
@@ -1242,8 +1225,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
 
   private Map<String, List<Function>> onEventHandlers = new HashMap<String, List<Function>>();
 
-  public void addEventListener(String type, Function listener,
-      boolean useCapture) {
+  public void addEventListener(String type, Function listener, boolean useCapture) {
     // TODO
     System.out.println("node Event listener: " + type);
 
@@ -1257,8 +1239,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements
     handlerList.add(listener);
   }
 
-  public void removeEventListener(String type, Function listener,
-      boolean useCapture) {
+  public void removeEventListener(String type, Function listener, boolean useCapture) {
     // TODO
     System.out.println("node remove Event listener: " + type);
     if (onEventHandlers.containsKey(type)) {

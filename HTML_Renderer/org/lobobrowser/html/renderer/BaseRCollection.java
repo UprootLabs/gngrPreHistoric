@@ -8,8 +8,7 @@ import java.util.Iterator;
 
 import org.lobobrowser.html.domimpl.ModelNode;
 
-abstract class BaseRCollection extends BaseBoundableRenderable implements
-    RCollection {
+abstract class BaseRCollection extends BaseBoundableRenderable implements RCollection {
   public BaseRCollection(RenderableContainer container, ModelNode modelNode) {
     super(container, modelNode);
   }
@@ -48,9 +47,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
   private boolean checkStartSelection(Rectangle bounds, Point selectionPoint) {
     if (bounds.y > selectionPoint.y) {
       return true;
-    } else if (selectionPoint.y >= bounds.y
-        && selectionPoint.y < bounds.y + bounds.height
-        && bounds.x > selectionPoint.x) {
+    } else if (selectionPoint.y >= bounds.y && selectionPoint.y < bounds.y + bounds.height && bounds.x > selectionPoint.x) {
       return true;
     } else {
       return false;
@@ -60,17 +57,14 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
   private boolean checkEndSelection(Rectangle bounds, Point selectionPoint) {
     if (bounds.y > selectionPoint.y) {
       return true;
-    } else if (selectionPoint.y >= bounds.y
-        && selectionPoint.y < bounds.y + bounds.height
-        && selectionPoint.x < bounds.x) {
+    } else if (selectionPoint.y >= bounds.y && selectionPoint.y < bounds.y + bounds.height && selectionPoint.x < bounds.x) {
       return true;
     } else {
       return false;
     }
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     // TODO: Does this work with renderables that are absolutely positioned?
     Point checkPoint1 = null;
     Point checkPoint2 = null;
@@ -100,8 +94,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
           BoundableRenderable renderable = (BoundableRenderable) robj;
           Rectangle bounds = renderable.getBounds();
           if (!inSelection) {
-            if (checkPoint1 != null
-                && this.checkStartSelection(bounds, checkPoint1)) {
+            if (checkPoint1 != null && this.checkStartSelection(bounds, checkPoint1)) {
               if (checkPoint2 != null) {
                 checkPoint1 = checkPoint2;
                 checkPoint2 = null;
@@ -109,22 +102,19 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
                 checkPoint1 = null;
               }
               inSelection = true;
-            } else if (checkPoint2 != null
-                && this.checkStartSelection(bounds, checkPoint2)) {
+            } else if (checkPoint2 != null && this.checkStartSelection(bounds, checkPoint2)) {
               checkPoint1 = null;
               checkPoint2 = null;
               inSelection = true;
             }
-          } else if (inSelection && checkPoint1 != null
-              && this.checkEndSelection(bounds, checkPoint1)) {
+          } else if (inSelection && checkPoint1 != null && this.checkEndSelection(bounds, checkPoint1)) {
             return false;
           }
           int offsetX = bounds.x;
           int offsetY = bounds.y;
           g.translate(offsetX, offsetY);
           try {
-            boolean newInSelection = renderable.paintSelection(g, inSelection,
-                startPoint, endPoint);
+            boolean newInSelection = renderable.paintSelection(g, inSelection, startPoint, endPoint);
             if (inSelection && !newInSelection) {
               return false;
             }
@@ -137,8 +127,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
     }
     if (inSelection && checkPoint1 != null) {
       return false;
-    } else if (!inSelection && (checkPoint1 != null || checkPoint2 != null)
-        && !(checkPoint1 != null && checkPoint2 != null)) {
+    } else if (!inSelection && (checkPoint1 != null || checkPoint2 != null) && !(checkPoint1 != null && checkPoint2 != null)) {
       // Has to have started not being in selection,
       // but we must start selecting without having
       // selected anything in the block then.
@@ -147,8 +136,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
     return inSelection;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     Point checkPoint1 = null;
     Point checkPoint2 = null;
     if (!inSelection) {
@@ -177,8 +165,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
           BoundableRenderable renderable = (BoundableRenderable) robj;
           if (!inSelection) {
             Rectangle bounds = renderable.getBounds();
-            if (checkPoint1 != null
-                && this.checkStartSelection(bounds, checkPoint1)) {
+            if (checkPoint1 != null && this.checkStartSelection(bounds, checkPoint1)) {
               if (checkPoint2 != null) {
                 checkPoint1 = checkPoint2;
                 checkPoint2 = null;
@@ -186,18 +173,15 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
                 checkPoint1 = null;
               }
               inSelection = true;
-            } else if (checkPoint2 != null
-                && this.checkStartSelection(bounds, checkPoint2)) {
+            } else if (checkPoint2 != null && this.checkStartSelection(bounds, checkPoint2)) {
               checkPoint1 = null;
               checkPoint2 = null;
               inSelection = true;
             }
-          } else if (inSelection && checkPoint1 != null
-              && this.checkEndSelection(renderable.getBounds(), checkPoint1)) {
+          } else if (inSelection && checkPoint1 != null && this.checkEndSelection(renderable.getBounds(), checkPoint1)) {
             return false;
           }
-          boolean newInSelection = renderable.extractSelectionText(buffer,
-              inSelection, startPoint, endPoint);
+          boolean newInSelection = renderable.extractSelectionText(buffer, inSelection, startPoint, endPoint);
           if (inSelection && !newInSelection) {
             return false;
           }
@@ -207,8 +191,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
     }
     if (inSelection && checkPoint1 != null) {
       return false;
-    } else if (!inSelection && (checkPoint1 != null || checkPoint2 != null)
-        && !(checkPoint1 != null && checkPoint2 != null)) {
+    } else if (!inSelection && (checkPoint1 != null || checkPoint2 != null) && !(checkPoint1 != null && checkPoint2 != null)) {
       // Has to have started not being in selection,
       // but we must start selecting without having
       // selected anything in the block then.
@@ -235,13 +218,11 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
 
   private BoundableRenderable renderableWithMouse = null;
 
-  public void onMouseMoved(MouseEvent event, int x, int y,
-      boolean triggerEvent, ModelNode limit) {
+  public void onMouseMoved(MouseEvent event, int x, int y, boolean triggerEvent, ModelNode limit) {
     super.onMouseMoved(event, x, y, triggerEvent, limit);
     BoundableRenderable oldRenderable = this.renderableWithMouse;
     Renderable r = this.getRenderable(x, y);
-    BoundableRenderable newRenderable = r instanceof BoundableRenderable ? (BoundableRenderable) r
-        : null;
+    BoundableRenderable newRenderable = r instanceof BoundableRenderable ? (BoundableRenderable) r : null;
     ModelNode newLimit;
     if (this.isContainedByNode()) {
       newLimit = this.modelNode;
@@ -251,15 +232,13 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
     boolean changed = oldRenderable != newRenderable;
     if (changed) {
       if (oldRenderable != null) {
-        oldRenderable.onMouseOut(event, x - oldRenderable.getX(), y
-            - oldRenderable.getY(), newLimit);
+        oldRenderable.onMouseOut(event, x - oldRenderable.getX(), y - oldRenderable.getY(), newLimit);
       }
       this.renderableWithMouse = newRenderable;
     }
     // Must recurse always
     if (newRenderable != null) {
-      newRenderable.onMouseMoved(event, x - newRenderable.getX(), y
-          - newRenderable.getY(), changed, newLimit);
+      newRenderable.onMouseMoved(event, x - newRenderable.getX(), y - newRenderable.getY(), changed, newLimit);
     }
   }
 
@@ -274,8 +253,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
       } else {
         newLimit = limit;
       }
-      oldRenderable.onMouseOut(event, x - oldRenderable.getX(), y
-          - oldRenderable.getY(), newLimit);
+      oldRenderable.onMouseOut(event, x - oldRenderable.getX(), y - oldRenderable.getY(), newLimit);
     }
   }
 
@@ -288,8 +266,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
           BoundableRenderable br = (BoundableRenderable) r;
           int bx = br.getX();
           int by = br.getY();
-          if (y >= by && y < by + br.getHeight() && x >= bx
-              && x < bx + br.getWidth()) {
+          if (y >= by && y < by + br.getHeight() && x >= bx && x < bx + br.getWidth()) {
             return br;
           }
         }
@@ -301,8 +278,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements
   public boolean onRightClick(MouseEvent event, int x, int y) {
     BoundableRenderable br = this.getRenderable(x, y);
     if (br == null) {
-      return HtmlController.getInstance().onContextMenu(this.modelNode, event,
-          x, y);
+      return HtmlController.getInstance().onContextMenu(this.modelNode, event, x, y);
     } else {
       return br.onRightClick(event, x - br.getX(), y - br.getY());
     }

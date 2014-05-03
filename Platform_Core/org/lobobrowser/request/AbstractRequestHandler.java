@@ -42,8 +42,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
   private final Component dialogComponent;
   private boolean cancelled = false;
 
-  public AbstractRequestHandler(ClientletRequest request,
-      Component dialogComponent) {
+  public AbstractRequestHandler(ClientletRequest request, Component dialogComponent) {
     this.request = request;
     this.requestType = request.getRequestType();
     this.dialogComponent = dialogComponent;
@@ -69,11 +68,9 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     return this.request;
   }
 
-  public abstract boolean handleException(ClientletResponse response,
-      Throwable exception) throws ClientletException;
+  public abstract boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException;
 
-  public abstract void handleProgress(ProgressType progressType, URL url,
-      String method, int value, int max);
+  public abstract void handleProgress(ProgressType progressType, URL url, String method, int value, int max);
 
   public boolean isCancelled() {
     return this.cancelled;
@@ -87,8 +84,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     return this.requestType;
   }
 
-  public abstract void processResponse(ClientletResponse response)
-      throws ClientletException, IOException;
+  public abstract void processResponse(ClientletResponse response) throws ClientletException, IOException;
 
   private class LocalHostnameVerifier implements HostnameVerifier {
     private boolean verified;
@@ -111,13 +107,8 @@ public abstract class AbstractRequestHandler implements RequestHandler {
             boolean verified = false;
             Component dc = dialogComponent;
             if (dc != null) {
-              int result = JOptionPane
-                  .showConfirmDialog(
-                      dc,
-                      "Host "
-                          + host
-                          + " does not match SSL certificate or CA not recognized. Proceed anyway?",
-                      "Security Warning", JOptionPane.YES_NO_OPTION);
+              int result = JOptionPane.showConfirmDialog(dc, "Host " + host
+                  + " does not match SSL certificate or CA not recognized. Proceed anyway?", "Security Warning", JOptionPane.YES_NO_OPTION);
               verified = result == JOptionPane.YES_OPTION;
               if (verified) {
                 vhs.add(host);

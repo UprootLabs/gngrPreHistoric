@@ -15,8 +15,7 @@ import org.lobobrowser.html.UserAgentContext;
  * agent defaults.
  */
 public class SimpleUserAgentContext implements UserAgentContext {
-  private static final Logger logger = Logger
-      .getLogger(SimpleUserAgentContext.class.getName());
+  private static final Logger logger = Logger.getLogger(SimpleUserAgentContext.class.getName());
   private static final Set<String> mediaNames = new HashSet<String>();
 
   static {

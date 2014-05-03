@@ -36,8 +36,7 @@ class FloatingViewportBounds implements FloatingBounds {
    *          Width of floating box, including padding insets.
    * @param height
    */
-  public FloatingViewportBounds(FloatingBounds prevBounds, boolean leftFloat,
-      int y, int offsetFromBorder, int height) {
+  public FloatingViewportBounds(FloatingBounds prevBounds, boolean leftFloat, int y, int offsetFromBorder, int height) {
     this.prevBounds = prevBounds;
     this.leftFloat = leftFloat;
     this.y = y;
@@ -160,14 +159,11 @@ class FloatingViewportBounds implements FloatingBounds {
       return false;
     }
     FloatingViewportBounds olm = (FloatingViewportBounds) other;
-    return olm.leftFloat == this.leftFloat && olm.y == this.y
-        && olm.height == this.height
-        && olm.offsetFromBorder == this.offsetFromBorder
+    return olm.leftFloat == this.leftFloat && olm.y == this.y && olm.height == this.height && olm.offsetFromBorder == this.offsetFromBorder
         && org.lobobrowser.util.Objects.equals(olm.prevBounds, this.prevBounds);
   }
 
   public int hashCode() {
-    return (this.leftFloat ? 1 : 0) ^ this.y ^ this.height
-        ^ this.offsetFromBorder;
+    return (this.leftFloat ? 1 : 0) ^ this.y ^ this.height ^ this.offsetFromBorder;
   }
 }

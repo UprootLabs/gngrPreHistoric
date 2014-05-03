@@ -64,8 +64,7 @@ class BrowserFrameUIControl implements UIControl {
         if (marginwidth.endsWith("%")) {
           int value;
           try {
-            value = Integer.parseInt(marginwidth.substring(0,
-                marginwidth.length() - 1));
+            value = Integer.parseInt(marginwidth.substring(0, marginwidth.length() - 1));
           } catch (NumberFormatException nfe) {
             value = 0;
           }
@@ -94,8 +93,7 @@ class BrowserFrameUIControl implements UIControl {
         if (marginheight.endsWith("%")) {
           int value;
           try {
-            value = Integer.parseInt(marginheight.substring(0,
-                marginheight.length() - 1));
+            value = Integer.parseInt(marginheight.substring(0, marginheight.length() - 1));
           } catch (NumberFormatException nfe) {
             value = 0;
           }
@@ -116,8 +114,7 @@ class BrowserFrameUIControl implements UIControl {
           insets.bottomType = HtmlInsets.TYPE_PIXELS;
         }
       }
-      Insets awtMarginInsets = insets == null ? null : insets
-          .getSimpleAWTInsets(availWidth, availHeight);
+      Insets awtMarginInsets = insets == null ? null : insets.getSimpleAWTInsets(availWidth, availHeight);
       int overflowX = renderState.getOverflowX();
       int overflowY = renderState.getOverflowY();
       if (awtMarginInsets != null) {
@@ -133,10 +130,8 @@ class BrowserFrameUIControl implements UIControl {
   }
 
   public Dimension getPreferredSize() {
-    int width = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("width"),
-        this.availWidth, 100);
-    int height = HtmlValues.getOldSyntaxPixelSize(
-        element.getAttribute("height"), this.availHeight, 100);
+    int width = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("width"), this.availWidth, 100);
+    int height = HtmlValues.getOldSyntaxPixelSize(element.getAttribute("height"), this.availHeight, 100);
     return new Dimension(width, height);
   }
 
@@ -149,8 +144,7 @@ class BrowserFrameUIControl implements UIControl {
     this.component.paint(g);
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     // Selection does not cross in here?
     return false;
   }

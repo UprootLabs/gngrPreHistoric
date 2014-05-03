@@ -100,17 +100,12 @@ public class HtmlInsets {
     this.rightType = rightType;
   }
 
-  public java.awt.Insets getAWTInsets(int defaultTop, int defaultLeft,
-      int defaultBottom, int defaultRight, int availWidth, int availHeight,
-      int autoX, int autoY) {
-    int top = getInsetPixels(this.top, this.topType, defaultTop, availHeight,
-        autoY);
-    int left = getInsetPixels(this.left, this.leftType, defaultLeft,
-        availWidth, autoX);
-    int bottom = getInsetPixels(this.bottom, this.bottomType, defaultBottom,
-        availHeight, autoY);
-    int right = getInsetPixels(this.right, this.rightType, defaultRight,
-        availWidth, autoX);
+  public java.awt.Insets getAWTInsets(int defaultTop, int defaultLeft, int defaultBottom, int defaultRight, int availWidth,
+      int availHeight, int autoX, int autoY) {
+    int top = getInsetPixels(this.top, this.topType, defaultTop, availHeight, autoY);
+    int left = getInsetPixels(this.left, this.leftType, defaultLeft, availWidth, autoX);
+    int bottom = getInsetPixels(this.bottom, this.bottomType, defaultBottom, availHeight, autoY);
+    int right = getInsetPixels(this.right, this.rightType, defaultRight, availWidth, autoX);
     return new Insets(top, left, bottom, right);
   }
 
@@ -122,8 +117,7 @@ public class HtmlInsets {
     return new Insets(top, left, bottom, right);
   }
 
-  private static int getInsetPixels(int value, int type, int defaultValue,
-      int availSize, int autoValue) {
+  private static int getInsetPixels(int value, int type, int defaultValue, int availSize, int autoValue) {
     if (type == TYPE_PIXELS) {
       return value;
     } else if (type == TYPE_UNDEFINED) {
@@ -138,7 +132,6 @@ public class HtmlInsets {
   }
 
   public String toString() {
-    return "[" + this.top + "," + this.left + "," + this.bottom + ","
-        + this.right + "]";
+    return "[" + this.top + "," + this.left + "," + this.bottom + "," + this.right + "]";
   }
 }

@@ -31,8 +31,7 @@ public class PreferencesPanel extends JPanel {
 
   public PreferencesPanel() {
     this.setLayout(WrapperLayout.getInstance());
-    this.setBorder(new CompoundBorder(new EtchedBorder(),
-        new javax.swing.border.EmptyBorder(8, 8, 8, 8)));
+    this.setBorder(new CompoundBorder(new EtchedBorder(), new javax.swing.border.EmptyBorder(8, 8, 8, 8)));
   }
 
   public boolean save() {

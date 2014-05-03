@@ -2,8 +2,7 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.html.HTMLAppletElement;
 
-public class HTMLAppletElementImpl extends HTMLAbstractUIElement implements
-    HTMLAppletElement {
+public class HTMLAppletElementImpl extends HTMLAbstractUIElement implements HTMLAppletElement {
   public HTMLAppletElementImpl(String name) {
     super(name);
   }

@@ -28,8 +28,7 @@ import org.w3c.dom.*;
 
 import java.util.*;
 
-public class NodeListImpl extends AbstractScriptableDelegate implements
-    NodeList {
+public class NodeListImpl extends AbstractScriptableDelegate implements NodeList {
   // Note: class must be public for reflection to work.
   private final ArrayList<Object> nodeList = new ArrayList<Object>();
 

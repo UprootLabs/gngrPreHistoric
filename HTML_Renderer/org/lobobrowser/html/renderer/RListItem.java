@@ -38,12 +38,9 @@ class RListItem extends BaseRListElement {
   private static final int BULLET_RMARGIN = 5;
   private static final int BULLET_SPACE_WIDTH = 36;
 
-  public RListItem(NodeImpl modelNode, int listNesting,
-      UserAgentContext pcontext, HtmlRendererContext rcontext,
-      FrameContext frameContext, RenderableContainer parentContainer,
-      RCollection parent) {
-    super(modelNode, listNesting, pcontext, rcontext, frameContext,
-        parentContainer);
+  public RListItem(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
+      RenderableContainer parentContainer, RCollection parent) {
+    super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
     // this.defaultMarginInsets = new java.awt.Insets(0, BULLET_SPACE_WIDTH, 0,
     // 0);
   }
@@ -81,22 +78,18 @@ class RListItem extends BaseRListElement {
 
   private int count;
 
-  public void doLayout(int availWidth, int availHeight, boolean expandWidth,
-      boolean expandHeight, FloatingBoundsSource floatBoundsSource,
+  public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
       int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
-    super.doLayout(availWidth, availHeight, expandWidth, expandHeight,
-        floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
+    super.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
     // Note: Count must be calculated even if layout is valid.
     RenderState renderState = this.modelNode.getRenderState();
     Integer value = this.getValue();
     if (value == UNSET) {
-      this.count = renderState.incrementCount(DEFAULT_COUNTER_NAME,
-          this.listNesting);
+      this.count = renderState.incrementCount(DEFAULT_COUNTER_NAME, this.listNesting);
     } else {
       int newCount = value.intValue();
       this.count = newCount;
-      renderState.resetCount(DEFAULT_COUNTER_NAME, this.listNesting,
-          newCount + 1);
+      renderState.resetCount(DEFAULT_COUNTER_NAME, this.listNesting, newCount + 1);
     }
   }
 
@@ -107,8 +100,7 @@ class RListItem extends BaseRListElement {
     RBlockViewport layout = this.bodyLayout;
     if (layout != null) {
       ListStyle listStyle = this.listStyle;
-      int bulletType = listStyle == null ? ListStyle.TYPE_UNSET
-          : listStyle.type;
+      int bulletType = listStyle == null ? ListStyle.TYPE_UNSET : listStyle.type;
       if (bulletType != ListStyle.TYPE_NONE) {
         if (bulletType == ListStyle.TYPE_UNSET) {
           RCollection parent = this.getOriginalOrCurrentParent();
@@ -117,8 +109,7 @@ class RListItem extends BaseRListElement {
           }
           if (parent instanceof RList) {
             ListStyle parentListStyle = ((RList) parent).listStyle;
-            bulletType = parentListStyle == null ? ListStyle.TYPE_DISC
-                : parentListStyle.type;
+            bulletType = parentListStyle == null ? ListStyle.TYPE_DISC : parentListStyle.type;
           } else {
             bulletType = ListStyle.TYPE_DISC;
           }
@@ -127,14 +118,11 @@ class RListItem extends BaseRListElement {
         Color prevColor = g.getColor();
         g.setColor(rs.getColor());
         try {
-          Insets insets = this
-              .getInsets(this.hasHScrollBar, this.hasVScrollBar);
+          Insets insets = this.getInsets(this.hasHScrollBar, this.hasVScrollBar);
           Insets paddingInsets = this.paddingInsets;
           int baselineOffset = layout.getFirstBaselineOffset();
-          int bulletRight = (marginInsets == null ? 0 : marginInsets.left)
-              - BULLET_RMARGIN;
-          int bulletBottom = insets.top + baselineOffset
-              + (paddingInsets == null ? 0 : paddingInsets.top);
+          int bulletRight = (marginInsets == null ? 0 : marginInsets.left) - BULLET_RMARGIN;
+          int bulletBottom = insets.top + baselineOffset + (paddingInsets == null ? 0 : paddingInsets.top);
           int bulletTop = bulletBottom - BULLET_HEIGHT;
           int bulletLeft = bulletRight - BULLET_WIDTH;
           int bulletNumber = this.count;

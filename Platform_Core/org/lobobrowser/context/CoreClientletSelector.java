@@ -31,8 +31,7 @@ public class CoreClientletSelector implements ClientletSelector {
     return ExtensionManager.getInstance().getClientlet(request, response);
   }
 
-  public Clientlet lastResortSelect(ClientletRequest request,
-      ClientletResponse response) {
+  public Clientlet lastResortSelect(ClientletRequest request, ClientletResponse response) {
     throw new IllegalStateException("not expected to be called");
   }
 }

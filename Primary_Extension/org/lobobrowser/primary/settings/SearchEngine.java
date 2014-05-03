@@ -29,8 +29,7 @@ public class SearchEngine implements Serializable {
   private final String baseUrl;
   private final String queryParameter;
 
-  public SearchEngine(final String name, final String description,
-      final String baseUrl, final String queryParameter) {
+  public SearchEngine(final String name, final String description, final String baseUrl, final String queryParameter) {
     super();
     this.name = name;
     this.description = description;
@@ -38,14 +37,12 @@ public class SearchEngine implements Serializable {
     this.queryParameter = queryParameter;
   }
 
-  public java.net.URL getURL(String query)
-      throws java.net.MalformedURLException {
+  public java.net.URL getURL(String query) throws java.net.MalformedURLException {
     String baseUrl = this.baseUrl;
     int qmIdx = baseUrl.indexOf('?');
     char join = qmIdx == -1 ? '?' : '&';
     try {
-      return new java.net.URL(baseUrl + join + this.queryParameter + "="
-          + java.net.URLEncoder.encode(query, "UTF-8"));
+      return new java.net.URL(baseUrl + join + this.queryParameter + "=" + java.net.URLEncoder.encode(query, "UTF-8"));
     } catch (java.io.UnsupportedEncodingException uee) {
       throw new IllegalStateException("not expected", uee);
     }

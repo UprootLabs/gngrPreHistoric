@@ -64,8 +64,7 @@ public class ReuseManager {
     try {
       // Bind host for reuse server is 127.0.0.1, and it can
       // only be accessed locally.
-      InetAddress bindHost = InetAddress.getByAddress(new byte[] { (byte) 127,
-          (byte) 0, (byte) 0, (byte) 1 });
+      InetAddress bindHost = InetAddress.getByAddress(new byte[] { (byte) 127, (byte) 0, (byte) 0, (byte) 1 });
       java.io.File appHome = StorageManager.getInstance().getAppHome();
       java.io.File portFile = new File(appHome, PORT_FILE);
       OUTER: for (int tries = 0; tries < 5; tries++) {
@@ -117,12 +116,8 @@ public class ReuseManager {
           } catch (IOException ioe) {
             // VM must have died. We don't have logging at this point.
             PlatformInit.getInstance().initLogging(false);
-            Logger
-                .getLogger(ReuseManager.class.getName())
-                .log(
-                    Level.WARNING,
-                    "Another instance of the application must have been running but was not shut down properly.",
-                    ioe);
+            Logger.getLogger(ReuseManager.class.getName()).log(Level.WARNING,
+                "Another instance of the application must have been running but was not shut down properly.", ioe);
             portFile.delete();
           }
         }

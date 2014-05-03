@@ -35,8 +35,7 @@ import org.lobobrowser.store.StorageManager;
  * calling {@link #getInstance()}.
  */
 public class ConnectionSettings implements java.io.Serializable {
-  private static final Logger logger = Logger
-      .getLogger(ConnectionSettings.class.getName());
+  private static final Logger logger = Logger.getLogger(ConnectionSettings.class.getName());
   private static final ConnectionSettings instance;
   private static final long serialVersionUID = 22574500000000301L;
 
@@ -52,12 +51,10 @@ public class ConnectionSettings implements java.io.Serializable {
   static {
     ConnectionSettings ins = null;
     try {
-      ins = (ConnectionSettings) StorageManager.getInstance().retrieveSettings(
-          ConnectionSettings.class.getSimpleName(),
+      ins = (ConnectionSettings) StorageManager.getInstance().retrieveSettings(ConnectionSettings.class.getSimpleName(),
           ConnectionSettings.class.getClassLoader());
     } catch (Exception err) {
-      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.",
-          err);
+      logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
       ins = new ConnectionSettings();
@@ -218,8 +215,7 @@ public class ConnectionSettings implements java.io.Serializable {
     return disableProxyForLocalAddresses;
   }
 
-  public void setDisableProxyForLocalAddresses(
-      boolean disableProxyForLocalAddresses) {
+  public void setDisableProxyForLocalAddresses(boolean disableProxyForLocalAddresses) {
     this.disableProxyForLocalAddresses = disableProxyForLocalAddresses;
     synchronized (this) {
       this.proxy = null;
@@ -228,8 +224,7 @@ public class ConnectionSettings implements java.io.Serializable {
 
   public void save() {
     try {
-      StorageManager.getInstance().saveSettings(
-          this.getClass().getSimpleName(), this);
+      StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
     } catch (java.io.IOException ioe) {
       logger.log(Level.WARNING, "save(): Unable to save settings", ioe);
     }

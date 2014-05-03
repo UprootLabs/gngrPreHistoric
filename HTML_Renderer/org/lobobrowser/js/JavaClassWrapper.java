@@ -40,8 +40,7 @@ public class JavaClassWrapper {
     this.scanMethods();
   }
 
-  public Object newInstance() throws InstantiationException,
-      IllegalAccessException {
+  public Object newInstance() throws InstantiationException, IllegalAccessException {
     return this.javaClass.newInstance();
   }
 
@@ -117,8 +116,7 @@ public class JavaClassWrapper {
     }
     PropertyInfo indexer = this.integerIndexer;
     if (indexer == null) {
-      Class pt = getter ? method.getReturnType()
-          : method.getParameterTypes()[1];
+      Class pt = getter ? method.getReturnType() : method.getParameterTypes()[1];
       indexer = new PropertyInfo("$item", pt);
       this.integerIndexer = indexer;
     }
@@ -175,15 +173,12 @@ public class JavaClassWrapper {
       throw new IllegalArgumentException("methodName=" + methodName);
     }
 
-    PropertyName propertyNameAnnotation = method
-        .getAnnotation(PropertyName.class);
-    String propertyName = (propertyNameAnnotation != null) ? propertyNameAnnotation
-        .value() : propertyUncapitalize(capPropertyName);
+    PropertyName propertyNameAnnotation = method.getAnnotation(PropertyName.class);
+    String propertyName = (propertyNameAnnotation != null) ? propertyNameAnnotation.value() : propertyUncapitalize(capPropertyName);
 
     PropertyInfo pinfo = this.properties.get(propertyName);
     if (pinfo == null) {
-      Class pt = getter ? method.getReturnType()
-          : method.getParameterTypes()[0];
+      Class pt = getter ? method.getReturnType() : method.getParameterTypes()[0];
       pinfo = new PropertyInfo(propertyName, pt);
       this.properties.put(propertyName, pinfo);
     }

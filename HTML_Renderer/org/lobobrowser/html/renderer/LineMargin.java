@@ -49,8 +49,7 @@ class LineMargin {
       return false;
     }
     LineMargin olm = (LineMargin) other;
-    return olm.clearX == this.clearX && olm.clearY == this.clearY
-        && org.lobobrowser.util.Objects.equals(olm.next, this.next);
+    return olm.clearX == this.clearX && olm.clearY == this.clearY && org.lobobrowser.util.Objects.equals(olm.next, this.next);
   }
 
   public LineMargin translated(int yoffset, int xoffset) {
@@ -60,8 +59,7 @@ class LineMargin {
       newOffsetX = 0;
     }
     LineMargin oldNext = this.next;
-    LineMargin newNext = oldNext == null ? null : oldNext.translated(yoffset,
-        xoffset);
+    LineMargin newNext = oldNext == null ? null : oldNext.translated(yoffset, xoffset);
     return new LineMargin(newNext, newClearY, newOffsetX);
   }
 }

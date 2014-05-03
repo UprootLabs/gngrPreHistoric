@@ -56,11 +56,9 @@ public class JavaScript {
       // the JavaScript object. Reciprocal linking cannot
       // be done with weak hash maps and without leaking.
       synchronized (this) {
-        Scriptable javascriptObject = ((ScriptableDelegate) raw)
-            .getScriptable();
+        Scriptable javascriptObject = ((ScriptableDelegate) raw).getScriptable();
         if (javascriptObject == null) {
-          JavaObjectWrapper jow = new JavaObjectWrapper(JavaClassWrapperFactory
-              .getInstance().getClassWrapper(raw.getClass()), raw);
+          JavaObjectWrapper jow = new JavaObjectWrapper(JavaClassWrapperFactory.getInstance().getClassWrapper(raw.getClass()), raw);
           javascriptObject = jow;
           jow.setParentScope(scope);
           ((ScriptableDelegate) raw).setScriptable(jow);
@@ -74,16 +72,14 @@ public class JavaScript {
       synchronized (this.javaObjectToWrapper) {
         // WeakHashMaps will retain keys if the value refers to the key.
         // That's why we need to refer to the value weakly too.
-        WeakReference valueRef = this.javaObjectToWrapper
-            .get(raw);
+        WeakReference valueRef = this.javaObjectToWrapper.get(raw);
         JavaObjectWrapper jow = null;
         if (valueRef != null) {
           jow = (JavaObjectWrapper) valueRef.get();
         }
         if (jow == null) {
           Class javaClass = raw.getClass();
-          JavaClassWrapper wrapper = JavaClassWrapperFactory.getInstance()
-              .getClassWrapper(javaClass);
+          JavaClassWrapper wrapper = JavaClassWrapperFactory.getInstance().getClassWrapper(javaClass);
           jow = new JavaObjectWrapper(wrapper, raw);
           this.javaObjectToWrapper.put(raw, new WeakReference<JavaObjectWrapper>(jow));
         }
@@ -105,8 +101,7 @@ public class JavaScript {
 
   public Object getJavaObject(Object javascriptObject, Class type) {
     if (javascriptObject instanceof JavaObjectWrapper) {
-      Object rawJavaObject = ((JavaObjectWrapper) javascriptObject)
-          .getJavaObject();
+      Object rawJavaObject = ((JavaObjectWrapper) javascriptObject).getJavaObject();
       if (String.class == type) {
         return String.valueOf(rawJavaObject);
       } else {

@@ -106,8 +106,7 @@ public class AuthenticationDialog extends JDialog {
 
   private class OkAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
-      authentication = new PasswordAuthentication(userNameField.getText(),
-          passwordField.getPassword());
+      authentication = new PasswordAuthentication(userNameField.getText(), passwordField.getPassword());
       AuthenticationDialog.this.dispose();
     }
   }

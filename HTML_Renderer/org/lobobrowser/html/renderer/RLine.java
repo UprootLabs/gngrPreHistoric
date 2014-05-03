@@ -53,8 +53,8 @@ class RLine extends BaseRCollection {
   private boolean allowOverflow = false;
   private boolean firstAllowOverflowWord = false;
 
-  public RLine(ModelNode modelNode, RenderableContainer container, int x,
-      int y, int desiredMaxWidth, int height, boolean initialAllowOverflow) {
+  public RLine(ModelNode modelNode, RenderableContainer container, int x, int y, int desiredMaxWidth, int height,
+      boolean initialAllowOverflow) {
     // Note that in the case of RLine, modelNode is the context node
     // at the beginning of the line, not a node that encloses the whole line.
     super(container, modelNode);
@@ -125,8 +125,7 @@ class RLine extends BaseRCollection {
         if (r instanceof RElement) {
           // RElement's should be clipped.
           RElement relement = (RElement) r;
-          Graphics newG = g.create(relement.getX(), relement.getY(),
-              relement.getWidth(), relement.getHeight());
+          Graphics newG = g.create(relement.getX(), relement.getY(), relement.getWidth(), relement.getHeight());
           try {
             relement.paint(newG);
           } finally {
@@ -142,10 +141,8 @@ class RLine extends BaseRCollection {
     }
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
-    boolean result = super.extractSelectionText(buffer, inSelection,
-        startPoint, endPoint);
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
+    boolean result = super.extractSelectionText(buffer, inSelection, startPoint, endPoint);
     if (result) {
       LineBreak br = this.lineBreak;
       if (br != null) {
@@ -204,8 +201,7 @@ class RLine extends BaseRCollection {
     if (allowOverflow && firstAllowOverflowWord) {
       this.firstAllowOverflowWord = false;
     }
-    if ((!allowOverflow || firstAllowOverflowWord) && offset != 0
-        && (offset + wiwidth > this.desiredMaxWidth)) {
+    if ((!allowOverflow || firstAllowOverflowWord) && offset != 0 && (offset + wiwidth > this.desiredMaxWidth)) {
       ArrayList<Renderable> renderables = this.renderables;
       ArrayList<Renderable> overflow = null;
       boolean cancel = false;
@@ -218,13 +214,11 @@ class RLine extends BaseRCollection {
       int newWidth = offset;
       for (int i = renderables.size(); --i >= 0;) {
         Renderable renderable = renderables.get(i);
-        if (renderable instanceof RWord
-            || !(renderable instanceof BoundableRenderable)) {
+        if (renderable instanceof RWord || !(renderable instanceof BoundableRenderable)) {
           if (overflow == null) {
             overflow = new ArrayList<Renderable>();
           }
-          if (renderable != rword && renderable instanceof RWord
-              && ((RWord) renderable).getX() == 0) {
+          if (renderable != rword && renderable instanceof RWord && ((RWord) renderable).getX() == 0) {
             // Can't overflow words starting at offset zero.
             // Note that all or none should be overflown.
             cancel = true;
@@ -317,8 +311,7 @@ class RLine extends BaseRCollection {
    *          The required new line height.
    * @param valign
    */
-  private final void setElementY(RElement relement, int elementHeight,
-      int valign) {
+  private final void setElementY(RElement relement, int elementHeight, int valign) {
     // At this point height should be more than what's needed.
     int yoffset;
     switch (valign) {
@@ -356,9 +349,8 @@ class RLine extends BaseRCollection {
     if (allowOverflow && firstAllowOverflowWord) {
       this.firstAllowOverflowWord = false;
     }
-    if ((!allowOverflow || firstAllowOverflowWord) && origXOffset != 0
-        && (origXOffset + pw > desiredMaxWidth)) {
-      throw new OverflowException(Collections.singleton((Renderable)relement));
+    if ((!allowOverflow || firstAllowOverflowWord) && origXOffset != 0 && (origXOffset + pw > desiredMaxWidth)) {
+      throw new OverflowException(Collections.singleton((Renderable) relement));
     }
     // Note: Renderable for widget doesn't paint the widget, but
     // it's needed for height readjustment.
@@ -471,8 +463,7 @@ class RLine extends BaseRCollection {
       Object r = i.next();
       if (r instanceof RStyleChanger) {
         RStyleChanger rstyleChanger = (RStyleChanger) r;
-        FontMetrics fm = rstyleChanger.getModelNode().getRenderState()
-            .getFontMetrics();
+        FontMetrics fm = rstyleChanger.getModelNode().getRenderState().getFontMetrics();
         int descent = fm.getDescent();
         if (descent > maxDescent) {
           maxDescent = descent;
@@ -533,8 +524,7 @@ class RLine extends BaseRCollection {
   }
 
   public boolean onMouseClick(java.awt.event.MouseEvent event, int x, int y) {
-    Renderable[] rarray = this.renderables
-        .toArray(Renderable.EMPTY_ARRAY);
+    Renderable[] rarray = this.renderables.toArray(Renderable.EMPTY_ARRAY);
     BoundableRenderable r = MarkupUtilities.findRenderable(rarray, x, y, false);
     if (r != null) {
       Rectangle rbounds = r.getBounds();
@@ -545,8 +535,7 @@ class RLine extends BaseRCollection {
   }
 
   public boolean onDoubleClick(java.awt.event.MouseEvent event, int x, int y) {
-    Renderable[] rarray = this.renderables
-        .toArray(Renderable.EMPTY_ARRAY);
+    Renderable[] rarray = this.renderables.toArray(Renderable.EMPTY_ARRAY);
     BoundableRenderable r = MarkupUtilities.findRenderable(rarray, x, y, false);
     if (r != null) {
       Rectangle rbounds = r.getBounds();
@@ -559,8 +548,7 @@ class RLine extends BaseRCollection {
   private BoundableRenderable mousePressTarget;
 
   public boolean onMousePressed(java.awt.event.MouseEvent event, int x, int y) {
-    Renderable[] rarray = this.renderables
-        .toArray(Renderable.EMPTY_ARRAY);
+    Renderable[] rarray = this.renderables.toArray(Renderable.EMPTY_ARRAY);
     BoundableRenderable r = MarkupUtilities.findRenderable(rarray, x, y, false);
     if (r != null) {
       this.mousePressTarget = r;
@@ -572,10 +560,8 @@ class RLine extends BaseRCollection {
   }
 
   public RenderableSpot getLowestRenderableSpot(int x, int y) {
-    Renderable[] rarray = this.renderables
-        .toArray(Renderable.EMPTY_ARRAY);
-    BoundableRenderable br = MarkupUtilities
-        .findRenderable(rarray, x, y, false);
+    Renderable[] rarray = this.renderables.toArray(Renderable.EMPTY_ARRAY);
+    BoundableRenderable br = MarkupUtilities.findRenderable(rarray, x, y, false);
     if (br != null) {
       Rectangle rbounds = br.getBounds();
       return br.getLowestRenderableSpot(x - rbounds.x, y - rbounds.y);
@@ -585,8 +571,7 @@ class RLine extends BaseRCollection {
   }
 
   public boolean onMouseReleased(java.awt.event.MouseEvent event, int x, int y) {
-    Renderable[] rarray = this.renderables
-        .toArray(Renderable.EMPTY_ARRAY);
+    Renderable[] rarray = this.renderables.toArray(Renderable.EMPTY_ARRAY);
     BoundableRenderable r = MarkupUtilities.findRenderable(rarray, x, y, false);
     if (r != null) {
       Rectangle rbounds = r.getBounds();

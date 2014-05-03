@@ -39,8 +39,7 @@ public class NavigationEvent extends java.util.EventObject {
   private final Object linkObject;
   private final NavigatorFrame originatingFrame;
 
-  public NavigationEvent(Object source, URL url, String method,
-      ParameterInfo paramInfo, TargetType targetType, RequestType requestType,
+  public NavigationEvent(Object source, URL url, String method, ParameterInfo paramInfo, TargetType targetType, RequestType requestType,
       boolean fromClick, Object linkObject, NavigatorFrame originatingFrame) {
     super(source);
     this.uRL = url;
@@ -53,24 +52,18 @@ public class NavigationEvent extends java.util.EventObject {
     this.originatingFrame = originatingFrame;
   }
 
-  public NavigationEvent(Object source, URL url, String method,
-      ParameterInfo paramInfo, TargetType targetType, RequestType requestType,
+  public NavigationEvent(Object source, URL url, String method, ParameterInfo paramInfo, TargetType targetType, RequestType requestType,
       NavigatorFrame originatingFrame) {
-    this(source, url, method, paramInfo, targetType, requestType, false, null,
-        originatingFrame);
+    this(source, url, method, paramInfo, targetType, requestType, false, null, originatingFrame);
   }
 
-  public NavigationEvent(Object source, URL url, TargetType targetType,
-      RequestType requestType, Object linkObject,
+  public NavigationEvent(Object source, URL url, TargetType targetType, RequestType requestType, Object linkObject,
       NavigatorFrame originatingFrame) {
-    this(source, url, "GET", null, targetType, requestType, true, linkObject,
-        originatingFrame);
+    this(source, url, "GET", null, targetType, requestType, true, linkObject, originatingFrame);
   }
 
-  public NavigationEvent(Object source, URL url, String method,
-      RequestType requestType, NavigatorFrame originatingFrame) {
-    this(source, url, method, null, TargetType.SELF, requestType, false, null,
-        originatingFrame);
+  public NavigationEvent(Object source, URL url, String method, RequestType requestType, NavigatorFrame originatingFrame) {
+    this(source, url, method, null, TargetType.SELF, requestType, false, null, originatingFrame);
   }
 
   public URL getURL() {

@@ -108,16 +108,14 @@ public class RecordedInputStream extends InputStream {
 
   public synchronized void mark(int readlimit) {
     if (this.hasReachedMaxBufferSize) {
-      throw new java.lang.IllegalStateException(
-          "Maximum buffer size was already reached.");
+      throw new java.lang.IllegalStateException("Maximum buffer size was already reached.");
     }
     this.markPosition = this.store.size();
   }
 
   public synchronized void reset() throws IOException {
     if (this.hasReachedMaxBufferSize) {
-      throw new java.lang.IllegalStateException(
-          "Maximum buffer size was already reached.");
+      throw new java.lang.IllegalStateException("Maximum buffer size was already reached.");
     }
     int mp = this.markPosition;
     byte[] wholeBuffer = this.store.toByteArray();
@@ -134,10 +132,8 @@ public class RecordedInputStream extends InputStream {
    */
   public int read(byte[] buffer, int offset, int length) throws IOException {
     if (this.readPosition != -1 && this.readPosition < this.resetBuffer.length) {
-      int minLength = Math.min(this.resetBuffer.length - this.readPosition,
-          length);
-      System.arraycopy(this.resetBuffer, this.readPosition, buffer, offset,
-          minLength);
+      int minLength = Math.min(this.resetBuffer.length - this.readPosition, length);
+      System.arraycopy(this.resetBuffer, this.readPosition, buffer, offset, minLength);
       this.readPosition += minLength;
       return minLength;
     } else {
@@ -170,8 +166,7 @@ public class RecordedInputStream extends InputStream {
     return this.store.toByteArray();
   }
 
-  public String getString(String encoding)
-      throws java.io.UnsupportedEncodingException, BufferExceededException {
+  public String getString(String encoding) throws java.io.UnsupportedEncodingException, BufferExceededException {
     if (this.hasReachedMaxBufferSize) {
       throw new BufferExceededException();
     }

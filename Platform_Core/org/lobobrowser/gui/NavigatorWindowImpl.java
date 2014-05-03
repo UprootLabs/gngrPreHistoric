@@ -69,8 +69,7 @@ import org.lobobrowser.util.Urls;
  * Default implementation of the {@link NavigatorWindow} interface.
  */
 public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
-  private static final Logger logger = Logger
-      .getLogger(NavigatorWindowImpl.class.getName());
+  private static final Logger logger = Logger.getLogger(NavigatorWindowImpl.class.getName());
   private static final int HGAP = 4;
   private static final int VGAP = 2;
 
@@ -90,8 +89,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   private volatile boolean launched = false;
   private volatile boolean disposingProgressWindow = false;
 
-  private static volatile WindowFactory windowFactory = DefaultWindowFactory
-      .getInstance();
+  private static volatile WindowFactory windowFactory = DefaultWindowFactory.getInstance();
 
   /**
    * Changes the {@link WindowFactory} that is used to create browser windows.
@@ -105,8 +103,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
    * window. Later a new browser window is obtained given the windowId, or
    * created.
    */
-  public NavigatorWindowImpl(NavigatorFrame openerFrame, String windowId,
-      Properties properties) {
+  public NavigatorWindowImpl(NavigatorFrame openerFrame, String windowId, Properties properties) {
     this.requestedProperties = properties;
     this.windowId = windowId;
     WindowFactory wf = windowFactory;
@@ -118,12 +115,10 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     if (window != null) {
       framePanel = window.getTopFramePanel();
       if (framePanel == null) {
-        throw new IllegalStateException("Window with ID " + windowId
-            + " exists but its top frame is null.");
+        throw new IllegalStateException("Window with ID " + windowId + " exists but its top frame is null.");
       }
     } else {
-      framePanel = FramePanelFactorySource.getInstance().getActiveFactory()
-          .createFramePanel(windowId);
+      framePanel = FramePanelFactorySource.getInstance().getActiveFactory().createFramePanel(windowId);
       framePanel.setOpenerFrame(openerFrame);
     }
     this.framePanel = framePanel;
@@ -135,8 +130,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
       this.browserWindow = window;
       this.launched = true;
     } else {
-      AbstractBrowserWindow newWindow = wf.createWindow(this.windowId,
-          properties, this);
+      AbstractBrowserWindow newWindow = wf.createWindow(this.windowId, properties, this);
       this.browserWindow = newWindow;
     }
   }
@@ -205,11 +199,9 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
    *          Window features formatted as in the window.open() method of
    *          Javascript.
    */
-  public static NavigatorWindowImpl createFromWindowFeatures(
-      NavigatorFrame openerFrame, String windowId, String windowFeatures) {
+  public static NavigatorWindowImpl createFromWindowFeatures(NavigatorFrame openerFrame, String windowId, String windowFeatures) {
     // Transform into properties file format.
-    return new NavigatorWindowImpl(openerFrame, windowId,
-        getPropertiesFromWindowFeatures(windowFeatures));
+    return new NavigatorWindowImpl(openerFrame, windowId, getPropertiesFromWindowFeatures(windowFeatures));
   }
 
   public static Properties getPropertiesFromWindowFeatures(String windowFeatures) {
@@ -238,12 +230,10 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   }
 
   public void navigate(java.net.URL url, String method, ParameterInfo paramInfo) {
-    this.framePanel.navigate(url, method, paramInfo, TargetType.SELF,
-        RequestType.PROGRAMMATIC);
+    this.framePanel.navigate(url, method, paramInfo, TargetType.SELF, RequestType.PROGRAMMATIC);
   }
 
-  public void handleError(NavigatorFrame frame, ClientletResponse response,
-      Throwable exception) {
+  public void handleError(NavigatorFrame frame, ClientletResponse response, Throwable exception) {
     ExtensionManager.getInstance().handleError(frame, response, exception);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
@@ -251,10 +241,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 
   private volatile NavigatorFrame latestAccessedFrame = null;
 
-  public void handleDocumentAccess(final NavigatorFrame frame,
-      ClientletResponse response) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this,
-        NavigatorEventType.DOCUMENT_ACCESSED, frame, response);
+  public void handleDocumentAccess(final NavigatorFrame frame, ClientletResponse response) {
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response);
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         EVENT.fireEvent(event);
@@ -262,8 +250,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     });
   }
 
-  public void handleDocumentAccess(NavigatorFrame frame,
-      ClientletResponse response, boolean okToAddToNavigationList) {
+  public void handleDocumentAccess(NavigatorFrame frame, ClientletResponse response, boolean okToAddToNavigationList) {
     this.handleDocumentAccess(frame, response);
   }
 
@@ -297,32 +284,27 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     return true;
   }
 
-  public void handleDocumentRendering(final NavigatorFrame frame,
-      final ClientletResponse response, final ComponentContent content) {
+  public void handleDocumentRendering(final NavigatorFrame frame, final ClientletResponse response, final ComponentContent content) {
     if (EventQueue.isDispatchThread()) {
       this.handleDocumentRenderingImpl(frame, response, content);
     } else {
       EventQueue.invokeLater(new Runnable() {
         public void run() {
-          NavigatorWindowImpl.this.handleDocumentRenderingImpl(frame, response,
-              content);
+          NavigatorWindowImpl.this.handleDocumentRenderingImpl(frame, response, content);
         }
       });
     }
   }
 
-  private String getWindowTitle(ClientletResponse response,
-      ComponentContent content) {
+  private String getWindowTitle(ClientletResponse response, ComponentContent content) {
     String title = content == null ? null : content.getTitle();
     if (title == null) {
-      title = response == null ? "" : Urls.getNoRefForm(response
-          .getResponseURL());
+      title = response == null ? "" : Urls.getNoRefForm(response.getResponseURL());
     }
     return title;
   }
 
-  private void handleDocumentRenderingImpl(final NavigatorFrame frame,
-      ClientletResponse response, ComponentContent content) {
+  private void handleDocumentRenderingImpl(final NavigatorFrame frame, ClientletResponse response, ComponentContent content) {
     if (frame == this.framePanel) {
       String title = this.getWindowTitle(response, content);
       Object window = this.browserWindow;
@@ -330,13 +312,10 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
         ((Frame) window).setTitle(title);
       }
     }
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this,
-        NavigatorEventType.DOCUMENT_RENDERING, frame, response);
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response);
     latestAccessedFrame = event.getNavigatorFrame();
     if (!EVENT.fireEvent(event)) {
-      logger
-          .warning("handleDocumentRendering(): Did not deliver event to any window: "
-              + event);
+      logger.warning("handleDocumentRendering(): Did not deliver event to any window: " + event);
     }
   }
 
@@ -416,10 +395,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     return this.framePanel;
   }
 
-  public void statusUpdated(final NavigatorFrame clientletFrame,
-      final String value) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(
-        NavigatorWindowImpl.this, NavigatorEventType.STATUS_UPDATED,
+  public void statusUpdated(final NavigatorFrame clientletFrame, final String value) {
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(NavigatorWindowImpl.this, NavigatorEventType.STATUS_UPDATED,
         clientletFrame, value, RequestType.NONE);
     EventQueue.invokeLater(new Runnable() {
       public void run() {
@@ -428,10 +405,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     });
   }
 
-  public void defaultStatusUpdated(final NavigatorFrame clientletFrame,
-      final String value) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(
-        NavigatorWindowImpl.this, NavigatorEventType.STATUS_UPDATED,
+  public void defaultStatusUpdated(final NavigatorFrame clientletFrame, final String value) {
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(NavigatorWindowImpl.this, NavigatorEventType.STATUS_UPDATED,
         clientletFrame, value, RequestType.NONE);
     EventQueue.invokeLater(new Runnable() {
       public void run() {
@@ -449,8 +424,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
       if (!Objects.equals(this.status, value)) {
         this.status = value;
         actualStatus = value == null ? this.defaultStatus : value;
-        final NavigatorWindowEvent event = new NavigatorWindowEvent(this,
-            NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
+        final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
         EventQueue.invokeLater(new Runnable() {
           public void run() {
@@ -466,8 +440,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
       this.defaultStatus = value;
       if (this.status == null) {
         String actualStatus = this.defaultStatus;
-        final NavigatorWindowEvent event = new NavigatorWindowEvent(this,
-            NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
+        final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
         EventQueue.invokeLater(new Runnable() {
           public void run() {
@@ -500,8 +473,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     Map<String, JMenu> map = this.menusById;
     synchronized (this) {
       if (map.containsKey(menuId)) {
-        throw new IllegalArgumentException("Menu " + menuId
-            + " already exists.");
+        throw new IllegalArgumentException("Menu " + menuId + " already exists.");
       }
       this.menusById.put(menuId, menu);
       this.menus.add(menu);
@@ -601,8 +573,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     return this;
   }
 
-  public Component createGlueComponent(Component wrappedComponent,
-      boolean usingMaxSize) {
+  public Component createGlueComponent(Component wrappedComponent, boolean usingMaxSize) {
     return new FillerComponent(wrappedComponent, usingMaxSize);
   }
 

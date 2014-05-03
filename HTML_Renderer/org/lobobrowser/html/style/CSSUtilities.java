@@ -42,8 +42,7 @@ import com.steadystate.css.parser.CSSOMParser;
 import com.steadystate.css.parser.SACParserCSS3;
 
 public class CSSUtilities {
-  private static final Logger logger = Logger.getLogger(CSSUtilities.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(CSSUtilities.class.getName());
 
   private CSSUtilities() {
   }
@@ -78,8 +77,7 @@ public class CSSUtilities {
     }
   }
 
-  public static InputSource getCssInputSourceForStyleSheet(String text,
-      String scriptURI) {
+  public static InputSource getCssInputSourceForStyleSheet(String text, String scriptURI) {
     java.io.Reader reader = new StringReader(text);
     InputSource is = new InputSource(reader);
     is.setURI(scriptURI);
@@ -90,15 +88,13 @@ public class CSSUtilities {
     return new CSSOMParser(new SACParserCSS3());
   }
 
-  public static CSSStyleSheet parse(org.w3c.dom.Node ownerNode, String href,
-      HTMLDocumentImpl doc, String baseUri, boolean considerDoubleSlashComments)
-      throws MalformedURLException {
+  public static CSSStyleSheet parse(org.w3c.dom.Node ownerNode, String href, HTMLDocumentImpl doc, String baseUri,
+      boolean considerDoubleSlashComments) throws MalformedURLException {
     UserAgentContext bcontext = doc.getUserAgentContext();
     final HttpRequest request = bcontext.createHttpRequest();
     URL baseURL = new URL(baseUri);
     URL scriptURL = Urls.createURL(baseURL, href);
-    final String scriptURI = scriptURL == null ? href : scriptURL
-        .toExternalForm();
+    final String scriptURI = scriptURL == null ? href : scriptURL.toExternalForm();
     // Perform a synchronous request
     SecurityManager sm = System.getSecurityManager();
     if (sm == null) {
@@ -125,25 +121,21 @@ public class CSSUtilities {
     }
     int status = request.getStatus();
     if (status != 200 && status != 0) {
-      logger.warning("Unable to parse CSS. URI=[" + scriptURI
-          + "]. Response status was " + status + ".");
+      logger.warning("Unable to parse CSS. URI=[" + scriptURI + "]. Response status was " + status + ".");
       return null;
     }
 
     String text = request.getResponseText();
     if (text != null && !"".equals(text)) {
-      String processedText = considerDoubleSlashComments ? preProcessCss(text)
-          : text;
+      String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
       CSSOMParser parser = mkParser();
       InputSource is = getCssInputSourceForStyleSheet(processedText, scriptURI);
       is.setURI(scriptURI);
       try {
-        CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(
-            is, ownerNode, scriptURI);
+        CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, scriptURI);
         return sheet;
       } catch (Throwable err) {
-        logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + scriptURI
-            + "].", err);
+        logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + scriptURI + "].", err);
         return null;
       }
     } else {
@@ -151,8 +143,7 @@ public class CSSUtilities {
     }
   }
 
-  public static boolean matchesMedia(String mediaValues,
-      UserAgentContext rcontext) {
+  public static boolean matchesMedia(String mediaValues, UserAgentContext rcontext) {
     if (mediaValues == null || mediaValues.length() == 0) {
       return true;
     }
@@ -170,8 +161,7 @@ public class CSSUtilities {
     return false;
   }
 
-  public static boolean matchesMedia(MediaList mediaList,
-      UserAgentContext rcontext) {
+  public static boolean matchesMedia(MediaList mediaList, UserAgentContext rcontext) {
     if (mediaList == null) {
       return true;
     }

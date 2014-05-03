@@ -43,10 +43,8 @@ public class ImageScrollable extends JComponent implements Scrollable {
     this.imageHeight = h;
   }
 
-  public boolean imageUpdate(Image img, int infoflags, int x, int y, int w,
-      int h) {
-    if ((infoflags & ImageObserver.ALLBITS) != 0
-        || (infoflags & ImageObserver.FRAMEBITS) != 0) {
+  public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h) {
+    if ((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
       this.imageWidth = img.getWidth(this);
       this.imageHeight = img.getHeight(this);
       this.revalidate();
@@ -75,8 +73,7 @@ public class ImageScrollable extends JComponent implements Scrollable {
     return 12;
   }
 
-  public int getScrollableBlockIncrement(Rectangle arg0, int orientation,
-      int direction) {
+  public int getScrollableBlockIncrement(Rectangle arg0, int orientation, int direction) {
     if (orientation == SwingConstants.HORIZONTAL) {
       return arg0.width;
     } else {

@@ -28,8 +28,7 @@ import org.w3c.dom.*;
  * Parser-only test frame.
  */
 public class ParserTest extends JFrame {
-  private static final Logger logger = Logger.getLogger(ParserTest.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ParserTest.class.getName());
   private final JTree tree;
   private final JTextArea textArea;
 
@@ -96,8 +95,7 @@ public class ParserTest extends JFrame {
       logger.info("process(): Loading URI=[" + uri + "].");
       long time0 = System.currentTimeMillis();
       URLConnection connection = url.openConnection();
-      connection.setRequestProperty("User-Agent",
-          "Mozilla/4.0 (compatible;) Cobra/0.96.1+");
+      connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible;) Cobra/0.96.1+");
       connection.setRequestProperty("Cookie", "");
       if (connection instanceof HttpURLConnection) {
         HttpURLConnection hc = (HttpURLConnection) connection;
@@ -121,11 +119,9 @@ public class ParserTest extends JFrame {
       // Provide a proper URI, in case it was a file.
       String actualURI = url.toExternalForm();
       // Should change to use proper charset.
-      Document document = builder.parse(new InputSourceImpl(bin, actualURI,
-          "ISO-8859-1"));
+      Document document = builder.parse(new InputSourceImpl(bin, actualURI, "ISO-8859-1"));
       long time2 = System.currentTimeMillis();
-      logger.info("Parsed URI=[" + uri + "]: Parse elapsed: " + (time2 - time1)
-          + " ms. Load elapsed: " + (time1 - time0) + " ms.");
+      logger.info("Parsed URI=[" + uri + "]: Parse elapsed: " + (time2 - time1) + " ms. Load elapsed: " + (time1 - time0) + " ms.");
       this.tree.setModel(new NodeTreeModel(document));
     } catch (Exception err) {
       logger.log(Level.SEVERE, "Error trying to load URI=[" + uri + "].", err);

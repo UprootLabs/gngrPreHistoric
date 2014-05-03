@@ -28,8 +28,7 @@ public class HTMLBaseElementImpl extends HTMLElementImpl {
   }
 
   public Object setUserData(String key, Object data, UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
-        && data != Boolean.TRUE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processBaseTag();
     }
     return super.setUserData(key, data, handler);

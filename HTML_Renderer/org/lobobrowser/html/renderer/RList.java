@@ -28,11 +28,9 @@ import org.lobobrowser.html.style.ListStyle;
 import org.lobobrowser.html.style.RenderState;
 
 class RList extends BaseRListElement {
-  public RList(NodeImpl modelNode, int listNesting, UserAgentContext pcontext,
-      HtmlRendererContext rcontext, FrameContext frameContext,
+  public RList(NodeImpl modelNode, int listNesting, UserAgentContext pcontext, HtmlRendererContext rcontext, FrameContext frameContext,
       RenderableContainer parentContainer, RCollection parent) {
-    super(modelNode, listNesting, pcontext, rcontext, frameContext,
-        parentContainer);
+    super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
     // this.defaultMarginInsets = new java.awt.Insets(5, 0, 5, 0);
   }
 
@@ -64,8 +62,7 @@ class RList extends BaseRListElement {
     }
   }
 
-  public void doLayout(int availWidth, int availHeight, boolean expandWidth,
-      boolean expandHeight, FloatingBoundsSource floatBoundsSource,
+  public void doLayout(int availWidth, int availHeight, boolean expandWidth, boolean expandHeight, FloatingBoundsSource floatBoundsSource,
       int defaultOverflowX, int defaultOverflowY, boolean sizeOnly) {
     RenderState renderState = this.modelNode.getRenderState();
     int counterStart = 1;
@@ -82,9 +79,7 @@ class RList extends BaseRListElement {
         // ignore
       }
     }
-    renderState
-        .resetCount(DEFAULT_COUNTER_NAME, this.listNesting, counterStart);
-    super.doLayout(availWidth, availHeight, expandWidth, expandHeight,
-        floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
+    renderState.resetCount(DEFAULT_COUNTER_NAME, this.listNesting, counterStart);
+    super.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
   }
 }

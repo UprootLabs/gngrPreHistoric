@@ -36,8 +36,7 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
     this.instantiator = new SimpleInstantiator(classWrapper);
   }
 
-  public JavaConstructorObject(String name, JavaClassWrapper classWrapper,
-      JavaInstantiator instantiator) {
+  public JavaConstructorObject(String name, JavaClassWrapper classWrapper, JavaInstantiator instantiator) {
     this.name = name;
     this.classWrapper = classWrapper;
     this.instantiator = instantiator;
@@ -47,16 +46,14 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
     return this.name;
   }
 
-  public Object call(Context cx, Scriptable scope, Scriptable thisObj,
-      Object[] args) {
+  public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
     throw new UnsupportedOperationException();
   }
 
   public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
     try {
       Object javaObject = this.instantiator.newInstance();
-      Scriptable newObject = new JavaObjectWrapper(this.classWrapper,
-          javaObject);
+      Scriptable newObject = new JavaObjectWrapper(this.classWrapper, javaObject);
       newObject.setParentScope(scope);
       return newObject;
     } catch (Exception err) {
@@ -80,8 +77,7 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
       this.classWrapper = classWrapper;
     }
 
-    public Object newInstance() throws InstantiationException,
-        IllegalAccessException {
+    public Object newInstance() throws InstantiationException, IllegalAccessException {
       return this.classWrapper.newInstance();
     }
   }

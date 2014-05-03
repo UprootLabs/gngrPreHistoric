@@ -36,8 +36,7 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
   private final FramePanel framePanel;
   private final NavigatorWindowImpl windowContext;
 
-  public DefaultBrowserWindow(boolean hasMenuBar, boolean hasAddressBar,
-      boolean hasToolBar, boolean hasStatusBar,
+  public DefaultBrowserWindow(boolean hasMenuBar, boolean hasAddressBar, boolean hasToolBar, boolean hasStatusBar,
       NavigatorWindowImpl windowContext) throws HeadlessException {
     // TODO: SECURITY: Security needed in this class to prevent removal of all
     // window components??
@@ -132,8 +131,7 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
   public void update(Graphics g) {
     if (g instanceof Graphics2D) {
       Graphics2D g2 = (Graphics2D) g;
-      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON);
+      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
     super.update(g);
     // Rectangle clipBounds = g.getClipBounds();

@@ -88,7 +88,6 @@ public class DocumentTypeImpl extends NodeImpl implements DocumentType {
   }
 
   protected Node createSimilarNode() {
-    return new DocumentTypeImpl(this.qualifiedName, this.publicId,
-        this.systemId);
+    return new DocumentTypeImpl(this.qualifiedName, this.publicId, this.systemId);
   }
 }

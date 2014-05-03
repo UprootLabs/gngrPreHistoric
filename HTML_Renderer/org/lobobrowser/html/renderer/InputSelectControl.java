@@ -131,8 +131,7 @@ class InputSelectControl extends BaseInputControl {
         if (priorIndex != -1) {
           int numOptions = optionElements.getLength();
           for (int index = 0; index < numOptions; index++) {
-            HTMLOptionElement option = (HTMLOptionElement) optionElements
-                .item(index);
+            HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
             if (index == priorIndex) {
               priorSelectedOption = option;
             }
@@ -144,8 +143,7 @@ class InputSelectControl extends BaseInputControl {
         OptionItem firstItem = null;
         int numOptions = optionElements.getLength();
         for (int index = 0; index < numOptions; index++) {
-          HTMLOptionElement option = (HTMLOptionElement) optionElements
-              .item(index);
+          HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
           if (option != null) {
             OptionItem item = new OptionItem(option);
             if (firstItem == null) {
@@ -185,8 +183,7 @@ class InputSelectControl extends BaseInputControl {
         listModel.clear();
         int numOptions = optionElements.getLength();
         for (int index = 0; index < numOptions; index++) {
-          HTMLOptionElement option = (HTMLOptionElement) optionElements
-              .item(index);
+          HTMLOptionElement option = (HTMLOptionElement) optionElements.item(index);
           OptionItem item = new OptionItem(option);
           if (firstItem == null) {
             firstItem = item;
@@ -215,8 +212,7 @@ class InputSelectControl extends BaseInputControl {
             Integer si = sii.next();
             list.addSelectionInterval(si.intValue(), si.intValue());
           }
-        } else if (defaultSelectedIndexes != null
-            && defaultSelectedIndexes.size() != 0) {
+        } else if (defaultSelectedIndexes != null && defaultSelectedIndexes.size() != 0) {
           Iterator<Integer> sii = defaultSelectedIndexes.iterator();
           while (sii.hasNext()) {
             Integer si = sii.next();
@@ -273,8 +269,7 @@ class InputSelectControl extends BaseInputControl {
         } else {
           JList<OptionItem> list = this.list;
           int[] selectedIndices = list.getSelectedIndices();
-          if (selectedIndices == null || selectedIndices.length != 1
-              || selectedIndices[0] != value) {
+          if (selectedIndices == null || selectedIndices.length != 1 || selectedIndices[0] != value) {
             // This check is done to avoid an infinite recursion
             // on ItemListener.
             int size = this.listModel.getSize();

@@ -43,8 +43,7 @@ public class Bean {
 
   private Map<String, PropertyDescriptor> propertyDescriptors = null;
 
-  private void populateDescriptors(Map<String, PropertyDescriptor> map, Class clazz)
-      throws IntrospectionException {
+  private void populateDescriptors(Map<String, PropertyDescriptor> map, Class clazz) throws IntrospectionException {
     BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
     PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
     for (int i = 0; i < pds.length; i++) {
@@ -58,8 +57,7 @@ public class Bean {
     }
   }
 
-  public PropertyDescriptor getPropertyDescriptor(String propertyName)
-      throws IntrospectionException {
+  public PropertyDescriptor getPropertyDescriptor(String propertyName) throws IntrospectionException {
     synchronized (this) {
       if (this.propertyDescriptors == null) {
         this.propertyDescriptors = new HashMap<String, PropertyDescriptor>();
@@ -79,28 +77,22 @@ public class Bean {
     }
   }
 
-  public PropertyDescriptor[] getPropertyDescriptors()
-      throws IntrospectionException {
+  public PropertyDescriptor[] getPropertyDescriptors() throws IntrospectionException {
     synchronized (this) {
-      return this.getPropertyDescriptorsMap().values()
-          .toArray(new PropertyDescriptor[0]);
+      return this.getPropertyDescriptorsMap().values().toArray(new PropertyDescriptor[0]);
     }
   }
 
-  public void setPropertyForFQN(Object receiver,
-      String fullyQualifiedPropertyName, Object value) throws Exception {
+  public void setPropertyForFQN(Object receiver, String fullyQualifiedPropertyName, Object value) throws Exception {
     int idx = fullyQualifiedPropertyName.indexOf('.');
     if (idx == -1) {
-      PropertyDescriptor pd = this
-          .getPropertyDescriptor(fullyQualifiedPropertyName);
+      PropertyDescriptor pd = this.getPropertyDescriptor(fullyQualifiedPropertyName);
       if (pd == null) {
-        throw new IllegalStateException("Property '"
-            + fullyQualifiedPropertyName + "' unknown");
+        throw new IllegalStateException("Property '" + fullyQualifiedPropertyName + "' unknown");
       }
       Method method = pd.getWriteMethod();
       if (method == null) {
-        throw new IllegalStateException("Property '"
-            + fullyQualifiedPropertyName + "' not settable");
+        throw new IllegalStateException("Property '" + fullyQualifiedPropertyName + "' not settable");
       }
       Object actualValue = convertValue(value, pd.getPropertyType());
       method.invoke(receiver, new Object[] { actualValue });
@@ -112,8 +104,7 @@ public class Bean {
       }
       Method readMethod = pinfo.getReadMethod();
       if (readMethod == null) {
-        throw new IllegalStateException("Property '" + prefix
-            + "' not readable");
+        throw new IllegalStateException("Property '" + prefix + "' not readable");
       }
       Object newReceiver = readMethod.invoke(receiver, new Object[0]);
       // Class newClass = pinfo.getPropertyType();
@@ -128,20 +119,15 @@ public class Bean {
       // ignore
     } else if (targetString) {
       value = String.valueOf(value);
-    } else if (!(value instanceof Byte)
-        && (targetType == Byte.class || targetType == byte.class)) {
+    } else if (!(value instanceof Byte) && (targetType == Byte.class || targetType == byte.class)) {
       value = Byte.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Boolean)
-        && (targetType == Boolean.class || targetType == boolean.class)) {
+    } else if (!(value instanceof Boolean) && (targetType == Boolean.class || targetType == boolean.class)) {
       value = Boolean.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Short)
-        && (targetType == Short.class || targetType == short.class)) {
+    } else if (!(value instanceof Short) && (targetType == Short.class || targetType == short.class)) {
       value = Short.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Integer)
-        && (targetType == Integer.class || targetType == int.class)) {
+    } else if (!(value instanceof Integer) && (targetType == Integer.class || targetType == int.class)) {
       value = Integer.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Long)
-        && (targetType == Long.class || targetType == long.class)) {
+    } else if (!(value instanceof Long) && (targetType == Long.class || targetType == long.class)) {
       value = Long.valueOf(String.valueOf(value));
     }
     return value;

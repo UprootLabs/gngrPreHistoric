@@ -26,8 +26,7 @@ public class DelayedPair {
   public final int x;
   public final int y;
 
-  public DelayedPair(final RenderableContainer parent,
-      final BoundableRenderable child, int x, int y) {
+  public DelayedPair(final RenderableContainer parent, final BoundableRenderable child, int x, int y) {
     super();
     this.targetParent = parent;
     this.child = child;

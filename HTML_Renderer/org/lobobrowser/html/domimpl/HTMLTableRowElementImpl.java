@@ -31,8 +31,7 @@ import org.w3c.dom.html2.HTMLCollection;
 import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.html2.HTMLTableRowElement;
 
-public class HTMLTableRowElementImpl extends HTMLElementImpl implements
-    HTMLTableRowElement {
+public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTableRowElement {
   public HTMLTableRowElementImpl(String name) {
     super(name, true);
   }

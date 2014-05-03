@@ -43,9 +43,8 @@ public class MemoryCacheEntry {
    * @param altObject
    * @param altObjectSize
    */
-  public MemoryCacheEntry(final byte[] content,
-      final List<NameValuePair> headers, final Long expiration,
-      final Object altObject, final int altObjectSize) {
+  public MemoryCacheEntry(final byte[] content, final List<NameValuePair> headers, final Long expiration, final Object altObject,
+      final int altObjectSize) {
     this.content = content;
     this.headers = headers;
     this.expiration = expiration;
@@ -61,9 +60,8 @@ public class MemoryCacheEntry {
    * @param altObject
    * @param altObjectSize
    */
-  public MemoryCacheEntry(final byte[] rawContent, final Long expires,
-      final long requestTime, final Object altObject, final int altObjectSize)
-      throws IOException {
+  public MemoryCacheEntry(final byte[] rawContent, final Long expires, final long requestTime, final Object altObject,
+      final int altObjectSize) throws IOException {
     ByteArrayInputStream in = new ByteArrayInputStream(rawContent);
     String line;
     List<NameValuePair> headersList = new LinkedList<NameValuePair>();
@@ -72,10 +70,8 @@ public class MemoryCacheEntry {
         break;
       }
       int colonIdx = line.indexOf(':');
-      String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim()
-          .toLowerCase();
-      String value = colonIdx == -1 ? line.trim() : line
-          .substring(colonIdx + 1).trim();
+      String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim().toLowerCase();
+      String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
       headersList.add(new NameValuePair(name, value));
     }
     // Note: This works with a ByteArrayInputStream.

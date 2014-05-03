@@ -47,9 +47,7 @@ public class GenericPropertyChangeListener implements GenericEventListener {
   }
 
   public boolean equals(Object other) {
-    return other instanceof GenericPropertyChangeListener
-        && ((GenericPropertyChangeListener) other).delegate
-            .equals(this.delegate);
+    return other instanceof GenericPropertyChangeListener && ((GenericPropertyChangeListener) other).delegate.equals(this.delegate);
   }
 
   public int hashCode() {

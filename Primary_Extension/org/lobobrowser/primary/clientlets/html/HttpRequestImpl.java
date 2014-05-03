@@ -80,8 +80,7 @@ public class HttpRequestImpl implements HttpRequest {
     return networkRequest.getStatusText();
   }
 
-  public void open(String method, String url, boolean asyncFlag)
-      throws IOException {
+  public void open(String method, String url, boolean asyncFlag) throws IOException {
     networkRequest.open(method, url, asyncFlag);
   }
 
@@ -89,18 +88,15 @@ public class HttpRequestImpl implements HttpRequest {
     networkRequest.open(method, url);
   }
 
-  public void open(String method, URL url, boolean asyncFlag, String userName,
-      String password) throws IOException {
+  public void open(String method, URL url, boolean asyncFlag, String userName, String password) throws IOException {
     networkRequest.open(method, url, asyncFlag, userName, password);
   }
 
-  public void open(String method, URL url, boolean asyncFlag, String userName)
-      throws IOException {
+  public void open(String method, URL url, boolean asyncFlag, String userName) throws IOException {
     networkRequest.open(method, url, asyncFlag, userName);
   }
 
-  public void open(String method, URL url, boolean asyncFlag)
-      throws IOException {
+  public void open(String method, URL url, boolean asyncFlag) throws IOException {
     networkRequest.open(method, url, asyncFlag);
   }
 
@@ -112,8 +108,7 @@ public class HttpRequestImpl implements HttpRequest {
     networkRequest.send(content);
   }
 
-  public void addReadyStateChangeListener(
-      final ReadyStateChangeListener listener) {
+  public void addReadyStateChangeListener(final ReadyStateChangeListener listener) {
     networkRequest.addNetworkRequestListener(new NetworkRequestListener() {
       public void readyStateChanged(NetworkRequestEvent event) {
         listener.readyStateChanged();

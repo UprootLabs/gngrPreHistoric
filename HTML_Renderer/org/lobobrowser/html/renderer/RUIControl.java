@@ -48,9 +48,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
   protected final ModelNode modelNode;
   private final FrameContext frameContext;
 
-  public RUIControl(ModelNode me, UIControl widget,
-      RenderableContainer container, FrameContext frameContext,
-      UserAgentContext ucontext) {
+  public RUIControl(ModelNode me, UIControl widget, RenderableContainer container, FrameContext frameContext, UserAgentContext ucontext) {
     super(container, me, ucontext);
     this.modelNode = me;
     this.widget = widget;
@@ -79,8 +77,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
   }
 
   public boolean hasBackground() {
-    return this.backgroundColor != null || this.backgroundImage != null
-        || this.lastBackgroundImageUri != null;
+    return this.backgroundColor != null || this.backgroundImage != null || this.lastBackgroundImageUri != null;
   }
 
   public final void paint(Graphics g) {
@@ -179,8 +176,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
     // Overrides
     super.updateWidgetBounds(guiX, guiY);
     Insets insets = this.getInsets(false, false);
-    this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width
-        - insets.left - insets.right, this.height - insets.top - insets.bottom);
+    this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width - insets.left - insets.right, this.height - insets.top
+        - insets.bottom);
   }
 
   public Color getBlockBackgroundColor() {
@@ -195,8 +192,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     inSelection = super.paintSelection(g, inSelection, startPoint, endPoint);
     if (inSelection) {
       Color over = new Color(0, 0, 255, 50);
@@ -213,8 +209,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
     return inSelection;
   }
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     // No text here
     return inSelection;
   }
@@ -235,8 +230,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
     RenderState rs = this.modelNode.getRenderState();
     int whitespace = rs == null ? RenderState.WS_NORMAL : rs.getWhiteSpace();
     Font font = rs == null ? null : rs.getFont();
-    LayoutKey layoutKey = new LayoutKey(availWidth, availHeight, whitespace,
-        font);
+    LayoutKey layoutKey = new LayoutKey(availWidth, availHeight, whitespace, font);
     LayoutValue layoutValue;
     if (sizeOnly) {
       layoutValue = cachedLayout.get(layoutKey);
@@ -262,11 +256,9 @@ class RUIControl extends BaseElementRenderable implements RElement {
       if (marginInsets == null) {
         marginInsets = RBlockViewport.ZERO_INSETS;
       }
-      int actualAvailWidth = availWidth - paddingInsets.left
-          - paddingInsets.right - borderInsets.left - borderInsets.right
+      int actualAvailWidth = availWidth - paddingInsets.left - paddingInsets.right - borderInsets.left - borderInsets.right
           - marginInsets.left - marginInsets.right;
-      int actualAvailHeight = availHeight - paddingInsets.top
-          - paddingInsets.bottom - borderInsets.top - borderInsets.bottom
+      int actualAvailHeight = availHeight - paddingInsets.top - paddingInsets.bottom - borderInsets.top - borderInsets.bottom
           - marginInsets.top - marginInsets.bottom;
       Integer dw = this.getDeclaredWidth(renderState, actualAvailWidth);
       Integer dh = this.getDeclaredHeight(renderState, actualAvailHeight);
@@ -278,10 +270,8 @@ class RUIControl extends BaseElementRenderable implements RElement {
       UIControl widget = this.widget;
       widget.reset(availWidth, availHeight);
       Insets insets = this.getInsets(false, false);
-      int finalWidth = declaredWidth == -1 ? -1 : declaredWidth - insets.left
-          - insets.right;
-      int finalHeight = declaredHeight == -1 ? -1 : declaredHeight - insets.top
-          - insets.bottom;
+      int finalWidth = declaredWidth == -1 ? -1 : declaredWidth - insets.left - insets.right;
+      int finalHeight = declaredHeight == -1 ? -1 : declaredHeight - insets.top - insets.bottom;
       if (finalWidth == -1 || finalHeight == -1) {
         Dimension size = widget.getPreferredSize();
         if (finalWidth == -1) {
@@ -359,16 +349,13 @@ class RUIControl extends BaseElementRenderable implements RElement {
         return false;
       }
       LayoutKey other = (LayoutKey) obj;
-      return other.availWidth == this.availWidth
-          && other.availHeight == this.availHeight
-          && other.whitespace == this.whitespace
+      return other.availWidth == this.availWidth && other.availHeight == this.availHeight && other.whitespace == this.whitespace
           && Objects.equals(other.font, this.font);
     }
 
     public int hashCode() {
       Font font = this.font;
-      return (this.availWidth * 1000 + this.availHeight)
-          ^ (font == null ? 0 : font.hashCode());
+      return (this.availWidth * 1000 + this.availHeight) ^ (font == null ? 0 : font.hashCode());
     }
   }
 

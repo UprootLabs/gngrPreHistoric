@@ -31,8 +31,7 @@ import java.awt.*;
  * @author J. H. S.
  */
 public class ColorFactory {
-  private static final Logger logger = Logger.getLogger(ColorFactory.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ColorFactory.class.getName());
   public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
   private static ColorFactory instance;
   private final Map<String, Color> colorMap = new HashMap<String, Color>(256);
@@ -226,8 +225,7 @@ public class ColorFactory {
         if (normalSpec.startsWith(RGB_START)) {
           // CssParser produces this format.
           int endIdx = normalSpec.lastIndexOf(')');
-          String commaValues = endIdx == -1 ? normalSpec.substring(RGB_START
-              .length()) : normalSpec.substring(RGB_START.length(), endIdx);
+          String commaValues = endIdx == -1 ? normalSpec.substring(RGB_START.length()) : normalSpec.substring(RGB_START.length(), endIdx);
           StringTokenizer tok = new StringTokenizer(commaValues, ",");
           int r = 0, g = 0, b = 0;
           if (tok.hasMoreTokens()) {
@@ -265,8 +263,7 @@ public class ColorFactory {
           for (int i = 0; i < rgba.length; i++) {
             int idx = 2 * i + 1;
             if (idx < len) {
-              String hexText = normalSpec.substring(idx,
-                  idx + Math.min(2, len - idx));
+              String hexText = normalSpec.substring(idx, idx + Math.min(2, len - idx));
               try {
                 rgba[i] = Integer.parseInt(hexText, 16);
               } catch (NumberFormatException nfe) {
@@ -277,8 +274,7 @@ public class ColorFactory {
           color = new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
         } else {
           if (logger.isLoggable(Level.INFO)) {
-            logger.warning("getColor(): Color spec [" + normalSpec
-                + "] unknown.");
+            logger.warning("getColor(): Color spec [" + normalSpec + "] unknown.");
           }
           return Color.RED;
         }

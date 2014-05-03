@@ -53,8 +53,7 @@ public class TextImpl extends CharacterDataImpl implements Text {
   public Text replaceWholeText(String content) throws DOMException {
     NodeImpl parent = (NodeImpl) this.getParentNode();
     if (parent == null) {
-      throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-          "Text node has no parent");
+      throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Text node has no parent");
     }
     return parent.replaceAdjacentTextNodes(this, content);
   }
@@ -67,13 +66,11 @@ public class TextImpl extends CharacterDataImpl implements Text {
   public Text splitText(int offset) throws DOMException {
     NodeImpl parent = (NodeImpl) this.getParentNode();
     if (parent == null) {
-      throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-          "Text node has no parent");
+      throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Text node has no parent");
     }
     String t = this.text;
     if (offset < 0 || offset > t.length()) {
-      throw new DOMException(DOMException.INDEX_SIZE_ERR, "Bad offset: "
-          + offset);
+      throw new DOMException(DOMException.INDEX_SIZE_ERR, "Bad offset: " + offset);
     }
     String content1 = t.substring(0, offset);
     String content2 = t.substring(offset);
@@ -91,8 +88,7 @@ public class TextImpl extends CharacterDataImpl implements Text {
   public String getWholeText() {
     NodeImpl parent = (NodeImpl) this.getParentNode();
     if (parent == null) {
-      throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-          "Text node has no parent");
+      throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Text node has no parent");
     }
     return parent.getTextContent();
   }
@@ -153,8 +149,6 @@ public class TextImpl extends CharacterDataImpl implements Text {
   public String toString() {
     String text = this.text;
     int textLength = text == null ? 0 : text.length();
-    return "#text[length=" + textLength + ",value=\""
-        + Strings.truncate(text, 64) + "\",renderState="
-        + this.getRenderState() + "]";
+    return "#text[length=" + textLength + ",value=\"" + Strings.truncate(text, 64) + "\",renderState=" + this.getRenderState() + "]";
   }
 }

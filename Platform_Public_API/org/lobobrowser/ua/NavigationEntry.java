@@ -37,8 +37,7 @@ public class NavigationEntry {
   private final String description;
   private final NavigatorFrame frame;
 
-  public NavigationEntry(NavigatorFrame frame, final URL url,
-      final String method, String title, String description) {
+  public NavigationEntry(NavigatorFrame frame, final URL url, final String method, String title, String description) {
     super();
     this.frame = frame;
     this.url = url;
@@ -66,10 +65,8 @@ public class NavigationEntry {
     return frame;
   }
 
-  public static NavigationEntry fromResponse(NavigatorFrame frame,
-      ClientletResponse response, String title, String description) {
-    return new NavigationEntry(frame, response.getResponseURL(),
-        response.getLastRequestMethod(), title, description);
+  public static NavigationEntry fromResponse(NavigatorFrame frame, ClientletResponse response, String title, String description) {
+    return new NavigationEntry(frame, response.getResponseURL(), response.getLastRequestMethod(), title, description);
   }
 
   public String getDescription() {
@@ -77,7 +74,6 @@ public class NavigationEntry {
   }
 
   public String toString() {
-    return "NavigationEntry[url=" + this.url + ",method=" + this.method
-        + ",title=" + title + "]";
+    return "NavigationEntry[url=" + this.url + ",method=" + this.method + ",title=" + title + "]";
   }
 }

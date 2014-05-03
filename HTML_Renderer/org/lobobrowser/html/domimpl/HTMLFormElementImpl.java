@@ -37,8 +37,7 @@ import org.w3c.dom.html2.HTMLFormElement;
 
 import org.mozilla.javascript.Function;
 
-public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
-    HTMLFormElement {
+public class HTMLFormElementImpl extends HTMLAbstractUIElement implements HTMLFormElement {
   public HTMLFormElementImpl(String name) {
     super(name);
   }
@@ -90,8 +89,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
   public HTMLCollection getElements() {
     HTMLCollection elements = this.elements;
     if (elements == null) {
-      elements = new DescendentHTMLCollection(this, new InputFilter(),
-          this.treeLock, false);
+      elements = new DescendentHTMLCollection(this, new InputFilter(), this.treeLock, false);
       this.elements = elements;
     }
     return elements;
@@ -199,8 +197,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
               for (int i = 0; i < fis.length; i++) {
                 FormInput fi = fis[i];
                 if (fi.getName() == null) {
-                  throw new IllegalStateException(
-                      "Form input does not have a name: " + node);
+                  throw new IllegalStateException("Form input does not have a name: " + node);
                 }
                 formInputs.add(fi);
               }
@@ -215,8 +212,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
       }
       try {
         URL url = this.getFullURL(href);
-        context.submitForm(this.getMethod(), url, this.getTarget(),
-            this.getEnctype(), fia);
+        context.submitForm(this.getMethod(), url, this.getTarget(), this.getEnctype(), fia);
       } catch (MalformedURLException mfu) {
         this.warn("submit()", mfu);
       }
@@ -235,8 +231,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements
 
   static boolean isInput(Node node) {
     String name = node.getNodeName().toLowerCase();
-    return name.equals("input") || name.equals("textarea")
-        || name.equals("select");
+    return name.equals("input") || name.equals("textarea") || name.equals("select");
   }
 
   private class InputFilter implements NodeFilter {

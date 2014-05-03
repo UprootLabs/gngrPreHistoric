@@ -37,15 +37,13 @@ public class ItemEditorDialog<T> extends JDialog {
   private final JButton cancelButton = new JButton();
   private final AbstractItemEditor<T> editor;
 
-  public ItemEditorDialog(Dialog owner, ItemEditorFactory<T> factory)
-      throws HeadlessException {
+  public ItemEditorDialog(Dialog owner, ItemEditorFactory<T> factory) throws HeadlessException {
     super(owner);
     this.editor = factory.createItemEditor();
     this.init();
   }
 
-  public ItemEditorDialog(Frame owner, ItemEditorFactory<T> factory)
-      throws HeadlessException {
+  public ItemEditorDialog(Frame owner, ItemEditorFactory<T> factory) throws HeadlessException {
     super(owner);
     this.editor = factory.createItemEditor();
     this.init();

@@ -34,8 +34,7 @@ import org.lobobrowser.io.*;
 import org.lobobrowser.util.WrapperException;
 
 public final class RestrictedStore implements QuotaSource, ManagedStore {
-  private static final Logger logger = Logger.getLogger(RestrictedStore.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(RestrictedStore.class.getName());
 
   /**
    * Canonical base directory.
@@ -71,8 +70,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     }
     this.baseDirectory = new File(canonical);
     this.baseCanonicalPath = canonical;
-    this.sizeFileCanonicalPath = new File(this.baseDirectory, SIZE_FILE_NAME)
-        .getCanonicalPath();
+    this.sizeFileCanonicalPath = new File(this.baseDirectory, SIZE_FILE_NAME).getCanonicalPath();
     this.quota = quota;
   }
 
@@ -84,9 +82,8 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
       this.updateSizeFileImpl(totalSize);
     }
     if (prevSize != -1 && Math.abs(totalSize - prevSize) > 10000) {
-      logger.warning("updateSizeFile(): Corrected a size discrepancy of "
-          + (totalSize - prevSize) + " bytes in store '" + this.baseDirectory
-          + "'.");
+      logger.warning("updateSizeFile(): Corrected a size discrepancy of " + (totalSize - prevSize) + " bytes in store '"
+          + this.baseDirectory + "'.");
     }
     return totalSize;
   }
@@ -120,8 +117,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
             try {
               long size = RestrictedStore.this.size;
               if (size == -1) {
-                size = RestrictedStore.this.size = RestrictedStore.this
-                    .getSizeFromFile();
+                size = RestrictedStore.this.size = RestrictedStore.this.getSizeFromFile();
               }
               return size;
             } catch (IOException ioe) {
@@ -188,8 +184,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
       }
       long newTotal = this.size + addition;
       if (addition > 0 && newTotal > this.quota) {
-        throw new QuotaExceededException("Quota would be exceeded by "
-            + (newTotal - this.quota) + " bytes.");
+        throw new QuotaExceededException("Quota would be exceeded by " + (newTotal - this.quota) + " bytes.");
       }
       this.size = newTotal;
       if (fromFile) {
@@ -223,8 +218,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     this.checkNotSizeFile(canonicalPath, ref);
   }
 
-  public InputStream getInputStream(final File fullFile, final String ref)
-      throws IOException {
+  public InputStream getInputStream(final File fullFile, final String ref) throws IOException {
     try {
       return AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
         // Reason: Caller was able to get an instance of this
@@ -245,48 +239,42 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     }
   }
 
-  public OutputStream getOutputStream(final File fullFile, final String ref)
-      throws IOException {
+  public OutputStream getOutputStream(final File fullFile, final String ref) throws IOException {
     try {
-      return AccessController
-          .doPrivileged(new PrivilegedAction<OutputStream>() {
-            // Reason: Caller was able to get an instance of this
-            // RestrictedStore. Additionally, we check that the File
-            // path is within what's allowed.
-            public OutputStream run() {
-              try {
-                long toSubtract = EMPTY_FILE_SIZE
-                    + (fullFile.exists() ? fullFile.length() : 0);
-                String canonical = fullFile.getCanonicalPath();
-                checkPath(canonical, ref);
-                // TODO: Disallow size file here
-                File parent = fullFile.getParentFile();
-                if (!parent.exists()) {
-                  parent.mkdirs();
-                } else if (!parent.isDirectory()) {
-                  throw new IllegalArgumentException("Parent of '" + ref
-                      + "' is not a directory");
-                }
-                FileOutputStream fout = new FileOutputStream(fullFile);
-                OutputStream out = new RestrictedOutputStream(fout,
-                    RestrictedStore.this);
-                if (toSubtract != 0) {
-                  subtractUsedBytes(toSubtract);
-                }
-                return out;
-              } catch (IOException ioe) {
-                throw new WrapperException(ioe);
-              }
+      return AccessController.doPrivileged(new PrivilegedAction<OutputStream>() {
+        // Reason: Caller was able to get an instance of this
+        // RestrictedStore. Additionally, we check that the File
+        // path is within what's allowed.
+        public OutputStream run() {
+          try {
+            long toSubtract = EMPTY_FILE_SIZE + (fullFile.exists() ? fullFile.length() : 0);
+            String canonical = fullFile.getCanonicalPath();
+            checkPath(canonical, ref);
+            // TODO: Disallow size file here
+            File parent = fullFile.getParentFile();
+            if (!parent.exists()) {
+              parent.mkdirs();
+            } else if (!parent.isDirectory()) {
+              throw new IllegalArgumentException("Parent of '" + ref + "' is not a directory");
             }
-          });
+            FileOutputStream fout = new FileOutputStream(fullFile);
+            OutputStream out = new RestrictedOutputStream(fout, RestrictedStore.this);
+            if (toSubtract != 0) {
+              subtractUsedBytes(toSubtract);
+            }
+            return out;
+          } catch (IOException ioe) {
+            throw new WrapperException(ioe);
+          }
+        }
+      });
     } catch (WrapperException we) {
       throw (IOException) we.getCause();
     }
   }
 
   private String getRelativePath(String canonicalPath) {
-    String relativePath = canonicalPath.substring(this.baseCanonicalPath
-        .length());
+    String relativePath = canonicalPath.substring(this.baseCanonicalPath.length());
     if (relativePath.startsWith(File.separator)) {
       relativePath = relativePath.substring(File.separator.length());
     }
@@ -318,8 +306,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     }
   }
 
-  private Collection<String> getPaths(Pattern pattern, File directory)
-      throws IOException {
+  private Collection<String> getPaths(Pattern pattern, File directory) throws IOException {
     // Security: This method is expected to be private.
     Collection<String> paths = new LinkedList<String>();
     File[] localFiles = directory.listFiles();
@@ -358,8 +345,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     ManagedFile file = this.getManagedFile(path);
     OutputStream out = file.openOutputStream();
     try {
-      ObjectOutputStream oout = new ObjectOutputStream(
-          new BufferedOutputStream(out));
+      ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(out));
       oout.writeObject(object);
       oout.flush();
     } finally {
@@ -372,20 +358,16 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     file.delete();
   }
 
-  public Object retrieveObject(String path) throws IOException,
-      ClassNotFoundException {
-    return this.retrieveObject(path, Thread.currentThread()
-        .getContextClassLoader());
+  public Object retrieveObject(String path) throws IOException, ClassNotFoundException {
+    return this.retrieveObject(path, Thread.currentThread().getContextClassLoader());
   }
 
-  public Object retrieveObject(String path, ClassLoader classLoader)
-      throws IOException, ClassNotFoundException {
+  public Object retrieveObject(String path, ClassLoader classLoader) throws IOException, ClassNotFoundException {
     ManagedFile file = this.getManagedFile(path);
     try {
       InputStream in = file.openInputStream();
       try {
-        ObjectInputStream oin = new ClassLoaderObjectInputStream(in,
-            classLoader);
+        ObjectInputStream oin = new ClassLoaderObjectInputStream(in, classLoader);
         return (Serializable) oin.readObject();
       } finally {
         in.close();
@@ -401,8 +383,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
    * @see org.xamjwg.io.ManagedStore#getManagedFile(org.xamjwg.io.ManagedFile,
    * java.lang.String)
    */
-  public ManagedFile getManagedFile(ManagedFile parent, String relativePath)
-      throws IOException {
+  public ManagedFile getManagedFile(ManagedFile parent, String relativePath) throws IOException {
     return new ManagedFileImpl(parent, relativePath);
   }
 
@@ -425,9 +406,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         public File run() {
           try {
             if (path.contains("\\")) {
-              throw new IllegalArgumentException(
-                  "Characer backslash (\\) not allowed in managed paths. Use a forward slash. Path="
-                      + path);
+              throw new IllegalArgumentException("Characer backslash (\\) not allowed in managed paths. Use a forward slash. Path=" + path);
             }
             String relPath = path;
             while (relPath.startsWith("/")) {
@@ -479,8 +458,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
       this.nativeFile = managedToNative(path);
     }
 
-    private ManagedFileImpl(ManagedFile parent, String relPath)
-        throws IOException {
+    private ManagedFileImpl(ManagedFile parent, String relPath) throws IOException {
       if (parent == null) {
         this.path = relPath;
       } else {
@@ -566,22 +544,21 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
      */
     public ManagedFile getParent() throws IOException {
       try {
-        return AccessController
-            .doPrivileged(new PrivilegedAction<ManagedFile>() {
-              // Reason: Should be allowed. Obtaining an instance of
-              // ManagedFileImpl
-              // requires privileges.
-              public ManagedFile run() {
-                try {
-                  File parentFile = nativeFile.getParentFile();
-                  // Note: nativeToManaged checks canonical path for
-                  // permissions.
-                  return nativeToManaged(parentFile);
-                } catch (IOException ioe) {
-                  throw new WrapperException(ioe);
-                }
-              }
-            });
+        return AccessController.doPrivileged(new PrivilegedAction<ManagedFile>() {
+          // Reason: Should be allowed. Obtaining an instance of
+          // ManagedFileImpl
+          // requires privileges.
+          public ManagedFile run() {
+            try {
+              File parentFile = nativeFile.getParentFile();
+              // Note: nativeToManaged checks canonical path for
+              // permissions.
+              return nativeToManaged(parentFile);
+            } catch (IOException ioe) {
+              throw new WrapperException(ioe);
+            }
+          }
+        });
       } catch (WrapperException we) {
         throw (IOException) we.getCause();
       }
@@ -625,31 +602,29 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
      * 
      * @see org.xamjwg.io.ManagedFile#listFiles(org.xamjwg.io.ManagedFileFilter)
      */
-    public ManagedFile[] listFiles(final ManagedFileFilter filter)
-        throws IOException {
+    public ManagedFile[] listFiles(final ManagedFileFilter filter) throws IOException {
       try {
-        return AccessController
-            .doPrivileged(new PrivilegedAction<ManagedFile[]>() {
-              // Reason: Should be allowed. Obtaining an instance of
-              // ManagedFileImpl
-              // requires privileges.
-              public ManagedFile[] run() {
-                try {
-                  File[] files = nativeFile.listFiles();
-                  List<ManagedFile> mfs = new ArrayList<ManagedFile>();
-                  for (int i = 0; i < files.length; i++) {
-                    File file = files[i];
-                    ManagedFile mf = nativeToManaged(file);
-                    if (filter == null || filter.accept(mf)) {
-                      mfs.add(mf);
-                    }
-                  }
-                  return mfs.toArray(new ManagedFile[0]);
-                } catch (IOException ioe) {
-                  throw new WrapperException(ioe);
+        return AccessController.doPrivileged(new PrivilegedAction<ManagedFile[]>() {
+          // Reason: Should be allowed. Obtaining an instance of
+          // ManagedFileImpl
+          // requires privileges.
+          public ManagedFile[] run() {
+            try {
+              File[] files = nativeFile.listFiles();
+              List<ManagedFile> mfs = new ArrayList<ManagedFile>();
+              for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                ManagedFile mf = nativeToManaged(file);
+                if (filter == null || filter.accept(mf)) {
+                  mfs.add(mf);
                 }
               }
-            });
+              return mfs.toArray(new ManagedFile[0]);
+            } catch (IOException ioe) {
+              throw new WrapperException(ioe);
+            }
+          }
+        });
       } catch (WrapperException we) {
         throw (IOException) we.getCause();
       }

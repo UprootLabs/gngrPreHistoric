@@ -72,14 +72,12 @@ public interface ClientletContext {
   /**
    * Undocumented.
    */
-  public org.lobobrowser.clientlet.ContentBuffer createContentBuffer(
-      String contentType, byte[] content);
+  public org.lobobrowser.clientlet.ContentBuffer createContentBuffer(String contentType, byte[] content);
 
   /**
    * Undocumented.
    */
-  public org.lobobrowser.clientlet.ContentBuffer createContentBuffer(
-      String contentType, String content, String encoding)
+  public org.lobobrowser.clientlet.ContentBuffer createContentBuffer(String contentType, String content, String encoding)
       throws UnsupportedEncodingException;
 
   /**
@@ -174,8 +172,7 @@ public interface ClientletContext {
    *          indicate it is unknown.
    * @see NavigatorFrame#setProgressEvent(NavigatorProgressEvent)
    */
-  public void setProgressEvent(org.lobobrowser.ua.ProgressType progressType,
-      int value, int max);
+  public void setProgressEvent(org.lobobrowser.ua.ProgressType progressType, int value, int max);
 
   /**
    * Requests the frame to update its progress bar if any.
@@ -191,8 +188,7 @@ public interface ClientletContext {
    *          The URL to be shown in progress messages.
    * @see NavigatorFrame#setProgressEvent(NavigatorProgressEvent)
    */
-  public void setProgressEvent(org.lobobrowser.ua.ProgressType progressType,
-      int value, int max, java.net.URL url);
+  public void setProgressEvent(org.lobobrowser.ua.ProgressType progressType, int value, int max, java.net.URL url);
 
   /**
    * Sets the current progress state.

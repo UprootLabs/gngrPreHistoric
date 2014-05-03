@@ -117,8 +117,7 @@ public class PreferencesDialog extends JDialog {
 
   private class DefaultsAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
-      if (JOptionPane.showConfirmDialog(PreferencesDialog.this,
-          "Are you sure you want to restore defaults?", "Confirm",
+      if (JOptionPane.showConfirmDialog(PreferencesDialog.this, "Are you sure you want to restore defaults?", "Confirm",
           JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         preferencesPanel.restoreDefaults();
       }
@@ -128,10 +127,8 @@ public class PreferencesDialog extends JDialog {
   private class LocalTreeSelectionListener implements TreeSelectionListener {
     public void valueChanged(TreeSelectionEvent e) {
       TreePath path = e.getPath();
-      DefaultMutableTreeNode node = (DefaultMutableTreeNode) path
-          .getLastPathComponent();
-      SettingsInfo si = node == null ? null : (SettingsInfo) node
-          .getUserObject();
+      DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+      SettingsInfo si = node == null ? null : (SettingsInfo) node.getUserObject();
       updatePreferencesPanel(si);
     }
   }

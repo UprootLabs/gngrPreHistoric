@@ -67,7 +67,6 @@ public class CookieValue implements Serializable {
   }
 
   public String toString() {
-    return "CookieValue[value=" + value + ",path=" + path + ",expiration="
-        + expirationTime + "]";
+    return "CookieValue[value=" + value + ",path=" + path + ",expiration=" + expirationTime + "]";
   }
 }

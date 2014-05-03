@@ -36,8 +36,7 @@ import com.steadystate.css.parser.CSSOMParser;
  * Tests only the CSS parser.
  */
 public class CssParserTest extends JFrame {
-  private static final Logger logger = Logger.getLogger(CssParserTest.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(CssParserTest.class.getName());
   private final HtmlPanel cssOutput;
   private final JTextArea textArea;
 
@@ -101,8 +100,7 @@ public class CssParserTest extends JFrame {
       logger.info("process(): Loading URI=[" + uri + "].");
       long time0 = System.currentTimeMillis();
       URLConnection connection = url.openConnection();
-      connection.setRequestProperty("User-Agent",
-          "Mozilla/4.0 (compatible;) Cobra/0.96.1+");
+      connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible;) Cobra/0.96.1+");
       connection.setRequestProperty("Cookie", "");
       if (connection instanceof HttpURLConnection) {
         HttpURLConnection hc = (HttpURLConnection) connection;
@@ -124,8 +122,7 @@ public class CssParserTest extends JFrame {
       InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(source, uri);
       CSSStyleSheet styleSheet = parser.parseStyleSheet(is, null, uri);
       long time2 = System.currentTimeMillis();
-      logger.info("Parsed URI=[" + uri + "]: Parse elapsed: " + (time2 - time1)
-          + " ms. Load elapsed: " + (time1 - time0) + " ms.");
+      logger.info("Parsed URI=[" + uri + "]: Parse elapsed: " + (time2 - time1) + " ms. Load elapsed: " + (time1 - time0) + " ms.");
       this.showStyleSheet(styleSheet);
     } catch (Exception err) {
       logger.log(Level.SEVERE, "Error trying to load URI=[" + uri + "].", err);
@@ -145,8 +142,7 @@ public class CssParserTest extends JFrame {
     int length = ruleList.getLength();
     for (int i = 0; i < length; i++) {
       CSSRule rule = ruleList.item(i);
-      writer.println("<DT><strong>Rule: type=" + rule.getType() + ",class="
-          + rule.getClass().getName() + "</strong></DT>");
+      writer.println("<DT><strong>Rule: type=" + rule.getType() + ",class=" + rule.getClass().getName() + "</strong></DT>");
       writer.println("<DD>");
       this.writeRuleInfo(writer, rule);
       writer.println("</DD>");

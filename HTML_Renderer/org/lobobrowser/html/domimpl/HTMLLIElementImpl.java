@@ -26,8 +26,7 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.*;
 import org.w3c.dom.html2.HTMLLIElement;
 
-public class HTMLLIElementImpl extends HTMLAbstractUIElement implements
-    HTMLLIElement {
+public class HTMLLIElementImpl extends HTMLAbstractUIElement implements HTMLLIElement {
   public HTMLLIElementImpl(String name) {
     super(name);
   }
@@ -57,7 +56,6 @@ public class HTMLLIElementImpl extends HTMLAbstractUIElement implements
   }
 
   protected RenderState createRenderState(RenderState prevRenderState) {
-    return new DisplayRenderState(prevRenderState, this,
-        RenderState.DISPLAY_LIST_ITEM);
+    return new DisplayRenderState(prevRenderState, this, RenderState.DISPLAY_LIST_ITEM);
   }
 }

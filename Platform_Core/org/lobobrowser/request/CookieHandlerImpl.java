@@ -28,8 +28,7 @@ import java.util.Map;
 import java.util.logging.*;
 
 public class CookieHandlerImpl extends CookieHandler {
-  private static final Logger logger = Logger.getLogger(CookieHandlerImpl.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(CookieHandlerImpl.class.getName());
   private final CookieStore cookieStore = CookieStore.getInstance();
 
   private void printHeaders(Map<String, List<String>> headers) {
@@ -47,12 +46,9 @@ public class CookieHandlerImpl extends CookieHandler {
   }
 
   @Override
-  public Map<String, List<String>> get(URI uri,
-      Map<String, List<String>> requestHeaders) throws IOException {
-    Map<String, List<String>> resultHeaders = new java.util.HashMap<String, List<String>>(
-        2);
-    java.util.Collection<Cookie> cookies = this.cookieStore.getCookies(
-        uri.getHost(), uri.getPath());
+  public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {
+    Map<String, List<String>> resultHeaders = new java.util.HashMap<String, List<String>>(2);
+    java.util.Collection<Cookie> cookies = this.cookieStore.getCookies(uri.getHost(), uri.getPath());
     if (cookies != null) {
       StringBuffer cookieHeaderValue = null;
       for (Cookie cookie : cookies) {
@@ -73,8 +69,7 @@ public class CookieHandlerImpl extends CookieHandler {
         cookieHeaderValue.append(assignment);
       }
       if (cookieHeaderValue != null) {
-        resultHeaders.put("Cookie",
-            java.util.Collections.singletonList(cookieHeaderValue.toString()));
+        resultHeaders.put("Cookie", java.util.Collections.singletonList(cookieHeaderValue.toString()));
       }
     }
     if (logger.isLoggable(Level.FINE)) {
@@ -85,8 +80,7 @@ public class CookieHandlerImpl extends CookieHandler {
   }
 
   @Override
-  public void put(URI uri, Map<String, List<String>> responseHeaders)
-      throws IOException {
+  public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
     if (logger.isLoggable(Level.FINE)) {
       logger.info("put(): ---- Response headers for uri=[" + uri + "].");
       this.printHeaders(responseHeaders);

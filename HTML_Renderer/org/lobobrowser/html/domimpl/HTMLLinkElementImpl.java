@@ -31,10 +31,8 @@ import org.lobobrowser.util.gui.*;
 import com.steadystate.css.dom.*;
 import java.util.logging.*;
 
-public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
-    HTMLLinkElement {
-  private static final Logger logger = Logger
-      .getLogger(HTMLLinkElementImpl.class.getName());
+public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLinkElement {
+  private static final Logger logger = Logger.getLogger(HTMLLinkElementImpl.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
   private CSSStyleSheet styleSheet;
 
@@ -119,8 +117,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
   }
 
   public Object setUserData(String key, Object data, UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key)
-        && data != Boolean.TRUE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       this.processLink();
     }
     // else
@@ -152,8 +149,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
               boolean liflag = loggableInfo;
               long time1 = liflag ? System.currentTimeMillis() : 0;
               try {
-                CSSStyleSheet sheet = CSSUtilities.parse(this, this.getHref(),
-                    doc, doc.getBaseURI(), false);
+                CSSStyleSheet sheet = CSSUtilities.parse(this, this.getHref(), doc, doc.getBaseURI(), false);
                 if (sheet != null) {
                   this.styleSheet = sheet;
                   if (sheet instanceof CSSStyleSheetImpl) {
@@ -175,19 +171,16 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
               } finally {
                 if (liflag) {
                   long time2 = System.currentTimeMillis();
-                  logger
-                      .info("processLink(): Loaded and parsed CSS (or attempted to) at URI=["
-                          + this.getHref() + "] in " + (time2 - time1) + " ms.");
+                  logger.info("processLink(): Loaded and parsed CSS (or attempted to) at URI=[" + this.getHref() + "] in "
+                      + (time2 - time1) + " ms.");
                 }
               }
 
             } catch (MalformedURLException mfe) {
-              this.warn("Will not parse CSS. URI=[" + this.getHref()
-                  + "] with BaseURI=[" + doc.getBaseURI()
+              this.warn("Will not parse CSS. URI=[" + this.getHref() + "] with BaseURI=[" + doc.getBaseURI()
                   + "] does not appear to be a valid URI.");
             } catch (Throwable err) {
-              this.warn("Unable to parse CSS. URI=[" + this.getHref() + "].",
-                  err);
+              this.warn("Unable to parse CSS. URI=[" + this.getHref() + "].", err);
             }
           }
         }
@@ -259,10 +252,8 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements
 
   protected RenderState createRenderState(RenderState prevRenderState) {
     if (this.hasAttribute("href")) {
-      prevRenderState = new TextDecorationRenderState(prevRenderState,
-          RenderState.MASK_TEXTDECORATION_UNDERLINE);
-      prevRenderState = new ColorRenderState(prevRenderState,
-          this.getLinkColor());
+      prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_UNDERLINE);
+      prevRenderState = new ColorRenderState(prevRenderState, this.getLinkColor());
     }
     return super.createRenderState(prevRenderState);
   }

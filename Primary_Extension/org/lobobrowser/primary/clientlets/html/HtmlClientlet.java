@@ -47,8 +47,7 @@ import java.util.logging.*;
  * @author J. H. S.
  */
 public class HtmlClientlet implements Clientlet {
-  private static final Logger logger = Logger.getLogger(HtmlClientlet.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(HtmlClientlet.class.getName());
   private static final Set<String> NON_VISIBLE_ELEMENTS = new HashSet<String>();
 
   // Maximum buffer size required to determine if a reload due
@@ -82,16 +81,13 @@ public class HtmlClientlet implements Clientlet {
     this.processImpl(cc, null, null);
   }
 
-  private void processImpl(final ClientletContext cc,
-      Map<String, String> httpEquivData, RecordedInputStream rin)
-      throws ClientletException {
+  private void processImpl(final ClientletContext cc, Map<String, String> httpEquivData, RecordedInputStream rin) throws ClientletException {
     // This method may be executed twice, depending on http-equiv meta elements.
     try {
       ClientletResponse response = cc.getResponse();
       boolean charsetProvided = response.isCharsetProvided();
       String contentLanguage = response.getHeader("Content-Language");
-      Set<Locale> locales = contentLanguage == null ? null : this
-          .extractLocales(contentLanguage);
+      Set<Locale> locales = contentLanguage == null ? null : this.extractLocales(contentLanguage);
       RefreshInfo refresh = null;
       Iterator hi = response.getHeaderNames();
       // TODO: What is the behavior if you have
@@ -101,23 +97,20 @@ public class HtmlClientlet implements Clientlet {
         String[] headerValues = response.getHeaders(headerName);
         if (headerValues != null && headerValues.length > 0) {
           if ("refresh".equalsIgnoreCase(headerName)) {
-            refresh = this
-                .extractRefresh(headerValues[headerValues.length - 1]);
+            refresh = this.extractRefresh(headerValues[headerValues.length - 1]);
           }
         }
       }
       String httpEquivCharset = null;
       if (httpEquivData != null) {
-        Iterator<Map.Entry<String, String>> i = httpEquivData.entrySet()
-            .iterator();
+        Iterator<Map.Entry<String, String>> i = httpEquivData.entrySet().iterator();
         while (i.hasNext()) {
           Map.Entry<String, String> entry = i.next();
           String httpEquiv = entry.getKey();
           String content = entry.getValue();
           if (content != null) {
             if ("content-type".equalsIgnoreCase(httpEquiv)) {
-              httpEquivCharset = this.extractCharset(response.getResponseURL(),
-                  content);
+              httpEquivCharset = this.extractCharset(response.getResponseURL(), content);
             } else if ("refresh".equalsIgnoreCase(httpEquiv)) {
               refresh = this.extractRefresh(content);
             } else if ("content-language".equalsIgnoreCase(httpEquiv)) {
@@ -126,14 +119,11 @@ public class HtmlClientlet implements Clientlet {
           }
         }
       }
-      HtmlRendererContextImpl rcontext = HtmlRendererContextImpl
-          .getHtmlRendererContext(cc.getNavigatorFrame());
-      DocumentBuilderImpl builder = new DocumentBuilderImpl(
-          rcontext.getUserAgentContext(), rcontext);
+      HtmlRendererContextImpl rcontext = HtmlRendererContextImpl.getHtmlRendererContext(cc.getNavigatorFrame());
+      DocumentBuilderImpl builder = new DocumentBuilderImpl(rcontext.getUserAgentContext(), rcontext);
       if (rin == null) {
         InputStream in = response.getInputStream();
-        rin = in instanceof RecordedInputStream ? (RecordedInputStream) in
-            : new RecordedInputStream(in, MAX_IS_BUFFER_SIZE);
+        rin = in instanceof RecordedInputStream ? (RecordedInputStream) in : new RecordedInputStream(in, MAX_IS_BUFFER_SIZE);
         rin.mark(Short.MAX_VALUE);
       } else {
         rin.reset();
@@ -161,10 +151,9 @@ public class HtmlClientlet implements Clientlet {
       document.setReferrer(referrer == null ? "" : referrer);
       HtmlPanel panel = rcontext.getHtmlPanel();
       // Create a listener that will switch to rendering when appropriate.
-      final HtmlContent content = new HtmlContent((HTMLDocument) document,
-          panel, rin, charset);
-      LocalDocumentNotificationListener listener = new LocalDocumentNotificationListener(
-          document, panel, rcontext, cc, content, httpEquivData == null);
+      final HtmlContent content = new HtmlContent((HTMLDocument) document, panel, rin, charset);
+      LocalDocumentNotificationListener listener = new LocalDocumentNotificationListener(document, panel, rcontext, cc, content,
+          httpEquivData == null);
       document.addDocumentNotificationListener(listener);
       // Set resulting content before parsing
       // to enable incremental rendering.
@@ -174,8 +163,7 @@ public class HtmlClientlet implements Clientlet {
         document.load(false);
       } catch (HttpEquivRetryException retry) {
         if (logger.isLoggable(Level.INFO)) {
-          logger
-              .info("processImpl(): Resetting due to META http-equiv: " + uri);
+          logger.info("processImpl(): Resetting due to META http-equiv: " + uri);
         }
         // This is a recursive call, but it doesn't go further
         // than one level deep.
@@ -293,15 +281,13 @@ public class HtmlClientlet implements Clientlet {
     try {
       delay = Integer.parseInt(delayText);
     } catch (NumberFormatException nfe) {
-      logger.warning("extractRefresh(): Bad META refresh delay: " + delayText
-          + ".");
+      logger.warning("extractRefresh(): Bad META refresh delay: " + delayText + ".");
       delay = 0;
     }
     return new RefreshInfo(delay, urlText);
   }
 
-  private static class LocalDocumentNotificationListener implements
-      DocumentNotificationListener {
+  private static class LocalDocumentNotificationListener implements DocumentNotificationListener {
     private static final int MAX_WAIT = 7000;
     private final HTMLDocumentImpl document;
     private final HtmlPanel htmlPanel;
@@ -314,8 +300,7 @@ public class HtmlClientlet implements Clientlet {
     private boolean hasSwitchedToRendering = false;
     private Collection<HTMLElement> httpEquivElements;
 
-    public LocalDocumentNotificationListener(HTMLDocumentImpl doc,
-        HtmlPanel panel, HtmlRendererContext rcontext, ClientletContext cc,
+    public LocalDocumentNotificationListener(HTMLDocumentImpl doc, HtmlPanel panel, HtmlRendererContext rcontext, ClientletContext cc,
         HtmlContent content, boolean detectHttpEquiv) {
       this.document = doc;
       this.startTimestamp = System.currentTimeMillis();
@@ -363,9 +348,7 @@ public class HtmlClientlet implements Clientlet {
               this.addHttpEquivElement(element);
             }
           }
-          if ("head".equalsIgnoreCase(tagName)
-              || "script".equalsIgnoreCase(tagName)
-              || "html".equalsIgnoreCase(tagName)) {
+          if ("head".equalsIgnoreCase(tagName) || "script".equalsIgnoreCase(tagName) || "html".equalsIgnoreCase(tagName)) {
             // Note: SCRIPT is checked as an optimization. We do not want
             // scripts to be processed twice. HTML is checked because
             // sometimes sites don't put http-equiv in HEAD, e.g.
@@ -382,8 +365,7 @@ public class HtmlClientlet implements Clientlet {
           this.hasVisibleElements = true;
         }
       }
-      if (this.hasVisibleElements
-          && (System.currentTimeMillis() - this.startTimestamp) > MAX_WAIT) {
+      if (this.hasVisibleElements && (System.currentTimeMillis() - this.startTimestamp) > MAX_WAIT) {
         this.ensureSwitchedToRendering();
       }
     }
@@ -400,11 +382,9 @@ public class HtmlClientlet implements Clientlet {
     private final boolean mayBeVisibleElement(NodeImpl node) {
       if (node instanceof HTMLElement) {
         HTMLElement element = (HTMLElement) node;
-        boolean visible = !NON_VISIBLE_ELEMENTS.contains(element.getTagName()
-            .toLowerCase());
+        boolean visible = !NON_VISIBLE_ELEMENTS.contains(element.getTagName().toLowerCase());
         if (visible && logger.isLoggable(Level.INFO)) {
-          logger.info("mayBeVisibleElement(): Found possibly visible element: "
-              + element.getTagName());
+          logger.info("mayBeVisibleElement(): Found possibly visible element: " + element.getTagName());
         }
         return visible;
       } else {

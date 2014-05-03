@@ -106,8 +106,7 @@ public interface BoundableRenderable extends Renderable {
 
   public boolean onRightClick(MouseEvent event, int x, int y);
 
-  public void onMouseMoved(MouseEvent event, int x, int y,
-      boolean triggerEvent, ModelNode limit);
+  public void onMouseMoved(MouseEvent event, int x, int y, boolean triggerEvent, ModelNode limit);
 
   public void onMouseOut(MouseEvent event, int x, int y, ModelNode limit);
 
@@ -127,8 +126,7 @@ public interface BoundableRenderable extends Renderable {
    * @param endPoint
    * @return True iff it's in selection when finished painting.
    */
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint);
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint);
 
   /**
    * Paints by either creating a new clipped graphics context corresponding to
@@ -139,8 +137,7 @@ public interface BoundableRenderable extends Renderable {
    */
   public void paintTranslated(Graphics g);
 
-  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint);
+  public boolean extractSelectionText(StringBuffer buffer, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint);
 
   public void repaint(int x, int y, int width, int height);
 

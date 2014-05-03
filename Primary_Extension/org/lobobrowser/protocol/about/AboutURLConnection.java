@@ -70,8 +70,7 @@ public class AboutURLConnection extends URLConnection {
    * @see java.net.URLConnection#getInputStream()
    */
   public InputStream getInputStream() throws IOException {
-    return new ByteArrayInputStream(this.getURLText(this.getURL()).getBytes(
-        "UTF-8"));
+    return new ByteArrayInputStream(this.getURLText(this.getURL()).getBytes("UTF-8"));
   }
 
   private String getURLText(java.net.URL url) {
@@ -170,8 +169,7 @@ public class AboutURLConnection extends URLConnection {
     String description = binfo.getDescription();
     if (description != null && description.contains(keyword)) {
       score += 3;
-    } else if (description != null
-        && description.toLowerCase().contains(keywordTL)) {
+    } else if (description != null && description.toLowerCase().contains(keywordTL)) {
       score += 2;
     }
     String[] tags = binfo.getTags();
@@ -209,8 +207,7 @@ public class AboutURLConnection extends URLConnection {
     return swriter.toString();
   }
 
-  private void writeBookmark(PrintWriter writer,
-      HistoryEntry<BookmarkInfo> entry) {
+  private void writeBookmark(PrintWriter writer, HistoryEntry<BookmarkInfo> entry) {
     java.net.URL url = entry.getUrl();
     String urlText = url.toExternalForm();
     BookmarkInfo binfo = entry.getItemInfo();
@@ -225,8 +222,7 @@ public class AboutURLConnection extends URLConnection {
     }
     writer.println("<LI>");
     writer.println("<DIV>");
-    writer.println("<A href=\"" + urlText + "\">" + text + "</A> ("
-        + Timing.getElapsedText(elapsed) + " ago)");
+    writer.println("<A href=\"" + urlText + "\">" + text + "</A> (" + Timing.getElapsedText(elapsed) + " ago)");
     writer.println("</DIV>");
     writer.println("<DIV>");
     writer.println(description);
@@ -238,8 +234,7 @@ public class AboutURLConnection extends URLConnection {
     private final HistoryEntry<BookmarkInfo> historyEntry;
     private final int score;
 
-    public ScoredEntry(final HistoryEntry<BookmarkInfo> historyEntry,
-        final int score) {
+    public ScoredEntry(final HistoryEntry<BookmarkInfo> historyEntry, final int score) {
       super();
       this.historyEntry = historyEntry;
       this.score = score;
@@ -262,8 +257,7 @@ public class AboutURLConnection extends URLConnection {
       if (diff != 0) {
         return diff;
       }
-      diff = (int) (other.historyEntry.getTimetstamp() - this.historyEntry
-          .getTimetstamp());
+      diff = (int) (other.historyEntry.getTimetstamp() - this.historyEntry.getTimetstamp());
       if (diff != 0) {
         return diff;
       }
@@ -271,8 +265,7 @@ public class AboutURLConnection extends URLConnection {
       if (diff != 0) {
         return diff;
       } else {
-        return System.identityHashCode(other.historyEntry)
-            - System.identityHashCode(this.historyEntry);
+        return System.identityHashCode(other.historyEntry) - System.identityHashCode(this.historyEntry);
       }
     }
 

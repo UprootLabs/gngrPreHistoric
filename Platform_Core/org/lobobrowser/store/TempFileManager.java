@@ -33,8 +33,7 @@ public class TempFileManager {
   private static final long ONE_DAY = 24L * 60 * 60 * 1000;
   private static final long ONE_MONTH = 30L * ONE_DAY;
   private static final long THIRTY_YEARS = 30L * 365 * ONE_DAY;
-  private static final String FILE_PREFIX = GENERAL_PREFIX
-      + ((System.currentTimeMillis() - THIRTY_YEARS) / 1000) + "-";
+  private static final String FILE_PREFIX = GENERAL_PREFIX + ((System.currentTimeMillis() - THIRTY_YEARS) / 1000) + "-";
 
   private final File TEMP_DIRECTORY;
   private final ReferenceQueue<JarFile> REFERENCE_QUEUE = new ReferenceQueue<JarFile>();
@@ -126,8 +125,7 @@ public class TempFileManager {
     }
     JarFile jarFile = new JarFile(file);
     String canonical = file.getCanonicalPath();
-    LocalWeakReference wr = new LocalWeakReference(jarFile, REFERENCE_QUEUE,
-        canonical);
+    LocalWeakReference wr = new LocalWeakReference(jarFile, REFERENCE_QUEUE, canonical);
     synchronized (this) {
       // This serves simply to retain the weak reference.
       this.wrByPath.put(canonical, wr);
@@ -146,8 +144,7 @@ public class TempFileManager {
   private static class LocalWeakReference extends WeakReference<JarFile> {
     public final String canonicalPath;
 
-    public LocalWeakReference(JarFile referent,
-        ReferenceQueue<? super JarFile> q, String canonicalPath) {
+    public LocalWeakReference(JarFile referent, ReferenceQueue<? super JarFile> q, String canonicalPath) {
       super(referent, q);
       this.canonicalPath = canonicalPath;
     }

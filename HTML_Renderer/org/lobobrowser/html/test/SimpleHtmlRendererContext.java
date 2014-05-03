@@ -51,8 +51,7 @@ import java.util.logging.*;
  * is to invoke {@link #navigate(String)}.
  */
 public class SimpleHtmlRendererContext implements HtmlRendererContext {
-  private static final Logger logger = Logger
-      .getLogger(SimpleHtmlRendererContext.class.getName());
+  private static final Logger logger = Logger.getLogger(SimpleHtmlRendererContext.class.getName());
 
   private final HtmlPanel htmlPanel;
   private final HtmlRendererContext parentRcontext;
@@ -76,8 +75,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    *          The component that will render HTML.
    * @see SimpleUserAgentContext
    */
-  public SimpleHtmlRendererContext(HtmlPanel contextComponent,
-      UserAgentContext ucontext) {
+  public SimpleHtmlRendererContext(HtmlPanel contextComponent, UserAgentContext ucontext) {
     super();
     this.htmlPanel = contextComponent;
     this.parentRcontext = null;
@@ -93,13 +91,11 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    * @param parentRcontext
    *          The parent's renderer context.
    */
-  public SimpleHtmlRendererContext(HtmlPanel contextComponent,
-      HtmlRendererContext parentRcontext) {
+  public SimpleHtmlRendererContext(HtmlPanel contextComponent, HtmlRendererContext parentRcontext) {
     super();
     this.htmlPanel = contextComponent;
     this.parentRcontext = parentRcontext;
-    this.bcontext = parentRcontext == null ? null : parentRcontext
-        .getUserAgentContext();
+    this.bcontext = parentRcontext == null ? null : parentRcontext.getUserAgentContext();
   }
 
   public HtmlPanel getHtmlPanel() {
@@ -211,8 +207,8 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    * 
    * @see #navigate(URL, String)
    */
-  public void submitForm(final String method, final java.net.URL action,
-      final String target, final String enctype, final FormInput[] formInputs) {
+  public void submitForm(final String method, final java.net.URL action, final String target, final String enctype,
+      final FormInput[] formInputs) {
     // This method implements simple incremental rendering.
     if (target != null) {
       HtmlRendererContext topCtx = this.getTop();
@@ -220,14 +216,12 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
       if (frames != null) {
         org.w3c.dom.Node frame = frames.namedItem(target);
         if (logger.isLoggable(Level.INFO)) {
-          logger.info("submitForm(): Frame matching target=" + target + " is "
-              + frame);
+          logger.info("submitForm(): Frame matching target=" + target + " is " + frame);
         }
         if (frame instanceof FrameNode) {
           BrowserFrame bframe = ((FrameNode) frame).getBrowserFrame();
           if (bframe == null) {
-            throw new IllegalStateException(
-                "Frame node without a BrowserFrame instance: " + frame);
+            throw new IllegalStateException("Frame node without a BrowserFrame instance: " + frame);
           }
           if (bframe.getHtmlRendererContext() != this) {
             bframe.loadURL(action);
@@ -251,8 +245,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
       } else if ("_this".equals(actualTarget)) {
         // fall through
       } else {
-        logger.warning("submitForm(): Link target unrecognized: "
-            + actualTarget);
+        logger.warning("submitForm(): Link target unrecognized: " + actualTarget);
       }
     }
 
@@ -261,21 +254,17 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
       new Thread() {
         public void run() {
           try {
-            SimpleHtmlRendererContext.this.submitFormSync(method, action,
-                target, enctype, formInputs);
+            SimpleHtmlRendererContext.this.submitFormSync(method, action, target, enctype, formInputs);
           } catch (Exception err) {
-            SimpleHtmlRendererContext.this.error(
-                "navigate(): Error loading or parsing request.", err);
+            SimpleHtmlRendererContext.this.error("navigate(): Error loading or parsing request.", err);
           }
         }
       }.start();
     } else {
       try {
-        SimpleHtmlRendererContext.this.submitFormSync(method, action, target,
-            enctype, formInputs);
+        SimpleHtmlRendererContext.this.submitFormSync(method, action, target, enctype, formInputs);
       } catch (Exception err) {
-        SimpleHtmlRendererContext.this.error(
-            "navigate(): Error loading or parsing request.", err);
+        SimpleHtmlRendererContext.this.error("navigate(): Error loading or parsing request.", err);
       }
     }
   }
@@ -313,16 +302,14 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    * @throws org.xml.sax.SAXException
    * @see #submitForm(String, URL, String, String, FormInput[])
    */
-  protected void submitFormSync(final String method, final java.net.URL action,
-      final String target, String enctype, final FormInput[] formInputs)
-      throws IOException, org.xml.sax.SAXException {
+  protected void submitFormSync(final String method, final java.net.URL action, final String target, String enctype,
+      final FormInput[] formInputs) throws IOException, org.xml.sax.SAXException {
     final String actualMethod = method.toUpperCase();
     URL resolvedURL;
     if ("GET".equals(actualMethod) && formInputs != null) {
       boolean firstParam = true;
       // TODO: What about the userInfo part of the URL?
-      URL noRefAction = new URL(action.getProtocol(), action.getHost(),
-          action.getPort(), action.getFile());
+      URL noRefAction = new URL(action.getProtocol(), action.getHost(), action.getPort(), action.getFile());
       StringBuffer newUrlBuffer = new StringBuffer(noRefAction.toExternalForm());
       if (action.getQuery() == null) {
         newUrlBuffer.append("?");
@@ -345,8 +332,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
           newUrlBuffer.append("=");
           newUrlBuffer.append(encValue);
         } else {
-          logger.warning("postData(): Ignoring non-textual parameter " + name
-              + " for GET.");
+          logger.warning("postData(): Ignoring non-textual parameter " + name + " for GET.");
         }
       }
       resolvedURL = new java.net.URL(newUrlBuffer.toString());
@@ -359,8 +345,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
       try {
         String ref = action.getRef();
         String refText = ref == null || ref.length() == 0 ? "" : "#" + ref;
-        urlForLoading = new URL(resolvedURL.getProtocol(), action.getHost(),
-            action.getPort(), action.getPath() + refText);
+        urlForLoading = new URL(resolvedURL.getProtocol(), action.getHost(), action.getPort(), action.getPath() + refText);
       } catch (java.net.MalformedURLException throwable) {
         this.warn("malformed", throwable);
         urlForLoading = action;
@@ -375,12 +360,11 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
     // Using potentially different URL for loading.
     Proxy proxy = SimpleHtmlRendererContext.this.getProxy();
     boolean isPost = "POST".equals(actualMethod);
-    URLConnection connection = proxy == null || proxy == Proxy.NO_PROXY ? urlForLoading
-        .openConnection() : urlForLoading.openConnection(proxy);
+    URLConnection connection = proxy == null || proxy == Proxy.NO_PROXY ? urlForLoading.openConnection() : urlForLoading
+        .openConnection(proxy);
     this.currentConnection = connection;
     try {
-      connection.setRequestProperty("User-Agent", getUserAgentContext()
-          .getUserAgent());
+      connection.setRequestProperty("User-Agent", getUserAgentContext().getUserAgent());
       connection.setRequestProperty("Cookie", "");
       if (connection instanceof HttpURLConnection) {
         HttpURLConnection hc = (HttpURLConnection) connection;
@@ -408,8 +392,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
               bufOut.write((byte) '=');
               bufOut.write(encValue.getBytes("UTF-8"));
             } else {
-              logger.warning("postData(): Ignoring non-textual parameter "
-                  + name + " for POST.");
+              logger.warning("postData(): Ignoring non-textual parameter " + name + " for POST.");
             }
           }
         }
@@ -417,11 +400,9 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
         // can be picky about that (namely, java.net).
         byte[] postContent = bufOut.toByteArray();
         if (connection instanceof HttpURLConnection) {
-          ((HttpURLConnection) connection)
-              .setFixedLengthStreamingMode(postContent.length);
+          ((HttpURLConnection) connection).setFixedLengthStreamingMode(postContent.length);
         }
-        connection.setRequestProperty("Content-Type",
-            "application/x-www-form-urlencoded");
+        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         // connection.setRequestProperty("Content-Length",
         // String.valueOf(postContent.length));
         OutputStream postOut = connection.getOutputStream();
@@ -434,13 +415,11 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
         if (logger.isLoggable(Level.INFO)) {
           logger.info("process(): HTTP response code: " + responseCode);
         }
-        if (responseCode == HttpURLConnection.HTTP_MOVED_PERM
-            || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
+        if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
             || responseCode == HttpURLConnection.HTTP_SEE_OTHER) {
           String location = hc.getHeaderField("Location");
           if (location == null) {
-            logger.warning("No Location header in redirect from " + action
-                + ".");
+            logger.warning("No Location header in redirect from " + action + ".");
           } else {
             java.net.URL href;
             href = Urls.createURL(action, location);
@@ -457,8 +436,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
         InputStream bin = new BufferedInputStream(rin, 8192);
         String actualURI = urlForLoading.toExternalForm();
         // Only create document, don't parse.
-        HTMLDocumentImpl document = this.createDocument(new InputSourceImpl(
-            bin, actualURI, getDocumentCharset(connection)));
+        HTMLDocumentImpl document = this.createDocument(new InputSourceImpl(bin, actualURI, getDocumentCharset(connection)));
         // Set document in HtmlPanel. Safe to call outside GUI thread.
         HtmlPanel panel = htmlPanel;
         panel.setDocument(document, SimpleHtmlRendererContext.this);
@@ -466,17 +444,15 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
         document.load();
         long time2 = System.currentTimeMillis();
         if (logger.isLoggable(Level.INFO)) {
-          logger.info("Parsed URI=[" + urlForLoading + "]: Parse elapsed: "
-              + (time2 - time1) + " ms. Connection elapsed: " + (time1 - time0)
-              + " ms.");
+          logger.info("Parsed URI=[" + urlForLoading + "]: Parse elapsed: " + (time2 - time1) + " ms. Connection elapsed: "
+              + (time1 - time0) + " ms.");
         }
         String ref = urlForLoading.getRef();
         if (ref != null && ref.length() != 0) {
           panel.scrollToElement(ref);
         }
         try {
-          SimpleHtmlRendererContext.this.sourceCode = rin
-              .getString("ISO-8859-1");
+          SimpleHtmlRendererContext.this.sourceCode = rin.getString("ISO-8859-1");
         } catch (BufferExceededException bee) {
           SimpleHtmlRendererContext.this.sourceCode = "[TOO BIG]";
         }
@@ -498,10 +474,8 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    * @throws IOException
    * @throws org.xml.sax.SAXException
    */
-  protected HTMLDocumentImpl createDocument(org.xml.sax.InputSource inputSource)
-      throws IOException, org.xml.sax.SAXException {
-    DocumentBuilderImpl builder = new DocumentBuilderImpl(
-        this.getUserAgentContext(), SimpleHtmlRendererContext.this);
+  protected HTMLDocumentImpl createDocument(org.xml.sax.InputSource inputSource) throws IOException, org.xml.sax.SAXException {
+    DocumentBuilderImpl builder = new DocumentBuilderImpl(this.getUserAgentContext(), SimpleHtmlRendererContext.this);
     return (HTMLDocumentImpl) builder.createDocument(inputSource);
   }
 
@@ -548,8 +522,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    * Opens a simple confirmation window.
    */
   public boolean confirm(String message) {
-    int retValue = JOptionPane.showConfirmDialog(htmlPanel, message, "Confirm",
-        JOptionPane.YES_NO_OPTION);
+    int retValue = JOptionPane.showConfirmDialog(htmlPanel, message, "Confirm", JOptionPane.YES_NO_OPTION);
     return retValue == JOptionPane.YES_OPTION;
   }
 
@@ -564,8 +537,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
   /**
    * @deprecated Use {@link #open(URL, String, String, boolean)}.
    */
-  public final HtmlRendererContext open(String url, String windowName,
-      String windowFeatures, boolean replace) {
+  public final HtmlRendererContext open(String url, String windowName, String windowFeatures, boolean replace) {
     URL urlObj;
     try {
       urlObj = new URL(url);
@@ -589,8 +561,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
    * @param replace
    *          Whether an existing window with the same name should be replaced.
    */
-  public HtmlRendererContext open(java.net.URL url, String windowName,
-      String windowFeatures, boolean replace) {
+  public HtmlRendererContext open(java.net.URL url, String windowName, String windowFeatures, boolean replace) {
     this.warn("open(): Not overridden");
     return null;
   }
@@ -792,8 +763,7 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
   public void resizeBy(int byWidth, int byHeight) {
     java.awt.Window window = getWindow(this.htmlPanel);
     if (window != null) {
-      window
-          .setSize(window.getWidth() + byWidth, window.getHeight() + byHeight);
+      window.setSize(window.getWidth() + byWidth, window.getHeight() + byHeight);
     }
   }
 
@@ -843,15 +813,13 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
 
   public void goToHistoryURL(String url) {
     if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,
-          "goToHistoryURL() does nothing, unless overridden.");
+      logger.log(Level.WARNING, "goToHistoryURL() does nothing, unless overridden.");
     }
   }
 
   public void moveInHistory(int offset) {
     if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,
-          "moveInHistory() does nothing, unless overridden.");
+      logger.log(Level.WARNING, "moveInHistory() does nothing, unless overridden.");
     }
   }
 }

@@ -177,8 +177,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
      * @see javax.swing.text.PlainDocument#insertString(int, java.lang.String,
      * javax.swing.text.AttributeSet)
      */
-    public void insertString(int offs, String str, AttributeSet a)
-        throws BadLocationException {
+    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
       int max = BaseInputTextControl.this.maxLength;
       if (max != -1) {
         int docLength = this.getLength();

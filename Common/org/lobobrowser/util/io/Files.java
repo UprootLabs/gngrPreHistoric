@@ -36,12 +36,10 @@ public class Files {
     int dotIdx = name.lastIndexOf('.');
     String extension = dotIdx == -1 ? null : name.substring(dotIdx + 1);
     if ("txt".equalsIgnoreCase(extension)) {
-      return "text/plain; charset=\"" + System.getProperty("file.encoding")
-          + "\"";
+      return "text/plain; charset=\"" + System.getProperty("file.encoding") + "\"";
     }
     if ("html".equalsIgnoreCase(extension) || "htm".equalsIgnoreCase(extension)) {
-      return "text/html; charset=\"" + System.getProperty("file.encoding")
-          + "\"";
+      return "text/html; charset=\"" + System.getProperty("file.encoding") + "\"";
     } else {
       return "application/octet-stream";
     }

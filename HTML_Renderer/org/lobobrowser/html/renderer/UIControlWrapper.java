@@ -47,8 +47,7 @@ class UIControlWrapper implements UIControl {
     this.component.invalidate();
   }
 
-  public boolean paintSelection(Graphics g, boolean inSelection,
-      RenderableSpot startPoint, RenderableSpot endPoint) {
+  public boolean paintSelection(Graphics g, boolean inSelection, RenderableSpot startPoint, RenderableSpot endPoint) {
     // Does not paint selection
     return inSelection;
   }

@@ -128,8 +128,7 @@ public interface NavigatorWindow {
    *          <code>false</code>, it is assumed that the adjacent components can
    *          be shrunk to their minimum sizes.
    */
-  public Component createGlueComponent(Component wrappedComponent,
-      boolean usingMaxSize);
+  public Component createGlueComponent(Component wrappedComponent, boolean usingMaxSize);
 
   /**
    * Creates a gap component that should be placed between toolbar, address bar

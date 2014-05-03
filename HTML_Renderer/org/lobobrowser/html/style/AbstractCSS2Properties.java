@@ -32,10 +32,8 @@ import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
 
-public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
-    implements CSS2Properties {
-  private static final Logger logger = Logger
-      .getLogger(AbstractCSS2Properties.class.getName());
+public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate implements CSS2Properties {
+  private static final Logger logger = Logger.getLogger(AbstractCSS2Properties.class.getName());
 
   public static final String FLOAT = "float";
   public static final String AZIMUTH = "azimuth";
@@ -161,8 +159,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
   public static final String WORD_SPACING = "word_spacing";
   public static final String Z_INDEX = "z-index";
 
-  private static final Map<String, SubPropertySetter> SUB_SETTERS = new HashMap<String, SubPropertySetter>(
-      20);
+  private static final Map<String, SubPropertySetter> SUB_SETTERS = new HashMap<String, SubPropertySetter>(20);
 
   private final CSS2PropertiesContext context;
   private AbstractCSS2Properties localStyleProperties;
@@ -178,12 +175,9 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
     subSetters.put(BORDER_LEFT, new BorderSetter2(BORDER_LEFT));
     subSetters.put(BORDER_BOTTOM, new BorderSetter2(BORDER_BOTTOM));
     subSetters.put(BORDER_RIGHT, new BorderSetter2(BORDER_RIGHT));
-    subSetters.put(BORDER_COLOR, new FourCornersSetter(BORDER_COLOR, "border-",
-        "-color"));
-    subSetters.put(BORDER_STYLE, new FourCornersSetter(BORDER_STYLE, "border-",
-        "-style"));
-    subSetters.put(BORDER_WIDTH, new FourCornersSetter(BORDER_WIDTH, "border-",
-        "-width"));
+    subSetters.put(BORDER_COLOR, new FourCornersSetter(BORDER_COLOR, "border-", "-color"));
+    subSetters.put(BORDER_STYLE, new FourCornersSetter(BORDER_STYLE, "border-", "-style"));
+    subSetters.put(BORDER_WIDTH, new FourCornersSetter(BORDER_WIDTH, "border-", "-width"));
     subSetters.put(BACKGROUND, new BackgroundSetter());
     subSetters.put(BACKGROUND_IMAGE, new BackgroundImageSetter());
     subSetters.put(FONT, new FontSetter());
@@ -206,10 +200,8 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
         String propertyName = styleDeclaration.item(i);
         String propertyValue = styleDeclaration.getPropertyValue(propertyName);
         String priority = styleDeclaration.getPropertyPriority(propertyName);
-        boolean important = priority != null && priority.length() != 0
-            && "important".equals(priority);
-        this.setPropertyValueProcessed(propertyName.toLowerCase(),
-            propertyValue, styleDeclaration, important);
+        boolean important = priority != null && priority.length() != 0 && "important".equals(priority);
+        this.setPropertyValueProcessed(propertyName.toLowerCase(), propertyValue, styleDeclaration, important);
       }
     }
   }
@@ -286,8 +278,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
    * @param value
    *          The property value.
    */
-  protected final void setPropertyValueLCAlt(String lowerCaseName,
-      String value, boolean important) {
+  protected final void setPropertyValueLCAlt(String lowerCaseName, String value, boolean important) {
     Map<String, Property> vm = this.valueMap;
     synchronized (this) {
       if (vm == null) {
@@ -306,8 +297,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
     }
   }
 
-  protected final void setPropertyValueProcessed(String lowerCaseName,
-      String value, CSSStyleDeclaration declaration, boolean important) {
+  protected final void setPropertyValueProcessed(String lowerCaseName, String value, CSSStyleDeclaration declaration, boolean important) {
     SubPropertySetter setter = SUB_SETTERS.get(lowerCaseName);
     if (setter != null) {
       setter.changeValue(this, value, declaration, important);
@@ -944,8 +934,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundAttachment(String backgroundAttachment)
-      throws DOMException {
+  public void setBackgroundAttachment(String backgroundAttachment) throws DOMException {
     this.setPropertyValueLC(BACKGROUND_ATTACHMENT, backgroundAttachment);
     this.context.informLookInvalid();
   }
@@ -961,8 +950,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
     this.context.informLookInvalid();
   }
 
-  public void setBackgroundPosition(String backgroundPosition)
-      throws DOMException {
+  public void setBackgroundPosition(String backgroundPosition) throws DOMException {
     this.setPropertyValueLC(BACKGROUND_POSITION, backgroundPosition);
     this.context.informLookInvalid();
   }
@@ -984,20 +972,17 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
     this.context.informInvalid();
   }
 
-  public void setBorderBottomColor(String borderBottomColor)
-      throws DOMException {
+  public void setBorderBottomColor(String borderBottomColor) throws DOMException {
     this.setPropertyValueLC(BORDER_BOTTOM_COLOR, borderBottomColor);
     this.context.informLookInvalid();
   }
 
-  public void setBorderBottomStyle(String borderBottomStyle)
-      throws DOMException {
+  public void setBorderBottomStyle(String borderBottomStyle) throws DOMException {
     this.setPropertyValueLC(BORDER_BOTTOM_STYLE, borderBottomStyle);
     this.context.informLookInvalid();
   }
 
-  public void setBorderBottomWidth(String borderBottomWidth)
-      throws DOMException {
+  public void setBorderBottomWidth(String borderBottomWidth) throws DOMException {
     this.setPropertyValueLC(BORDER_BOTTOM_WIDTH, borderBottomWidth);
     this.context.informInvalid();
   }
@@ -1009,8 +994,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
 
   public void setBorderColor(String borderColor) throws DOMException {
     this.checkSetProperty();
-    new FourCornersSetter(BORDER_COLOR, "border-", "-color").changeValue(this,
-        borderColor, null);
+    new FourCornersSetter(BORDER_COLOR, "border-", "-color").changeValue(this, borderColor, null);
     this.context.informLookInvalid();
   }
 
@@ -1063,8 +1047,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
 
   public void setBorderStyle(String borderStyle) throws DOMException {
     this.checkSetProperty();
-    new FourCornersSetter(BORDER_STYLE, "border-", "-style").changeValue(this,
-        borderStyle, null);
+    new FourCornersSetter(BORDER_STYLE, "border-", "-style").changeValue(this, borderStyle, null);
     this.context.informLookInvalid();
   }
 
@@ -1091,8 +1074,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
 
   public void setBorderWidth(String borderWidth) throws DOMException {
     this.checkSetProperty();
-    new FourCornersSetter(BORDER_WIDTH, "border-", "-width").changeValue(this,
-        borderWidth, null);
+    new FourCornersSetter(BORDER_WIDTH, "border-", "-width").changeValue(this, borderWidth, null);
     this.context.informInvalid();
   }
 
@@ -1246,8 +1228,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
     this.context.informLookInvalid();
   }
 
-  public void setListStylePosition(String listStylePosition)
-      throws DOMException {
+  public void setListStylePosition(String listStylePosition) throws DOMException {
     this.setPropertyValueLC(LIST_STYLE_POSITION, listStylePosition);
     this.context.informInvalid();
   }
@@ -1259,8 +1240,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
 
   public void setMargin(String margin) throws DOMException {
     this.checkSetProperty();
-    new AbstractCSS2Properties.FourCornersSetter(MARGIN, "margin-", "")
-        .changeValue(this, margin, null);
+    new AbstractCSS2Properties.FourCornersSetter(MARGIN, "margin-", "").changeValue(this, margin, null);
     this.context.informInvalid();
   }
 
@@ -1343,8 +1323,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
 
   public void setPadding(String padding) throws DOMException {
     this.checkSetProperty();
-    new FourCornersSetter(PADDING, "padding-", "").changeValue(this, padding,
-        null);
+    new FourCornersSetter(PADDING, "padding-", "").changeValue(this, padding, null);
     this.context.informInvalid();
   }
 
@@ -1579,27 +1558,20 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
   }
 
   private static interface SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration, boolean important);
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important);
   }
 
   private static class BorderSetter1 implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
       properties.setPropertyValueLCAlt(BORDER, newValue, important);
-      properties.setPropertyValueProcessed(BORDER_TOP, newValue, declaration,
-          important);
-      properties.setPropertyValueProcessed(BORDER_LEFT, newValue, declaration,
-          important);
-      properties.setPropertyValueProcessed(BORDER_BOTTOM, newValue,
-          declaration, important);
-      properties.setPropertyValueProcessed(BORDER_RIGHT, newValue, declaration,
-          important);
+      properties.setPropertyValueProcessed(BORDER_TOP, newValue, declaration, important);
+      properties.setPropertyValueProcessed(BORDER_LEFT, newValue, declaration, important);
+      properties.setPropertyValueProcessed(BORDER_BOTTOM, newValue, declaration, important);
+      properties.setPropertyValueProcessed(BORDER_RIGHT, newValue, declaration, important);
     }
   }
 
@@ -1610,13 +1582,11 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
       this.name = baseName;
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String value,
-        CSSStyleDeclaration declaration) {
+    public void changeValue(AbstractCSS2Properties properties, String value, CSSStyleDeclaration declaration) {
       this.changeValue(properties, value, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String value,
-        CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(AbstractCSS2Properties properties, String value, CSSStyleDeclaration declaration, boolean important) {
       properties.setPropertyValueLCAlt(this.name, value, important);
       if (value != null && value.length() > 0) {
         String[] array = HtmlValues.splitCssValue(value);
@@ -1627,8 +1597,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
           String token = array[i];
           if (HtmlValues.isBorderStyle(token)) {
             style = token;
-          } else if (org.lobobrowser.util.gui.ColorFactory.getInstance()
-              .isColor(token)) {
+          } else if (org.lobobrowser.util.gui.ColorFactory.getInstance().isColor(token)) {
             color = token;
           } else {
             width = token;
@@ -1659,13 +1628,11 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
       this.property = property;
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
       properties.setPropertyValueLCAlt(this.property, newValue, important);
       if (newValue != null && newValue.length() > 0) {
         String[] array = HtmlValues.splitCssValue(newValue);
@@ -1674,60 +1641,42 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
           String prefix = this.prefix;
           String suffix = this.suffix;
           String value = array[0];
-          properties.setPropertyValueLCAlt(prefix + "top" + suffix, value,
-              important);
-          properties.setPropertyValueLCAlt(prefix + "right" + suffix, value,
-              important);
-          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, value,
-              important);
-          properties.setPropertyValueLCAlt(prefix + "left" + suffix, value,
-              important);
+          properties.setPropertyValueLCAlt(prefix + "top" + suffix, value, important);
+          properties.setPropertyValueLCAlt(prefix + "right" + suffix, value, important);
+          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, value, important);
+          properties.setPropertyValueLCAlt(prefix + "left" + suffix, value, important);
         } else if (size >= 4) {
           String prefix = this.prefix;
           String suffix = this.suffix;
-          properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0],
-              important);
-          properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1],
-              important);
-          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix,
-              array[2], important);
-          properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[3],
-              important);
+          properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0], important);
+          properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1], important);
+          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, array[2], important);
+          properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[3], important);
         } else if (size == 2) {
           String prefix = this.prefix;
           String suffix = this.suffix;
-          properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0],
-              important);
-          properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1],
-              important);
-          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix,
-              array[0], important);
-          properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[1],
-              important);
+          properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0], important);
+          properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1], important);
+          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, array[0], important);
+          properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[1], important);
         } else if (size == 3) {
           String prefix = this.prefix;
           String suffix = this.suffix;
-          properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0],
-              important);
-          properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1],
-              important);
-          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix,
-              array[2], important);
-          properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[1],
-              important);
+          properties.setPropertyValueLCAlt(prefix + "top" + suffix, array[0], important);
+          properties.setPropertyValueLCAlt(prefix + "right" + suffix, array[1], important);
+          properties.setPropertyValueLCAlt(prefix + "bottom" + suffix, array[2], important);
+          properties.setPropertyValueLCAlt(prefix + "left" + suffix, array[1], important);
         }
       }
     }
   }
 
   private static class BackgroundImageSetter implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
       String baseHref = null;
       String finalValue;
       if (declaration != null) {
@@ -1759,12 +1708,9 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
           } else {
             try {
               java.net.URL styleUrl = Urls.createURL(null, baseHref);
-              finalValue = "url("
-                  + HtmlValues.quoteAndEscape(Urls.createURL(styleUrl,
-                      tentativeUri).toExternalForm()) + ")";
+              finalValue = "url(" + HtmlValues.quoteAndEscape(Urls.createURL(styleUrl, tentativeUri).toExternalForm()) + ")";
             } catch (java.net.MalformedURLException mfu) {
-              logger.log(Level.WARNING, "Unable to create URL for URI=["
-                  + tentativeUri + "], with base=[" + baseHref + "].", mfu);
+              logger.log(Level.WARNING, "Unable to create URL for URI=[" + tentativeUri + "], with base=[" + baseHref + "].", mfu);
               finalValue = newValue;
             }
           }
@@ -1775,13 +1721,11 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
   }
 
   private static class BackgroundSetter implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
       properties.setPropertyValueLCAlt(BACKGROUND, newValue, important);
       if (newValue != null && newValue.length() > 0) {
         String[] tokens = HtmlValues.splitCssValue(newValue);
@@ -1813,16 +1757,13 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
           properties.setPropertyValueLCAlt(BACKGROUND_COLOR, color, important);
         }
         if (image != null) {
-          properties.setPropertyValueProcessed(BACKGROUND_IMAGE, image,
-              declaration, important);
+          properties.setPropertyValueProcessed(BACKGROUND_IMAGE, image, declaration, important);
         }
         if (backgroundRepeat != null) {
-          properties.setPropertyValueLCAlt(BACKGROUND_REPEAT, backgroundRepeat,
-              important);
+          properties.setPropertyValueLCAlt(BACKGROUND_REPEAT, backgroundRepeat, important);
         }
         if (position != null) {
-          properties.setPropertyValueLCAlt(BACKGROUND_POSITION, position,
-              important);
+          properties.setPropertyValueLCAlt(BACKGROUND_POSITION, position, important);
         }
       }
     }
@@ -1830,37 +1771,30 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
   }
 
   private static class FontSetter implements SubPropertySetter {
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration) {
       this.changeValue(properties, newValue, declaration, true);
     }
 
-    public void changeValue(AbstractCSS2Properties properties, String newValue,
-        CSSStyleDeclaration declaration, boolean important) {
+    public void changeValue(AbstractCSS2Properties properties, String newValue, CSSStyleDeclaration declaration, boolean important) {
       properties.setPropertyValueLCAlt(FONT, newValue, important);
       if (newValue != null && newValue.length() > 0) {
         String fontSpecTL = newValue.toLowerCase();
         FontInfo fontInfo = HtmlValues.SYSTEM_FONTS.get(fontSpecTL);
         if (fontInfo != null) {
           if (fontInfo.fontFamily != null) {
-            properties.setPropertyValueLCAlt(FONT_FAMILY, fontInfo.fontFamily,
-                important);
+            properties.setPropertyValueLCAlt(FONT_FAMILY, fontInfo.fontFamily, important);
           }
           if (fontInfo.fontSize != null) {
-            properties.setPropertyValueLCAlt(FONT_SIZE, fontInfo.fontSize,
-                important);
+            properties.setPropertyValueLCAlt(FONT_SIZE, fontInfo.fontSize, important);
           }
           if (fontInfo.fontStyle != null) {
-            properties.setPropertyValueLCAlt(FONT_STYLE, fontInfo.fontStyle,
-                important);
+            properties.setPropertyValueLCAlt(FONT_STYLE, fontInfo.fontStyle, important);
           }
           if (fontInfo.fontVariant != null) {
-            properties.setPropertyValueLCAlt(FONT_VARIANT,
-                fontInfo.fontVariant, important);
+            properties.setPropertyValueLCAlt(FONT_VARIANT, fontInfo.fontVariant, important);
           }
           if (fontInfo.fontWeight != null) {
-            properties.setPropertyValueLCAlt(FONT_WEIGHT, fontInfo.fontWeight,
-                important);
+            properties.setPropertyValueLCAlt(FONT_WEIGHT, fontInfo.fontWeight, important);
           }
           return;
         }
@@ -1887,14 +1821,11 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
         }
         if (token != null) {
           int slashIdx = token.indexOf('/');
-          String fontSizeText = slashIdx == -1 ? token : token.substring(0,
-              slashIdx);
+          String fontSizeText = slashIdx == -1 ? token : token.substring(0, slashIdx);
           properties.setPropertyValueLCAlt(FONT_SIZE, fontSizeText, important);
-          String lineHeightText = slashIdx == -1 ? null : token
-              .substring(slashIdx + 1);
+          String lineHeightText = slashIdx == -1 ? null : token.substring(slashIdx + 1);
           if (lineHeightText != null) {
-            properties.setPropertyValueLCAlt(LINE_HEIGHT, lineHeightText,
-                important);
+            properties.setPropertyValueLCAlt(LINE_HEIGHT, lineHeightText, important);
           }
           if (++i < length) {
             StringBuffer fontFamilyBuff = new StringBuffer();
@@ -1903,8 +1834,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate
               fontFamilyBuff.append(token);
               fontFamilyBuff.append(' ');
             } while (++i < length);
-            properties.setPropertyValueLCAlt(FONT_FAMILY,
-                fontFamilyBuff.toString(), important);
+            properties.setPropertyValueLCAlt(FONT_FAMILY, fontFamilyBuff.toString(), important);
           }
         }
       }

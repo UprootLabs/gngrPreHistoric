@@ -31,8 +31,7 @@ public class HTMLStrongElementImpl extends HTMLAbstractUIElement {
   }
 
   protected RenderState createRenderState(RenderState prevRenderState) {
-    prevRenderState = new FontStyleRenderState(prevRenderState,
-        java.awt.Font.BOLD);
+    prevRenderState = new FontStyleRenderState(prevRenderState, java.awt.Font.BOLD);
     return super.createRenderState(prevRenderState);
   }
 }

@@ -37,8 +37,7 @@ public class ClientletContextImpl implements ClientletContext {
   private final ClientletRequest request;
   private final ClientletResponse response;
 
-  public ClientletContextImpl(NavigatorFrame frame, ClientletRequest request,
-      ClientletResponse response) {
+  public ClientletContextImpl(NavigatorFrame frame, ClientletRequest request, ClientletResponse response) {
     this.frame = frame;
     this.request = request;
     this.response = response;
@@ -48,8 +47,7 @@ public class ClientletContextImpl implements ClientletContext {
     return new VolatileContentImpl(contentType, content);
   }
 
-  public ContentBuffer createContentBuffer(String contentType, String content,
-      String encoding) throws UnsupportedEncodingException {
+  public ContentBuffer createContentBuffer(String contentType, String content, String encoding) throws UnsupportedEncodingException {
     byte[] bytes = content.getBytes(encoding);
     return new VolatileContentImpl(contentType, bytes);
   }
@@ -142,21 +140,18 @@ public class ClientletContextImpl implements ClientletContext {
   }
 
   public void setProgressEvent(ProgressType progressType, int value, int max) {
-    this.setProgressEvent(progressType, value, max, this.getResponse()
-        .getResponseURL());
+    this.setProgressEvent(progressType, value, max, this.getResponse().getResponseURL());
   }
 
   public NavigatorProgressEvent getProgressEvent() {
     return this.frame.getProgressEvent();
   }
 
-  public void setProgressEvent(ProgressType progressType, int value, int max,
-      java.net.URL url) {
+  public void setProgressEvent(ProgressType progressType, int value, int max, java.net.URL url) {
     ClientletResponse response = this.getResponse();
     NavigatorFrame frame = this.getNavigatorFrame();
     String method = response.getLastRequestMethod();
-    frame.setProgressEvent(new NavigatorProgressEvent(this, frame,
-        progressType, url, method, value, max));
+    frame.setProgressEvent(new NavigatorProgressEvent(this, frame, progressType, url, method, value, max));
   }
 
   public void setProgressEvent(NavigatorProgressEvent event) {

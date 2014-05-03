@@ -36,8 +36,7 @@ public class TextViewerWindow extends JFrame {
 
   public TextViewerWindow() {
     super("Lobo Text Viewer");
-    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon()
-        .getImage());
+    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
     JMenuBar menuBar = this.createMenuBar();
     this.setJMenuBar(menuBar);
     Container contentPane = this.getContentPane();
@@ -112,10 +111,8 @@ public class TextViewerWindow extends JFrame {
   private JMenu createEditMenu() {
     JMenu fileMenu = new JMenu("Edit");
     fileMenu.setMnemonic('E');
-    fileMenu.add(ComponentSource.menuItem("Copy", 'C', "ctrl c",
-        new CopyAction()));
-    fileMenu.add(ComponentSource.menuItem("Select All", 'A',
-        new SelectAllAction()));
+    fileMenu.add(ComponentSource.menuItem("Copy", 'C', "ctrl c", new CopyAction()));
+    fileMenu.add(ComponentSource.menuItem("Select All", 'A', new SelectAllAction()));
     return fileMenu;
   }
 
@@ -148,8 +145,7 @@ public class TextViewerWindow extends JFrame {
         // Doing this outside the GUI thread can cause a deadlock.
         public void run() {
           if (scrollsOnAppends) {
-            textArea.scrollRectToVisible(new Rectangle(0, Short.MAX_VALUE, 1,
-                Short.MAX_VALUE));
+            textArea.scrollRectToVisible(new Rectangle(0, Short.MAX_VALUE, 1, Short.MAX_VALUE));
           }
         }
       });

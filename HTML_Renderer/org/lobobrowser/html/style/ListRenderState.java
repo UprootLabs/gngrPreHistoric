@@ -31,14 +31,12 @@ public class ListRenderState extends AbstractMarginRenderState {
   protected HtmlInsets getDefaultMarginInsets() {
     HtmlInsets insets = new HtmlInsets();
     RenderState prevRS = this.getPreviousRenderState();
-    FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS
-        .getFontMetrics();
+    FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
     insets.top = fm.getHeight();
     insets.bottom = fm.getHeight();
     insets.topType = HtmlInsets.TYPE_PIXELS;
     insets.bottomType = HtmlInsets.TYPE_PIXELS;
-    int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit
-        .getDefaultToolkit().getScreenResolution();
+    int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
     double leftInches = 30 / 72.0;
     insets.left = (int) Math.round(dpi * 30.0 / 72.0);
     insets.leftType = HtmlInsets.TYPE_PIXELS;

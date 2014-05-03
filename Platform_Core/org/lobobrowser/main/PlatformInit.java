@@ -52,8 +52,7 @@ public class PlatformInit {
   private final GeneralSettings generalSettings;
 
   private PlatformInit() {
-    this.threadExecutor = new SimpleThreadPool("MainThreadPool", 2, 10,
-        60 * 1000);
+    this.threadExecutor = new SimpleThreadPool("MainThreadPool", 2, 10, 60 * 1000);
     // One way to avoid a security exception.
     this.generalSettings = GeneralSettings.getInstance();
   }
@@ -79,8 +78,7 @@ public class PlatformInit {
    */
   public void initProtocols() {
     // Configure URL protocol handlers
-    PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory
-        .getInstance();
+    PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory.getInstance();
     URL.setURLStreamHandlerFactory(factory);
     factory.addFactory(new LocalStreamHandlerFactory());
   }
@@ -107,10 +105,8 @@ public class PlatformInit {
   }
 
   public boolean isCodeLocationDirectory() {
-    URL codeLocation = this.getClass().getProtectionDomain().getCodeSource()
-        .getLocation();
-    return Urls.isLocalFile(codeLocation)
-        && codeLocation.getPath().endsWith("/");
+    URL codeLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+    return Urls.isLocalFile(codeLocation) && codeLocation.getPath().endsWith("/");
   }
 
   /**
@@ -143,14 +139,11 @@ public class PlatformInit {
   public void initLogging(boolean debugOn) throws Exception {
     // Set up debugging & console
     String loggingToken = debugOn ? "logging-debug" : "logging";
-    java.io.InputStream in = this.getClass().getResourceAsStream(
-        "/properties/" + loggingToken + ".properties");
+    java.io.InputStream in = this.getClass().getResourceAsStream("/properties/" + loggingToken + ".properties");
     if (in == null) {
-      in = this.getClass().getResourceAsStream(
-          "properties/" + loggingToken + ".properties");
+      in = this.getClass().getResourceAsStream("properties/" + loggingToken + ".properties");
       if (in == null) {
-        throw new java.io.IOException(
-            "Unable to locate logging properties file.");
+        throw new java.io.IOException("Unable to locate logging properties file.");
       }
     }
     try {
@@ -185,8 +178,7 @@ public class PlatformInit {
    * windows created by the factory are closed by the user.
    */
   public void initWindowFactory(boolean exitWhenAllWindowsAreClosed) {
-    DefaultWindowFactory.getInstance().setExitWhenAllWindowsAreClosed(
-        exitWhenAllWindowsAreClosed);
+    DefaultWindowFactory.getInstance().setExitWhenAllWindowsAreClosed(exitWhenAllWindowsAreClosed);
   }
 
   /**
@@ -220,8 +212,7 @@ public class PlatformInit {
   /**
    * @deprecated Use {@link #init(boolean, boolean)}.
    */
-  public void init(String[] args, boolean exitWhenAllWindowsAreClosed)
-      throws Exception {
+  public void init(String[] args, boolean exitWhenAllWindowsAreClosed) throws Exception {
     this.init(exitWhenAllWindowsAreClosed, true);
   }
 
@@ -246,8 +237,7 @@ public class PlatformInit {
    * @see #initProtocols()
    * @see #initExtensions()
    */
-  public void init(boolean exitWhenAllWindowsAreClosed, boolean initConsole)
-      throws Exception {
+  public void init(boolean exitWhenAllWindowsAreClosed, boolean initConsole) throws Exception {
     initOtherProperties();
     initNative(NATIVE_DIR_NAME);
     initSecurity();
@@ -305,15 +295,14 @@ public class PlatformInit {
    * @see org.lobobrowser.settings.GeneralSettings#getStartupURLs()
    */
   public void start(String[] args) throws MalformedURLException {
-    DefaultWindowFactory.getInstance().evtWindowShown
-        .addListener(new GenericEventListener() {
-          public void processEvent(EventObject event) {
-            synchronized (PlatformInit.this) {
-              windowHasBeenShown = true;
-              PlatformInit.this.notifyAll();
-            }
-          }
-        });
+    DefaultWindowFactory.getInstance().evtWindowShown.addListener(new GenericEventListener() {
+      public void processEvent(EventObject event) {
+        synchronized (PlatformInit.this) {
+          windowHasBeenShown = true;
+          PlatformInit.this.notifyAll();
+        }
+      }
+    });
     boolean launched = false;
     for (int i = 0; i < args.length; i++) {
       String url = args[i];
@@ -395,20 +384,16 @@ public class PlatformInit {
       } catch (java.net.URISyntaxException use) {
         throw new IllegalStateException(use);
       } catch (java.lang.IllegalArgumentException iae) {
-        throw new IllegalStateException(
-            "Application code source apparently not a local JAR file: " + url
-                + ". Only local JAR files are supported at the moment.", iae);
+        throw new IllegalStateException("Application code source apparently not a local JAR file: " + url
+            + ". Only local JAR files are supported at the moment.", iae);
       }
       File installDir = jarFile.getParentFile();
       if (installDir == null) {
-        throw new IllegalStateException(
-            "Installation directory is missing. Startup JAR path is " + jarPath
-                + ".");
+        throw new IllegalStateException("Installation directory is missing. Startup JAR path is " + jarPath + ".");
       }
       if (!installDir.exists()) {
-        throw new IllegalStateException(
-            "Installation directory not found. Startup JAR path is " + jarPath
-                + ". Directory path is " + installDir.getAbsolutePath() + ".");
+        throw new IllegalStateException("Installation directory not found. Startup JAR path is " + jarPath + ". Directory path is "
+            + installDir.getAbsolutePath() + ".");
       }
       appDir = installDir;
       this.applicationDirectory = appDir;
@@ -416,15 +401,13 @@ public class PlatformInit {
       // Static logger should not be created in this class.
       Logger logger = Logger.getLogger(this.getClass().getName());
       if (logger.isLoggable(Level.INFO)) {
-        logger.info("getApplicationDirectory(): url=" + url + ",appDir="
-            + appDir);
+        logger.info("getApplicationDirectory(): url=" + url + ",appDir=" + appDir);
       }
     }
     return appDir;
   }
 
-  private static class LocalStreamHandlerFactory implements
-      java.net.URLStreamHandlerFactory {
+  private static class LocalStreamHandlerFactory implements java.net.URLStreamHandlerFactory {
     public URLStreamHandler createURLStreamHandler(String protocol) {
       if (protocol.equals("res")) {
         return new org.lobobrowser.protocol.res.Handler();

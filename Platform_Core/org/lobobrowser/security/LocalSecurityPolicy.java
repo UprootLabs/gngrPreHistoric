@@ -100,8 +100,7 @@ public class LocalSecurityPolicy extends Policy {
 
     // Note: execute needed to launch external browser.
 
-    permissions.add(new FilePermission("<<ALL FILES>>",
-        "read,write,delete,execute"));
+    permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
   }
 
   /**
@@ -115,8 +114,7 @@ public class LocalSecurityPolicy extends Policy {
   public static void addPrivilegedPermission(Permission permission) {
     SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
-      throw new java.lang.SecurityException(
-          "Call this method before the sercurity manager is set.");
+      throw new java.lang.SecurityException("Call this method before the sercurity manager is set.");
     }
     BASE_PRIVILEGE.add(permission);
   }
@@ -154,19 +152,18 @@ public class LocalSecurityPolicy extends Policy {
       // Files under the settings directory (e.g. cached JARs)
       // are considered remote.
       final String filePath = url.getPath();
-      Boolean result = AccessController
-          .doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-              File file = new File(filePath);
-              try {
-                String canonical = file.getCanonicalPath();
-                return !canonical.startsWith(STORE_DIRECTORY_CANONICAL);
-              } catch (java.io.IOException ioe) {
-                ioe.printStackTrace(System.err);
-                return false;
-              }
-            }
-          });
+      Boolean result = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+        public Boolean run() {
+          File file = new File(filePath);
+          try {
+            String canonical = file.getCanonicalPath();
+            return !canonical.startsWith(STORE_DIRECTORY_CANONICAL);
+          } catch (java.io.IOException ioe) {
+            ioe.printStackTrace(System.err);
+            return false;
+          }
+        }
+      });
       return result.booleanValue();
     } else if ("jar".equalsIgnoreCase(scheme)) {
       String path = url.getPath();
@@ -195,15 +192,13 @@ public class LocalSecurityPolicy extends Policy {
     // accessClassInPackage.sun.org.mozilla.javascript.internal.
     if (codesource == null) {
       Permissions permissions = new Permissions();
-      permissions.add(new RuntimePermission(
-          "accessClassInPackage.sun.org.mozilla.javascript.internal"));
+      permissions.add(new RuntimePermission("accessClassInPackage.sun.org.mozilla.javascript.internal"));
       return permissions;
     }
 
     URL location = codesource.getLocation();
     if (location == null) {
-      throw new AccessControlException("No location for coodesource="
-          + codesource);
+      throw new AccessControlException("No location for coodesource=" + codesource);
     }
     boolean isLocal = isLocal(location);
     Permissions permissions = new Permissions();
@@ -218,8 +213,7 @@ public class LocalSecurityPolicy extends Policy {
       permissions.add(new PropertyPermission("java.version", "read"));
       permissions.add(new PropertyPermission("os.name", "read"));
       permissions.add(new PropertyPermission("line.separator", "read"));
-      permissions.add(new SocketPermission(location.getHost(),
-          "connect,resolve"));
+      permissions.add(new SocketPermission(location.getHost(), "connect,resolve"));
 
       // TODO: Security: This permission should not be given, but it's required
       // by compiled JavaFX runtime at the moment (2/20/2008).

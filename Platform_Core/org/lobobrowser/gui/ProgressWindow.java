@@ -43,8 +43,7 @@ public class ProgressWindow extends JFrame {
   public ProgressWindow() throws HeadlessException {
     super(UserAgentImpl.getInstance().getName());
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    ImageIcon windowIcon = DefaultWindowFactory.getInstance()
-        .getDefaultImageIcon();
+    ImageIcon windowIcon = DefaultWindowFactory.getInstance().getDefaultImageIcon();
     if (windowIcon != null) {
       this.setIconImage(windowIcon.getImage());
     }
@@ -68,8 +67,7 @@ public class ProgressWindow extends JFrame {
   }
 
   public void updateProgress(NavigatorProgressEvent event) {
-    statusLabel.setText(ClientletRequestHandler.getProgressMessage(
-        event.getProgressType(), event.getUrl()));
+    statusLabel.setText(ClientletRequestHandler.getProgressMessage(event.getProgressType(), event.getUrl()));
     int value = event.getCurrentValue();
     int max = event.getMaxValue();
     if (max == -1) {

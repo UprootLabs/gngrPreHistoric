@@ -40,13 +40,11 @@ public class DOMImplementationImpl implements DOMImplementation {
     return "HTML".equals(feature) && "2.0".compareTo(version) <= 0;
   }
 
-  public DocumentType createDocumentType(String qualifiedName, String publicId,
-      String systemId) throws DOMException {
+  public DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
     return new DocumentTypeImpl(qualifiedName, publicId, systemId);
   }
 
-  public Document createDocument(String namespaceURI, String qualifiedName,
-      DocumentType doctype) throws DOMException {
+  public Document createDocument(String namespaceURI, String qualifiedName, DocumentType doctype) throws DOMException {
     return new HTMLDocumentImpl(this.context);
   }
 

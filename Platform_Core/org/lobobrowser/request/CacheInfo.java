@@ -31,8 +31,7 @@ import org.lobobrowser.store.*;
 import org.lobobrowser.util.*;
 
 public class CacheInfo {
-  private static final Logger logger = Logger.getLogger(CacheInfo.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(CacheInfo.class.getName());
   static final String HEADER_REQUEST_TIME = "X-Request-Time";
   private final URL url;
 
@@ -63,8 +62,7 @@ public class CacheInfo {
       } else {
         byte[] content = this.persistentContent;
         if (content == null) {
-          throw new IllegalStateException(
-              "Memory entry and persistent content unavailable.");
+          throw new IllegalStateException("Memory entry and persistent content unavailable.");
         }
         this.connection = new FileWithHeadersURLConnection(this.url, content);
       }
@@ -99,8 +97,7 @@ public class CacheInfo {
     if (entry != null) {
       return entry.requestTime + (offsetSeconds * 1000);
     } else {
-      String rtText = this.getURLConnection().getHeaderField(
-          HEADER_REQUEST_TIME);
+      String rtText = this.getURLConnection().getHeaderField(HEADER_REQUEST_TIME);
       if (rtText == null) {
         return null;
       }
@@ -123,8 +120,7 @@ public class CacheInfo {
       String requestTimeText = connection.getHeaderField(HEADER_REQUEST_TIME);
       if (requestTimeText == null) {
         if (logger.isLoggable(Level.INFO)) {
-          logger.info("getExpires(): Cached content does not have "
-              + HEADER_REQUEST_TIME + " header: " + this.url + ".");
+          logger.info("getExpires(): Cached content does not have " + HEADER_REQUEST_TIME + " header: " + this.url + ".");
         }
         return new Long(0);
       }
@@ -169,23 +165,16 @@ public class CacheInfo {
       }
       InputStream in = new ByteArrayInputStream(content);
       try {
-        ObjectInputStream oin = new ClassLoaderObjectInputStream(in,
-            classLoader);
+        ObjectInputStream oin = new ClassLoaderObjectInputStream(in, classLoader);
         return oin.readObject();
       } finally {
         in.close();
       }
     } catch (IOException ioe) {
-      logger.log(Level.WARNING,
-          "getPersistentObject(): Unable to load persistent cached object.",
-          ioe);
+      logger.log(Level.WARNING, "getPersistentObject(): Unable to load persistent cached object.", ioe);
       return null;
     } catch (ClassNotFoundException ioe) {
-      logger
-          .log(
-              Level.WARNING,
-              "getPersistentObject(): Failed to load persistent cached object apparently due to versioning issue.",
-              ioe);
+      logger.log(Level.WARNING, "getPersistentObject(): Failed to load persistent cached object apparently due to versioning issue.", ioe);
       return null;
     }
   }

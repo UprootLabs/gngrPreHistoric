@@ -104,8 +104,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
       Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       while (i.hasNext()) {
         TimedEntry entry = i.next();
-        items.add(new HistoryEntry<T>(entry.url, entry.timestamp,
-            entry.itemInfo));
+        items.add(new HistoryEntry<T>(entry.url, entry.timestamp, entry.itemInfo));
       }
       return items;
     }
@@ -120,8 +119,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
         if (items.size() >= maxNumItems) {
           break;
         }
-        items.add(new HistoryEntry<T>(entry.url, entry.timestamp,
-            entry.itemInfo));
+        items.add(new HistoryEntry<T>(entry.url, entry.timestamp, entry.itemInfo));
       }
       return items;
     }

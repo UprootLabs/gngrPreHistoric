@@ -38,17 +38,14 @@ public class FontStyleRenderState extends RenderStateDelegator {
     this(prevRenderState, style, null);
   }
 
-  FontStyleRenderState(RenderState prevRenderState, int style,
-      Integer superscript) {
+  FontStyleRenderState(RenderState prevRenderState, int style, Integer superscript) {
     super(prevRenderState);
     this.style = style;
     this.superscript = superscript;
   }
 
-  public static FontStyleRenderState createSuperscriptFontStyleRenderState(
-      RenderState prevRenderState, Integer superscript) {
-    return new FontStyleRenderState(prevRenderState, prevRenderState.getFont()
-        .getStyle(), superscript);
+  public static FontStyleRenderState createSuperscriptFontStyleRenderState(RenderState prevRenderState, Integer superscript) {
+    return new FontStyleRenderState(prevRenderState, prevRenderState.getFont().getStyle(), superscript);
   }
 
   private Font iFont;

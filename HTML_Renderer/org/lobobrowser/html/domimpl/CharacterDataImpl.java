@@ -25,8 +25,7 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.*;
 
-public abstract class CharacterDataImpl extends NodeImpl implements
-    CharacterData {
+public abstract class CharacterDataImpl extends NodeImpl implements CharacterData {
   protected volatile String text;
 
   public CharacterDataImpl() {
@@ -96,8 +95,7 @@ public abstract class CharacterDataImpl extends NodeImpl implements
     }
   }
 
-  public void replaceData(int offset, int count, String arg)
-      throws DOMException {
+  public void replaceData(int offset, int count, String arg) throws DOMException {
     StringBuffer buffer = new StringBuffer(this.text);
     StringBuffer result = buffer.replace(offset, offset + count, arg);
     this.text = result.toString();
