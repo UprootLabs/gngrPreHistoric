@@ -311,7 +311,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
 		if(this.uaContext == null) {
 			synchronized(this) {
 				if(this.uaContext == null) {
-					this.uaContext = new UserAgentContextImpl(this.clientletFrame);
+					this.uaContext = new SilentUserAgentContextImpl(this.clientletFrame);
 				}
 			}
 		}

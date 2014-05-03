@@ -28,16 +28,12 @@ import java.security.AccessController;
 import org.lobobrowser.settings.*;
 import org.lobobrowser.ua.UserAgent;
 
-/**
- * @author J. H. S.
- */
-public class UserAgentImpl implements UserAgent {
-    private static final UserAgentImpl instance = new UserAgentImpl();
-    //private static final Logger logger = Logger.getLogger(UserAgentImpl.class.getName());
+public class OrigUserAgentImpl implements UserAgent {
+    private static final UserAgent instance = new OrigUserAgentImpl();
     
-    private UserAgentImpl() {}
+    private OrigUserAgentImpl() {}
     
-    public static UserAgentImpl getInstance() {
+    public static UserAgent getInstance() {
         return instance;
     }
     
@@ -58,13 +54,25 @@ public class UserAgentImpl implements UserAgent {
     }
 
 	public String getJavaVersion() {
-		return "";
+		return System.getProperty("java.version");
 	}
 	
     private volatile String textValue = null;
     
     public String getUserAgentString() {
-      return "";
+    	String tv = this.textValue;
+        if(tv == null) {
+        	GeneralSettings settings = AccessController.doPrivileged(new java.security.PrivilegedAction<GeneralSettings>() {
+        		public GeneralSettings run() {
+        			return GeneralSettings.getInstance();
+        		}        	
+        	});
+        	boolean spoofIE = settings.isSpoofIE();
+        	String ieVersion = settings.getIeVersion();       
+            tv = "Mozilla/" + settings.getMozVersion() + " (compatible" + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + this.getOs() + ") " +  this.getName() + "/" + this.getVersion();
+            this.textValue = tv;
+        }
+        return tv;
     }
     
     public String toString() {
@@ -86,11 +94,11 @@ public class UserAgentImpl implements UserAgent {
 	}
 	
 	public String getInfoUrl() {
-		return "";
+		return "http://lobobrowser.org";
 	}
 	
 	private String getOs() {
-		return "";
+		return System.getProperty("os.name") + " " + System.getProperty("os.version");
 	}
 
 //	//Note: This is not being used, but generally use of Strings a WeakHashMap
