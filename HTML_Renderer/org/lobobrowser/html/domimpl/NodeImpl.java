@@ -58,6 +58,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 
+// TODO: Implement org.w3c.dom.events.EventTarget ?
 public abstract class NodeImpl extends AbstractScriptableDelegate implements Node, ModelNode {
 	private static final NodeImpl[] EMPTY_ARRAY = new NodeImpl[0];
 	private static final RenderState INVALID_RENDER_STATE = new StyleSheetRenderState(null);
@@ -149,6 +150,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 		return new NodeListImpl(collection);
 	}
 
+	/* TODO: If this is not a w3c DOM method, we can return an Iterator instead of creating a new array
+	 * But, it changes the semantics slightly (when modifications are needed during iteration).
+	 * For those cases, we can retain this method.
+	 */
 	public NodeImpl[] getChildrenArray() {
 		ArrayList nl = this.nodeList;
 		synchronized(this.treeLock) {

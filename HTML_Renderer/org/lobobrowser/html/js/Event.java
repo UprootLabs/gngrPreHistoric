@@ -24,6 +24,7 @@ import org.w3c.dom.html2.*;
 import java.awt.event.*;
 import org.lobobrowser.js.*;
 
+// TODO: Implement org.w3c.events.Event ?
 public class Event extends AbstractScriptableDelegate {
 	private boolean cancelBubble;
 	private HTMLElement fromElement, toElement;
