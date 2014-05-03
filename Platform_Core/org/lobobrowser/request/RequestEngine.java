@@ -951,6 +951,8 @@ public final class RequestEngine {
 								"Was unable to handle exception.", exception);
 					}
 				} catch (Exception err) {
+			    System.out.println("Exception while handling exception:" + exception);
+			    exception.printStackTrace();
 					logger.log(Level.WARNING,
 							"Exception handler threw an exception.", err);
 				}
