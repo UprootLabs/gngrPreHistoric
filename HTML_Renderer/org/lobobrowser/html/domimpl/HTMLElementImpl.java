@@ -26,7 +26,6 @@ import org.lobobrowser.html.FormInput;
 import org.lobobrowser.html.parser.HtmlParser;
 import org.lobobrowser.html.style.*;
 import org.lobobrowser.util.*;
-import org.mozilla.javascript.Function;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.*;
 import org.w3c.dom.css.CSSStyleDeclaration;
@@ -704,18 +703,15 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     buffer.append(tagName);
     final Map<String, String> attributes = this.attributes;
     if (attributes != null) {
-      final Iterator i = attributes.entrySet().iterator();
-      while (i.hasNext()) {
-        final Map.Entry entry = (Map.Entry) i.next();
-        final String value = (String) entry.getValue();
-        if (value != null) {
+      attributes.forEach((k, v) -> {
+        if (v != null) {
           buffer.append(' ');
-          buffer.append(entry.getKey());
+          buffer.append(k);
           buffer.append("=\"");
-          buffer.append(Strings.strictHtmlEncode(value, true));
+          buffer.append(Strings.strictHtmlEncode(v, true));
           buffer.append("\"");
         }
-      }
+      });
     }
     final ArrayList<Node> nl = this.nodeList;
     if (nl == null || nl.size() == 0) {
