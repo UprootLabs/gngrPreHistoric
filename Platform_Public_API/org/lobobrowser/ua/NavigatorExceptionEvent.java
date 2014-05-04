@@ -32,7 +32,7 @@ import org.lobobrowser.clientlet.ClientletResponse;
 public class NavigatorExceptionEvent extends NavigatorResponseEvent {
   private final Throwable exception;
 
-  public NavigatorExceptionEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response,
+  public NavigatorExceptionEvent(final Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame, final ClientletResponse response,
       final Throwable exception) {
     super(source, eventType, clientletFrame, response, response.getRequestType());
     this.exception = exception;

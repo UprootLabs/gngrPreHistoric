@@ -21,11 +21,11 @@
 package org.lobobrowser.gui;
 
 public class DefaultFramePanelFactory implements FramePanelFactory {
-  public FramePanel createFramePanel(FramePanel parent) {
+  public FramePanel createFramePanel(final FramePanel parent) {
     return new FramePanel(parent);
   }
 
-  public FramePanel createFramePanel(String windowId) {
+  public FramePanel createFramePanel(final String windowId) {
     return new FramePanel(windowId);
   }
 }

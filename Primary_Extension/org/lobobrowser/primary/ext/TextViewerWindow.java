@@ -37,19 +37,19 @@ public class TextViewerWindow extends JFrame {
   public TextViewerWindow() {
     super("Lobo Text Viewer");
     this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
-    JMenuBar menuBar = this.createMenuBar();
+    final JMenuBar menuBar = this.createMenuBar();
     this.setJMenuBar(menuBar);
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     final JTextArea textArea = this.createTextArea();
     this.textArea = textArea;
     contentPane.setLayout(WrapperLayout.getInstance());
     contentPane.add(new JScrollPane(textArea));
     this.addWindowListener(new java.awt.event.WindowAdapter() {
       @Override
-      public void windowClosed(WindowEvent e) {
-        DocumentListener cl = cachedListener;
+      public void windowClosed(final WindowEvent e) {
+        final DocumentListener cl = cachedListener;
         if (cl != null) {
-          Document prevDocument = textArea.getDocument();
+          final Document prevDocument = textArea.getDocument();
           if (prevDocument != null) {
             prevDocument.removeDocumentListener(cl);
           }
@@ -58,11 +58,11 @@ public class TextViewerWindow extends JFrame {
     });
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.textArea.setText(text);
   }
 
-  public void setScrollsOnAppends(boolean flag) {
+  public void setScrollsOnAppends(final boolean flag) {
     this.scrollsOnAppends = flag;
   }
 
@@ -78,9 +78,9 @@ public class TextViewerWindow extends JFrame {
     return cl;
   }
 
-  public void setSwingDocument(javax.swing.text.Document document) {
-    Document prevDocument = this.textArea.getDocument();
-    javax.swing.event.DocumentListener listener = this.getDocumentListener();
+  public void setSwingDocument(final javax.swing.text.Document document) {
+    final Document prevDocument = this.textArea.getDocument();
+    final javax.swing.event.DocumentListener listener = this.getDocumentListener();
     if (prevDocument != null) {
       prevDocument.removeDocumentListener(listener);
     }
@@ -89,27 +89,27 @@ public class TextViewerWindow extends JFrame {
   }
 
   private JTextArea createTextArea() {
-    JTextArea textArea = new JTextArea();
+    final JTextArea textArea = new JTextArea();
     textArea.setEditable(false);
     return textArea;
   }
 
   private JMenuBar createMenuBar() {
-    JMenuBar menuBar = new JMenuBar();
+    final JMenuBar menuBar = new JMenuBar();
     menuBar.add(this.createFileMenu());
     menuBar.add(this.createEditMenu());
     return menuBar;
   }
 
   private JMenu createFileMenu() {
-    JMenu fileMenu = new JMenu("File");
+    final JMenu fileMenu = new JMenu("File");
     fileMenu.setMnemonic('F');
     fileMenu.add(ComponentSource.menuItem("Close", 'C', new CloseAction()));
     return fileMenu;
   }
 
   private JMenu createEditMenu() {
-    JMenu fileMenu = new JMenu("Edit");
+    final JMenu fileMenu = new JMenu("Edit");
     fileMenu.setMnemonic('E');
     fileMenu.add(ComponentSource.menuItem("Copy", 'C', "ctrl c", new CopyAction()));
     fileMenu.add(ComponentSource.menuItem("Select All", 'A', new SelectAllAction()));
@@ -117,29 +117,29 @@ public class TextViewerWindow extends JFrame {
   }
 
   private class CloseAction extends javax.swing.AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       TextViewerWindow.this.dispose();
     }
   }
 
   private class CopyAction extends javax.swing.AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       textArea.copy();
     }
   }
 
   private class SelectAllAction extends javax.swing.AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       textArea.selectAll();
     }
   }
 
   private class LocalDocumentListener implements DocumentListener {
-    public void changedUpdate(DocumentEvent e) {
+    public void changedUpdate(final DocumentEvent e) {
       // nop
     }
 
-    public void insertUpdate(DocumentEvent e) {
+    public void insertUpdate(final DocumentEvent e) {
       EventQueue.invokeLater(new Runnable() {
         // The model is updated outside the GUI thread.
         // Doing this outside the GUI thread can cause a deadlock.
@@ -151,7 +151,7 @@ public class TextViewerWindow extends JFrame {
       });
     }
 
-    public void removeUpdate(DocumentEvent e) {
+    public void removeUpdate(final DocumentEvent e) {
       // nop
     }
   }

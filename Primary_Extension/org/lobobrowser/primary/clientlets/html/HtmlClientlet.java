@@ -57,7 +57,7 @@ public class HtmlClientlet implements Clientlet {
   static {
     // Elements that may be encountered and which
     // by themselves don't warrant rendering the page yet.
-    Set<String> nve = NON_VISIBLE_ELEMENTS;
+    final Set<String> nve = NON_VISIBLE_ELEMENTS;
     nve.add("html");
     nve.add("body");
     nve.add("head");
@@ -77,24 +77,24 @@ public class HtmlClientlet implements Clientlet {
    * 
    * @see org.xamjwg.clientlet.Clientlet#parse(org.xamjwg.dom.XDocument)
    */
-  public void process(ClientletContext cc) throws ClientletException {
+  public void process(final ClientletContext cc) throws ClientletException {
     this.processImpl(cc, null, null);
   }
 
-  private void processImpl(final ClientletContext cc, Map<String, String> httpEquivData, RecordedInputStream rin) throws ClientletException {
+  private void processImpl(final ClientletContext cc, final Map<String, String> httpEquivData, RecordedInputStream rin) throws ClientletException {
     // This method may be executed twice, depending on http-equiv meta elements.
     try {
-      ClientletResponse response = cc.getResponse();
-      boolean charsetProvided = response.isCharsetProvided();
-      String contentLanguage = response.getHeader("Content-Language");
+      final ClientletResponse response = cc.getResponse();
+      final boolean charsetProvided = response.isCharsetProvided();
+      final String contentLanguage = response.getHeader("Content-Language");
       Set<Locale> locales = contentLanguage == null ? null : this.extractLocales(contentLanguage);
       RefreshInfo refresh = null;
-      Iterator hi = response.getHeaderNames();
+      final Iterator hi = response.getHeaderNames();
       // TODO: What is the behavior if you have
       // a Refresh header and also a Refresh HTTP-EQUIV?
       while (hi.hasNext()) {
-        String headerName = (String) hi.next();
-        String[] headerValues = response.getHeaders(headerName);
+        final String headerName = (String) hi.next();
+        final String[] headerValues = response.getHeaders(headerName);
         if (headerValues != null && headerValues.length > 0) {
           if ("refresh".equalsIgnoreCase(headerName)) {
             refresh = this.extractRefresh(headerValues[headerValues.length - 1]);
@@ -103,11 +103,11 @@ public class HtmlClientlet implements Clientlet {
       }
       String httpEquivCharset = null;
       if (httpEquivData != null) {
-        Iterator<Map.Entry<String, String>> i = httpEquivData.entrySet().iterator();
+        final Iterator<Map.Entry<String, String>> i = httpEquivData.entrySet().iterator();
         while (i.hasNext()) {
-          Map.Entry<String, String> entry = i.next();
-          String httpEquiv = entry.getKey();
-          String content = entry.getValue();
+          final Map.Entry<String, String> entry = i.next();
+          final String httpEquiv = entry.getKey();
+          final String content = entry.getValue();
           if (content != null) {
             if ("content-type".equalsIgnoreCase(httpEquiv)) {
               httpEquivCharset = this.extractCharset(response.getResponseURL(), content);
@@ -119,17 +119,17 @@ public class HtmlClientlet implements Clientlet {
           }
         }
       }
-      HtmlRendererContextImpl rcontext = HtmlRendererContextImpl.getHtmlRendererContext(cc.getNavigatorFrame());
-      DocumentBuilderImpl builder = new DocumentBuilderImpl(rcontext.getUserAgentContext(), rcontext);
+      final HtmlRendererContextImpl rcontext = HtmlRendererContextImpl.getHtmlRendererContext(cc.getNavigatorFrame());
+      final DocumentBuilderImpl builder = new DocumentBuilderImpl(rcontext.getUserAgentContext(), rcontext);
       if (rin == null) {
-        InputStream in = response.getInputStream();
+        final InputStream in = response.getInputStream();
         rin = in instanceof RecordedInputStream ? (RecordedInputStream) in : new RecordedInputStream(in, MAX_IS_BUFFER_SIZE);
         rin.mark(Short.MAX_VALUE);
       } else {
         rin.reset();
       }
-      URL responseURL = response.getResponseURL();
-      String uri = responseURL.toExternalForm();
+      final URL responseURL = response.getResponseURL();
+      final String uri = responseURL.toExternalForm();
       String charset;
       if (!charsetProvided) {
         charset = httpEquivCharset;
@@ -144,24 +144,24 @@ public class HtmlClientlet implements Clientlet {
       if (logger.isLoggable(Level.INFO)) {
         logger.info("process(): charset=" + charset + " for URI=[" + uri + "]");
       }
-      InputSourceImpl is = new InputSourceImpl(rin, uri, charset);
-      HTMLDocumentImpl document = (HTMLDocumentImpl) builder.createDocument(is);
+      final InputSourceImpl is = new InputSourceImpl(rin, uri, charset);
+      final HTMLDocumentImpl document = (HTMLDocumentImpl) builder.createDocument(is);
       document.setLocales(locales);
-      String referrer = cc.getRequest().getReferrer();
+      final String referrer = cc.getRequest().getReferrer();
       document.setReferrer(referrer == null ? "" : referrer);
-      HtmlPanel panel = rcontext.getHtmlPanel();
+      final HtmlPanel panel = rcontext.getHtmlPanel();
       // Create a listener that will switch to rendering when appropriate.
       final HtmlContent content = new HtmlContent((HTMLDocument) document, panel, rin, charset);
-      LocalDocumentNotificationListener listener = new LocalDocumentNotificationListener(document, panel, rcontext, cc, content,
+      final LocalDocumentNotificationListener listener = new LocalDocumentNotificationListener(document, panel, rcontext, cc, content,
           httpEquivData == null);
       document.addDocumentNotificationListener(listener);
       // Set resulting content before parsing
       // to enable incremental rendering.
-      long time1 = System.currentTimeMillis();
+      final long time1 = System.currentTimeMillis();
       // The load() call starts parsing.
       try {
         document.load(false);
-      } catch (HttpEquivRetryException retry) {
+      } catch (final HttpEquivRetryException retry) {
         if (logger.isLoggable(Level.INFO)) {
           logger.info("processImpl(): Resetting due to META http-equiv: " + uri);
         }
@@ -170,7 +170,7 @@ public class HtmlClientlet implements Clientlet {
         this.processImpl(cc, retry.getHttpEquivData(), rin);
         return;
       }
-      long time2 = System.currentTimeMillis();
+      final long time2 = System.currentTimeMillis();
       if (logger.isLoggable(Level.INFO)) {
         logger.info("process(): Parse elapsed=" + (time2 - time1) + " ms.");
         if (logger.isLoggable(Level.FINE)) {
@@ -181,13 +181,13 @@ public class HtmlClientlet implements Clientlet {
       // the listener actually renderered the document.
       listener.ensureSwitchedToRendering();
       // Scroll to see anchor.
-      String ref = responseURL.getRef();
+      final String ref = responseURL.getRef();
       if (ref != null && ref.length() != 0) {
         panel.scrollToElement(ref);
       }
       if (refresh != null) {
-        String destUri = refresh.destinationUrl;
-        java.net.URL currentURL = response.getResponseURL();
+        final String destUri = refresh.destinationUrl;
+        final java.net.URL currentURL = response.getResponseURL();
         java.net.URL destURL;
         if (destUri == null) {
           destURL = currentURL;
@@ -195,9 +195,9 @@ public class HtmlClientlet implements Clientlet {
           destURL = Urls.createURL(currentURL, destUri);
         }
         final java.net.URL finalURL = destURL;
-        java.awt.event.ActionListener action = new java.awt.event.ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            NavigatorFrame frame = cc.getNavigatorFrame();
+        final java.awt.event.ActionListener action = new java.awt.event.ActionListener() {
+          public void actionPerformed(final ActionEvent e) {
+            final NavigatorFrame frame = cc.getNavigatorFrame();
             if (frame.getComponentContent() == content) {
               // Navigate only if the original document is there.
               // TODO: Address bar shouldn't change if it's being edited.
@@ -210,26 +210,26 @@ public class HtmlClientlet implements Clientlet {
         if (waitMillis <= 0) {
           waitMillis = 1;
         }
-        javax.swing.Timer timer = new javax.swing.Timer(waitMillis, action);
+        final javax.swing.Timer timer = new javax.swing.Timer(waitMillis, action);
         timer.setRepeats(false);
         timer.start();
       }
-    } catch (Exception err) {
+    } catch (final Exception err) {
       throw new ClientletException(err);
     }
   }
 
-  private String extractCharset(java.net.URL responseURL, String contentType) {
-    StringTokenizer tok = new StringTokenizer(contentType, ";");
+  private String extractCharset(final java.net.URL responseURL, final String contentType) {
+    final StringTokenizer tok = new StringTokenizer(contentType, ";");
     if (tok.hasMoreTokens()) {
       tok.nextToken();
       while (tok.hasMoreTokens()) {
-        String assignment = tok.nextToken().trim();
-        int eqIdx = assignment.indexOf('=');
+        final String assignment = tok.nextToken().trim();
+        final int eqIdx = assignment.indexOf('=');
         if (eqIdx != -1) {
-          String varName = assignment.substring(0, eqIdx).trim();
+          final String varName = assignment.substring(0, eqIdx).trim();
           if ("charset".equalsIgnoreCase(varName)) {
-            String varValue = assignment.substring(eqIdx + 1);
+            final String varValue = assignment.substring(eqIdx + 1);
             return Strings.unquote(varValue.trim());
           }
         }
@@ -238,38 +238,38 @@ public class HtmlClientlet implements Clientlet {
     return null;
   }
 
-  private Set<Locale> extractLocales(String contentLanguage) {
-    Set<Locale> locales = new HashSet<Locale>(3);
-    StringTokenizer tok = new StringTokenizer(contentLanguage, ",");
+  private Set<Locale> extractLocales(final String contentLanguage) {
+    final Set<Locale> locales = new HashSet<Locale>(3);
+    final StringTokenizer tok = new StringTokenizer(contentLanguage, ",");
     while (tok.hasMoreTokens()) {
-      String lang = tok.nextToken().trim();
+      final String lang = tok.nextToken().trim();
       locales.add(new Locale(lang));
     }
     return locales;
   }
 
-  private String getDefaultCharset(URL url) {
+  private String getDefaultCharset(final URL url) {
     if (Urls.isLocalFile(url)) {
-      String charset = System.getProperty("file.encoding");
+      final String charset = System.getProperty("file.encoding");
       return charset == null ? "ISO-8859-1" : charset;
     } else {
       return "ISO-8859-1";
     }
   }
 
-  private final RefreshInfo extractRefresh(String refresh) {
+  private final RefreshInfo extractRefresh(final String refresh) {
     String delayText = null;
     String urlText = null;
-    StringTokenizer tok = new StringTokenizer(refresh, ";");
+    final StringTokenizer tok = new StringTokenizer(refresh, ";");
     if (tok.hasMoreTokens()) {
       delayText = tok.nextToken().trim();
       while (tok.hasMoreTokens()) {
-        String assignment = tok.nextToken().trim();
-        int eqIdx = assignment.indexOf('=');
+        final String assignment = tok.nextToken().trim();
+        final int eqIdx = assignment.indexOf('=');
         if (eqIdx != -1) {
-          String varName = assignment.substring(0, eqIdx).trim();
+          final String varName = assignment.substring(0, eqIdx).trim();
           if ("url".equalsIgnoreCase(varName)) {
-            String varValue = assignment.substring(eqIdx + 1);
+            final String varValue = assignment.substring(eqIdx + 1);
             urlText = Strings.unquote(varValue.trim());
           }
         } else {
@@ -280,7 +280,7 @@ public class HtmlClientlet implements Clientlet {
     int delay;
     try {
       delay = Integer.parseInt(delayText);
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       logger.warning("extractRefresh(): Bad META refresh delay: " + delayText + ".");
       delay = 0;
     }
@@ -300,8 +300,8 @@ public class HtmlClientlet implements Clientlet {
     private boolean hasSwitchedToRendering = false;
     private Collection<HTMLElement> httpEquivElements;
 
-    public LocalDocumentNotificationListener(HTMLDocumentImpl doc, HtmlPanel panel, HtmlRendererContext rcontext, ClientletContext cc,
-        HtmlContent content, boolean detectHttpEquiv) {
+    public LocalDocumentNotificationListener(final HTMLDocumentImpl doc, final HtmlPanel panel, final HtmlRendererContext rcontext, final ClientletContext cc,
+        final HtmlContent content, final boolean detectHttpEquiv) {
       this.document = doc;
       this.startTimestamp = System.currentTimeMillis();
       this.htmlPanel = panel;
@@ -314,20 +314,20 @@ public class HtmlClientlet implements Clientlet {
     public void allInvalidated() {
     }
 
-    public void externalScriptLoading(NodeImpl node) {
+    public void externalScriptLoading(final NodeImpl node) {
       // We can expect this to occur only in the parser thread.
       if (this.hasVisibleElements) {
         this.ensureSwitchedToRendering();
       }
     }
 
-    public void invalidated(NodeImpl node) {
+    public void invalidated(final NodeImpl node) {
     }
 
-    public void lookInvalidated(NodeImpl node) {
+    public void lookInvalidated(final NodeImpl node) {
     }
 
-    private void addHttpEquivElement(HTMLElement element) {
+    private void addHttpEquivElement(final HTMLElement element) {
       Collection<HTMLElement> httpEquivElements = this.httpEquivElements;
       if (httpEquivElements == null) {
         httpEquivElements = new LinkedList<HTMLElement>();
@@ -336,14 +336,14 @@ public class HtmlClientlet implements Clientlet {
       httpEquivElements.add(element);
     }
 
-    public void nodeLoaded(NodeImpl node) {
+    public void nodeLoaded(final NodeImpl node) {
       // We can expect this to occur only in the parser thread.
       if (this.detectHttpEquiv) {
         if (node instanceof HTMLElement) {
-          HTMLElement element = (HTMLElement) node;
-          String tagName = element.getTagName();
+          final HTMLElement element = (HTMLElement) node;
+          final String tagName = element.getTagName();
           if ("meta".equalsIgnoreCase(tagName)) {
-            String httpEquiv = element.getAttribute("http-equiv");
+            final String httpEquiv = element.getAttribute("http-equiv");
             if (httpEquiv != null) {
               this.addHttpEquivElement(element);
             }
@@ -353,7 +353,7 @@ public class HtmlClientlet implements Clientlet {
             // scripts to be processed twice. HTML is checked because
             // sometimes sites don't put http-equiv in HEAD, e.g.
             // http://baidu.com.
-            Map<String, String> httpEquiv = this.getHttpEquivData();
+            final Map<String, String> httpEquiv = this.getHttpEquivData();
             if (httpEquiv != null && httpEquiv.size() > 0) {
               throw new HttpEquivRetryException(httpEquiv);
             }
@@ -370,19 +370,19 @@ public class HtmlClientlet implements Clientlet {
       }
     }
 
-    public void positionInvalidated(NodeImpl node) {
+    public void positionInvalidated(final NodeImpl node) {
     }
 
-    public void sizeInvalidated(NodeImpl node) {
+    public void sizeInvalidated(final NodeImpl node) {
     }
 
-    public void structureInvalidated(NodeImpl node) {
+    public void structureInvalidated(final NodeImpl node) {
     }
 
-    private final boolean mayBeVisibleElement(NodeImpl node) {
+    private final boolean mayBeVisibleElement(final NodeImpl node) {
       if (node instanceof HTMLElement) {
-        HTMLElement element = (HTMLElement) node;
-        boolean visible = !NON_VISIBLE_ELEMENTS.contains(element.getTagName().toLowerCase());
+        final HTMLElement element = (HTMLElement) node;
+        final boolean visible = !NON_VISIBLE_ELEMENTS.contains(element.getTagName().toLowerCase());
         if (visible && logger.isLoggable(Level.INFO)) {
           logger.info("mayBeVisibleElement(): Found possibly visible element: " + element.getTagName());
         }
@@ -411,15 +411,15 @@ public class HtmlClientlet implements Clientlet {
     }
 
     private Map<String, String> getHttpEquivData() {
-      Collection<HTMLElement> httpEquivElements = this.httpEquivElements;
+      final Collection<HTMLElement> httpEquivElements = this.httpEquivElements;
       if (httpEquivElements == null) {
         return null;
       }
-      Map<String, String> httpEquivData = new HashMap<String, String>(0);
-      for (Element element : httpEquivElements) {
-        String httpEquiv = element.getAttribute("http-equiv");
+      final Map<String, String> httpEquivData = new HashMap<String, String>(0);
+      for (final Element element : httpEquivElements) {
+        final String httpEquiv = element.getAttribute("http-equiv");
         if (httpEquiv != null) {
-          String content = element.getAttribute("content");
+          final String content = element.getAttribute("content");
           httpEquivData.put(httpEquiv, content);
         }
       }

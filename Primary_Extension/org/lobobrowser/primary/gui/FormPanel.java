@@ -32,7 +32,7 @@ public class FormPanel extends JComponent {
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
   }
 
-  public void addField(FormField field) {
+  public void addField(final FormField field) {
     // Call in GUI thread only.
     this.fields.add(field);
     this.fieldsInvalid = true;
@@ -49,52 +49,52 @@ public class FormPanel extends JComponent {
     return minLabelWidth;
   }
 
-  public void setMinLabelWidth(int minLabelWidth) {
+  public void setMinLabelWidth(final int minLabelWidth) {
     this.minLabelWidth = minLabelWidth;
   }
 
   private void populateComponents() {
     this.removeAll();
     int maxWidth = this.minLabelWidth;
-    Collection<JLabel> labels = new ArrayList<JLabel>();
+    final Collection<JLabel> labels = new ArrayList<JLabel>();
     boolean firstTime = true;
-    for (FormField field : this.fields) {
+    for (final FormField field : this.fields) {
       if (firstTime) {
         firstTime = false;
       } else {
         this.add(Box.createRigidArea(new Dimension(1, 4)));
       }
-      JLabel label = field.getLabel();
+      final JLabel label = field.getLabel();
       label.setEnabled(this.isEnabled());
       labels.add(label);
       label.setHorizontalAlignment(JLabel.RIGHT);
-      String tooltip = field.getToolTip();
+      final String tooltip = field.getToolTip();
       if (tooltip != null) {
         label.setToolTipText(tooltip);
       }
-      Dimension prefSize = label.getPreferredSize();
+      final Dimension prefSize = label.getPreferredSize();
       if (prefSize.width > maxWidth) {
         maxWidth = prefSize.width;
       }
-      JComponent entryPanel = new JPanel();
+      final JComponent entryPanel = new JPanel();
       entryPanel.setOpaque(false);
       entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.X_AXIS));
       entryPanel.add(label);
       // entryPanel.add(new FillerComponent(label, new Dimension(100, 24), new
       // Dimension(100, 24), new Dimension(100, 24)));
       entryPanel.add(Box.createRigidArea(new Dimension(4, 1)));
-      Component editor = field.getFieldEditor();
+      final Component editor = field.getFieldEditor();
       // Dimension eps = editor.getPreferredSize();
       // editor.setPreferredSize(new Dimension(100, eps.height));
       editor.setEnabled(this.isEnabled());
       entryPanel.add(editor);
-      Dimension epps = entryPanel.getPreferredSize();
+      final Dimension epps = entryPanel.getPreferredSize();
       entryPanel.setPreferredSize(new Dimension(100, epps.height));
       this.add(entryPanel);
     }
-    for (JLabel label : labels) {
-      Dimension psize = label.getPreferredSize();
-      Dimension newSize = new Dimension(maxWidth, psize.height);
+    for (final JLabel label : labels) {
+      final Dimension psize = label.getPreferredSize();
+      final Dimension newSize = new Dimension(maxWidth, psize.height);
       label.setPreferredSize(newSize);
       label.setMinimumSize(newSize);
       label.setMaximumSize(newSize);

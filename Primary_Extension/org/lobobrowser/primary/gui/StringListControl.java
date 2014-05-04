@@ -35,7 +35,7 @@ public class StringListControl extends JComponent {
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     this.comboBox = new JComboBox<String>();
     this.comboBox.setEditable(false);
-    JButton editButton = new JButton();
+    final JButton editButton = new JButton();
     editButton.setAction(new EditAction());
     editButton.setText("Edit List");
     this.add(this.comboBox);
@@ -44,11 +44,11 @@ public class StringListControl extends JComponent {
 
   private String[] strings;
 
-  public void setStrings(String[] strings) {
+  public void setStrings(final String[] strings) {
     this.strings = strings;
-    JComboBox<String> comboBox = this.comboBox;
+    final JComboBox<String> comboBox = this.comboBox;
     comboBox.removeAllItems();
-    for (String string : strings) {
+    for (final String string : strings) {
       comboBox.addItem(string);
     }
   }
@@ -58,47 +58,47 @@ public class StringListControl extends JComponent {
   }
 
   public String getStringsAsText() {
-    String lineSeparator = System.getProperty("line.separator");
-    String[] strings = this.strings;
+    final String lineSeparator = System.getProperty("line.separator");
+    final String[] strings = this.strings;
     if (strings == null) {
       return null;
     }
-    StringBuffer buffer = new StringBuffer();
-    for (String string : strings) {
+    final StringBuffer buffer = new StringBuffer();
+    for (final String string : strings) {
       buffer.append(string);
       buffer.append(lineSeparator);
     }
     return buffer.toString();
   }
 
-  public void setStringsFromText(String text) {
+  public void setStringsFromText(final String text) {
     try {
-      BufferedReader reader = new BufferedReader(new StringReader(text));
+      final BufferedReader reader = new BufferedReader(new StringReader(text));
       String line;
-      ArrayList<String> stringsAL = new ArrayList<String>();
+      final ArrayList<String> stringsAL = new ArrayList<String>();
       while ((line = reader.readLine()) != null) {
         stringsAL.add(line);
       }
       this.setStrings(stringsAL.toArray(new String[0]));
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       throw new IllegalStateException("not expected", ioe);
     }
   }
 
   private String editListCaption;
 
-  public void setEditListCaption(String caption) {
+  public void setEditListCaption(final String caption) {
     this.editListCaption = caption;
   }
 
   private class EditAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
-      Frame parentFrame = SwingTasks.getFrame(StringListControl.this);
+    public void actionPerformed(final ActionEvent e) {
+      final Frame parentFrame = SwingTasks.getFrame(StringListControl.this);
       SimpleTextEditDialog dialog;
       if (parentFrame != null) {
         dialog = new SimpleTextEditDialog(parentFrame);
       } else {
-        Dialog parentDialog = SwingTasks.getDialog(StringListControl.this);
+        final Dialog parentDialog = SwingTasks.getDialog(StringListControl.this);
         dialog = new SimpleTextEditDialog(parentDialog);
       }
       dialog.setModal(true);
@@ -108,7 +108,7 @@ public class StringListControl extends JComponent {
       dialog.setLocationByPlatform(true);
       dialog.setText(getStringsAsText());
       dialog.setVisible(true);
-      String text = dialog.getResultingText();
+      final String text = dialog.getResultingText();
       if (text != null) {
         setStringsFromText(text);
       }

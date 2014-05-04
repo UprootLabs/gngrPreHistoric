@@ -55,16 +55,16 @@ public class TempFileManager {
 
   private TempFileManager() {
     Runtime.getRuntime().addShutdownHook(new ShutdownThread());
-    File tempDirectory = new File(LocalSecurityPolicy.STORE_DIRECTORY, "tmp");
+    final File tempDirectory = new File(LocalSecurityPolicy.STORE_DIRECTORY, "tmp");
     TEMP_DIRECTORY = tempDirectory;
     if (!tempDirectory.exists()) {
       tempDirectory.mkdirs();
     }
-    File[] files = tempDirectory.listFiles();
+    final File[] files = tempDirectory.listFiles();
     if (files != null) {
       // Cleanup files theoretically left by previously running instance.
       for (int i = 0; i < files.length; i++) {
-        String name = files[i].getName();
+        final String name = files[i].getName();
         if (name.startsWith(GENERAL_PREFIX) && !name.startsWith(FILE_PREFIX)) {
           // We can't really assume only one instance of the application
           // is running. Need to be a little lenient about deleting these.
@@ -77,55 +77,55 @@ public class TempFileManager {
   }
 
   private void shutdownCleanup() {
-    File[] files = TEMP_DIRECTORY.listFiles();
+    final File[] files = TEMP_DIRECTORY.listFiles();
     if (files != null) {
       for (int i = 0; i < files.length; i++) {
         try {
-          File file = files[i];
-          String name = file.getName();
+          final File file = files[i];
+          final String name = file.getName();
           if (name.startsWith(FILE_PREFIX)) {
-            String canonical = file.getCanonicalPath();
+            final String canonical = file.getCanonicalPath();
             synchronized (this) {
               // Need to close these JAR files, otherwise
               // deletion does not happen in Windows.
-              LocalWeakReference wr = this.wrByPath.get(canonical);
-              JarFile jarFile = wr.get();
+              final LocalWeakReference wr = this.wrByPath.get(canonical);
+              final JarFile jarFile = wr.get();
               if (jarFile != null) {
                 jarFile.close();
               }
             }
             file.delete();
           }
-        } catch (java.io.IOException ioe) {
+        } catch (final java.io.IOException ioe) {
           // ignore
         }
       }
     }
   }
 
-  public JarFile createJarFile(byte[] bytes) throws java.io.IOException {
+  public JarFile createJarFile(final byte[] bytes) throws java.io.IOException {
     // Dequeue and clean up first
     for (;;) {
-      Reference<? extends JarFile> ref = REFERENCE_QUEUE.poll();
+      final Reference<? extends JarFile> ref = REFERENCE_QUEUE.poll();
       if (ref == null) {
         break;
       }
-      String canonical = ((LocalWeakReference) ref).canonicalPath;
+      final String canonical = ((LocalWeakReference) ref).canonicalPath;
       new File(canonical).delete();
       synchronized (this) {
         this.wrByPath.remove(canonical);
       }
     }
-    File file = this.newTempFile();
-    OutputStream out = new FileOutputStream(file);
+    final File file = this.newTempFile();
+    final OutputStream out = new FileOutputStream(file);
     try {
       out.write(bytes);
     } finally {
       out.close();
     }
-    JarFile jarFile = new JarFile(file);
-    String canonical = file.getCanonicalPath();
-    LocalWeakReference wr = new LocalWeakReference(jarFile, REFERENCE_QUEUE, canonical);
+    final JarFile jarFile = new JarFile(file);
+    final String canonical = file.getCanonicalPath();
+    final LocalWeakReference wr = new LocalWeakReference(jarFile, REFERENCE_QUEUE, canonical);
     synchronized (this) {
       // This serves simply to retain the weak reference.
       this.wrByPath.put(canonical, wr);
@@ -135,8 +135,8 @@ public class TempFileManager {
 
   public File newTempFile() throws IOException {
     synchronized (this) {
-      int newCounter = this.counter++;
-      File file = new File(this.TEMP_DIRECTORY, FILE_PREFIX + newCounter);
+      final int newCounter = this.counter++;
+      final File file = new File(this.TEMP_DIRECTORY, FILE_PREFIX + newCounter);
       return file;
     }
   }
@@ -144,7 +144,7 @@ public class TempFileManager {
   private static class LocalWeakReference extends WeakReference<JarFile> {
     public final String canonicalPath;
 
-    public LocalWeakReference(JarFile referent, ReferenceQueue<? super JarFile> q, String canonicalPath) {
+    public LocalWeakReference(final JarFile referent, final ReferenceQueue<? super JarFile> q, final String canonicalPath) {
       super(referent, q);
       this.canonicalPath = canonicalPath;
     }

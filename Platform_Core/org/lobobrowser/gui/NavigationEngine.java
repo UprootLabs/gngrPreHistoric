@@ -40,16 +40,16 @@ public class NavigationEngine {
   public NavigationEntry getCurrentEntry() {
     try {
       return this.history.get(this.currentIndex);
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
     }
   }
 
-  public void addNavigationEntry(NavigationEntry entry) {
+  public void addNavigationEntry(final NavigationEntry entry) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("addNavigationEntry(): entry=" + entry);
     }
-    int newIndex = this.currentIndex + 1;
+    final int newIndex = this.currentIndex + 1;
     if (newIndex == this.history.size()) {
       this.history.add(entry);
     } else {
@@ -59,7 +59,7 @@ public class NavigationEngine {
       this.history.set(newIndex, entry);
     }
     this.currentIndex = newIndex;
-    int nextIndex = newIndex + 1;
+    final int nextIndex = newIndex + 1;
     while (nextIndex < this.history.size()) {
       this.history.remove(nextIndex);
     }
@@ -81,12 +81,12 @@ public class NavigationEngine {
     return this.hasNewEntryWithGET(-1);
   }
 
-  public boolean hasNewEntryWithGET(int offset) {
+  public boolean hasNewEntryWithGET(final int offset) {
     int nextIndex = this.currentIndex;
     for (;;) {
       nextIndex += offset;
       if (nextIndex >= 0 && nextIndex < this.history.size()) {
-        NavigationEntry entry = this.history.get(nextIndex);
+        final NavigationEntry entry = this.history.get(nextIndex);
         if ("GET".equals(entry.getMethod())) {
           return true;
         } else {
@@ -106,8 +106,8 @@ public class NavigationEngine {
     return this.move(+1);
   }
 
-  public NavigationEntry move(int offset) {
-    int nextIndex = this.currentIndex + offset;
+  public NavigationEntry move(final int offset) {
+    final int nextIndex = this.currentIndex + offset;
     if (nextIndex >= 0 && nextIndex < this.history.size()) {
       this.currentIndex = nextIndex;
       return this.history.get(this.currentIndex);
@@ -116,8 +116,8 @@ public class NavigationEngine {
     }
   }
 
-  public boolean moveTo(NavigationEntry entry) {
-    int newIndex = this.history.indexOf(entry);
+  public boolean moveTo(final NavigationEntry entry) {
+    final int newIndex = this.history.indexOf(entry);
     if (newIndex == -1) {
       return false;
     }
@@ -126,9 +126,9 @@ public class NavigationEngine {
   }
 
   public NavigationEntry[] getForwardNavigationEntries() {
-    ArrayList<NavigationEntry> entries = new ArrayList<NavigationEntry>();
+    final ArrayList<NavigationEntry> entries = new ArrayList<NavigationEntry>();
     int index = this.currentIndex + 1;
-    int size = this.history.size();
+    final int size = this.history.size();
     while (index < size) {
       entries.add(this.history.get(index));
       index++;
@@ -140,7 +140,7 @@ public class NavigationEngine {
    * Gets prior navigation entries, in descending order.
    */
   public NavigationEntry[] getBackNavigationEntries() {
-    ArrayList<NavigationEntry> entries = new ArrayList<NavigationEntry>();
+    final ArrayList<NavigationEntry> entries = new ArrayList<NavigationEntry>();
     int index = this.currentIndex - 1;
     while (index >= 0) {
       entries.add(this.history.get(index));
@@ -149,16 +149,16 @@ public class NavigationEngine {
     return entries.toArray(new NavigationEntry[0]);
   }
 
-  public NavigationEntry findEntry(String absoluteURL) {
+  public NavigationEntry findEntry(final String absoluteURL) {
     try {
-      java.net.URL targetURL = Urls.guessURL(absoluteURL);
-      for (NavigationEntry entry : this.history) {
+      final java.net.URL targetURL = Urls.guessURL(absoluteURL);
+      for (final NavigationEntry entry : this.history) {
         if (Urls.sameNoRefURL(targetURL, entry.getUrl())) {
           return entry;
         }
       }
       return null;
-    } catch (java.net.MalformedURLException mfu) {
+    } catch (final java.net.MalformedURLException mfu) {
       if (logger.isLoggable(Level.INFO)) {
         logger.log(Level.INFO, "findEntry(): URL is malformed: " + absoluteURL, mfu);
       }

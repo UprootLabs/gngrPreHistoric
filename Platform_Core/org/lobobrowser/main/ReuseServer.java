@@ -35,7 +35,7 @@ public class ReuseServer implements Runnable {
 	 * 
 	 */
   public ReuseServer() {
-    Thread t = new Thread(this, "ReuseServer");
+    final Thread t = new Thread(this, "ReuseServer");
     t.setDaemon(true);
     t.start();
   }
@@ -50,20 +50,20 @@ public class ReuseServer implements Runnable {
 
   private ServerSocket serverSocket;
 
-  public int start(InetAddress bindAddr) {
+  public int start(final InetAddress bindAddr) {
     // Should be called with bindAddr=127.0.0.1 only.
     synchronized (this) {
       if (this.serverSocket != null) {
         throw new IllegalStateException("Already started");
       }
       for (int tries = 0; tries < 100; tries++) {
-        int rport = getRandomPort();
+        final int rport = getRandomPort();
         try {
-          ServerSocket ss = new ServerSocket(rport, 100, bindAddr);
+          final ServerSocket ss = new ServerSocket(rport, 100, bindAddr);
           this.serverSocket = ss;
           this.notify();
           return rport;
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
           ioe.printStackTrace(System.err);
         }
       }
@@ -76,7 +76,7 @@ public class ReuseServer implements Runnable {
       if (this.serverSocket != null) {
         try {
           this.serverSocket.close();
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
           // ignore
         }
         this.serverSocket = null;
@@ -99,22 +99,22 @@ public class ReuseServer implements Runnable {
           }
           ss = this.serverSocket;
         }
-        Socket s = ss.accept();
+        final Socket s = ss.accept();
         s.setSoTimeout(10000);
         s.setTcpNoDelay(true);
-        InputStream in = s.getInputStream();
+        final InputStream in = s.getInputStream();
         try {
-          Reader reader = new InputStreamReader(in);
-          BufferedReader br = new BufferedReader(reader);
+          final Reader reader = new InputStreamReader(in);
+          final BufferedReader br = new BufferedReader(reader);
           String line;
           while ((line = br.readLine()) != null) {
-            int blankIdx = line.indexOf(' ');
-            String command = blankIdx == -1 ? line : line.substring(0, blankIdx).trim();
+            final int blankIdx = line.indexOf(' ');
+            final String command = blankIdx == -1 ? line : line.substring(0, blankIdx).trim();
             if ("LAUNCH".equals(command)) {
               if (blankIdx == -1) {
                 PlatformInit.getInstance().launch();
               } else {
-                String path = line.substring(blankIdx + 1).trim();
+                final String path = line.substring(blankIdx + 1).trim();
                 PlatformInit.getInstance().launch(path);
               }
             } else if ("LAUNCH_BLANK".equals(command)) {
@@ -124,7 +124,7 @@ public class ReuseServer implements Runnable {
         } finally {
           in.close();
         }
-      } catch (Throwable t) {
+      } catch (final Throwable t) {
         t.printStackTrace(System.err);
       }
     }

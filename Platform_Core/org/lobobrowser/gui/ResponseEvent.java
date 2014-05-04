@@ -26,7 +26,7 @@ import org.lobobrowser.clientlet.*;
 public class ResponseEvent extends EventObject {
   private final ClientletResponse response;
 
-  public ResponseEvent(Object source, ClientletResponse response) {
+  public ResponseEvent(final Object source, final ClientletResponse response) {
     super(source);
     this.response = response;
   }

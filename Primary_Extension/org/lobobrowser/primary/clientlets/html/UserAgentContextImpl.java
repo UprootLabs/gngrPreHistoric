@@ -18,7 +18,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   static {
     // Media names supported here
-    Set<String> mn = mediaNames;
+    final Set<String> mn = mediaNames;
     mn.add("screen");
     mn.add("tv");
     mn.add("tty");
@@ -29,23 +29,23 @@ public class UserAgentContextImpl implements UserAgentContext {
     this.frame = frame;
   }
 
-  public boolean isMedia(String mediaName) {
+  public boolean isMedia(final String mediaName) {
     return mediaNames.contains(mediaName.toLowerCase());
   }
 
-  public void warn(String message, Throwable throwable) {
+  public void warn(final String message, final Throwable throwable) {
     logger.log(Level.WARNING, message, throwable);
   }
 
-  public void error(String message, Throwable throwable) {
+  public void error(final String message, final Throwable throwable) {
     logger.log(Level.SEVERE, message, throwable);
   }
 
-  public void warn(String message) {
+  public void warn(final String message) {
     logger.warning(message);
   }
 
-  public void error(String message) {
+  public void error(final String message) {
     logger.log(Level.SEVERE, message);
   }
 
@@ -126,7 +126,7 @@ public class UserAgentContextImpl implements UserAgentContext {
     return true;
   }
 
-  public String getCookie(java.net.URL url) {
+  public String getCookie(final java.net.URL url) {
     // Requires privileges.
     return RequestEngine.getInstance().getCookie(url);
   }
@@ -136,7 +136,7 @@ public class UserAgentContextImpl implements UserAgentContext {
     return true;
   }
 
-  public void setCookie(java.net.URL url, String cookieSpec) {
+  public void setCookie(final java.net.URL url, final String cookieSpec) {
     // Requires privileges.
     RequestEngine.getInstance().setCookie(url, cookieSpec);
   }

@@ -37,13 +37,13 @@ public class CookieValue implements Serializable {
   /**
 	 * 
 	 */
-  public CookieValue(String value, String path, Long expirationTime) {
+  public CookieValue(final String value, final String path, final Long expirationTime) {
     this.value = value;
     this.path = path;
     this.expirationTime = expirationTime;
   }
 
-  public CookieValue(String value, String path) {
+  public CookieValue(final String value, final String path) {
     this.value = value;
     this.path = path;
     this.expirationTime = null;
@@ -62,7 +62,7 @@ public class CookieValue implements Serializable {
   }
 
   public boolean isExpired() {
-    Long exp = this.expirationTime;
+    final Long exp = this.expirationTime;
     return exp == null ? false : exp.longValue() < System.currentTimeMillis();
   }
 

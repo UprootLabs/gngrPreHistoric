@@ -32,7 +32,7 @@ public class ToolsSettingsUI extends AbstractSettingsUI {
   private final ItemListControl<SearchEngine> searchEngineListControl;
 
   public ToolsSettingsUI() {
-    ItemEditorFactory<SearchEngine> factory = new ItemEditorFactory<SearchEngine>() {
+    final ItemEditorFactory<SearchEngine> factory = new ItemEditorFactory<SearchEngine>() {
       public AbstractItemEditor<SearchEngine> createItemEditor() {
         return new SearchEngineEditor();
       }
@@ -46,10 +46,10 @@ public class ToolsSettingsUI extends AbstractSettingsUI {
   }
 
   private Component getSearchEnginePane() {
-    Box innerBox = new Box(BoxLayout.X_AXIS);
+    final Box innerBox = new Box(BoxLayout.X_AXIS);
     innerBox.add(new JLabel("Search Engines:"));
     innerBox.add(this.searchEngineListControl);
-    Box groupBox = SwingTasks.createGroupBox(BoxLayout.Y_AXIS, "Search");
+    final Box groupBox = SwingTasks.createGroupBox(BoxLayout.Y_AXIS, "Search");
     groupBox.add(innerBox);
     return groupBox;
   }
@@ -62,14 +62,14 @@ public class ToolsSettingsUI extends AbstractSettingsUI {
 
   @Override
   public void save() {
-    ToolsSettings settings = this.settings;
-    Collection<SearchEngine> items = this.searchEngineListControl.getItems();
+    final ToolsSettings settings = this.settings;
+    final Collection<SearchEngine> items = this.searchEngineListControl.getItems();
     settings.setSearchEngines(items);
     settings.save();
   }
 
   private void loadSettings() {
-    ToolsSettings settings = this.settings;
+    final ToolsSettings settings = this.settings;
     this.searchEngineListControl.setItems(settings.getSearchEngines());
   }
 }

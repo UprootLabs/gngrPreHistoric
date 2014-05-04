@@ -32,11 +32,11 @@ public class PreferencesDialog extends JDialog {
   private final PreferencesPanel preferencesPanel;
   private final PreferencesTree preferencesTree;
 
-  public PreferencesDialog(Frame parent) throws HeadlessException {
+  public PreferencesDialog(final Frame parent) throws HeadlessException {
     super(parent);
     this.preferencesPanel = new PreferencesPanel();
     this.preferencesTree = new PreferencesTree();
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
     contentPane.add(this.createLeftPane());
     contentPane.add(this.createRightPane(this.preferencesPanel));
@@ -44,18 +44,18 @@ public class PreferencesDialog extends JDialog {
   }
 
   private Component createLeftPane() {
-    PreferencesTree prefsTree = this.preferencesTree;
+    final PreferencesTree prefsTree = this.preferencesTree;
     prefsTree.addTreeSelectionListener(new LocalTreeSelectionListener());
-    JScrollPane scrollPane = new JScrollPane(prefsTree);
-    Dimension size = new Dimension(150, 200);
+    final JScrollPane scrollPane = new JScrollPane(prefsTree);
+    final Dimension size = new Dimension(150, 200);
     scrollPane.setPreferredSize(size);
     scrollPane.setMinimumSize(size);
     scrollPane.setMaximumSize(new Dimension(150, Short.MAX_VALUE));
     return scrollPane;
   }
 
-  private Component createRightPane(Container prefsPanel) {
-    JPanel rightPanel = new JPanel();
+  private Component createRightPane(final Container prefsPanel) {
+    final JPanel rightPanel = new JPanel();
     rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
     rightPanel.add(prefsPanel);
     rightPanel.add(this.createButtonsPanel());
@@ -63,20 +63,20 @@ public class PreferencesDialog extends JDialog {
   }
 
   private Component createButtonsPanel() {
-    JPanel buttonsPanel = new JPanel();
+    final JPanel buttonsPanel = new JPanel();
     buttonsPanel.setBorder(new EmptyBorder(4, 4, 4, 4));
     buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
     buttonsPanel.add(Box.createHorizontalGlue());
-    JButton okButton = new JButton();
+    final JButton okButton = new JButton();
     okButton.setAction(new OkAction());
     okButton.setText("OK");
-    JButton cancelButton = new JButton();
+    final JButton cancelButton = new JButton();
     cancelButton.setAction(new CancelAction());
     cancelButton.setText("Cancel");
-    JButton applyButton = new JButton();
+    final JButton applyButton = new JButton();
     applyButton.setAction(new ApplyAction());
     applyButton.setText("Apply");
-    JButton defaultsButton = new JButton();
+    final JButton defaultsButton = new JButton();
     defaultsButton.setAction(new DefaultsAction());
     defaultsButton.setText("Restore Defaults");
     buttonsPanel.add(okButton);
@@ -86,9 +86,9 @@ public class PreferencesDialog extends JDialog {
     return buttonsPanel;
   }
 
-  private void updatePreferencesPanel(SettingsInfo settingsInfo) {
+  private void updatePreferencesPanel(final SettingsInfo settingsInfo) {
     if (settingsInfo != null) {
-      AbstractSettingsUI newUI = settingsInfo.createSettingsUI();
+      final AbstractSettingsUI newUI = settingsInfo.createSettingsUI();
       preferencesPanel.setSettingsUI(newUI);
     } else {
       preferencesPanel.setSettingsUI(null);
@@ -96,7 +96,7 @@ public class PreferencesDialog extends JDialog {
   }
 
   private class OkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       if (preferencesPanel.save()) {
         PreferencesDialog.this.dispose();
       }
@@ -104,19 +104,19 @@ public class PreferencesDialog extends JDialog {
   }
 
   private class CancelAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       PreferencesDialog.this.dispose();
     }
   }
 
   private class ApplyAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       preferencesPanel.save();
     }
   }
 
   private class DefaultsAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       if (JOptionPane.showConfirmDialog(PreferencesDialog.this, "Are you sure you want to restore defaults?", "Confirm",
           JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         preferencesPanel.restoreDefaults();
@@ -125,10 +125,10 @@ public class PreferencesDialog extends JDialog {
   }
 
   private class LocalTreeSelectionListener implements TreeSelectionListener {
-    public void valueChanged(TreeSelectionEvent e) {
-      TreePath path = e.getPath();
-      DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-      SettingsInfo si = node == null ? null : (SettingsInfo) node.getUserObject();
+    public void valueChanged(final TreeSelectionEvent e) {
+      final TreePath path = e.getPath();
+      final DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+      final SettingsInfo si = node == null ? null : (SettingsInfo) node.getUserObject();
       updatePreferencesPanel(si);
     }
   }

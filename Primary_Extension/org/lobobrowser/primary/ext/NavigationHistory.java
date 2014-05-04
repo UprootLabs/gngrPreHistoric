@@ -40,7 +40,7 @@ public class NavigationHistory extends BaseHistory<Object> implements java.io.Se
     try {
       ins = (NavigationHistory) StorageManager.getInstance().retrieveSettings(NavigationHistory.class.getSimpleName(),
           NavigationHistory.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -64,7 +64,7 @@ public class NavigationHistory extends BaseHistory<Object> implements java.io.Se
     synchronized (this) {
       try {
         StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-      } catch (java.io.IOException ioe) {
+      } catch (final java.io.IOException ioe) {
         logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
       }
     }

@@ -46,12 +46,12 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
 
   public ConnectionSettingsUI() {
     this.noProxyRadioButton.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
+      public void stateChanged(final ChangeEvent e) {
         updateEnabling();
       }
     });
     this.authenticatedCheckBox.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
+      public void stateChanged(final ChangeEvent e) {
         updateEnabling();
       }
     });
@@ -69,7 +69,7 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
     this.hostPortPanel.addField(this.hostField);
     this.hostPortPanel.addField(this.portField);
 
-    ButtonGroup group = new ButtonGroup();
+    final ButtonGroup group = new ButtonGroup();
     group.add(this.noProxyRadioButton);
     group.add(this.httpProxyRadioButton);
     group.add(this.socksProxyRadioButton);
@@ -87,33 +87,33 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
   }
 
   private Component getProxyBox() {
-    Box radioBox = new Box(BoxLayout.Y_AXIS);
+    final Box radioBox = new Box(BoxLayout.Y_AXIS);
     radioBox.setPreferredSize(new Dimension(600, 200));
     radioBox.add(this.noProxyRadioButton);
     radioBox.add(this.httpProxyRadioButton);
     radioBox.add(this.socksProxyRadioButton);
 
-    Box radioBoxExpander = new Box(BoxLayout.X_AXIS);
+    final Box radioBoxExpander = new Box(BoxLayout.X_AXIS);
     radioBoxExpander.add(radioBox);
     radioBoxExpander.add(Box.createGlue());
 
-    Box box = SwingTasks.createGroupBox(BoxLayout.Y_AXIS, "Proxy");
+    final Box box = SwingTasks.createGroupBox(BoxLayout.Y_AXIS, "Proxy");
     box.add(radioBoxExpander);
     box.add(this.getProxyHostArea());
     return box;
   }
 
   private Component getProxyHostArea() {
-    Box checkBoxBox = new Box(BoxLayout.Y_AXIS);
+    final Box checkBoxBox = new Box(BoxLayout.Y_AXIS);
     checkBoxBox.setPreferredSize(new Dimension(600, 200));
     checkBoxBox.add(this.bypassLocalCheckBox);
     checkBoxBox.add(this.authenticatedCheckBox);
 
-    Box checkBoxBoxExpander = new Box(BoxLayout.X_AXIS);
+    final Box checkBoxBoxExpander = new Box(BoxLayout.X_AXIS);
     checkBoxBoxExpander.add(checkBoxBox);
     checkBoxBoxExpander.add(Box.createHorizontalGlue());
 
-    Box box = this.proxyHostArea;
+    final Box box = this.proxyHostArea;
     box.setBorder(new EmptyBorder(8, 16, 8, 8));
     box.add(this.hostPortPanel);
     box.add(checkBoxBoxExpander);
@@ -129,7 +129,7 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
 
   @Override
   public void save() throws ValidationException {
-    ConnectionSettings settings = this.settings;
+    final ConnectionSettings settings = this.settings;
     Proxy.Type proxyType;
     if (this.noProxyRadioButton.isSelected()) {
       proxyType = Proxy.Type.DIRECT;
@@ -145,27 +145,27 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
     settings.setUserName(this.userNameField.getValue());
     settings.setPassword(this.passwordField.getValue());
     settings.setDisableProxyForLocalAddresses(this.bypassLocalCheckBox.isSelected());
-    String host = this.hostField.getValue();
+    final String host = this.hostField.getValue();
     if ("".equals(host) && proxyType != Proxy.Type.DIRECT) {
       throw new ValidationException("To set up a proxy, a host name must be provided.");
     }
     int port;
     try {
       port = Integer.parseInt(this.portField.getValue());
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       if (proxyType != Proxy.Type.DIRECT) {
         throw new ValidationException("The port must be a number.");
       } else {
         port = 0;
       }
     }
-    InetSocketAddress socketAddress = new InetSocketAddress(host, port);
+    final InetSocketAddress socketAddress = new InetSocketAddress(host, port);
     settings.setInetSocketAddress(socketAddress);
     settings.save();
   }
 
   private void loadSettings() {
-    ConnectionSettings settings = this.settings;
+    final ConnectionSettings settings = this.settings;
     switch (settings.getProxyType()) {
     case DIRECT:
       this.noProxyRadioButton.setSelected(true);
@@ -181,7 +181,7 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
     this.userNameField.setValue(settings.getUserName());
     this.passwordField.setValue(settings.getPassword());
     this.bypassLocalCheckBox.setSelected(settings.isDisableProxyForLocalAddresses());
-    InetSocketAddress socketAddress = settings.getInetSocketAddress();
+    final InetSocketAddress socketAddress = settings.getInetSocketAddress();
     if (socketAddress == null) {
       this.hostField.setValue("");
       this.portField.setValue("");

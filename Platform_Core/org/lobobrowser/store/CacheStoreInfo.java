@@ -54,8 +54,8 @@ public class CacheStoreInfo {
     return this.length;
   }
 
-  public void addCacheFile(java.io.File file) {
-    CacheFileInfo cfi = new CacheFileInfo(file);
+  public void addCacheFile(final java.io.File file) {
+    final CacheFileInfo cfi = new CacheFileInfo(file);
     this.length += cfi.getInitialLength();
     this.fileInfos.add(cfi);
   }

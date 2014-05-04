@@ -42,7 +42,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
   private final Component dialogComponent;
   private boolean cancelled = false;
 
-  public AbstractRequestHandler(ClientletRequest request, Component dialogComponent) {
+  public AbstractRequestHandler(final ClientletRequest request, final Component dialogComponent) {
     this.request = request;
     this.requestType = request.getRequestType();
     this.dialogComponent = dialogComponent;
@@ -95,7 +95,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
      * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
      * javax.net.ssl.SSLSession)
      */
-    public boolean verify(final String host, SSLSession arg1) {
+    public boolean verify(final String host, final SSLSession arg1) {
       this.verified = false;
       final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
       if (vhs.contains(host)) {
@@ -105,9 +105,9 @@ public abstract class AbstractRequestHandler implements RequestHandler {
         SwingUtilities.invokeAndWait(new Runnable() {
           public void run() {
             boolean verified = false;
-            Component dc = dialogComponent;
+            final Component dc = dialogComponent;
             if (dc != null) {
-              int result = JOptionPane.showConfirmDialog(dc, "Host " + host
+              final int result = JOptionPane.showConfirmDialog(dc, "Host " + host
                   + " does not match SSL certificate or CA not recognized. Proceed anyway?", "Security Warning", JOptionPane.YES_NO_OPTION);
               verified = result == JOptionPane.YES_OPTION;
               if (verified) {
@@ -119,9 +119,9 @@ public abstract class AbstractRequestHandler implements RequestHandler {
             }
           }
         });
-      } catch (InterruptedException ie) {
+      } catch (final InterruptedException ie) {
         throw new IllegalStateException(ie);
-      } catch (InvocationTargetException ite) {
+      } catch (final InvocationTargetException ite) {
         throw new IllegalStateException(ite.getCause());
       }
       synchronized (this) {

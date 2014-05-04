@@ -34,16 +34,16 @@ public class ImageScrollable extends JComponent implements Scrollable {
   private int imageWidth = -1;
   private int imageHeight = -1;
 
-  public ImageScrollable(Image img) {
+  public ImageScrollable(final Image img) {
     super();
     this.image = img;
-    int w = img.getWidth(this);
-    int h = img.getHeight(this);
+    final int w = img.getWidth(this);
+    final int h = img.getHeight(this);
     this.imageWidth = w;
     this.imageHeight = h;
   }
 
-  public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h) {
+  public boolean imageUpdate(final Image img, final int infoflags, final int x, final int y, final int w, final int h) {
     if ((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
       this.imageWidth = img.getWidth(this);
       this.imageHeight = img.getHeight(this);
@@ -53,15 +53,15 @@ public class ImageScrollable extends JComponent implements Scrollable {
     return true;
   }
 
-  public void paintComponent(Graphics g) {
+  public void paintComponent(final Graphics g) {
     super.paintComponent(g);
-    Insets insets = this.getInsets();
+    final Insets insets = this.getInsets();
     g.drawImage(this.image, insets.left, insets.top, this);
   }
 
   public Dimension getPreferredSize() {
-    int w = this.imageWidth;
-    int h = this.imageHeight;
+    final int w = this.imageWidth;
+    final int h = this.imageHeight;
     return new Dimension(w == -1 ? 0 : w, h == -1 ? 0 : h);
   }
 
@@ -69,11 +69,11 @@ public class ImageScrollable extends JComponent implements Scrollable {
     return this.getPreferredSize();
   }
 
-  public int getScrollableUnitIncrement(Rectangle arg0, int arg1, int arg2) {
+  public int getScrollableUnitIncrement(final Rectangle arg0, final int arg1, final int arg2) {
     return 12;
   }
 
-  public int getScrollableBlockIncrement(Rectangle arg0, int orientation, int direction) {
+  public int getScrollableBlockIncrement(final Rectangle arg0, final int orientation, final int direction) {
     if (orientation == SwingConstants.HORIZONTAL) {
       return arg0.width;
     } else {

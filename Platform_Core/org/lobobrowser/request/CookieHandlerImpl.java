@@ -31,12 +31,12 @@ public class CookieHandlerImpl extends CookieHandler {
   private static final Logger logger = Logger.getLogger(CookieHandlerImpl.class.getName());
   private final CookieStore cookieStore = CookieStore.getInstance();
 
-  private void printHeaders(Map<String, List<String>> headers) {
-    StringWriter swriter = new StringWriter();
-    PrintWriter writer = new PrintWriter(swriter);
+  private void printHeaders(final Map<String, List<String>> headers) {
+    final StringWriter swriter = new StringWriter();
+    final PrintWriter writer = new PrintWriter(swriter);
     writer.println();
-    for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-      for (String value : entry.getValue()) {
+    for (final Map.Entry<String, List<String>> entry : headers.entrySet()) {
+      for (final String value : entry.getValue()) {
         writer.println("Header: " + entry.getKey() + "=" + value);
       }
     }
@@ -46,18 +46,18 @@ public class CookieHandlerImpl extends CookieHandler {
   }
 
   @Override
-  public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {
-    Map<String, List<String>> resultHeaders = new java.util.HashMap<String, List<String>>(2);
-    java.util.Collection<Cookie> cookies = this.cookieStore.getCookies(uri.getHost(), uri.getPath());
+  public Map<String, List<String>> get(final URI uri, final Map<String, List<String>> requestHeaders) throws IOException {
+    final Map<String, List<String>> resultHeaders = new java.util.HashMap<String, List<String>>(2);
+    final java.util.Collection<Cookie> cookies = this.cookieStore.getCookies(uri.getHost(), uri.getPath());
     if (cookies != null) {
       StringBuffer cookieHeaderValue = null;
-      for (Cookie cookie : cookies) {
+      for (final Cookie cookie : cookies) {
         // We should not decode values. Servers
         // expect to receive what they set the
         // values to.
-        String cookieName = cookie.getName();
-        String cookieValue = cookie.getValue();
-        String assignment = cookieName + "=" + cookieValue;
+        final String cookieName = cookie.getName();
+        final String cookieValue = cookie.getValue();
+        final String assignment = cookieName + "=" + cookieValue;
         // if(logger.isLoggable(Level.INFO)) {
         // logger.info("get(): found cookie: [" + assignment + "]; uri=" + uri);
         // }
@@ -80,15 +80,15 @@ public class CookieHandlerImpl extends CookieHandler {
   }
 
   @Override
-  public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
+  public void put(final URI uri, final Map<String, List<String>> responseHeaders) throws IOException {
     if (logger.isLoggable(Level.FINE)) {
       logger.info("put(): ---- Response headers for uri=[" + uri + "].");
       this.printHeaders(responseHeaders);
     }
-    CookieStore store = this.cookieStore;
-    for (Map.Entry<String, List<String>> entry : responseHeaders.entrySet()) {
-      String key = entry.getKey();
-      for (String value : entry.getValue()) {
+    final CookieStore store = this.cookieStore;
+    for (final Map.Entry<String, List<String>> entry : responseHeaders.entrySet()) {
+      final String key = entry.getKey();
+      for (final String value : entry.getValue()) {
         if (key != null && value != null) {
           if ("Set-Cookie".equalsIgnoreCase(key)) {
             store.saveCookie(uri.getHost(), value);

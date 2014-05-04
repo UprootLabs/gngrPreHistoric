@@ -35,16 +35,16 @@ import org.lobobrowser.context.*;
 public class VcURLConnection extends URLConnection {
   private final VolatileContentImpl vc;
 
-  public VcURLConnection(URL url) {
+  public VcURLConnection(final URL url) {
     super(url);
-    String file = url.getPath();
+    final String file = url.getPath();
     try {
-      long id = Long.parseLong(file.trim());
+      final long id = Long.parseLong(file.trim());
       this.vc = VolatileContentImpl.getVolatileContent(id);
       if (this.vc == null) {
         throw new IllegalArgumentException("Content either invalid or no longer available");
       }
-    } catch (NumberFormatException nfe) {
+    } catch (final NumberFormatException nfe) {
       throw new IllegalArgumentException("Bad path: " + file);
     }
   }

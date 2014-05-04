@@ -41,7 +41,7 @@ public class ArchiveCollection {
   /**
 	 * 
 	 */
-  public ArchiveCollection(Collection<ArchiveInfo> archiveInfos) {
+  public ArchiveCollection(final Collection<ArchiveInfo> archiveInfos) {
     this.archiveInfos = archiveInfos;
   }
 

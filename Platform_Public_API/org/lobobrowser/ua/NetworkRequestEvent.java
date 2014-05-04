@@ -27,7 +27,7 @@ import java.util.EventObject;
 public class NetworkRequestEvent extends EventObject {
   private final int newState;
 
-  public NetworkRequestEvent(Object source, int newState) {
+  public NetworkRequestEvent(final Object source, final int newState) {
     super(source);
     this.newState = newState;
   }

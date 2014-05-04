@@ -48,7 +48,7 @@ public class GeneralSettings implements java.io.Serializable {
     try {
       ins = (GeneralSettings) StorageManager.getInstance().retrieveSettings(GeneralSettings.class.getSimpleName(),
           GeneralSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -61,7 +61,7 @@ public class GeneralSettings implements java.io.Serializable {
    * Gets the class singleton.
    */
   public static GeneralSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -76,7 +76,7 @@ public class GeneralSettings implements java.io.Serializable {
   public void save() {
     try {
       this.saveChecked();
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "save(): Unable to save settings", ioe);
     }
   }
@@ -99,19 +99,19 @@ public class GeneralSettings implements java.io.Serializable {
    */
   public String[] getStartupURLs() {
     // Cannot return empty or null
-    Collection<String> urls = this.startupURLs;
+    final Collection<String> urls = this.startupURLs;
     if (urls == null || urls.size() == 0) {
       return new String[] { DEFAULT_STARTUP };
     }
     return urls.toArray(new String[0]);
   }
 
-  public void setStartupURLs(String[] urls) {
+  public void setStartupURLs(final String[] urls) {
     this.startupURLs = Arrays.asList(urls);
   }
 
   public java.awt.Rectangle getInitialWindowBounds() {
-    java.awt.Rectangle bounds = initialWindowBounds;
+    final java.awt.Rectangle bounds = initialWindowBounds;
     if (bounds == null) {
       return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     }
@@ -124,7 +124,7 @@ public class GeneralSettings implements java.io.Serializable {
     return bounds;
   }
 
-  public void setInitialWindowBounds(java.awt.Rectangle initialWindowBounds) {
+  public void setInitialWindowBounds(final java.awt.Rectangle initialWindowBounds) {
     this.initialWindowBounds = initialWindowBounds;
   }
 
@@ -132,7 +132,7 @@ public class GeneralSettings implements java.io.Serializable {
     return ieVersion;
   }
 
-  public void setIeVersion(String ieVersion) {
+  public void setIeVersion(final String ieVersion) {
     this.ieVersion = ieVersion;
     UserAgentImpl.getInstance().invalidateUserAgent();
   }
@@ -141,7 +141,7 @@ public class GeneralSettings implements java.io.Serializable {
     return spoofIE;
   }
 
-  public void setSpoofIE(boolean spoofIE) {
+  public void setSpoofIE(final boolean spoofIE) {
     this.spoofIE = spoofIE;
     UserAgentImpl.getInstance().invalidateUserAgent();
   }
@@ -150,7 +150,7 @@ public class GeneralSettings implements java.io.Serializable {
     return mozVersion;
   }
 
-  public void setMozVersion(String mozVersion) {
+  public void setMozVersion(final String mozVersion) {
     this.mozVersion = mozVersion;
     UserAgentImpl.getInstance().invalidateUserAgent();
   }

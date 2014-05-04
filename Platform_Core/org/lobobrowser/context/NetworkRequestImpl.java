@@ -63,17 +63,17 @@ public class NetworkRequestImpl implements NetworkRequest {
   }
 
   public String getResponseText() {
-    LocalResponse lr = this.localResponse;
+    final LocalResponse lr = this.localResponse;
     return lr == null ? null : lr.getResponseText();
   }
 
   public Document getResponseXML() {
-    LocalResponse lr = this.localResponse;
+    final LocalResponse lr = this.localResponse;
     return lr == null ? null : lr.getResponseXML();
   }
 
   public Image getResponseImage() {
-    LocalResponse lr = this.localResponse;
+    final LocalResponse lr = this.localResponse;
     return lr == null ? null : lr.getResponseImage();
   }
 
@@ -84,24 +84,24 @@ public class NetworkRequestImpl implements NetworkRequest {
   // }
 
   public byte[] getResponseBytes() {
-    LocalResponse lr = this.localResponse;
+    final LocalResponse lr = this.localResponse;
     return lr == null ? null : lr.getResponseBytes();
   }
 
   public int getStatus() {
     try {
-      LocalResponse lr = this.localResponse;
+      final LocalResponse lr = this.localResponse;
       return lr == null ? NetworkRequest.STATE_UNINITIALIZED : lr.getStatus();
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       return 0;
     }
   }
 
   public String getStatusText() {
     try {
-      LocalResponse lr = this.localResponse;
+      final LocalResponse lr = this.localResponse;
       return lr == null ? null : lr.getStatusText();
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       return null;
     }
   }
@@ -109,40 +109,40 @@ public class NetworkRequestImpl implements NetworkRequest {
   private volatile RequestHandler currentRequestHandler;
 
   public void abort() {
-    RequestHandler rhToDelete = this.currentRequestHandler;
+    final RequestHandler rhToDelete = this.currentRequestHandler;
     if (rhToDelete != null) {
       RequestEngine.getInstance().cancelRequest(rhToDelete);
     }
   }
 
   public String getAllResponseHeaders() {
-    LocalResponse lr = this.localResponse;
+    final LocalResponse lr = this.localResponse;
     return lr == null ? null : lr.getAllResponseHeaders();
   }
 
-  public String getResponseHeader(String headerName) {
-    LocalResponse lr = this.localResponse;
+  public String getResponseHeader(final String headerName) {
+    final LocalResponse lr = this.localResponse;
     return lr == null ? null : lr.getResponseHeader(headerName);
   }
 
-  public void open(String method, String url) throws IOException {
+  public void open(final String method, final String url) throws IOException {
     this.open(method, url, true);
   }
 
-  public void open(String method, URL url) {
+  public void open(final String method, final URL url) {
     this.open(method, url, true, null, null);
   }
 
-  public void open(String method, URL url, boolean asyncFlag) {
+  public void open(final String method, final URL url, final boolean asyncFlag) {
     this.open(method, url, asyncFlag, null, null);
   }
 
-  public void open(String method, String url, boolean asyncFlag) throws IOException {
-    URL urlObj = Urls.createURL(null, url);
+  public void open(final String method, final String url, final boolean asyncFlag) throws IOException {
+    final URL urlObj = Urls.createURL(null, url);
     this.open(method, urlObj, asyncFlag, null, null);
   }
 
-  public void open(String method, java.net.URL url, boolean asyncFlag, String userName) {
+  public void open(final String method, final java.net.URL url, final boolean asyncFlag, final String userName) {
     this.open(method, url, asyncFlag, userName, null);
   }
 
@@ -152,7 +152,7 @@ public class NetworkRequestImpl implements NetworkRequest {
   private String requestUserName;
   private String requestPassword;
 
-  public void open(String method, java.net.URL url, boolean asyncFlag, String userName, String password) {
+  public void open(final String method, final java.net.URL url, final boolean asyncFlag, final String userName, final String password) {
     this.isAsynchronous = asyncFlag;
     this.requestMethod = method;
     this.requestURL = url;
@@ -161,9 +161,9 @@ public class NetworkRequestImpl implements NetworkRequest {
     this.changeReadyState(NetworkRequest.STATE_LOADING);
   }
 
-  public void send(String content) throws IOException {
+  public void send(final String content) throws IOException {
     try {
-      RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content);
+      final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content);
       this.currentRequestHandler = rhandler;
       try {
         // TODO: Username and password support
@@ -175,30 +175,30 @@ public class NetworkRequestImpl implements NetworkRequest {
       } finally {
         this.currentRequestHandler = null;
       }
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.SEVERE, "open()", err);
     }
   }
 
   public void addNetworkRequestListener(final NetworkRequestListener listener) {
     this.READY_STATE_CHANGE.addListener(new GenericEventListener() {
-      public void processEvent(EventObject event) {
+      public void processEvent(final EventObject event) {
         listener.readyStateChanged((NetworkRequestEvent) event);
       }
     });
   }
 
-  private void changeReadyState(int newState) {
+  private void changeReadyState(final int newState) {
     this.readyState = newState;
     this.READY_STATE_CHANGE.fireEvent(new NetworkRequestEvent(this, newState));
   }
 
-  private void setResponse(ClientletResponse response) {
+  private void setResponse(final ClientletResponse response) {
     if (response.isFromCache()) {
-      Object cachedResponse = response.getTransientCachedObject();
+      final Object cachedResponse = response.getTransientCachedObject();
       if (cachedResponse instanceof CacheableResponse) {
         // It can be of a different type.
-        CacheableResponse cr = (CacheableResponse) cachedResponse;
+        final CacheableResponse cr = (CacheableResponse) cachedResponse;
         this.changeReadyState(NetworkRequest.STATE_LOADING);
         this.localResponse = cr.newLocalResponse(response);
         this.changeReadyState(NetworkRequest.STATE_LOADED);
@@ -209,17 +209,17 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
     try {
       this.changeReadyState(NetworkRequest.STATE_LOADING);
-      LocalResponse newResponse = new LocalResponse(response);
+      final LocalResponse newResponse = new LocalResponse(response);
       this.localResponse = newResponse;
       this.changeReadyState(NetworkRequest.STATE_LOADED);
-      int cl = response.getContentLength();
-      InputStream in = response.getInputStream();
-      int bufferSize = cl == -1 ? 8192 : Math.min(cl, 8192);
-      byte[] buffer = new byte[bufferSize];
+      final int cl = response.getContentLength();
+      final InputStream in = response.getInputStream();
+      final int bufferSize = cl == -1 ? 8192 : Math.min(cl, 8192);
+      final byte[] buffer = new byte[bufferSize];
       int numRead;
       int readSoFar = 0;
       boolean firstTime = true;
-      ClientletContext threadContext = ClientletAccess.getCurrentClientletContext();
+      final ClientletContext threadContext = ClientletAccess.getCurrentClientletContext();
       NavigatorProgressEvent prevProgress = null;
       if (threadContext != null) {
         prevProgress = threadContext.getProgressEvent();
@@ -235,7 +235,7 @@ public class NetworkRequestImpl implements NetworkRequest {
           }
           readSoFar += numRead;
           if (threadContext != null) {
-            long currentTime = System.currentTimeMillis();
+            final long currentTime = System.currentTimeMillis();
             if (currentTime - lastProgress > 500) {
               lastProgress = currentTime;
               threadContext.setProgressEvent(ProgressType.CONTENT_LOADING, readSoFar, cl, response.getResponseURL());
@@ -254,12 +254,12 @@ public class NetworkRequestImpl implements NetworkRequest {
       }
       newResponse.setComplete(true);
       // The following should return non-null if the response is complete.
-      CacheableResponse cacheable = newResponse.getCacheableResponse();
+      final CacheableResponse cacheable = newResponse.getCacheableResponse();
       if (cacheable != null) {
         response.setNewTransientCachedObject(cacheable, cacheable.getEstimatedSize());
       }
       this.changeReadyState(NetworkRequest.STATE_COMPLETE);
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       logger.log(Level.WARNING, "setResponse()", ioe);
       this.localResponse = null;
       this.changeReadyState(NetworkRequest.STATE_COMPLETE);
@@ -269,7 +269,7 @@ public class NetworkRequestImpl implements NetworkRequest {
   private class LocalRequestHandler extends SimpleRequestHandler {
     private final String method;
 
-    public LocalRequestHandler(URL url, String method, String altPostData) {
+    public LocalRequestHandler(final URL url, final String method, final String altPostData) {
       super(url, method, altPostData, RequestType.ELEMENT);
       this.method = method;
     }
@@ -287,7 +287,7 @@ public class NetworkRequestImpl implements NetworkRequest {
      * .URL, java.lang.Exception)
      */
     @Override
-    public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+    public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
       logger.log(Level.WARNING, "handleException(): url=" + this.getLatestRequestURL() + ",response=[" + response + "]", exception);
       return true;
     }
@@ -299,7 +299,7 @@ public class NetworkRequestImpl implements NetworkRequest {
      * net.sourceforge.xamj.http.BaseRequestHandler#processResponse(org.xamjwg
      * .clientlet.ClientletResponse)
      */
-    public void processResponse(ClientletResponse response) throws ClientletException, IOException {
+    public void processResponse(final ClientletResponse response) throws ClientletException, IOException {
       NetworkRequestImpl.this.setResponse(response);
     }
 
@@ -309,7 +309,7 @@ public class NetworkRequestImpl implements NetworkRequest {
      * @see net.sourceforge.xamj.http.RequestHandler#handleProgress(int,
      * java.net.URL, int, int)
      */
-    public void handleProgress(org.lobobrowser.ua.ProgressType progressType, URL url, int value, int max) {
+    public void handleProgress(final org.lobobrowser.ua.ProgressType progressType, final URL url, final int value, final int max) {
     }
   }
 
@@ -324,14 +324,14 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
 
     public int getEstimatedSize() {
-      ByteArrayOutputStream out = this.buffer;
-      int factor = 3;
+      final ByteArrayOutputStream out = this.buffer;
+      final int factor = 3;
       // Note that when this is called, no one has
       // necessarily called getResponseText().
       return (out == null ? 0 : out.size()) * factor + 512;
     }
 
-    public LocalResponse newLocalResponse(ClientletResponse response) {
+    public LocalResponse newLocalResponse(final ClientletResponse response) {
       return new LocalResponse(response, this);
     }
 
@@ -339,10 +339,10 @@ public class NetworkRequestImpl implements NetworkRequest {
       // A hard reference to the image is not a good idea here.
       // Images will retain their observers, and it's also
       // hard to estimate their actual size.
-      WeakReference<Image> imageRef = this.imageRef;
+      final WeakReference<Image> imageRef = this.imageRef;
       Image img = imageRef == null ? null : imageRef.get();
       if (img == null && this.complete) {
-        byte[] bytes = this.getResponseBytes();
+        final byte[] bytes = this.getResponseBytes();
         if (bytes != null) {
           img = Toolkit.getDefaultToolkit().createImage(bytes);
           this.imageRef = new WeakReference<Image>(img);
@@ -351,22 +351,22 @@ public class NetworkRequestImpl implements NetworkRequest {
       return img;
     }
 
-    public String getResponseText(String charset) {
+    public String getResponseText(final String charset) {
       String responseText = this.textContent;
       if (responseText != null) {
         return responseText;
       }
-      byte[] bytes = this.getResponseBytes();
+      final byte[] bytes = this.getResponseBytes();
       if (bytes == null) {
         return null;
       }
       try {
         responseText = new String(bytes, charset);
-      } catch (UnsupportedEncodingException uee) {
+      } catch (final UnsupportedEncodingException uee) {
         logger.log(Level.WARNING, "getResponseText()", uee);
         try {
           responseText = new String(bytes, "ISO-8859-1");
-        } catch (UnsupportedEncodingException uee2) {
+        } catch (final UnsupportedEncodingException uee2) {
           // ignore
           responseText = null;
         }
@@ -379,19 +379,19 @@ public class NetworkRequestImpl implements NetworkRequest {
      * @return Returns the responseBytes.
      */
     public byte[] getResponseBytes() {
-      ByteArrayOutputStream out = this.buffer;
+      final ByteArrayOutputStream out = this.buffer;
       return out == null ? null : out.toByteArray();
     }
 
     public Document getResponseXML() {
       Document doc = this.document;
       if (doc == null && this.complete) {
-        byte[] bytes = this.getResponseBytes();
+        final byte[] bytes = this.getResponseBytes();
         if (bytes != null) {
-          InputStream in = new ByteArrayInputStream(bytes);
+          final InputStream in = new ByteArrayInputStream(bytes);
           try {
             doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
-          } catch (Exception err) {
+          } catch (final Exception err) {
             logger.log(Level.SEVERE, "getResponseXML()", err);
           }
           this.document = doc;
@@ -414,25 +414,25 @@ public class NetworkRequestImpl implements NetworkRequest {
      * @param bytes
      * @param headers
      */
-    public LocalResponse(ClientletResponse response) {
+    public LocalResponse(final ClientletResponse response) {
       this.cresponse = response;
       this.cacheable = new CacheableResponse();
     }
 
-    public LocalResponse(ClientletResponse response, CacheableResponse cacheable) {
+    public LocalResponse(final ClientletResponse response, final CacheableResponse cacheable) {
       this.cresponse = response;
       this.cacheable = cacheable;
     }
 
     public CacheableResponse getCacheableResponse() {
-      CacheableResponse c = this.cacheable;
+      final CacheableResponse c = this.cacheable;
       if (!c.complete) {
         return null;
       }
       return c;
     }
 
-    public void writeBytes(byte[] bytes, int offset, int length) throws java.io.IOException {
+    public void writeBytes(final byte[] bytes, final int offset, final int length) throws java.io.IOException {
       ByteArrayOutputStream out = this.cacheable.buffer;
       if (out == null) {
         out = new ByteArrayOutputStream();
@@ -441,7 +441,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       out.write(bytes, offset, length);
     }
 
-    public void setComplete(boolean complete) {
+    public void setComplete(final boolean complete) {
       this.cacheable.complete = complete;
     }
 
@@ -455,13 +455,13 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
 
     private Map<String, String> getHeadersImpl() {
-      Map<String, String> headers = new HashMap<String, String>();
-      ClientletResponse cresponse = this.cresponse;
-      Iterator headerNames = cresponse.getHeaderNames();
+      final Map<String, String> headers = new HashMap<String, String>();
+      final ClientletResponse cresponse = this.cresponse;
+      final Iterator headerNames = cresponse.getHeaderNames();
       while (headerNames.hasNext()) {
-        String headerName = (String) headerNames.next();
+        final String headerName = (String) headerNames.next();
         if (headerName != null) {
-          String[] values = cresponse.getHeaders(headerName);
+          final String[] values = cresponse.getHeaders(headerName);
           if (values != null && values.length > 0) {
             headers.put(headerName.toLowerCase(), values[0]);
           }
@@ -471,7 +471,7 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
 
     public int getLength() {
-      ByteArrayOutputStream out = this.cacheable.buffer;
+      final ByteArrayOutputStream out = this.cacheable.buffer;
       return out == null ? 0 : out.size();
     }
 
@@ -489,18 +489,18 @@ public class NetworkRequestImpl implements NetworkRequest {
       return this.cresponse.getResponseMessage();
     }
 
-    public String getResponseHeader(String headerName) {
+    public String getResponseHeader(final String headerName) {
       return this.getHeaders().get(headerName.toLowerCase());
     }
 
     public String getAllResponseHeaders() {
-      ClientletResponse cresponse = this.cresponse;
-      Iterator headerNames = cresponse.getHeaderNames();
-      StringBuffer allHeadersBuf = new StringBuffer();
+      final ClientletResponse cresponse = this.cresponse;
+      final Iterator headerNames = cresponse.getHeaderNames();
+      final StringBuffer allHeadersBuf = new StringBuffer();
       while (headerNames.hasNext()) {
-        String headerName = (String) headerNames.next();
+        final String headerName = (String) headerNames.next();
         if (headerName != null) {
-          String[] values = cresponse.getHeaders(headerName);
+          final String[] values = cresponse.getHeaders(headerName);
           for (int i = 0; i < values.length; i++) {
             allHeadersBuf.append(headerName);
             allHeadersBuf.append(": ");

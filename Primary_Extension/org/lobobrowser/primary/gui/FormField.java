@@ -30,7 +30,7 @@ public class FormField {
     this(FieldType.TEXT, "");
   }
 
-  public FormField(final FieldType type, String caption) {
+  public FormField(final FieldType type, final String caption) {
     this(type, caption, true);
   }
 
@@ -50,7 +50,7 @@ public class FormField {
   }
 
   public boolean isEditable() {
-    JComponent fe = this.getFieldEditor();
+    final JComponent fe = this.getFieldEditor();
     if (fe instanceof JTextComponent) {
       return ((JTextComponent) fe).isEditable();
     } else {
@@ -63,7 +63,7 @@ public class FormField {
   }
 
   public String getValue() {
-    JComponent fe = this.getFieldEditor();
+    final JComponent fe = this.getFieldEditor();
     if (fe instanceof JTextComponent) {
       return ((JTextComponent) fe).getText();
     } else {
@@ -71,8 +71,8 @@ public class FormField {
     }
   }
 
-  public void setValue(String value) {
-    JComponent fe = this.getFieldEditor();
+  public void setValue(final String value) {
+    final JComponent fe = this.getFieldEditor();
     if (fe instanceof JTextComponent) {
       ((JTextComponent) fe).setText(value);
     }
@@ -82,18 +82,18 @@ public class FormField {
     return this.getFieldEditor().getToolTipText();
   }
 
-  public void setToolTip(String tooltip) {
+  public void setToolTip(final String tooltip) {
     this.getFieldEditor().setToolTipText(tooltip);
   }
 
-  public void setEditable(boolean editable) {
-    JComponent fe = this.getFieldEditor();
+  public void setEditable(final boolean editable) {
+    final JComponent fe = this.getFieldEditor();
     if (fe instanceof JTextComponent) {
       ((JTextComponent) fe).setEditable(editable);
     }
   }
 
-  public void setCaption(String caption) {
+  public void setCaption(final String caption) {
     this.getLabel().setText(caption);
   }
 

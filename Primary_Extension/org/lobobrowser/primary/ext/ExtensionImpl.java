@@ -41,28 +41,28 @@ public class ExtensionImpl implements NavigatorExtension {
   public void destroy() {
   }
 
-  public void init(NavigatorExtensionContext pcontext) {
+  public void init(final NavigatorExtensionContext pcontext) {
     pcontext.addURLStreamHandlerFactory(new PrimaryStreamHandlerFactory());
     pcontext.addClientletSelector(new PrimaryClientletSelector());
     pcontext.addNavigatorErrorListener(new NavigatorErrorListener() {
-      public void errorOcurred(NavigatorExceptionEvent event) {
+      public void errorOcurred(final NavigatorExceptionEvent event) {
         showError(event.getNavigatorFrame(), event.getResponse(), event.getException());
       }
     });
   }
 
-  public void windowClosing(NavigatorWindow wcontext) {
+  public void windowClosing(final NavigatorWindow wcontext) {
     NavigationHistory.getInstance().save();
   }
 
-  public void windowOpening(NavigatorWindow wcontext) {
-    ComponentSource cs = new ComponentSource(wcontext);
-    Component[] abc = cs.getAddressBarComponents();
-    for (Component c : abc) {
+  public void windowOpening(final NavigatorWindow wcontext) {
+    final ComponentSource cs = new ComponentSource(wcontext);
+    final Component[] abc = cs.getAddressBarComponents();
+    for (final Component c : abc) {
       wcontext.addAddressBarComponent(c);
     }
-    Component[] sbc = cs.getStatusBarComponents();
-    for (Component c : sbc) {
+    final Component[] sbc = cs.getStatusBarComponents();
+    for (final Component c : sbc) {
       wcontext.addStatusBarComponent(c);
     }
     wcontext.addMenu("lobo.file", cs.getFileMenu());
@@ -76,29 +76,29 @@ public class ExtensionImpl implements NavigatorExtension {
     // wcontext.addMenu("lobo.extensions", cs.getExtensionsMenu());
     wcontext.addMenu("lobo.help", cs.getHelpMenu());
     wcontext.addNavigatorWindowListener(cs);
-    NavigationEntry firstEntry = wcontext.getCurrentNavigationEntry();
+    final NavigationEntry firstEntry = wcontext.getCurrentNavigationEntry();
     cs.setNavigationEntry(firstEntry);
   }
 
-  public static void showError(NavigatorFrame frame, ClientletResponse response, Throwable exception) {
+  public static void showError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
     if (logger.isLoggable(Level.WARNING)) {
       logger.log(Level.WARNING,
           "showError(): An error occurred trying to process document " + (response == null ? "[null]" : response.getResponseURL()),
           exception);
     }
-    ComponentContent errorComponent = getErrorComponent(frame, response, exception);
+    final ComponentContent errorComponent = getErrorComponent(frame, response, exception);
     frame.replaceContent(response, errorComponent);
     // TODO: Get window or something, and ensure current URL is shown.
   }
 
-  private static ComponentContent getErrorComponent(NavigatorFrame frame, ClientletResponse response, Throwable exception) {
-    HtmlPanel panel = new HtmlPanel();
-    HtmlRendererContext rcontext = HtmlRendererContextImpl.getHtmlRendererContext(frame);
+  private static ComponentContent getErrorComponent(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
+    final HtmlPanel panel = new HtmlPanel();
+    final HtmlRendererContext rcontext = HtmlRendererContextImpl.getHtmlRendererContext(frame);
     panel.setHtml(getErrorHtml(response, exception), "about:error", rcontext);
     String sourceCode = "[NOT AVAILABLE]";
     if (exception instanceof ClientletException) {
-      ClientletException ce = (ClientletException) exception;
-      String sc = ce.getSourceCode();
+      final ClientletException ce = (ClientletException) exception;
+      final String sc = ce.getSourceCode();
       if (sc != null) {
         sourceCode = sc;
       }
@@ -113,11 +113,11 @@ public class ExtensionImpl implements NavigatorExtension {
     return t;
   }
 
-  static String getErrorHtml(ClientletResponse response, Throwable exception) {
-    java.net.URL url = response == null ? null : response.getResponseURL();
-    String method = response == null ? null : response.getLastRequestMethod();
-    Writer swriter = new StringWriter();
-    PrintWriter writer = new PrintWriter(swriter);
+  static String getErrorHtml(final ClientletResponse response, final Throwable exception) {
+    final java.net.URL url = response == null ? null : response.getResponseURL();
+    final String method = response == null ? null : response.getLastRequestMethod();
+    final Writer swriter = new StringWriter();
+    final PrintWriter writer = new PrintWriter(swriter);
     writer.println("<html><body>");
     writer.println("<dl style='background-color: #FFB0B0; border: solid red 2px; padding: 2px;'>");
     writer.println("  <big>An <strong>error</strong> occurred trying to process a request.</big>");
@@ -140,17 +140,17 @@ public class ExtensionImpl implements NavigatorExtension {
     writer.println("  </th></tr>");
     writer.println("  <tr><td>");
 
-    StringWriter sw = new StringWriter();
-    PrintWriter pw = new PrintWriter(sw);
+    final StringWriter sw = new StringWriter();
+    final PrintWriter pw = new PrintWriter(sw);
     exception.printStackTrace(pw);
     pw.flush();
 
     writer.println(Html.textToHTML(sw.toString()));
 
     if (exception.getCause() != null) {
-      Throwable rootCause = getRootCause(exception);
-      StringWriter sw2 = new StringWriter();
-      PrintWriter pw2 = new PrintWriter(sw2);
+      final Throwable rootCause = getRootCause(exception);
+      final StringWriter sw2 = new StringWriter();
+      final PrintWriter pw2 = new PrintWriter(sw2);
       rootCause.printStackTrace(pw2);
       pw2.flush();
       writer.println("<p><strong>Root Cause</strong></p>");
@@ -164,9 +164,9 @@ public class ExtensionImpl implements NavigatorExtension {
     return swriter.toString();
   }
 
-  private static String getErrorUrlText(java.net.URL url, String method) {
-    StringBuffer buf = new StringBuffer();
-    boolean isGet = "GET".equals(method);
+  private static String getErrorUrlText(final java.net.URL url, final String method) {
+    final StringBuffer buf = new StringBuffer();
+    final boolean isGet = "GET".equals(method);
     if (isGet) {
       buf.append("<a href=\"" + url.toExternalForm() + "\">");
     }
@@ -177,14 +177,14 @@ public class ExtensionImpl implements NavigatorExtension {
     return buf.toString();
   }
 
-  private static String getExceptionMeaning(java.net.URL url, Throwable exception) {
+  private static String getExceptionMeaning(final java.net.URL url, final Throwable exception) {
     if (exception instanceof org.lobobrowser.clientlet.JavaVersionException) {
-      JavaVersionException jve = (JavaVersionException) exception;
+      final JavaVersionException jve = (JavaVersionException) exception;
       return "This exception is thrown when the content expects the user's Java Virtual Machine "
           + "to be more up to date than it currently is. In this case the content is " + "expecting version " + jve.getExpectingVersion()
           + " whereas the version running " + "the browser is " + System.getProperty("java.version") + ".";
     } else if (exception instanceof NavigatorVersionException) {
-      NavigatorVersionException nve = (NavigatorVersionException) exception;
+      final NavigatorVersionException nve = (NavigatorVersionException) exception;
       return "This exception is thrown when the content expects the browser version "
           + "to be more up to date than it currently is. In this case the content is " + "expecting version " + nve.getExpectingVersion()
           + " whereas the user agent " + "version is " + UserAgentImpl.getInstance().getVersion() + ".";

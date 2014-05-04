@@ -54,7 +54,7 @@ public class SearchEngineEditor extends AbstractItemEditor<SearchEngine> {
   }
 
   @Override
-  public void setItem(SearchEngine item) {
+  public void setItem(final SearchEngine item) {
     this.nameField.setValue(item.getName());
     this.descriptionField.setValue(item.getDescription());
     this.baseUrlField.setValue(item.getBaseUrl());

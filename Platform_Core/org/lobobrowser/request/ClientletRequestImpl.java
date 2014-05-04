@@ -36,8 +36,8 @@ public class ClientletRequestImpl implements ClientletRequest {
   private final String altPostData;
   private final RequestType requestType;
 
-  public ClientletRequestImpl(boolean forNewWindow, URL url, String method, ParameterInfo paramInfo, Header[] extraHeaders,
-      String referrer, String altPostData, RequestType requestType) {
+  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final String method, final ParameterInfo paramInfo, final Header[] extraHeaders,
+      final String referrer, final String altPostData, final RequestType requestType) {
     this.method = method;
     this.url = url;
     this.paramInfo = paramInfo;
@@ -48,19 +48,19 @@ public class ClientletRequestImpl implements ClientletRequest {
     this.requestType = requestType;
   }
 
-  public ClientletRequestImpl(boolean forNewWindow, URL url, String method, ParameterInfo paramInfo, RequestType requestType) {
+  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final String method, final ParameterInfo paramInfo, final RequestType requestType) {
     this(forNewWindow, url, method, paramInfo, null, null, null, requestType);
   }
 
-  public ClientletRequestImpl(URL url, RequestType requestType) {
+  public ClientletRequestImpl(final URL url, final RequestType requestType) {
     this(false, url, "GET", null, null, null, null, requestType);
   }
 
-  public ClientletRequestImpl(boolean forNewWindow, URL url, RequestType requestType) {
+  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final RequestType requestType) {
     this(forNewWindow, url, "GET", null, null, null, null, requestType);
   }
 
-  public ClientletRequestImpl(URL url, String method, String altPostData, RequestType requestType) {
+  public ClientletRequestImpl(final URL url, final String method, final String altPostData, final RequestType requestType) {
     this(false, url, method, null, null, null, altPostData, requestType);
   }
 

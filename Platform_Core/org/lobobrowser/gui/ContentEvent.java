@@ -28,7 +28,7 @@ public class ContentEvent extends EventObject {
   private final ComponentContent content;
   private final ClientletResponse response;
 
-  public ContentEvent(Object source, ComponentContent content, ClientletResponse response) {
+  public ContentEvent(final Object source, final ComponentContent content, final ClientletResponse response) {
     super(source);
     this.content = content;
     this.response = response;

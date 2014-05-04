@@ -78,7 +78,7 @@ public class PlatformInit {
    */
   public void initProtocols() {
     // Configure URL protocol handlers
-    PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory.getInstance();
+    final PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory.getInstance();
     URL.setURLStreamHandlerFactory(factory);
     factory.addFactory(new LocalStreamHandlerFactory());
   }
@@ -105,7 +105,7 @@ public class PlatformInit {
   }
 
   public boolean isCodeLocationDirectory() {
-    URL codeLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+    final URL codeLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation();
     return Urls.isLocalFile(codeLocation) && codeLocation.getPath().endsWith("/");
   }
 
@@ -116,9 +116,9 @@ public class PlatformInit {
    * @see ConsoleModel
    */
   public void initConsole() {
-    java.io.PrintStream oldOut = System.out;
-    ConsoleModel standard = ConsoleModel.getStandard();
-    java.io.PrintStream ps = standard.getPrintStream();
+    final java.io.PrintStream oldOut = System.out;
+    final ConsoleModel standard = ConsoleModel.getStandard();
+    final java.io.PrintStream ps = standard.getPrintStream();
     System.setOut(ps);
     System.setErr(ps);
     if (this.isCodeLocationDirectory()) {
@@ -136,9 +136,9 @@ public class PlatformInit {
    *          Debugging mode. This determines which one of two different logging
    *          configurations is used.
    */
-  public void initLogging(boolean debugOn) throws Exception {
+  public void initLogging(final boolean debugOn) throws Exception {
     // Set up debugging & console
-    String loggingToken = debugOn ? "logging-debug" : "logging";
+    final String loggingToken = debugOn ? "logging-debug" : "logging";
     java.io.InputStream in = this.getClass().getResourceAsStream("/properties/" + loggingToken + ".properties");
     if (in == null) {
       in = this.getClass().getResourceAsStream("properties/" + loggingToken + ".properties");
@@ -152,13 +152,13 @@ public class PlatformInit {
       in.close();
     }
     // Configure log4j
-    Logger logger = Logger.getLogger(PlatformInit.class.getName());
+    final Logger logger = Logger.getLogger(PlatformInit.class.getName());
     if (logger.isLoggable(Level.INFO)) {
       logger.warning("Entry(): Logger INFO level is enabled.");
-      java.util.Properties properties = System.getProperties();
-      java.util.Iterator i = properties.entrySet().iterator();
+      final java.util.Properties properties = System.getProperties();
+      final java.util.Iterator i = properties.entrySet().iterator();
       while (i.hasNext()) {
-        Map.Entry entry = (Map.Entry) i.next();
+        final Map.Entry entry = (Map.Entry) i.next();
         logger.info("main(): " + entry.getKey() + "=" + entry.getValue());
       }
     }
@@ -177,7 +177,7 @@ public class PlatformInit {
    * Initializes the default window factory such that the JVM exits when all
    * windows created by the factory are closed by the user.
    */
-  public void initWindowFactory(boolean exitWhenAllWindowsAreClosed) {
+  public void initWindowFactory(final boolean exitWhenAllWindowsAreClosed) {
     DefaultWindowFactory.getInstance().setExitWhenAllWindowsAreClosed(exitWhenAllWindowsAreClosed);
   }
 
@@ -189,9 +189,9 @@ public class PlatformInit {
    * @param dirName
    *          A directory name relative to the browser application directory.
    */
-  public void initNative(String dirName) {
-    File appDir = this.getApplicationDirectory();
-    File nativeDir = new File(appDir, dirName);
+  public void initNative(final String dirName) {
+    final File appDir = this.getApplicationDirectory();
+    final File nativeDir = new File(appDir, dirName);
     System.setProperty("java.library.path", nativeDir.getAbsolutePath());
   }
 
@@ -212,7 +212,7 @@ public class PlatformInit {
   /**
    * @deprecated Use {@link #init(boolean, boolean)}.
    */
-  public void init(String[] args, boolean exitWhenAllWindowsAreClosed) throws Exception {
+  public void init(final String[] args, final boolean exitWhenAllWindowsAreClosed) throws Exception {
     this.init(exitWhenAllWindowsAreClosed, true);
   }
 
@@ -237,7 +237,7 @@ public class PlatformInit {
    * @see #initProtocols()
    * @see #initExtensions()
    */
-  public void init(boolean exitWhenAllWindowsAreClosed, boolean initConsole) throws Exception {
+  public void init(final boolean exitWhenAllWindowsAreClosed, final boolean initConsole) throws Exception {
     initOtherProperties();
     initNative(NATIVE_DIR_NAME);
     initSecurity();
@@ -258,8 +258,8 @@ public class PlatformInit {
    *          A URL or file path.
    * @throws MalformedURLException
    */
-  public void launch(String urlOrPath) throws MalformedURLException {
-    URL url = org.lobobrowser.util.Urls.guessURL(urlOrPath);
+  public void launch(final String urlOrPath) throws MalformedURLException {
+    final URL url = org.lobobrowser.util.Urls.guessURL(urlOrPath);
     FramePanel.openWindow(null, url, null, new Properties(), "GET", null);
   }
 
@@ -271,9 +271,9 @@ public class PlatformInit {
    * @throws MalformedURLException
    */
   public void launch() throws MalformedURLException {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm == null) {
-      Logger logger = Logger.getLogger(PlatformInit.class.getName());
+      final Logger logger = Logger.getLogger(PlatformInit.class.getName());
       logger.warning("launch(): Security manager not set!");
     }
     /*
@@ -294,9 +294,9 @@ public class PlatformInit {
    * 
    * @see org.lobobrowser.settings.GeneralSettings#getStartupURLs()
    */
-  public void start(String[] args) throws MalformedURLException {
+  public void start(final String[] args) throws MalformedURLException {
     DefaultWindowFactory.getInstance().evtWindowShown.addListener(new GenericEventListener() {
-      public void processEvent(EventObject event) {
+      public void processEvent(final EventObject event) {
         synchronized (PlatformInit.this) {
           windowHasBeenShown = true;
           PlatformInit.this.notifyAll();
@@ -305,12 +305,12 @@ public class PlatformInit {
     });
     boolean launched = false;
     for (int i = 0; i < args.length; i++) {
-      String url = args[i];
+      final String url = args[i];
       if (!url.startsWith("-")) {
         try {
           launched = true;
           this.launch(url);
-        } catch (Exception err) {
+        } catch (final Exception err) {
           err.printStackTrace(System.err);
         }
       }
@@ -322,7 +322,7 @@ public class PlatformInit {
       while (!this.windowHasBeenShown) {
         try {
           this.wait();
-        } catch (InterruptedException ie) {
+        } catch (final InterruptedException ie) {
           // Ignore
         }
       }
@@ -344,7 +344,7 @@ public class PlatformInit {
   public static void shutdown() {
     try {
       ReuseManager.getInstance().shutdown();
-    } catch (Exception err) {
+    } catch (final Exception err) {
       err.printStackTrace(System.err);
     }
     System.exit(0);
@@ -361,11 +361,11 @@ public class PlatformInit {
    * @param permission
    *          A <code>Permission<code> instance.
    */
-  public void addPrivilegedPermission(Permission permission) {
+  public void addPrivilegedPermission(final Permission permission) {
     LocalSecurityPolicy.addPrivilegedPermission(permission);
   }
 
-  public void scheduleTask(SimpleThreadPoolTask task) {
+  public void scheduleTask(final SimpleThreadPoolTask task) {
     this.threadExecutor.schedule(task);
   }
 
@@ -374,20 +374,20 @@ public class PlatformInit {
   public File getApplicationDirectory() {
     File appDir = this.applicationDirectory;
     if (appDir == null) {
-      java.security.ProtectionDomain pd = this.getClass().getProtectionDomain();
-      java.security.CodeSource cs = pd.getCodeSource();
-      java.net.URL url = cs.getLocation();
-      String jarPath = url.getPath();
+      final java.security.ProtectionDomain pd = this.getClass().getProtectionDomain();
+      final java.security.CodeSource cs = pd.getCodeSource();
+      final java.net.URL url = cs.getLocation();
+      final String jarPath = url.getPath();
       File jarFile;
       try {
         jarFile = new File(url.toURI());
-      } catch (java.net.URISyntaxException use) {
+      } catch (final java.net.URISyntaxException use) {
         throw new IllegalStateException(use);
-      } catch (java.lang.IllegalArgumentException iae) {
+      } catch (final java.lang.IllegalArgumentException iae) {
         throw new IllegalStateException("Application code source apparently not a local JAR file: " + url
             + ". Only local JAR files are supported at the moment.", iae);
       }
-      File installDir = jarFile.getParentFile();
+      final File installDir = jarFile.getParentFile();
       if (installDir == null) {
         throw new IllegalStateException("Installation directory is missing. Startup JAR path is " + jarPath + ".");
       }
@@ -399,7 +399,7 @@ public class PlatformInit {
       this.applicationDirectory = appDir;
 
       // Static logger should not be created in this class.
-      Logger logger = Logger.getLogger(this.getClass().getName());
+      final Logger logger = Logger.getLogger(this.getClass().getName());
       if (logger.isLoggable(Level.INFO)) {
         logger.info("getApplicationDirectory(): url=" + url + ",appDir=" + appDir);
       }
@@ -408,7 +408,7 @@ public class PlatformInit {
   }
 
   private static class LocalStreamHandlerFactory implements java.net.URLStreamHandlerFactory {
-    public URLStreamHandler createURLStreamHandler(String protocol) {
+    public URLStreamHandler createURLStreamHandler(final String protocol) {
       if (protocol.equals("res")) {
         return new org.lobobrowser.protocol.res.Handler();
       } else if (protocol.equals("vc")) {

@@ -34,8 +34,8 @@ public class NavigatorProgressEvent extends NavigatorEvent {
   private final int currentValue;
   private final int maxValue;
 
-  public NavigatorProgressEvent(Object source, NavigatorFrame clientletFrame, ProgressType progressType, java.net.URL url, String method,
-      int value, int max) {
+  public NavigatorProgressEvent(final Object source, final NavigatorFrame clientletFrame, final ProgressType progressType, final java.net.URL url, final String method,
+      final int value, final int max) {
     super(source, NavigatorEventType.PROGRESS_UPDATED, clientletFrame);
     this.progressType = progressType;
     this.url = url;

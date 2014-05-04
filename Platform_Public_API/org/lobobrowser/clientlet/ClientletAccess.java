@@ -35,11 +35,11 @@ public class ClientletAccess {
    * Gets the {@link ClientletContext} of the current thread, if any.
    */
   public static ClientletContext getCurrentClientletContext() {
-    ClientletContext ctx = currentClientletContext.get();
+    final ClientletContext ctx = currentClientletContext.get();
     if (ctx != null) {
       return ctx;
     } else {
-      ThreadGroup td = Thread.currentThread().getThreadGroup();
+      final ThreadGroup td = Thread.currentThread().getThreadGroup();
       if (td instanceof ClientletThreadGroup) {
         return ((ClientletThreadGroup) td).getClientletContext();
       } else {
@@ -55,7 +55,7 @@ public class ClientletAccess {
    * @param context
    *          A {@link ClientletContext} instance.
    */
-  public static void setCurrentClientletContext(ClientletContext context) {
+  public static void setCurrentClientletContext(final ClientletContext context) {
     currentClientletContext.set(context);
   }
 }

@@ -28,14 +28,14 @@ public class CheckBoxPanel extends JPanel {
   private final JCheckBox checkBox;
   private final JComponent subPanel;
 
-  public CheckBoxPanel(String text, JComponent subPanel) {
+  public CheckBoxPanel(final String text, final JComponent subPanel) {
     this.subPanel = subPanel;
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.checkBox = new JCheckBox();
     this.checkBox.setAlignmentX(0.0f);
     this.checkBox.setAction(new CheckBoxAction());
     this.checkBox.setText(text);
-    JPanel checkBoxArea = new JPanel();
+    final JPanel checkBoxArea = new JPanel();
     checkBoxArea.setLayout(new BoxLayout(checkBoxArea, BoxLayout.X_AXIS));
     checkBoxArea.add(this.checkBox);
     checkBoxArea.add(SwingTasks.createHorizontalFill());
@@ -48,11 +48,11 @@ public class CheckBoxPanel extends JPanel {
     SwingTasks.setNestedEnabled(subPanel, checkBox.isSelected());
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.checkBox.setText(text);
   }
 
-  public void setSelected(boolean selected) {
+  public void setSelected(final boolean selected) {
     this.checkBox.setSelected(selected);
   }
 
@@ -61,7 +61,7 @@ public class CheckBoxPanel extends JPanel {
   }
 
   public class CheckBoxAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       SwingTasks.setNestedEnabled(subPanel, checkBox.isSelected());
     }
   }

@@ -25,6 +25,6 @@ package org.lobobrowser.gui;
  * methods.
  */
 public abstract class ResponseAdapter implements ResponseListener {
-  public void responseProcessed(ResponseEvent event) {
+  public void responseProcessed(final ResponseEvent event) {
   }
 }

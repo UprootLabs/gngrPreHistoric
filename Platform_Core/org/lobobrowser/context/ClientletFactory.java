@@ -46,8 +46,8 @@ public class ClientletFactory {
 
   private final List<ClientletSelector> selectors = new LinkedList<ClientletSelector>();
 
-  public void addClientletSelector(ClientletSelector selector) {
-    SecurityManager sm = System.getSecurityManager();
+  public void addClientletSelector(final ClientletSelector selector) {
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -56,10 +56,10 @@ public class ClientletFactory {
     }
   }
 
-  public Clientlet getClientlet(ClientletRequest request, ClientletResponse response) {
+  public Clientlet getClientlet(final ClientletRequest request, final ClientletResponse response) {
     synchronized (this) {
-      for (ClientletSelector selector : this.selectors) {
-        Clientlet clientlet = selector.select(request, response);
+      for (final ClientletSelector selector : this.selectors) {
+        final Clientlet clientlet = selector.select(request, response);
         if (clientlet == null) {
           continue;
         }

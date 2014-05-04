@@ -32,21 +32,21 @@ public class SimpleTextEditDialog extends JDialog {
   private final JButton okButton = new JButton();
   private final JButton cancelButton = new JButton();
 
-  public SimpleTextEditDialog(Frame parent) {
+  public SimpleTextEditDialog(final Frame parent) {
     super(parent);
     this.init();
   }
 
-  public SimpleTextEditDialog(Dialog parent) {
+  public SimpleTextEditDialog(final Dialog parent) {
     super(parent);
     this.init();
   }
 
-  public void setCaption(String text) {
+  public void setCaption(final String text) {
     this.captionLabel.setText(text);
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.textArea.setText(text);
   }
 
@@ -59,7 +59,7 @@ public class SimpleTextEditDialog extends JDialog {
     this.captionLabel.setAlignmentX(0.0f);
     this.captionLabel.setBorder(new EmptyBorder(8, 0, 8, 0));
     this.textArea.setPreferredSize(new Dimension(1, Short.MAX_VALUE));
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     contentPane.add(this.captionLabel);
     contentPane.add(new JScrollPane(this.textArea));
@@ -72,7 +72,7 @@ public class SimpleTextEditDialog extends JDialog {
   }
 
   private Component createButtonPanel() {
-    Box panel = new Box(BoxLayout.X_AXIS);
+    final Box panel = new Box(BoxLayout.X_AXIS);
     panel.setPreferredSize(new Dimension(Short.MAX_VALUE, 0));
     panel.setBorder(new EmptyBorder(4, 4, 4, 4));
     panel.add(Box.createGlue());
@@ -90,14 +90,14 @@ public class SimpleTextEditDialog extends JDialog {
   }
 
   private class OkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       resultingText = textArea.getText();
       SimpleTextEditDialog.this.dispose();
     }
   }
 
   private class CancelAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       resultingText = null;
       SimpleTextEditDialog.this.dispose();
     }

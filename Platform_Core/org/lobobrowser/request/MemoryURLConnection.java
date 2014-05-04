@@ -30,7 +30,7 @@ import org.lobobrowser.util.NameValuePair;
 public class MemoryURLConnection extends URLConnection {
   private final MemoryCacheEntry memoryEntry;
 
-  public MemoryURLConnection(URL url, final MemoryCacheEntry memoryEntry) {
+  public MemoryURLConnection(final URL url, final MemoryCacheEntry memoryEntry) {
     super(url);
     this.memoryEntry = memoryEntry;
   }
@@ -42,23 +42,23 @@ public class MemoryURLConnection extends URLConnection {
   public void connect() throws IOException {
     if (!this.connected) {
       this.readHeaders();
-      InputStream in = new ByteArrayInputStream(this.memoryEntry.content);
+      final InputStream in = new ByteArrayInputStream(this.memoryEntry.content);
       this.inputStream = in;
       this.connected = true;
     }
   }
 
   private void readHeaders() throws IOException {
-    Map<String, List<String>> headersMap = this.headersMap;
-    List origList = this.memoryEntry.headers;
-    Iterator i = origList.iterator();
+    final Map<String, List<String>> headersMap = this.headersMap;
+    final List origList = this.memoryEntry.headers;
+    final Iterator i = origList.iterator();
     while (i.hasNext()) {
-      NameValuePair pair = (NameValuePair) i.next();
+      final NameValuePair pair = (NameValuePair) i.next();
       String name = pair.name;
       if (name != null) {
         name = name.toLowerCase();
       }
-      String value = pair.value;
+      final String value = pair.value;
       List<String> hvalues = headersMap.get(name);
       if (hvalues == null) {
         hvalues = new ArrayList<String>(1);
@@ -73,14 +73,14 @@ public class MemoryURLConnection extends URLConnection {
    * 
    * @see java.net.URLConnection#getHeaderField(int)
    */
-  public String getHeaderField(int n) {
+  public String getHeaderField(final int n) {
     try {
       this.connect();
-      NameValuePair pair = (NameValuePair) this.memoryEntry.headers.get(n);
+      final NameValuePair pair = (NameValuePair) this.memoryEntry.headers.get(n);
       return pair.value;
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
   }
@@ -90,13 +90,13 @@ public class MemoryURLConnection extends URLConnection {
    * 
    * @see java.net.URLConnection#getHeaderField(java.lang.String)
    */
-  public String getHeaderField(String name) {
+  public String getHeaderField(final String name) {
     try {
       this.connect();
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
-    List hvalues = this.headersMap.get(name.toLowerCase());
+    final List hvalues = this.headersMap.get(name.toLowerCase());
     if (hvalues == null || hvalues.size() == 0) {
       return null;
     }
@@ -108,14 +108,14 @@ public class MemoryURLConnection extends URLConnection {
    * 
    * @see java.net.URLConnection#getHeaderFieldKey(int)
    */
-  public String getHeaderFieldKey(int n) {
+  public String getHeaderFieldKey(final int n) {
     try {
       this.connect();
-      NameValuePair pair = (NameValuePair) this.memoryEntry.headers.get(n);
+      final NameValuePair pair = (NameValuePair) this.memoryEntry.headers.get(n);
       return pair.name;
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
   }
@@ -128,7 +128,7 @@ public class MemoryURLConnection extends URLConnection {
   public Map<String, List<String>> getHeaderFields() {
     try {
       this.connect();
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
     return this.headersMap;

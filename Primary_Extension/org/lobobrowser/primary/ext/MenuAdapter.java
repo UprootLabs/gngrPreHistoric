@@ -24,12 +24,12 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 public abstract class MenuAdapter implements MenuListener {
-  public void menuCanceled(MenuEvent e) {
+  public void menuCanceled(final MenuEvent e) {
   }
 
-  public void menuDeselected(MenuEvent e) {
+  public void menuDeselected(final MenuEvent e) {
   }
 
-  public void menuSelected(MenuEvent e) {
+  public void menuSelected(final MenuEvent e) {
   }
 }

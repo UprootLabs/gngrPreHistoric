@@ -25,7 +25,7 @@ import javax.swing.tree.*;
 
 public class PreferencesTree extends JTree {
   public PreferencesTree() {
-    TreeNode rootNode = this.createRootNode();
+    final TreeNode rootNode = this.createRootNode();
     this.setModel(new DefaultTreeModel(rootNode));
     this.setRootVisible(false);
   }
@@ -35,7 +35,7 @@ public class PreferencesTree extends JTree {
   }
 
   private TreeNode createRootNode() {
-    DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+    final DefaultMutableTreeNode root = new DefaultMutableTreeNode();
     root.add(new DefaultMutableTreeNode(this.getGeneralSettingsInfo()));
     root.add(new DefaultMutableTreeNode(this.getConnectionSettingsInfo()));
     root.add(new DefaultMutableTreeNode(this.getToolsSettingsInfo()));

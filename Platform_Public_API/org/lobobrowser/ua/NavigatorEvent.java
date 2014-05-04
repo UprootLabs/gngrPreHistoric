@@ -29,7 +29,7 @@ public class NavigatorEvent extends java.util.EventObject {
   private final NavigatorFrame clientletFrame;
   private final NavigatorEventType eventType;
 
-  public NavigatorEvent(Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame) {
+  public NavigatorEvent(final Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame) {
     super(source);
     this.clientletFrame = clientletFrame;
     this.eventType = eventType;

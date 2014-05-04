@@ -37,20 +37,20 @@ public class IconFactory {
     return instance;
   }
 
-  private Map<String, ImageIcon> iconMap = new HashMap<String, ImageIcon>();
+  private final Map<String, ImageIcon> iconMap = new HashMap<String, ImageIcon>();
 
-  public ImageIcon getIcon(String resourcePath) {
+  public ImageIcon getIcon(final String resourcePath) {
     try {
       synchronized (this) {
         ImageIcon icon = this.iconMap.get(resourcePath);
         if (icon == null) {
-          InputStream in = this.getClass().getResourceAsStream(resourcePath);
+          final InputStream in = this.getClass().getResourceAsStream(resourcePath);
           if (in == null) {
             logger.warning("getIcon(): Resource path " + resourcePath + " not found.");
             return null;
           }
           try {
-            byte[] imageBytes = IORoutines.load(in, 4096);
+            final byte[] imageBytes = IORoutines.load(in, 4096);
             icon = new ImageIcon(imageBytes);
             this.iconMap.put(resourcePath, icon);
           } finally {
@@ -59,7 +59,7 @@ public class IconFactory {
         }
         return icon;
       }
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath + " gave error.", ioe);
       return null;
     }

@@ -22,40 +22,40 @@ import org.w3c.dom.html2.HTMLDocument;
 
 public class DomViewerWindow extends JFrame implements TreeSelectionListener {
 
-  private JTree domTree;
-  private JTextArea textArea;
+  private final JTree domTree;
+  private final JTextArea textArea;
 
   public DomViewerWindow() {
     super("Lobo DOM Viewer");
     this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     this.domTree = new JTree();
     this.domTree.setRootVisible(false);
     this.domTree.setShowsRootHandles(true);
     this.domTree.addTreeSelectionListener(this);
-    JTextArea textArea = this.createTextArea();
+    final JTextArea textArea = this.createTextArea();
     this.textArea = textArea;
-    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(domTree), new JScrollPane(textArea));
+    final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(domTree), new JScrollPane(textArea));
     contentPane.setLayout(WrapperLayout.getInstance());
     contentPane.add(splitPane);
   }
 
   private JTextArea createTextArea() {
-    JTextArea textArea = new JTextArea();
+    final JTextArea textArea = new JTextArea();
     textArea.setEditable(false);
     return textArea;
   }
 
-  public void setDocument(HTMLDocument document) {
+  public void setDocument(final HTMLDocument document) {
     this.domTree.setModel(new DefaultTreeModel(new DomTreeNode(document)));
   }
 
   private class DomTreeNode extends DefaultMutableTreeNode {
-    public DomTreeNode(Node node) {
+    public DomTreeNode(final Node node) {
       super(node);
-      NodeList childNodes = node.getChildNodes();
+      final NodeList childNodes = node.getChildNodes();
       for (int i = 0; i < childNodes.getLength(); i++) {
-        Node child = childNodes.item(i);
+        final Node child = childNodes.item(i);
         if (child.getNodeType() == Node.TEXT_NODE) {
           if (child.getNodeValue().trim().length() > 0) {
             this.add(new DomTreeNode(child));
@@ -77,11 +77,11 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
 
   }
 
-  public void valueChanged(TreeSelectionEvent treeselectionevent) {
-    TreePath path = treeselectionevent.getNewLeadSelectionPath();
+  public void valueChanged(final TreeSelectionEvent treeselectionevent) {
+    final TreePath path = treeselectionevent.getNewLeadSelectionPath();
     if (path != null) {
-      DomTreeNode domNode = (DomTreeNode) path.getLastPathComponent();
-      Node node = domNode.getNode();
+      final DomTreeNode domNode = (DomTreeNode) path.getLastPathComponent();
+      final Node node = domNode.getNode();
       if (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.COMMENT_NODE) {
         this.textArea.setText(node.getNodeValue());
       } else {
@@ -92,7 +92,7 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
     }
   }
 
-  private void appendNode(int indent, Node node) {
+  private void appendNode(final int indent, final Node node) {
     if (node.getNodeType() == Node.TEXT_NODE) {
       this.textArea.append(node.getNodeValue());
     } else if (node.getNodeType() == Node.COMMENT_NODE) {
@@ -103,7 +103,7 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
       addIndent(indent);
       this.textArea.append("<" + node.getNodeName());
       this.addAttributes(node);
-      NodeList childNodes = node.getChildNodes();
+      final NodeList childNodes = node.getChildNodes();
       if (childNodes.getLength() == 0) {
         this.textArea.append("/");
       }
@@ -119,10 +119,10 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
     }
   }
 
-  private void addAttributes(Node node) {
-    NamedNodeMap attributes = node.getAttributes();
+  private void addAttributes(final Node node) {
+    final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
-      Node attr = attributes.item(i);
+      final Node attr = attributes.item(i);
       textArea.append(" ");
       textArea.append(attr.getNodeName());
       textArea.append("=\"");
@@ -131,7 +131,7 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
     }
   }
 
-  private void addIndent(int indent) {
+  private void addIndent(final int indent) {
     for (int i = 0; i < indent; i++) {
       this.textArea.append("   ");
     }

@@ -29,26 +29,26 @@ import java.awt.*;
 public class SwingTasks {
   private static final String NESTED_ENABLING = "$nested.enabling";
 
-  public static void setNestedEnabled(JComponent component, boolean enabled) {
-    Boolean nestedEnabling = (Boolean) component.getClientProperty(NESTED_ENABLING);
+  public static void setNestedEnabled(final JComponent component, final boolean enabled) {
+    final Boolean nestedEnabling = (Boolean) component.getClientProperty(NESTED_ENABLING);
     if (nestedEnabling == null || nestedEnabling.booleanValue() != enabled) {
       component.putClientProperty(NESTED_ENABLING, enabled);
-      Container parent = component.getParent();
+      final Container parent = component.getParent();
       if (parent == null || !enabled || parent.isEnabled()) {
         setEnabledRecursive(component, enabled);
       }
     }
   }
 
-  private static void setEnabledRecursive(JComponent component, boolean enabled) {
+  private static void setEnabledRecursive(final JComponent component, final boolean enabled) {
     component.setEnabled(enabled);
-    int count = component.getComponentCount();
+    final int count = component.getComponentCount();
     for (int i = 0; i < count; i++) {
-      Component child = component.getComponent(i);
+      final Component child = component.getComponent(i);
       if (child instanceof JComponent) {
-        JComponent jchild = (JComponent) child;
+        final JComponent jchild = (JComponent) child;
         if (enabled) {
-          Boolean nestedEnabling = (Boolean) jchild.getClientProperty(NESTED_ENABLING);
+          final Boolean nestedEnabling = (Boolean) jchild.getClientProperty(NESTED_ENABLING);
           if (nestedEnabling == null || nestedEnabling.booleanValue()) {
             setEnabledRecursive(jchild, true);
           }
@@ -60,20 +60,20 @@ public class SwingTasks {
   }
 
   public static Component createVerticalFill() {
-    Dimension min = new Dimension(0, 0);
-    Dimension pref = new Dimension(0, Short.MAX_VALUE);
-    Dimension max = pref;
+    final Dimension min = new Dimension(0, 0);
+    final Dimension pref = new Dimension(0, Short.MAX_VALUE);
+    final Dimension max = pref;
     return new Box.Filler(min, pref, max);
   }
 
   public static Component createHorizontalFill() {
-    Dimension min = new Dimension(0, 0);
-    Dimension pref = new Dimension(Short.MAX_VALUE, 0);
-    Dimension max = pref;
+    final Dimension min = new Dimension(0, 0);
+    final Dimension pref = new Dimension(Short.MAX_VALUE, 0);
+    final Dimension max = pref;
     return new Box.Filler(min, pref, max);
   }
 
-  public static Frame getFrame(Component component) {
+  public static Frame getFrame(final Component component) {
     Container ancestor = component.getParent();
     while (ancestor != null && !(ancestor instanceof Frame)) {
       ancestor = ancestor.getParent();
@@ -81,7 +81,7 @@ public class SwingTasks {
     return (Frame) ancestor;
   }
 
-  public static Dialog getDialog(Component component) {
+  public static Dialog getDialog(final Component component) {
     Container ancestor = component.getParent();
     while (ancestor != null && !(ancestor instanceof Dialog)) {
       ancestor = ancestor.getParent();
@@ -89,8 +89,8 @@ public class SwingTasks {
     return (Dialog) ancestor;
   }
 
-  public static Box createGroupBox(int orientation, String title) {
-    Box box = new Box(orientation);
+  public static Box createGroupBox(final int orientation, final String title) {
+    final Box box = new Box(orientation);
     box.setBorder(new TitledBorder(new EtchedBorder(), title));
     return box;
   }

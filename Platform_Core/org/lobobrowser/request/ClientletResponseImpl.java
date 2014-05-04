@@ -55,8 +55,8 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   private InputStream inputStream;
 
-  public ClientletResponseImpl(RequestHandler rhandler, URLConnection connection, URL responseURL, boolean fromCache, CacheInfo cacheInfo,
-      boolean isCacheable, RequestType requestType) {
+  public ClientletResponseImpl(final RequestHandler rhandler, final URLConnection connection, final URL responseURL, final boolean fromCache, final CacheInfo cacheInfo,
+      final boolean isCacheable, final RequestType requestType) {
     this.connection = connection;
     this.responseURL = responseURL;
     this.requestHandler = rhandler;
@@ -66,8 +66,8 @@ public class ClientletResponseImpl implements ClientletResponse {
     this.requestType = requestType;
   }
 
-  public ClientletResponseImpl(RequestHandler rhandler, URL url, boolean fromCache, CacheInfo cacheInfo, boolean isCacheable,
-      String requestMethod, RequestType requestType) throws IOException {
+  public ClientletResponseImpl(final RequestHandler rhandler, final URL url, final boolean fromCache, final CacheInfo cacheInfo, final boolean isCacheable,
+      final String requestMethod, final RequestType requestType) throws IOException {
     this.connection = url.openConnection();
     this.responseURL = url;
     this.requestHandler = rhandler;
@@ -78,19 +78,19 @@ public class ClientletResponseImpl implements ClientletResponse {
   }
 
   public boolean isNewNavigationAction() {
-    RequestType rt = this.requestType;
+    final RequestType rt = this.requestType;
     return rt != RequestType.HISTORY && rt != RequestType.SOFT_RELOAD && rt != RequestType.HARD_RELOAD;
   }
 
-  public boolean matches(String mimeType, String[] fileExtensions) {
-    String responseMimeType = this.getMimeType();
+  public boolean matches(final String mimeType, final String[] fileExtensions) {
+    final String responseMimeType = this.getMimeType();
     if (responseMimeType == null || "application/octet-stream".equalsIgnoreCase(responseMimeType)
         || "content/unknown".equalsIgnoreCase(responseMimeType)) {
-      String path = this.responseURL.getPath();
+      final String path = this.responseURL.getPath();
       if (path == null) {
         return false;
       }
-      String pathTL = path.toLowerCase();
+      final String pathTL = path.toLowerCase();
       for (int i = 0; i < fileExtensions.length; i++) {
         String fileExtensionTL = fileExtensions[i].toLowerCase();
         if (!fileExtensionTL.startsWith(".")) {
@@ -110,7 +110,7 @@ public class ClientletResponseImpl implements ClientletResponse {
     return this.requestHandler.getLatestRequestMethod();
   }
 
-  public void handleProgress(ProgressType progressType, java.net.URL url, String method, int value, int max) {
+  public void handleProgress(final ProgressType progressType, final java.net.URL url, final String method, final int value, final int max) {
     this.requestHandler.handleProgress(progressType, url, method, value, max);
   }
 
@@ -142,7 +142,7 @@ public class ClientletResponseImpl implements ClientletResponse {
    * 
    * @see org.xamjwg.dom.ClientletResponse#getHeader(java.lang.String)
    */
-  public String getHeader(String name) {
+  public String getHeader(final String name) {
     return this.connection.getHeaderField(name);
   }
 
@@ -151,9 +151,9 @@ public class ClientletResponseImpl implements ClientletResponse {
    * 
    * @see org.xamjwg.dom.ClientletResponse#getHeaders(java.lang.String, char)
    */
-  public String[] getHeaders(String name) {
-    Map<String, List<String>> headers = this.connection.getHeaderFields();
-    List<String> valuesList = headers.get(name);
+  public String[] getHeaders(final String name) {
+    final Map<String, List<String>> headers = this.connection.getHeaderFields();
+    final List<String> valuesList = headers.get(name);
     return valuesList == null ? null : valuesList.toArray(new String[0]);
   }
 
@@ -163,7 +163,7 @@ public class ClientletResponseImpl implements ClientletResponse {
    * @see org.xamjwg.dom.ClientletResponse#getHeaderNames()
    */
   public Iterator<String> getHeaderNames() {
-    Map<String, List<String>> headers = this.connection.getHeaderFields();
+    final Map<String, List<String>> headers = this.connection.getHeaderFields();
     return headers.keySet().iterator();
   }
 
@@ -174,7 +174,7 @@ public class ClientletResponseImpl implements ClientletResponse {
    */
   public InputStream getInputStream() throws IOException {
     if (this.inputStream == null) {
-      URLConnection connection = this.connection;
+      final URLConnection connection = this.connection;
       InputStream in;
       if (connection instanceof HttpURLConnection) {
         in = ((HttpURLConnection) connection).getErrorStream();
@@ -191,10 +191,10 @@ public class ClientletResponseImpl implements ClientletResponse {
       // + in);
       InputStream bis;
       if (this.requestHandler != null) {
-        MonitoredInputStream mis = new MonitoredInputStream(in);
+        final MonitoredInputStream mis = new MonitoredInputStream(in);
         mis.evtProgress.addListener(new GenericEventListener() {
-          public void processEvent(EventObject event) {
-            InputProgressEvent pe = (InputProgressEvent) event;
+          public void processEvent(final EventObject event) {
+            final InputProgressEvent pe = (InputProgressEvent) event;
             requestHandler.handleProgress(org.lobobrowser.ua.ProgressType.CONTENT_LOADING, responseURL, getLastRequestMethod(),
                 pe.getProgress(), contentLength);
           }
@@ -228,11 +228,11 @@ public class ClientletResponseImpl implements ClientletResponse {
    * @see org.xamjwg.clientlet.ClientletResponse#getMimeType()
    */
   public String getMimeType() {
-    String contentType = this.getContentType();
+    final String contentType = this.getContentType();
     if (contentType == null) {
       return null;
     }
-    int scIdx = contentType.indexOf(';');
+    final int scIdx = contentType.indexOf(';');
     return scIdx == -1 ? contentType.trim() : contentType.substring(0, scIdx).trim();
   }
 
@@ -242,9 +242,9 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   public void ensureReachedEOF() throws IOException {
     // Don't get cached inputStream - could be null here.
-    InputStream in = this.getInputStream();
+    final InputStream in = this.getInputStream();
     if (in instanceof RecordedInputStream) {
-      RecordedInputStream rin = (RecordedInputStream) in;
+      final RecordedInputStream rin = (RecordedInputStream) in;
       if (!rin.hasReachedEOF()) {
         rin.consumeToEOF();
       }
@@ -254,13 +254,13 @@ public class ClientletResponseImpl implements ClientletResponse {
   public byte[] getStoredContent() {
     // Should call ensureReachedEOF() which will also ensure
     // inputStream is not null.
-    InputStream in = this.inputStream;
+    final InputStream in = this.inputStream;
     if (in instanceof RecordedInputStream) {
-      RecordedInputStream rin = (RecordedInputStream) in;
+      final RecordedInputStream rin = (RecordedInputStream) in;
       if (rin.hasReachedEOF()) {
         try {
           return rin.getBytesRead();
-        } catch (BufferExceededException bee) {
+        } catch (final BufferExceededException bee) {
           logger.warning("getStoredContent(): Recorded stream buffer size exceeded.");
           return null;
         }
@@ -270,9 +270,9 @@ public class ClientletResponseImpl implements ClientletResponse {
   }
 
   private String getDefaultCharset() {
-    URL url = this.getResponseURL();
+    final URL url = this.getResponseURL();
     if (Urls.isLocalFile(url)) {
-      String charset = System.getProperty("file.encoding");
+      final String charset = System.getProperty("file.encoding");
       return charset == null ? "ISO-8859-1" : charset;
     } else {
       return "ISO-8859-1";
@@ -285,20 +285,20 @@ public class ClientletResponseImpl implements ClientletResponse {
    * @see org.xamjwg.clientlet.ClientletResponse#getCharset()
    */
   public String getCharset() {
-    String contentType = this.getContentType();
+    final String contentType = this.getContentType();
     if (contentType == null) {
       return this.getDefaultCharset();
     }
-    StringTokenizer tok = new StringTokenizer(contentType, ";");
+    final StringTokenizer tok = new StringTokenizer(contentType, ";");
     if (tok.hasMoreTokens()) {
       tok.nextToken();
       while (tok.hasMoreTokens()) {
-        String assignment = tok.nextToken().trim();
-        int eqIdx = assignment.indexOf('=');
+        final String assignment = tok.nextToken().trim();
+        final int eqIdx = assignment.indexOf('=');
         if (eqIdx != -1) {
-          String varName = assignment.substring(0, eqIdx).trim();
+          final String varName = assignment.substring(0, eqIdx).trim();
           if ("charset".equalsIgnoreCase(varName)) {
-            String varValue = assignment.substring(eqIdx + 1);
+            final String varValue = assignment.substring(eqIdx + 1);
             return Strings.unquote(varValue.trim());
           }
         }
@@ -308,18 +308,18 @@ public class ClientletResponseImpl implements ClientletResponse {
   }
 
   public boolean isCharsetProvided() {
-    String contentType = this.getContentType();
+    final String contentType = this.getContentType();
     if (contentType == null) {
       return false;
     }
-    StringTokenizer tok = new StringTokenizer(contentType, ";");
+    final StringTokenizer tok = new StringTokenizer(contentType, ";");
     if (tok.hasMoreTokens()) {
       tok.nextToken();
       while (tok.hasMoreTokens()) {
-        String assignment = tok.nextToken().trim();
-        int eqIdx = assignment.indexOf('=');
+        final String assignment = tok.nextToken().trim();
+        final int eqIdx = assignment.indexOf('=');
         if (eqIdx != -1) {
-          String varName = assignment.substring(0, eqIdx).trim();
+          final String varName = assignment.substring(0, eqIdx).trim();
           if ("charset".equalsIgnoreCase(varName)) {
             return true;
           }
@@ -360,18 +360,18 @@ public class ClientletResponseImpl implements ClientletResponse {
         + ",fromCache=" + this.isFromCache() + ",requestType=" + this.requestType + "]";
   }
 
-  public Object getPersistentCachedObject(ClassLoader classLoader) {
-    CacheInfo cacheInfo = this.cacheInfo;
+  public Object getPersistentCachedObject(final ClassLoader classLoader) {
+    final CacheInfo cacheInfo = this.cacheInfo;
     return cacheInfo == null ? null : cacheInfo.getPersistentObject(classLoader);
   }
 
   public Object getTransientCachedObject() {
-    CacheInfo cacheInfo = this.cacheInfo;
+    final CacheInfo cacheInfo = this.cacheInfo;
     return cacheInfo == null ? null : cacheInfo.getTransientObject();
   }
 
   public int getTransientCachedObjectSize() {
-    CacheInfo cacheInfo = this.cacheInfo;
+    final CacheInfo cacheInfo = this.cacheInfo;
     return cacheInfo == null ? null : cacheInfo.getTransientObjectSize();
   }
 
@@ -379,11 +379,11 @@ public class ClientletResponseImpl implements ClientletResponse {
   private Object newTransientCachedObject;
   private int newTransientObjectSize;
 
-  public void setNewPersistentCachedObject(Serializable object) {
+  public void setNewPersistentCachedObject(final Serializable object) {
     this.newPeristentCachedObject = object;
   }
 
-  public void setNewTransientCachedObject(Object object, int approxSize) {
+  public void setNewTransientCachedObject(final Object object, final int approxSize) {
     this.newTransientCachedObject = object;
     this.newTransientObjectSize = approxSize;
   }
@@ -401,13 +401,13 @@ public class ClientletResponseImpl implements ClientletResponse {
   }
 
   public java.util.Date getDate() {
-    String dateText = this.connection.getHeaderField("Date");
+    final String dateText = this.connection.getHeaderField("Date");
     if (dateText == null) {
       return null;
     }
     try {
       return Urls.PATTERN_RFC1123.parse(dateText);
-    } catch (java.text.ParseException pe) {
+    } catch (final java.text.ParseException pe) {
       logger.warning("getDate(): Bad date '" + dateText + "' from " + this.getResponseURL() + ".");
       return null;
     }

@@ -27,7 +27,7 @@ import java.awt.*;
  * A component used in conjunction with <code>BoxLayout</code>
  */
 public class RigidComponent extends Filler {
-  public RigidComponent(Component wrappedComponent, Dimension d) {
+  public RigidComponent(final Component wrappedComponent, final Dimension d) {
     super(d, d, d);
     this.setLayout(org.lobobrowser.util.gui.WrapperLayout.getInstance());
     this.add(wrappedComponent);

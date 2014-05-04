@@ -32,7 +32,7 @@ public class ResponseCodeException extends IOException {
   /**
 	 * 
 	 */
-  public ResponseCodeException(int responseCode) {
+  public ResponseCodeException(final int responseCode) {
     super("Response code: " + responseCode);
   }
 }

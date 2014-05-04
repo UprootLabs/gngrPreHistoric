@@ -29,22 +29,22 @@ import javax.swing.border.*;
 public class SearchDialog extends JDialog {
   private final FormField tagsField = new FormField(FieldType.TEXT, "Keywords:");
 
-  public SearchDialog(Frame owner, boolean modal, String keywordsTooltip) throws HeadlessException {
+  public SearchDialog(final Frame owner, final boolean modal, final String keywordsTooltip) throws HeadlessException {
     super(owner, modal);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.tagsField.setToolTip(keywordsTooltip);
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-    FormPanel fieldsPanel = new FormPanel();
+    final FormPanel fieldsPanel = new FormPanel();
     fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
     fieldsPanel.addField(this.tagsField);
     contentPane.add(fieldsPanel);
-    JComponent buttonsPanel = new JPanel();
+    final JComponent buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-    JButton okButton = new JButton();
+    final JButton okButton = new JButton();
     okButton.setAction(new OkAction());
     okButton.setText("Search");
-    JButton cancelButton = new JButton();
+    final JButton cancelButton = new JButton();
     cancelButton.setAction(new CancelAction());
     cancelButton.setText("Cancel");
     buttonsPanel.add(Box.createHorizontalGlue());
@@ -63,14 +63,14 @@ public class SearchDialog extends JDialog {
   }
 
   private class OkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       searchKeywords = tagsField.getValue();
       SearchDialog.this.dispose();
     }
   }
 
   private class CancelAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       searchKeywords = null;
       SearchDialog.this.dispose();
     }

@@ -33,19 +33,19 @@ public class TextClientlet implements Clientlet {
   public TextClientlet() {
   }
 
-  public void process(ClientletContext context) throws ClientletException {
+  public void process(final ClientletContext context) throws ClientletException {
     try {
-      InputStream in = context.getResponse().getInputStream();
+      final InputStream in = context.getResponse().getInputStream();
       try {
-        String text = IORoutines.loadAsText(in, "ISO-8859-1");
-        JTextArea textArea = new JTextArea(text);
+        final String text = IORoutines.loadAsText(in, "ISO-8859-1");
+        final JTextArea textArea = new JTextArea(text);
         textArea.setEditable(false);
-        JScrollPane pane = new JScrollPane(textArea);
+        final JScrollPane pane = new JScrollPane(textArea);
         context.setResultingContent(pane);
       } finally {
         in.close();
       }
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       throw new ClientletException(ioe);
     }
   }

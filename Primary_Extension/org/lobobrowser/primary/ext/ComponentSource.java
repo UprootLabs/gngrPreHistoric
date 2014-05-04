@@ -61,56 +61,56 @@ public class ComponentSource implements NavigatorWindowListener {
     this.statusMessageComponent = new JLabel();
     this.searchButton = this.getSearchButton();
     this.updateSearchButtonTooltip();
-    JMenu bookmarksMenu = new JMenu("Recent Bookmarks");
+    final JMenu bookmarksMenu = new JMenu("Recent Bookmarks");
     this.recentBookmarksMenu = bookmarksMenu;
     bookmarksMenu.setMnemonic('R');
     bookmarksMenu.addMenuListener(new MenuAdapter() {
-      public void menuSelected(MenuEvent e) {
+      public void menuSelected(final MenuEvent e) {
         populateRecentBookmarks();
       }
     });
-    JMenu taggedBookmarksMenu = new JMenu("Tagged Bookmarks");
+    final JMenu taggedBookmarksMenu = new JMenu("Tagged Bookmarks");
     this.taggedBookmarksMenu = taggedBookmarksMenu;
     taggedBookmarksMenu.setMnemonic('T');
     taggedBookmarksMenu.setToolTipText("Shows up to " + PREFERRED_MAX_MENU_SIZE + " tags with up to " + PREFERRED_MAX_MENU_SIZE
         + " recent bookmarks each.");
     taggedBookmarksMenu.addMenuListener(new MenuAdapter() {
-      public void menuSelected(MenuEvent e) {
+      public void menuSelected(final MenuEvent e) {
         populateTaggedBookmarks();
       }
     });
-    JMenu backMoreMenu = new JMenu();
+    final JMenu backMoreMenu = new JMenu();
     // BackMoreAction only used for enabling
     backMoreMenu.setAction(actionPool.backMoreAction);
     backMoreMenu.addMenuListener(new MenuAdapter() {
-      public void menuSelected(MenuEvent e) {
+      public void menuSelected(final MenuEvent e) {
         populateBackMore();
       }
     });
     this.backMoreMenu = backMoreMenu;
     backMoreMenu.setText("Back To");
-    JMenu forwardMoreMenu = new JMenu();
+    final JMenu forwardMoreMenu = new JMenu();
     // ForwardMoreAction only used for enabling
     forwardMoreMenu.setAction(actionPool.forwardMoreAction);
     forwardMoreMenu.addMenuListener(new MenuAdapter() {
-      public void menuSelected(MenuEvent e) {
+      public void menuSelected(final MenuEvent e) {
         populateForwardMore();
       }
     });
     this.forwardMoreMenu = forwardMoreMenu;
     forwardMoreMenu.setText("Forward To");
-    JMenu recentHostsMenu = new JMenu();
+    final JMenu recentHostsMenu = new JMenu();
     recentHostsMenu.addMenuListener(new MenuAdapter() {
-      public void menuSelected(MenuEvent e) {
+      public void menuSelected(final MenuEvent e) {
         populateRecentHosts();
       }
     });
     this.recentHostsMenu = recentHostsMenu;
     recentHostsMenu.setAction(this.actionPool.recentHostsAction);
     recentHostsMenu.setText("Recent Hosts");
-    JMenu searchersMenu = new JMenu();
+    final JMenu searchersMenu = new JMenu();
     searchersMenu.addMenuListener(new MenuAdapter() {
-      public void menuSelected(MenuEvent e) {
+      public void menuSelected(final MenuEvent e) {
         populateSearchers();
       }
     });
@@ -132,14 +132,14 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getFileMenu() {
-    JMenu openMenu = new JMenu("Open");
+    final JMenu openMenu = new JMenu("Open");
     openMenu.setMnemonic('O');
     openMenu.add(menuItem("Blank Window", 'B', KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK),
         this.actionPool.blankWindowAction));
     openMenu.add(menuItem("Cloned Window", 'C', this.actionPool.clonedWindowAction));
     openMenu.add(menuItem("File...", 'F', "ctrl O", this.actionPool.openFileAction));
 
-    JMenu menu = new JMenu("File");
+    final JMenu menu = new JMenu("File");
     menu.setMnemonic('F');
 
     menu.add(openMenu);
@@ -150,7 +150,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getEditMenu() {
-    JMenu menu = new JMenu("Edit");
+    final JMenu menu = new JMenu("Edit");
     menu.setMnemonic('E');
 
     menu.add(menuItem("Copy", 'C', "ctrl C", this.actionPool.copyAction));
@@ -159,7 +159,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getViewMenu() {
-    JMenu menu = new JMenu("View");
+    final JMenu menu = new JMenu("View");
     menu.setMnemonic('V');
 
     menu.add(menuItem("Page Source", 'S', this.actionPool.sourceAction));
@@ -169,7 +169,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getBookmarksMenu() {
-    JMenu menu = new JMenu("Bookmarks");
+    final JMenu menu = new JMenu("Bookmarks");
     menu.setMnemonic('B');
     menu.add(menuItem("Add Bookmark", 'A', "ctrl shift a", this.actionPool.addBookmarkAction));
     menu.add(this.recentBookmarksMenu);
@@ -180,7 +180,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getNavigationMenu() {
-    JMenu menu = new JMenu("Navigation");
+    final JMenu menu = new JMenu("Navigation");
     menu.setMnemonic('N');
 
     menu.add(menuItem("Back", 'B', "ctrl B", this.actionPool.backAction));
@@ -196,7 +196,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getToolsMenu() {
-    JMenu menu = new JMenu("Tools");
+    final JMenu menu = new JMenu("Tools");
     menu.setMnemonic('T');
     menu.add(this.searchersMenu);
     menu.add(menuItem("Preferences...", 'P', this.actionPool.preferencesAction));
@@ -208,14 +208,14 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getExtensionsMenu() {
-    JMenu menu = new JMenu("Extensions");
+    final JMenu menu = new JMenu("Extensions");
     menu.setMnemonic('x');
     menu.add(menuItem("List Extensions", 'L', this.actionPool.listExtensionsAction));
     return menu;
   }
 
   public JMenu getPageServicesMenu() {
-    JMenu menu = new JMenu("Page Services");
+    final JMenu menu = new JMenu("Page Services");
     menu.setMnemonic('P');
     menu.add(this.navMenuItem("Links In (Google)", "Performs a Google 'link' search.", "http://www.google.com/search?q=link:", true));
     menu.add(this.navMenuItem("Similar Pages (Google)", "Performs a Google 'related' search.", "http://www.google.com/search?q=related:",
@@ -228,7 +228,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public JMenu getHelpMenu() {
-    JMenu menu = new JMenu("Help");
+    final JMenu menu = new JMenu("Help");
     menu.setMnemonic('H');
 
     menu.add(menuItem("About Lobo", 'A', this.actionPool.aboutAction));
@@ -242,7 +242,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   private Component getBackButton() {
-    JButton button = new JButton();
+    final JButton button = new JButton();
     button.setAction(this.actionPool.backAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/navigation/Back16.gif"));
     button.setToolTipText("Back");
@@ -250,7 +250,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   private Component getForwardButton() {
-    JButton button = new JButton();
+    final JButton button = new JButton();
     button.setAction(this.actionPool.forwardAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/navigation/Forward16.gif"));
     button.setToolTipText("Forward");
@@ -258,7 +258,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   private Component getStopButton() {
-    JButton button = new JButton();
+    final JButton button = new JButton();
     button.setAction(this.actionPool.stopAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/general/Stop16.gif"));
     button.setToolTipText("Stop");
@@ -266,7 +266,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   private Component getRefreshButton() {
-    JButton button = new JButton();
+    final JButton button = new JButton();
     button.setAction(this.actionPool.reloadAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/general/Refresh16.gif"));
     button.setToolTipText("Refresh");
@@ -274,7 +274,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   private Component getGoButton() {
-    JButton button = new JButton();
+    final JButton button = new JButton();
     button.setAction(this.actionPool.goAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/media/Play16.gif"));
     button.setToolTipText("Navigate to URL");
@@ -282,17 +282,17 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   private JButton getSearchButton() {
-    JButton button = new JButton();
+    final JButton button = new JButton();
     button.setAction(this.actionPool.searchAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/general/Search16.gif"));
     return button;
   }
 
   private void updateSearchButtonTooltip() {
-    JButton button = this.searchButton;
-    ToolsSettings settings = ToolsSettings.getInstance();
-    SearchEngine currentEngine = settings.getSelectedSearchEngine();
-    String name = currentEngine == null ? "[none]" : currentEngine.getName();
+    final JButton button = this.searchButton;
+    final ToolsSettings settings = ToolsSettings.getInstance();
+    final SearchEngine currentEngine = settings.getSelectedSearchEngine();
+    final String name = currentEngine == null ? "[none]" : currentEngine.getName();
     button.setToolTipText("<html><body>Current search engine: " + name + ".</body></html>");
   }
 
@@ -306,8 +306,8 @@ public class ComponentSource implements NavigatorWindowListener {
 
   private String defaultStatusMessage;
 
-  public void defaultStatusUpdated(NavigatorWindowEvent event) {
-    String defaultStatus = event.getMessage();
+  public void defaultStatusUpdated(final NavigatorWindowEvent event) {
+    final String defaultStatus = event.getMessage();
     this.defaultStatusMessage = event.getMessage();
     if (this.statusMessage == null) {
       this.statusMessageComponent.setText(defaultStatus);
@@ -317,33 +317,33 @@ public class ComponentSource implements NavigatorWindowListener {
   /**
    * Whether the request should be saved as a recent history entry.
    */
-  private boolean isHistoryRequest(RequestType requestType) {
+  private boolean isHistoryRequest(final RequestType requestType) {
     return (requestType == RequestType.ADDRESS_BAR || requestType == RequestType.CLICK);
   }
 
-  public void documentAccessed(NavigatorWindowEvent event) {
-    java.net.URL url = event.getUrl();
+  public void documentAccessed(final NavigatorWindowEvent event) {
+    final java.net.URL url = event.getUrl();
     if ("GET".equals(event.getMethod()) && isHistoryRequest(event.getRequestType())) {
       NavigationHistory.getInstance().addAsRecent(url, null);
     }
   }
 
-  public void documentRendering(NavigatorWindowEvent event) {
+  public void documentRendering(final NavigatorWindowEvent event) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("documentRendering(): event=" + event);
     }
     if (this.window.getTopFrame() == event.getNavigatorFrame()) {
-      java.net.URL url = event.getUrl();
+      final java.net.URL url = event.getUrl();
       this.addressField.setUrl(url);
       this.clearState();
       this.actionPool.updateEnabling();
     }
   }
 
-  public void setNavigationEntry(NavigationEntry entry) {
+  public void setNavigationEntry(final NavigationEntry entry) {
     if (entry != null) {
       if (this.window.getTopFrame() == entry.getNavigatorFrame()) {
-        java.net.URL url = entry.getUrl();
+        final java.net.URL url = entry.getUrl();
         this.addressField.setUrl(url);
         this.clearState();
         this.actionPool.updateEnabling();
@@ -361,7 +361,7 @@ public class ComponentSource implements NavigatorWindowListener {
     this.statusMessageComponent.setText("");
   }
 
-  public void progressUpdated(NavigatorProgressEvent event) {
+  public void progressUpdated(final NavigatorProgressEvent event) {
     if (this.window.getTopFrame() == event.getNavigatorFrame()) {
       this.progressBar.updateProgress(event.getProgressType(), event.getCurrentValue(), event.getMaxValue());
     }
@@ -370,14 +370,14 @@ public class ComponentSource implements NavigatorWindowListener {
 
   private String statusMessage;
 
-  public void statusUpdated(NavigatorWindowEvent event) {
-    String status = event.getMessage();
+  public void statusUpdated(final NavigatorWindowEvent event) {
+    final String status = event.getMessage();
     this.statusMessage = status;
     this.statusMessageComponent.setText(status == null ? this.defaultStatusMessage : status);
   }
 
-  public Collection<String> getPotentialMatches(String urlPrefix, int max) {
-    int colonIdx = urlPrefix.indexOf(':');
+  public Collection<String> getPotentialMatches(final String urlPrefix, final int max) {
+    final int colonIdx = urlPrefix.indexOf(':');
     String prefix;
     if (colonIdx == -1) {
       // Add http
@@ -399,36 +399,36 @@ public class ComponentSource implements NavigatorWindowListener {
     return headMatches;
   }
 
-  public Collection<String> getRecentLocations(int max) {
+  public Collection<String> getRecentLocations(final int max) {
     return NavigationHistory.getInstance().getRecentItems(max);
   }
 
-  public void navigate(String roughLocation, RequestType requestType) {
+  public void navigate(final String roughLocation, final RequestType requestType) {
     try {
       this.window.stop();
       this.clearState();
       this.window.getTopFrame().navigate(roughLocation, requestType);
-    } catch (java.net.MalformedURLException mfu) {
+    } catch (final java.net.MalformedURLException mfu) {
       ExtensionImpl.showError(this.window.getTopFrame(), null, new java.net.MalformedURLException(roughLocation));
     }
   }
 
-  public void navigate(java.net.URL url) {
+  public void navigate(final java.net.URL url) {
     this.window.stop();
     this.clearState();
     this.window.getTopFrame().navigate(url);
   }
 
-  static JMenuItem menuItem(String title, Action action) {
+  static JMenuItem menuItem(final String title, final Action action) {
     return menuItem(title, (char) 0, (KeyStroke) null, action);
   }
 
-  static JMenuItem menuItem(String title, char mnemonic, Action action) {
+  static JMenuItem menuItem(final String title, final char mnemonic, final Action action) {
     return menuItem(title, mnemonic, (KeyStroke) null, action);
   }
 
-  static JMenuItem menuItem(String title, char mnemonic, KeyStroke accelerator, Action action) {
-    JMenuItem item = new JMenuItem();
+  static JMenuItem menuItem(final String title, final char mnemonic, final KeyStroke accelerator, final Action action) {
+    final JMenuItem item = new JMenuItem();
     item.setAction(action);
     item.setText(title);
     if (mnemonic != 0) {
@@ -440,13 +440,13 @@ public class ComponentSource implements NavigatorWindowListener {
     return item;
   }
 
-  static JMenuItem menuItem(String title, char mnemonic, String accelerator, Action action) {
-    KeyStroke keyStroke = accelerator == null ? null : KeyStroke.getKeyStroke(accelerator);
+  static JMenuItem menuItem(final String title, final char mnemonic, final String accelerator, final Action action) {
+    final KeyStroke keyStroke = accelerator == null ? null : KeyStroke.getKeyStroke(accelerator);
     return menuItem(title, mnemonic, keyStroke, action);
   }
 
-  private JMenuItem navMenuItem(String title, String toolTip, String urlPrefix, boolean urlEncode) {
-    JMenuItem item = new JMenuItem();
+  private JMenuItem navMenuItem(final String title, final String toolTip, final String urlPrefix, final boolean urlEncode) {
+    final JMenuItem item = new JMenuItem();
     item.setAction(this.actionPool.addUrlPrefixNavigateAction(urlPrefix, urlEncode));
     item.setText(title);
     item.setToolTipText(toolTip);
@@ -454,25 +454,25 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateRecentBookmarks() {
-    JMenu bookmarksMenu = this.recentBookmarksMenu;
+    final JMenu bookmarksMenu = this.recentBookmarksMenu;
     bookmarksMenu.removeAll();
-    Collection<HistoryEntry<BookmarkInfo>> historyEntries = BookmarksHistory.getInstance().getRecentEntries(PREFERRED_MAX_MENU_SIZE);
-    for (HistoryEntry<BookmarkInfo> hentry : historyEntries) {
-      BookmarkInfo binfo = hentry.getItemInfo();
+    final Collection<HistoryEntry<BookmarkInfo>> historyEntries = BookmarksHistory.getInstance().getRecentEntries(PREFERRED_MAX_MENU_SIZE);
+    for (final HistoryEntry<BookmarkInfo> hentry : historyEntries) {
+      final BookmarkInfo binfo = hentry.getItemInfo();
       String text = binfo.getTitle();
-      java.net.URL url = binfo.getUrl();
-      String urlText = url.toExternalForm();
+      final java.net.URL url = binfo.getUrl();
+      final String urlText = url.toExternalForm();
       if (text == null || text.length() == 0) {
         text = urlText;
       }
-      long elapsed = System.currentTimeMillis() - hentry.getTimetstamp();
+      final long elapsed = System.currentTimeMillis() - hentry.getTimetstamp();
       text = text + " (" + Timing.getElapsedText(elapsed) + " ago)";
-      Action action = this.actionPool.createBookmarkNavigateAction(url);
-      JMenuItem menuItem = ComponentSource.menuItem(text, action);
-      StringBuffer toolTipText = new StringBuffer();
+      final Action action = this.actionPool.createBookmarkNavigateAction(url);
+      final JMenuItem menuItem = ComponentSource.menuItem(text, action);
+      final StringBuffer toolTipText = new StringBuffer();
       toolTipText.append("<html>");
       toolTipText.append(urlText);
-      String description = binfo.getDescription();
+      final String description = binfo.getDescription();
       if (description != null && description.length() != 0) {
         toolTipText.append("<br>");
         toolTipText.append(description);
@@ -483,17 +483,17 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateTaggedBookmarks() {
-    JMenu bookmarksMenu = this.taggedBookmarksMenu;
+    final JMenu bookmarksMenu = this.taggedBookmarksMenu;
     bookmarksMenu.removeAll();
-    Collection<BookmarkInfo> bookmarkInfoList = BookmarksHistory.getInstance().getRecentItemInfo(
+    final Collection<BookmarkInfo> bookmarkInfoList = BookmarksHistory.getInstance().getRecentItemInfo(
         PREFERRED_MAX_MENU_SIZE * PREFERRED_MAX_MENU_SIZE);
-    Map<String, JMenu> tagMenus = new HashMap<String, JMenu>();
-    for (BookmarkInfo binfo : bookmarkInfoList) {
-      java.net.URL url = binfo.getUrl();
-      String urlText = url.toExternalForm();
-      String[] tags = binfo.getTags();
+    final Map<String, JMenu> tagMenus = new HashMap<String, JMenu>();
+    for (final BookmarkInfo binfo : bookmarkInfoList) {
+      final java.net.URL url = binfo.getUrl();
+      final String urlText = url.toExternalForm();
+      final String[] tags = binfo.getTags();
       if (tags != null) {
-        for (String tag : tags) {
+        for (final String tag : tags) {
           JMenu tagMenu = tagMenus.get(tag);
           if (tagMenu == null) {
             if (tagMenus.size() < PREFERRED_MAX_MENU_SIZE) {
@@ -507,12 +507,12 @@ public class ComponentSource implements NavigatorWindowListener {
             if (text == null || text.length() == 0) {
               text = urlText;
             }
-            Action action = this.actionPool.createBookmarkNavigateAction(url);
-            JMenuItem menuItem = ComponentSource.menuItem(text, action);
-            StringBuffer toolTipText = new StringBuffer();
+            final Action action = this.actionPool.createBookmarkNavigateAction(url);
+            final JMenuItem menuItem = ComponentSource.menuItem(text, action);
+            final StringBuffer toolTipText = new StringBuffer();
             toolTipText.append("<html>");
             toolTipText.append(urlText);
-            String description = binfo.getDescription();
+            final String description = binfo.getDescription();
             if (description != null && description.length() != 0) {
               toolTipText.append("<br>");
               toolTipText.append(description);
@@ -526,17 +526,17 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateBackMore() {
-    NavigationEntry[] entries = this.window.getBackNavigationEntries();
-    JMenu backMoreMenu = this.backMoreMenu;
+    final NavigationEntry[] entries = this.window.getBackNavigationEntries();
+    final JMenu backMoreMenu = this.backMoreMenu;
     backMoreMenu.removeAll();
-    for (NavigationEntry entry : entries) {
-      String method = entry.getMethod();
+    for (final NavigationEntry entry : entries) {
+      final String method = entry.getMethod();
       if ("GET".equals(method)) {
-        String title = entry.getTitle();
-        java.net.URL url = entry.getUrl();
-        String text = title == null || title.length() == 0 ? url.toExternalForm() : title;
-        Action action = this.actionPool.createGoToAction(entry);
-        JMenuItem menuItem = menuItem(text, action);
+        final String title = entry.getTitle();
+        final java.net.URL url = entry.getUrl();
+        final String text = title == null || title.length() == 0 ? url.toExternalForm() : title;
+        final Action action = this.actionPool.createGoToAction(entry);
+        final JMenuItem menuItem = menuItem(text, action);
         menuItem.setToolTipText(url.toExternalForm());
         backMoreMenu.add(menuItem);
       }
@@ -545,17 +545,17 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateForwardMore() {
-    NavigationEntry[] entries = this.window.getForwardNavigationEntries();
-    JMenu forwardMoreMenu = this.forwardMoreMenu;
+    final NavigationEntry[] entries = this.window.getForwardNavigationEntries();
+    final JMenu forwardMoreMenu = this.forwardMoreMenu;
     forwardMoreMenu.removeAll();
-    for (NavigationEntry entry : entries) {
-      String method = entry.getMethod();
+    for (final NavigationEntry entry : entries) {
+      final String method = entry.getMethod();
       if ("GET".equals(method)) {
-        String title = entry.getTitle();
-        java.net.URL url = entry.getUrl();
-        String text = title == null || title.length() == 0 ? url.toExternalForm() : title;
-        Action action = this.actionPool.createGoToAction(entry);
-        JMenuItem menuItem = menuItem(text, action);
+        final String title = entry.getTitle();
+        final java.net.URL url = entry.getUrl();
+        final String text = title == null || title.length() == 0 ? url.toExternalForm() : title;
+        final Action action = this.actionPool.createGoToAction(entry);
+        final JMenuItem menuItem = menuItem(text, action);
         menuItem.setToolTipText(url.toExternalForm());
         forwardMoreMenu.add(menuItem);
       }
@@ -567,20 +567,20 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateRecentHosts() {
-    JMenu recentHostsMenu = this.recentHostsMenu;
+    final JMenu recentHostsMenu = this.recentHostsMenu;
     recentHostsMenu.removeAll();
-    Collection<HostEntry> hostEntries = NavigationHistory.getInstance().getRecentHostEntries(PREFERRED_MAX_MENU_SIZE);
-    for (HostEntry entry : hostEntries) {
-      String urlText = "http://" + entry.host;
+    final Collection<HostEntry> hostEntries = NavigationHistory.getInstance().getRecentHostEntries(PREFERRED_MAX_MENU_SIZE);
+    for (final HostEntry entry : hostEntries) {
+      final String urlText = "http://" + entry.host;
       try {
-        java.net.URL url = new java.net.URL(urlText);
-        long elapsed = System.currentTimeMillis() - entry.timestamp;
-        String menuText = entry.host + " (" + Timing.getElapsedText(elapsed) + " ago)";
-        Action action = this.actionPool.createNavigateAction(url);
-        JMenuItem menuItem = menuItem(menuText, action);
+        final java.net.URL url = new java.net.URL(urlText);
+        final long elapsed = System.currentTimeMillis() - entry.timestamp;
+        final String menuText = entry.host + " (" + Timing.getElapsedText(elapsed) + " ago)";
+        final Action action = this.actionPool.createNavigateAction(url);
+        final JMenuItem menuItem = menuItem(menuText, action);
         menuItem.setToolTipText(url.toExternalForm());
         recentHostsMenu.add(menuItem);
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         logger.log(Level.WARNING, "populateRecentHosts(): Bad URL=" + urlText, mfu);
       }
     }
@@ -591,7 +591,7 @@ public class ComponentSource implements NavigatorWindowListener {
     if (sourceCode == null) {
       sourceCode = "";
     }
-    TextViewerWindow window = new TextViewerWindow();
+    final TextViewerWindow window = new TextViewerWindow();
     window.setText(sourceCode);
     window.setSize(new Dimension(600, 400));
     window.setLocationByPlatform(true);
@@ -599,7 +599,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void showConsole() {
-    TextViewerWindow window = new TextViewerWindow();
+    final TextViewerWindow window = new TextViewerWindow();
     window.setScrollsOnAppends(true);
     window.setSwingDocument(ConsoleModel.getStandard());
     window.setSize(new Dimension(600, 400));
@@ -612,7 +612,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void navigateOrSearch() {
-    String addressText = this.addressField.getText();
+    final String addressText = this.addressField.getText();
     if (addressText.indexOf('.') == -1 && addressText.indexOf('/') == -1 && addressText.indexOf(':') == -1) {
       this.search();
     } else {
@@ -621,29 +621,29 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void search() {
-    ToolsSettings settings = ToolsSettings.getInstance();
-    SearchEngine searchEngine = settings.getSelectedSearchEngine();
+    final ToolsSettings settings = ToolsSettings.getInstance();
+    final SearchEngine searchEngine = settings.getSelectedSearchEngine();
     if (searchEngine != null) {
       try {
         this.navigate(searchEngine.getURL(this.getAddressBarText()));
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         window.getTopFrame().alert("Malformed search URL.");
       }
     }
   }
 
   private void populateSearchers() {
-    JMenu searchersMenu = this.searchersMenu;
+    final JMenu searchersMenu = this.searchersMenu;
     searchersMenu.removeAll();
     final ToolsSettings settings = ToolsSettings.getInstance();
-    Collection<SearchEngine> searchEngines = settings.getSearchEngines();
-    SearchEngine selectedEngine = settings.getSelectedSearchEngine();
+    final Collection<SearchEngine> searchEngines = settings.getSearchEngines();
+    final SearchEngine selectedEngine = settings.getSelectedSearchEngine();
     if (searchEngines != null) {
-      for (SearchEngine se : searchEngines) {
+      for (final SearchEngine se : searchEngines) {
         final SearchEngine finalSe = se;
-        JRadioButtonMenuItem item = new JRadioButtonMenuItem();
+        final JRadioButtonMenuItem item = new JRadioButtonMenuItem();
         item.setAction(new AbstractAction() {
-          public void actionPerformed(ActionEvent e) {
+          public void actionPerformed(final ActionEvent e) {
             settings.setSelectedSearchEngine(finalSe);
             settings.save();
             ComponentSource.this.updateSearchButtonTooltip();

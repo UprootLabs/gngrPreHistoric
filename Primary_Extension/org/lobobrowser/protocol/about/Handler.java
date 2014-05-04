@@ -38,7 +38,7 @@ public class Handler extends URLStreamHandler {
    * 
    * @see java.net.URLStreamHandler#openConnection(java.net.URL)
    */
-  protected URLConnection openConnection(URL arg0) throws IOException {
+  protected URLConnection openConnection(final URL arg0) throws IOException {
     return new AboutURLConnection(arg0);
   }
 
@@ -48,7 +48,7 @@ public class Handler extends URLStreamHandler {
    * @see java.net.URLStreamHandler#openConnection(java.net.URL, java.net.Proxy)
    */
   @Override
-  protected URLConnection openConnection(URL u, Proxy p) throws IOException {
+  protected URLConnection openConnection(final URL u, final Proxy p) throws IOException {
     return this.openConnection(u);
   }
 }

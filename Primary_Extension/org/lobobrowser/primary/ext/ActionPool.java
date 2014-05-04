@@ -65,7 +65,7 @@ public class ActionPool {
     super();
     this.componentSource = componentSource;
     this.window = window;
-    Collection<EnableableAction> actions = new LinkedList<EnableableAction>();
+    final Collection<EnableableAction> actions = new LinkedList<EnableableAction>();
     this.enableableActions = actions;
     actions.add(this.backAction);
     actions.add(this.forwardAction);
@@ -77,45 +77,45 @@ public class ActionPool {
   }
 
   public void updateEnabling() {
-    for (EnableableAction action : this.enableableActions) {
+    for (final EnableableAction action : this.enableableActions) {
       action.updateEnabling();
     }
   }
 
-  public Action createNavigateAction(String fullURL) {
+  public Action createNavigateAction(final String fullURL) {
     java.net.URL url;
     try {
       url = new java.net.URL(fullURL);
-    } catch (java.net.MalformedURLException mfu) {
+    } catch (final java.net.MalformedURLException mfu) {
       logger.log(Level.WARNING, "createNavigateAction()", mfu);
       url = null;
     }
     return new NavigateAction(url);
   }
 
-  public Action createNavigateAction(java.net.URL url) {
+  public Action createNavigateAction(final java.net.URL url) {
     return new NavigateAction(url);
   }
 
-  public Action createBookmarkNavigateAction(java.net.URL url) {
+  public Action createBookmarkNavigateAction(final java.net.URL url) {
     return new BookmarkNavigateAction(url);
   }
 
-  public Action createGoToAction(NavigationEntry entry) {
+  public Action createGoToAction(final NavigationEntry entry) {
     return new GoToAction(entry);
   }
 
-  public Action addUrlPrefixNavigateAction(String urlPrefix, boolean urlEncode) {
-    EnableableAction action = new UrlPrefixNavigateAction(urlPrefix, urlEncode);
+  public Action addUrlPrefixNavigateAction(final String urlPrefix, final boolean urlEncode) {
+    final EnableableAction action = new UrlPrefixNavigateAction(urlPrefix, urlEncode);
     this.enableableActions.add(action);
     return action;
   }
 
   public void addBookmark() {
-    NavigationEntry entry = window.getCurrentNavigationEntry();
+    final NavigationEntry entry = window.getCurrentNavigationEntry();
     if (entry != null) {
-      java.net.URL url = entry.getUrl();
-      BookmarksHistory history = BookmarksHistory.getInstance();
+      final java.net.URL url = entry.getUrl();
+      final BookmarksHistory history = BookmarksHistory.getInstance();
       BookmarkInfo existingInfo = history.getExistingInfo(url.toExternalForm());
       if (existingInfo == null) {
         existingInfo = new BookmarkInfo();
@@ -123,18 +123,18 @@ public class ActionPool {
         existingInfo.setTitle(entry.getTitle());
         existingInfo.setDescription(entry.getDescription());
       }
-      java.awt.Window awtWindow = window.getAwtWindow();
+      final java.awt.Window awtWindow = window.getAwtWindow();
       if (!(awtWindow instanceof java.awt.Frame)) {
         throw new java.lang.IllegalStateException("Bookmaks dialog only supported when an AWT Frame is available.");
       }
-      AddBookmarkDialog dialog = new AddBookmarkDialog((java.awt.Frame) awtWindow, true, existingInfo);
+      final AddBookmarkDialog dialog = new AddBookmarkDialog((java.awt.Frame) awtWindow, true, existingInfo);
       dialog.setTitle("Add/Edit Bookmark");
       dialog.setLocationByPlatform(true);
       // dialog.setLocationRelativeTo(window.getAwtFrame());
       dialog.setResizable(false);
       dialog.pack();
       dialog.setVisible(true);
-      BookmarkInfo info = dialog.getBookmarkInfo();
+      final BookmarkInfo info = dialog.getBookmarkInfo();
       if (info != null) {
         history.addAsRecent(info.getUrl(), info);
         history.save();
@@ -143,33 +143,33 @@ public class ActionPool {
   }
 
   public void searchBookmarks() {
-    java.awt.Window awtWindow = window.getAwtWindow();
+    final java.awt.Window awtWindow = window.getAwtWindow();
     if (!(awtWindow instanceof java.awt.Frame)) {
       throw new java.lang.IllegalStateException("Search dialog only supported when an AWT Frame is available.");
     }
-    SearchDialog dialog = new SearchDialog((java.awt.Frame) awtWindow, true,
+    final SearchDialog dialog = new SearchDialog((java.awt.Frame) awtWindow, true,
         "Keywords will be matched against URL, title, description and tags.");
     dialog.setTitle("Search Bookmarks");
     dialog.setLocationByPlatform(true);
     dialog.setResizable(false);
     dialog.setSize(new java.awt.Dimension(200, 100));
     dialog.setVisible(true);
-    String keywordsText = dialog.getSearchKeywords();
+    final String keywordsText = dialog.getSearchKeywords();
     if (keywordsText != null) {
       try {
         window.getTopFrame().navigate("about:bookmark-search?" + java.net.URLEncoder.encode(keywordsText, "UTF-8"));
-      } catch (Exception thrown) {
+      } catch (final Exception thrown) {
         throw new IllegalStateException("not expected", thrown);
       }
     }
   }
 
   public void showPreferences() {
-    java.awt.Window awtWindow = window.getAwtWindow();
+    final java.awt.Window awtWindow = window.getAwtWindow();
     if (!(awtWindow instanceof java.awt.Frame)) {
       throw new java.lang.IllegalStateException("Preferences dialog only supported when an AWT Frame is available.");
     }
-    PreferencesDialog dialog = new PreferencesDialog((java.awt.Frame) awtWindow);
+    final PreferencesDialog dialog = new PreferencesDialog((java.awt.Frame) awtWindow);
     dialog.setTitle("Preferences");
     dialog.setLocationByPlatform(true);
     dialog.setResizable(false);
@@ -193,48 +193,48 @@ public class ActionPool {
 
     @Override
     public void updateEnabling() {
-      NavigationEntry entry = window.getCurrentNavigationEntry();
+      final NavigationEntry entry = window.getCurrentNavigationEntry();
       this.setEnabled(entry != null && !entry.getUrl().toExternalForm().startsWith(this.urlPrefix));
     }
 
-    public void actionPerformed(ActionEvent e) {
-      NavigationEntry entry = window.getCurrentNavigationEntry();
+    public void actionPerformed(final ActionEvent e) {
+      final NavigationEntry entry = window.getCurrentNavigationEntry();
       if (entry == null) {
         return;
       }
       try {
-        String roughLocation = this.urlPrefix
+        final String roughLocation = this.urlPrefix
             + (this.urlEncode ? URLEncoder.encode(entry.getUrl().toExternalForm(), "UTF-8") : entry.getUrl().toExternalForm());
         componentSource.navigate(roughLocation, RequestType.PROGRAMMATIC);
-      } catch (java.io.UnsupportedEncodingException uee) {
+      } catch (final java.io.UnsupportedEncodingException uee) {
         // not expected - ignore
       }
     }
   }
 
   class GoAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       componentSource.go();
     }
   }
 
   class SearchAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       componentSource.search();
     }
   }
 
   class ExitAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.dispose();
     }
   }
 
   class BlankWindowAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       try {
         window.getTopFrame().open("about:blank");
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         throw new IllegalStateException("not expected", mfu);
       }
     }
@@ -243,12 +243,12 @@ public class ActionPool {
   class ClonedWindowAction extends EnableableAction {
     @Override
     public void updateEnabling() {
-      NavigationEntry entry = window.getCurrentNavigationEntry();
+      final NavigationEntry entry = window.getCurrentNavigationEntry();
       this.setEnabled(entry != null && entry.getMethod().equals("GET"));
     }
 
-    public void actionPerformed(ActionEvent e) {
-      NavigationEntry entry = window.getCurrentNavigationEntry();
+    public void actionPerformed(final ActionEvent e) {
+      final NavigationEntry entry = window.getCurrentNavigationEntry();
       if (entry != null && entry.getMethod().equals("GET")) {
         window.getTopFrame().open(entry.getUrl());
       }
@@ -256,17 +256,17 @@ public class ActionPool {
   }
 
   class OpenFileAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
-      JFileChooser fileChooser = new JFileChooser();
+    public void actionPerformed(final ActionEvent e) {
+      final JFileChooser fileChooser = new JFileChooser();
       fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-      ToolsSettings settings = ToolsSettings.getInstance();
-      java.io.File directory = settings.getOpenFileDirectory();
+      final ToolsSettings settings = ToolsSettings.getInstance();
+      final java.io.File directory = settings.getOpenFileDirectory();
       if (directory != null) {
         fileChooser.setSelectedFile(directory);
       }
-      int returnValue = fileChooser.showOpenDialog(window.getTopFrame().getComponent());
+      final int returnValue = fileChooser.showOpenDialog(window.getTopFrame().getComponent());
       if (returnValue == JFileChooser.APPROVE_OPTION) {
-        java.io.File selectedFile = fileChooser.getSelectedFile();
+        final java.io.File selectedFile = fileChooser.getSelectedFile();
         componentSource.navigate(selectedFile.toURI().toString(), RequestType.PROGRAMMATIC);
         settings.setOpenFileDirectory(selectedFile);
         settings.save();
@@ -275,9 +275,9 @@ public class ActionPool {
   }
 
   class AboutAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
-      String name = window.getUserAgent().getName();
-      String userAgent = window.getUserAgent().getNameAndVersion();
+    public void actionPerformed(final ActionEvent e) {
+      final String name = window.getUserAgent().getName();
+      final String userAgent = window.getUserAgent().getNameAndVersion();
       window.getTopFrame().alert(
           "This is " + userAgent + ", a pure Java web browser.\r\n" + "Copyright (c) 2005, 2008 The " + name + " Project.\r\n"
               + window.getUserAgent().getInfoUrl());
@@ -291,7 +291,7 @@ public class ActionPool {
       this.setEnabled(window.canBack());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.back();
     }
   }
@@ -302,7 +302,7 @@ public class ActionPool {
       this.setEnabled(window.canForward());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.forward();
     }
   }
@@ -313,13 +313,13 @@ public class ActionPool {
       this.setEnabled(window.canReload());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.reload();
     }
   }
 
   class StopAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.stop();
     }
   }
@@ -330,7 +330,7 @@ public class ActionPool {
       this.setEnabled(window.canCopy());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.copy();
     }
   }
@@ -347,7 +347,7 @@ public class ActionPool {
       this.setEnabled(window.canBack());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       // Only used for enabling
     }
   }
@@ -358,7 +358,7 @@ public class ActionPool {
       this.setEnabled(window.canForward());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       // Only used for enabling
     }
   }
@@ -369,7 +369,7 @@ public class ActionPool {
       this.setEnabled(componentSource.hasRecentEntries());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       componentSource.populateRecentHosts();
     }
   }
@@ -380,34 +380,34 @@ public class ActionPool {
       this.setEnabled(window.hasSource());
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       componentSource.showSource();
     }
   }
 
   class ConsoleAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       componentSource.showConsole();
     }
   }
 
   class AddBookmarkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       addBookmark();
     }
   }
 
   class SearchBookmarksAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       searchBookmarks();
     }
   }
 
   class ShowBookmarksAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       try {
         window.getTopFrame().navigate("about:bookmarks");
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         throw new IllegalStateException("not expected", mfu);
       }
     }
@@ -422,11 +422,11 @@ public class ActionPool {
   class NavigateAction extends AbstractAction {
     private final java.net.URL url;
 
-    public NavigateAction(java.net.URL url) {
+    public NavigateAction(final java.net.URL url) {
       this.url = url;
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       componentSource.navigate(this.url);
     }
   }
@@ -434,11 +434,11 @@ public class ActionPool {
   class BookmarkNavigateAction extends AbstractAction {
     private final java.net.URL url;
 
-    public BookmarkNavigateAction(java.net.URL url) {
+    public BookmarkNavigateAction(final java.net.URL url) {
       this.url = url;
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       BookmarksHistory.getInstance().touch(this.url);
       componentSource.navigate(this.url);
     }
@@ -447,23 +447,23 @@ public class ActionPool {
   class GoToAction extends AbstractAction {
     private final NavigationEntry entry;
 
-    public GoToAction(NavigationEntry entry) {
+    public GoToAction(final NavigationEntry entry) {
       this.entry = entry;
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       window.goTo(this.entry);
     }
   }
 
   class ListExtensionsAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       // TODO
     }
   }
 
   class PreferencesAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       showPreferences();
     }
   }

@@ -38,7 +38,7 @@ public class AddBookmarkDialog extends JDialog {
   private final FormField tagsField = new FormField(FieldType.TEXT, "Tags:");
   private final java.net.URL url;
 
-  public AddBookmarkDialog(Frame owner, boolean modal, BookmarkInfo existingInfo) throws HeadlessException {
+  public AddBookmarkDialog(final Frame owner, final boolean modal, final BookmarkInfo existingInfo) throws HeadlessException {
     super(owner, modal);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.url = existingInfo.getUrl();
@@ -48,25 +48,25 @@ public class AddBookmarkDialog extends JDialog {
     this.titleField.setValue(existingInfo.getTitle());
     this.descriptionField.setValue(existingInfo.getDescription());
     this.tagsField.setValue(existingInfo.getTagsText());
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-    FormPanel fieldsPanel = new FormPanel();
+    final FormPanel fieldsPanel = new FormPanel();
     fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
     fieldsPanel.addField(this.urlField);
     fieldsPanel.addField(this.titleField);
     fieldsPanel.addField(this.descriptionField);
     fieldsPanel.addField(this.tagsField);
 
-    Dimension fpps = fieldsPanel.getPreferredSize();
+    final Dimension fpps = fieldsPanel.getPreferredSize();
     fieldsPanel.setPreferredSize(new Dimension(400, fpps.height));
 
     contentPane.add(fieldsPanel);
-    JComponent buttonsPanel = new JPanel();
+    final JComponent buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-    JButton okButton = new JButton();
+    final JButton okButton = new JButton();
     okButton.setAction(new OkAction());
     okButton.setText("Save");
-    JButton cancelButton = new JButton();
+    final JButton cancelButton = new JButton();
     cancelButton.setAction(new CancelAction());
     cancelButton.setText("Cancel");
     buttonsPanel.add(Box.createHorizontalGlue());
@@ -85,8 +85,8 @@ public class AddBookmarkDialog extends JDialog {
   }
 
   private class OkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
-      BookmarkInfo binfo = new BookmarkInfo();
+    public void actionPerformed(final ActionEvent e) {
+      final BookmarkInfo binfo = new BookmarkInfo();
       binfo.setUrl(url);
       binfo.setTitle(titleField.getValue());
       binfo.setDescription(descriptionField.getValue());
@@ -97,7 +97,7 @@ public class AddBookmarkDialog extends JDialog {
   }
 
   private class CancelAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       bookmarkInfo = null;
       AddBookmarkDialog.this.dispose();
     }

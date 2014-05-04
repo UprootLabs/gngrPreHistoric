@@ -31,15 +31,15 @@ public class NavigationVetoException extends Exception {
     super();
   }
 
-  public NavigationVetoException(String message, Throwable cause) {
+  public NavigationVetoException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public NavigationVetoException(String message) {
+  public NavigationVetoException(final String message) {
     super(message);
   }
 
-  public NavigationVetoException(Throwable cause) {
+  public NavigationVetoException(final Throwable cause) {
     super(cause);
   }
 }

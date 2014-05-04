@@ -37,15 +37,15 @@ public class PrimaryClientletSelector implements ClientletSelector {
     super();
   }
 
-  public Clientlet select(ClientletRequest request, ClientletResponse response) {
+  public Clientlet select(final ClientletRequest request, final ClientletResponse response) {
     // Don't try to catch too much here.
     // Clientlets here are not overriddable.
 
-    String mimeType = response.getMimeType();
+    final String mimeType = response.getMimeType();
     if (logger.isLoggable(Level.INFO)) {
       logger.info("select(): mimeType=" + mimeType);
     }
-    String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
+    final String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
     if ("text/html".equals(mimeTypeTL)) {
       // TODO: XHTML needs its own clientlet.
       return new HtmlClientlet();
@@ -54,10 +54,10 @@ public class PrimaryClientletSelector implements ClientletSelector {
       return new ImageClientlet();
     } else if (mimeType == null || "application/octet-stream".equals(mimeTypeTL) || "content/unknown".equals(mimeTypeTL)) {
 
-      String path = response.getResponseURL().getPath();
-      int lastDotIdx = path.lastIndexOf('.');
-      String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx + 1);
-      String extensionTL = extension.toLowerCase();
+      final String path = response.getResponseURL().getPath();
+      final int lastDotIdx = path.lastIndexOf('.');
+      final String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx + 1);
+      final String extensionTL = extension.toLowerCase();
       if ("html".equals(extensionTL) || "htm".equals(extensionTL) || extensionTL.length() == 0) {
         return new HtmlClientlet();
       } else if ("gif".equals(extensionTL) || "jpg".equals(extensionTL) || "png".equals(extensionTL)) {
@@ -70,19 +70,19 @@ public class PrimaryClientletSelector implements ClientletSelector {
     }
   }
 
-  public Clientlet lastResortSelect(ClientletRequest request, ClientletResponse response) {
-    String mimeType = response.getMimeType();
-    String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
+  public Clientlet lastResortSelect(final ClientletRequest request, final ClientletResponse response) {
+    final String mimeType = response.getMimeType();
+    final String mimeTypeTL = mimeType == null ? null : mimeType.toLowerCase();
     if (mimeTypeTL != null && mimeTypeTL.startsWith("text/")) {
       return new TextClientlet();
     } else if ("application/xhtml+xml".equals(mimeTypeTL)) {
       // TODO: XHTML needs its own clientlet.
       return new HtmlClientlet();
     } else {
-      String path = response.getResponseURL().getPath();
-      int lastDotIdx = path.lastIndexOf('.');
-      String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx + 1);
-      String extensionTL = extension.toLowerCase();
+      final String path = response.getResponseURL().getPath();
+      final int lastDotIdx = path.lastIndexOf('.');
+      final String extension = lastDotIdx == -1 ? "" : path.substring(lastDotIdx + 1);
+      final String extensionTL = extension.toLowerCase();
       if ("xhtml".equals(extensionTL)) {
         return new HtmlClientlet();
       } else if ("txt".equals(extensionTL) || "xml".equals(extensionTL) || "svg".equals(extensionTL) || "rss".equals(extensionTL)

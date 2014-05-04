@@ -55,11 +55,11 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
   /**
 	 * 
 	 */
-  public RestrictedStore(File baseDirectory, long quota) throws IOException {
+  public RestrictedStore(final File baseDirectory, final long quota) throws IOException {
     // Security: This constructor is only allowed to be invoked
     // by a caller with privileged access to the directory.
-    SecurityManager sm = System.getSecurityManager();
-    String canonical = baseDirectory.getCanonicalPath();
+    final SecurityManager sm = System.getSecurityManager();
+    final String canonical = baseDirectory.getCanonicalPath();
     if (sm != null) {
       sm.checkWrite(canonical);
     }
@@ -75,7 +75,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
   }
 
   long updateSizeFile() throws IOException {
-    long totalSize = this.computeSize();
+    final long totalSize = this.computeSize();
     long prevSize;
     synchronized (this) {
       prevSize = this.size;
@@ -88,15 +88,15 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     return totalSize;
   }
 
-  private void updateSizeFileImpl(long totalSize) throws IOException {
+  private void updateSizeFileImpl(final long totalSize) throws IOException {
     // The computed size is not necessarily precise. That's
     // why we have this.
     synchronized (this) {
       this.size = totalSize;
-      File sizeFile = new File(this.baseDirectory, SIZE_FILE_NAME);
-      FileOutputStream out = new FileOutputStream(sizeFile);
+      final File sizeFile = new File(this.baseDirectory, SIZE_FILE_NAME);
+      final FileOutputStream out = new FileOutputStream(sizeFile);
       try {
-        DataOutputStream dout = new DataOutputStream(out);
+        final DataOutputStream dout = new DataOutputStream(out);
         dout.writeLong(totalSize);
         dout.flush();
       } finally {
@@ -120,28 +120,28 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
                 size = RestrictedStore.this.size = RestrictedStore.this.getSizeFromFile();
               }
               return size;
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               throw new WrapperException(ioe);
             }
           }
         }
       });
-    } catch (WrapperException we) {
+    } catch (final WrapperException we) {
       throw (IOException) we.getCause();
     }
   }
 
   private long getSizeFromFile() throws IOException {
-    File sizeFile = new File(this.baseDirectory, SIZE_FILE_NAME);
+    final File sizeFile = new File(this.baseDirectory, SIZE_FILE_NAME);
     try {
-      FileInputStream in = new FileInputStream(sizeFile);
+      final FileInputStream in = new FileInputStream(sizeFile);
       try {
-        DataInputStream din = new DataInputStream(in);
+        final DataInputStream din = new DataInputStream(in);
         return din.readLong();
       } finally {
         in.close();
       }
-    } catch (java.io.FileNotFoundException fnf) {
+    } catch (final java.io.FileNotFoundException fnf) {
       return this.updateSizeFile();
     }
   }
@@ -150,17 +150,17 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     return this.computeSize(this.baseDirectory);
   }
 
-  private long computeSize(File directory) throws IOException {
+  private long computeSize(final File directory) throws IOException {
     if (!directory.isDirectory()) {
       throw new IllegalArgumentException("'directory' not a directory");
     }
     long total = DIRECTORY_SIZE;
-    File[] files = directory.listFiles();
+    final File[] files = directory.listFiles();
     for (int i = 0; i < files.length; i++) {
       Thread.yield();
-      File file = files[i];
+      final File file = files[i];
       if (file.isDirectory() && !file.equals(directory)) {
-        String fileCanonical = file.getCanonicalPath();
+        final String fileCanonical = file.getCanonicalPath();
         if (fileCanonical.startsWith(this.baseCanonicalPath)) {
           total += this.computeSize(file);
         }
@@ -174,7 +174,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
   private long lastUpdatedSize = Long.MIN_VALUE;
   private static long SIZE_UPDATE_THRESHOLD = 4096;
 
-  public void addUsedBytes(long addition) throws IOException {
+  public void addUsedBytes(final long addition) throws IOException {
     synchronized (this) {
       // long size = this.getSize();
       boolean fromFile = false;
@@ -182,7 +182,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         this.size = this.getSizeFromFile();
         fromFile = true;
       }
-      long newTotal = this.size + addition;
+      final long newTotal = this.size + addition;
       if (addition > 0 && newTotal > this.quota) {
         throw new QuotaExceededException("Quota would be exceeded by " + (newTotal - this.quota) + " bytes.");
       }
@@ -201,17 +201,17 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
    * 
    * @see net.sourceforge.xamj.store.QuotaSource#addUsedBytes(long)
    */
-  public void subtractUsedBytes(long reduction) throws IOException {
+  public void subtractUsedBytes(final long reduction) throws IOException {
     this.addUsedBytes(-reduction);
   }
 
-  private void checkNotSizeFile(String canonicalPath, String ref) {
+  private void checkNotSizeFile(final String canonicalPath, final String ref) {
     if (this.sizeFileCanonicalPath.equals(canonicalPath)) {
       throw new SecurityException("This particular path not allowed: " + ref);
     }
   }
 
-  private void checkPath(String canonicalPath, String ref) {
+  private void checkPath(final String canonicalPath, final String ref) {
     if (!canonicalPath.startsWith(this.baseCanonicalPath)) {
       throw new SecurityException("Path outside protected store: " + ref);
     }
@@ -226,15 +226,15 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         // path is within what's allowed.
         public InputStream run() {
           try {
-            String canonical = fullFile.getCanonicalPath();
+            final String canonical = fullFile.getCanonicalPath();
             checkPath(canonical, ref);
             return new FileInputStream(fullFile);
-          } catch (IOException ioe) {
+          } catch (final IOException ioe) {
             throw new WrapperException(ioe);
           }
         }
       });
-    } catch (WrapperException we) {
+    } catch (final WrapperException we) {
       throw (IOException) we.getCause();
     }
   }
@@ -247,33 +247,33 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         // path is within what's allowed.
         public OutputStream run() {
           try {
-            long toSubtract = EMPTY_FILE_SIZE + (fullFile.exists() ? fullFile.length() : 0);
-            String canonical = fullFile.getCanonicalPath();
+            final long toSubtract = EMPTY_FILE_SIZE + (fullFile.exists() ? fullFile.length() : 0);
+            final String canonical = fullFile.getCanonicalPath();
             checkPath(canonical, ref);
             // TODO: Disallow size file here
-            File parent = fullFile.getParentFile();
+            final File parent = fullFile.getParentFile();
             if (!parent.exists()) {
               parent.mkdirs();
             } else if (!parent.isDirectory()) {
               throw new IllegalArgumentException("Parent of '" + ref + "' is not a directory");
             }
-            FileOutputStream fout = new FileOutputStream(fullFile);
-            OutputStream out = new RestrictedOutputStream(fout, RestrictedStore.this);
+            final FileOutputStream fout = new FileOutputStream(fullFile);
+            final OutputStream out = new RestrictedOutputStream(fout, RestrictedStore.this);
             if (toSubtract != 0) {
               subtractUsedBytes(toSubtract);
             }
             return out;
-          } catch (IOException ioe) {
+          } catch (final IOException ioe) {
             throw new WrapperException(ioe);
           }
         }
       });
-    } catch (WrapperException we) {
+    } catch (final WrapperException we) {
       throw (IOException) we.getCause();
     }
   }
 
-  private String getRelativePath(String canonicalPath) {
+  private String getRelativePath(final String canonicalPath) {
     String relativePath = canonicalPath.substring(this.baseCanonicalPath.length());
     if (relativePath.startsWith(File.separator)) {
       relativePath = relativePath.substring(File.separator.length());
@@ -284,7 +284,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     return relativePath;
   }
 
-  public Collection<String> getPaths(String regexp) throws IOException {
+  public Collection<String> getPaths(final String regexp) throws IOException {
     final Pattern pattern = Pattern.compile(regexp);
     try {
       return AccessController.doPrivileged(new PrivilegedAction<Collection<String>>() {
@@ -296,34 +296,34 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         public Collection<String> run() {
           try {
             return getPaths(pattern, baseDirectory);
-          } catch (IOException ioe) {
+          } catch (final IOException ioe) {
             throw new WrapperException(ioe);
           }
         }
       });
-    } catch (WrapperException we) {
+    } catch (final WrapperException we) {
       throw (IOException) we.getCause();
     }
   }
 
-  private Collection<String> getPaths(Pattern pattern, File directory) throws IOException {
+  private Collection<String> getPaths(final Pattern pattern, final File directory) throws IOException {
     // Security: This method is expected to be private.
-    Collection<String> paths = new LinkedList<String>();
-    File[] localFiles = directory.listFiles();
+    final Collection<String> paths = new LinkedList<String>();
+    final File[] localFiles = directory.listFiles();
     for (int i = 0; i < localFiles.length; i++) {
-      File file = localFiles[i];
+      final File file = localFiles[i];
       if (file.isDirectory()) {
-        Collection<String> subPaths = this.getPaths(pattern, file);
+        final Collection<String> subPaths = this.getPaths(pattern, file);
         paths.addAll(subPaths);
       } else {
-        String canonical = file.getCanonicalPath();
-        String relativePath = this.getRelativePath(canonical);
-        Matcher matcher = pattern.matcher(relativePath);
+        final String canonical = file.getCanonicalPath();
+        final String relativePath = this.getRelativePath(canonical);
+        final Matcher matcher = pattern.matcher(relativePath);
         if (matcher.matches()) {
           try {
             this.checkPath(canonical, "not-shown");
             paths.add(relativePath);
-          } catch (SecurityException se) {
+          } catch (final SecurityException se) {
             // ignore file
           }
         }
@@ -341,11 +341,11 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     return this.quota - this.getSize();
   }
 
-  public void saveObject(String path, Serializable object) throws IOException {
-    ManagedFile file = this.getManagedFile(path);
-    OutputStream out = file.openOutputStream();
+  public void saveObject(final String path, final Serializable object) throws IOException {
+    final ManagedFile file = this.getManagedFile(path);
+    final OutputStream out = file.openOutputStream();
     try {
-      ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(out));
+      final ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(out));
       oout.writeObject(object);
       oout.flush();
     } finally {
@@ -353,26 +353,26 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     }
   }
 
-  public void removeObject(String path) throws IOException {
+  public void removeObject(final String path) throws IOException {
     final ManagedFile file = this.getManagedFile(path);
     file.delete();
   }
 
-  public Object retrieveObject(String path) throws IOException, ClassNotFoundException {
+  public Object retrieveObject(final String path) throws IOException, ClassNotFoundException {
     return this.retrieveObject(path, Thread.currentThread().getContextClassLoader());
   }
 
-  public Object retrieveObject(String path, ClassLoader classLoader) throws IOException, ClassNotFoundException {
-    ManagedFile file = this.getManagedFile(path);
+  public Object retrieveObject(final String path, final ClassLoader classLoader) throws IOException, ClassNotFoundException {
+    final ManagedFile file = this.getManagedFile(path);
     try {
-      InputStream in = file.openInputStream();
+      final InputStream in = file.openInputStream();
       try {
-        ObjectInputStream oin = new ClassLoaderObjectInputStream(in, classLoader);
+        final ObjectInputStream oin = new ClassLoaderObjectInputStream(in, classLoader);
         return (Serializable) oin.readObject();
       } finally {
         in.close();
       }
-    } catch (FileNotFoundException err) {
+    } catch (final FileNotFoundException err) {
       return null;
     }
   }
@@ -383,7 +383,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
    * @see org.xamjwg.io.ManagedStore#getManagedFile(org.xamjwg.io.ManagedFile,
    * java.lang.String)
    */
-  public ManagedFile getManagedFile(ManagedFile parent, String relativePath) throws IOException {
+  public ManagedFile getManagedFile(final ManagedFile parent, final String relativePath) throws IOException {
     return new ManagedFileImpl(parent, relativePath);
   }
 
@@ -392,7 +392,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
    * 
    * @see org.xamjwg.io.ManagedStore#getManagedFile(java.lang.String)
    */
-  public ManagedFile getManagedFile(String path) throws IOException {
+  public ManagedFile getManagedFile(final String path) throws IOException {
     return new ManagedFileImpl(path);
   }
 
@@ -419,23 +419,23 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
             } else {
               fullFile = new File(baseDirectory, relPath);
             }
-            String canonical = fullFile.getCanonicalPath();
+            final String canonical = fullFile.getCanonicalPath();
             // Must check so that all ManagedFile instances
             // are known to be safe.
             checkPath(canonical, path);
             return fullFile;
-          } catch (IOException ioe) {
+          } catch (final IOException ioe) {
             throw new WrapperException(ioe);
           }
         }
       });
-    } catch (WrapperException we) {
+    } catch (final WrapperException we) {
       throw (IOException) we.getCause();
     }
   }
 
-  private ManagedFile nativeToManaged(File file) throws IOException {
-    String canonical = file.getCanonicalPath();
+  private ManagedFile nativeToManaged(final File file) throws IOException {
+    final String canonical = file.getCanonicalPath();
     if (!canonical.startsWith(this.baseCanonicalPath)) {
       throw new SecurityException("File is outside of managed store");
     }
@@ -452,20 +452,20 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     private final String path;
     private final File nativeFile;
 
-    private ManagedFileImpl(String path) throws IOException {
+    private ManagedFileImpl(final String path) throws IOException {
       this.path = path;
       // Note: managedToNative has a security check.
       this.nativeFile = managedToNative(path);
     }
 
-    private ManagedFileImpl(ManagedFile parent, String relPath) throws IOException {
+    private ManagedFileImpl(final ManagedFile parent, final String relPath) throws IOException {
       if (parent == null) {
         this.path = relPath;
       } else {
         if (relPath.startsWith("/")) {
           this.path = relPath;
         } else {
-          String pp = parent.getPath();
+          final String pp = parent.getPath();
           if (pp.endsWith("/")) {
             this.path = pp + relPath;
           } else {
@@ -489,17 +489,17 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
           // requires privileges.
           public Boolean run() {
             try {
-              boolean success = nativeFile.createNewFile();
+              final boolean success = nativeFile.createNewFile();
               if (success) {
                 RestrictedStore.this.addUsedBytes(EMPTY_FILE_SIZE);
               }
               return success;
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               throw new WrapperException(ioe);
             }
           }
         });
-      } catch (WrapperException we) {
+      } catch (final WrapperException we) {
         throw (IOException) we.getCause();
       }
     }
@@ -550,16 +550,16 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
           // requires privileges.
           public ManagedFile run() {
             try {
-              File parentFile = nativeFile.getParentFile();
+              final File parentFile = nativeFile.getParentFile();
               // Note: nativeToManaged checks canonical path for
               // permissions.
               return nativeToManaged(parentFile);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               throw new WrapperException(ioe);
             }
           }
         });
-      } catch (WrapperException we) {
+      } catch (final WrapperException we) {
         throw (IOException) we.getCause();
       }
     }
@@ -610,22 +610,22 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
           // requires privileges.
           public ManagedFile[] run() {
             try {
-              File[] files = nativeFile.listFiles();
-              List<ManagedFile> mfs = new ArrayList<ManagedFile>();
+              final File[] files = nativeFile.listFiles();
+              final List<ManagedFile> mfs = new ArrayList<ManagedFile>();
               for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                ManagedFile mf = nativeToManaged(file);
+                final File file = files[i];
+                final ManagedFile mf = nativeToManaged(file);
                 if (filter == null || filter.accept(mf)) {
                   mfs.add(mf);
                 }
               }
               return mfs.toArray(new ManagedFile[0]);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               throw new WrapperException(ioe);
             }
           }
         });
-      } catch (WrapperException we) {
+      } catch (final WrapperException we) {
         throw (IOException) we.getCause();
       }
     }
@@ -640,11 +640,11 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         // Reason: Should be allowed. Obtaining an instance of ManagedFileImpl
         // requires privileges.
         public Boolean run() {
-          boolean success = nativeFile.mkdir();
+          final boolean success = nativeFile.mkdir();
           if (success) {
             try {
               RestrictedStore.this.addUsedBytes(DIRECTORY_SIZE);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               // Ignore
             }
           }
@@ -663,11 +663,11 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         // Reason: Should be allowed. Obtaining an instance of ManagedFileImpl
         // requires privileges.
         public Boolean run() {
-          boolean success = nativeFile.mkdirs();
+          final boolean success = nativeFile.mkdirs();
           if (success) {
             try {
               RestrictedStore.this.addUsedBytes(DIRECTORY_SIZE);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               // Ignore
             }
           }
@@ -688,19 +688,19 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
           // requires privileges.
           public Boolean run() {
             try {
-              long prevLength = nativeFile.length() + EMPTY_FILE_SIZE;
+              final long prevLength = nativeFile.length() + EMPTY_FILE_SIZE;
               if (nativeFile.delete()) {
                 subtractUsedBytes(prevLength);
                 return true;
               } else {
                 return false;
               }
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               throw new WrapperException(ioe);
             }
           }
         });
-      } catch (WrapperException we) {
+      } catch (final WrapperException we) {
         throw (IOException) we.getCause();
       }
     }

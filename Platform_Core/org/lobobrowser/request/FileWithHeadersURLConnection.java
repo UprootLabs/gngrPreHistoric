@@ -43,18 +43,18 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
   /**
    * @param url
    */
-  public FileWithHeadersURLConnection(URL url, byte[] content) {
+  public FileWithHeadersURLConnection(final URL url, final byte[] content) {
     super(url);
     this.content = content;
   }
 
   public void disconnect() {
     if (this.connected) {
-      InputStream in = this.inputStream;
+      final InputStream in = this.inputStream;
       if (in != null) {
         try {
           in.close();
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
           // ignore
         }
       }
@@ -68,7 +68,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
    */
   public void connect() throws IOException {
     if (!this.connected) {
-      InputStream in = new ByteArrayInputStream(this.content);
+      final InputStream in = new ByteArrayInputStream(this.content);
       try {
         this.inputStream = in;
         readHeaders(in);
@@ -79,17 +79,17 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
     }
   }
 
-  private void readHeaders(InputStream in) throws IOException {
+  private void readHeaders(final InputStream in) throws IOException {
     String line;
-    List<NameValuePair> headersList = this.headersList;
-    Map<String, List<String>> headersMap = this.headersMap;
+    final List<NameValuePair> headersList = this.headersList;
+    final Map<String, List<String>> headersMap = this.headersMap;
     while ((line = IORoutines.readLine(in)) != null) {
       if ("".equals(line)) {
         break;
       }
-      int colonIdx = line.indexOf(':');
-      String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim().toLowerCase();
-      String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
+      final int colonIdx = line.indexOf(':');
+      final String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim().toLowerCase();
+      final String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
       List<String> hvalues = headersMap.get(name);
       if (hvalues == null) {
         hvalues = new ArrayList<String>(1);
@@ -115,14 +115,14 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
    * 
    * @see java.net.URLConnection#getHeaderField(int)
    */
-  public String getHeaderField(int n) {
+  public String getHeaderField(final int n) {
     try {
       this.connect();
-      NameValuePair pair = this.headersList.get(n);
+      final NameValuePair pair = this.headersList.get(n);
       return pair.value;
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
   }
@@ -132,13 +132,13 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
    * 
    * @see java.net.URLConnection#getHeaderField(java.lang.String)
    */
-  public String getHeaderField(String name) {
+  public String getHeaderField(final String name) {
     try {
       this.connect();
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
-    List hvalues = this.headersMap.get(name.toLowerCase());
+    final List hvalues = this.headersMap.get(name.toLowerCase());
     if (hvalues == null || hvalues.size() == 0) {
       return null;
     }
@@ -150,14 +150,14 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
    * 
    * @see java.net.URLConnection#getHeaderFieldKey(int)
    */
-  public String getHeaderFieldKey(int n) {
+  public String getHeaderFieldKey(final int n) {
     try {
       this.connect();
-      NameValuePair pair = this.headersList.get(n);
+      final NameValuePair pair = this.headersList.get(n);
       return pair.name;
-    } catch (IndexOutOfBoundsException iob) {
+    } catch (final IndexOutOfBoundsException iob) {
       return null;
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
   }
@@ -170,7 +170,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
   public Map<String, List<String>> getHeaderFields() {
     try {
       this.connect();
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       return null;
     }
     return this.headersMap;

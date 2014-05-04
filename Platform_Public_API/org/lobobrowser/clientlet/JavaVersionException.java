@@ -32,7 +32,7 @@ public class JavaVersionException extends ClientletException {
   /**
    * @param message
    */
-  public JavaVersionException(String expectingVersion, String message) {
+  public JavaVersionException(final String expectingVersion, final String message) {
     super(message);
     this.expectingVersion = expectingVersion;
   }
@@ -45,7 +45,7 @@ public class JavaVersionException extends ClientletException {
    * @param message
    * @param rootCause
    */
-  public JavaVersionException(String message, String expectingVersion, Throwable rootCause) {
+  public JavaVersionException(final String message, final String expectingVersion, final Throwable rootCause) {
     super(message, rootCause);
     this.expectingVersion = expectingVersion;
   }
@@ -53,7 +53,7 @@ public class JavaVersionException extends ClientletException {
   /**
    * @param rootCause
    */
-  public JavaVersionException(String expectingVersion, Throwable rootCause) {
+  public JavaVersionException(final String expectingVersion, final Throwable rootCause) {
     super(rootCause);
     this.expectingVersion = expectingVersion;
   }

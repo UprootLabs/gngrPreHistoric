@@ -63,7 +63,7 @@ public class StorageManager implements Runnable {
     if (!this.threadStarted) {
       synchronized (this) {
         if (!this.threadStarted) {
-          Thread t = new Thread(this, "StorageManager");
+          final Thread t = new Thread(this, "StorageManager");
           t.setDaemon(true);
           t.setPriority(Thread.MIN_PRIORITY);
           t.start();
@@ -81,16 +81,16 @@ public class StorageManager implements Runnable {
 
   public File getCacheHostDirectory(String hostName) throws IOException {
     CacheManager.getInstance();
-    File cacheDir = this.getCacheRoot();
+    final File cacheDir = this.getCacheRoot();
     if (hostName == null || "".equals(hostName)) {
       hostName = NO_HOST;
     }
     return new File(cacheDir, normalizedFileName(hostName));
   }
 
-  public File getContentCacheFile(String hostName, String fileName) throws IOException {
-    File domainDir = this.getCacheHostDirectory(hostName);
-    File xamjDir = new File(domainDir, CONTENT_DIR);
+  public File getContentCacheFile(final String hostName, final String fileName) throws IOException {
+    final File domainDir = this.getCacheHostDirectory(hostName);
+    final File xamjDir = new File(domainDir, CONTENT_DIR);
     return new File(xamjDir, fileName);
   }
 
@@ -101,7 +101,7 @@ public class StorageManager implements Runnable {
   private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<String, RestrictedStore>();
 
   public RestrictedStore getRestrictedStore(String hostName, final boolean createIfNotExists) throws IOException {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(StoreHostPermission.forHost(hostName));
     }
@@ -117,14 +117,14 @@ public class StorageManager implements Runnable {
           // Reason: Since we are checking StoreHostPermission previously,
           // this is fine.
           public RestrictedStore run() {
-            File hostStoreDir = new File(storeDirectory, HOST_STORE_DIR);
-            File domainDir = new File(hostStoreDir, normalizedFileName(normHost));
+            final File hostStoreDir = new File(storeDirectory, HOST_STORE_DIR);
+            final File domainDir = new File(hostStoreDir, normalizedFileName(normHost));
             if (!createIfNotExists && !domainDir.exists()) {
               return null;
             }
             try {
               return new RestrictedStore(domainDir, HOST_STORE_QUOTA);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               throw new IllegalStateException(ioe);
             }
           }
@@ -144,16 +144,16 @@ public class StorageManager implements Runnable {
     return new File(this.storeDirectory, SETTINGS_DIR);
   }
 
-  public void saveSettings(String name, Serializable data) throws IOException {
-    File dir = this.getSettingsDirectory();
+  public void saveSettings(final String name, final Serializable data) throws IOException {
+    final File dir = this.getSettingsDirectory();
     if (!dir.exists()) {
       dir.mkdirs();
     }
-    File file = new File(dir, name);
-    OutputStream out = new FileOutputStream(file);
+    final File file = new File(dir, name);
+    final OutputStream out = new FileOutputStream(file);
     try {
-      BufferedOutputStream bos = new BufferedOutputStream(out);
-      ObjectOutputStream oos = new ObjectOutputStream(bos);
+      final BufferedOutputStream bos = new BufferedOutputStream(out);
+      final ObjectOutputStream oos = new ObjectOutputStream(bos);
       oos.writeObject(data);
       oos.flush();
     } finally {
@@ -161,22 +161,22 @@ public class StorageManager implements Runnable {
     }
   }
 
-  public Serializable retrieveSettings(String name, ClassLoader classLoader) throws IOException, ClassNotFoundException {
-    File dir = this.getSettingsDirectory();
+  public Serializable retrieveSettings(final String name, final ClassLoader classLoader) throws IOException, ClassNotFoundException {
+    final File dir = this.getSettingsDirectory();
     if (!dir.exists()) {
       return null;
     }
-    File file = new File(dir, name);
+    final File file = new File(dir, name);
     if (!file.exists()) {
       return null;
     }
-    InputStream in = new FileInputStream(file);
+    final InputStream in = new FileInputStream(file);
     try {
-      BufferedInputStream bin = new BufferedInputStream(in);
-      ObjectInputStream ois = new ClassLoaderObjectInputStream(bin, classLoader);
+      final BufferedInputStream bin = new BufferedInputStream(in);
+      final ObjectInputStream ois = new ClassLoaderObjectInputStream(bin, classLoader);
       try {
         return (Serializable) ois.readObject();
-      } catch (InvalidClassException ice) {
+      } catch (final InvalidClassException ice) {
         ice.printStackTrace();
         return null;
       }
@@ -211,11 +211,11 @@ public class StorageManager implements Runnable {
   // }
   // }
 
-  static String normalizedFileName(String hostName) {
+  static String normalizedFileName(final String hostName) {
     return hostName;
   }
 
-  static String getHostName(String fileName) {
+  static String getHostName(final String fileName) {
     return fileName;
   }
 
@@ -236,11 +236,11 @@ public class StorageManager implements Runnable {
           Thread.yield();
           stores[i].updateSizeFile();
         }
-      } catch (Throwable err) {
+      } catch (final Throwable err) {
         logger.log(Level.SEVERE, "run()", err);
         try {
           Thread.sleep(MANAGED_STORE_UPDATE_DELAY);
-        } catch (java.lang.InterruptedException ie) {
+        } catch (final java.lang.InterruptedException ie) {
           // Ignore this time.
         }
       }

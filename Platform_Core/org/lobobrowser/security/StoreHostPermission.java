@@ -32,15 +32,15 @@ public class StoreHostPermission extends BasicPermission {
   /**
    * @param name
    */
-  private StoreHostPermission(String name) {
+  private StoreHostPermission(final String name) {
     super(name);
   }
 
-  public static StoreHostPermission forURL(java.net.URL url) {
+  public static StoreHostPermission forURL(final java.net.URL url) {
     if (LocalSecurityPolicy.isLocal(url)) {
       return new StoreHostPermission("*");
     } else {
-      String hostName = url.getHost();
+      final String hostName = url.getHost();
       if (hostName != null && hostName.indexOf('*') != -1) {
         throw new SecurityException("Invalid host: " + hostName);
       }
@@ -48,9 +48,9 @@ public class StoreHostPermission extends BasicPermission {
     }
   }
 
-  public static StoreHostPermission forHost(String hostName) {
+  public static StoreHostPermission forHost(final String hostName) {
     // TODO What about a JAR URL or a VC URL?
-    String h = hostName == null || "".equals(hostName) ? "<<local>>" : hostName;
+    final String h = hostName == null || "".equals(hostName) ? "<<local>>" : hostName;
     return new StoreHostPermission(h);
   }
 }

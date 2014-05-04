@@ -65,7 +65,7 @@ public abstract class AbstractComponentContent implements ComponentContent {
     return null;
   }
 
-  public void setProperty(String name, Object value) {
+  public void setProperty(final String name, final Object value) {
     // NOP
   }
 

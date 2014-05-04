@@ -53,7 +53,7 @@ public class ConnectionSettings implements java.io.Serializable {
     try {
       ins = (ConnectionSettings) StorageManager.getInstance().retrieveSettings(ConnectionSettings.class.getSimpleName(),
           ConnectionSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -82,7 +82,7 @@ public class ConnectionSettings implements java.io.Serializable {
    * Gets the class singleton.
    */
   public static ConnectionSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -92,10 +92,10 @@ public class ConnectionSettings implements java.io.Serializable {
   /**
    * Gets a non-<code>null</code> <code>Proxy</code> insteance.
    */
-  public Proxy getProxy(String host) {
+  public Proxy getProxy(final String host) {
     synchronized (this) {
       if (this.proxy == null) {
-        InetSocketAddress sa = this.socketAddress;
+        final InetSocketAddress sa = this.socketAddress;
         if (this.proxyType == Proxy.Type.DIRECT || sa == null) {
           this.proxy = Proxy.NO_PROXY;
         } else {
@@ -113,8 +113,8 @@ public class ConnectionSettings implements java.io.Serializable {
   }
 
   public PasswordAuthentication getPasswordAuthentication() {
-    String userName = this.userName;
-    String password = this.password;
+    final String userName = this.userName;
+    final String password = this.password;
     if (!this.isAuthenticated() || userName == null || password == null) {
       return null;
     }
@@ -132,7 +132,7 @@ public class ConnectionSettings implements java.io.Serializable {
    * @param authenticated
    *          The authenticated to set.
    */
-  public void setAuthenticated(boolean authenticated) {
+  public void setAuthenticated(final boolean authenticated) {
     this.authenticated = authenticated;
     synchronized (this) {
       this.proxy = null;
@@ -150,7 +150,7 @@ public class ConnectionSettings implements java.io.Serializable {
    * @param password
    *          The password to set.
    */
-  public void setPassword(String password) {
+  public void setPassword(final String password) {
     this.password = password;
     synchronized (this) {
       this.proxy = null;
@@ -168,7 +168,7 @@ public class ConnectionSettings implements java.io.Serializable {
    * @param userName
    *          The userName to set.
    */
-  public void setUserName(String userName) {
+  public void setUserName(final String userName) {
     this.userName = userName;
     synchronized (this) {
       this.proxy = null;
@@ -186,7 +186,7 @@ public class ConnectionSettings implements java.io.Serializable {
    * @param proxyType
    *          The proxyType to set.
    */
-  public void setProxyType(Proxy.Type proxyType) {
+  public void setProxyType(final Proxy.Type proxyType) {
     this.proxyType = proxyType;
     synchronized (this) {
       this.proxy = null;
@@ -204,7 +204,7 @@ public class ConnectionSettings implements java.io.Serializable {
    * @param socketAddress
    *          The socketAddress to set.
    */
-  public void setInetSocketAddress(InetSocketAddress socketAddress) {
+  public void setInetSocketAddress(final InetSocketAddress socketAddress) {
     this.socketAddress = socketAddress;
     synchronized (this) {
       this.proxy = null;
@@ -215,7 +215,7 @@ public class ConnectionSettings implements java.io.Serializable {
     return disableProxyForLocalAddresses;
   }
 
-  public void setDisableProxyForLocalAddresses(boolean disableProxyForLocalAddresses) {
+  public void setDisableProxyForLocalAddresses(final boolean disableProxyForLocalAddresses) {
     this.disableProxyForLocalAddresses = disableProxyForLocalAddresses;
     synchronized (this) {
       this.proxy = null;
@@ -225,7 +225,7 @@ public class ConnectionSettings implements java.io.Serializable {
   public void save() {
     try {
       StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "save(): Unable to save settings", ioe);
     }
   }

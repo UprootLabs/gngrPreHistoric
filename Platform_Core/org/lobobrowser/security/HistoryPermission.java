@@ -41,7 +41,7 @@ public class HistoryPermission extends Permission {
    * 
    * @see java.security.Permission#implies(java.security.Permission)
    */
-  public boolean implies(Permission permission) {
+  public boolean implies(final Permission permission) {
     return permission instanceof HistoryPermission;
   }
 
@@ -59,7 +59,7 @@ public class HistoryPermission extends Permission {
    * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     return obj instanceof HistoryPermission;
   }
 

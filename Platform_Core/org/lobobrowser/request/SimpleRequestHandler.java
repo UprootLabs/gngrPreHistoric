@@ -40,17 +40,17 @@ public abstract class SimpleRequestHandler implements RequestHandler {
   private final ClientletRequest request;
   private final RequestType requestType;
 
-  public SimpleRequestHandler(boolean forNewWindow, URL url, RequestType requestType) {
+  public SimpleRequestHandler(final boolean forNewWindow, final URL url, final RequestType requestType) {
     this.requestType = requestType;
     this.request = new ClientletRequestImpl(forNewWindow, url, requestType);
   }
 
-  public SimpleRequestHandler(URL url, RequestType requestType) {
+  public SimpleRequestHandler(final URL url, final RequestType requestType) {
     this.requestType = requestType;
     this.request = new ClientletRequestImpl(url, requestType);
   }
 
-  public SimpleRequestHandler(URL url, String method, String altPostData, RequestType requestType) {
+  public SimpleRequestHandler(final URL url, final String method, final String altPostData, final RequestType requestType) {
     this.requestType = requestType;
     this.request = new ClientletRequestImpl(url, method, altPostData, requestType);
   }
@@ -79,11 +79,11 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     return this.request;
   }
 
-  public void handleProgress(ProgressType progressType, URL url, String method, int value, int max) {
+  public void handleProgress(final ProgressType progressType, final URL url, final String method, final int value, final int max) {
     // nop
   }
 
-  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+  public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
     logger.log(Level.WARNING, "handleException(): Error processing response=[" + response + "]", exception);
     return true;
   }
@@ -109,7 +109,7 @@ public abstract class SimpleRequestHandler implements RequestHandler {
      * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
      * javax.net.ssl.SSLSession)
      */
-    public boolean verify(final String host, SSLSession arg1) {
+    public boolean verify(final String host, final SSLSession arg1) {
       final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
       if (vhs.contains(host)) {
         return true;

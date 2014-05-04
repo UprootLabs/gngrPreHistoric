@@ -43,21 +43,21 @@ public class RedirectRequestHandler implements RequestHandler {
   /**
 	 * 
 	 */
-  public RedirectRequestHandler(RequestHandler origHandler, HttpURLConnection origConnection) throws MalformedURLException {
+  public RedirectRequestHandler(final RequestHandler origHandler, final HttpURLConnection origConnection) throws MalformedURLException {
     this.origHandler = origHandler;
-    String location = origConnection.getHeaderField("Location");
-    URL origURL = origConnection.getURL();
+    final String location = origConnection.getHeaderField("Location");
+    final URL origURL = origConnection.getURL();
     if (location == null) {
       throw new IllegalArgumentException("No Location header in redirect response for " + origConnection.getURL());
     }
-    URL finalURL = org.lobobrowser.util.Urls.createURL(origURL, location);
-    String origHost = origURL.getHost();
-    String finalHost = finalURL.getHost();
+    final URL finalURL = org.lobobrowser.util.Urls.createURL(origURL, location);
+    final String origHost = origURL.getHost();
+    final String finalHost = finalURL.getHost();
     if (origHost.equals(finalHost)) {
       if (origURL.getProtocol().equalsIgnoreCase(finalURL.getProtocol())) {
         if (origURL.getPort() == finalURL.getPort()) {
-          String origPath = origURL.getFile();
-          String finalPath = finalURL.getFile();
+          final String origPath = origURL.getFile();
+          final String finalPath = finalURL.getFile();
           if (origPath.equals(finalPath)) {
             throw new IllegalArgumentException("Redirecting URL '" + origURL + "' and target URL '" + finalURL + "' are equal!");
           }
@@ -110,7 +110,7 @@ public class RedirectRequestHandler implements RequestHandler {
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception
    * )
    */
-  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+  public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
     return this.origHandler.handleException(response, exception);
   }
 
@@ -120,7 +120,7 @@ public class RedirectRequestHandler implements RequestHandler {
    * @see net.sourceforge.xamj.http.RequestHandler#handleProgress(java.net.URL,
    * int, int)
    */
-  public void handleProgress(ProgressType progressType, URL url, String method, int value, int max) {
+  public void handleProgress(final ProgressType progressType, final URL url, final String method, final int value, final int max) {
     this.origHandler.handleProgress(progressType, url, method, value, max);
   }
 
@@ -131,7 +131,7 @@ public class RedirectRequestHandler implements RequestHandler {
    * net.sourceforge.xamj.http.RequestHandler#processResponse(org.xamjwg.clientlet
    * .ClientletResponse)
    */
-  public void processResponse(ClientletResponse response) throws ClientletException, IOException {
+  public void processResponse(final ClientletResponse response) throws ClientletException, IOException {
     this.origHandler.processResponse(response);
   }
 

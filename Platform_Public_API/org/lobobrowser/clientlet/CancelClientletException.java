@@ -38,7 +38,7 @@ public class CancelClientletException extends ClientletException {
   /**
    * @param message
    */
-  public CancelClientletException(String message) {
+  public CancelClientletException(final String message) {
     super(message);
   }
 
@@ -52,14 +52,14 @@ public class CancelClientletException extends ClientletException {
    * @param message
    * @param rootCause
    */
-  public CancelClientletException(String message, Throwable rootCause) {
+  public CancelClientletException(final String message, final Throwable rootCause) {
     super(message, rootCause);
   }
 
   /**
    * @param rootCause
    */
-  public CancelClientletException(Throwable rootCause) {
+  public CancelClientletException(final Throwable rootCause) {
     super(rootCause);
   }
 }

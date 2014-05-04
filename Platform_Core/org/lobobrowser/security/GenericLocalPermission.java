@@ -27,7 +27,7 @@ public class GenericLocalPermission extends BasicPermission {
   // GenericLocalPermission("frame-parent");
   public static final java.security.Permission EXT_GENERIC = new GenericLocalPermission("extension");
 
-  public GenericLocalPermission(String name) {
+  public GenericLocalPermission(final String name) {
     super(name);
   }
 }

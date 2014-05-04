@@ -29,12 +29,12 @@ import org.lobobrowser.ua.NavigationVetoException;
  * blank methods.
  */
 public abstract class NavigationAdapter implements NavigationListener {
-  public void beforeLocalNavigate(NavigationEvent event) throws NavigationVetoException {
+  public void beforeLocalNavigate(final NavigationEvent event) throws NavigationVetoException {
   }
 
-  public void beforeNavigate(NavigationEvent event) throws NavigationVetoException {
+  public void beforeNavigate(final NavigationEvent event) throws NavigationVetoException {
   }
 
-  public void beforeWindowOpen(NavigationEvent event) throws NavigationVetoException {
+  public void beforeWindowOpen(final NavigationEvent event) throws NavigationVetoException {
   }
 }

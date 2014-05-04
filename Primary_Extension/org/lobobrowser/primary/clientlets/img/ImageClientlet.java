@@ -41,25 +41,25 @@ public class ImageClientlet implements Clientlet {
     super();
   }
 
-  public void process(ClientletContext context) throws ClientletException {
-    ClientletResponse response = context.getResponse();
-    String mimeType = response.getMimeType();
-    int contentLength = response.getContentLength();
+  public void process(final ClientletContext context) throws ClientletException {
+    final ClientletResponse response = context.getResponse();
+    final String mimeType = response.getMimeType();
+    final int contentLength = response.getContentLength();
     byte[] imageBytes;
     try {
-      InputStream in = response.getInputStream();
+      final InputStream in = response.getInputStream();
       if (contentLength == -1) {
         imageBytes = IORoutines.load(in);
       } else {
         imageBytes = IORoutines.loadExact(in, contentLength);
       }
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       throw new ClientletException(ioe);
     }
     if (logger.isLoggable(Level.INFO)) {
       logger.info("process(): Loaded " + imageBytes.length + " bytes.");
     }
-    Image image = Toolkit.getDefaultToolkit().createImage(imageBytes);
+    final Image image = Toolkit.getDefaultToolkit().createImage(imageBytes);
     context.setResultingContent(new ImageContent(image, mimeType));
   }
 
@@ -68,9 +68,9 @@ public class ImageClientlet implements Clientlet {
     private final String mimeType;
     private final JScrollPane scrollPane;
 
-    public ImageContent(Image image, String mimeType) {
-      ImageScrollable is = new ImageScrollable(image);
-      JScrollPane sp = new JScrollPane(is);
+    public ImageContent(final Image image, final String mimeType) {
+      final ImageScrollable is = new ImageScrollable(image);
+      final JScrollPane sp = new JScrollPane(is);
       this.scrollPane = sp;
       this.image = image;
       this.mimeType = mimeType;
@@ -116,7 +116,7 @@ public class ImageClientlet implements Clientlet {
       this.image.flush();
     }
 
-    public void setProperty(String name, Object value) {
+    public void setProperty(final String name, final Object value) {
       // NOP
     }
   }

@@ -29,7 +29,7 @@ package org.lobobrowser.clientlet;
 public class NavigatorVersionException extends ClientletException {
   private final String expectingVersion;
 
-  public NavigatorVersionException(String message, String expectingVersion) {
+  public NavigatorVersionException(final String message, final String expectingVersion) {
     super(message);
     this.expectingVersion = expectingVersion;
   }
@@ -42,7 +42,7 @@ public class NavigatorVersionException extends ClientletException {
    * @param message
    * @param rootCause
    */
-  public NavigatorVersionException(String message, String expectingVersion, Throwable rootCause) {
+  public NavigatorVersionException(final String message, final String expectingVersion, final Throwable rootCause) {
     super(message, rootCause);
     this.expectingVersion = expectingVersion;
   }
@@ -50,7 +50,7 @@ public class NavigatorVersionException extends ClientletException {
   /**
    * @param rootCause
    */
-  public NavigatorVersionException(String expectingVersion, Throwable rootCause) {
+  public NavigatorVersionException(final String expectingVersion, final Throwable rootCause) {
     super(rootCause);
     this.expectingVersion = expectingVersion;
   }

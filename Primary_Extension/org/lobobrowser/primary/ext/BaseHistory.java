@@ -50,40 +50,40 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
     }
   }
 
-  public Collection<String> getRecentItems(int maxNumItems) {
+  public Collection<String> getRecentItems(final int maxNumItems) {
     synchronized (this) {
-      Collection<String> items = new LinkedList<String>();
-      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
+      final Collection<String> items = new LinkedList<String>();
+      final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       int count = 0;
       while (i.hasNext() && count++ < maxNumItems) {
-        TimedEntry entry = i.next();
+        final TimedEntry entry = i.next();
         items.add(entry.value);
       }
       return items;
     }
   }
 
-  public Collection<T> getRecentItemInfo(int maxNumItems) {
+  public Collection<T> getRecentItemInfo(final int maxNumItems) {
     synchronized (this) {
-      Collection<T> items = new LinkedList<T>();
-      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
+      final Collection<T> items = new LinkedList<T>();
+      final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       int count = 0;
       while (i.hasNext() && count++ < maxNumItems) {
-        TimedEntry entry = i.next();
+        final TimedEntry entry = i.next();
         items.add(entry.itemInfo);
       }
       return items;
     }
   }
 
-  public Collection<HostEntry> getRecentHostEntries(int maxNumItems) {
+  public Collection<HostEntry> getRecentHostEntries(final int maxNumItems) {
     synchronized (this) {
-      Collection<HostEntry> items = new LinkedList<HostEntry>();
-      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
-      Set<String> hosts = new HashSet<String>();
+      final Collection<HostEntry> items = new LinkedList<HostEntry>();
+      final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
+      final Set<String> hosts = new HashSet<String>();
       while (i.hasNext()) {
-        TimedEntry entry = i.next();
-        String host = entry.url.getHost();
+        final TimedEntry entry = i.next();
+        final String host = entry.url.getHost();
         if (host != null && host.length() != 0) {
           if (!hosts.contains(host)) {
             hosts.add(host);
@@ -100,22 +100,22 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
 
   public Collection<HistoryEntry<T>> getAllEntries() {
     synchronized (this) {
-      Collection<HistoryEntry<T>> items = new LinkedList<HistoryEntry<T>>();
-      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
+      final Collection<HistoryEntry<T>> items = new LinkedList<HistoryEntry<T>>();
+      final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       while (i.hasNext()) {
-        TimedEntry entry = i.next();
+        final TimedEntry entry = i.next();
         items.add(new HistoryEntry<T>(entry.url, entry.timestamp, entry.itemInfo));
       }
       return items;
     }
   }
 
-  public Collection<HistoryEntry<T>> getRecentEntries(int maxNumItems) {
+  public Collection<HistoryEntry<T>> getRecentEntries(final int maxNumItems) {
     synchronized (this) {
-      Collection<HistoryEntry<T>> items = new LinkedList<HistoryEntry<T>>();
-      Iterator<TimedEntry> i = this.historyTimedSet.iterator();
+      final Collection<HistoryEntry<T>> items = new LinkedList<HistoryEntry<T>>();
+      final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       while (i.hasNext()) {
-        TimedEntry entry = i.next();
+        final TimedEntry entry = i.next();
         if (items.size() >= maxNumItems) {
           break;
         }
@@ -125,15 +125,15 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
     }
   }
 
-  public Collection<String> getHeadMatchItems(String itemPrefix, int maxNumItems) {
+  public Collection<String> getHeadMatchItems(final String itemPrefix, final int maxNumItems) {
     synchronized (this) {
-      Object[] array = this.historySortedSet.toArray();
-      int idx = Arrays.binarySearch(array, itemPrefix);
-      int startIdx = idx >= 0 ? idx : (-idx - 1);
+      final Object[] array = this.historySortedSet.toArray();
+      final int idx = Arrays.binarySearch(array, itemPrefix);
+      final int startIdx = idx >= 0 ? idx : (-idx - 1);
       int count = 0;
-      Collection<String> items = new LinkedList<String>();
+      final Collection<String> items = new LinkedList<String>();
       for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
-        String potentialItem = (String) array[i];
+        final String potentialItem = (String) array[i];
         if (potentialItem.startsWith(itemPrefix)) {
           items.add(potentialItem);
         } else {
@@ -144,8 +144,8 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
     }
   }
 
-  public void addAsRecent(java.net.URL url, T itemInfo) {
-    String item = url.toExternalForm();
+  public void addAsRecent(final java.net.URL url, final T itemInfo) {
+    final String item = url.toExternalForm();
     synchronized (this) {
       TimedEntry entry = this.historyMap.get(item);
       if (entry != null) {
@@ -160,7 +160,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
         this.historySortedSet.add(item);
         while (this.historyTimedSet.size() > this.commonEntriesCapacity) {
           // Most outdated goes last
-          TimedEntry entryToRemove = this.historyTimedSet.last();
+          final TimedEntry entryToRemove = this.historyTimedSet.last();
           this.historyMap.remove(entryToRemove.value);
           this.historySortedSet.remove(entryToRemove.value);
           this.historyTimedSet.remove(entryToRemove);
@@ -169,10 +169,10 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
     }
   }
 
-  public void touch(java.net.URL url) {
-    String item = url.toExternalForm();
+  public void touch(final java.net.URL url) {
+    final String item = url.toExternalForm();
     synchronized (this) {
-      TimedEntry entry = this.historyMap.get(item);
+      final TimedEntry entry = this.historyMap.get(item);
       if (entry != null) {
         this.historyTimedSet.remove(entry);
         entry.touch();
@@ -181,8 +181,8 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
     }
   }
 
-  public T getExistingInfo(String item) {
-    TimedEntry entry = this.historyMap.get(item);
+  public T getExistingInfo(final String item) {
+    final TimedEntry entry = this.historyMap.get(item);
     return entry == null ? null : entry.itemInfo;
   }
 
@@ -196,7 +196,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
     /**
      * @param url
      */
-    public TimedEntry(java.net.URL url, String textValue, T itemInfo) {
+    public TimedEntry(final java.net.URL url, final String textValue, final T itemInfo) {
       this.itemInfo = itemInfo;
       this.value = textValue;
       this.url = url;
@@ -206,8 +206,8 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
       this.timestamp = System.currentTimeMillis();
     }
 
-    public boolean equals(Object obj) {
-      TimedEntry other = (TimedEntry) obj;
+    public boolean equals(final Object obj) {
+      final TimedEntry other = (TimedEntry) obj;
       return other.value.equals(this.value);
     }
 
@@ -216,13 +216,13 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
      * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(Object arg0) {
+    public int compareTo(final Object arg0) {
       if (this.equals(arg0)) {
         return 0;
       }
-      TimedEntry other = (TimedEntry) arg0;
-      long time1 = this.timestamp;
-      long time2 = other.timestamp;
+      final TimedEntry other = (TimedEntry) arg0;
+      final long time1 = this.timestamp;
+      final long time2 = other.timestamp;
       if (time1 > time2) {
         // More recent goes first
         return -1;

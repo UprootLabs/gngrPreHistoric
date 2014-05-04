@@ -39,7 +39,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     this.ieVersionField = new FormField(FieldType.TEXT, "MSIE Version:");
     this.mozillaVersionField = new FormField(FieldType.TEXT, "Mozilla Version:");
     this.mozillaVersionField.setToolTip("Mozilla compatibility version.");
-    FormPanel iePanel = new FormPanel();
+    final FormPanel iePanel = new FormPanel();
     this.iePanel = iePanel;
     iePanel.addField(this.ieVersionField);
     iePanel.setBorder(new EmptyBorder(1, 8, 8, 0));
@@ -60,10 +60,10 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   private static final int MAX_STARTUP_PAGES = 4;
 
   private Component getStartupGroupBox() {
-    Box startupGroupBox = new Box(BoxLayout.Y_AXIS);
+    final Box startupGroupBox = new Box(BoxLayout.Y_AXIS);
     startupGroupBox.setBorder(new TitledBorder(new EtchedBorder(), "Startup"));
-    Box startupPagesBox = new Box(BoxLayout.X_AXIS);
-    JLabel pagesLabel = new JLabel("Pages:");
+    final Box startupPagesBox = new Box(BoxLayout.X_AXIS);
+    final JLabel pagesLabel = new JLabel("Pages:");
     pagesLabel.setToolTipText("Up to " + MAX_STARTUP_PAGES + " pages launched when you first run the browser.");
     startupPagesBox.add(pagesLabel);
     startupPagesBox.add(this.startupPagesStringListControl);
@@ -72,7 +72,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   }
 
   private Component getUserAgentGroupBox() {
-    JPanel groupBox = new JPanel();
+    final JPanel groupBox = new JPanel();
     groupBox.setPreferredSize(new Dimension(400, 100));
     groupBox.setLayout(new BoxLayout(groupBox, BoxLayout.Y_AXIS));
     groupBox.setBorder(new TitledBorder(new EtchedBorder(), "User Agent"));
@@ -97,7 +97,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
 
   @Override
   public void save() {
-    GeneralSettings settings = this.settings;
+    final GeneralSettings settings = this.settings;
     settings.setSpoofIE(this.ieSpoofPanel.isSelected());
     settings.setIeVersion(this.ieVersionField.getValue());
     settings.setMozVersion(this.mozillaVersionField.getValue());
@@ -106,7 +106,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   }
 
   private void loadSettings() {
-    GeneralSettings settings = this.settings;
+    final GeneralSettings settings = this.settings;
     this.ieSpoofPanel.setSelected(settings.isSpoofIE());
     this.ieVersionField.setValue(settings.getIeVersion());
     this.mozillaVersionField.setValue(settings.getMozVersion());

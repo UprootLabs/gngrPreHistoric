@@ -36,19 +36,19 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
   private final FramePanel framePanel;
   private final NavigatorWindowImpl windowContext;
 
-  public DefaultBrowserWindow(boolean hasMenuBar, boolean hasAddressBar, boolean hasToolBar, boolean hasStatusBar,
-      NavigatorWindowImpl windowContext) throws HeadlessException {
+  public DefaultBrowserWindow(final boolean hasMenuBar, final boolean hasAddressBar, final boolean hasToolBar, final boolean hasStatusBar,
+      final NavigatorWindowImpl windowContext) throws HeadlessException {
     // TODO: SECURITY: Security needed in this class to prevent removal of all
     // window components??
     this.windowContext = windowContext;
     this.framePanel = windowContext.getFramePanel();
     ExtensionManager.getInstance().initExtensionsWindow(windowContext);
-    Object componentLock = windowContext.getComponentLock();
+    final Object componentLock = windowContext.getComponentLock();
     if (hasMenuBar) {
-      JMenuBar menuBar = new JMenuBar();
+      final JMenuBar menuBar = new JMenuBar();
       this.setJMenuBar(menuBar);
       synchronized (componentLock) {
-        for (JMenu menu : windowContext.getMenus()) {
+        for (final JMenu menu : windowContext.getMenus()) {
           menuBar.add(menu);
         }
         // Collection<JMenuItem> sharedMenuItems =
@@ -62,37 +62,37 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
         // }
       }
     }
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     if (hasAddressBar) {
-      AddressBarPanel abp = new AddressBarPanel();
+      final AddressBarPanel abp = new AddressBarPanel();
       contentPane.add(abp);
       synchronized (componentLock) {
-        for (Component c : windowContext.getAddressBarComponents()) {
+        for (final Component c : windowContext.getAddressBarComponents()) {
           abp.add(c);
         }
       }
     }
     if (hasToolBar) {
       synchronized (componentLock) {
-        for (Component c : windowContext.getToolBars()) {
+        for (final Component c : windowContext.getToolBars()) {
           contentPane.add(c);
         }
       }
-      SharedToolBarPanel stbp = new SharedToolBarPanel();
+      final SharedToolBarPanel stbp = new SharedToolBarPanel();
       contentPane.add(stbp);
       synchronized (componentLock) {
-        for (Component c : windowContext.getSharedToolbarComponents()) {
+        for (final Component c : windowContext.getSharedToolbarComponents()) {
           stbp.add(c);
         }
       }
     }
     contentPane.add(new FillerComponent(this.framePanel, false));
     if (hasStatusBar) {
-      StatusBarPanel statusBar = new StatusBarPanel();
+      final StatusBarPanel statusBar = new StatusBarPanel();
       contentPane.add(statusBar);
       synchronized (componentLock) {
-        for (Component c : windowContext.getStatusBarComponents()) {
+        for (final Component c : windowContext.getStatusBarComponents()) {
           statusBar.add(c);
         }
       }
@@ -128,9 +128,9 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
   // }
 
   @Override
-  public void update(Graphics g) {
+  public void update(final Graphics g) {
     if (g instanceof Graphics2D) {
-      Graphics2D g2 = (Graphics2D) g;
+      final Graphics2D g2 = (Graphics2D) g;
       g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
     super.update(g);

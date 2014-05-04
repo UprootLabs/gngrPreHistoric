@@ -40,7 +40,7 @@ public class AssociatedSettings implements Serializable {
     try {
       ins = (AssociatedSettings) StorageManager.getInstance().retrieveSettings(AssociatedSettings.class.getSimpleName(),
           AssociatedSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -56,7 +56,7 @@ public class AssociatedSettings implements Serializable {
    * Gets the class singleton.
    */
   public static AssociatedSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -66,20 +66,20 @@ public class AssociatedSettings implements Serializable {
   public void save() {
     try {
       StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
     }
   }
 
   private final LRUCache userNameByHost = new LRUCache(500);
 
-  public String getUserNameForHost(String hostName) {
+  public String getUserNameForHost(final String hostName) {
     synchronized (this) {
       return (String) this.userNameByHost.get(hostName);
     }
   }
 
-  public void setUserNameForHost(String hostName, String userName) {
+  public void setUserNameForHost(final String hostName, final String userName) {
     synchronized (this) {
       this.userNameByHost.put(hostName, userName, 1);
     }

@@ -45,18 +45,18 @@ public class LocalSecurityPolicy extends Policy {
   private static final Collection<Permission> BASE_PRIVILEGE = new LinkedList<Permission>();
 
   static {
-    File homeDir = new File(System.getProperty("user.home"));
-    File settingsDir = new File(homeDir, STORE_DIR_NAME);
+    final File homeDir = new File(System.getProperty("user.home"));
+    final File settingsDir = new File(homeDir, STORE_DIR_NAME);
     STORE_DIRECTORY = settingsDir;
     String settingsCanonical = "";
     try {
       settingsCanonical = settingsDir.getCanonicalPath();
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       ioe.printStackTrace(System.err);
     }
     STORE_DIRECTORY_CANONICAL = settingsCanonical;
 
-    Collection<Permission> permissions = BASE_PRIVILEGE;
+    final Collection<Permission> permissions = BASE_PRIVILEGE;
 
     // //Note: This means extensions have access to private field values at the
     // moment.
@@ -111,8 +111,8 @@ public class LocalSecurityPolicy extends Policy {
    * @param permission
    *          A <code>Permission<code> instance.
    */
-  public static void addPrivilegedPermission(Permission permission) {
-    SecurityManager sm = System.getSecurityManager();
+  public static void addPrivilegedPermission(final Permission permission) {
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       throw new java.lang.SecurityException("Call this method before the sercurity manager is set.");
     }
@@ -129,12 +129,12 @@ public class LocalSecurityPolicy extends Policy {
     return instance;
   }
 
-  public static boolean hasHost(java.net.URL url) {
-    String host = url.getHost();
+  public static boolean hasHost(final java.net.URL url) {
+    final String host = url.getHost();
     return host != null && !"".equals(host);
   }
 
-  public static boolean isLocal(java.net.URL url) {
+  public static boolean isLocal(final java.net.URL url) {
     // Should return true only if we are sure
     // the file has either been downloaded by
     // the user, was distributed with the OS,
@@ -142,7 +142,7 @@ public class LocalSecurityPolicy extends Policy {
     if (url == null) {
       return false;
     }
-    String scheme = url.getProtocol();
+    final String scheme = url.getProtocol();
     if ("http".equalsIgnoreCase(scheme)) {
       return false;
     } else if ("file".equalsIgnoreCase(scheme)) {
@@ -152,13 +152,13 @@ public class LocalSecurityPolicy extends Policy {
       // Files under the settings directory (e.g. cached JARs)
       // are considered remote.
       final String filePath = url.getPath();
-      Boolean result = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+      final Boolean result = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
         public Boolean run() {
-          File file = new File(filePath);
+          final File file = new File(filePath);
           try {
-            String canonical = file.getCanonicalPath();
+            final String canonical = file.getCanonicalPath();
             return !canonical.startsWith(STORE_DIRECTORY_CANONICAL);
-          } catch (java.io.IOException ioe) {
+          } catch (final java.io.IOException ioe) {
             ioe.printStackTrace(System.err);
             return false;
           }
@@ -166,13 +166,13 @@ public class LocalSecurityPolicy extends Policy {
       });
       return result.booleanValue();
     } else if ("jar".equalsIgnoreCase(scheme)) {
-      String path = url.getPath();
-      int emIdx = path.lastIndexOf('!');
-      String subUrlString = emIdx == -1 ? path : path.substring(0, emIdx);
+      final String path = url.getPath();
+      final int emIdx = path.lastIndexOf('!');
+      final String subUrlString = emIdx == -1 ? path : path.substring(0, emIdx);
       try {
-        URL subUrl = new URL(subUrlString);
+        final URL subUrl = new URL(subUrlString);
         return isLocal(subUrl);
-      } catch (java.net.MalformedURLException mfu) {
+      } catch (final java.net.MalformedURLException mfu) {
         return false;
       }
     } else {
@@ -185,25 +185,25 @@ public class LocalSecurityPolicy extends Policy {
    * 
    * @see java.security.Policy#getPermissions(java.security.CodeSource)
    */
-  public PermissionCollection getPermissions(CodeSource codesource) {
+  public PermissionCollection getPermissions(final CodeSource codesource) {
     // TODO: Important: This was required after switching to JDK Rhino. This
     // method gets called twice:
     // once with proper codesource and once with null. The second call needs
     // accessClassInPackage.sun.org.mozilla.javascript.internal.
     if (codesource == null) {
-      Permissions permissions = new Permissions();
+      final Permissions permissions = new Permissions();
       permissions.add(new RuntimePermission("accessClassInPackage.sun.org.mozilla.javascript.internal"));
       return permissions;
     }
 
-    URL location = codesource.getLocation();
+    final URL location = codesource.getLocation();
     if (location == null) {
       throw new AccessControlException("No location for coodesource=" + codesource);
     }
-    boolean isLocal = isLocal(location);
-    Permissions permissions = new Permissions();
+    final boolean isLocal = isLocal(location);
+    final Permissions permissions = new Permissions();
     if (isLocal) {
-      for (Permission p : BASE_PRIVILEGE) {
+      for (final Permission p : BASE_PRIVILEGE) {
         permissions.add(p);
       }
       // Custom permissions
@@ -219,13 +219,13 @@ public class LocalSecurityPolicy extends Policy {
       // by compiled JavaFX runtime at the moment (2/20/2008).
       permissions.add(new AWTPermission("accessEventQueue"));
 
-      String hostName = location.getHost();
+      final String hostName = location.getHost();
       // Get possible cookie domains for current location
       // and allow managed store access there.
-      Collection domains = Domains.getPossibleDomains(hostName);
-      Iterator i = domains.iterator();
+      final Collection domains = Domains.getPossibleDomains(hostName);
+      final Iterator i = domains.iterator();
       while (i.hasNext()) {
-        String domain = (String) i.next();
+        final String domain = (String) i.next();
         permissions.add(StoreHostPermission.forHost(domain));
       }
     }

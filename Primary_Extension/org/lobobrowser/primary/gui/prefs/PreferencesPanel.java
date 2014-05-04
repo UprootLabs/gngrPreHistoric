@@ -35,11 +35,11 @@ public class PreferencesPanel extends JPanel {
   }
 
   public boolean save() {
-    AbstractSettingsUI ui = this.ui;
+    final AbstractSettingsUI ui = this.ui;
     if (ui != null) {
       try {
         ui.save();
-      } catch (ValidationException ve) {
+      } catch (final ValidationException ve) {
         JOptionPane.showMessageDialog(this, ve.getMessage());
         return false;
       }
@@ -48,13 +48,13 @@ public class PreferencesPanel extends JPanel {
   }
 
   public void restoreDefaults() {
-    AbstractSettingsUI ui = this.ui;
+    final AbstractSettingsUI ui = this.ui;
     if (ui != null) {
       ui.restoreDefaults();
     }
   }
 
-  public void setSettingsUI(AbstractSettingsUI ui) {
+  public void setSettingsUI(final AbstractSettingsUI ui) {
     this.ui = ui;
     this.removeAll();
     if (ui != null) {

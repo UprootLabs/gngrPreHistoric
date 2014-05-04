@@ -37,22 +37,22 @@ public class PlatformStreamHandlerFactory implements URLStreamHandlerFactory {
     return instance;
   }
 
-  public void addFactory(URLStreamHandlerFactory factory) {
-    SecurityManager sm = System.getSecurityManager();
+  public void addFactory(final URLStreamHandlerFactory factory) {
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkSetFactory();
     }
-    Collection<URLStreamHandlerFactory> factories = this.factories;
+    final Collection<URLStreamHandlerFactory> factories = this.factories;
     synchronized (factories) {
       factories.add(factory);
     }
   }
 
-  public URLStreamHandler createURLStreamHandler(String protocol) {
-    Collection<URLStreamHandlerFactory> factories = this.factories;
+  public URLStreamHandler createURLStreamHandler(final String protocol) {
+    final Collection<URLStreamHandlerFactory> factories = this.factories;
     synchronized (factories) {
-      for (URLStreamHandlerFactory f : factories) {
-        URLStreamHandler handler = f.createURLStreamHandler(protocol);
+      for (final URLStreamHandlerFactory f : factories) {
+        final URLStreamHandler handler = f.createURLStreamHandler(protocol);
         if (handler != null) {
           return handler;
         }

@@ -75,7 +75,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @param menuBar
    *          A <code>JMenuBar</code> instance presumably set on a JFrame.
    */
-  public BrowserPanel(JMenuBar menuBar) {
+  public BrowserPanel(final JMenuBar menuBar) {
     this(menuBar, true, true, true);
   }
 
@@ -92,27 +92,27 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @param hasStatusBar
    *          Whether the panel has a status bar.
    */
-  public BrowserPanel(JMenuBar menuBar, boolean hasAddressBar, boolean hasToolBar, boolean hasStatusBar) {
+  public BrowserPanel(final JMenuBar menuBar, final boolean hasAddressBar, final boolean hasToolBar, final boolean hasStatusBar) {
     this.hasToolBar = hasToolBar;
     this.hasAddressBar = hasAddressBar;
     this.hasStatusBar = hasStatusBar;
     this.menuBar = menuBar;
 
-    String windowId = "BrowserPanel." + System.identityHashCode(this);
-    FramePanel framePanel = FramePanelFactorySource.getInstance().getActiveFactory().createFramePanel(windowId);
+    final String windowId = "BrowserPanel." + System.identityHashCode(this);
+    final FramePanel framePanel = FramePanelFactorySource.getInstance().getActiveFactory().createFramePanel(windowId);
     this.framePanel = framePanel;
 
-    Container contentPane = this;
+    final Container contentPane = this;
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     if (hasAddressBar) {
-      AddressBarPanel abp = new AddressBarPanel();
+      final AddressBarPanel abp = new AddressBarPanel();
       this.addressBarPanel = abp;
       contentPane.add(abp);
     } else {
       this.addressBarPanel = null;
     }
     if (hasToolBar) {
-      SharedToolBarPanel stbp = new SharedToolBarPanel();
+      final SharedToolBarPanel stbp = new SharedToolBarPanel();
       this.sharedToolBarPanel = stbp;
       contentPane.add(stbp);
     } else {
@@ -120,7 +120,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
     contentPane.add(new FillerComponent(framePanel, false));
     if (hasStatusBar) {
-      StatusBarPanel statusBar = new StatusBarPanel();
+      final StatusBarPanel statusBar = new StatusBarPanel();
       this.statusBarPanel = statusBar;
       contentPane.add(statusBar);
     } else {
@@ -144,7 +144,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @param urlOrPath
    *          An absolute URL or file path.
    */
-  public void navigate(String urlOrPath) throws java.net.MalformedURLException {
+  public void navigate(final String urlOrPath) throws java.net.MalformedURLException {
     this.framePanel.navigate(urlOrPath);
   }
 
@@ -154,12 +154,12 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @param url
    *          A URL.
    */
-  public void navigate(java.net.URL url) throws java.net.MalformedURLException {
+  public void navigate(final java.net.URL url) throws java.net.MalformedURLException {
     this.framePanel.navigate(url);
   }
 
-  public void addAddressBarComponent(Component addressBarComponent) {
-    AddressBarPanel abp = this.addressBarPanel;
+  public void addAddressBarComponent(final Component addressBarComponent) {
+    final AddressBarPanel abp = this.addressBarPanel;
     if (abp != null) {
       abp.add(addressBarComponent);
     }
@@ -167,8 +167,8 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   private final Map<String, JMenu> menuesById = new HashMap<String, JMenu>(1);
 
-  public void addMenu(String menuId, JMenu menu) {
-    JMenuBar menuBar = this.menuBar;
+  public void addMenu(final String menuId, final JMenu menu) {
+    final JMenuBar menuBar = this.menuBar;
     if (menuBar != null) {
       synchronized (this.menuesById) {
         this.menuesById.put(menuId, menu);
@@ -179,25 +179,25 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   private final EventDispatch2 EVENT = new LocalEventDispatch();
 
-  public void addNavigatorWindowListener(NavigatorWindowListener listener) {
+  public void addNavigatorWindowListener(final NavigatorWindowListener listener) {
     EVENT.addListener(listener);
   }
 
-  public void addSharedToolBarComponent(Component toolBarComponent) {
-    SharedToolBarPanel stbp = this.sharedToolBarPanel;
+  public void addSharedToolBarComponent(final Component toolBarComponent) {
+    final SharedToolBarPanel stbp = this.sharedToolBarPanel;
     if (stbp != null) {
       stbp.add(toolBarComponent);
     }
   }
 
-  public void addStatusBarComponent(Component statusBarComponent) {
-    StatusBarPanel sbp = this.statusBarPanel;
+  public void addStatusBarComponent(final Component statusBarComponent) {
+    final StatusBarPanel sbp = this.statusBarPanel;
     if (sbp != null) {
       sbp.add(statusBarComponent);
     }
   }
 
-  public void addToolBar(Component toolBar) {
+  public void addToolBar(final Component toolBar) {
     if (this.hasToolBar) {
       this.add(toolBar);
     }
@@ -206,7 +206,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   private volatile NavigatorFrame latestAccessedFrame = null;
 
   public boolean back() {
-    NavigatorFrame frame = this.latestAccessedFrame;
+    final NavigatorFrame frame = this.latestAccessedFrame;
     if (frame != null) {
       if (frame.back()) {
         return true;
@@ -219,7 +219,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   }
 
   public boolean canBack() {
-    NavigatorFrame frame = this.latestAccessedFrame;
+    final NavigatorFrame frame = this.latestAccessedFrame;
     if (frame != null) {
       if (frame.canBack()) {
         return true;
@@ -236,7 +236,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   }
 
   public boolean canForward() {
-    NavigatorFrame frame = this.latestAccessedFrame;
+    final NavigatorFrame frame = this.latestAccessedFrame;
     if (frame != null) {
       if (frame.canForward()) {
         return true;
@@ -263,7 +263,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return Box.createRigidArea(new Dimension(HGAP, VGAP));
   }
 
-  public Component createGlueComponent(Component wrappedComponent, boolean usingMaxSize) {
+  public Component createGlueComponent(final Component wrappedComponent, final boolean usingMaxSize) {
     return new FillerComponent(wrappedComponent, usingMaxSize);
   }
 
@@ -291,7 +291,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    *          A boolean value.
    * @see #dispose()
    */
-  public void setCloseWindowOnDispose(boolean closeWindowOnDispose) {
+  public void setCloseWindowOnDispose(final boolean closeWindowOnDispose) {
     this.closeWindowOnDispose = closeWindowOnDispose;
   }
 
@@ -303,7 +303,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    */
   public void dispose() {
     if (this.closeWindowOnDispose) {
-      java.awt.Window awtFrame = this.getAwtWindow();
+      final java.awt.Window awtFrame = this.getAwtWindow();
       if (awtFrame != null) {
         awtFrame.dispose();
       }
@@ -311,7 +311,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   }
 
   public boolean forward() {
-    NavigatorFrame frame = this.latestAccessedFrame;
+    final NavigatorFrame frame = this.latestAccessedFrame;
     if (frame != null) {
       if (frame.forward()) {
         return true;
@@ -343,7 +343,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return this.framePanel.getForwardNavigationEntries();
   }
 
-  public JMenu getMenu(String menuId) {
+  public JMenu getMenu(final String menuId) {
     synchronized (this.menuesById) {
       return this.menuesById.get(menuId);
     }
@@ -357,7 +357,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return org.lobobrowser.request.UserAgentImpl.getInstance();
   }
 
-  public boolean goTo(NavigationEntry entry) {
+  public boolean goTo(final NavigationEntry entry) {
     return this.framePanel.goTo(entry);
   }
 
@@ -370,7 +370,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return true;
   }
 
-  public void removeNavigatorWindowListener(NavigatorWindowListener listener) {
+  public void removeNavigatorWindowListener(final NavigatorWindowListener listener) {
     EVENT.removeListener(listener);
   }
 
@@ -406,7 +406,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
   }
 
-  public void handleDocumentAccess(NavigatorFrame frame, ClientletResponse response) {
+  public void handleDocumentAccess(final NavigatorFrame frame, final ClientletResponse response) {
     final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response);
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
@@ -427,7 +427,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
   }
 
-  protected String getWindowTitle(ClientletResponse response, ComponentContent content) {
+  protected String getWindowTitle(final ClientletResponse response, final ComponentContent content) {
     String title = content == null ? null : content.getTitle();
     if (title == null) {
       title = response == null ? "" : Urls.getNoRefForm(response.getResponseURL());
@@ -444,13 +444,13 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return documentTitle;
   }
 
-  public void setDocumentTitle(String documentTitle) {
+  public void setDocumentTitle(final String documentTitle) {
     this.documentTitle = documentTitle;
   }
 
-  private void handleDocumentRenderingImpl(final NavigatorFrame frame, ClientletResponse response, ComponentContent content) {
+  private void handleDocumentRenderingImpl(final NavigatorFrame frame, final ClientletResponse response, final ComponentContent content) {
     if (frame == this.framePanel) {
-      String title = this.getWindowTitle(response, content);
+      final String title = this.getWindowTitle(response, content);
       this.setDocumentTitle(title);
     }
     final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response);
@@ -468,17 +468,17 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     });
   }
 
-  public void handleError(NavigatorFrame frame, ClientletResponse response, Throwable exception) {
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
     this.getSafeExtensionManager().handleError(frame, response, exception);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
   }
 
-  public void setDefaultStatus(NavigatorFrame frame, String defaultStatus) {
+  public void setDefaultStatus(final NavigatorFrame frame, final String defaultStatus) {
     synchronized (this) {
       this.defaultStatus = defaultStatus;
       if (this.status == null) {
-        String actualStatus = this.defaultStatus;
+        final String actualStatus = this.defaultStatus;
         final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
         EventQueue.invokeLater(new Runnable() {
@@ -490,7 +490,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
   }
 
-  public void setStatus(NavigatorFrame frame, String value) {
+  public void setStatus(final NavigatorFrame frame, final String value) {
     String actualStatus;
     synchronized (this) {
       if (!Objects.equals(this.status, value)) {
@@ -536,9 +536,9 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   public class LocalEventDispatch extends EventDispatch2 {
     @Override
-    protected void dispatchEvent(EventListener listener, EventObject event) {
-      NavigatorEvent ne = (NavigatorEvent) event;
-      NavigatorWindowListener nwl = (NavigatorWindowListener) listener;
+    protected void dispatchEvent(final EventListener listener, final EventObject event) {
+      final NavigatorEvent ne = (NavigatorEvent) event;
+      final NavigatorWindowListener nwl = (NavigatorWindowListener) listener;
       switch (ne.getEventType()) {
       case DOCUMENT_ACCESSED:
         nwl.documentAccessed((NavigatorWindowEvent) ne);
@@ -567,7 +567,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @see FramePanel#addNavigationListener(NavigationListener)
    * @see FramePanelFactorySource
    */
-  public void addNavigationListener(NavigationListener listener) {
+  public void addNavigationListener(final NavigationListener listener) {
     this.framePanel.addNavigationListener(listener);
   }
 
@@ -578,7 +578,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @param listener
    *          The listener.
    */
-  public void removeNavigationListener(NavigationListener listener) {
+  public void removeNavigationListener(final NavigationListener listener) {
     this.framePanel.addNavigationListener(listener);
   }
 
@@ -589,11 +589,11 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    *          The listener.
    * @see #getComponentContent()
    */
-  public void addContentListener(ContentListener listener) {
+  public void addContentListener(final ContentListener listener) {
     this.framePanel.addContentListener(listener);
   }
 
-  public void removeContentListener(ContentListener listener) {
+  public void removeContentListener(final ContentListener listener) {
     this.framePanel.removeContentListener(listener);
   }
 
@@ -603,11 +603,11 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * @param listener
    *          The listener.
    */
-  public void addResponseListener(ResponseListener listener) {
+  public void addResponseListener(final ResponseListener listener) {
     this.framePanel.addResponseListener(listener);
   }
 
-  public void removeResponseListener(ResponseListener listener) {
+  public void removeResponseListener(final ResponseListener listener) {
     this.framePanel.removeResponseListener(listener);
   }
 

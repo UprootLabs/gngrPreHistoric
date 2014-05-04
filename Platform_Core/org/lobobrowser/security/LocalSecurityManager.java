@@ -32,7 +32,7 @@ public class LocalSecurityManager extends SecurityManager {
 
   @Override
   public ThreadGroup getThreadGroup() {
-    ThreadGroup tg = getCurrentThreadGroup();
+    final ThreadGroup tg = getCurrentThreadGroup();
     if (tg == null) {
       return super.getThreadGroup();
     } else {
@@ -40,7 +40,7 @@ public class LocalSecurityManager extends SecurityManager {
     }
   }
 
-  public static void setCurrentThreadGroup(ThreadGroup tg) {
+  public static void setCurrentThreadGroup(final ThreadGroup tg) {
     // TODO: Thread group needs to be thought through. It's retained in
     // memory, and we need to return the right one in the GUI thread as well.
     threadGroupTL.set(tg);

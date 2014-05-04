@@ -28,13 +28,13 @@ import java.io.ObjectStreamClass;
 public class ClassLoaderObjectInputStream extends ObjectInputStream {
   private final ClassLoader classLoader;
 
-  public ClassLoaderObjectInputStream(InputStream in, ClassLoader classLoader) throws IOException {
+  public ClassLoaderObjectInputStream(final InputStream in, final ClassLoader classLoader) throws IOException {
     super(in);
     this.classLoader = classLoader;
   }
 
   @Override
-  protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+  protected Class<?> resolveClass(final ObjectStreamClass desc) throws IOException, ClassNotFoundException {
     return Class.forName(desc.getName(), false, this.classLoader);
   }
 }

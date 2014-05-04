@@ -25,15 +25,15 @@ import java.net.URLClassLoader;
 import java.net.URLStreamHandlerFactory;
 
 public class ExtensionClassLoader extends URLClassLoader {
-  public ExtensionClassLoader(URL[] urls, ClassLoader parent, URLStreamHandlerFactory factory) {
+  public ExtensionClassLoader(final URL[] urls, final ClassLoader parent, final URLStreamHandlerFactory factory) {
     super(urls, parent, factory);
   }
 
-  public ExtensionClassLoader(URL[] urls, ClassLoader parent) {
+  public ExtensionClassLoader(final URL[] urls, final ClassLoader parent) {
     super(urls, parent);
   }
 
-  public ExtensionClassLoader(URL[] urls) {
+  public ExtensionClassLoader(final URL[] urls) {
     super(urls);
   }
 }

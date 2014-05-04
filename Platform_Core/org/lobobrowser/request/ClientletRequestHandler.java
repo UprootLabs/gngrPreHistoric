@@ -45,7 +45,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    */
   public final EventDispatch evtProgress = new EventDispatch();
 
-  public ClientletRequestHandler(ClientletRequest request, WindowCallback clientletUI, FramePanel frame) {
+  public ClientletRequestHandler(final ClientletRequest request, final WindowCallback clientletUI, final FramePanel frame) {
     super(request, frame.getComponent());
     this.windowCallback = clientletUI;
     this.frame = frame;
@@ -58,7 +58,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception
    * )
    */
-  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+  public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
     if (this.windowCallback != null) {
       this.windowCallback.handleError(this.frame, response, exception);
       return true;
@@ -84,14 +84,14 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     if (this.windowCallback != null) {
       this.windowCallback.handleDocumentAccess(this.frame, response);
     }
-    Clientlet clientlet = ClientletFactory.getInstance().getClientlet(this.getRequest(), response);
+    final Clientlet clientlet = ClientletFactory.getInstance().getClientlet(this.getRequest(), response);
     if (clientlet == null) {
       throw new ClientletException("Unable to find clientlet for response: " + response + ".");
     }
     this.frame.setProgressEvent(null);
-    ClientletContext ctx = new ClientletContextImpl(this.frame, this.request, response) {
+    final ClientletContext ctx = new ClientletContextImpl(this.frame, this.request, response) {
       @Override
-      public void setResultingContent(ComponentContent content) {
+      public void setResultingContent(final ComponentContent content) {
         // Frame content should be replaced as
         // soon as this method is called to allow
         // for incremental rendering.
@@ -104,12 +104,12 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
         evtProgress.fireEvent(null);
       }
     };
-    ClientletContext prevCtx = ClientletAccess.getCurrentClientletContext();
+    final ClientletContext prevCtx = ClientletAccess.getCurrentClientletContext();
     ClientletAccess.setCurrentClientletContext(ctx);
-    ThreadGroup prevThreadGroup = LocalSecurityManager.getCurrentThreadGroup();
+    final ThreadGroup prevThreadGroup = LocalSecurityManager.getCurrentThreadGroup();
     // TODO: Thread group needs to be thought through. It's retained in
     // memory, and we need to return the right one in the GUI thread as well.
-    ThreadGroup newThreadGroup = null; // new
+    final ThreadGroup newThreadGroup = null; // new
                                        // org.lobobrowser.context.ClientletThreadGroupImpl("CTG-"
                                        // +
                                        // ctx.getResponse().getResponseURL().getHost(),
@@ -117,8 +117,8 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     LocalSecurityManager.setCurrentThreadGroup(newThreadGroup);
     // Set context class loader because the extension was likely
     // compiled to require extension libraries.
-    Thread currentThread = Thread.currentThread();
-    ClassLoader prevClassLoader = currentThread.getContextClassLoader();
+    final Thread currentThread = Thread.currentThread();
+    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
     currentThread.setContextClassLoader(clientlet.getClass().getClassLoader());
     try {
       clientlet.process(ctx);
@@ -130,17 +130,17 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     this.frame.informResponseProcessed(response);
   }
 
-  public void handleProgress(ProgressType progressType, URL url, String method, int value, int max) {
-    NavigatorProgressEvent event = new NavigatorProgressEvent(this, this.frame, progressType, url, method, value, max);
+  public void handleProgress(final ProgressType progressType, final URL url, final String method, final int value, final int max) {
+    final NavigatorProgressEvent event = new NavigatorProgressEvent(this, this.frame, progressType, url, method, value, max);
     this.evtProgress.fireEvent(event);
     this.frame.setProgressEvent(event);
   }
 
-  public static String getProgressMessage(ProgressType progressType, URL url) {
-    String urlText = url == null ? "[null]" : Urls.getNoRefForm(url);
+  public static String getProgressMessage(final ProgressType progressType, final URL url) {
+    final String urlText = url == null ? "[null]" : Urls.getNoRefForm(url);
     switch (progressType) {
     case CONNECTING:
-      String host = url.getHost();
+      final String host = url.getHost();
       if (host == null || "".equals(host)) {
         return "Opening " + urlText;
       } else {

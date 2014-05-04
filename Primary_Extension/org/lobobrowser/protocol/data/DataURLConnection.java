@@ -24,10 +24,10 @@ import sun.misc.BASE64Decoder;
  */
 public class DataURLConnection extends URLConnection {
 
-  private HashMap<String, String> headerMap = new HashMap<String, String>();
+  private final HashMap<String, String> headerMap = new HashMap<String, String>();
   private byte[] content = new byte[0];
 
-  protected DataURLConnection(URL url) {
+  protected DataURLConnection(final URL url) {
     super(url);
     loadHeaderMap();
   }
@@ -37,16 +37,16 @@ public class DataURLConnection extends URLConnection {
   }
 
   private void loadHeaderMap() {
-    String UTF8 = "UTF-8";
+    final String UTF8 = "UTF-8";
     this.headerMap.clear();
-    String path = getURL().getPath();
+    final String path = getURL().getPath();
     int index2 = path.toLowerCase().indexOf(",");
     if (index2 == -1) {
       index2 = path.toLowerCase().lastIndexOf(";");
     }
-    String mediatype = path.substring(0, index2).trim();
+    final String mediatype = path.substring(0, index2).trim();
     boolean base64 = false;
-    String[] split = mediatype.split("[;,]");
+    final String[] split = mediatype.split("[;,]");
     String value = path.substring(index2 + 1).trim();
     if (split[0].equals("")) {
       split[0] = "text/plain";
@@ -57,9 +57,9 @@ public class DataURLConnection extends URLConnection {
     try {
       for (int i = 1; i < split.length; i++) {
         if (split[i].contains("=")) {
-          int index = split[i].indexOf("=");
-          String attr = split[i].substring(0, index);
-          String v = split[i].substring(index + 1);
+          final int index = split[i].indexOf("=");
+          final String attr = split[i].substring(0, index);
+          final String v = split[i].substring(index + 1);
           this.headerMap.put(attr, java.net.URLDecoder.decode(v, UTF8));
         } else if (split[i].equalsIgnoreCase("base64")) {
           base64 = true;
@@ -75,7 +75,7 @@ public class DataURLConnection extends URLConnection {
       } else {
         this.content = value.getBytes();
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       e.printStackTrace();
     }
 
@@ -87,12 +87,12 @@ public class DataURLConnection extends URLConnection {
   }
 
   @Override
-  public String getHeaderField(int n) {
+  public String getHeaderField(final int n) {
     return headerMap.get(headerMap.keySet().toArray()[n]);
   }
 
   @Override
-  public String getHeaderField(String name) {
+  public String getHeaderField(final String name) {
     return headerMap.get(name);
   }
 

@@ -43,7 +43,7 @@ public class VolatileContentImpl implements ContentBuffer {
   /**
 	 * 
 	 */
-  public VolatileContentImpl(String contentType, byte[] bytes) {
+  public VolatileContentImpl(final String contentType, final byte[] bytes) {
     super();
     this.id = ID.generateLong();
     this.contentType = contentType;
@@ -61,12 +61,12 @@ public class VolatileContentImpl implements ContentBuffer {
   public URL getURL() {
     try {
       return new URL("vc:" + this.id);
-    } catch (MalformedURLException mfu) {
+    } catch (final MalformedURLException mfu) {
       throw new IllegalStateException(mfu);
     }
   }
 
-  public static VolatileContentImpl getVolatileContent(long id) {
+  public static VolatileContentImpl getVolatileContent(final long id) {
     synchronized (volatileMap) {
       return (VolatileContentImpl) volatileMap.get(new Long(id));
     }

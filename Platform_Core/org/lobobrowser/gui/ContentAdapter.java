@@ -25,6 +25,6 @@ package org.lobobrowser.gui;
  * methods.
  */
 public abstract class ContentAdapter implements ContentListener {
-  public void contentSet(ContentEvent event) {
+  public void contentSet(final ContentEvent event) {
   }
 }

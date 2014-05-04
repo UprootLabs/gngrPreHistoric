@@ -81,7 +81,7 @@ public class PlatformAccess {
    *          An array of URLs to open.
    * @see #launchLocal
    */
-  public void launch(String[] urls) {
+  public void launch(final String[] urls) {
     EntryPoint.main(urls);
   }
 
@@ -109,7 +109,7 @@ public class PlatformAccess {
    * @see #initPlatform()
    * @see #createFrame()
    */
-  public void launchLocal(String[] urls) throws MalformedURLException {
+  public void launchLocal(final String[] urls) throws MalformedURLException {
     PlatformInit.getInstance().start(urls);
   }
 
@@ -123,7 +123,7 @@ public class PlatformAccess {
    * @return A Permission object which may be used in a security Policy.
    * @see #initPlatform
    */
-  public Permission createHostPermission(String hostName) {
+  public Permission createHostPermission(final String hostName) {
     return StoreHostPermission.forHost(hostName);
   }
 
@@ -137,7 +137,7 @@ public class PlatformAccess {
    * @return A Permission object which may be used in a security Policy.
    * @see #initPlatform()
    */
-  public Permission createHostPermission(java.net.URL url) {
+  public Permission createHostPermission(final java.net.URL url) {
     return StoreHostPermission.forURL(url);
   }
 
@@ -151,7 +151,7 @@ public class PlatformAccess {
    *          A <code>ClientletSelector</code> instance.
    * @see org.lobobrowser.clientlet.ClientletSelector
    */
-  public void addClientletSelector(ClientletSelector selector) {
+  public void addClientletSelector(final ClientletSelector selector) {
     ClientletFactory.getInstance().addClientletSelector(selector);
   }
 

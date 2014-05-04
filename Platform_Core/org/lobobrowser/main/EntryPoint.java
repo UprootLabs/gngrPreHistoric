@@ -39,12 +39,12 @@ public class EntryPoint extends Canvas {
    * in Eclipse) you need to set up the "ext.dirs" and/or "ext.files"
    * properties.
    */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     try {
       ReuseManager.getInstance().launch(args);
-    } catch (Throwable err) {
-      StringWriter swriter = new StringWriter();
-      PrintWriter writer = new PrintWriter(swriter);
+    } catch (final Throwable err) {
+      final StringWriter swriter = new StringWriter();
+      final PrintWriter writer = new PrintWriter(swriter);
       err.printStackTrace(writer);
       writer.flush();
       JOptionPane.showMessageDialog(new JFrame(), "An unexpected error occurred during application startup:\r\n" + swriter.toString(),

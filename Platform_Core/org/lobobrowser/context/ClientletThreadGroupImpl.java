@@ -25,7 +25,7 @@ import org.lobobrowser.clientlet.*;
 public class ClientletThreadGroupImpl extends ThreadGroup implements ClientletThreadGroup {
   private final ClientletContext context;
 
-  public ClientletThreadGroupImpl(String name, ClientletContext context) {
+  public ClientletThreadGroupImpl(final String name, final ClientletContext context) {
     super(name);
     this.context = context;
   }

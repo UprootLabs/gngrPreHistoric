@@ -34,7 +34,7 @@ public class QuotaExceededException extends IOException {
     super();
   }
 
-  public QuotaExceededException(String message) {
+  public QuotaExceededException(final String message) {
     super(message);
   }
 }

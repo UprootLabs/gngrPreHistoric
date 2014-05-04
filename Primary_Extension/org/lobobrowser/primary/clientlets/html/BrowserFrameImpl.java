@@ -37,7 +37,7 @@ public class BrowserFrameImpl implements BrowserFrame {
   private final NavigatorFrame frame;
   private final HtmlRendererContextImpl rcontext;
 
-  public BrowserFrameImpl(NavigatorFrame frame, HtmlRendererContext parentrcontext) {
+  public BrowserFrameImpl(final NavigatorFrame frame, final HtmlRendererContext parentrcontext) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("BrowserFrameImpl(): frame=" + frame + ",parentrcontext=" + parentrcontext);
     }
@@ -57,22 +57,22 @@ public class BrowserFrameImpl implements BrowserFrame {
     return this.rcontext.getContentDocument();
   }
 
-  public void loadURL(URL url) {
+  public void loadURL(final URL url) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("loadURL(): frame=" + frame + ",url=" + url);
     }
     this.frame.navigate(url, "GET", null, TargetType.SELF, RequestType.FRAME);
   }
 
-  public void setDefaultMarginInsets(Insets insets) {
+  public void setDefaultMarginInsets(final Insets insets) {
     this.frame.setProperty("defaultMarginInsets", insets);
   }
 
-  public void setDefaultOverflowX(int overflowX) {
+  public void setDefaultOverflowX(final int overflowX) {
     this.frame.setProperty("defaultOverflowX", overflowX);
   }
 
-  public void setDefaultOverflowY(int overflowY) {
+  public void setDefaultOverflowY(final int overflowY) {
     this.frame.setProperty("defaultOverflowY", overflowY);
   }
 }

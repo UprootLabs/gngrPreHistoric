@@ -29,19 +29,19 @@ public class ItemListControl<T> extends JComponent {
   private final JComboBox comboBox;
   private final ItemEditorFactory<T> itemEditorFactory;
 
-  public ItemListControl(ItemEditorFactory<T> ief) {
+  public ItemListControl(final ItemEditorFactory<T> ief) {
     this.itemEditorFactory = ief;
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     this.comboBox = new JComboBox<T>();
     this.comboBox.setPreferredSize(new Dimension(100, 24));
     this.comboBox.setEditable(false);
-    JButton editButton = new JButton();
+    final JButton editButton = new JButton();
     editButton.setAction(new EditAction(false));
     editButton.setText("Edit");
-    JButton addButton = new JButton();
+    final JButton addButton = new JButton();
     addButton.setAction(new EditAction(true));
     addButton.setText("Add");
-    JButton removeButton = new JButton();
+    final JButton removeButton = new JButton();
     removeButton.setAction(new RemoveAction());
     removeButton.setText("Remove");
     this.add(this.comboBox);
@@ -50,10 +50,10 @@ public class ItemListControl<T> extends JComponent {
     this.add(removeButton);
   }
 
-  public void setItems(Collection<T> items) {
-    JComboBox<T> comboBox = this.comboBox;
+  public void setItems(final Collection<T> items) {
+    final JComboBox<T> comboBox = this.comboBox;
     comboBox.removeAllItems();
-    for (T item : items) {
+    for (final T item : items) {
       comboBox.addItem(item);
     }
   }
@@ -62,13 +62,13 @@ public class ItemListControl<T> extends JComponent {
     return (T) this.comboBox.getSelectedItem();
   }
 
-  private void addItem(T item) {
+  private void addItem(final T item) {
     this.comboBox.addItem(item);
     this.comboBox.setSelectedItem(item);
   }
 
-  private void replaceSelectedItem(T item) {
-    int index = this.comboBox.getSelectedIndex();
+  private void replaceSelectedItem(final T item) {
+    final int index = this.comboBox.getSelectedIndex();
     if (index != -1) {
       this.comboBox.removeItemAt(index);
     }
@@ -77,15 +77,15 @@ public class ItemListControl<T> extends JComponent {
   }
 
   private void removeSelectedItem() {
-    int index = this.comboBox.getSelectedIndex();
+    final int index = this.comboBox.getSelectedIndex();
     if (index != -1) {
       this.comboBox.removeItemAt(index);
     }
   }
 
   public Collection<T> getItems() {
-    Collection<T> items = new ArrayList<T>();
-    int count = this.comboBox.getItemCount();
+    final Collection<T> items = new ArrayList<T>();
+    final int count = this.comboBox.getItemCount();
     for (int i = 0; i < count; i++) {
       items.add((T) this.comboBox.getItemAt(i));
     }
@@ -94,12 +94,12 @@ public class ItemListControl<T> extends JComponent {
 
   private String editListCaption;
 
-  public void setEditorCaption(String caption) {
+  public void setEditorCaption(final String caption) {
     this.editListCaption = caption;
   }
 
   private class RemoveAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       if (JOptionPane.showConfirmDialog(ItemListControl.this, "Are you sure you want to remove the selected item?", "Confirm",
           JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         removeSelectedItem();
@@ -110,24 +110,24 @@ public class ItemListControl<T> extends JComponent {
   private class EditAction extends AbstractAction {
     private final boolean add;
 
-    public EditAction(boolean add) {
+    public EditAction(final boolean add) {
       this.add = add;
     }
 
-    public void actionPerformed(ActionEvent e) {
-      Frame parentFrame = SwingTasks.getFrame(ItemListControl.this);
+    public void actionPerformed(final ActionEvent e) {
+      final Frame parentFrame = SwingTasks.getFrame(ItemListControl.this);
       ItemEditorDialog<T> dialog;
       if (parentFrame != null) {
         dialog = new ItemEditorDialog<T>(parentFrame, itemEditorFactory);
       } else {
-        Dialog parentDialog = SwingTasks.getDialog(ItemListControl.this);
+        final Dialog parentDialog = SwingTasks.getDialog(ItemListControl.this);
         dialog = new ItemEditorDialog<T>(parentDialog, itemEditorFactory);
       }
       dialog.setModal(true);
       dialog.setTitle(this.add ? "Add Item" : "Edit Item");
       dialog.setCaption(editListCaption);
       dialog.pack();
-      Dimension size = dialog.getSize();
+      final Dimension size = dialog.getSize();
       if (size.width > 400) {
         dialog.setSize(new Dimension(400, size.height));
       }
@@ -136,7 +136,7 @@ public class ItemListControl<T> extends JComponent {
         dialog.setItem(getSelectedItem());
       }
       dialog.setVisible(true);
-      T item = dialog.getResultingItem();
+      final T item = dialog.getResultingItem();
       if (item != null) {
         if (this.add) {
           addItem(item);

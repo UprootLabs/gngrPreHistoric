@@ -68,12 +68,12 @@ public final class RequestEngine {
     return instance;
   }
 
-  public String getCookie(java.net.URL url) {
-    Collection cookies = this.cookieStore.getCookies(url.getHost(), url.getPath());
-    StringBuffer cookieText = new StringBuffer();
-    Iterator i = cookies.iterator();
+  public String getCookie(final java.net.URL url) {
+    final Collection cookies = this.cookieStore.getCookies(url.getHost(), url.getPath());
+    final StringBuffer cookieText = new StringBuffer();
+    final Iterator i = cookies.iterator();
     while (i.hasNext()) {
-      Cookie cookie = (Cookie) i.next();
+      final Cookie cookie = (Cookie) i.next();
       cookieText.append(cookie.getName());
       cookieText.append('=');
       cookieText.append(cookie.getValue());
@@ -83,11 +83,11 @@ public final class RequestEngine {
     return cookieText.toString();
   }
 
-  public void setCookie(URL url, String cookieSpec) {
+  public void setCookie(final URL url, final String cookieSpec) {
     this.cookieStore.saveCookie(url, cookieSpec);
   }
 
-  public void setCookie(String urlHostName, String cookieSpec) {
+  public void setCookie(final String urlHostName, final String cookieSpec) {
     this.cookieStore.saveCookie(urlHostName, cookieSpec);
   }
 
@@ -95,60 +95,60 @@ public final class RequestEngine {
     this.threadPool.cancelAll();
   }
 
-  public void cancelRequest(RequestHandler rhToDelete) {
+  public void cancelRequest(final RequestHandler rhToDelete) {
     this.threadPool.cancel(new RequestHandlerTask(rhToDelete));
     this.cancelRequestIfRunning(rhToDelete);
   }
 
-  public void cancelRequestIfRunning(RequestHandler rhToDelete) {
+  public void cancelRequestIfRunning(final RequestHandler rhToDelete) {
     rhToDelete.cancel();
-    List<RequestInfo> handlersToCancel = new ArrayList<RequestInfo>();
+    final List<RequestInfo> handlersToCancel = new ArrayList<RequestInfo>();
     synchronized (this.processingRequests) {
-      Iterator<RequestInfo> ri = this.processingRequests.iterator();
+      final Iterator<RequestInfo> ri = this.processingRequests.iterator();
       while (ri.hasNext()) {
-        RequestInfo rinfo = ri.next();
+        final RequestInfo rinfo = ri.next();
         if (rinfo.getRequestHandler() == rhToDelete) {
           handlersToCancel.add(rinfo);
         }
       }
     }
-    Iterator<RequestInfo> ri2 = handlersToCancel.iterator();
+    final Iterator<RequestInfo> ri2 = handlersToCancel.iterator();
     while (ri2.hasNext()) {
-      RequestInfo rinfo = ri2.next();
+      final RequestInfo rinfo = ri2.next();
       rinfo.abort();
     }
   }
 
-  public void scheduleRequest(RequestHandler handler) {
+  public void scheduleRequest(final RequestHandler handler) {
     // Note: Important to create task with current access context if there's
     // a security manager.
-    SecurityManager sm = System.getSecurityManager();
-    AccessControlContext context = sm == null ? null : AccessController.getContext();
+    final SecurityManager sm = System.getSecurityManager();
+    final AccessControlContext context = sm == null ? null : AccessController.getContext();
     this.threadPool.schedule(new RequestHandlerTask(handler, context));
   }
 
   private static final String NORMAL_FORM_ENCODING = "application/x-www-form-urlencoded";
 
-  private void postData(URLConnection connection, ParameterInfo pinfo, String altPostData) throws IOException {
-    BooleanSettings boolSettings = this.booleanSettings;
-    String encoding = pinfo.getEncoding();
+  private void postData(final URLConnection connection, final ParameterInfo pinfo, final String altPostData) throws IOException {
+    final BooleanSettings boolSettings = this.booleanSettings;
+    final String encoding = pinfo.getEncoding();
     if (encoding == null || NORMAL_FORM_ENCODING.equalsIgnoreCase(encoding)) {
-      ByteArrayOutputStream bufOut = new ByteArrayOutputStream();
+      final ByteArrayOutputStream bufOut = new ByteArrayOutputStream();
       if (pinfo != null) {
-        Parameter[] parameters = pinfo.getParameters();
+        final Parameter[] parameters = pinfo.getParameters();
         boolean firstParam = true;
         for (int i = 0; i < parameters.length; i++) {
-          Parameter parameter = parameters[i];
-          String name = parameter.getName();
-          String encName = URLEncoder.encode(name, "UTF-8");
+          final Parameter parameter = parameters[i];
+          final String name = parameter.getName();
+          final String encName = URLEncoder.encode(name, "UTF-8");
           if (parameter.isText()) {
             if (firstParam) {
               firstParam = false;
             } else {
               bufOut.write((byte) '&');
             }
-            String valueStr = parameter.getTextValue();
-            String encValue = URLEncoder.encode(valueStr, "UTF-8");
+            final String valueStr = parameter.getTextValue();
+            final String encValue = URLEncoder.encode(valueStr, "UTF-8");
             bufOut.write(encName.getBytes("UTF-8"));
             bufOut.write((byte) '=');
             bufOut.write(encValue.getBytes("UTF-8"));
@@ -164,7 +164,7 @@ public final class RequestEngine {
       }
       // Do not add a line break to post content. Some servers
       // can be picky about that (namely, java.net).
-      byte[] postContent = bufOut.toByteArray();
+      final byte[] postContent = bufOut.toByteArray();
       if (loggerInfo) {
         logger.info("postData(): Will post: " + new String(postContent));
       }
@@ -178,33 +178,33 @@ public final class RequestEngine {
       connection.setRequestProperty("Content-Type", NORMAL_FORM_ENCODING);
       // connection.setRequestProperty("Content-Length",
       // String.valueOf(postContent.length));
-      OutputStream postOut = connection.getOutputStream();
+      final OutputStream postOut = connection.getOutputStream();
       postOut.write(postContent);
       postOut.flush();
     } else if ("multipart/form-data".equalsIgnoreCase(encoding)) {
-      long id = ID.generateLong();
-      String boundary = "----------------" + id;
-      boolean chunked = boolSettings.isHttpUseChunkedEncodingPOST();
+      final long id = ID.generateLong();
+      final String boundary = "----------------" + id;
+      final boolean chunked = boolSettings.isHttpUseChunkedEncodingPOST();
       OutputStream mfstream;
       if (chunked) {
         mfstream = connection.getOutputStream();
       } else {
         mfstream = new ByteArrayOutputStream();
       }
-      MultipartFormDataWriter writer = new MultipartFormDataWriter(mfstream, boundary);
+      final MultipartFormDataWriter writer = new MultipartFormDataWriter(mfstream, boundary);
       try {
         if (pinfo != null) {
-          Parameter[] parameters = pinfo.getParameters();
+          final Parameter[] parameters = pinfo.getParameters();
           for (int i = 0; i < parameters.length; i++) {
-            Parameter parameter = parameters[i];
-            String name = parameter.getName();
+            final Parameter parameter = parameters[i];
+            final String name = parameter.getName();
             if (parameter.isText()) {
               writer.writeText(name, parameter.getTextValue(), "UTF-8");
             } else if (parameter.isFile()) {
-              File file = parameter.getFileValue();
-              FileInputStream in = new FileInputStream(parameter.getFileValue());
+              final File file = parameter.getFileValue();
+              final FileInputStream in = new FileInputStream(parameter.getFileValue());
               try {
-                BufferedInputStream bin = new BufferedInputStream(in, 8192);
+                final BufferedInputStream bin = new BufferedInputStream(in, 8192);
                 writer.writeFileData(name, file.getName(), Files.getContentType(file), bin);
               } finally {
                 in.close();
@@ -223,11 +223,11 @@ public final class RequestEngine {
           ((HttpURLConnection) connection).setChunkedStreamingMode(8192);
         }
       } else {
-        byte[] content = ((ByteArrayOutputStream) mfstream).toByteArray();
+        final byte[] content = ((ByteArrayOutputStream) mfstream).toByteArray();
         if (connection instanceof HttpURLConnection) {
           ((HttpURLConnection) connection).setFixedLengthStreamingMode(content.length);
         }
-        OutputStream out = connection.getOutputStream();
+        final OutputStream out = connection.getOutputStream();
         out.write(content);
       }
     } else {
@@ -235,19 +235,19 @@ public final class RequestEngine {
     }
   }
 
-  private String completeGetUrl(String baseURL, ParameterInfo pinfo, String ref) throws Exception {
+  private String completeGetUrl(final String baseURL, final ParameterInfo pinfo, final String ref) throws Exception {
     String newNoRefURL;
-    Parameter[] parameters = pinfo.getParameters();
+    final Parameter[] parameters = pinfo.getParameters();
     if (parameters != null && parameters.length > 0) {
-      StringBuffer sb = new StringBuffer(baseURL);
-      int qmIdx = baseURL.indexOf('?');
+      final StringBuffer sb = new StringBuffer(baseURL);
+      final int qmIdx = baseURL.indexOf('?');
       char separator = qmIdx == -1 ? '?' : '&';
       for (int i = 0; i < parameters.length; i++) {
         if (parameters[i].isText()) {
           sb.append(separator);
           sb.append(parameters[i].getName());
           sb.append('=');
-          String paramText = parameters[i].getTextValue();
+          final String paramText = parameters[i].getTextValue();
           sb.append(URLEncoder.encode(paramText, "UTF-8"));
           separator = '&';
         } else {
@@ -265,9 +265,9 @@ public final class RequestEngine {
     }
   }
 
-  private void addRequestProperties(URLConnection connection, ClientletRequest request, CacheInfo cacheInfo, String requestMethod,
-      URL lastRequestURL) throws ProtocolException {
-    UserAgent userAgent = request.getUserAgent();
+  private void addRequestProperties(final URLConnection connection, final ClientletRequest request, final CacheInfo cacheInfo, final String requestMethod,
+      final URL lastRequestURL) throws ProtocolException {
+    final UserAgent userAgent = request.getUserAgent();
     connection.addRequestProperty("User-Agent", userAgent.toString());
     connection.addRequestProperty("X-Java-Version", userAgent.getJavaVersion());
     // TODO: Commenting out X-Session-ID. Needs to be privately generated
@@ -277,24 +277,24 @@ public final class RequestEngine {
     //
     // connection.addRequestProperty("X-Session-ID",
     // userAgent.getSessionID(connection.getURL()));
-    String referrer = request.getReferrer();
+    final String referrer = request.getReferrer();
     if (referrer != null) {
       connection.addRequestProperty("Referer", referrer);
     }
     if (cacheInfo != null) {
-      String date = cacheInfo.getDateAsText();
+      final String date = cacheInfo.getDateAsText();
       if (date != null) {
         connection.addRequestProperty("If-Modified-Since", date);
       }
     }
     if (connection instanceof HttpURLConnection) {
-      HttpURLConnection hconnection = (HttpURLConnection) connection;
+      final HttpURLConnection hconnection = (HttpURLConnection) connection;
       hconnection.setRequestMethod(requestMethod);
     }
-    Header[] headers = request.getExtraHeaders();
+    final Header[] headers = request.getExtraHeaders();
     if (headers != null) {
       for (int i = 0; i < headers.length; i++) {
-        String headerName = headers[i].getName();
+        final String headerName = headers[i].getName();
         if (headerName.startsWith("X-")) {
           connection.addRequestProperty(headerName, headers[i].getValue());
         } else {
@@ -312,13 +312,13 @@ public final class RequestEngine {
       public CacheInfo run() {
         MemoryCacheEntry entry;
         byte[] persistentContent = null;
-        CacheManager cm = CacheManager.getInstance();
+        final CacheManager cm = CacheManager.getInstance();
         entry = (MemoryCacheEntry) cm.getTransient(url);
         if (entry == null) {
           if (!"file".equalsIgnoreCase(url.getProtocol()) || !Strings.isBlank(url.getHost())) {
             try {
               persistentContent = cm.getPersistent(url, false);
-            } catch (java.io.IOException ioe) {
+            } catch (final java.io.IOException ioe) {
               logger.log(Level.WARNING, "getCacheInfo(): Unable to load cache file.", ioe);
             }
           }
@@ -326,7 +326,7 @@ public final class RequestEngine {
         if (persistentContent == null && entry == null) {
           return null;
         }
-        CacheInfo cinfo = new CacheInfo(entry, persistentContent, url);
+        final CacheInfo cinfo = new CacheInfo(entry, persistentContent, url);
         return cinfo;
       }
     });
@@ -339,7 +339,7 @@ public final class RequestEngine {
       // file system. Yet, caching should be allowed.
       public Object run() {
         try {
-          long currentTime = System.currentTimeMillis();
+          final long currentTime = System.currentTimeMillis();
           if (loggerInfo) {
             logger.info("cache(): url=" + url + ",content.length=" + content.length + ",currentTime=" + currentTime);
           }
@@ -351,18 +351,18 @@ public final class RequestEngine {
               actualApproxObjectSize = approxAltObjectSize;
             }
           }
-          Long expiration = Urls.getExpiration(connection, currentTime);
-          List<NameValuePair> headers = Urls.getHeaders(connection);
-          MemoryCacheEntry memEntry = new MemoryCacheEntry(content, headers, expiration, altObject, actualApproxObjectSize);
-          int approxMemEntrySize = content.length + (altObject == null ? 0 : approxAltObjectSize);
-          CacheManager cm = CacheManager.getInstance();
+          final Long expiration = Urls.getExpiration(connection, currentTime);
+          final List<NameValuePair> headers = Urls.getHeaders(connection);
+          final MemoryCacheEntry memEntry = new MemoryCacheEntry(content, headers, expiration, altObject, actualApproxObjectSize);
+          final int approxMemEntrySize = content.length + (altObject == null ? 0 : approxAltObjectSize);
+          final CacheManager cm = CacheManager.getInstance();
           cm.putTransient(url, memEntry, approxMemEntrySize);
-          ByteArrayOutputStream out = new ByteArrayOutputStream();
+          final ByteArrayOutputStream out = new ByteArrayOutputStream();
           try {
             boolean hadDate = false;
             boolean hadContentLength = false;
             for (int counter = 0; true; counter++) {
-              String headerKey = connection.getHeaderFieldKey(counter);
+              final String headerKey = connection.getHeaderFieldKey(counter);
               if (headerKey != null) {
                 if (!hadDate && "date".equalsIgnoreCase(headerKey)) {
                   hadDate = true;
@@ -371,27 +371,27 @@ public final class RequestEngine {
                   hadContentLength = true;
                 }
               }
-              String headerValue = connection.getHeaderField(counter);
+              final String headerValue = connection.getHeaderField(counter);
               if (headerValue == null) {
                 break;
               }
               if (CacheInfo.HEADER_REQUEST_TIME.equalsIgnoreCase(headerKey)) {
                 continue;
               }
-              String headerPrefix = headerKey == null || headerKey.length() == 0 ? "" : headerKey + ": ";
-              byte[] headerBytes = (headerPrefix + headerValue + "\r\n").getBytes("ISO-8859-1");
+              final String headerPrefix = headerKey == null || headerKey.length() == 0 ? "" : headerKey + ": ";
+              final byte[] headerBytes = (headerPrefix + headerValue + "\r\n").getBytes("ISO-8859-1");
               out.write(headerBytes);
             }
             if (!hadDate) {
-              String currentDate = Urls.PATTERN_RFC1123.format(new java.util.Date());
-              byte[] headerBytes = ("Date: " + currentDate + "\r\n").getBytes("ISO-8859-1");
+              final String currentDate = Urls.PATTERN_RFC1123.format(new java.util.Date());
+              final byte[] headerBytes = ("Date: " + currentDate + "\r\n").getBytes("ISO-8859-1");
               out.write(headerBytes);
             }
             if (!hadContentLength) {
-              byte[] headerBytes = ("Content-Length: " + content.length + "\r\n").getBytes("ISO-8859-1");
+              final byte[] headerBytes = ("Content-Length: " + content.length + "\r\n").getBytes("ISO-8859-1");
               out.write(headerBytes);
             }
-            byte[] rtHeaderBytes = (CacheInfo.HEADER_REQUEST_TIME + ": " + currentTime + "\r\n").getBytes("ISO-8859-1");
+            final byte[] rtHeaderBytes = (CacheInfo.HEADER_REQUEST_TIME + ": " + currentTime + "\r\n").getBytes("ISO-8859-1");
             out.write(rtHeaderBytes);
             out.write(IORoutines.LINE_BREAK_BYTES);
             out.write(content);
@@ -400,26 +400,26 @@ public final class RequestEngine {
           }
           try {
             cm.putPersistent(url, out.toByteArray(), false);
-          } catch (Exception err) {
+          } catch (final Exception err) {
             logger.log(Level.WARNING, "cache(): Unable to cache response content.", err);
           }
           if (altPersistentObject != null) {
             try {
-              ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
+              final ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
               // No need to buffer - Java API already does.
-              ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+              final ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
               objOut.writeObject(altPersistentObject);
               objOut.flush();
-              byte[] byteArray = fileOut.toByteArray();
+              final byte[] byteArray = fileOut.toByteArray();
               if (byteArray.length == 0) {
                 logger.log(Level.WARNING, "cache(): Serialized content has zero bytes for persistent object " + altPersistentObject + ".");
               }
               cm.putPersistent(url, byteArray, true);
-            } catch (Exception err) {
+            } catch (final Exception err) {
               logger.log(Level.WARNING, "cache(): Unable to write persistent cached object.", err);
             }
           }
-        } catch (Exception err) {
+        } catch (final Exception err) {
           logger.log(Level.WARNING, "cache()", err);
         }
         return null;
@@ -427,12 +427,12 @@ public final class RequestEngine {
     });
   }
 
-  private boolean mayBeCached(HttpURLConnection connection) {
-    String cacheControl = connection.getHeaderField("Cache-Control");
+  private boolean mayBeCached(final HttpURLConnection connection) {
+    final String cacheControl = connection.getHeaderField("Cache-Control");
     if (cacheControl != null) {
-      StringTokenizer tok = new StringTokenizer(cacheControl, ",");
+      final StringTokenizer tok = new StringTokenizer(cacheControl, ",");
       while (tok.hasMoreTokens()) {
-        String token = tok.nextToken().trim();
+        final String token = tok.nextToken().trim();
         if ("no-cache".equalsIgnoreCase(token)) {
           return false;
         }
@@ -441,22 +441,22 @@ public final class RequestEngine {
     return true;
   }
 
-  private void printRequestHeaders(URLConnection connection) {
-    Map<String, List<String>> headers = connection.getRequestProperties();
-    StringBuffer buffer = new StringBuffer();
-    for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+  private void printRequestHeaders(final URLConnection connection) {
+    final Map<String, List<String>> headers = connection.getRequestProperties();
+    final StringBuffer buffer = new StringBuffer();
+    for (final Map.Entry<String, List<String>> entry : headers.entrySet()) {
       buffer.append(entry.getKey() + ": " + entry.getValue());
       buffer.append(System.getProperty("line.separator"));
     }
     logger.info("printRequestHeaders(): Request headers for URI=[" + connection.getURL() + "]\r\n" + buffer.toString());
   }
 
-  public void inlineRequest(RequestHandler rhandler) {
+  public void inlineRequest(final RequestHandler rhandler) {
     // Security checked by low-level APIs in this case.
     this.processHandler(rhandler, 0, false);
   }
 
-  public byte[] loadBytes(String urlOrPath) throws Exception {
+  public byte[] loadBytes(final String urlOrPath) throws Exception {
     return this.loadBytes(Urls.guessURL(urlOrPath));
   }
 
@@ -464,7 +464,7 @@ public final class RequestEngine {
     final BoxedObject boxed = new BoxedObject();
     this.inlineRequest(new SimpleRequestHandler(url, RequestType.ELEMENT) {
       @Override
-      public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+      public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
         if (exception instanceof ClientletException) {
           throw (ClientletException) exception;
         } else {
@@ -472,8 +472,8 @@ public final class RequestEngine {
         }
       }
 
-      public void processResponse(ClientletResponse response) throws ClientletException, IOException {
-        byte[] bytes = org.lobobrowser.util.io.IORoutines.load(response.getInputStream(), 4096);
+      public void processResponse(final ClientletResponse response) throws ClientletException, IOException {
+        final byte[] bytes = org.lobobrowser.util.io.IORoutines.load(response.getInputStream(), 4096);
         boxed.setObject(bytes);
       }
     });
@@ -488,13 +488,13 @@ public final class RequestEngine {
     final AsyncResultImpl<byte[]> asyncResult = new AsyncResultImpl<byte[]>();
     this.scheduleRequest(new SimpleRequestHandler(url, RequestType.ELEMENT) {
       @Override
-      public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException {
+      public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
         asyncResult.setException(exception);
         return true;
       }
 
-      public void processResponse(ClientletResponse response) throws ClientletException, IOException {
-        byte[] bytes = org.lobobrowser.util.io.IORoutines.load(response.getInputStream(), 4096);
+      public void processResponse(final ClientletResponse response) throws ClientletException, IOException {
+        final byte[] bytes = org.lobobrowser.util.io.IORoutines.load(response.getInputStream(), 4096);
         asyncResult.setResult(bytes);
       }
     });
@@ -505,7 +505,7 @@ public final class RequestEngine {
    * Whether possibly cached request should always be revalidated, i.e. any
    * expiration information is ignored.
    */
-  private static boolean shouldRevalidateAlways(URL connectionUrl, RequestType requestType) {
+  private static boolean shouldRevalidateAlways(final URL connectionUrl, final RequestType requestType) {
     return requestType == RequestType.ADDRESS_BAR;
   }
 
@@ -513,7 +513,7 @@ public final class RequestEngine {
    * Whether the request type should always be obtained from cache if it is
    * there.
    */
-  private static boolean doesNotExpire(RequestType requestType) {
+  private static boolean doesNotExpire(final RequestType requestType) {
     return requestType == RequestType.HISTORY;
   }
 
@@ -525,11 +525,11 @@ public final class RequestEngine {
     });
   }
 
-  private URLConnection getURLConnection(URL connectionUrl, ClientletRequest request, String protocol, String method,
-      RequestHandler rhandler, CacheInfo cacheInfo) throws IOException {
+  private URLConnection getURLConnection(final URL connectionUrl, final ClientletRequest request, final String protocol, final String method,
+      final RequestHandler rhandler, final CacheInfo cacheInfo) throws IOException {
     URLConnection connection;
     if (cacheInfo != null) {
-      RequestType requestType = rhandler.getRequestType();
+      final RequestType requestType = rhandler.getRequestType();
       if (doesNotExpire(requestType)) {
         if (loggerInfo) {
           if (cacheInfo.hasTransientEntry()) {
@@ -542,11 +542,11 @@ public final class RequestEngine {
       } else if (!shouldRevalidateAlways(connectionUrl, requestType)) {
         Long expires = cacheInfo.getExpires();
         if (expires == null) {
-          Integer defaultOffset = this.cacheSettings.getDefaultCacheExpirationOffset();
+          final Integer defaultOffset = this.cacheSettings.getDefaultCacheExpirationOffset();
           if (defaultOffset != null) {
             expires = cacheInfo.getExpiresGivenOffset(defaultOffset.longValue());
             if (loggerInfo) {
-              java.util.Date expiresDate = expires == null ? null : new Date(expires);
+              final java.util.Date expiresDate = expires == null ? null : new Date(expires);
               logger.info("getURLConnection(): Used default offset for " + connectionUrl + ": expires=" + expiresDate);
             }
           }
@@ -554,7 +554,7 @@ public final class RequestEngine {
         if (expires != null) {
           if (expires.longValue() > System.currentTimeMillis()) {
             if (loggerInfo) {
-              long secondsToExpiration = (expires.longValue() - System.currentTimeMillis()) / 1000;
+              final long secondsToExpiration = (expires.longValue() - System.currentTimeMillis()) / 1000;
               if (cacheInfo.hasTransientEntry()) {
                 logger.info("getURLConnection(): FROM-RAM: " + connectionUrl + ". Expires in " + secondsToExpiration + " seconds.");
               } else {
@@ -572,13 +572,13 @@ public final class RequestEngine {
         // be used, but only after validation.
       }
     }
-    boolean isPost = "POST".equalsIgnoreCase(method);
+    final boolean isPost = "POST".equalsIgnoreCase(method);
     final String host = connectionUrl.getHost();
-    boolean isResURL = "res".equalsIgnoreCase(protocol);
+    final boolean isResURL = "res".equalsIgnoreCase(protocol);
     if (isResURL || host == null || host.length() == 0) {
       connection = connectionUrl.openConnection();
     } else {
-      Proxy proxy = this.connectionSettings.getProxy(host);
+      final Proxy proxy = this.connectionSettings.getProxy(host);
       if (proxy == Proxy.NO_PROXY) {
         // Workaround for JRE 1.5.0.
         connection = connectionUrl.openConnection();
@@ -594,7 +594,7 @@ public final class RequestEngine {
     }
     connection.setUseCaches(false);
     if (connection instanceof HttpURLConnection) {
-      HttpURLConnection hconnection = (HttpURLConnection) connection;
+      final HttpURLConnection hconnection = (HttpURLConnection) connection;
       hconnection.setConnectTimeout(60000);
       hconnection.setReadTimeout(90000);
     }
@@ -609,7 +609,7 @@ public final class RequestEngine {
     }
     // POST data if we need to.
     if (isPost) {
-      ParameterInfo pinfo = rhandler instanceof RedirectRequestHandler ? null : request.getParameterInfo();
+      final ParameterInfo pinfo = rhandler instanceof RedirectRequestHandler ? null : request.getParameterInfo();
       if (pinfo == null) {
         throw new IllegalStateException("POST has no parameter information");
       }
@@ -618,7 +618,7 @@ public final class RequestEngine {
     return connection;
   }
 
-  private static boolean isOKToRetrieveFromCache(RequestType requestType) {
+  private static boolean isOKToRetrieveFromCache(final RequestType requestType) {
     return false;
     /*
      * return requestType != RequestType.SOFT_RELOAD && requestType !=
@@ -628,38 +628,38 @@ public final class RequestEngine {
 
   private void processHandler(final RequestHandler rhandler, final int recursionLevel, final boolean trackRequestInfo) {
     // Method must be private.
-    boolean linfo = loggerInfo;
-    URL baseURL = rhandler.getLatestRequestURL();
+    final boolean linfo = loggerInfo;
+    final URL baseURL = rhandler.getLatestRequestURL();
     RequestInfo rinfo = null;
     ClientletResponseImpl response = null;
     String method = null;
     try {
-      ClientletRequest request = rhandler.getRequest();
+      final ClientletRequest request = rhandler.getRequest();
       method = rhandler.getLatestRequestMethod().toUpperCase();
       // TODO: Hack: instanceof below
-      ParameterInfo pinfo = rhandler instanceof RedirectRequestHandler ? null : request.getParameterInfo();
-      boolean isGet = "GET".equals(method);
+      final ParameterInfo pinfo = rhandler instanceof RedirectRequestHandler ? null : request.getParameterInfo();
+      final boolean isGet = "GET".equals(method);
       URL url;
       if (isGet && pinfo != null) {
-        String ref = baseURL.getRef();
-        String noRefForm = Urls.getNoRefForm(baseURL);
-        String newURLText = completeGetUrl(noRefForm, pinfo, ref);
+        final String ref = baseURL.getRef();
+        final String noRefForm = Urls.getNoRefForm(baseURL);
+        final String newURLText = completeGetUrl(noRefForm, pinfo, ref);
         url = new URL(newURLText);
       } else {
         url = baseURL;
       }
       CacheInfo cacheInfo = null;
-      String protocol = url.getProtocol();
+      final String protocol = url.getProtocol();
       final URL connectionUrl;
       if (url.getQuery() != null && "file".equalsIgnoreCase(protocol)) {
         // Remove query (replace file with path) if "file" protocol.
-        String ref = url.getRef();
-        String refText = ref == null || ref.length() == 0 ? "" : "#" + ref;
+        final String ref = url.getRef();
+        final String refText = ref == null || ref.length() == 0 ? "" : "#" + ref;
         connectionUrl = new URL(protocol, url.getHost(), url.getPort(), url.getPath() + refText);
       } else {
         connectionUrl = url;
       }
-      RequestType requestType = rhandler.getRequestType();
+      final RequestType requestType = rhandler.getRequestType();
       if (isGet && isOKToRetrieveFromCache(requestType)) {
         cacheInfo = this.getCacheInfo(rhandler, connectionUrl);
       }
@@ -681,9 +681,9 @@ public final class RequestEngine {
           boolean isContentCached = cacheInfo != null && cacheInfo.isCacheConnection(connection);
           boolean isCacheable = false;
           if (connection instanceof HttpURLConnection && !isContentCached) {
-            HttpURLConnection hconnection = (HttpURLConnection) connection;
+            final HttpURLConnection hconnection = (HttpURLConnection) connection;
             hconnection.setInstanceFollowRedirects(false);
-            int responseCode = hconnection.getResponseCode();
+            final int responseCode = hconnection.getResponseCode();
             if (linfo) {
               logger.info("run(): ResponseCode=" + responseCode + " for url=" + connectionUrl);
             }
@@ -725,7 +725,7 @@ public final class RequestEngine {
               if (linfo) {
                 logger.info("run(): REDIRECTING: ResponseCode=" + responseCode + " for url=" + url);
               }
-              RequestHandler newHandler = new RedirectRequestHandler(rhandler, hconnection);
+              final RequestHandler newHandler = new RedirectRequestHandler(rhandler, hconnection);
               Thread.yield();
               if (recursionLevel > 5) {
                 throw new ClientletException("Exceeded redirect recursion limit.");
@@ -742,7 +742,7 @@ public final class RequestEngine {
             throw new CancelClientletException("Stopped");
           }
           // Give a change to extensions to post-process the connection.
-          URLConnection newConnection = this.getSafeExtensionManager().dispatchPostConnection(connection);
+          final URLConnection newConnection = this.getSafeExtensionManager().dispatchPostConnection(connection);
           if (newConnection != connection) {
             responseIn = newConnection.getInputStream();
             connection = newConnection;
@@ -755,11 +755,11 @@ public final class RequestEngine {
             // Make sure stream reaches EOF so we don't
             // get null stored content.
             response.ensureReachedEOF();
-            byte[] content = response.getStoredContent();
+            final byte[] content = response.getStoredContent();
             if (content != null) {
-              Serializable persObject = response.getNewPersistentCachedObject();
-              Object altObject = response.getNewTransientCachedObject();
-              int altObjectSize = response.getNewTransientObjectSize();
+              final Serializable persObject = response.getNewPersistentCachedObject();
+              final Object altObject = response.getNewTransientCachedObject();
+              final int altObjectSize = response.getNewTransientObjectSize();
               this.cache(rhandler, connectionUrl, connection, content, persObject, altObject, altObjectSize);
             } else {
               logger.warning("processHandler(): Cacheable response not available: " + connectionUrl);
@@ -768,8 +768,8 @@ public final class RequestEngine {
             // Content that came from cache cannot be cached
             // again, but a RAM entry was missing.
             final byte[] persContent = cacheInfo.getPersistentContent();
-            Object altObject = response.getNewTransientCachedObject();
-            int altObjectSize = response.getNewTransientObjectSize();
+            final Object altObject = response.getNewTransientCachedObject();
+            final int altObjectSize = response.getNewTransientObjectSize();
             final MemoryCacheEntry newMemEntry = new MemoryCacheEntry(persContent, cacheInfo.getExpires(), cacheInfo.getRequestTime(),
                 altObject, altObjectSize);
             final int actualApproxObjectSize;
@@ -799,7 +799,7 @@ public final class RequestEngine {
           if (responseIn != null) {
             try {
               responseIn.close();
-            } catch (java.io.IOException ioe) {
+            } catch (final java.io.IOException ioe) {
               // ignore
             }
           }
@@ -814,11 +814,11 @@ public final class RequestEngine {
           cacheInfo.dispose();
         }
       }
-    } catch (CancelClientletException cce) {
+    } catch (final CancelClientletException cce) {
       if (linfo) {
         logger.log(Level.INFO, "run(): Clientlet cancelled: " + baseURL, cce);
       }
-    } catch (Throwable exception) {
+    } catch (final Throwable exception) {
       if (rinfo != null && rinfo.isAborted()) {
         if (linfo) {
           logger.log(Level.INFO, "run(): Exception ignored because request aborted.", exception);
@@ -828,7 +828,7 @@ public final class RequestEngine {
           if (!rhandler.handleException(response, exception)) {
             logger.log(Level.WARNING, "Was unable to handle exception.", exception);
           }
-        } catch (Exception err) {
+        } catch (final Exception err) {
           System.out.println("Exception while handling exception:" + exception);
           exception.printStackTrace();
           logger.log(Level.WARNING, "Exception handler threw an exception.", err);
@@ -846,7 +846,7 @@ public final class RequestEngine {
     private volatile InputStream inputStream;
     private volatile URLConnection connection;
 
-    RequestInfo(URLConnection connection, RequestHandler rhandler) {
+    RequestInfo(final URLConnection connection, final RequestHandler rhandler) {
       this.connection = connection;
       this.requestHandler = rhandler;
     }
@@ -861,11 +861,11 @@ public final class RequestEngine {
         if (this.connection instanceof HttpURLConnection) {
           ((HttpURLConnection) this.connection).disconnect();
         }
-        InputStream in = this.inputStream;
+        final InputStream in = this.inputStream;
         if (in != null) {
           in.close();
         }
-      } catch (Exception err) {
+      } catch (final Exception err) {
         logger.log(Level.SEVERE, "abort()", err);
       }
     }
@@ -874,7 +874,7 @@ public final class RequestEngine {
       return this.requestHandler;
     }
 
-    void setConnection(URLConnection connection, InputStream in) {
+    void setConnection(final URLConnection connection, final InputStream in) {
       this.connection = connection;
       this.inputStream = in;
     }
@@ -885,20 +885,20 @@ public final class RequestEngine {
 
     private final AccessControlContext accessContext;
 
-    private RequestHandlerTask(RequestHandler handler, AccessControlContext accessContext) {
+    private RequestHandlerTask(final RequestHandler handler, final AccessControlContext accessContext) {
       this.handler = handler;
       this.accessContext = accessContext;
     }
 
-    private RequestHandlerTask(RequestHandler handler) {
+    private RequestHandlerTask(final RequestHandler handler) {
       this.handler = handler;
       this.accessContext = null;
     }
 
     public void run() {
-      SecurityManager sm = System.getSecurityManager();
+      final SecurityManager sm = System.getSecurityManager();
       if (sm != null && this.accessContext != null) {
-        PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
+        final PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
           public Object run() {
             processHandler(handler, 0, true);
             return null;
@@ -921,7 +921,7 @@ public final class RequestEngine {
       return this.handler.hashCode();
     }
 
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
       return other instanceof RequestHandlerTask && ((RequestHandlerTask) other).handler.equals(this.handler);
     }
 

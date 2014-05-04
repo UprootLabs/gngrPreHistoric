@@ -35,7 +35,7 @@ public class BookmarksHistory extends BaseHistory<BookmarkInfo> implements java.
     try {
       ins = (BookmarksHistory) StorageManager.getInstance().retrieveSettings(BookmarksHistory.class.getSimpleName(),
           BookmarksHistory.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -59,7 +59,7 @@ public class BookmarksHistory extends BaseHistory<BookmarkInfo> implements java.
     synchronized (this) {
       try {
         StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-      } catch (java.io.IOException ioe) {
+      } catch (final java.io.IOException ioe) {
         logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
       }
     }

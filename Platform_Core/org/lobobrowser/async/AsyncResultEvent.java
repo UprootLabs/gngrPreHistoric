@@ -44,7 +44,7 @@ public class AsyncResultEvent<TResult> extends EventObject {
    * @param result
    *          The asynchronous result.
    */
-  public AsyncResultEvent(Object source, TResult result) {
+  public AsyncResultEvent(final Object source, final TResult result) {
     super(source);
     this.result = result;
   }

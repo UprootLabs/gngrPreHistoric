@@ -55,7 +55,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
     /**
 		 * 
 		 */
-    public LocalURLStreamHandler(String resourceName) {
+    public LocalURLStreamHandler(final String resourceName) {
       super();
       this.resourceName = resourceName;
     }
@@ -65,7 +65,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
      * 
      * @see java.net.URLStreamHandler#openConnection(java.net.URL)
      */
-    protected URLConnection openConnection(URL u) throws IOException {
+    protected URLConnection openConnection(final URL u) throws IOException {
       return new GenericURLConnection(u, getResourceAsStreamImpl(this.resourceName));
     }
 
@@ -76,7 +76,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
      * java.net.Proxy)
      */
     @Override
-    protected URLConnection openConnection(URL u, Proxy p) throws IOException {
+    protected URLConnection openConnection(final URL u, final Proxy p) throws IOException {
       return this.openConnection(u);
     }
   }
@@ -86,7 +86,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
   /**
    * @param targetParent
    */
-  ArchiveClassLoader(java.util.Collection<ArchiveInfo> archiveInfos) throws IOException {
+  ArchiveClassLoader(final java.util.Collection<ArchiveInfo> archiveInfos) throws IOException {
     super(ArchiveClassLoader.class.getClassLoader());
     this.archiveInfos = archiveInfos.toArray(ArchiveInfo.EMPTY_ARRAY);
   }
@@ -96,10 +96,10 @@ public class ArchiveClassLoader extends BaseClassLoader {
    * 
    * @see java.lang.ClassLoader#findClass(java.lang.String)
    */
-  protected Class<?> findClass(String arg0) throws ClassNotFoundException {
+  protected Class<?> findClass(final String arg0) throws ClassNotFoundException {
     final String subPath = arg0.replace('.', '/') + ".class";
-    ArchiveInfo[] ainfos = this.archiveInfos;
-    int len = ainfos.length;
+    final ArchiveInfo[] ainfos = this.archiveInfos;
+    final int len = ainfos.length;
     byte[] classBytes = null;
     final ArchiveInfo[] foundAinfo = new ArchiveInfo[1];
     for (int i = 0; i < len; i++) {
@@ -109,24 +109,24 @@ public class ArchiveClassLoader extends BaseClassLoader {
         classBytes = AccessController.doPrivileged(new PrivilegedAction<byte[]>() {
           public byte[] run() {
             try {
-              ZipEntry entry = jarFile.getEntry(subPath);
+              final ZipEntry entry = jarFile.getEntry(subPath);
               if (entry == null) {
                 return null;
               }
-              java.io.InputStream in = jarFile.getInputStream(entry);
+              final java.io.InputStream in = jarFile.getInputStream(entry);
               try {
-                byte[] bytes = IORoutines.loadExact(in, (int) entry.getSize());
+                final byte[] bytes = IORoutines.loadExact(in, (int) entry.getSize());
                 foundAinfo[0] = ainfo;
                 return bytes;
               } finally {
                 in.close();
               }
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               return null;
             }
           }
         });
-      } catch (IOException ioe2) {
+      } catch (final IOException ioe2) {
         continue;
       }
       if (classBytes != null) {
@@ -137,7 +137,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
       throw new ClassNotFoundException("I/O error or entry not found: " + subPath);
     }
     // TODO Signers Certificates
-    CodeSource cs = new CodeSource(foundAinfo[0].url, new java.security.cert.Certificate[0]);
+    final CodeSource cs = new CodeSource(foundAinfo[0].url, new java.security.cert.Certificate[0]);
     return this.defineClass(arg0, classBytes, 0, classBytes.length, cs);
   }
 
@@ -152,12 +152,12 @@ public class ArchiveClassLoader extends BaseClassLoader {
         public java.net.URL run() {
           try {
             return new java.net.URL(null, "volatile:" + name, new LocalURLStreamHandler(name));
-          } catch (java.net.MalformedURLException mfu) {
+          } catch (final java.net.MalformedURLException mfu) {
             throw new IllegalStateException(mfu.getMessage());
           }
         }
       });
-    } catch (RuntimeException err) {
+    } catch (final RuntimeException err) {
       logger.log(Level.SEVERE, "findResource()", err);
       throw err;
     }
@@ -168,8 +168,8 @@ public class ArchiveClassLoader extends BaseClassLoader {
    * 
    * @see java.lang.ClassLoader#findResources(java.lang.String)
    */
-  protected Enumeration<URL> findResources(String name) throws IOException {
-    URL url = this.findResource(name);
+  protected Enumeration<URL> findResources(final String name) throws IOException {
+    final URL url = this.findResource(name);
     if (url != null) {
       return CollectionUtilities.getIteratorEnumeration(Collections.singletonList(url).iterator());
     } else {
@@ -178,8 +178,8 @@ public class ArchiveClassLoader extends BaseClassLoader {
   }
 
   private java.io.InputStream getResourceAsStreamImpl(final String resourceName) {
-    ArchiveInfo[] ainfos = this.archiveInfos;
-    int len = ainfos.length;
+    final ArchiveInfo[] ainfos = this.archiveInfos;
+    final int len = ainfos.length;
     InputStream in = null;
     for (int i = 0; i < len; i++) {
       final ArchiveInfo ainfo = ainfos[i];
@@ -188,17 +188,17 @@ public class ArchiveClassLoader extends BaseClassLoader {
         in = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
           public InputStream run() {
             try {
-              ZipEntry entry = jarFile.getEntry(resourceName);
+              final ZipEntry entry = jarFile.getEntry(resourceName);
               if (entry == null) {
                 return null;
               }
               return jarFile.getInputStream(entry);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
               return null;
             }
           }
         });
-      } catch (IOException ioe2) {
+      } catch (final IOException ioe2) {
         continue;
       }
       if (in != null) {
@@ -206,7 +206,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
       }
     }
     if (in == null) {
-      ClassLoader parent = this.getParent();
+      final ClassLoader parent = this.getParent();
       return parent != null ? parent.getResourceAsStream(resourceName) : null;
     } else {
       return in;

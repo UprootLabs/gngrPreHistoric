@@ -43,18 +43,18 @@ public class ProgressWindow extends JFrame {
   public ProgressWindow() throws HeadlessException {
     super(UserAgentImpl.getInstance().getName());
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    ImageIcon windowIcon = DefaultWindowFactory.getInstance().getDefaultImageIcon();
+    final ImageIcon windowIcon = DefaultWindowFactory.getInstance().getDefaultImageIcon();
     if (windowIcon != null) {
       this.setIconImage(windowIcon.getImage());
     }
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-    JPanel topPanel = new JPanel();
+    final JPanel topPanel = new JPanel();
     contentPane.add(topPanel);
     contentPane.add(Box.createRigidArea(new Dimension(1, 18)));
-    Border bevelBorder = new BevelBorder(BevelBorder.LOWERED);
-    Border emptyBorder = new EmptyBorder(10, 10, 10, 10);
-    Border border = new CompoundBorder(bevelBorder, emptyBorder);
+    final Border bevelBorder = new BevelBorder(BevelBorder.LOWERED);
+    final Border emptyBorder = new EmptyBorder(10, 10, 10, 10);
+    final Border border = new CompoundBorder(bevelBorder, emptyBorder);
     topPanel.setBorder(border);
     topPanel.setLayout(new BorderLayout());
 
@@ -66,10 +66,10 @@ public class ProgressWindow extends JFrame {
     topPanel.add(statusProgressBar, BorderLayout.CENTER);
   }
 
-  public void updateProgress(NavigatorProgressEvent event) {
+  public void updateProgress(final NavigatorProgressEvent event) {
     statusLabel.setText(ClientletRequestHandler.getProgressMessage(event.getProgressType(), event.getUrl()));
-    int value = event.getCurrentValue();
-    int max = event.getMaxValue();
+    final int value = event.getCurrentValue();
+    final int max = event.getMaxValue();
     if (max == -1) {
       statusProgressBar.setIndeterminate(true);
       statusProgressBar.setValue(value);
@@ -82,30 +82,30 @@ public class ProgressWindow extends JFrame {
       if (value == 0 || max == 0) {
         statusProgressBar.setString("");
       } else {
-        int percent = (value * 100) / max;
+        final int percent = (value * 100) / max;
         statusProgressBar.setString(String.valueOf(percent) + "%");
       }
       statusProgressBar.repaint();
     }
   }
 
-  private static double round1(double value) {
+  private static double round1(final double value) {
     return Math.round(value * 10.0) / 10.0;
   }
 
-  private static String getSizeText(int numBytes) {
+  private static String getSizeText(final int numBytes) {
     if (numBytes < 1024) {
       return "";
     } else {
-      double numK = numBytes / 1024.0;
+      final double numK = numBytes / 1024.0;
       if (numK < 1024) {
         return round1(numK) + " Kb";
       } else {
-        double numM = numK / 1024.0;
+        final double numM = numK / 1024.0;
         if (numM < 1024) {
           return round1(numM) + " Mb";
         } else {
-          double numG = numM / 1024.0;
+          final double numG = numM / 1024.0;
           return round1(numG) + " Gb";
         }
       }

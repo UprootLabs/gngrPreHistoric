@@ -36,7 +36,7 @@ public class RestrictedOutputStream extends OutputStream {
   /**
 	 * 
 	 */
-  public RestrictedOutputStream(OutputStream out, QuotaSource quotaSource) throws IOException {
+  public RestrictedOutputStream(final OutputStream out, final QuotaSource quotaSource) throws IOException {
     this.out = out;
     this.quotaSource = quotaSource;
   }
@@ -46,7 +46,7 @@ public class RestrictedOutputStream extends OutputStream {
    * 
    * @see java.io.OutputStream#write(int)
    */
-  public void write(int b) throws IOException {
+  public void write(final int b) throws IOException {
     this.quotaSource.addUsedBytes(1);
     this.out.write(b);
   }
@@ -74,7 +74,7 @@ public class RestrictedOutputStream extends OutputStream {
    * 
    * @see java.io.OutputStream#write(byte[], int, int)
    */
-  public void write(byte[] b, int off, int len) throws IOException {
+  public void write(final byte[] b, final int off, final int len) throws IOException {
     this.quotaSource.addUsedBytes(len);
     this.out.write(b, off, len);
   }

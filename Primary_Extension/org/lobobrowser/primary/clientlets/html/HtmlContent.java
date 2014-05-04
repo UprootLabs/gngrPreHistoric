@@ -40,7 +40,7 @@ public class HtmlContent implements ComponentContent {
   private final String charset;
   private final String sourceCode;
 
-  public HtmlContent(final HTMLDocument document, final HtmlPanel panel, RecordedInputStream ris, String charset) {
+  public HtmlContent(final HTMLDocument document, final HtmlPanel panel, final RecordedInputStream ris, final String charset) {
     super();
     this.document = document;
     this.panel = panel;
@@ -49,7 +49,7 @@ public class HtmlContent implements ComponentContent {
     this.sourceCode = null;
   }
 
-  public HtmlContent(final HTMLDocument document, final HtmlPanel panel, String sourceCode) {
+  public HtmlContent(final HTMLDocument document, final HtmlPanel panel, final String sourceCode) {
     super();
     this.document = document;
     this.panel = panel;
@@ -72,18 +72,18 @@ public class HtmlContent implements ComponentContent {
 
   public String getSourceCode() {
     try {
-      RecordedInputStream ris = this.ris;
+      final RecordedInputStream ris = this.ris;
       if (ris != null) {
-        byte[] bytesSoFar = ris.getBytesRead();
+        final byte[] bytesSoFar = ris.getBytesRead();
         try {
           return new String(bytesSoFar, this.charset);
-        } catch (java.io.UnsupportedEncodingException uee) {
+        } catch (final java.io.UnsupportedEncodingException uee) {
           return "[Error: " + uee + "]";
         }
       } else {
         return this.sourceCode;
       }
-    } catch (BufferExceededException bee) {
+    } catch (final BufferExceededException bee) {
       return "[Error: Document content too large.]";
     }
   }
@@ -93,16 +93,16 @@ public class HtmlContent implements ComponentContent {
   }
 
   public String getDescription() {
-    NodeList nodeList = this.document.getElementsByTagName("meta");
+    final NodeList nodeList = this.document.getElementsByTagName("meta");
     if (nodeList == null) {
       return null;
     }
-    int length = nodeList.getLength();
+    final int length = nodeList.getLength();
     for (int i = 0; i < length; i++) {
-      Node node = nodeList.item(i);
+      final Node node = nodeList.item(i);
       if (node instanceof HTMLElement) {
-        HTMLElement element = (HTMLElement) node;
-        String name = element.getAttribute("name");
+        final HTMLElement element = (HTMLElement) node;
+        final String name = element.getAttribute("name");
         if (name != null && name.equalsIgnoreCase("description")) {
           return element.getAttribute("description");
         }
@@ -125,7 +125,7 @@ public class HtmlContent implements ComponentContent {
     return "text/html";
   }
 
-  public void setProperty(String name, Object value) {
+  public void setProperty(final String name, final Object value) {
     if ("defaultMarginInsets".equals(name) && value instanceof java.awt.Insets) {
       this.panel.setDefaultMarginInsets((java.awt.Insets) value);
       ;

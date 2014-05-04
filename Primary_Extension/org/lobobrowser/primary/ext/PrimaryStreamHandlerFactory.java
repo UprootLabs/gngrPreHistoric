@@ -28,7 +28,7 @@ public class PrimaryStreamHandlerFactory implements URLStreamHandlerFactory {
   public PrimaryStreamHandlerFactory() {
   }
 
-  public URLStreamHandler createURLStreamHandler(String protocol) {
+  public URLStreamHandler createURLStreamHandler(final String protocol) {
     if ("about".equals(protocol)) {
       return new org.lobobrowser.protocol.about.Handler();
     } else if ("data".equals(protocol)) {

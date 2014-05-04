@@ -32,7 +32,7 @@ public class BookmarkInfo implements java.io.Serializable {
     return description;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(final String description) {
     this.description = description;
   }
 
@@ -41,13 +41,13 @@ public class BookmarkInfo implements java.io.Serializable {
   }
 
   public String getTagsText() {
-    String[] tags = this.tags;
+    final String[] tags = this.tags;
     if (tags == null) {
       return "";
     }
-    StringBuffer buffer = new StringBuffer();
+    final StringBuffer buffer = new StringBuffer();
     boolean firstTime = true;
-    for (String tag : tags) {
+    for (final String tag : tags) {
       if (firstTime) {
         firstTime = false;
       } else {
@@ -58,7 +58,7 @@ public class BookmarkInfo implements java.io.Serializable {
     return buffer.toString();
   }
 
-  public void setTags(String[] tags) {
+  public void setTags(final String[] tags) {
     this.tags = tags;
   }
 
@@ -66,7 +66,7 @@ public class BookmarkInfo implements java.io.Serializable {
     return title;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(final String title) {
     this.title = title;
   }
 
@@ -74,7 +74,7 @@ public class BookmarkInfo implements java.io.Serializable {
     return url;
   }
 
-  public void setUrl(java.net.URL url) {
+  public void setUrl(final java.net.URL url) {
     this.url = url;
   }
 }

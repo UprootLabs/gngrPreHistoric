@@ -56,7 +56,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
    * 
    * @see javax.swing.ComboBoxEditor#setItem(java.lang.Object)
    */
-  public void setItem(Object arg0) {
+  public void setItem(final Object arg0) {
     // this.item = arg0;
     if (!this.inNotification) {
       this.textField.setText(arg0 == null ? "" : String.valueOf(arg0));
@@ -87,7 +87,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
    * @see
    * javax.swing.ComboBoxEditor#addActionListener(java.awt.event.ActionListener)
    */
-  public void addActionListener(ActionListener arg0) {
+  public void addActionListener(final ActionListener arg0) {
     this.textField.addActionListener(arg0);
   }
 
@@ -98,21 +98,21 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
    * javax.swing.ComboBoxEditor#removeActionListener(java.awt.event.ActionListener
    * )
    */
-  public void removeActionListener(ActionListener arg0) {
+  public void removeActionListener(final ActionListener arg0) {
     this.textField.removeActionListener(arg0);
   }
 
-  public void addKeyListener(java.awt.event.KeyListener listener) {
+  public void addKeyListener(final java.awt.event.KeyListener listener) {
     this.textField.addKeyListener(listener);
   }
 
-  public void removeKeyListener(java.awt.event.KeyListener listener) {
+  public void removeKeyListener(final java.awt.event.KeyListener listener) {
     this.textField.removeKeyListener(listener);
   }
 
   public void addChangeListener(final ChangeListener listener) {
     this.textField.getDocument().addDocumentListener(new DocumentListener() {
-      public void changedUpdate(DocumentEvent e) {
+      public void changedUpdate(final DocumentEvent e) {
         TextFieldComboBoxEditor.this.inNotification = true;
         try {
           listener.stateChanged(new ChangeEvent(TextFieldComboBoxEditor.this));
@@ -121,7 +121,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
         }
       }
 
-      public void insertUpdate(DocumentEvent e) {
+      public void insertUpdate(final DocumentEvent e) {
         TextFieldComboBoxEditor.this.inNotification = true;
         try {
           listener.stateChanged(new ChangeEvent(TextFieldComboBoxEditor.this));
@@ -130,7 +130,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
         }
       }
 
-      public void removeUpdate(DocumentEvent e) {
+      public void removeUpdate(final DocumentEvent e) {
         TextFieldComboBoxEditor.this.inNotification = true;
         try {
           listener.stateChanged(new ChangeEvent(TextFieldComboBoxEditor.this));

@@ -44,7 +44,7 @@ public class FramePanelFactorySource {
    * 
    * @param activeFactory
    */
-  public void setActiveFactory(FramePanelFactory activeFactory) {
+  public void setActiveFactory(final FramePanelFactory activeFactory) {
     if (activeFactory == null) {
       throw new IllegalArgumentException("activeFactory==null");
     }

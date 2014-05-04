@@ -52,15 +52,15 @@ public class ConsoleModel extends PlainDocument {
 
   private void append(final byte[] bytes, final int offset, final int length) throws IOException {
     try {
-      String text = new String(bytes, offset, length, "ISO-8859-1");
-      Position endPosition = getEndPosition();
+      final String text = new String(bytes, offset, length, "ISO-8859-1");
+      final Position endPosition = getEndPosition();
       insertString(endPosition.getOffset(), text, null);
-      int overflow = getLength() - MAX_LENGTH;
+      final int overflow = getLength() - MAX_LENGTH;
       if (overflow > 0) {
-        Position startPosition = getStartPosition();
+        final Position startPosition = getStartPosition();
         remove(startPosition.getOffset(), overflow);
       }
-    } catch (Throwable err) {
+    } catch (final Throwable err) {
       // No standard I/O should be here!
       logger.log(Level.SEVERE, "append()", err);
     }
@@ -74,7 +74,7 @@ public class ConsoleModel extends PlainDocument {
     private final LinkedList<byte[]> dataQueue = new LinkedList<byte[]>();
 
     public LocalOutputStream() {
-      Thread t = new Thread(this, "ConsoleOutputStream");
+      final Thread t = new Thread(this, "ConsoleOutputStream");
       t.setDaemon(true);
       t.start();
     }
@@ -92,7 +92,7 @@ public class ConsoleModel extends PlainDocument {
      * 
      * @see java.io.OutputStream#write(byte[])
      */
-    public void write(byte[] b) throws IOException {
+    public void write(final byte[] b) throws IOException {
       this.write(b, 0, b.length);
     }
 
@@ -101,7 +101,7 @@ public class ConsoleModel extends PlainDocument {
      * 
      * @see java.io.OutputStream#write(byte[], int, int)
      */
-    public void write(byte[] b, int off, int len) throws IOException {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
       synchronized (this.dataQueue) {
         byte[] actualBytes;
         if (off == 0 && len == b.length) {
@@ -120,12 +120,12 @@ public class ConsoleModel extends PlainDocument {
      * 
      * @see java.io.OutputStream#write(int)
      */
-    public void write(int b) throws IOException {
+    public void write(final int b) throws IOException {
       this.write(new byte[] { (byte) b }, 0, 1);
     }
 
     public void run() {
-      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
       for (;;) {
         try {
           buffer.reset();
@@ -133,19 +133,19 @@ public class ConsoleModel extends PlainDocument {
             while (this.dataQueue.size() == 0) {
               this.dataQueue.wait();
             }
-            Iterator<byte[]> i = this.dataQueue.iterator();
+            final Iterator<byte[]> i = this.dataQueue.iterator();
             while (i.hasNext()) {
-              byte[] data = i.next();
+              final byte[] data = i.next();
               buffer.write(data);
             }
             this.dataQueue.clear();
           }
-          byte[] allNewBytes = buffer.toByteArray();
+          final byte[] allNewBytes = buffer.toByteArray();
           append(allNewBytes, 0, allNewBytes.length);
           // Sleep a little so document model is not
           // constantly firing events.
           Thread.sleep(300);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
           t.printStackTrace(System.err);
         }
       }

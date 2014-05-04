@@ -52,7 +52,7 @@ public class ExtensionManager {
   public static ExtensionManager getInstance() {
     // This security check should be enough, provided
     // ExtensionManager instances are not retained.
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(org.lobobrowser.security.GenericLocalPermission.EXT_GENERIC);
     }
@@ -62,27 +62,27 @@ public class ExtensionManager {
   private void createExtensions() {
     File[] extDirs;
     File[] extFiles;
-    String extDirsProperty = System.getProperty("ext.dirs");
+    final String extDirsProperty = System.getProperty("ext.dirs");
     if (extDirsProperty == null) {
-      File appDir = PlatformInit.getInstance().getApplicationDirectory();
+      final File appDir = PlatformInit.getInstance().getApplicationDirectory();
       extDirs = new File[] { new File(appDir, EXT_DIR_NAME) };
     } else {
-      StringTokenizer tok = new StringTokenizer(extDirsProperty, ",");
-      ArrayList<File> extDirsList = new ArrayList<File>();
+      final StringTokenizer tok = new StringTokenizer(extDirsProperty, ",");
+      final ArrayList<File> extDirsList = new ArrayList<File>();
       while (tok.hasMoreTokens()) {
-        String token = tok.nextToken();
+        final String token = tok.nextToken();
         extDirsList.add(new File(token.trim()));
       }
       extDirs = extDirsList.toArray(new File[0]);
     }
-    String extFilesProperty = System.getProperty("ext.files");
+    final String extFilesProperty = System.getProperty("ext.files");
     if (extFilesProperty == null) {
       extFiles = new File[0];
     } else {
-      StringTokenizer tok = new StringTokenizer(extFilesProperty, ",");
-      ArrayList<File> extFilesList = new ArrayList<File>();
+      final StringTokenizer tok = new StringTokenizer(extFilesProperty, ",");
+      final ArrayList<File> extFilesList = new ArrayList<File>();
       while (tok.hasMoreTokens()) {
-        String token = tok.nextToken();
+        final String token = tok.nextToken();
         extFilesList.add(new File(token.trim()));
       }
       extFiles = extFilesList.toArray(new File[0]);
@@ -90,12 +90,12 @@ public class ExtensionManager {
     this.createExtensions(extDirs, extFiles);
   }
 
-  private void addExtension(File file) throws java.io.IOException {
+  private void addExtension(final File file) throws java.io.IOException {
     if (!file.exists()) {
       logger.warning("addExtension(): File " + file + " does not exist.");
       return;
     }
-    Extension ei = new Extension(file);
+    final Extension ei = new Extension(file);
     this.extensionById.put(ei.getId(), ei);
     if (ei.isLibraryOnly()) {
       if (logger.isLoggable(Level.INFO)) {
@@ -110,14 +110,14 @@ public class ExtensionManager {
     }
   }
 
-  private void createExtensions(File[] extDirs, File[] extFiles) {
-    Collection<Extension> extensions = this.extensions;
-    Collection<Extension> libraries = this.libraries;
-    Map<String, Extension> extensionById = this.extensionById;
+  private void createExtensions(final File[] extDirs, final File[] extFiles) {
+    final Collection<Extension> extensions = this.extensions;
+    final Collection<Extension> libraries = this.libraries;
+    final Map<String, Extension> extensionById = this.extensionById;
     extensions.clear();
     libraries.clear();
     extensionById.clear();
-    for (File extDir : extDirs) {
+    for (final File extDir : extDirs) {
       if (!extDir.exists()) {
         logger.warning("createExtensions(): Directory '" + extDir + "' not found.");
         if (PlatformInit.getInstance().isCodeLocationDirectory()) {
@@ -126,23 +126,23 @@ public class ExtensionManager {
         }
         continue;
       }
-      File[] extRoots = extDir.listFiles(new ExtFileFilter());
+      final File[] extRoots = extDir.listFiles(new ExtFileFilter());
       if (extRoots == null || extRoots.length == 0) {
         logger.warning("createExtensions(): No potential extensions found in " + extDir + " directory.");
         continue;
       }
-      for (File file : extRoots) {
+      for (final File file : extRoots) {
         try {
           this.addExtension(file);
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
           logger.log(Level.WARNING, "createExtensions(): Unable to load '" + file + "'.", ioe);
         }
       }
     }
-    for (File file : extFiles) {
+    for (final File file : extFiles) {
       try {
         this.addExtension(file);
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         logger.log(Level.WARNING, "createExtensions(): Unable to load '" + file + "'.", ioe);
       }
     }
@@ -153,35 +153,35 @@ public class ExtensionManager {
     }
 
     // Get the system class loader
-    ClassLoader rootClassLoader = this.getClass().getClassLoader();
+    final ClassLoader rootClassLoader = this.getClass().getClassLoader();
 
     // Create class loader for extension "libraries"
-    ArrayList<URL> libraryURLCollection = new ArrayList<URL>();
-    for (Extension ei : libraries) {
+    final ArrayList<URL> libraryURLCollection = new ArrayList<URL>();
+    for (final Extension ei : libraries) {
       try {
         libraryURLCollection.add(ei.getCodeSource());
-      } catch (java.net.MalformedURLException thrown) {
+      } catch (final java.net.MalformedURLException thrown) {
         logger.log(Level.SEVERE, "createExtensions()", thrown);
       }
     }
     if (logger.isLoggable(Level.INFO)) {
       logger.info("createExtensions(): Creating library class loader with URLs=[" + libraryURLCollection + "].");
     }
-    ClassLoader librariesCL = new URLClassLoader(libraryURLCollection.toArray(new URL[0]), rootClassLoader);
+    final ClassLoader librariesCL = new URLClassLoader(libraryURLCollection.toArray(new URL[0]), rootClassLoader);
 
     // Initialize class loader in each extension, using librariesCL as
     // the parent class loader. Extensions are initialized in parallel.
-    Collection<JoinableTask> tasks = new ArrayList<JoinableTask>();
-    PlatformInit pm = PlatformInit.getInstance();
-    for (Extension ei : extensions) {
+    final Collection<JoinableTask> tasks = new ArrayList<JoinableTask>();
+    final PlatformInit pm = PlatformInit.getInstance();
+    for (final Extension ei : extensions) {
       final ClassLoader pcl = librariesCL;
       final Extension fei = ei;
       // Initialize rest of them in parallel.
-      JoinableTask task = new JoinableTask() {
+      final JoinableTask task = new JoinableTask() {
         public void execute() {
           try {
             fei.initClassLoader(pcl);
-          } catch (Exception err) {
+          } catch (final Exception err) {
             logger.log(Level.WARNING, "Unable to create class loader for " + fei + ".", err);
           }
         }
@@ -196,17 +196,17 @@ public class ExtensionManager {
 
     // Join tasks to make sure all extensions are
     // initialized at this point.
-    for (JoinableTask task : tasks) {
+    for (final JoinableTask task : tasks) {
       try {
         task.join();
-      } catch (InterruptedException ie) {
+      } catch (final InterruptedException ie) {
         // ignore
       }
     }
   }
 
-  public ClassLoader getClassLoader(String extensionId) {
-    Extension ei = this.extensionById.get(extensionId);
+  public ClassLoader getClassLoader(final String extensionId) {
+    final Extension ei = this.extensionById.get(extensionId);
     if (ei != null) {
       return ei.getClassLoader();
     } else {
@@ -215,11 +215,11 @@ public class ExtensionManager {
   }
 
   public void initExtensions() {
-    Collection<JoinableTask> tasks = new ArrayList<JoinableTask>();
-    PlatformInit pm = PlatformInit.getInstance();
-    for (Extension ei : this.extensions) {
+    final Collection<JoinableTask> tasks = new ArrayList<JoinableTask>();
+    final PlatformInit pm = PlatformInit.getInstance();
+    for (final Extension ei : this.extensions) {
       final Extension fei = ei;
-      JoinableTask task = new JoinableTask() {
+      final JoinableTask task = new JoinableTask() {
         public void execute() {
           fei.initExtension();
         }
@@ -232,10 +232,10 @@ public class ExtensionManager {
       pm.scheduleTask(task);
     }
     // Join all tasks before returning
-    for (JoinableTask task : tasks) {
+    for (final JoinableTask task : tasks) {
       try {
         task.join();
-      } catch (InterruptedException ie) {
+      } catch (final InterruptedException ie) {
         // ignore
       }
     }
@@ -243,10 +243,10 @@ public class ExtensionManager {
 
   public void initExtensionsWindow(final NavigatorWindow context) {
     // This must be done sequentially due to menu lookup infrastructure.
-    for (Extension ei : this.extensions) {
+    for (final Extension ei : this.extensions) {
       try {
         ei.initExtensionWindow(context);
-      } catch (Exception err) {
+      } catch (final Exception err) {
         logger.log(Level.SEVERE, "initExtensionsWindow(): Extension could not properly initialize a new window.", err);
       }
     }
@@ -254,51 +254,51 @@ public class ExtensionManager {
 
   public void shutdownExtensionsWindow(final NavigatorWindow context) {
     // This must be done sequentially due to menu lookup infrastructure.
-    for (Extension ei : this.extensions) {
+    for (final Extension ei : this.extensions) {
       try {
         ei.shutdownExtensionWindow(context);
-      } catch (Exception err) {
+      } catch (final Exception err) {
         logger.log(Level.SEVERE, "initExtensionsWindow(): Extension could not properly process window shutdown.", err);
       }
     }
   }
 
-  public Clientlet getClientlet(ClientletRequest request, ClientletResponse response) {
-    Collection<Extension> extensions = this.extensions;
+  public Clientlet getClientlet(final ClientletRequest request, final ClientletResponse response) {
+    final Collection<Extension> extensions = this.extensions;
     // Call all plugins once to see if they can select the response.
-    for (Extension ei : extensions) {
+    for (final Extension ei : extensions) {
       try {
-        Clientlet clientlet = ei.getClientlet(request, response);
+        final Clientlet clientlet = ei.getClientlet(request, response);
         if (clientlet != null) {
           return clientlet;
         }
-      } catch (Exception thrown) {
+      } catch (final Exception thrown) {
         logger.log(Level.SEVERE, "getClientlet(): Extension " + ei + " threw exception.", thrown);
       }
     }
 
     // None handled it. Call the last resort handlers in reverse order.
-    for (Extension ei : (Collection<Extension>) org.lobobrowser.util.CollectionUtilities.reverse(extensions)) {
+    for (final Extension ei : (Collection<Extension>) org.lobobrowser.util.CollectionUtilities.reverse(extensions)) {
       try {
-        Clientlet clientlet = ei.getLastResortClientlet(request, response);
+        final Clientlet clientlet = ei.getLastResortClientlet(request, response);
         if (clientlet != null) {
           return clientlet;
         }
-      } catch (Exception thrown) {
+      } catch (final Exception thrown) {
         logger.log(Level.SEVERE, "getClientlet(): Extension " + ei + " threw exception.", thrown);
       }
     }
     return null;
   }
 
-  public void handleError(NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
     final NavigatorExceptionEvent event = new NavigatorExceptionEvent(this, NavigatorEventType.ERROR_OCCURRED, frame, response, exception);
     EventQueue.invokeLater(new Runnable() {
       public void run() {
-        Collection<Extension> ext = extensions;
+        final Collection<Extension> ext = extensions;
         // Call all plugins once to see if they can select the response.
         boolean dispatched = false;
-        for (Extension ei : ext) {
+        for (final Extension ei : ext) {
           if (ei.handleError(event)) {
             dispatched = true;
           }
@@ -311,47 +311,47 @@ public class ExtensionManager {
     });
   }
 
-  public void dispatchBeforeNavigate(NavigationEvent event) throws NavigationVetoException {
-    for (Extension ei : extensions) {
+  public void dispatchBeforeNavigate(final NavigationEvent event) throws NavigationVetoException {
+    for (final Extension ei : extensions) {
       try {
         ei.dispatchBeforeLocalNavigate(event);
-      } catch (NavigationVetoException nve) {
+      } catch (final NavigationVetoException nve) {
         throw nve;
-      } catch (Exception other) {
+      } catch (final Exception other) {
         logger.log(Level.SEVERE, "dispatchBeforeNavigate(): Extension threw an unexpected exception.", other);
       }
     }
   }
 
-  public void dispatchBeforeLocalNavigate(NavigationEvent event) throws NavigationVetoException {
-    for (Extension ei : extensions) {
+  public void dispatchBeforeLocalNavigate(final NavigationEvent event) throws NavigationVetoException {
+    for (final Extension ei : extensions) {
       try {
         ei.dispatchBeforeLocalNavigate(event);
-      } catch (NavigationVetoException nve) {
+      } catch (final NavigationVetoException nve) {
         throw nve;
-      } catch (Exception other) {
+      } catch (final Exception other) {
         logger.log(Level.SEVERE, "dispatchBeforeLocalNavigate(): Extension threw an unexpected exception.", other);
       }
     }
   }
 
-  public void dispatchBeforeWindowOpen(NavigationEvent event) throws NavigationVetoException {
-    for (Extension ei : extensions) {
+  public void dispatchBeforeWindowOpen(final NavigationEvent event) throws NavigationVetoException {
+    for (final Extension ei : extensions) {
       try {
         ei.dispatchBeforeWindowOpen(event);
-      } catch (NavigationVetoException nve) {
+      } catch (final NavigationVetoException nve) {
         throw nve;
-      } catch (Exception other) {
+      } catch (final Exception other) {
         logger.log(Level.SEVERE, "dispatchBeforeWindowOpen(): Extension threw an unexpected exception.", other);
       }
     }
   }
 
   public URLConnection dispatchPreConnection(URLConnection connection) {
-    for (Extension ei : extensions) {
+    for (final Extension ei : extensions) {
       try {
         connection = ei.dispatchPreConnection(connection);
-      } catch (Exception other) {
+      } catch (final Exception other) {
         logger.log(Level.SEVERE, "dispatchPreConnection(): Extension threw an unexpected exception.", other);
       }
     }
@@ -359,10 +359,10 @@ public class ExtensionManager {
   }
 
   public URLConnection dispatchPostConnection(URLConnection connection) {
-    for (Extension ei : extensions) {
+    for (final Extension ei : extensions) {
       try {
         connection = ei.dispatchPostConnection(connection);
-      } catch (Exception other) {
+      } catch (final Exception other) {
         logger.log(Level.SEVERE, "dispatchPostConnection(): Extension threw an unexpected exception.", other);
       }
     }
@@ -370,7 +370,7 @@ public class ExtensionManager {
   }
 
   private static class ExtFileFilter implements FileFilter {
-    public boolean accept(File file) {
+    public boolean accept(final File file) {
       return file.isDirectory() || file.getName().toLowerCase().endsWith(".jar");
     }
   }

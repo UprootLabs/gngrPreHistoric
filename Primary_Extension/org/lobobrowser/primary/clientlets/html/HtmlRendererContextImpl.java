@@ -48,7 +48,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   private final NavigatorFrame clientletFrame;
   private final HtmlPanel htmlPanel;
 
-  private HtmlRendererContextImpl(NavigatorFrame clientletFrame) {
+  private HtmlRendererContextImpl(final NavigatorFrame clientletFrame) {
     this.clientletFrame = clientletFrame;
     this.htmlPanel = new HtmlPanel();
   }
@@ -59,9 +59,9 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   // }
   // }
   //
-  public static HtmlRendererContextImpl getHtmlRendererContext(NavigatorFrame frame) {
+  public static HtmlRendererContextImpl getHtmlRendererContext(final NavigatorFrame frame) {
     synchronized (weakAssociation) {
-      WeakReference<HtmlRendererContextImpl> existingWR = weakAssociation.get(frame);
+      final WeakReference<HtmlRendererContextImpl> existingWR = weakAssociation.get(frame);
       HtmlRendererContextImpl hrc;
       if (existingWR != null) {
         hrc = existingWR.get();
@@ -76,7 +76,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   }
 
   public Document getContentDocument() {
-    Object rootNode = this.htmlPanel.getRootNode();
+    final Object rootNode = this.htmlPanel.getRootNode();
     if (rootNode instanceof Document) {
       return (Document) rootNode;
     }
@@ -87,43 +87,43 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return this.htmlPanel;
   }
 
-  public void warn(String message, Throwable throwable) {
+  public void warn(final String message, final Throwable throwable) {
     logger.log(Level.WARNING, message, throwable);
   }
 
-  public void error(String message, Throwable throwable) {
+  public void error(final String message, final Throwable throwable) {
     logger.log(Level.SEVERE, message, throwable);
   }
 
-  public void warn(String message) {
+  public void warn(final String message) {
     logger.warning(message);
   }
 
-  public void error(String message) {
+  public void error(final String message) {
     logger.log(Level.SEVERE, message);
   }
 
-  public void linkClicked(HTMLElement linkNode, URL url, String target) {
+  public void linkClicked(final HTMLElement linkNode, final URL url, final String target) {
     this.navigateImpl(url, target, RequestType.CLICK, linkNode);
   }
 
-  public void navigate(URL href, String target) {
+  public void navigate(final URL href, final String target) {
     this.navigateImpl(href, target, RequestType.PROGRAMMATIC, null);
   }
 
-  private void navigateImpl(URL href, String target, RequestType requestType, Object linkObject) {
+  private void navigateImpl(final URL href, final String target, final RequestType requestType, final Object linkObject) {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("navigateImpl(): href=" + href + ",target=" + target);
     }
     // First check if target is a frame identifier.
     TargetType targetType;
     if (target != null) {
-      HtmlRendererContext topCtx = this.getTop();
-      HTMLCollection frames = topCtx.getFrames();
+      final HtmlRendererContext topCtx = this.getTop();
+      final HTMLCollection frames = topCtx.getFrames();
       if (frames != null) {
-        org.w3c.dom.Node frame = frames.namedItem(target);
+        final org.w3c.dom.Node frame = frames.namedItem(target);
         if (frame instanceof FrameNode) {
-          BrowserFrame bframe = ((FrameNode) frame).getBrowserFrame();
+          final BrowserFrame bframe = ((FrameNode) frame).getBrowserFrame();
           if (bframe == null) {
             throw new IllegalStateException("Frame node without a BrowserFrame instance: " + frame);
           }
@@ -145,7 +145,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     }
   }
 
-  private TargetType getTargetType(String target) {
+  private TargetType getTargetType(final String target) {
     if ("_blank".equalsIgnoreCase(target)) {
       return TargetType.BLANK;
     } else if ("_parent".equalsIgnoreCase(target)) {
@@ -157,18 +157,18 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     }
   }
 
-  public void submitForm(String method, URL url, String target, String enctype, FormInput[] formInputs) {
-    TargetType targetType = this.getTargetType(target);
-    ParameterInfo pinfo = new LocalParameterInfo(enctype, formInputs);
+  public void submitForm(final String method, final URL url, final String target, final String enctype, final FormInput[] formInputs) {
+    final TargetType targetType = this.getTargetType(target);
+    final ParameterInfo pinfo = new LocalParameterInfo(enctype, formInputs);
     this.clientletFrame.navigate(url, method, pinfo, targetType, RequestType.FORM);
   }
 
   public BrowserFrame createBrowserFrame() {
-    NavigatorFrame newFrame = this.clientletFrame.createFrame();
+    final NavigatorFrame newFrame = this.clientletFrame.createFrame();
     return new BrowserFrameImpl(newFrame, this);
   }
 
-  public void alert(String message) {
+  public void alert(final String message) {
     this.clientletFrame.alert(message);
   }
 
@@ -180,7 +180,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     this.clientletFrame.closeWindow();
   }
 
-  public boolean confirm(String message) {
+  public boolean confirm(final String message) {
     return this.clientletFrame.confirm(message);
   }
 
@@ -188,40 +188,40 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     this.clientletFrame.windowToFront();
   }
 
-  public HtmlRendererContext open(String url, String windowName, String windowFeatures, boolean replace) {
+  public HtmlRendererContext open(final String url, final String windowName, final String windowFeatures, final boolean replace) {
     try {
-      URL urlObj = org.lobobrowser.util.Urls.guessURL(url);
+      final URL urlObj = org.lobobrowser.util.Urls.guessURL(url);
       return this.open(urlObj, windowName, windowFeatures, replace);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "open(): Unable to open URL [" + url + "].", err);
       return null;
     }
   }
 
-  public HtmlRendererContext open(java.net.URL urlObj, String windowName, String windowFeatures, boolean replace) {
-    Properties windowProperties = windowFeatures == null ? null : org.lobobrowser.gui.NavigatorWindowImpl
+  public HtmlRendererContext open(final java.net.URL urlObj, final String windowName, final String windowFeatures, final boolean replace) {
+    final Properties windowProperties = windowFeatures == null ? null : org.lobobrowser.gui.NavigatorWindowImpl
         .getPropertiesFromWindowFeatures(windowFeatures);
     try {
-      NavigatorFrame newFrame = this.clientletFrame.open(urlObj, "GET", null, windowName, windowProperties);
+      final NavigatorFrame newFrame = this.clientletFrame.open(urlObj, "GET", null, windowName, windowProperties);
       if (newFrame == null) {
         return null;
       }
       return HtmlRendererContextImpl.getHtmlRendererContext(newFrame);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "open(): Unable to open URL [" + urlObj + "].", err);
       return null;
     }
   }
 
-  public String prompt(String message, String inputDefault) {
+  public String prompt(final String message, final String inputDefault) {
     return this.clientletFrame.prompt(message, inputDefault);
   }
 
-  public void scroll(int x, int y) {
+  public void scroll(final int x, final int y) {
     this.htmlPanel.scroll(x, y);
   }
 
-  public void scrollBy(int xOffset, int yOffset) {
+  public void scrollBy(final int xOffset, final int yOffset) {
     this.htmlPanel.scrollBy(xOffset, yOffset);
   }
 
@@ -233,12 +233,12 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return this.clientletFrame.getDefaultStatus();
   }
 
-  public void setDefaultStatus(String value) {
+  public void setDefaultStatus(final String value) {
     this.clientletFrame.setDefaultStatus(value);
   }
 
   public HTMLCollection getFrames() {
-    Object rootNode = this.htmlPanel.getRootNode();
+    final Object rootNode = this.htmlPanel.getRootNode();
     if (rootNode instanceof HTMLDocumentImpl) {
       return ((HTMLDocumentImpl) rootNode).getFrames();
     } else {
@@ -247,7 +247,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   }
 
   public int getLength() {
-    HTMLCollection frames = this.getFrames();
+    final HTMLCollection frames = this.getFrames();
     return frames == null ? 0 : frames.getLength();
   }
 
@@ -258,22 +258,22 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   // private static final String HTML_RENDERER_ITEM = "lobo.html.renderer";
 
   public HtmlRendererContext getParent() {
-    NavigatorFrame parentFrame = this.clientletFrame.getParentFrame();
+    final NavigatorFrame parentFrame = this.clientletFrame.getParentFrame();
     return parentFrame == null ? null : HtmlRendererContextImpl.getHtmlRendererContext(parentFrame);
   }
 
   public HtmlRendererContext getOpener() {
-    HtmlRendererContext opener = this.assignedOpener;
+    final HtmlRendererContext opener = this.assignedOpener;
     if (opener != null) {
       return opener;
     }
-    NavigatorFrame openerFrame = this.clientletFrame.getOpenerFrame();
+    final NavigatorFrame openerFrame = this.clientletFrame.getOpenerFrame();
     return openerFrame == null ? null : HtmlRendererContextImpl.getHtmlRendererContext(openerFrame);
   }
 
   private volatile HtmlRendererContext assignedOpener;
 
-  public void setOpener(HtmlRendererContext opener) {
+  public void setOpener(final HtmlRendererContext opener) {
     this.assignedOpener = opener;
   }
 
@@ -281,7 +281,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return this.clientletFrame.getStatus();
   }
 
-  public void setStatus(String message) {
+  public void setStatus(final String message) {
     this.clientletFrame.setStatus(message);
   }
 
@@ -290,11 +290,11 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   }
 
   public HtmlRendererContext getTop() {
-    NavigatorFrame parentFrame = this.clientletFrame.getTopFrame();
+    final NavigatorFrame parentFrame = this.clientletFrame.getTopFrame();
     return parentFrame == null ? null : HtmlRendererContextImpl.getHtmlRendererContext(parentFrame);
   }
 
-  public HtmlObject getHtmlObject(HTMLElement element) {
+  public HtmlObject getHtmlObject(final HTMLElement element) {
     // TODO
     return null;
   }
@@ -312,16 +312,16 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return this.uaContext;
   }
 
-  public boolean isVisitedLink(HTMLLinkElement link) {
+  public boolean isVisitedLink(final HTMLLinkElement link) {
     // TODO
     return false;
   }
 
-  public boolean onContextMenu(HTMLElement element, MouseEvent event) {
+  public boolean onContextMenu(final HTMLElement element, final MouseEvent event) {
     return true;
   }
 
-  public void onMouseOut(HTMLElement element, MouseEvent event) {
+  public void onMouseOut(final HTMLElement element, final MouseEvent event) {
     if (element instanceof HTMLLinkElementImpl) {
       this.clientletFrame.setStatus(null);
     }
@@ -331,26 +331,26 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return true;
   }
 
-  public void onMouseOver(HTMLElement element, MouseEvent event) {
+  public void onMouseOver(final HTMLElement element, final MouseEvent event) {
     if (element instanceof HTMLLinkElementImpl) {
-      HTMLLinkElementImpl linkElement = (HTMLLinkElementImpl) element;
+      final HTMLLinkElementImpl linkElement = (HTMLLinkElementImpl) element;
       this.clientletFrame.setStatus(linkElement.getAbsoluteHref());
     }
   }
 
-  public boolean onDoubleClick(HTMLElement element, MouseEvent event) {
+  public boolean onDoubleClick(final HTMLElement element, final MouseEvent event) {
     return true;
   }
 
-  public boolean onMouseClick(HTMLElement element, MouseEvent event) {
+  public boolean onMouseClick(final HTMLElement element, final MouseEvent event) {
     return true;
   }
 
-  public void resizeBy(int byWidth, int byHeight) {
+  public void resizeBy(final int byWidth, final int byHeight) {
     this.clientletFrame.resizeWindowBy(byWidth, byHeight);
   }
 
-  public void resizeTo(int width, int height) {
+  public void resizeTo(final int width, final int height) {
     this.clientletFrame.resizeWindowTo(width, height);
   }
 
@@ -363,7 +363,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   }
 
   public String getCurrentURL() {
-    NavigationEntry entry = this.clientletFrame.getCurrentNavigationEntry();
+    final NavigationEntry entry = this.clientletFrame.getCurrentNavigationEntry();
     return entry == null ? null : entry.getUrl().toExternalForm();
   }
 
@@ -372,20 +372,20 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   }
 
   public String getNextURL() {
-    NavigationEntry entry = this.clientletFrame.getNextNavigationEntry();
+    final NavigationEntry entry = this.clientletFrame.getNextNavigationEntry();
     return entry == null ? null : entry.getUrl().toExternalForm();
   }
 
   public String getPreviousURL() {
-    NavigationEntry entry = this.clientletFrame.getPreviousNavigationEntry();
+    final NavigationEntry entry = this.clientletFrame.getPreviousNavigationEntry();
     return entry == null ? null : entry.getUrl().toExternalForm();
   }
 
-  public void goToHistoryURL(String url) {
+  public void goToHistoryURL(final String url) {
     this.clientletFrame.navigateInHistory(url);
   }
 
-  public void moveInHistory(int offset) {
+  public void moveInHistory(final int offset) {
     this.clientletFrame.moveInHistory(offset);
   }
 
@@ -397,7 +397,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
      * @param type
      * @param inputs
      */
-    public LocalParameterInfo(String type, FormInput[] inputs) {
+    public LocalParameterInfo(final String type, final FormInput[] inputs) {
       super();
       encodingType = type;
       formInputs = inputs;
@@ -419,7 +419,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
      */
     public Parameter[] getParameters() {
       final FormInput[] formInputs = this.formInputs;
-      Parameter[] params = new Parameter[formInputs.length];
+      final Parameter[] params = new Parameter[formInputs.length];
       for (int i = 0; i < params.length; i++) {
         final int index = i;
         params[i] = new Parameter() {

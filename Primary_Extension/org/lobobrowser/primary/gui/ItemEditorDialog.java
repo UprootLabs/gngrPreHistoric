@@ -37,13 +37,13 @@ public class ItemEditorDialog<T> extends JDialog {
   private final JButton cancelButton = new JButton();
   private final AbstractItemEditor<T> editor;
 
-  public ItemEditorDialog(Dialog owner, ItemEditorFactory<T> factory) throws HeadlessException {
+  public ItemEditorDialog(final Dialog owner, final ItemEditorFactory<T> factory) throws HeadlessException {
     super(owner);
     this.editor = factory.createItemEditor();
     this.init();
   }
 
-  public ItemEditorDialog(Frame owner, ItemEditorFactory<T> factory) throws HeadlessException {
+  public ItemEditorDialog(final Frame owner, final ItemEditorFactory<T> factory) throws HeadlessException {
     super(owner);
     this.editor = factory.createItemEditor();
     this.init();
@@ -60,27 +60,27 @@ public class ItemEditorDialog<T> extends JDialog {
 
     // this.editor.setBorder(new BevelBorder(BevelBorder.RAISED));
 
-    Box rootBox = new Box(BoxLayout.Y_AXIS);
+    final Box rootBox = new Box(BoxLayout.Y_AXIS);
     rootBox.setBorder(new EmptyBorder(4, 4, 4, 4));
     rootBox.add(this.captionLabel);
     rootBox.add(this.editor);
     rootBox.add(this.createButtonPanel());
 
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     contentPane.add(rootBox);
   }
 
-  public void setCaption(String caption) {
+  public void setCaption(final String caption) {
     this.captionLabel.setText(caption);
   }
 
-  public void setItem(T item) {
+  public void setItem(final T item) {
     this.editor.setItem(item);
   }
 
   private Component createButtonPanel() {
-    Box panel = new Box(BoxLayout.X_AXIS);
+    final Box panel = new Box(BoxLayout.X_AXIS);
     // panel.setBorder(new BevelBorder(BevelBorder.LOWERED));
     panel.setBorder(new EmptyBorder(4, 4, 4, 4));
     panel.add(Box.createGlue());
@@ -98,10 +98,10 @@ public class ItemEditorDialog<T> extends JDialog {
   }
 
   private class OkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       try {
         editor.validateItem();
-      } catch (ValidationException ve) {
+      } catch (final ValidationException ve) {
         JOptionPane.showMessageDialog(ItemEditorDialog.this, ve.getMessage());
         return;
       }
@@ -111,7 +111,7 @@ public class ItemEditorDialog<T> extends JDialog {
   }
 
   private class CancelAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       resultingItem = null;
       ItemEditorDialog.this.dispose();
     }

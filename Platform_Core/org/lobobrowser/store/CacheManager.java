@@ -49,7 +49,7 @@ public final class CacheManager implements Runnable {
 	 */
   private CacheManager() {
     super();
-    Thread t = new Thread(this, "CacheManager");
+    final Thread t = new Thread(this, "CacheManager");
     t.setDaemon(true);
     t.setPriority(Thread.MIN_PRIORITY);
     t.start();
@@ -58,7 +58,7 @@ public final class CacheManager implements Runnable {
   private static CacheManager instance;
 
   public static CacheManager getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -72,28 +72,28 @@ public final class CacheManager implements Runnable {
     return instance;
   }
 
-  public void putTransient(URL url, Object value, int approxSize) {
-    String key = Urls.getNoRefForm(url);
+  public void putTransient(final URL url, final Object value, final int approxSize) {
+    final String key = Urls.getNoRefForm(url);
     synchronized (this.transientCache) {
       this.transientCache.put(key, value, approxSize);
     }
   }
 
-  public Object getTransient(URL url) {
-    String key = Urls.getNoRefForm(url);
+  public Object getTransient(final URL url) {
+    final String key = Urls.getNoRefForm(url);
     synchronized (this.transientCache) {
       return this.transientCache.get(key);
     }
   }
 
-  public void removeTransient(URL url) {
-    String key = Urls.getNoRefForm(url);
+  public void removeTransient(final URL url) {
+    final String key = Urls.getNoRefForm(url);
     synchronized (this.transientCache) {
       this.transientCache.remove(key);
     }
   }
 
-  public void setMaxTransientCacheSize(int approxMaxSize) {
+  public void setMaxTransientCacheSize(final int approxMaxSize) {
     synchronized (this.transientCache) {
       this.transientCache.setApproxMaxSize(approxMaxSize);
     }
@@ -117,14 +117,14 @@ public final class CacheManager implements Runnable {
     return new CacheInfo(approxSize, numEntries, entryInfo);
   }
 
-  public void putPersistent(URL url, byte[] rawContent, boolean isDecoration) throws IOException {
-    File cacheFile = getCacheFile(url, isDecoration);
+  public void putPersistent(final URL url, final byte[] rawContent, final boolean isDecoration) throws IOException {
+    final File cacheFile = getCacheFile(url, isDecoration);
     synchronized (getLock(cacheFile)) {
-      File parent = cacheFile.getParentFile();
+      final File parent = cacheFile.getParentFile();
       if (parent != null && !parent.exists()) {
         parent.mkdirs();
       }
-      FileOutputStream fout = new FileOutputStream(cacheFile);
+      final FileOutputStream fout = new FileOutputStream(cacheFile);
       try {
         fout.write(rawContent);
       } finally {
@@ -133,29 +133,29 @@ public final class CacheManager implements Runnable {
     }
   }
 
-  public byte[] getPersistent(URL url, boolean isDecoration) throws IOException {
+  public byte[] getPersistent(final URL url, final boolean isDecoration) throws IOException {
     // We don't return an InputStream because further synchronization
     // would be needed to prevent concurrent writes into the file.
-    File cacheFile = getCacheFile(url, isDecoration);
+    final File cacheFile = getCacheFile(url, isDecoration);
     synchronized (getLock(cacheFile)) {
       cacheFile.setLastModified(System.currentTimeMillis());
       try {
         return IORoutines.load(cacheFile);
-      } catch (java.io.FileNotFoundException fnf) {
+      } catch (final java.io.FileNotFoundException fnf) {
         return null;
       }
     }
   }
 
-  public boolean removePersistent(URL url, boolean isDecoration) throws IOException {
-    File cacheFile = getCacheFile(url, isDecoration);
+  public boolean removePersistent(final URL url, final boolean isDecoration) throws IOException {
+    final File cacheFile = getCacheFile(url, isDecoration);
     synchronized (getLock(cacheFile)) {
       return cacheFile.delete();
     }
   }
 
-  public JarFile getJarFile(URL url) throws java.io.IOException {
-    File cacheFile = getCacheFile(url, false);
+  public JarFile getJarFile(final URL url) throws java.io.IOException {
+    final File cacheFile = getCacheFile(url, false);
     synchronized (getLock(cacheFile)) {
       if (!cacheFile.exists()) {
         if (Urls.isLocalFile(url)) {
@@ -168,17 +168,17 @@ public final class CacheManager implements Runnable {
     }
   }
 
-  private static File getCacheFile(URL url, boolean isDecoration) throws IOException {
+  private static File getCacheFile(final URL url, final boolean isDecoration) throws IOException {
     // Use file, not path, because query string matters in caching.
-    String urlFile = url.getFile();
-    String urlText = Urls.getNoRefForm(url);
-    int lastSlashIdx = urlFile.lastIndexOf('/');
+    final String urlFile = url.getFile();
+    final String urlText = Urls.getNoRefForm(url);
+    final int lastSlashIdx = urlFile.lastIndexOf('/');
     String simpleName = lastSlashIdx == -1 ? urlFile : urlFile.substring(lastSlashIdx + 1);
     if (simpleName.length() > 16) {
       simpleName = simpleName.substring(0, 16);
     }
-    String normalizedName = Strings.getJavaIdentifier(simpleName);
-    String hash = Strings.getMD5(urlText);
+    final String normalizedName = Strings.getJavaIdentifier(simpleName);
+    final String hash = Strings.getMD5(urlText);
     String fileName = normalizedName + "_" + hash;
     if (isDecoration) {
       fileName += ".decor";
@@ -186,7 +186,7 @@ public final class CacheManager implements Runnable {
     return StorageManager.getInstance().getContentCacheFile(url.getHost(), fileName);
   }
 
-  private static Object getLock(File file) throws IOException {
+  private static Object getLock(final File file) throws IOException {
     return ("cm:" + file.getCanonicalPath()).intern();
   }
 
@@ -194,8 +194,8 @@ public final class CacheManager implements Runnable {
    * Touches the cache file corresponding to the given URL and returns
    * <code>true</code> if the file exists.
    */
-  public boolean checkCacheFile(URL url, boolean isDecoration) throws IOException {
-    File file = getCacheFile(url, isDecoration);
+  public boolean checkCacheFile(final URL url, final boolean isDecoration) throws IOException {
+    final File file = getCacheFile(url, isDecoration);
     synchronized (getLock(file)) {
       if (file.exists()) {
         file.setLastModified(System.currentTimeMillis());
@@ -208,18 +208,18 @@ public final class CacheManager implements Runnable {
   public void run() {
     try {
       Thread.sleep(INITIAL_SLEEP);
-    } catch (InterruptedException ie) {
+    } catch (final InterruptedException ie) {
       // ignore
     }
     for (;;) {
       try {
         this.sweepCache();
         Thread.sleep(AFTER_SWEEP_SLEEP);
-      } catch (Throwable err) {
+      } catch (final Throwable err) {
         logger.log(Level.SEVERE, "run()", err);
         try {
           Thread.sleep(AFTER_SWEEP_SLEEP);
-        } catch (java.lang.InterruptedException ie) {
+        } catch (final java.lang.InterruptedException ie) {
           // ignore
         }
       }
@@ -231,28 +231,28 @@ public final class CacheManager implements Runnable {
   }
 
   private void sweepCache() throws Exception {
-    CacheStoreInfo sinfo = this.getCacheStoreInfo();
+    final CacheStoreInfo sinfo = this.getCacheStoreInfo();
     if (logger.isLoggable(Level.INFO)) {
       logger.info("sweepCache(): Cache size is " + sinfo.getLength() + " with a max of " + this.getMaxCacheSize()
           + ". The number of cache files is " + sinfo.getFileInfos().length + ".");
     }
     long oversize = sinfo.getLength() - this.getMaxCacheSize();
     if (oversize > 0) {
-      CacheFileInfo[] finfos = sinfo.getFileInfos();
+      final CacheFileInfo[] finfos = sinfo.getFileInfos();
       // Sort in ascending order of modification
       Arrays.sort(finfos);
-      long okToDeleteBeforeThis = System.currentTimeMillis() - DELETE_TOLERANCE;
+      final long okToDeleteBeforeThis = System.currentTimeMillis() - DELETE_TOLERANCE;
       for (int i = 0; i < finfos.length; i++) {
         try {
           Thread.yield();
-          CacheFileInfo finfo = finfos[i];
+          final CacheFileInfo finfo = finfos[i];
           synchronized (getLock(finfo.getFile())) {
-            long lastModified = finfo.getLastModified();
+            final long lastModified = finfo.getLastModified();
             if (lastModified < okToDeleteBeforeThis) {
               Thread.sleep(1);
-              long time1 = System.currentTimeMillis();
+              final long time1 = System.currentTimeMillis();
               finfo.delete();
-              long time2 = System.currentTimeMillis();
+              final long time2 = System.currentTimeMillis();
               if (logger.isLoggable(Level.INFO)) {
                 logger.info("sweepCache(): Removed " + finfo + " in " + (time2 - time1) + " ms.");
               }
@@ -262,7 +262,7 @@ public final class CacheManager implements Runnable {
               }
             }
           }
-        } catch (Throwable thrown) {
+        } catch (final Throwable thrown) {
           logger.log(Level.WARNING, "sweepCache()", thrown);
         }
       }
@@ -270,14 +270,14 @@ public final class CacheManager implements Runnable {
   }
 
   private CacheStoreInfo getCacheStoreInfo() throws IOException {
-    CacheStoreInfo csinfo = new CacheStoreInfo();
-    File cacheRoot = StorageManager.getInstance().getCacheRoot();
+    final CacheStoreInfo csinfo = new CacheStoreInfo();
+    final File cacheRoot = StorageManager.getInstance().getCacheRoot();
     populateCacheStoreInfo(csinfo, cacheRoot);
     return csinfo;
   }
 
-  private void populateCacheStoreInfo(CacheStoreInfo csinfo, File directory) {
-    File[] files = directory.listFiles();
+  private void populateCacheStoreInfo(final CacheStoreInfo csinfo, final File directory) {
+    final File[] files = directory.listFiles();
     if (files == null) {
       logger.severe("populateCacheStoreInfo(): Unexpected: '" + directory + "' is not a directory.");
       return;
@@ -287,7 +287,7 @@ public final class CacheManager implements Runnable {
     }
     for (int i = 0; i < files.length; i++) {
       Thread.yield();
-      File file = files[i];
+      final File file = files[i];
       if (file.isDirectory()) {
         this.populateCacheStoreInfo(csinfo, file);
       } else {

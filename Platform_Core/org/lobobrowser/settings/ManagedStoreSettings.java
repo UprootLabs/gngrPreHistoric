@@ -36,7 +36,7 @@ class ManagedStoreSettings implements Serializable {
     try {
       ins = (ManagedStoreSettings) StorageManager.getInstance().retrieveSettings(ManagedStoreSettings.class.getSimpleName(),
           ManagedStoreSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -52,7 +52,7 @@ class ManagedStoreSettings implements Serializable {
    * Gets the class singleton.
    */
   public static ManagedStoreSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -62,7 +62,7 @@ class ManagedStoreSettings implements Serializable {
   public void save() {
     try {
       StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
     }
   }

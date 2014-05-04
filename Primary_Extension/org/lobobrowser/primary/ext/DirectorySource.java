@@ -25,17 +25,17 @@ import javax.swing.*;
 public class DirectorySource {
   private final ActionPool actionPool;
 
-  DirectorySource(ActionPool actionPool) {
+  DirectorySource(final ActionPool actionPool) {
     this.actionPool = actionPool;
   }
 
   public JMenu getDirectoryMenu() {
-    JMenu searchMenu = new JMenu("Search");
+    final JMenu searchMenu = new JMenu("Search");
     searchMenu.setMnemonic('S');
     searchMenu.add(this.getGoogleSearchMenu());
     searchMenu.add(this.getYahooSearchMenu());
 
-    JMenu newsMenu = new JMenu("News & Blogs");
+    final JMenu newsMenu = new JMenu("News & Blogs");
     newsMenu.setMnemonic('N');
     newsMenu.add(this.getTechNewsMenu());
     newsMenu.add(this.getYahooNewsMenu());
@@ -43,18 +43,18 @@ public class DirectorySource {
     newsMenu.add(this.getCnnMenu());
     newsMenu.add(this.getDiggMenu());
 
-    JMenu infoMenu = new JMenu("Information");
+    final JMenu infoMenu = new JMenu("Information");
     infoMenu.setMnemonic('I');
     infoMenu.add(this.getWikipediaMenu());
     infoMenu.add(this.getWiktionaryMenu());
 
-    JMenu softwareMenu = new JMenu("Software");
+    final JMenu softwareMenu = new JMenu("Software");
     softwareMenu.setMnemonic('S');
     softwareMenu.add(this.getSourceforgeMenu());
     softwareMenu.add(this.getFreshmeatMenu());
     softwareMenu.add(this.getDownloadComMenu());
 
-    JMenu menu = new JMenu("Directory");
+    final JMenu menu = new JMenu("Directory");
     menu.setMnemonic('D');
     menu.add(searchMenu);
     menu.add(newsMenu);
@@ -83,7 +83,7 @@ public class DirectorySource {
   }
 
   private JMenu getTechNewsMenu() {
-    JMenu menu = new JMenu("Tech News");
+    final JMenu menu = new JMenu("Tech News");
     menu.add(ComponentSource.menuItem("Slashdot", this.actionPool.createNavigateAction("http://slashdot.org")));
     menu.add(ComponentSource.menuItem("DZone", this.actionPool.createNavigateAction("http://dzone.com")));
     menu.add(ComponentSource.menuItem("Javalobby", this.actionPool.createNavigateAction("http://javalobby.org")));

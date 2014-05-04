@@ -62,22 +62,22 @@ public class MemoryCacheEntry {
    */
   public MemoryCacheEntry(final byte[] rawContent, final Long expires, final long requestTime, final Object altObject,
       final int altObjectSize) throws IOException {
-    ByteArrayInputStream in = new ByteArrayInputStream(rawContent);
+    final ByteArrayInputStream in = new ByteArrayInputStream(rawContent);
     String line;
-    List<NameValuePair> headersList = new LinkedList<NameValuePair>();
+    final List<NameValuePair> headersList = new LinkedList<NameValuePair>();
     while ((line = IORoutines.readLine(in)) != null) {
       if ("".equals(line)) {
         break;
       }
-      int colonIdx = line.indexOf(':');
-      String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim().toLowerCase();
-      String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
+      final int colonIdx = line.indexOf(':');
+      final String name = colonIdx == -1 ? "" : line.substring(0, colonIdx).trim().toLowerCase();
+      final String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
       headersList.add(new NameValuePair(name, value));
     }
     // Note: This works with a ByteArrayInputStream.
-    int remainingLength = in.available();
-    int offset = rawContent.length - remainingLength;
-    byte[] remainingContent = new byte[remainingLength];
+    final int remainingLength = in.available();
+    final int offset = rawContent.length - remainingLength;
+    final byte[] remainingContent = new byte[remainingLength];
     System.arraycopy(rawContent, offset, remainingContent, 0, remainingLength);
     this.content = remainingContent;
     this.headers = headersList;

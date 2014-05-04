@@ -46,7 +46,7 @@ public class BooleanSettings implements Serializable {
     try {
       ins = (BooleanSettings) StorageManager.getInstance().retrieveSettings(BooleanSettings.class.getSimpleName(),
           BooleanSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -67,7 +67,7 @@ public class BooleanSettings implements Serializable {
    * Gets the class singleton.
    */
   public static BooleanSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -77,7 +77,7 @@ public class BooleanSettings implements Serializable {
   public void save() {
     try {
       StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName(), ioe);
     }
   }
@@ -86,7 +86,7 @@ public class BooleanSettings implements Serializable {
     return httpUseChunkedEncodingPOST;
   }
 
-  public void setHttpUseChunkedEncodingPOST(boolean httpUseChunkedEncodingPOST) {
+  public void setHttpUseChunkedEncodingPOST(final boolean httpUseChunkedEncodingPOST) {
     this.httpUseChunkedEncodingPOST = httpUseChunkedEncodingPOST;
   }
 }

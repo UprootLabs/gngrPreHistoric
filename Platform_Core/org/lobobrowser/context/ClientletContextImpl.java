@@ -37,18 +37,18 @@ public class ClientletContextImpl implements ClientletContext {
   private final ClientletRequest request;
   private final ClientletResponse response;
 
-  public ClientletContextImpl(NavigatorFrame frame, ClientletRequest request, ClientletResponse response) {
+  public ClientletContextImpl(final NavigatorFrame frame, final ClientletRequest request, final ClientletResponse response) {
     this.frame = frame;
     this.request = request;
     this.response = response;
   }
 
-  public ContentBuffer createContentBuffer(String contentType, byte[] content) {
+  public ContentBuffer createContentBuffer(final String contentType, final byte[] content) {
     return new VolatileContentImpl(contentType, content);
   }
 
-  public ContentBuffer createContentBuffer(String contentType, String content, String encoding) throws UnsupportedEncodingException {
-    byte[] bytes = content.getBytes(encoding);
+  public ContentBuffer createContentBuffer(final String contentType, final String content, final String encoding) throws UnsupportedEncodingException {
+    final byte[] bytes = content.getBytes(encoding);
     return new VolatileContentImpl(contentType, bytes);
   }
 
@@ -58,9 +58,9 @@ public class ClientletContextImpl implements ClientletContext {
 
   private Map<String, Object> items = null;
 
-  public Object getItem(String name) {
+  public Object getItem(final String name) {
     synchronized (this) {
-      Map<String, Object> items = this.items;
+      final Map<String, Object> items = this.items;
       if (items == null) {
         return null;
       }
@@ -69,15 +69,15 @@ public class ClientletContextImpl implements ClientletContext {
   }
 
   public ManagedStore getManagedStore() throws IOException {
-    ClientletResponse response = this.response;
+    final ClientletResponse response = this.response;
     if (response == null) {
       throw new SecurityException("There is no client response");
     }
-    String hostName = response.getResponseURL().getHost();
+    final String hostName = response.getResponseURL().getHost();
     return StorageManager.getInstance().getRestrictedStore(hostName, true);
   }
 
-  public ManagedStore getManagedStore(String hostName) throws IOException {
+  public ManagedStore getManagedStore(final String hostName) throws IOException {
     return StorageManager.getInstance().getRestrictedStore(hostName, true);
   }
 
@@ -93,7 +93,7 @@ public class ClientletContextImpl implements ClientletContext {
     return UserAgentImpl.getInstance();
   }
 
-  public void setItem(String name, Object value) {
+  public void setItem(final String name, final Object value) {
     synchronized (this) {
       Map<String, Object> items = this.items;
       if (items == null) {
@@ -110,24 +110,24 @@ public class ClientletContextImpl implements ClientletContext {
     return this.resultingContent;
   }
 
-  public void navigate(String url) throws java.net.MalformedURLException {
-    java.net.URL responseURL = this.response.getResponseURL();
-    java.net.URL newURL = org.lobobrowser.util.Urls.guessURL(responseURL, url);
+  public void navigate(final String url) throws java.net.MalformedURLException {
+    final java.net.URL responseURL = this.response.getResponseURL();
+    final java.net.URL newURL = org.lobobrowser.util.Urls.guessURL(responseURL, url);
     this.frame.navigate(newURL);
   }
 
-  public final void setResultingContent(Component content) {
+  public final void setResultingContent(final Component content) {
     // Must call other overload, which may be overridden.
     this.setResultingContent(new SimpleComponentContent(content));
   }
 
-  public void setResultingContent(ComponentContent content) {
+  public void setResultingContent(final ComponentContent content) {
     this.resultingContent = content;
   }
 
   private volatile Properties windowProperties;
 
-  public void overrideWindowProperties(Properties properties) {
+  public void overrideWindowProperties(final Properties properties) {
     this.windowProperties = properties;
   }
 
@@ -139,7 +139,7 @@ public class ClientletContextImpl implements ClientletContext {
     return this.resultingContent != null;
   }
 
-  public void setProgressEvent(ProgressType progressType, int value, int max) {
+  public void setProgressEvent(final ProgressType progressType, final int value, final int max) {
     this.setProgressEvent(progressType, value, max, this.getResponse().getResponseURL());
   }
 
@@ -147,14 +147,14 @@ public class ClientletContextImpl implements ClientletContext {
     return this.frame.getProgressEvent();
   }
 
-  public void setProgressEvent(ProgressType progressType, int value, int max, java.net.URL url) {
-    ClientletResponse response = this.getResponse();
-    NavigatorFrame frame = this.getNavigatorFrame();
-    String method = response.getLastRequestMethod();
+  public void setProgressEvent(final ProgressType progressType, final int value, final int max, final java.net.URL url) {
+    final ClientletResponse response = this.getResponse();
+    final NavigatorFrame frame = this.getNavigatorFrame();
+    final String method = response.getLastRequestMethod();
     frame.setProgressEvent(new NavigatorProgressEvent(this, frame, progressType, url, method, value, max));
   }
 
-  public void setProgressEvent(NavigatorProgressEvent event) {
+  public void setProgressEvent(final NavigatorProgressEvent event) {
     this.getNavigatorFrame().setProgressEvent(event);
   }
 
@@ -162,7 +162,7 @@ public class ClientletContextImpl implements ClientletContext {
     return new NetworkRequestImpl();
   }
 
-  public void alert(String message) {
+  public void alert(final String message) {
     this.getNavigatorFrame().alert(message);
   }
 

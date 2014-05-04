@@ -34,7 +34,7 @@ import org.lobobrowser.util.*;
  * @author J. H. S.
  */
 public class AboutURLConnection extends URLConnection {
-  public AboutURLConnection(URL url) {
+  public AboutURLConnection(final URL url) {
     super(url);
   }
 
@@ -73,8 +73,8 @@ public class AboutURLConnection extends URLConnection {
     return new ByteArrayInputStream(this.getURLText(this.getURL()).getBytes("UTF-8"));
   }
 
-  private String getURLText(java.net.URL url) {
-    String path = url.getPath();
+  private String getURLText(final java.net.URL url) {
+    final String path = url.getPath();
     if ("blank".equalsIgnoreCase(path)) {
       return "";
     } else if ("bookmarks".equalsIgnoreCase(path)) {
@@ -85,9 +85,9 @@ public class AboutURLConnection extends URLConnection {
         query = "";
       }
       try {
-        String searchQuery = java.net.URLDecoder.decode(query, "UTF-8");
+        final String searchQuery = java.net.URLDecoder.decode(query, "UTF-8");
         return this.getBookmarks(searchQuery);
-      } catch (java.io.UnsupportedEncodingException uee) {
+      } catch (final java.io.UnsupportedEncodingException uee) {
         throw new IllegalStateException("not expected", uee);
       }
     } else if ("java-properties".equals(path)) {
@@ -98,13 +98,13 @@ public class AboutURLConnection extends URLConnection {
   }
 
   private String getSystemProperties() {
-    StringWriter swriter = new StringWriter();
-    PrintWriter writer = new PrintWriter(swriter);
+    final StringWriter swriter = new StringWriter();
+    final PrintWriter writer = new PrintWriter(swriter);
     writer.println("<html>");
     writer.println("<head><title>Java Properties</title></head>");
     writer.println("<body>");
     writer.println("<pre>");
-    Properties properties = System.getProperties();
+    final Properties properties = System.getProperties();
     properties.list(writer);
     writer.println("</pre>");
     writer.println("</body>");
@@ -114,35 +114,35 @@ public class AboutURLConnection extends URLConnection {
   }
 
   private String getBookmarks() {
-    BookmarksHistory history = BookmarksHistory.getInstance();
+    final BookmarksHistory history = BookmarksHistory.getInstance();
     return this.getBookmarks(history.getAllEntries());
   }
 
-  private String getBookmarks(String searchQuery) {
+  private String getBookmarks(final String searchQuery) {
     // This is more of a scan. Not efficient but it does the
     // job for now considering the number of entries is limited.
-    String[] keywords = Strings.split(searchQuery);
-    BookmarksHistory history = BookmarksHistory.getInstance();
-    Collection<HistoryEntry<BookmarkInfo>> entries = history.getAllEntries();
-    Collection<ScoredEntry> sortedEntries = new TreeSet<ScoredEntry>();
-    for (HistoryEntry<BookmarkInfo> entry : entries) {
-      int matchScore = this.getMatchScore(entry.getItemInfo(), keywords);
+    final String[] keywords = Strings.split(searchQuery);
+    final BookmarksHistory history = BookmarksHistory.getInstance();
+    final Collection<HistoryEntry<BookmarkInfo>> entries = history.getAllEntries();
+    final Collection<ScoredEntry> sortedEntries = new TreeSet<ScoredEntry>();
+    for (final HistoryEntry<BookmarkInfo> entry : entries) {
+      final int matchScore = this.getMatchScore(entry.getItemInfo(), keywords);
       if (matchScore > 0) {
         sortedEntries.add(new ScoredEntry(entry, matchScore));
       }
     }
-    Collection<HistoryEntry<BookmarkInfo>> finalEntries = new ArrayList<HistoryEntry<BookmarkInfo>>();
-    for (ScoredEntry scoredEntry : sortedEntries) {
+    final Collection<HistoryEntry<BookmarkInfo>> finalEntries = new ArrayList<HistoryEntry<BookmarkInfo>>();
+    for (final ScoredEntry scoredEntry : sortedEntries) {
       finalEntries.add(scoredEntry.getHistoryEntry());
     }
     return this.getBookmarks(finalEntries);
   }
 
-  private int getMatchScore(BookmarkInfo binfo, String[] keywords) {
+  private int getMatchScore(final BookmarkInfo binfo, final String[] keywords) {
     int total = 0;
     for (int i = 0; i < keywords.length; i++) {
-      String keyword = keywords[i];
-      int score = this.getMatchScore(binfo, keyword);
+      final String keyword = keywords[i];
+      final int score = this.getMatchScore(binfo, keyword);
       if (score == 0) {
         return 0;
       }
@@ -151,28 +151,28 @@ public class AboutURLConnection extends URLConnection {
     return total;
   }
 
-  private int getMatchScore(BookmarkInfo binfo, String keyword) {
-    String keywordTL = keyword.toLowerCase();
+  private int getMatchScore(final BookmarkInfo binfo, final String keyword) {
+    final String keywordTL = keyword.toLowerCase();
     int score = 0;
-    String urlText = binfo.getUrl().toExternalForm();
+    final String urlText = binfo.getUrl().toExternalForm();
     if (urlText.contains(keyword)) {
       score += 3;
     } else if (urlText.toLowerCase().contains(keywordTL)) {
       score += 2;
     }
-    String title = binfo.getTitle();
+    final String title = binfo.getTitle();
     if (title != null && title.contains(keyword)) {
       score += 8;
     } else if (title != null && title.toLowerCase().contains(keywordTL)) {
       score += 6;
     }
-    String description = binfo.getDescription();
+    final String description = binfo.getDescription();
     if (description != null && description.contains(keyword)) {
       score += 3;
     } else if (description != null && description.toLowerCase().contains(keywordTL)) {
       score += 2;
     }
-    String[] tags = binfo.getTags();
+    final String[] tags = binfo.getTags();
     if (tags != null) {
       for (int i = 0; i < tags.length; i++) {
         if (tags[i].equals(keyword)) {
@@ -185,9 +185,9 @@ public class AboutURLConnection extends URLConnection {
     return score;
   }
 
-  private String getBookmarks(Collection<HistoryEntry<BookmarkInfo>> entries) {
-    StringWriter swriter = new StringWriter();
-    PrintWriter writer = new PrintWriter(swriter);
+  private String getBookmarks(final Collection<HistoryEntry<BookmarkInfo>> entries) {
+    final StringWriter swriter = new StringWriter();
+    final PrintWriter writer = new PrintWriter(swriter);
     writer.println("<html>");
     writer.println("<head>Bookmarks</head>");
     writer.println("<body>");
@@ -196,7 +196,7 @@ public class AboutURLConnection extends URLConnection {
     } else {
       writer.println("<h3>Bookmarks</h3>");
       writer.println("<ol>");
-      for (HistoryEntry<BookmarkInfo> entry : entries) {
+      for (final HistoryEntry<BookmarkInfo> entry : entries) {
         this.writeBookmark(writer, entry);
       }
       writer.println("</ol>");
@@ -207,15 +207,15 @@ public class AboutURLConnection extends URLConnection {
     return swriter.toString();
   }
 
-  private void writeBookmark(PrintWriter writer, HistoryEntry<BookmarkInfo> entry) {
-    java.net.URL url = entry.getUrl();
-    String urlText = url.toExternalForm();
-    BookmarkInfo binfo = entry.getItemInfo();
+  private void writeBookmark(final PrintWriter writer, final HistoryEntry<BookmarkInfo> entry) {
+    final java.net.URL url = entry.getUrl();
+    final String urlText = url.toExternalForm();
+    final BookmarkInfo binfo = entry.getItemInfo();
     String text = binfo.getTitle();
     if (text == null || text.length() == 0) {
       text = urlText;
     }
-    long elapsed = System.currentTimeMillis() - entry.getTimetstamp();
+    final long elapsed = System.currentTimeMillis() - entry.getTimetstamp();
     String description = binfo.getDescription();
     if (description == null) {
       description = "";
@@ -248,11 +248,11 @@ public class AboutURLConnection extends URLConnection {
       return score;
     }
 
-    public int compareTo(Object o) {
+    public int compareTo(final Object o) {
       if (this == o) {
         return 0;
       }
-      ScoredEntry other = (ScoredEntry) o;
+      final ScoredEntry other = (ScoredEntry) o;
       int diff = other.score - this.score;
       if (diff != 0) {
         return diff;

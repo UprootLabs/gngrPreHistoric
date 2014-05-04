@@ -31,13 +31,13 @@ import org.lobobrowser.clientlet.*;
 public class NavigatorWindowEvent extends NavigatorResponseEvent {
   private final String message;
 
-  public NavigatorWindowEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response) {
+  public NavigatorWindowEvent(final Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame, final ClientletResponse response) {
     super(source, eventType, clientletFrame, response, response.getRequestType());
     this.message = null;
   }
 
-  public NavigatorWindowEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, String message,
-      RequestType requestType) {
+  public NavigatorWindowEvent(final Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame, final String message,
+      final RequestType requestType) {
     super(source, eventType, clientletFrame, null, requestType);
     this.message = message;
   }

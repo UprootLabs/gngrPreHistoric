@@ -63,13 +63,13 @@ public class OrigUserAgentImpl implements UserAgent {
   public String getUserAgentString() {
     String tv = this.textValue;
     if (tv == null) {
-      GeneralSettings settings = AccessController.doPrivileged(new java.security.PrivilegedAction<GeneralSettings>() {
+      final GeneralSettings settings = AccessController.doPrivileged(new java.security.PrivilegedAction<GeneralSettings>() {
         public GeneralSettings run() {
           return GeneralSettings.getInstance();
         }
       });
-      boolean spoofIE = settings.isSpoofIE();
-      String ieVersion = settings.getIeVersion();
+      final boolean spoofIE = settings.isSpoofIE();
+      final String ieVersion = settings.getIeVersion();
       tv = "Mozilla/" + settings.getMozVersion() + " (compatible" + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + this.getOs() + ") "
           + this.getName() + "/" + this.getVersion();
       this.textValue = tv;

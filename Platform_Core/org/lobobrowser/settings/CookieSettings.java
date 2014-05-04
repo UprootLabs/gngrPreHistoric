@@ -36,7 +36,7 @@ class CookieSettings implements Serializable {
     try {
       ins = (CookieSettings) StorageManager.getInstance().retrieveSettings(CookieSettings.class.getSimpleName(),
           CookieSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -52,7 +52,7 @@ class CookieSettings implements Serializable {
    * Gets the class singleton.
    */
   public static CookieSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }

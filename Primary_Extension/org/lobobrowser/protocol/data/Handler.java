@@ -20,15 +20,15 @@ import java.net.URLStreamHandler;
 public class Handler extends URLStreamHandler {
 
   @Override
-  protected URLConnection openConnection(URL url) throws IOException {
+  protected URLConnection openConnection(final URL url) throws IOException {
     return new DataURLConnection(url);
   }
 
   @Override
-  protected void parseURL(URL u, String spec, int start, int limit) {
-    int index = spec.toLowerCase().indexOf(":");
-    String protocoll = "data";
-    String path = spec.substring(index + 1);
+  protected void parseURL(final URL u, final String spec, final int start, final int limit) {
+    final int index = spec.toLowerCase().indexOf(":");
+    final String protocoll = "data";
+    final String path = spec.substring(index + 1);
 
     setURL(u, protocoll,
     /* host */null,
@@ -40,7 +40,7 @@ public class Handler extends URLStreamHandler {
     /* ref */null);
   }
 
-  protected String toExternalForm(URL u) {
+  protected String toExternalForm(final URL u) {
     return u.getProtocol() + ":" + u.getPath();
   }
 

@@ -34,7 +34,7 @@ public class ClientletException extends Exception {
    * @param message
    *          The exception message.
    */
-  public ClientletException(String message) {
+  public ClientletException(final String message) {
     super(message);
     this.sourceCode = null;
   }
@@ -48,7 +48,7 @@ public class ClientletException extends Exception {
    *          If the source code of the document generating the error is known,
    *          it should be passed in this parameter.
    */
-  public ClientletException(String message, String sourceCode) {
+  public ClientletException(final String message, final String sourceCode) {
     super(message);
     this.sourceCode = sourceCode;
   }
@@ -61,7 +61,7 @@ public class ClientletException extends Exception {
    * @param rootCause
    *          The root cause exception.
    */
-  public ClientletException(String message, Throwable rootCause) {
+  public ClientletException(final String message, final Throwable rootCause) {
     super(message, rootCause);
     this.sourceCode = null;
   }
@@ -72,7 +72,7 @@ public class ClientletException extends Exception {
    * @param rootCause
    *          The root cause exception.
    */
-  public ClientletException(Throwable rootCause) {
+  public ClientletException(final Throwable rootCause) {
     super(rootCause);
     this.sourceCode = null;
   }

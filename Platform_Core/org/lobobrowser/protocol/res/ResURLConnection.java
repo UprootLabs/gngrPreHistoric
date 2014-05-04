@@ -32,7 +32,7 @@ import org.lobobrowser.main.*;
  * @author J. H. S.
  */
 public class ResURLConnection extends URLConnection {
-  public ResURLConnection(URL url) {
+  public ResURLConnection(final URL url) {
     super(url);
   }
 
@@ -50,7 +50,7 @@ public class ResURLConnection extends URLConnection {
    * @see java.net.URLConnection#getInputStream()
    */
   public InputStream getInputStream() throws IOException {
-    String host = this.url.getHost();
+    final String host = this.url.getHost();
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     if (classLoader == null) {
       classLoader = this.getClass().getClassLoader();

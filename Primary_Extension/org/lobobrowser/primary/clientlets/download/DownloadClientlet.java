@@ -27,29 +27,29 @@ import org.lobobrowser.primary.gui.*;
 import org.lobobrowser.util.*;
 
 public class DownloadClientlet implements Clientlet {
-  public void process(ClientletContext context) throws ClientletException {
-    ClientletResponse response = context.getResponse();
-    java.net.URL url = response.getResponseURL();
+  public void process(final ClientletContext context) throws ClientletException {
+    final ClientletResponse response = context.getResponse();
+    final java.net.URL url = response.getResponseURL();
     if (url.getProtocol().equals("file") && "".equals(url.getHost())) {
-      String shorterPath = Strings.truncate(Urls.getNoRefForm(url), 64);
+      final String shorterPath = Strings.truncate(Urls.getNoRefForm(url), 64);
       context.getNavigatorFrame().alert("There are no extensions that can render\r\n" + shorterPath + ".");
       throw new CancelClientletException("cancel");
     }
     if (!"GET".equals(response.getLastRequestMethod())) {
-      String shorterPath = Strings.truncate(Urls.getNoRefForm(url), 64);
+      final String shorterPath = Strings.truncate(Urls.getNoRefForm(url), 64);
       context.getNavigatorFrame().alert("Cannot download document that is not accessed with method GET:\r\n" + shorterPath + ".");
       throw new CancelClientletException("cancel");
     }
     // Load a bit of content to determine transfer speed
     int transferSpeed = -1;
-    int contentLength = response.getContentLength();
+    final int contentLength = response.getContentLength();
     if (contentLength > 0) {
       try {
-        InputStream in = response.getInputStream();
+        final InputStream in = response.getInputStream();
         try {
-          long baseTime = System.currentTimeMillis();
-          long maxElapsed = 1000;
-          byte[] buffer = new byte[4096];
+          final long baseTime = System.currentTimeMillis();
+          final long maxElapsed = 1000;
+          final byte[] buffer = new byte[4096];
           int numRead;
           int totalRead = 0;
           while ((System.currentTimeMillis() - baseTime) < maxElapsed && (numRead = in.read(buffer)) != -1) {
@@ -59,18 +59,18 @@ public class DownloadClientlet implements Clientlet {
           // content not being stored in cache.
           // It works just because downloads
           // are not stored in the cache.
-          long elapsed = System.currentTimeMillis() - baseTime;
+          final long elapsed = System.currentTimeMillis() - baseTime;
           if (elapsed > 0) {
             transferSpeed = (int) Math.round((double) totalRead / elapsed);
           }
         } finally {
           in.close();
         }
-      } catch (java.io.IOException ioe) {
+      } catch (final java.io.IOException ioe) {
         throw new ClientletException(ioe);
       }
     }
-    DownloadDialog dialog = new DownloadDialog(response, url, transferSpeed);
+    final DownloadDialog dialog = new DownloadDialog(response, url, transferSpeed);
     dialog.setTitle("Download " + Urls.getNoRefForm(url));
     dialog.pack();
     dialog.setLocationByPlatform(true);

@@ -44,12 +44,12 @@ public class MultipartFormDataWriter {
    * @param in
    *          Data stream. The caller is responsible for closing it.
    */
-  public final void writeFileData(String name, String fileName, String contentType, InputStream in) throws java.io.IOException {
-    String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName
+  public final void writeFileData(final String name, final String fileName, final String contentType, final InputStream in) throws java.io.IOException {
+    final String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName
         + "\"\r\n" + "Content-Type: " + contentType + "\r\n" + "\r\n";
-    OutputStream out = this.out;
+    final OutputStream out = this.out;
     out.write(headers.getBytes("ISO-8859-1"));
-    byte[] buffer = new byte[4096];
+    final byte[] buffer = new byte[4096];
     int numRead;
     while ((numRead = in.read(buffer)) != -1) {
       out.write(buffer, 0, numRead);
@@ -57,18 +57,18 @@ public class MultipartFormDataWriter {
     out.write(LINE_BREAK_BYTES);
   }
 
-  public final void writeText(String name, String value, String charset) throws IOException {
-    String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"\r\n"
+  public final void writeText(final String name, final String value, final String charset) throws IOException {
+    final String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"\r\n"
         + "Content-Type: text/plain; charset=\"" + charset + "\"\r\n" + "\r\n";
-    OutputStream out = this.out;
+    final OutputStream out = this.out;
     out.write(headers.getBytes("ISO-8859-1"));
     out.write(value.getBytes(charset));
     out.write(LINE_BREAK_BYTES);
   }
 
   public final void send() throws java.io.IOException {
-    String finalDelimiter = "--" + this.boundary + "--\r\n";
-    OutputStream out = this.out;
+    final String finalDelimiter = "--" + this.boundary + "--\r\n";
+    final OutputStream out = this.out;
     out.write(finalDelimiter.getBytes("ISO-8859-1"));
     out.flush();
   }

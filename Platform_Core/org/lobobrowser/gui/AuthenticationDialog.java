@@ -34,26 +34,26 @@ public class AuthenticationDialog extends JDialog {
   private final JTextField userNameField = new JTextField();
   private final JPasswordField passwordField = new JPasswordField();
 
-  public AuthenticationDialog(Frame owner) throws HeadlessException {
+  public AuthenticationDialog(final Frame owner) throws HeadlessException {
     super(owner);
     this.init();
   }
 
-  public AuthenticationDialog(Dialog owner) throws HeadlessException {
+  public AuthenticationDialog(final Dialog owner) throws HeadlessException {
     super(owner);
     this.init();
   }
 
   private void init() {
-    Container contentPane = this.getContentPane();
+    final Container contentPane = this.getContentPane();
     contentPane.setLayout(new FlowLayout());
 
-    Box rootBox = new Box(BoxLayout.Y_AXIS);
+    final Box rootBox = new Box(BoxLayout.Y_AXIS);
     rootBox.setBorder(new EmptyBorder(4, 4, 4, 4));
 
-    Box userNameBox = new Box(BoxLayout.X_AXIS);
-    JLabel userNameLabel = new JLabel("User name:");
-    int unph = userNameLabel.getPreferredSize().height;
+    final Box userNameBox = new Box(BoxLayout.X_AXIS);
+    final JLabel userNameLabel = new JLabel("User name:");
+    final int unph = userNameLabel.getPreferredSize().height;
     userNameLabel.setPreferredSize(new Dimension(100, unph));
     userNameLabel.setHorizontalAlignment(JLabel.RIGHT);
     userNameBox.add(userNameLabel);
@@ -61,9 +61,9 @@ public class AuthenticationDialog extends JDialog {
     userNameBox.add(this.userNameField);
     userNameBox.setPreferredSize(new Dimension(300, unph + 4));
 
-    Box passwordBox = new Box(BoxLayout.X_AXIS);
-    JLabel passwordLabel = new JLabel("Password:");
-    int pwph = passwordLabel.getPreferredSize().height;
+    final Box passwordBox = new Box(BoxLayout.X_AXIS);
+    final JLabel passwordLabel = new JLabel("Password:");
+    final int pwph = passwordLabel.getPreferredSize().height;
     passwordLabel.setPreferredSize(new Dimension(100, pwph));
     passwordLabel.setHorizontalAlignment(JLabel.RIGHT);
     passwordBox.add(passwordLabel);
@@ -71,11 +71,11 @@ public class AuthenticationDialog extends JDialog {
     passwordBox.add(this.passwordField);
     passwordBox.setPreferredSize(new Dimension(300, pwph + 4));
 
-    Box buttonBox = new Box(BoxLayout.X_AXIS);
-    JButton okButton = new JButton();
+    final Box buttonBox = new Box(BoxLayout.X_AXIS);
+    final JButton okButton = new JButton();
     okButton.setAction(new OkAction());
     okButton.setText("OK");
-    JButton cancelButton = new JButton();
+    final JButton cancelButton = new JButton();
     cancelButton.setAction(new CancelAction());
     cancelButton.setText("Cancel");
     buttonBox.add(Box.createHorizontalGlue());
@@ -93,7 +93,7 @@ public class AuthenticationDialog extends JDialog {
     contentPane.add(rootBox);
   }
 
-  public void setUserName(String userName) {
+  public void setUserName(final String userName) {
     this.userNameField.setText(userName);
     this.passwordField.grabFocus();
   }
@@ -105,14 +105,14 @@ public class AuthenticationDialog extends JDialog {
   }
 
   private class OkAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       authentication = new PasswordAuthentication(userNameField.getText(), passwordField.getPassword());
       AuthenticationDialog.this.dispose();
     }
   }
 
   private class CancelAction extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
       authentication = null;
       AuthenticationDialog.this.dispose();
     }

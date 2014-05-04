@@ -56,7 +56,7 @@ public class HttpRequestImpl implements HttpRequest {
     return networkRequest.getResponseBytes();
   }
 
-  public String getResponseHeader(String headerName) {
+  public String getResponseHeader(final String headerName) {
     return networkRequest.getResponseHeader(headerName);
   }
 
@@ -80,37 +80,37 @@ public class HttpRequestImpl implements HttpRequest {
     return networkRequest.getStatusText();
   }
 
-  public void open(String method, String url, boolean asyncFlag) throws IOException {
+  public void open(final String method, final String url, final boolean asyncFlag) throws IOException {
     networkRequest.open(method, url, asyncFlag);
   }
 
-  public void open(String method, String url) throws IOException {
+  public void open(final String method, final String url) throws IOException {
     networkRequest.open(method, url);
   }
 
-  public void open(String method, URL url, boolean asyncFlag, String userName, String password) throws IOException {
+  public void open(final String method, final URL url, final boolean asyncFlag, final String userName, final String password) throws IOException {
     networkRequest.open(method, url, asyncFlag, userName, password);
   }
 
-  public void open(String method, URL url, boolean asyncFlag, String userName) throws IOException {
+  public void open(final String method, final URL url, final boolean asyncFlag, final String userName) throws IOException {
     networkRequest.open(method, url, asyncFlag, userName);
   }
 
-  public void open(String method, URL url, boolean asyncFlag) throws IOException {
+  public void open(final String method, final URL url, final boolean asyncFlag) throws IOException {
     networkRequest.open(method, url, asyncFlag);
   }
 
-  public void open(String method, URL url) throws IOException {
+  public void open(final String method, final URL url) throws IOException {
     networkRequest.open(method, url);
   }
 
-  public void send(String content) throws IOException {
+  public void send(final String content) throws IOException {
     networkRequest.send(content);
   }
 
   public void addReadyStateChangeListener(final ReadyStateChangeListener listener) {
     networkRequest.addNetworkRequestListener(new NetworkRequestListener() {
-      public void readyStateChanged(NetworkRequestEvent event) {
+      public void readyStateChanged(final NetworkRequestEvent event) {
         listener.readyStateChanged();
       }
     });

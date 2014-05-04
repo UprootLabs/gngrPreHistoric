@@ -31,8 +31,8 @@ public class NavigatorResponseEvent extends NavigatorEvent {
   private final ClientletResponse response;
   private final RequestType requestType;
 
-  public NavigatorResponseEvent(Object source, NavigatorEventType eventType, NavigatorFrame clientletFrame, ClientletResponse response,
-      RequestType requestType) {
+  public NavigatorResponseEvent(final Object source, final NavigatorEventType eventType, final NavigatorFrame clientletFrame, final ClientletResponse response,
+      final RequestType requestType) {
     super(source, eventType, clientletFrame);
     this.response = response;
     this.requestType = requestType;

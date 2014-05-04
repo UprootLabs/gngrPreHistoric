@@ -46,10 +46,10 @@ public class AuthenticatorImpl extends Authenticator {
    */
   @Override
   protected PasswordAuthentication getPasswordAuthentication() {
-    RequestorType requestorType = this.getRequestorType();
+    final RequestorType requestorType = this.getRequestorType();
     if (requestorType == RequestorType.PROXY) {
       try {
-        PasswordAuthentication pa = this.connectionSettings.getPasswordAuthentication();
+        final PasswordAuthentication pa = this.connectionSettings.getPasswordAuthentication();
         if (pa != null) {
           // This could get it into an infinite loop if the credentials are
           // wrong?
@@ -57,16 +57,16 @@ public class AuthenticatorImpl extends Authenticator {
           // the bug parade.
           return pa;
         }
-      } catch (Exception err) {
+      } catch (final Exception err) {
         throw new IllegalStateException(err);
       }
     }
 
-    AssociatedSettings settings = this.associatedSettings;
-    String userName = settings.getUserNameForHost(this.getRequestingHost());
+    final AssociatedSettings settings = this.associatedSettings;
+    final String userName = settings.getUserNameForHost(this.getRequestingHost());
 
-    java.awt.Frame frame = GUITasks.getTopFrame();
-    AuthenticationDialog dialog = new AuthenticationDialog(frame);
+    final java.awt.Frame frame = GUITasks.getTopFrame();
+    final AuthenticationDialog dialog = new AuthenticationDialog(frame);
     if (userName != null) {
       dialog.setUserName(userName);
     }
@@ -75,7 +75,7 @@ public class AuthenticatorImpl extends Authenticator {
     dialog.pack();
     dialog.setLocationByPlatform(true);
     dialog.setVisible(true);
-    PasswordAuthentication pa = dialog.getAuthentication();
+    final PasswordAuthentication pa = dialog.getAuthentication();
     if (pa != null) {
       settings.setUserNameForHost(this.getRequestingHost(), pa.getUserName());
       settings.save();

@@ -42,7 +42,7 @@ public class CacheSettings implements Serializable {
     try {
       ins = (CacheSettings) StorageManager.getInstance().retrieveSettings(CacheSettings.class.getSimpleName(),
           CacheSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -55,7 +55,7 @@ public class CacheSettings implements Serializable {
    * Gets the class singleton.
    */
   public static CacheSettings getInstance() {
-    SecurityManager sm = System.getSecurityManager();
+    final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(GenericLocalPermission.EXT_GENERIC);
     }
@@ -65,7 +65,7 @@ public class CacheSettings implements Serializable {
   public void save() {
     try {
       StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName() + ".", ioe);
     }
   }
@@ -89,7 +89,7 @@ public class CacheSettings implements Serializable {
    * @param maxRAMCacheSize
    *          The maximum cache size in bytes.
    */
-  public void setMaxRAMCacheSize(int maxRAMCacheSize) {
+  public void setMaxRAMCacheSize(final int maxRAMCacheSize) {
     CacheManager.getInstance().setMaxTransientCacheSize(maxRAMCacheSize);
   }
 
@@ -104,7 +104,7 @@ public class CacheSettings implements Serializable {
    * get the expiration time of a document. This is used with cacheable
    * documents when max-age and the Expires header are missing.
    */
-  public void setDefaultCacheExpirationOffset(int defaultCacheExpirationOffset) {
+  public void setDefaultCacheExpirationOffset(final int defaultCacheExpirationOffset) {
     this.defaultCacheExpirationOffset = defaultCacheExpirationOffset;
   }
 }

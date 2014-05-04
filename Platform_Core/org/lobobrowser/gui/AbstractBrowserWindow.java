@@ -52,7 +52,7 @@ public abstract class AbstractBrowserWindow extends JFrame implements BrowserWin
    * @param boundsAssigned
    *          True if bounds were assigned.
    */
-  public void setBoundsAssigned(boolean boundsAssigned) {
+  public void setBoundsAssigned(final boolean boundsAssigned) {
     this.boundsAssigned = boundsAssigned;
   }
 }

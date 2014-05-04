@@ -22,7 +22,7 @@ public class ToolsSettings implements Serializable {
     try {
       ins = (ToolsSettings) StorageManager.getInstance().retrieveSettings(ToolsSettings.class.getSimpleName(),
           ToolsSettings.class.getClassLoader());
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.WARNING, "getInstance(): Unable to retrieve settings.", err);
     }
     if (ins == null) {
@@ -36,11 +36,11 @@ public class ToolsSettings implements Serializable {
   }
 
   public void restoreDefaults() {
-    List<SearchEngine> searchEngines = this.getDefaultSearchEngines();
+    final List<SearchEngine> searchEngines = this.getDefaultSearchEngines();
     this.searchEngines = searchEngines;
     this.selectedSearchEngine = searchEngines.get(0);
-    String userHome = System.getProperty("user.home");
-    File userHomeDirectory = new File(userHome);
+    final String userHome = System.getProperty("user.home");
+    final File userHomeDirectory = new File(userHome);
     this.downloadDirectory = new File(userHomeDirectory, "download");
     if (!this.downloadDirectory.exists()) {
       this.downloadDirectory.mkdirs();
@@ -52,7 +52,7 @@ public class ToolsSettings implements Serializable {
   }
 
   private List<SearchEngine> getDefaultSearchEngines() {
-    List<SearchEngine> searchEngines = new ArrayList<SearchEngine>();
+    final List<SearchEngine> searchEngines = new ArrayList<SearchEngine>();
     searchEngines.add(this.googleWebSearch());
     searchEngines.add(this.yahooWebSearch());
     searchEngines.add(this.wikipediaSearch());
@@ -90,7 +90,7 @@ public class ToolsSettings implements Serializable {
   public void save() {
     try {
       StorageManager.getInstance().saveSettings(this.getClass().getSimpleName(), this);
-    } catch (java.io.IOException ioe) {
+    } catch (final java.io.IOException ioe) {
       logger.log(Level.WARNING, "Unable to save settings: " + this.getClass().getSimpleName() + ".", ioe);
     }
   }
@@ -99,7 +99,7 @@ public class ToolsSettings implements Serializable {
     return this.searchEngines;
   }
 
-  public void setSearchEngines(Collection<SearchEngine> searchEngines) {
+  public void setSearchEngines(final Collection<SearchEngine> searchEngines) {
     this.searchEngines = searchEngines;
   }
 
@@ -107,7 +107,7 @@ public class ToolsSettings implements Serializable {
     return selectedSearchEngine;
   }
 
-  public void setSelectedSearchEngine(SearchEngine selectedSearchEngine) {
+  public void setSelectedSearchEngine(final SearchEngine selectedSearchEngine) {
     this.selectedSearchEngine = selectedSearchEngine;
   }
 
@@ -115,7 +115,7 @@ public class ToolsSettings implements Serializable {
     return downloadDirectory;
   }
 
-  public void setDownloadDirectory(java.io.File downloadDirectory) {
+  public void setDownloadDirectory(final java.io.File downloadDirectory) {
     this.downloadDirectory = downloadDirectory;
   }
 
@@ -123,7 +123,7 @@ public class ToolsSettings implements Serializable {
     return openFileDirectory;
   }
 
-  public void setOpenFileDirectory(java.io.File openFileDirectory) {
+  public void setOpenFileDirectory(final java.io.File openFileDirectory) {
     this.openFileDirectory = openFileDirectory;
   }
 }

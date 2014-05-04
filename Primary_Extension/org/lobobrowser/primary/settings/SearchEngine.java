@@ -37,13 +37,13 @@ public class SearchEngine implements Serializable {
     this.queryParameter = queryParameter;
   }
 
-  public java.net.URL getURL(String query) throws java.net.MalformedURLException {
-    String baseUrl = this.baseUrl;
-    int qmIdx = baseUrl.indexOf('?');
-    char join = qmIdx == -1 ? '?' : '&';
+  public java.net.URL getURL(final String query) throws java.net.MalformedURLException {
+    final String baseUrl = this.baseUrl;
+    final int qmIdx = baseUrl.indexOf('?');
+    final char join = qmIdx == -1 ? '?' : '&';
     try {
       return new java.net.URL(baseUrl + join + this.queryParameter + "=" + java.net.URLEncoder.encode(query, "UTF-8"));
-    } catch (java.io.UnsupportedEncodingException uee) {
+    } catch (final java.io.UnsupportedEncodingException uee) {
       throw new IllegalStateException("not expected", uee);
     }
   }

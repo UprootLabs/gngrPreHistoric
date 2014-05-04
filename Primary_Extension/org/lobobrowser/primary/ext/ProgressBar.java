@@ -32,7 +32,7 @@ public class ProgressBar extends JProgressBar {
     this.setStringPainted(true);
   }
 
-  public void updateProgress(ProgressType progressType, int value, int max) {
+  public void updateProgress(final ProgressType progressType, final int value, final int max) {
     switch (progressType) {
     case NONE:
     case DONE:
@@ -59,25 +59,25 @@ public class ProgressBar extends JProgressBar {
     }
   }
 
-  private static double round1(double value) {
+  private static double round1(final double value) {
     return Math.round(value * 10.0) / 10.0;
   }
 
-  private static String getSizeText(int numBytes) {
+  private static String getSizeText(final int numBytes) {
     if (numBytes == 0) {
       return "";
     } else if (numBytes < 1024) {
       return numBytes + " bytes";
     } else {
-      double numK = numBytes / 1024.0;
+      final double numK = numBytes / 1024.0;
       if (numK < 1024) {
         return round1(numK) + " Kb";
       } else {
-        double numM = numK / 1024.0;
+        final double numM = numK / 1024.0;
         if (numM < 1024) {
           return round1(numM) + " Mb";
         } else {
-          double numG = numM / 1024.0;
+          final double numG = numM / 1024.0;
           return round1(numG) + " Gb";
         }
       }
@@ -100,10 +100,10 @@ public class ProgressBar extends JProgressBar {
   }
 
   @Override
-  protected void paintComponent(Graphics g) {
+  protected void paintComponent(final Graphics g) {
     try {
       super.paintComponent(g);
-    } catch (Exception err) {
+    } catch (final Exception err) {
       logger.log(Level.SEVERE, "paintComponent(): Swing bug?", err);
     }
   }

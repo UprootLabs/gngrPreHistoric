@@ -35,13 +35,13 @@ public class VerifiedHostsStore {
     super();
   }
 
-  public boolean contains(String host) {
+  public boolean contains(final String host) {
     synchronized (this.hosts) {
       return this.hosts.contains(host);
     }
   }
 
-  public void add(String host) {
+  public void add(final String host) {
     synchronized (this.hosts) {
       this.hosts.add(host);
     }
