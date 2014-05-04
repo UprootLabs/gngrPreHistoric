@@ -23,12 +23,18 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
-import java.lang.ref.*;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class WeakValueHashMap implements Map {
-  private final Map<Object, Object> map = new HashMap<Object, Object>();
-  private final ReferenceQueue queue = new ReferenceQueue();
+public class WeakValueHashMap<K,V> implements Map<K,V> {
+  private final Map<K, LocalWeakReference> map = new HashMap<K, LocalWeakReference>();
+  private final ReferenceQueue<V> queue = new ReferenceQueue<V>();
 
   public WeakValueHashMap() {
     super();
@@ -43,47 +49,42 @@ public class WeakValueHashMap implements Map {
   }
 
   public boolean containsKey(final Object key) {
-    final WeakReference wf = (WeakReference) this.map.get(key);
-    return wf != null && wf.get() != null;
+    return map.containsKey(key);
   }
 
   public boolean containsValue(final Object value) {
     throw new UnsupportedOperationException();
   }
 
-  public Object get(final Object key) {
+  public V get(final Object key) {
     this.checkQueue();
-    final WeakReference wf = (WeakReference) this.map.get(key);
+    final LocalWeakReference wf = this.map.get(key);
     return wf == null ? null : wf.get();
   }
 
-  public Object put(final Object key, final Object value) {
+  public V put(final K key, final V value) {
     this.checkQueue();
     return this.putImpl(key, value);
   }
 
-  private final Object putImpl(final Object key, final Object value) {
+  private final V putImpl(final K key, final V value) {
     if (value == null) {
       throw new IllegalArgumentException("null values not accepted");
     }
-    final Reference ref = new LocalWeakReference(key, value, this.queue);
-    final WeakReference oldWf = (WeakReference) this.map.put(key, ref);
+    final LocalWeakReference ref = new LocalWeakReference(key, value);
+    final LocalWeakReference oldWf =  this.map.put(key, ref);
     return oldWf == null ? null : oldWf.get();
   }
 
-  public Object remove(final Object key) {
+  public V remove(final Object key) {
     this.checkQueue();
-    final WeakReference wf = (WeakReference) this.map.remove(key);
+    final LocalWeakReference wf = this.map.remove(key);
     return wf == null ? null : wf.get();
   }
 
-  public void putAll(final Map t) {
+  public void putAll(final Map<? extends K,? extends V> t) {
     this.checkQueue();
-    final Iterator i = t.entrySet().iterator();
-    while (i.hasNext()) {
-      final Map.Entry entry = (Map.Entry) i.next();
-      this.putImpl(entry.getKey(), entry.getValue());
-    }
+    t.forEach((k, v) -> this.putImpl(k, v));
   }
 
   public void clear() {
@@ -91,61 +92,47 @@ public class WeakValueHashMap implements Map {
     this.map.clear();
   }
 
-  public Set<Object> keySet() {
+  public Set<K> keySet() {
     return this.map.keySet();
   }
 
+  @SuppressWarnings("unchecked")
   private final void checkQueue() {
-    final ReferenceQueue queue = this.queue;
+    final ReferenceQueue<V> queue = this.queue;
     LocalWeakReference ref;
     while ((ref = (LocalWeakReference) queue.poll()) != null) {
       this.map.remove(ref.getKey());
     }
   }
 
-  public Collection values() {
-    return new FilteredCollection(this.map.values(), new LocalFilter());
+  public Collection<V> values() {
+    checkQueue();
+    Stream<V> m =
+        this.map.values().stream()
+        .map(t -> t == null ? null : t.get())
+        .filter( t -> t != null);
+    return m.collect(Collectors.toList());
   }
 
-  public Set entrySet() {
+  public Set<Entry<K,V>> entrySet() {
     throw new UnsupportedOperationException();
   }
 
-  private class LocalFilter implements ObjectFilter {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.xamjwg.util.ObjectFilter#decode(java.lang.Object)
-     */
-    public Object decode(final Object source) {
-      final WeakReference wf = (WeakReference) source;
-      return wf == null ? null : wf.get();
-    }
+  private class LocalWeakReference extends WeakReference<V> {
+    private final K key;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.xamjwg.util.ObjectFilter#encode(java.lang.Object)
-     */
-    public Object encode(final Object source) {
-      throw new java.lang.UnsupportedOperationException("Read-only collection.");
-    }
-  }
-
-  private static class LocalWeakReference extends WeakReference {
-    private final Object key;
-
-    public LocalWeakReference(final Object key, final Object target, final ReferenceQueue queue) {
+    public LocalWeakReference(final K key, final V target) {
       super(target, queue);
       this.key = key;
     }
 
-    public Object getKey() {
+    public K getKey() {
       return key;
     }
 
+    /*
     public boolean equals(final Object other) {
-      final Object target1 = this.get();
+      final K target1 = this.get();
       final Object target2 = other instanceof LocalWeakReference ? ((LocalWeakReference) other).get() : null;
       return Objects.equals(target1, target2);
     }
@@ -153,6 +140,6 @@ public class WeakValueHashMap implements Map {
     public int hashCode() {
       final Object target = this.get();
       return target == null ? 0 : target.hashCode();
-    }
+    }*/
   }
 }
