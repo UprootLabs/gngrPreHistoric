@@ -24,6 +24,7 @@
 package org.lobobrowser.primary.clientlets;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
@@ -34,7 +35,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.jar.*;
 import java.util.zip.*;
-
 import java.util.logging.*;
 
 import org.lobobrowser.util.*;
@@ -86,9 +86,9 @@ public class ArchiveClassLoader extends BaseClassLoader {
   /**
    * @param targetParent
    */
-  ArchiveClassLoader(java.util.Collection archiveInfos) throws IOException {
+  ArchiveClassLoader(java.util.Collection<ArchiveInfo> archiveInfos) throws IOException {
     super(ArchiveClassLoader.class.getClassLoader());
-    this.archiveInfos = (ArchiveInfo[]) archiveInfos.toArray(ArchiveInfo.EMPTY_ARRAY);
+    this.archiveInfos = archiveInfos.toArray(ArchiveInfo.EMPTY_ARRAY);
   }
 
   /*
@@ -96,7 +96,7 @@ public class ArchiveClassLoader extends BaseClassLoader {
    * 
    * @see java.lang.ClassLoader#findClass(java.lang.String)
    */
-  protected Class findClass(String arg0) throws ClassNotFoundException {
+  protected Class<?> findClass(String arg0) throws ClassNotFoundException {
     final String subPath = arg0.replace('.', '/') + ".class";
     ArchiveInfo[] ainfos = this.archiveInfos;
     int len = ainfos.length;
@@ -106,8 +106,8 @@ public class ArchiveClassLoader extends BaseClassLoader {
       final ArchiveInfo ainfo = ainfos[i];
       try {
         final JarFile jarFile = ainfo.getJarFile();
-        classBytes = (byte[]) AccessController.doPrivileged(new PrivilegedAction() {
-          public Object run() {
+        classBytes = AccessController.doPrivileged(new PrivilegedAction<byte[]>() {
+          public byte[] run() {
             try {
               ZipEntry entry = jarFile.getEntry(subPath);
               if (entry == null) {
@@ -168,25 +168,25 @@ public class ArchiveClassLoader extends BaseClassLoader {
    * 
    * @see java.lang.ClassLoader#findResources(java.lang.String)
    */
-  protected Enumeration findResources(String name) throws IOException {
+  protected Enumeration<URL> findResources(String name) throws IOException {
     URL url = this.findResource(name);
     if (url != null) {
       return CollectionUtilities.getIteratorEnumeration(Collections.singletonList(url).iterator());
     } else {
-      return CollectionUtilities.getIteratorEnumeration(Collections.EMPTY_LIST.iterator());
+      return CollectionUtilities.getEmptyEnumeration();
     }
   }
 
   private java.io.InputStream getResourceAsStreamImpl(final String resourceName) {
     ArchiveInfo[] ainfos = this.archiveInfos;
     int len = ainfos.length;
-    java.io.InputStream in = null;
+    InputStream in = null;
     for (int i = 0; i < len; i++) {
       final ArchiveInfo ainfo = ainfos[i];
       try {
         final JarFile jarFile = ainfo.getJarFile();
-        in = (java.io.InputStream) AccessController.doPrivileged(new PrivilegedAction() {
-          public Object run() {
+        in = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
+          public InputStream run() {
             try {
               ZipEntry entry = jarFile.getEntry(resourceName);
               if (entry == null) {

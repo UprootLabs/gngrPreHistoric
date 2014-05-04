@@ -27,7 +27,8 @@ import javax.swing.event.PopupMenuListener;
 import java.util.*;
 import java.awt.event.*;
 
-public class AddressField extends JComboBox {
+public class AddressField extends JComboBox<String> {
+  private static final long serialVersionUID = 3726432852226425553L;
   private final ComponentSource componentSource;
 
   public AddressField(ComponentSource cs) {
@@ -80,7 +81,7 @@ public class AddressField extends JComboBox {
   }
 
   public void setText(String text) {
-    JComboBox combo = this;
+    JComboBox<String> combo = this;
     boolean editable = this.isEditable();
     if (editable) {
       combo.getEditor().setItem(text);
@@ -108,10 +109,8 @@ public class AddressField extends JComboBox {
       JComboBox<String> urlComboBox = this;
       urlComboBox.removeAllItems();
       Collection<String> recentUrls = this.componentSource.getRecentLocations(30);
-      Iterator<String> i = recentUrls.iterator();
-      while (i.hasNext()) {
-        String matchUrl = i.next();
-        urlComboBox.addItem(matchUrl);
+      for (String url: recentUrls) {
+        urlComboBox.addItem(url);
       }
       this.setText(comboBoxText);
       this.comboHasHeadMatches = false;
@@ -132,7 +131,7 @@ public class AddressField extends JComboBox {
     char releasedChar = event.getKeyChar();
     if (validPopupChar(releasedChar)) {
       String urlText = urlComboBox.getText();
-      Collection headMatches = this.componentSource.getPotentialMatches(urlText, 30);
+      Collection<String> headMatches = this.componentSource.getPotentialMatches(urlText, 30);
       if (headMatches.size() == 0) {
         if (urlComboBox.isPopupVisible()) {
           urlComboBox.hidePopup();
@@ -141,9 +140,9 @@ public class AddressField extends JComboBox {
         populatingMatches = true;
         try {
           urlComboBox.removeAllItems();
-          Iterator i = headMatches.iterator();
+          Iterator<String> i = headMatches.iterator();
           while (i.hasNext()) {
-            String matchUrl = (String) i.next();
+            String matchUrl = i.next();
             urlComboBox.addItem(matchUrl);
           }
           comboHasHeadMatches = true;

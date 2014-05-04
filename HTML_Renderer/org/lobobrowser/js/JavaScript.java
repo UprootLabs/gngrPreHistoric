@@ -72,13 +72,13 @@ public class JavaScript {
       synchronized (this.javaObjectToWrapper) {
         // WeakHashMaps will retain keys if the value refers to the key.
         // That's why we need to refer to the value weakly too.
-        final WeakReference valueRef = this.javaObjectToWrapper.get(raw);
+        final WeakReference<?> valueRef = this.javaObjectToWrapper.get(raw);
         JavaObjectWrapper jow = null;
         if (valueRef != null) {
           jow = (JavaObjectWrapper) valueRef.get();
         }
         if (jow == null) {
-          final Class javaClass = raw.getClass();
+          final Class<? extends Object> javaClass = raw.getClass();
           final JavaClassWrapper wrapper = JavaClassWrapperFactory.getInstance().getClassWrapper(javaClass);
           jow = new JavaObjectWrapper(wrapper, raw);
           this.javaObjectToWrapper.put(raw, new WeakReference<JavaObjectWrapper>(jow));
@@ -99,7 +99,7 @@ public class JavaScript {
     }
   }
 
-  public Object getJavaObject(final Object javascriptObject, final Class type) {
+  public Object getJavaObject(final Object javascriptObject, final Class<?> type) {
     if (javascriptObject instanceof JavaObjectWrapper) {
       final Object rawJavaObject = ((JavaObjectWrapper) javascriptObject).getJavaObject();
       if (String.class == type) {

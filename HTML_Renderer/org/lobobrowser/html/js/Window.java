@@ -403,7 +403,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   }
 
   private final void defineElementClass(final Scriptable scope, final Document document, final String jsClassName, final String elementName,
-      final Class javaClass) {
+      final Class<?> javaClass) {
     final JavaInstantiator ji = new JavaInstantiator() {
       public Object newInstance() {
         final Document d = document;

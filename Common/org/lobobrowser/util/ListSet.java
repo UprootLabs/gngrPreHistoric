@@ -25,6 +25,7 @@ package org.lobobrowser.util;
 
 import java.util.*;
 
+// TOOD: remove if unused
 public class ListSet implements List, Set {
   private final List<Object> list = new ArrayList<Object>();
   private final Set<Object> set = new HashSet<Object>();

@@ -26,8 +26,6 @@ package org.lobobrowser.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * @author J. H. S.
@@ -87,12 +85,4 @@ public class GenericURLConnection extends URLConnection {
     return null;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.net.URLConnection#getHeaderFields()
-   */
-  public Map getHeaderFields() {
-    return Collections.EMPTY_MAP;
-  }
 }

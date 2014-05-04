@@ -35,15 +35,15 @@ import java.util.*;
 public class Bean {
   // private static final java.util.logging.Logger logger =
   // Logger.getLogger(Bean.class);
-  private final Class clazz;
+  private final Class<?> clazz;
 
-  public Bean(final Class clazz) {
+  public Bean(final Class<?> clazz) {
     this.clazz = clazz;
   }
 
   private Map<String, PropertyDescriptor> propertyDescriptors = null;
 
-  private void populateDescriptors(final Map<String, PropertyDescriptor> map, final Class clazz) throws IntrospectionException {
+  private void populateDescriptors(final Map<String, PropertyDescriptor> map, final Class<?> clazz) throws IntrospectionException {
     final BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
     final PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
     for (int i = 0; i < pds.length; i++) {
@@ -52,7 +52,7 @@ public class Bean {
     if (clazz.isInterface()) {
       final java.lang.reflect.Type[] interfaces = clazz.getGenericInterfaces();
       for (int i = 0; i < interfaces.length; i++) {
-        this.populateDescriptors(map, (Class) interfaces[i]);
+        this.populateDescriptors(map, (Class<?>) interfaces[i]);
       }
     }
   }
@@ -113,7 +113,7 @@ public class Bean {
     }
   }
 
-  private static Object convertValue(Object value, final Class targetType) {
+  private static Object convertValue(Object value, final Class<?> targetType) {
     final boolean targetString = targetType.isAssignableFrom(String.class);
     if (value instanceof String && targetString) {
       // ignore

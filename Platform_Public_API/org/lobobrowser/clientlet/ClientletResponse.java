@@ -61,7 +61,7 @@ public interface ClientletResponse {
   /**
    * Gets an iterator of response header names.
    */
-  public Iterator getHeaderNames();
+  public Iterator<String> getHeaderNames();
 
   /**
    * Gets the response stream.

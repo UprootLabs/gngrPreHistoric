@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.*;
+
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.ua.*;
 import org.lobobrowser.util.*;
@@ -161,8 +162,8 @@ public class ClientletResponseImpl implements ClientletResponse {
    * 
    * @see org.xamjwg.dom.ClientletResponse#getHeaderNames()
    */
-  public Iterator getHeaderNames() {
-    Map headers = this.connection.getHeaderFields();
+  public Iterator<String> getHeaderNames() {
+    Map<String, List<String>> headers = this.connection.getHeaderFields();
     return headers.keySet().iterator();
   }
 

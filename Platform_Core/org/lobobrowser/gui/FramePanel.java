@@ -24,6 +24,7 @@ import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.*;
 import java.security.*;
 
@@ -55,6 +56,7 @@ import org.lobobrowser.security.*;
  * @see PlatformInit#init(boolean, boolean)
  */
 public class FramePanel extends JPanel implements NavigatorFrame {
+  private static final long serialVersionUID = -8873769110035409639L;
   private static final Logger logger = Logger.getLogger(FramePanel.class.getName());
   private final String windowId;
   private final NavigationEngine navigationEngine = new NavigationEngine();
@@ -1288,10 +1290,10 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     synchronized (this.propertiesMonitor) {
       Map<String, Object> props = this.contentProperties;
       if (props != null) {
-        Iterator i = props.entrySet().iterator();
+        Iterator<Entry<String, Object>> i = props.entrySet().iterator();
         while (i.hasNext()) {
-          Map.Entry entry = (Map.Entry) i.next();
-          content.setProperty((String) entry.getKey(), entry.getValue());
+          Entry<String, Object> entry = i.next();
+          content.setProperty(entry.getKey(), entry.getValue());
         }
       }
     }

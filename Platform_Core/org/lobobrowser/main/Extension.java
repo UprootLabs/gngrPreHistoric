@@ -32,7 +32,7 @@ import org.lobobrowser.util.*;
 /**
  * Encapsulates a browser extension or plugin.
  */
-public class Extension implements Comparable, NavigatorExtensionContext {
+public class Extension implements Comparable<Object>, NavigatorExtensionContext {
   private static final String ATTRIBUTE_EXTENSION_CLASS = "extension.class";
   private static final String ATTRIBUTE_EXTENSION_PRIORITY = "extension.priority";
   private static final String EXTENSION_PROPERTIES_FILE = "lobo-extension.properties";
@@ -133,7 +133,7 @@ public class Extension implements Comparable, NavigatorExtensionContext {
   }
 
   public URL getCodeSource() throws java.net.MalformedURLException {
-    return this.extRoot.toURL();
+    return this.extRoot.toURI().toURL();
   }
 
   public boolean isPrimaryExtension() {
@@ -149,13 +149,13 @@ public class Extension implements Comparable, NavigatorExtensionContext {
 
   public void initClassLoader(ClassLoader parentClassLoader) throws java.net.MalformedURLException, ClassNotFoundException,
       IllegalAccessException, InstantiationException {
-    URL url = this.extRoot.toURL();
+    URL url = this.extRoot.toURI().toURL();
     java.net.URL[] urls = new java.net.URL[] { url };
     ExtensionClassLoader classLoader = new ExtensionClassLoader(urls, parentClassLoader);
     String extClassName = this.extClassName;
     NavigatorExtension pe = null;
     if (extClassName != null) {
-      Class extClass = classLoader.loadClass(extClassName);
+      Class<?> extClass = classLoader.loadClass(extClassName);
       pe = (NavigatorExtension) extClass.newInstance();
     }
     synchronized (this) {

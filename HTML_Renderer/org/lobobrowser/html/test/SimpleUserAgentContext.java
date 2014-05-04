@@ -2,6 +2,7 @@ package org.lobobrowser.html.test;
 
 import java.security.Policy;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.*;
 
 import org.lobobrowser.html.HttpRequest;
@@ -216,7 +217,7 @@ public class SimpleUserAgentContext implements UserAgentContext {
     if (handler == null) {
       return "";
     }
-    Map results;
+    Map<String, List<String>> results;
     try {
       results = handler.get(url.toURI(), new HashMap<String, List<String>>());
     } catch (final Exception err) {
@@ -227,16 +228,16 @@ public class SimpleUserAgentContext implements UserAgentContext {
       return "";
     }
     final StringBuffer buffer = new StringBuffer();
-    final Iterator i = results.entrySet().iterator();
+    final Iterator<Entry<String, List<String>>> i = results.entrySet().iterator();
     boolean firstTime = true;
     while (i.hasNext()) {
-      final Map.Entry entry = (Map.Entry) i.next();
-      final String key = (String) entry.getKey();
+      final Entry<String, List<String>> entry = i.next();
+      final String key = entry.getKey();
       if ("Cookie".equalsIgnoreCase(key) || "Cookie2".equalsIgnoreCase(key)) {
-        final List list = (List) entry.getValue();
-        final Iterator li = list.iterator();
+        final List<String> list = entry.getValue();
+        final Iterator<String> li = list.iterator();
         while (li.hasNext()) {
-          final String value = (String) li.next();
+          final String value = li.next();
           if (firstTime) {
             firstTime = false;
           } else {

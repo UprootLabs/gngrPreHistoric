@@ -251,13 +251,10 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
     // Ensures that parent has all the components
     // below this renderer node. (Parent expected to have removed them).
     final Collection<Component> gc = this.guiComponents;
-    int count = 0;
     if (gc != null) {
       final RenderableContainer rc = this.container;
-      final Iterator<Component> i = gc.iterator();
-      while (i.hasNext()) {
-        count++;
-        rc.addComponent(i.next());
+      for (Component c : gc) {
+        rc.addComponent(c);
       }
     }
   }
@@ -492,7 +489,6 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
   }
 
   protected void loadBackgroundImage(final java.net.URL imageURL) {
-    final ModelNode rc = this.modelNode;
     final UserAgentContext ctx = this.userAgentContext;
     if (ctx != null) {
       final HttpRequest request = ctx.createHttpRequest();
@@ -524,7 +520,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
           logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
         }
       } else {
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
           public Object run() {
             // Code might have restrictions on accessing
             // items from elsewhere.
@@ -768,7 +764,6 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
    * but not padding.
    */
   public Insets getInsets(final boolean hscroll, final boolean vscroll) {
-    final RenderState rs = this.modelNode.getRenderState();
     final Insets mi = this.marginInsets;
     final Insets bi = this.borderInsets;
     int top = 0;

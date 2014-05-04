@@ -28,13 +28,13 @@ import org.lobobrowser.html.js.PropertyName;
 import org.mozilla.javascript.Function;
 
 public class JavaClassWrapper {
-  private final Class javaClass;
+  private final Class<?> javaClass;
   private final Map<String, JavaFunctionObject> functions = new HashMap<String, JavaFunctionObject>();
   private final Map<String, PropertyInfo> properties = new HashMap<String, PropertyInfo>();
   private PropertyInfo nameIndexer;
   private PropertyInfo integerIndexer;
 
-  public JavaClassWrapper(final Class class1) {
+  public JavaClassWrapper(final Class<?> class1) {
     super();
     this.javaClass = class1;
     this.scanMethods();
@@ -116,7 +116,7 @@ public class JavaClassWrapper {
     }
     PropertyInfo indexer = this.integerIndexer;
     if (indexer == null) {
-      final Class pt = getter ? method.getReturnType() : method.getParameterTypes()[1];
+      final Class<?> pt = getter ? method.getReturnType() : method.getParameterTypes()[1];
       indexer = new PropertyInfo("$item", pt);
       this.integerIndexer = indexer;
     }
@@ -178,7 +178,7 @@ public class JavaClassWrapper {
 
     PropertyInfo pinfo = this.properties.get(propertyName);
     if (pinfo == null) {
-      final Class pt = getter ? method.getReturnType() : method.getParameterTypes()[0];
+      final Class<?> pt = getter ? method.getReturnType() : method.getParameterTypes()[0];
       pinfo = new PropertyInfo(propertyName, pt);
       this.properties.put(propertyName, pinfo);
     }

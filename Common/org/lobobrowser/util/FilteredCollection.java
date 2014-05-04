@@ -25,7 +25,7 @@ package org.lobobrowser.util;
 
 import java.util.*;
 
-public class FilteredCollection implements Collection {
+public class FilteredCollection implements Collection<Object> {
   private final ObjectFilter filter;
   private final Collection<Object> sourceCollection;
 
@@ -61,7 +61,7 @@ public class FilteredCollection implements Collection {
 
   public Iterator<Object> iterator() {
     final Iterator<Object> sourceIterator = this.sourceCollection.iterator();
-    return new Iterator() {
+    return new Iterator<Object>() {
       private Boolean hasNext;
       private Object next;
 
@@ -140,8 +140,8 @@ public class FilteredCollection implements Collection {
     return this.sourceCollection.remove(this.filter.encode(o));
   }
 
-  public boolean containsAll(final Collection c) {
-    final Iterator i = c.iterator();
+  public boolean containsAll(final Collection<?> c) {
+    final Iterator<?> i = c.iterator();
     while (i.hasNext()) {
       if (!this.contains(i.next())) {
         return false;
@@ -150,9 +150,9 @@ public class FilteredCollection implements Collection {
     return true;
   }
 
-  public boolean addAll(final Collection c) {
+  public boolean addAll(final Collection<?> c) {
     boolean result = false;
-    final Iterator i = c.iterator();
+    final Iterator<?> i = c.iterator();
     while (i.hasNext()) {
       if (this.add(i.next())) {
         result = true;
@@ -161,9 +161,9 @@ public class FilteredCollection implements Collection {
     return result;
   }
 
-  public boolean removeAll(final Collection c) {
+  public boolean removeAll(final Collection<?> c) {
     boolean result = false;
-    final Iterator i = c.iterator();
+    final Iterator<?> i = c.iterator();
     while (i.hasNext()) {
       if (this.remove(i.next())) {
         result = true;
@@ -172,7 +172,7 @@ public class FilteredCollection implements Collection {
     return result;
   }
 
-  public boolean retainAll(final Collection c) {
+  public boolean retainAll(final Collection<?> c) {
     boolean result = false;
     final Object[] values = this.toArray();
     for (int i = 0; i < values.length; i++) {

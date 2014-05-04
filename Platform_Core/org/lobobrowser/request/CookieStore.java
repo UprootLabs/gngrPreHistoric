@@ -27,7 +27,6 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.text.*;
-
 import java.util.logging.*;
 
 import org.lobobrowser.store.*;
@@ -245,11 +244,11 @@ public class CookieStore {
     try {
       RestrictedStore store = StorageManager.getInstance().getRestrictedStore(hostName, false);
       if (store != null) {
-        Collection paths;
+        Collection<String> paths;
         paths = store.getPaths(COOKIE_PATH_PATTERN);
-        Iterator pathsIterator = paths.iterator();
+        Iterator<String> pathsIterator = paths.iterator();
         while (pathsIterator.hasNext()) {
-          String filePath = (String) pathsIterator.next();
+          String filePath = pathsIterator.next();
           String cookieName = this.getCookieNameFromPath(filePath);
           if (!transientCookieNames.contains(cookieName)) {
             CookieValue cookieValue = (CookieValue) store.retrieveObject(filePath);

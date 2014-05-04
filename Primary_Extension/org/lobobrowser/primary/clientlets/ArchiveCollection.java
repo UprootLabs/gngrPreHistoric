@@ -29,19 +29,19 @@ import java.util.*;
  * @author J. H. S.
  */
 public class ArchiveCollection {
-  private final Collection archiveInfos;
+  private final Collection<ArchiveInfo> archiveInfos;
 
   /**
 	 * 
 	 */
   public ArchiveCollection() {
-    this.archiveInfos = new LinkedList();
+    this.archiveInfos = new LinkedList<ArchiveInfo>();
   }
 
   /**
 	 * 
 	 */
-  public ArchiveCollection(Collection archiveInfos) {
+  public ArchiveCollection(Collection<ArchiveInfo> archiveInfos) {
     this.archiveInfos = archiveInfos;
   }
 
@@ -65,7 +65,7 @@ public class ArchiveCollection {
     }
   }
 
-  public Iterator iterator() {
+  public Iterator<ArchiveInfo> iterator() {
     return this.archiveInfos.iterator();
   }
 }

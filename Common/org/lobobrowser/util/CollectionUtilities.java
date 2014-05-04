@@ -36,22 +36,34 @@ public class CollectionUtilities {
     super();
   }
 
-  public static Enumeration getIteratorEnumeration(final Iterator i) {
-    return new Enumeration() {
+  public static <T> Enumeration<T> getIteratorEnumeration(final Iterator<T> i) {
+    return new Enumeration<T>() {
       public boolean hasMoreElements() {
         return i.hasNext();
       }
 
-      public Object nextElement() {
+      public T nextElement() {
         return i.next();
       }
     };
   }
 
-  public static Iterator<Object> iteratorUnion(final Iterator[] iterators) {
-    return new Iterator() {
+  public static <T> Enumeration<T> getEmptyEnumeration() {
+    return new Enumeration<T>() {
+      public boolean hasMoreElements() {
+        return false;
+      }
+
+      public T nextElement() {
+        throw new NoSuchElementException("Trying to get element of an empty enumeration");
+      }
+    };
+  }
+
+  public static <T> Iterator<T> iteratorUnion(final Iterator<T>[] iterators) {
+    return new Iterator<T>() {
       private int iteratorIndex = 0;
-      private Iterator<Object> current = iterators.length > 0 ? iterators[0] : null;
+      private Iterator<T> current = iterators.length > 0 ? iterators[0] : null;
 
       public boolean hasNext() {
         for (;;) {
@@ -66,7 +78,7 @@ public class CollectionUtilities {
         }
       }
 
-      public Object next() {
+      public T next() {
         for (;;) {
           if (this.current == null) {
             throw new NoSuchElementException();
@@ -89,9 +101,9 @@ public class CollectionUtilities {
     };
   }
 
-  public static Collection reverse(final Collection collection) {
-    final LinkedList newCollection = new LinkedList();
-    final Iterator i = collection.iterator();
+  public static <T> Collection<T> reverse(final Collection<T> collection) {
+    final LinkedList<T> newCollection = new LinkedList<T>();
+    final Iterator<T> i = collection.iterator();
     while (i.hasNext()) {
       newCollection.addFirst(i.next());
     }

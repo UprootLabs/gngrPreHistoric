@@ -284,10 +284,10 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     return relativePath;
   }
 
-  public Collection getPaths(String regexp) throws IOException {
+  public Collection<String> getPaths(String regexp) throws IOException {
     final Pattern pattern = Pattern.compile(regexp);
     try {
-      return AccessController.doPrivileged(new PrivilegedAction<Collection>() {
+      return AccessController.doPrivileged(new PrivilegedAction<Collection<String>>() {
         // Reason: Calling getPaths() requires certain file permissions
         // that the caller might not naturally have. Paths are relative to
         // the baseDirectory of the RestrictedStore. The user must have
