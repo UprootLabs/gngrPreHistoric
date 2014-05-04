@@ -23,12 +23,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.net.URL;
 import java.security.AccessController;
-import java.security.CodeSource;
 import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.security.cert.Certificate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +34,6 @@ import org.lobobrowser.html.js.Executor;
 import org.w3c.dom.Document;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html2.HTMLScriptElement;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Scriptable;
@@ -155,7 +150,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
               logger.log(Level.WARNING, "processScript()", thrown);
             }
           } else {
-            AccessController.doPrivileged(new PrivilegedAction() {
+            AccessController.doPrivileged(new PrivilegedAction<Object>() {
               public Object run() {
                 // Code might have restrictions on accessing
                 // items from elsewhere.
@@ -202,7 +197,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
           }
         } catch (final EcmaError ecmaError) {
           logger.log(Level.WARNING,
-              "Javascript error at " + ecmaError.getSourceName() + ":" + ecmaError.getLineNumber() + ": " + ecmaError.getMessage(),
+              "Javascript error at " + ecmaError.sourceName() + ":" + ecmaError.lineNumber() + ": " + ecmaError.getMessage(),
               ecmaError);
         } catch (final Throwable err) {
           logger.log(Level.WARNING, "Unable to evaluate Javascript code", err);
