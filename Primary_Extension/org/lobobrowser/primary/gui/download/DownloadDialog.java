@@ -218,11 +218,7 @@ public class DownloadDialog extends JFrame {
   }
 
   private void doneWithDownload_Safe(final long totalSize) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        doneWithDownload(totalSize);
-      }
-    });
+    EventQueue.invokeLater(() -> doneWithDownload(totalSize));
   }
 
   private void doneWithDownload(final long totalSize) {
@@ -261,11 +257,7 @@ public class DownloadDialog extends JFrame {
   }
 
   private void errorInDownload_Safe() {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        errorInDownload();
-      }
-    });
+    EventQueue.invokeLater(() -> errorInDownload());
   }
 
   private void errorInDownload() {
@@ -301,11 +293,7 @@ public class DownloadDialog extends JFrame {
   }
 
   private void updateProgress_Safe(final ProgressType progressType, final int value, final int max) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        updateProgress(progressType, value, max);
-      }
-    });
+    EventQueue.invokeLater(() -> updateProgress(progressType, value, max));
   }
 
   private void updateProgress(final ProgressType progressType, final int value, final int max) {

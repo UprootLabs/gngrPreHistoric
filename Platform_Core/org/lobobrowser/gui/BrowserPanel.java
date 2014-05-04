@@ -406,22 +406,14 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   public void handleDocumentAccess(final NavigatorFrame frame, final ClientletResponse response) {
     final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response);
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        EVENT.fireEvent(event);
-      }
-    });
+    SwingUtilities.invokeLater(() -> EVENT.fireEvent(event));
   }
 
   public void handleDocumentRendering(final NavigatorFrame frame, final ClientletResponse response, final ComponentContent content) {
     if (EventQueue.isDispatchThread()) {
       this.handleDocumentRenderingImpl(frame, response, content);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          BrowserPanel.this.handleDocumentRenderingImpl(frame, response, content);
-        }
-      });
+      EventQueue.invokeLater(() -> BrowserPanel.this.handleDocumentRenderingImpl(frame, response, content));
     }
   }
 
@@ -479,11 +471,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
         final String actualStatus = this.defaultStatus;
         final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
-        EventQueue.invokeLater(new Runnable() {
-          public void run() {
-            EVENT.fireEvent(event);
-          }
-        });
+        EventQueue.invokeLater(() -> EVENT.fireEvent(event));
       }
     }
   }
@@ -496,21 +484,13 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
         actualStatus = value == null ? this.defaultStatus : value;
         final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
-        EventQueue.invokeLater(new Runnable() {
-          public void run() {
-            EVENT.fireEvent(event);
-          }
-        });
+        EventQueue.invokeLater(() -> EVENT.fireEvent(event));
       }
     }
   }
 
   public void updateProgress(final NavigatorProgressEvent event) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        EVENT.fireEvent(event);
-      }
-    });
+    EventQueue.invokeLater(() -> EVENT.fireEvent(event));
   }
 
   /**

@@ -214,11 +214,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     if (EventQueue.isDispatchThread()) {
       this.relayoutImpl(true, false);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          relayoutImpl(true, false);
-        }
-      });
+      EventQueue.invokeLater(() -> relayoutImpl(true, false));
     }
   }
 
@@ -226,11 +222,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
     if (EventQueue.isDispatchThread()) {
       this.relayoutImpl(true, true);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          relayoutImpl(true, true);
-        }
-      });
+      EventQueue.invokeLater(() -> relayoutImpl(true, true));
     }
   }
 

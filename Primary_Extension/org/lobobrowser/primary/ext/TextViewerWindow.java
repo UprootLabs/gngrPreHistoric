@@ -140,13 +140,9 @@ public class TextViewerWindow extends JFrame {
     }
 
     public void insertUpdate(final DocumentEvent e) {
-      EventQueue.invokeLater(new Runnable() {
-        // The model is updated outside the GUI thread.
-        // Doing this outside the GUI thread can cause a deadlock.
-        public void run() {
-          if (scrollsOnAppends) {
-            textArea.scrollRectToVisible(new Rectangle(0, Short.MAX_VALUE, 1, Short.MAX_VALUE));
-          }
+      EventQueue.invokeLater(() -> {
+        if (scrollsOnAppends) {
+          textArea.scrollRectToVisible(new Rectangle(0, Short.MAX_VALUE, 1, Short.MAX_VALUE));
         }
       });
     }

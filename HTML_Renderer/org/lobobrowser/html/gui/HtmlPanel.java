@@ -232,11 +232,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     if (EventQueue.isDispatchThread()) {
       this.scrollImpl(x, y);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          scrollImpl(x, y);
-        }
-      });
+      EventQueue.invokeLater(() -> scrollImpl(x, y));
     }
   }
 
@@ -244,11 +240,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     if (EventQueue.isDispatchThread()) {
       this.scrollByImpl(x, y);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          scrollByImpl(x, y);
-        }
-      });
+      EventQueue.invokeLater(() -> scrollByImpl(x, y));
     }
   }
 
@@ -271,11 +263,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     if (java.awt.EventQueue.isDispatchThread()) {
       this.clearDocumentImpl();
     } else {
-      java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          HtmlPanel.this.clearDocumentImpl();
-        }
-      });
+      java.awt.EventQueue.invokeLater(() -> HtmlPanel.this.clearDocumentImpl());
     }
   }
 
@@ -319,11 +307,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     if (java.awt.EventQueue.isDispatchThread()) {
       this.setDocumentImpl(node, rcontext);
     } else {
-      java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          HtmlPanel.this.setDocumentImpl(node, rcontext);
-        }
-      });
+      java.awt.EventQueue.invokeLater(() -> HtmlPanel.this.setDocumentImpl(node, rcontext));
     }
   }
 
@@ -340,11 +324,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     if (EventQueue.isDispatchThread()) {
       this.scrollToElementImpl(nameOrId);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          scrollToElementImpl(nameOrId);
-        }
-      });
+      EventQueue.invokeLater(() -> scrollToElementImpl(nameOrId));
     }
   }
 

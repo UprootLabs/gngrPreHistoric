@@ -401,12 +401,10 @@ public class HtmlClientlet implements Clientlet {
       }
       final HTMLDocumentImpl document = this.document;
       document.removeDocumentNotificationListener(this);
-      java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          // Should have nicer effect (less flicker) in GUI thread.
-          htmlPanel.setDocument(document, rcontext);
-          ccontext.setResultingContent(content);
-        }
+      java.awt.EventQueue.invokeLater(() -> {
+        // Should have nicer effect (less flicker) in GUI thread.
+        htmlPanel.setDocument(document, rcontext);
+        ccontext.setResultingContent(content);
       });
     }
 

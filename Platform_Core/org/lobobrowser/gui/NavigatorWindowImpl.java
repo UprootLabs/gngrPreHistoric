@@ -284,11 +284,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     if (EventQueue.isDispatchThread()) {
       this.handleDocumentRenderingImpl(frame, response, content);
     } else {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          NavigatorWindowImpl.this.handleDocumentRenderingImpl(frame, response, content);
-        }
-      });
+      EventQueue.invokeLater(() -> NavigatorWindowImpl.this.handleDocumentRenderingImpl(frame, response, content));
     }
   }
 
@@ -316,11 +312,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   }
 
   public void updateProgress(final NavigatorProgressEvent event) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        EVENT.fireEvent(event);
-      }
-    });
+    EventQueue.invokeLater(() -> EVENT.fireEvent(event));
   }
 
   public Component getComponent() {
@@ -394,21 +386,13 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   public void statusUpdated(final NavigatorFrame clientletFrame, final String value) {
     final NavigatorWindowEvent event = new NavigatorWindowEvent(NavigatorWindowImpl.this, NavigatorEventType.STATUS_UPDATED,
         clientletFrame, value, RequestType.NONE);
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        EVENT.fireEvent(event);
-      }
-    });
+    EventQueue.invokeLater(() -> EVENT.fireEvent(event));
   }
 
   public void defaultStatusUpdated(final NavigatorFrame clientletFrame, final String value) {
     final NavigatorWindowEvent event = new NavigatorWindowEvent(NavigatorWindowImpl.this, NavigatorEventType.STATUS_UPDATED,
         clientletFrame, value, RequestType.NONE);
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        EVENT.fireEvent(event);
-      }
-    });
+    EventQueue.invokeLater(() -> EVENT.fireEvent(event));
   }
 
   private String status;
@@ -422,11 +406,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
         actualStatus = value == null ? this.defaultStatus : value;
         final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
-        EventQueue.invokeLater(new Runnable() {
-          public void run() {
-            EVENT.fireEvent(event);
-          }
-        });
+        EventQueue.invokeLater(() -> EVENT.fireEvent(event));
       }
     }
   }
@@ -438,11 +418,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
         final String actualStatus = this.defaultStatus;
         final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.STATUS_UPDATED, frame, actualStatus,
             RequestType.NONE);
-        EventQueue.invokeLater(new Runnable() {
-          public void run() {
-            EVENT.fireEvent(event);
-          }
-        });
+        EventQueue.invokeLater(() -> EVENT.fireEvent(event));
       }
     }
   }

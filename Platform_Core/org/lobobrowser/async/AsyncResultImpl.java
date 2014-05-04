@@ -51,22 +51,18 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
       if (this.hasResult) {
         if (this.exception != null) {
           final Throwable exception = this.exception;
-          EventQueue.invokeLater(new Runnable() {
-            public void run() {
-              // Invoke holding no locks
-              final AsyncResultEvent<Throwable> are = new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception);
-              listener.exceptionReceived(are);
-            }
+          EventQueue.invokeLater(() -> {
+            // Invoke holding no locks
+            final AsyncResultEvent<Throwable> are = new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception);
+            listener.exceptionReceived(are);
           });
 
         } else {
           final TResult result = this.result;
-          EventQueue.invokeLater(new Runnable() {
-            public void run() {
-              // Invoke holding no locks
-              final AsyncResultEvent<TResult> are = new AsyncResultEvent<TResult>(AsyncResultImpl.this, result);
-              listener.resultReceived(are);
-            }
+          EventQueue.invokeLater(() -> {
+            // Invoke holding no locks
+            final AsyncResultEvent<TResult> are = new AsyncResultEvent<TResult>(AsyncResultImpl.this, result);
+            listener.resultReceived(are);
           });
         }
       }
@@ -95,22 +91,18 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
       if (this.hasResult) {
         if (this.exception != null) {
           final Throwable exception = this.exception;
-          EventQueue.invokeLater(new Runnable() {
-            public void run() {
-              // Invoke holding no locks
-              final AsyncResultEvent<Throwable> are = new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception);
-              evtResult.fireEvent(are);
-            }
+          EventQueue.invokeLater(() -> {
+            // Invoke holding no locks
+            final AsyncResultEvent<Throwable> are = new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception);
+            evtResult.fireEvent(are);
           });
 
         } else {
           final TResult result = this.result;
-          EventQueue.invokeLater(new Runnable() {
-            public void run() {
-              // Invoke holding no locks
-              final AsyncResultEvent<TResult> are = new AsyncResultEvent<TResult>(AsyncResultImpl.this, result);
-              evtResult.fireEvent(are);
-            }
+          EventQueue.invokeLater(() -> {
+            // Invoke holding no locks
+            final AsyncResultEvent<TResult> are = new AsyncResultEvent<TResult>(AsyncResultImpl.this, result);
+            evtResult.fireEvent(are);
           });
         }
       }
@@ -121,12 +113,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
     synchronized (this) {
       this.result = result;
       this.hasResult = true;
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          // Invoke holding no locks
-          evtResult.fireEvent(new AsyncResultEvent<TResult>(AsyncResultImpl.this, result));
-        }
-      });
+      EventQueue.invokeLater(() -> evtResult.fireEvent(new AsyncResultEvent<TResult>(AsyncResultImpl.this, result)));
     }
   }
 
@@ -134,12 +121,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
     synchronized (this) {
       this.exception = exception;
       this.hasResult = true;
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          // Invoke holding no locks
-          evtResult.fireEvent(new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception));
-        }
-      });
+      EventQueue.invokeLater(() -> evtResult.fireEvent(new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception)));
     }
   }
 

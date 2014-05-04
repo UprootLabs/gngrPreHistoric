@@ -293,20 +293,18 @@ public class ExtensionManager {
 
   public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
     final NavigatorExceptionEvent event = new NavigatorExceptionEvent(this, NavigatorEventType.ERROR_OCCURRED, frame, response, exception);
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        final Collection<Extension> ext = extensions;
-        // Call all plugins once to see if they can select the response.
-        boolean dispatched = false;
-        for (final Extension ei : ext) {
-          if (ei.handleError(event)) {
-            dispatched = true;
-          }
+    EventQueue.invokeLater(() -> {
+      final Collection<Extension> ext = extensions;
+      // Call all plugins once to see if they can select the response.
+      boolean dispatched = false;
+      for (final Extension ei : ext) {
+        if (ei.handleError(event)) {
+          dispatched = true;
         }
-        if (!dispatched && logger.isLoggable(Level.INFO)) {
-          logger.log(Level.WARNING, "No error handlers found for error that occurred while processing response=[" + response + "].",
-              exception);
-        }
+      }
+      if (!dispatched && logger.isLoggable(Level.INFO)) {
+        logger.log(Level.WARNING, "No error handlers found for error that occurred while processing response=[" + response + "].",
+            exception);
       }
     });
   }

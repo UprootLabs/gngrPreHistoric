@@ -456,16 +456,14 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       // Security note: Need to pass security context of caller
       // into invokeLater task.
       final AccessControlContext context = AccessController.getContext();
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          final PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
-            public Object run() {
-              FramePanel.this.replaceContentImpl(response, content);
-              return null;
-            }
-          };
-          AccessController.doPrivileged(action, context);
-        }
+      EventQueue.invokeLater(() -> {
+        final PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
+          public Object run() {
+            FramePanel.this.replaceContentImpl(response, content);
+            return null;
+          }
+        };
+        AccessController.doPrivileged(action, context);
       });
     }
   }

@@ -182,13 +182,11 @@ class InputImageControl extends BaseInputControl implements ImageListener {
    */
   public boolean imageUpdate(final Image img, final int infoflags, final int x, final int y, final int w, final int h) {
     if ((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
-      EventQueue.invokeLater(new Runnable() {
-        public void run() {
-          if (!checkPreferredSizeChange()) {
-            repaint();
-          } else {
-            ruicontrol.preferredSizeInvalidated();
-          }
+      EventQueue.invokeLater(() -> {
+        if (!checkPreferredSizeChange()) {
+          repaint();
+        } else {
+          ruicontrol.preferredSizeInvalidated();
         }
       });
     }
@@ -202,13 +200,11 @@ class InputImageControl extends BaseInputControl implements ImageListener {
    * int)
    */
   public void imageUpdate(final Image img, final int w, final int h) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        if (!checkPreferredSizeChange()) {
-          repaint();
-        } else {
-          ruicontrol.preferredSizeInvalidated();
-        }
+    EventQueue.invokeLater(() -> {
+      if (!checkPreferredSizeChange()) {
+        repaint();
+      } else {
+        ruicontrol.preferredSizeInvalidated();
       }
     });
   }
