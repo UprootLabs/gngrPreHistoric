@@ -23,7 +23,17 @@
  */
 package org.lobobrowser.util.io;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author J. H. S.
@@ -61,11 +71,8 @@ public class IORoutines {
     if (fileLength > Integer.MAX_VALUE) {
       throw new IOException("File '" + file.getName() + "' too big");
     }
-    final InputStream in = new FileInputStream(file);
-    try {
+    try(final InputStream in = new FileInputStream(file)) {
       return loadExact(in, (int) fileLength);
-    } finally {
-      in.close();
     }
   }
 
@@ -124,21 +131,16 @@ public class IORoutines {
     if (length > Integer.MAX_VALUE) {
       throw new IOException("File '" + file + "' too big");
     }
-    final InputStream in = new FileInputStream(file);
-    try {
+
+    try (final InputStream in = new FileInputStream(file);) {
       final byte[] fileContent = loadExact(in, (int) length);
       return java.util.Arrays.equals(content, fileContent);
-    } finally {
-      in.close();
     }
   }
 
   public static void save(final File file, final byte[] content) throws IOException {
-    final FileOutputStream out = new FileOutputStream(file);
-    try {
+    try(final FileOutputStream out = new FileOutputStream(file);) {
       out.write(content);
-    } finally {
-      out.close();
     }
   }
 
@@ -169,33 +171,18 @@ public class IORoutines {
     file.setLastModified(System.currentTimeMillis());
   }
 
-  public static void saveStrings(final File file, final java.util.Collection list) throws IOException {
-    final BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(file));
-    try {
-      final PrintWriter writer = new PrintWriter(bout);
-      final java.util.Iterator i = list.iterator();
-      while (i.hasNext()) {
-        final String text = (String) i.next();
-        writer.println(text);
-      }
+  public static void saveStrings(final File file, final Collection<String> list) throws IOException {
+    try (final FileOutputStream fout = new FileOutputStream(file);
+        final BufferedOutputStream bout = new BufferedOutputStream(fout);
+        final PrintWriter writer = new PrintWriter(bout)) {
+      list.forEach(text -> writer.println(text));
       writer.flush();
-    } finally {
-      bout.close();
     }
   }
 
   public static java.util.List<String> loadStrings(final File file) throws IOException {
-    final java.util.List<String> list = new java.util.LinkedList<String>();
-    final InputStream in = new FileInputStream(file);
-    try {
-      final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-      String line;
-      while ((line = reader.readLine()) != null) {
-        list.add(line);
-      }
-      return list;
-    } finally {
-      in.close();
+    try (final InputStream in = new FileInputStream(file); final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+      return reader.lines().collect(Collectors.toList());
     }
   }
 

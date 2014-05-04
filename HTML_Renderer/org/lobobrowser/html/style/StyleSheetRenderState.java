@@ -258,7 +258,7 @@ public class StyleSheetRenderState implements RenderState {
       }
     }
     final HTMLDocumentImpl document = this.document;
-    final Set<String> locales = document == null ? null : document.getLocales();
+    final Set<Locale> locales = document == null ? null : document.getLocales();
 
     Integer superscript = null;
     if (isSuper) {
@@ -544,7 +544,7 @@ public class StyleSheetRenderState implements RenderState {
     return 0;
   }
 
-  private Map<String, ArrayList> counters = null;
+  private Map<String, ArrayList<Integer>> counters = null;
 
   public int getCount(final String counter, final int nesting) {
     // Expected to be called only in GUI thread.
@@ -552,15 +552,15 @@ public class StyleSheetRenderState implements RenderState {
     if (prs != null) {
       return prs.getCount(counter, nesting);
     }
-    final Map<String, ArrayList> counters = this.counters;
+    final Map<String, ArrayList<Integer>> counters = this.counters;
     if (counters == null) {
       return 0;
     }
-    final ArrayList counterArray = counters.get(counter);
+    final ArrayList<Integer> counterArray = counters.get(counter);
     if (nesting < 0 || nesting >= counterArray.size()) {
       return 0;
     }
-    final Integer integer = (Integer) counterArray.get(nesting);
+    final Integer integer = counterArray.get(nesting);
     return integer == null ? 0 : integer.intValue();
   }
 
@@ -570,11 +570,11 @@ public class StyleSheetRenderState implements RenderState {
     if (prs != null) {
       prs.resetCount(counter, nesting, value);
     } else {
-      Map<String, ArrayList> counters = this.counters;
+      Map<String, ArrayList<Integer>> counters = this.counters;
       if (counters == null) {
-        counters = new HashMap<String, ArrayList>(2);
+        counters = new HashMap<String, ArrayList<Integer>>(2);
         this.counters = counters;
-        counters.put(counter, new ArrayList(0));
+        counters.put(counter, new ArrayList<Integer>(0));
       }
       final ArrayList<Integer> counterArray = counters.get(counter);
       while (counterArray.size() <= nesting) {
@@ -590,11 +590,11 @@ public class StyleSheetRenderState implements RenderState {
     if (prs != null) {
       return prs.incrementCount(counter, nesting);
     }
-    Map<String, ArrayList> counters = this.counters;
+    Map<String, ArrayList<Integer>> counters = this.counters;
     if (counters == null) {
-      counters = new HashMap<String, ArrayList>(2);
+      counters = new HashMap<String, ArrayList<Integer>>(2);
       this.counters = counters;
-      counters.put(counter, new ArrayList(0));
+      counters.put(counter, new ArrayList<Integer>(0));
     }
     final ArrayList<Integer> counterArray = counters.get(counter);
     while (counterArray.size() <= nesting) {

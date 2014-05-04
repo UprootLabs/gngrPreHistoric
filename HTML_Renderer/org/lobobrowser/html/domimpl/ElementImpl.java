@@ -161,13 +161,13 @@ public class ElementImpl extends NodeImpl implements Element {
 
   public NodeList getElementsByTagName(final String name) {
     final boolean matchesAll = "*".equals(name);
-    final List<Object> descendents = new LinkedList<Object>();
+    final List<Node> descendents = new LinkedList<Node>();
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         final Iterator<Node> i = nl.iterator();
         while (i.hasNext()) {
-          final Object child = i.next();
+          final Node child = i.next();
           if (child instanceof Element) {
             final Element childElement = (Element) child;
             if (matchesAll || isTagName(childElement, name)) {

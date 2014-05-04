@@ -55,12 +55,12 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
   }
 
   private Map<String, ElementImpl> itemsByName = null;
-  private List<Object> itemsByIndex = null;
+  private List<NodeImpl> itemsByIndex = null;
 
   private void ensurePopulatedImpl() {
     if (this.itemsByName == null) {
       final ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter, this.nestIntoMatchingNodes);
-      this.itemsByIndex = descendents == null ? Collections.EMPTY_LIST : descendents;
+      this.itemsByIndex = descendents == null ? Collections.emptyList() : descendents;
       final int size = descendents == null ? 0 : descendents.size();
       final Map<String, ElementImpl> itemsByName = new HashMap<String, ElementImpl>(size * 3 / 2);
       this.itemsByName = itemsByName;

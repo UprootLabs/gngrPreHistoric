@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -93,7 +94,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   private final HtmlRendererContext rcontext;
   private final UserAgentContext ucontext;
   private final Window window;
-  private final Map<String, Element> elementsById = new WeakValueHashMap();
+  private final Map<String, Element> elementsById = new WeakValueHashMap<String, Element>();
   private String documentURI;
   private java.net.URL documentURL;
 
@@ -144,12 +145,12 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     this.setUserData(Executor.SCOPE_KEY, window.getWindowScope(), null);
   }
 
-  private Set locales;
+  private Set<Locale> locales;
 
   /**
    * Gets an <i>immutable</i> set of locales previously set for this document.
    */
-  public Set getLocales() {
+  public Set<Locale> getLocales() {
     return locales;
   }
 
@@ -161,7 +162,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
    *          An <i>immutable</i> set of <code>java.util.Locale</code>
    *          instances.
    */
-  public void setLocales(final Set locales) {
+  public void setLocales(final Set<Locale> locales) {
     this.locales = locales;
   }
 
@@ -1207,7 +1208,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
             logger.log(Level.WARNING, "loadImage()", thrown);
           }
         } else {
-          AccessController.doPrivileged(new PrivilegedAction() {
+          AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
               // Code might have restrictions on accessing
               // items from elsewhere.

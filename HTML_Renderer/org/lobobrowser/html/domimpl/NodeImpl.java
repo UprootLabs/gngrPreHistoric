@@ -141,7 +141,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected NodeList getNodeList(final NodeFilter filter) {
-    final Collection<Object> collection = new ArrayList<Object>();
+    final Collection<Node> collection = new ArrayList<Node>();
     synchronized (this.treeLock) {
       this.appendChildrenToCollectionImpl(filter, collection);
     }
@@ -219,7 +219,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
-  private void appendChildrenToCollectionImpl(final NodeFilter filter, final Collection<Object> collection) {
+  private void appendChildrenToCollectionImpl(final NodeFilter filter, final Collection<Node> collection) {
     final ArrayList<Node> nl = this.nodeList;
     if (nl != null) {
       final Iterator<Node> i = nl.iterator();
@@ -263,11 +263,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
       synchronized (this) {
         if (userDataHandlers != null && userData != null) {
-          for (final Iterator handlers = userDataHandlers.entrySet().iterator(); handlers.hasNext();) {
-            final Map.Entry entry = (Map.Entry) handlers.next();
-            final UserDataHandler handler = (UserDataHandler) entry.getValue();
-            handler.handle(UserDataHandler.NODE_CLONED, (String) entry.getKey(), userData.get(entry.getKey()), this, newNode);
-          }
+          userDataHandlers.forEach((k, handler) -> handler.handle(UserDataHandler.NODE_CLONED, k, userData.get(k), this, newNode));
         }
       }
 
@@ -495,7 +491,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   public NodeList getChildNodes() {
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
-      return new NodeListImpl(nl == null ? Collections.EMPTY_LIST : nl);
+      return new NodeListImpl(nl == null ? Collections.emptyList() : nl);
     }
   }
 

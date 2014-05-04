@@ -89,11 +89,11 @@ public class HtmlClientlet implements Clientlet {
       final String contentLanguage = response.getHeader("Content-Language");
       Set<Locale> locales = contentLanguage == null ? null : this.extractLocales(contentLanguage);
       RefreshInfo refresh = null;
-      final Iterator hi = response.getHeaderNames();
+      final Iterator<String> hi = response.getHeaderNames();
       // TODO: What is the behavior if you have
       // a Refresh header and also a Refresh HTTP-EQUIV?
       while (hi.hasNext()) {
-        final String headerName = (String) hi.next();
+        final String headerName = hi.next();
         final String[] headerValues = response.getHeaders(headerName);
         if (headerValues != null && headerValues.length > 0) {
           if ("refresh".equalsIgnoreCase(headerName)) {
