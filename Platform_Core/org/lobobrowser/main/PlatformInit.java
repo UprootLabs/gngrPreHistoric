@@ -23,21 +23,36 @@
  */
 package org.lobobrowser.main;
 
-import javax.swing.*;
-
 import java.io.File;
-import java.net.*;
-import java.util.logging.*;
-
-import org.lobobrowser.gui.*;
-import org.lobobrowser.request.*;
-import org.lobobrowser.security.*;
-import org.lobobrowser.settings.*;
-import org.lobobrowser.util.*;
-
+import java.net.Authenticator;
+import java.net.CookieHandler;
 import java.net.MalformedURLException;
-import java.security.*;
-import java.util.*;
+import java.net.URL;
+import java.net.URLStreamHandler;
+import java.security.Permission;
+import java.security.Policy;
+import java.util.EventObject;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.UIManager;
+
+import org.lobobrowser.gui.ConsoleModel;
+import org.lobobrowser.gui.DefaultWindowFactory;
+import org.lobobrowser.gui.FramePanel;
+import org.lobobrowser.request.AuthenticatorImpl;
+import org.lobobrowser.request.CookieHandlerImpl;
+import org.lobobrowser.security.LocalSecurityManager;
+import org.lobobrowser.security.LocalSecurityPolicy;
+import org.lobobrowser.settings.GeneralSettings;
+import org.lobobrowser.util.GenericEventListener;
+import org.lobobrowser.util.SimpleThreadPool;
+import org.lobobrowser.util.SimpleThreadPoolTask;
+import org.lobobrowser.util.Urls;
 
 ;
 /**
@@ -156,9 +171,9 @@ public class PlatformInit {
     if (logger.isLoggable(Level.INFO)) {
       logger.warning("Entry(): Logger INFO level is enabled.");
       final java.util.Properties properties = System.getProperties();
-      final java.util.Iterator i = properties.entrySet().iterator();
+      final Iterator<Entry<Object, Object>> i = properties.entrySet().iterator();
       while (i.hasNext()) {
-        final Map.Entry entry = (Map.Entry) i.next();
+        final Entry<Object, Object> entry = i.next();
         logger.info("main(): " + entry.getKey() + "=" + entry.getValue());
       }
     }
