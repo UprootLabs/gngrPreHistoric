@@ -600,15 +600,15 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public Element createElementNS(final String namespaceURI, final String qualifiedName) throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Not implemented: createElementNS");
   }
 
   public Attr createAttributeNS(final String namespaceURI, final String qualifiedName) throws DOMException {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Not implemented: createAttributeNS");
   }
 
   public NodeList getElementsByTagNameNS(final String namespaceURI, final String localName) {
-    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
+    throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Not implemented: getElementsByTagNameNS");
   }
 
   public Element getElementById(final String elementId) {
