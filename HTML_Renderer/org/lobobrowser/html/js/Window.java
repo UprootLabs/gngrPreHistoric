@@ -25,7 +25,6 @@ package org.lobobrowser.html.js;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -423,7 +422,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       return null;
     }
     synchronized (CONTEXT_WINDOWS) {
-      final Reference wref = CONTEXT_WINDOWS.get(rcontext);
+      final WeakReference<Window> wref = CONTEXT_WINDOWS.get(rcontext);
       if (wref != null) {
         final Window window = (Window) wref.get();
         if (window != null) {

@@ -50,10 +50,10 @@ public class MemoryURLConnection extends URLConnection {
 
   private void readHeaders() throws IOException {
     final Map<String, List<String>> headersMap = this.headersMap;
-    final List origList = this.memoryEntry.headers;
-    final Iterator i = origList.iterator();
+    final List<NameValuePair> origList = this.memoryEntry.headers;
+    final Iterator<NameValuePair> i = origList.iterator();
     while (i.hasNext()) {
-      final NameValuePair pair = (NameValuePair) i.next();
+      final NameValuePair pair = i.next();
       String name = pair.name;
       if (name != null) {
         name = name.toLowerCase();

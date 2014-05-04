@@ -30,7 +30,6 @@ import java.util.*;
 import java.util.logging.*;
 
 import org.lobobrowser.security.*;
-import org.lobobrowser.util.*;
 
 /**
  * * @author J. H. S.
@@ -150,14 +149,12 @@ public class StorageManager implements Runnable {
       dir.mkdirs();
     }
     final File file = new File(dir, name);
-    final OutputStream out = new FileOutputStream(file);
-    try {
-      final BufferedOutputStream bos = new BufferedOutputStream(out);
-      final ObjectOutputStream oos = new ObjectOutputStream(bos);
+    try (
+        final OutputStream out = new FileOutputStream(file);
+        final BufferedOutputStream bos = new BufferedOutputStream(out);
+        final ObjectOutputStream oos = new ObjectOutputStream(bos);) {
       oos.writeObject(data);
       oos.flush();
-    } finally {
-      out.close();
     }
   }
 
@@ -170,18 +167,14 @@ public class StorageManager implements Runnable {
     if (!file.exists()) {
       return null;
     }
-    final InputStream in = new FileInputStream(file);
-    try {
-      final BufferedInputStream bin = new BufferedInputStream(in);
-      final ObjectInputStream ois = new ClassLoaderObjectInputStream(bin, classLoader);
-      try {
-        return (Serializable) ois.readObject();
-      } catch (final InvalidClassException ice) {
-        ice.printStackTrace();
-        return null;
-      }
-    } finally {
-      in.close();
+    try (
+        final InputStream in = new FileInputStream(file);
+        final BufferedInputStream bin = new BufferedInputStream(in);
+        final ObjectInputStream ois = new ClassLoaderObjectInputStream(bin, classLoader);) {
+      return (Serializable) ois.readObject();
+    } catch (final InvalidClassException ice) {
+      ice.printStackTrace();
+      return null;
     }
   }
 

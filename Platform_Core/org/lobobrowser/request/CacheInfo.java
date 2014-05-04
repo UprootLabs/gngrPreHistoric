@@ -163,12 +163,11 @@ public class CacheInfo {
       if (content == null) {
         return null;
       }
-      final InputStream in = new ByteArrayInputStream(content);
-      try {
-        final ObjectInputStream oin = new ClassLoaderObjectInputStream(in, classLoader);
+
+      try (
+          final InputStream in = new ByteArrayInputStream(content);
+          final ObjectInputStream oin = new ClassLoaderObjectInputStream(in, classLoader);) {
         return oin.readObject();
-      } finally {
-        in.close();
       }
     } catch (final IOException ioe) {
       logger.log(Level.WARNING, "getPersistentObject(): Unable to load persistent cached object.", ioe);

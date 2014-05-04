@@ -101,7 +101,7 @@ public class FontFactory {
     }
   }
 
-  public Font getFont(final String fontFamily, final String fontStyle, final String fontVariant, final String fontWeight, final float fontSize, final Set locales,
+  public Font getFont(final String fontFamily, final String fontStyle, final String fontVariant, final String fontWeight, final float fontSize, final Set<Locale> locales,
       final Integer superscript) {
     final FontKey key = new FontKey(fontFamily, fontStyle, fontVariant, fontWeight, fontSize, locales, superscript);
     synchronized (this) {
@@ -189,17 +189,17 @@ public class FontFactory {
       return baseFont.deriveFont(fontStyle, key.fontSize);
     } else if (matchingFace != null) {
       final Font font = createFont(matchingFace, fontStyle, (int) Math.round(key.fontSize));
-      final Set locales = key.locales;
+      final Set<Locale> locales = key.locales;
       if (locales == null) {
         final Locale locale = Locale.getDefault();
         if (font.canDisplayUpTo(locale.getDisplayLanguage(locale)) == -1) {
           return font;
         }
       } else {
-        final Iterator i = locales.iterator();
+        final Iterator<Locale> i = locales.iterator();
         boolean allMatch = true;
         while (i.hasNext()) {
-          final Locale locale = (Locale) i.next();
+          final Locale locale = i.next();
           if (font.canDisplayUpTo(locale.getDisplayLanguage(locale)) != -1) {
             allMatch = false;
             break;
@@ -228,7 +228,7 @@ public class FontFactory {
     public final String fontVariant;
     public final String fontWeight;
     public final float fontSize;
-    public final Set locales;
+    public final Set<Locale> locales;
     public final Integer superscript;
 
     /**
@@ -239,7 +239,7 @@ public class FontFactory {
      * @param fontSize
      */
     public FontKey(final String fontFamily, final String fontStyle, final String fontVariant, final String fontWeight,
-        final float fontSize, final Set locales, final Integer superscript) {
+        final float fontSize, final Set<Locale> locales, final Integer superscript) {
       this.fontFamily = fontFamily == null ? null : fontFamily.intern();
       this.fontStyle = fontStyle == null ? null : fontStyle.intern();
       this.fontVariant = fontVariant == null ? null : fontVariant.intern();

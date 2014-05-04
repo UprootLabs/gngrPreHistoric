@@ -30,6 +30,7 @@ import java.io.*;
 import java.awt.*;
 
 import javax.net.ssl.SSLPermission;
+
 import org.lobobrowser.util.*;
 
 public class LocalSecurityPolicy extends Policy {
@@ -222,12 +223,8 @@ public class LocalSecurityPolicy extends Policy {
       final String hostName = location.getHost();
       // Get possible cookie domains for current location
       // and allow managed store access there.
-      final Collection domains = Domains.getPossibleDomains(hostName);
-      final Iterator i = domains.iterator();
-      while (i.hasNext()) {
-        final String domain = (String) i.next();
-        permissions.add(StoreHostPermission.forHost(domain));
-      }
+      final Collection<String> domains = Domains.getPossibleDomains(hostName);
+      domains.forEach(domain -> permissions.add(StoreHostPermission.forHost(domain)));
     }
     return permissions;
   }

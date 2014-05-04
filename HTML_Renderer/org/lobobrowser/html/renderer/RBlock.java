@@ -1231,14 +1231,14 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
    */
   public Iterator<Renderable> getRenderables() {
     final RBlockViewport bodyLayout = this.bodyLayout;
-    return new Iterator() {
+    return new Iterator<Renderable>() {
       private RBlockViewport bl = bodyLayout;
 
       public boolean hasNext() {
         return bl != null;
       }
 
-      public Object next() {
+      public Renderable next() {
         if (bl == null) {
           throw new NoSuchElementException();
         }

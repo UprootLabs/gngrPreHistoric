@@ -27,8 +27,9 @@ import java.util.*;
 
 import org.lobobrowser.js.*;
 
+// TODO: Remove if not used
 public class FilteredObjectList extends AbstractScriptableDelegate {
-  private final Collection sourceNodeList;
+  private final Collection<Object> sourceNodeList;
   private final ObjectFilter filter;
   private final Object lock;
 
@@ -36,7 +37,7 @@ public class FilteredObjectList extends AbstractScriptableDelegate {
    * @param filter
    * @param list
    */
-  public FilteredObjectList(final ObjectFilter filter, final Collection list, final Object lock) {
+  public FilteredObjectList(final ObjectFilter filter, final Collection<Object> list, final Object lock) {
     super();
     this.filter = filter;
     sourceNodeList = list;
@@ -46,9 +47,9 @@ public class FilteredObjectList extends AbstractScriptableDelegate {
   public Object item(final int index) {
     synchronized (this.lock) {
       int count = 0;
-      final Iterator i = this.sourceNodeList.iterator();
+      final Iterator<Object> i = this.sourceNodeList.iterator();
       while (i.hasNext()) {
-        final Object node = (Object) i.next();
+        final Object node = i.next();
         if (this.filter.accept(node)) {
           if (count == index) {
             return node;
@@ -63,9 +64,9 @@ public class FilteredObjectList extends AbstractScriptableDelegate {
   public int getLength() {
     synchronized (this.lock) {
       int count = 0;
-      final Iterator i = this.sourceNodeList.iterator();
+      final Iterator<Object> i = this.sourceNodeList.iterator();
       while (i.hasNext()) {
-        final Object node = (Object) i.next();
+        final Object node = i.next();
         if (this.filter.accept(node)) {
           count++;
         }

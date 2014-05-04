@@ -70,14 +70,10 @@ public class ReuseManager {
       OUTER: for (int tries = 0; tries < 5; tries++) {
         // Look for running VM
         int port = -1;
-        try {
-          final InputStream in = new FileInputStream(portFile);
-          try {
-            final DataInputStream din = new DataInputStream(in);
-            port = din.readInt();
-          } finally {
-            in.close();
-          }
+        try (
+            final InputStream in = new FileInputStream(portFile);
+            final DataInputStream din = new DataInputStream(in);) {
+          port = din.readInt();
         } catch (final java.io.EOFException eofe) {
           eofe.printStackTrace(System.err);
           portFile.delete();
@@ -85,12 +81,12 @@ public class ReuseManager {
           // Likely not running
         }
         if (port != -1) {
-          try {
-            final Socket s = new Socket(bindHost, port);
+          try (
+            final Socket s = new Socket(bindHost, port);) {
             s.setTcpNoDelay(true);
-            final OutputStream out = s.getOutputStream();
-            try {
-              final OutputStreamWriter writer = new OutputStreamWriter(out);
+            try (
+                final OutputStream out = s.getOutputStream();
+                final OutputStreamWriter writer = new OutputStreamWriter(out);) {
               boolean hadPath = false;
               for (int i = 0; i < args.length; i++) {
                 final String url = args[i];
@@ -110,8 +106,6 @@ public class ReuseManager {
               }
               writer.flush();
               launched = true;
-            } finally {
-              out.close();
             }
           } catch (final IOException ioe) {
             // VM must have died. We don't have logging at this point.
@@ -131,13 +125,12 @@ public class ReuseManager {
           server.stop();
           continue OUTER;
         }
-        final OutputStream out = new FileOutputStream(portFile);
-        try {
-          final DataOutputStream dout = new DataOutputStream(out);
+
+        try (
+            final OutputStream out = new FileOutputStream(portFile);
+            final DataOutputStream dout = new DataOutputStream(out);) {
           dout.writeInt(port);
           dout.flush();
-        } finally {
-          out.close();
         }
         break OUTER;
       }

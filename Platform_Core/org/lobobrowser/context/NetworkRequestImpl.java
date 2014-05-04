@@ -31,7 +31,6 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.jar.*;
 import java.lang.ref.*;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,10 +40,7 @@ import java.util.logging.*;
 import org.lobobrowser.clientlet.*;
 import org.lobobrowser.ua.*;
 import org.lobobrowser.request.*;
-import org.lobobrowser.store.*;
 import org.lobobrowser.util.*;
-
-import java.security.*;
 
 import org.w3c.dom.Document;
 
@@ -457,9 +453,9 @@ public class NetworkRequestImpl implements NetworkRequest {
     private Map<String, String> getHeadersImpl() {
       final Map<String, String> headers = new HashMap<String, String>();
       final ClientletResponse cresponse = this.cresponse;
-      final Iterator headerNames = cresponse.getHeaderNames();
+      final Iterator<String> headerNames = cresponse.getHeaderNames();
       while (headerNames.hasNext()) {
-        final String headerName = (String) headerNames.next();
+        final String headerName = headerNames.next();
         if (headerName != null) {
           final String[] values = cresponse.getHeaders(headerName);
           if (values != null && values.length > 0) {
@@ -495,10 +491,10 @@ public class NetworkRequestImpl implements NetworkRequest {
 
     public String getAllResponseHeaders() {
       final ClientletResponse cresponse = this.cresponse;
-      final Iterator headerNames = cresponse.getHeaderNames();
+      final Iterator<String> headerNames = cresponse.getHeaderNames();
       final StringBuffer allHeadersBuf = new StringBuffer();
       while (headerNames.hasNext()) {
-        final String headerName = (String) headerNames.next();
+        final String headerName = headerNames.next();
         if (headerName != null) {
           final String[] values = cresponse.getHeaders(headerName);
           for (int i = 0; i < values.length; i++) {

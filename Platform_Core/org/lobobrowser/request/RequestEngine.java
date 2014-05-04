@@ -69,16 +69,14 @@ public final class RequestEngine {
   }
 
   public String getCookie(final java.net.URL url) {
-    final Collection cookies = this.cookieStore.getCookies(url.getHost(), url.getPath());
+    final Collection<Cookie> cookies = this.cookieStore.getCookies(url.getHost(), url.getPath());
     final StringBuffer cookieText = new StringBuffer();
-    final Iterator i = cookies.iterator();
-    while (i.hasNext()) {
-      final Cookie cookie = (Cookie) i.next();
+    cookies.forEach(cookie -> {
       cookieText.append(cookie.getName());
       cookieText.append('=');
       cookieText.append(cookie.getValue());
       cookieText.append(';');
-    }
+    });
     // Note: Return blank if there are no cookies, not null.
     return cookieText.toString();
   }
