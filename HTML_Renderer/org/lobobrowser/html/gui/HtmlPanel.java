@@ -658,7 +658,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     }
   }
 
-  private final ArrayList<DocumentNotification> notifications = new ArrayList<DocumentNotification>(1);
+  private final ArrayList<DocumentNotification> notifications = new ArrayList<>(1);
 
   private void addNotification(final DocumentNotification notification) {
     // This can be called in a random thread.

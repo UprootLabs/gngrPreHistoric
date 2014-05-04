@@ -223,7 +223,7 @@ class RUIControl extends BaseElementRenderable implements RElement {
   private int declaredHeight = -1;
   private LayoutKey lastLayoutKey = null;
   private LayoutValue lastLayoutValue = null;
-  private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<LayoutKey, LayoutValue>(5);
+  private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<>(5);
 
   public void doLayout(final int availWidth, final int availHeight, final boolean sizeOnly) {
     final Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;

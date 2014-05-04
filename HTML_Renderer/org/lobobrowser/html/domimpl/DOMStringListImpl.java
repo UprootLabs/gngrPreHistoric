@@ -31,7 +31,7 @@ public class DOMStringListImpl implements DOMStringList {
   private final List<String> sourceList;
 
   public DOMStringListImpl(final Collection<String> sourceList) {
-    final List<String> list = new ArrayList<String>();
+    final List<String> list = new ArrayList<>();
     list.addAll(sourceList);
     this.sourceList = list;
   }

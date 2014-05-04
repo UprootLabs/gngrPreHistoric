@@ -35,7 +35,7 @@ public class ArchiveCollection {
 	 * 
 	 */
   public ArchiveCollection() {
-    this.archiveInfos = new LinkedList<ArchiveInfo>();
+    this.archiveInfos = new LinkedList<>();
   }
 
   /**

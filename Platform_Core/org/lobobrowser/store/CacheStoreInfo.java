@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class CacheStoreInfo {
   private long length;
-  private final Collection<CacheFileInfo> fileInfos = new ArrayList<CacheFileInfo>();
+  private final Collection<CacheFileInfo> fileInfos = new ArrayList<>();
 
   /**
    * @param length

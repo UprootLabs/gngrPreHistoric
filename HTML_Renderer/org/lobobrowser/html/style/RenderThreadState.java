@@ -25,7 +25,7 @@ package org.lobobrowser.html.style;
  * determined from elements.
  */
 public class RenderThreadState {
-  private static final ThreadLocal<RenderThreadState> stateTL = new ThreadLocal<RenderThreadState>();
+  private static final ThreadLocal<RenderThreadState> stateTL = new ThreadLocal<>();
   public boolean overrideNoWrap;
 
   private RenderThreadState() {

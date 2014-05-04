@@ -34,7 +34,7 @@ public class ColorFactory {
   private static final Logger logger = Logger.getLogger(ColorFactory.class.getName());
   public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
   private static ColorFactory instance;
-  private final Map<String, Color> colorMap = new HashMap<String, Color>(256);
+  private final Map<String, Color> colorMap = new HashMap<>(256);
 
   private ColorFactory() {
     final Map<String, Color> colorMap = this.colorMap;

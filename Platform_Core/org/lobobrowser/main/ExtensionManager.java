@@ -41,9 +41,9 @@ public class ExtensionManager {
 
   // Note: We do not synchronize around the extensions collection,
   // given that it is fully built in the constructor.
-  private final Map<String, Extension> extensionById = new HashMap<String, Extension>();
-  private final SortedSet<Extension> extensions = new TreeSet<Extension>();
-  private final ArrayList<Extension> libraries = new ArrayList<Extension>();
+  private final Map<String, Extension> extensionById = new HashMap<>();
+  private final SortedSet<Extension> extensions = new TreeSet<>();
+  private final ArrayList<Extension> libraries = new ArrayList<>();
 
   private ExtensionManager() {
     this.createExtensions();
@@ -68,7 +68,7 @@ public class ExtensionManager {
       extDirs = new File[] { new File(appDir, EXT_DIR_NAME) };
     } else {
       final StringTokenizer tok = new StringTokenizer(extDirsProperty, ",");
-      final ArrayList<File> extDirsList = new ArrayList<File>();
+      final ArrayList<File> extDirsList = new ArrayList<>();
       while (tok.hasMoreTokens()) {
         final String token = tok.nextToken();
         extDirsList.add(new File(token.trim()));
@@ -80,7 +80,7 @@ public class ExtensionManager {
       extFiles = new File[0];
     } else {
       final StringTokenizer tok = new StringTokenizer(extFilesProperty, ",");
-      final ArrayList<File> extFilesList = new ArrayList<File>();
+      final ArrayList<File> extFilesList = new ArrayList<>();
       while (tok.hasMoreTokens()) {
         final String token = tok.nextToken();
         extFilesList.add(new File(token.trim()));
@@ -156,7 +156,7 @@ public class ExtensionManager {
     final ClassLoader rootClassLoader = this.getClass().getClassLoader();
 
     // Create class loader for extension "libraries"
-    final ArrayList<URL> libraryURLCollection = new ArrayList<URL>();
+    final ArrayList<URL> libraryURLCollection = new ArrayList<>();
     for (final Extension ei : libraries) {
       try {
         libraryURLCollection.add(ei.getCodeSource());
@@ -171,7 +171,7 @@ public class ExtensionManager {
 
     // Initialize class loader in each extension, using librariesCL as
     // the parent class loader. Extensions are initialized in parallel.
-    final Collection<JoinableTask> tasks = new ArrayList<JoinableTask>();
+    final Collection<JoinableTask> tasks = new ArrayList<>();
     final PlatformInit pm = PlatformInit.getInstance();
     for (final Extension ei : extensions) {
       final ClassLoader pcl = librariesCL;
@@ -215,7 +215,7 @@ public class ExtensionManager {
   }
 
   public void initExtensions() {
-    final Collection<JoinableTask> tasks = new ArrayList<JoinableTask>();
+    final Collection<JoinableTask> tasks = new ArrayList<>();
     final PlatformInit pm = PlatformInit.getInstance();
     for (final Extension ei : this.extensions) {
       final Extension fei = ei;

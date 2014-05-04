@@ -294,7 +294,7 @@ public class Strings {
 
   public static String[] split(final String phrase) {
     final int length = phrase.length();
-    final ArrayList<String> wordList = new ArrayList<String>();
+    final ArrayList<String> wordList = new ArrayList<>();
     StringBuffer word = null;
     for (int i = 0; i < length; i++) {
       final char ch = phrase.charAt(i);

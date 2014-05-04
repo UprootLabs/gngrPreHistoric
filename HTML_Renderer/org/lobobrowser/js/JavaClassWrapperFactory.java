@@ -26,7 +26,7 @@ import java.util.WeakHashMap;
 
 public class JavaClassWrapperFactory {
   private static JavaClassWrapperFactory instance;
-  private final Map<Class<?>, WeakReference<JavaClassWrapper>> classWrappers = new WeakHashMap<Class<?>, WeakReference<JavaClassWrapper>>();
+  private final Map<Class<?>, WeakReference<JavaClassWrapper>> classWrappers = new WeakHashMap<>();
 
   private JavaClassWrapperFactory() {
   }
@@ -54,7 +54,7 @@ public class JavaClassWrapperFactory {
       }
       if (jcw == null) {
         jcw = new JavaClassWrapper(clazz);
-        this.classWrappers.put(clazz, new WeakReference<JavaClassWrapper>(jcw));
+        this.classWrappers.put(clazz, new WeakReference<>(jcw));
       }
       return jcw;
     }

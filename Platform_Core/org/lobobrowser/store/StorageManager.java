@@ -97,7 +97,7 @@ public class StorageManager implements Runnable {
     return new File(this.storeDirectory, CACHE_DIR);
   }
 
-  private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<String, RestrictedStore>();
+  private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<>();
 
   public RestrictedStore getRestrictedStore(String hostName, final boolean createIfNotExists) throws IOException {
     final SecurityManager sm = System.getSecurityManager();

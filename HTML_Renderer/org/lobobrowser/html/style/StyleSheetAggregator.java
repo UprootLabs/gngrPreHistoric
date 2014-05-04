@@ -54,9 +54,9 @@ import org.w3c.dom.stylesheets.MediaList;
  */
 public class StyleSheetAggregator {
   private final HTMLDocumentImpl document;
-  private final Map<String, Map<String, Collection<StyleRuleInfo>>> classMapsByElement = new HashMap<String, Map<String, Collection<StyleRuleInfo>>>();
-  private final Map<String, Map<String, Collection<StyleRuleInfo>>> idMapsByElement = new HashMap<String, Map<String, Collection<StyleRuleInfo>>>();
-  private final Map<String, Collection<StyleRuleInfo>> rulesByElement = new HashMap<String, Collection<StyleRuleInfo>>();
+  private final Map<String, Map<String, Collection<StyleRuleInfo>>> classMapsByElement = new HashMap<>();
+  private final Map<String, Map<String, Collection<StyleRuleInfo>>> idMapsByElement = new HashMap<>();
+  private final Map<String, Collection<StyleRuleInfo>> rulesByElement = new HashMap<>();
 
   public StyleSheetAggregator(final HTMLDocumentImpl document) {
     this.document = document;
@@ -91,7 +91,7 @@ public class StyleSheetAggregator {
         String lastSelectorText = null;
         final StringTokenizer tok = new StringTokenizer(selectorPart, " \t\r\n");
         if (tok.hasMoreTokens()) {
-          simpleSelectors = new ArrayList<SimpleSelector>();
+          simpleSelectors = new ArrayList<>();
           SimpleSelector prevSelector = null;
           SELECTOR_FOR: for (;;) {
             final String token = tok.nextToken();
@@ -168,12 +168,12 @@ public class StyleSheetAggregator {
   private final void addClassRule(final String elemtl, final String classtl, final CSSStyleRule styleRule, final ArrayList<SimpleSelector> ancestorSelectors) {
     Map<String, Collection<StyleRuleInfo>> classMap = this.classMapsByElement.get(elemtl);
     if (classMap == null) {
-      classMap = new HashMap<String, Collection<StyleRuleInfo>>();
+      classMap = new HashMap<>();
       this.classMapsByElement.put(elemtl, classMap);
     }
     Collection<StyleRuleInfo> rules = classMap.get(classtl);
     if (rules == null) {
-      rules = new LinkedList<StyleRuleInfo>();
+      rules = new LinkedList<>();
       classMap.put(classtl, rules);
     }
     rules.add(new StyleRuleInfo(ancestorSelectors, styleRule));
@@ -182,12 +182,12 @@ public class StyleSheetAggregator {
   private final void addIdRule(final String elemtl, final String idtl, final CSSStyleRule styleRule, final ArrayList<SimpleSelector> ancestorSelectors) {
     Map<String, Collection<StyleRuleInfo>> idsMap = this.idMapsByElement.get(elemtl);
     if (idsMap == null) {
-      idsMap = new HashMap<String, Collection<StyleRuleInfo>>();
+      idsMap = new HashMap<>();
       this.idMapsByElement.put(elemtl, idsMap);
     }
     Collection<StyleRuleInfo> rules = idsMap.get(idtl);
     if (rules == null) {
-      rules = new LinkedList<StyleRuleInfo>();
+      rules = new LinkedList<>();
       idsMap.put(idtl, rules);
     }
     rules.add(new StyleRuleInfo(ancestorSelectors, styleRule));
@@ -196,7 +196,7 @@ public class StyleSheetAggregator {
   private final void addElementRule(final String elemtl, final CSSStyleRule styleRule, final ArrayList<SimpleSelector> ancestorSelectors) {
     Collection<StyleRuleInfo> rules = this.rulesByElement.get(elemtl);
     if (rules == null) {
-      rules = new LinkedList<StyleRuleInfo>();
+      rules = new LinkedList<>();
       this.rulesByElement.put(elemtl, rules);
     }
     rules.add(new StyleRuleInfo(ancestorSelectors, styleRule));
@@ -218,7 +218,7 @@ public class StyleSheetAggregator {
             continue;
           }
           if (styleDeclarations == null) {
-            styleDeclarations = new LinkedList<CSSStyleDeclaration>();
+            styleDeclarations = new LinkedList<>();
           }
           styleDeclarations.add(styleRule.getStyle());
         } else {
@@ -237,7 +237,7 @@ public class StyleSheetAggregator {
             continue;
           }
           if (styleDeclarations == null) {
-            styleDeclarations = new LinkedList<CSSStyleDeclaration>();
+            styleDeclarations = new LinkedList<>();
           }
           styleDeclarations.add(styleRule.getStyle());
         }
@@ -259,7 +259,7 @@ public class StyleSheetAggregator {
                 continue;
               }
               if (styleDeclarations == null) {
-                styleDeclarations = new LinkedList<CSSStyleDeclaration>();
+                styleDeclarations = new LinkedList<>();
               }
               styleDeclarations.add(styleRule.getStyle());
             }
@@ -280,7 +280,7 @@ public class StyleSheetAggregator {
                 continue;
               }
               if (styleDeclarations == null) {
-                styleDeclarations = new LinkedList<CSSStyleDeclaration>();
+                styleDeclarations = new LinkedList<>();
               }
               styleDeclarations.add(styleRule.getStyle());
             }
@@ -304,7 +304,7 @@ public class StyleSheetAggregator {
                 continue;
               }
               if (styleDeclarations == null) {
-                styleDeclarations = new LinkedList<CSSStyleDeclaration>();
+                styleDeclarations = new LinkedList<>();
               }
               styleDeclarations.add(styleRule.getStyle());
             }
@@ -326,7 +326,7 @@ public class StyleSheetAggregator {
                 continue;
               }
               if (styleDeclarations == null) {
-                styleDeclarations = new LinkedList<CSSStyleDeclaration>();
+                styleDeclarations = new LinkedList<>();
               }
               styleDeclarations.add(styleRule.getStyle());
             }

@@ -102,7 +102,7 @@ public class CollectionUtilities {
   }
 
   public static <T> Collection<T> reverse(final Collection<T> collection) {
-    final LinkedList<T> newCollection = new LinkedList<T>();
+    final LinkedList<T> newCollection = new LinkedList<>();
     final Iterator<T> i = collection.iterator();
     while (i.hasNext()) {
       newCollection.addFirst(i.next());

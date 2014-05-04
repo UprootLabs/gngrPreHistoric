@@ -77,7 +77,7 @@ public class FontNameRenderState extends RenderStateDelegator {
     // No synchronization necessary.
     Map<String, WordInfo> map = this.iWordInfoMap;
     if (map == null) {
-      map = new HashMap<String, WordInfo>(1);
+      map = new HashMap<>(1);
       this.iWordInfoMap = map;
     }
     WordInfo wi = map.get(word);

@@ -37,8 +37,8 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
   private final byte[] content;
   private boolean connected = false;
   private InputStream inputStream;
-  private final Map<String, List<String>> headersMap = new HashMap<String, List<String>>();
-  private final List<NameValuePair> headersList = new ArrayList<NameValuePair>();
+  private final Map<String, List<String>> headersMap = new HashMap<>();
+  private final List<NameValuePair> headersList = new ArrayList<>();
 
   /**
    * @param url
@@ -92,7 +92,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
       final String value = colonIdx == -1 ? line.trim() : line.substring(colonIdx + 1).trim();
       List<String> hvalues = headersMap.get(name);
       if (hvalues == null) {
-        hvalues = new ArrayList<String>(1);
+        hvalues = new ArrayList<>(1);
         headersMap.put(name, hvalues);
       }
       hvalues.add(value);

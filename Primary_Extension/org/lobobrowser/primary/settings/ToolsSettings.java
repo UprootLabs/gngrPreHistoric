@@ -36,7 +36,7 @@ public class ToolsSettings implements Serializable {
   }
 
   public void restoreDefaults() {
-    final List<SearchEngine> searchEngines = this.getDefaultSearchEngines();
+    final List<SearchEngine> searchEngines = getDefaultSearchEngines();
     this.searchEngines = searchEngines;
     this.selectedSearchEngine = searchEngines.get(0);
     final String userHome = System.getProperty("user.home");
@@ -51,38 +51,38 @@ public class ToolsSettings implements Serializable {
     return instance;
   }
 
-  private List<SearchEngine> getDefaultSearchEngines() {
-    final List<SearchEngine> searchEngines = new ArrayList<SearchEngine>();
-    searchEngines.add(this.googleWebSearch());
-    searchEngines.add(this.yahooWebSearch());
-    searchEngines.add(this.wikipediaSearch());
-    searchEngines.add(this.googleBlogSearch());
-    searchEngines.add(this.googleCodeSearch());
-    searchEngines.add(this.googleScholarSearch());
+  private static List<SearchEngine> getDefaultSearchEngines() {
+    final List<SearchEngine> searchEngines = new ArrayList<>();
+    searchEngines.add(googleWebSearch());
+    searchEngines.add(yahooWebSearch());
+    searchEngines.add(wikipediaSearch());
+    searchEngines.add(googleBlogSearch());
+    searchEngines.add(googleCodeSearch());
+    searchEngines.add(googleScholarSearch());
     return searchEngines;
   }
 
-  private SearchEngine googleWebSearch() {
+  private static SearchEngine googleWebSearch() {
     return new SearchEngine("Google Web Search", "Google's main search engine.", "http://google.com/search", "q");
   }
 
-  private SearchEngine yahooWebSearch() {
+  private static SearchEngine yahooWebSearch() {
     return new SearchEngine("Yahoo! Web Search", "Yahoo's web search engine.", "http://search.yahoo.com/search", "p");
   }
 
-  private SearchEngine wikipediaSearch() {
+  private static SearchEngine wikipediaSearch() {
     return new SearchEngine("Wikipedia", "English Wikipedia article search.", "http://en.wikipedia.org/wiki/Special:Search", "search");
   }
 
-  private SearchEngine googleBlogSearch() {
+  private static SearchEngine googleBlogSearch() {
     return new SearchEngine("Google Blog Search", "Google's blog search engine.", "http://blogsearch.google.com/blogsearch", "q");
   }
 
-  private SearchEngine googleCodeSearch() {
+  private static SearchEngine googleCodeSearch() {
     return new SearchEngine("Google Code Search", "Google's program source code search engine.", "http://google.com/codesearch?lr=", "q");
   }
 
-  private SearchEngine googleScholarSearch() {
+  private static SearchEngine googleScholarSearch() {
     return new SearchEngine("Google Scholar Search", "Google's search engine for scholarly literature.",
         "http://scholar.google.com/scholar", "q");
   }

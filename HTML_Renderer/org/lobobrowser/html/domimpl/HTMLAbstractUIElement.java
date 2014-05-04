@@ -148,7 +148,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     if (varValue != null) {
       return varValue;
     }
-    final String normalAttributeName = this.normalizeAttributeName(attributeName);
+    final String normalAttributeName = normalizeAttributeName(attributeName);
     synchronized (this) {
       Map<String, Function> fba = this.functionByAttribute;
       Function f = fba == null ? null : fba.get(normalAttributeName);
@@ -182,7 +182,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
               // in case it's called multiple times? Is that done?
               f = ctx.compileFunction(thisScope, functionCode, this.getTagName() + "[" + this.getId() + "]." + attributeName, 1, null);
             } catch (final EcmaError ecmaError) {
-              logger.log(Level.WARNING, "Javascript error at " + ecmaError.getSourceName() + ":" + ecmaError.getLineNumber() + ": "
+              logger.log(Level.WARNING, "Javascript error at " + ecmaError.sourceName() + ":" + ecmaError.lineNumber() + ": "
                   + ecmaError.getMessage(), ecmaError);
               f = null;
             } catch (final Throwable err) {
@@ -194,7 +194,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
           }
         }
         if (fba == null) {
-          fba = new HashMap<String, Function>(1);
+          fba = new HashMap<>(1);
           this.functionByAttribute = fba;
         }
         fba.put(normalAttributeName, f);

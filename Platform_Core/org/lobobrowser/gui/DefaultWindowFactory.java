@@ -44,9 +44,9 @@ public class DefaultWindowFactory implements WindowFactory {
   private static final String DEFAULT_ICON_URL = "res:/images/LoboLogo16.png";
   public final EventDispatch evtWindowShown = new EventDispatch();
   // TODO: Should use an expiring cache instead of a WeakHashMap.
-  private final Map<String, ImageIcon> imageMap = new WeakValueHashMap();
-  private final Map<String, DefaultBrowserWindow> framesById = new WeakValueHashMap();
-  private final Set<java.awt.Frame> frames = new HashSet<java.awt.Frame>();
+  private final Map<String, ImageIcon> imageMap = new WeakValueHashMap<>();
+  private final Map<String, DefaultBrowserWindow> framesById = new WeakValueHashMap<>();
+  private final Set<java.awt.Frame> frames = new HashSet<>();
   private final GeneralSettings generalSettings;
 
   private volatile boolean exitWhenAllWindowsClosed = false;
@@ -159,7 +159,7 @@ public class DefaultWindowFactory implements WindowFactory {
     }
   }
 
-  private final boolean isPropertyTrue(final Properties properties, final String name, final boolean defaultValue) {
+  private final static boolean isPropertyTrue(final Properties properties, final String name, final boolean defaultValue) {
     if (properties == null) {
       return defaultValue;
     }
@@ -179,11 +179,11 @@ public class DefaultWindowFactory implements WindowFactory {
     final String widthText = properties == null ? null : properties.getProperty("width");
     final String heightText = properties == null ? null : properties.getProperty("height");
     final boolean defaultValue = widthText == null && heightText == null;
-    final boolean hasMenuBar = this.isPropertyTrue(properties, "menubar", defaultValue);
-    final boolean hasToolBar = this.isPropertyTrue(properties, "toolbar", defaultValue);
-    final boolean hasAddressBar = this.isPropertyTrue(properties, "location", defaultValue);
-    final boolean hasStatusBar = this.isPropertyTrue(properties, "status", defaultValue);
-    final boolean isResizable = this.isPropertyTrue(properties, "resizable", defaultValue);
+    final boolean hasMenuBar = isPropertyTrue(properties, "menubar", defaultValue);
+    final boolean hasToolBar = isPropertyTrue(properties, "toolbar", defaultValue);
+    final boolean hasAddressBar = isPropertyTrue(properties, "location", defaultValue);
+    final boolean hasStatusBar = isPropertyTrue(properties, "status", defaultValue);
+    final boolean isResizable = isPropertyTrue(properties, "resizable", defaultValue);
     final String iconText = properties == null ? null : properties.getProperty("icon");
     final String title = properties == null ? null : properties.getProperty("title");
     int width = -1;
@@ -242,7 +242,7 @@ public class DefaultWindowFactory implements WindowFactory {
     final String widthText = properties.getProperty("width");
     final String heightText = properties.getProperty("height");
     final boolean defaultValue = widthText == null && heightText == null;
-    final boolean isResizable = this.isPropertyTrue(properties, "resizable", defaultValue);
+    final boolean isResizable = isPropertyTrue(properties, "resizable", defaultValue);
     final String iconText = properties.getProperty("icon");
     final String title = properties.getProperty("title");
     int width = -1;

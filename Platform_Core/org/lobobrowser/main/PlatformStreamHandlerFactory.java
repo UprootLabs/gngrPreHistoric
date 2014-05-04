@@ -31,7 +31,7 @@ import java.net.URLStreamHandlerFactory;
  */
 public class PlatformStreamHandlerFactory implements URLStreamHandlerFactory {
   private static final PlatformStreamHandlerFactory instance = new PlatformStreamHandlerFactory();
-  private final Collection<URLStreamHandlerFactory> factories = new ArrayList<URLStreamHandlerFactory>();
+  private final Collection<URLStreamHandlerFactory> factories = new ArrayList<>();
 
   public static PlatformStreamHandlerFactory getInstance() {
     return instance;

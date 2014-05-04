@@ -26,13 +26,13 @@ import javax.swing.*;
 import java.util.*;
 
 public class ItemListControl<T> extends JComponent {
-  private final JComboBox comboBox;
+  private final JComboBox<T> comboBox;
   private final ItemEditorFactory<T> itemEditorFactory;
 
   public ItemListControl(final ItemEditorFactory<T> ief) {
     this.itemEditorFactory = ief;
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-    this.comboBox = new JComboBox<T>();
+    this.comboBox = new JComboBox<>();
     this.comboBox.setPreferredSize(new Dimension(100, 24));
     this.comboBox.setEditable(false);
     final JButton editButton = new JButton();
@@ -84,7 +84,7 @@ public class ItemListControl<T> extends JComponent {
   }
 
   public Collection<T> getItems() {
-    final Collection<T> items = new ArrayList<T>();
+    final Collection<T> items = new ArrayList<>();
     final int count = this.comboBox.getItemCount();
     for (int i = 0; i < count; i++) {
       items.add((T) this.comboBox.getItemAt(i));
@@ -118,10 +118,10 @@ public class ItemListControl<T> extends JComponent {
       final Frame parentFrame = SwingTasks.getFrame(ItemListControl.this);
       ItemEditorDialog<T> dialog;
       if (parentFrame != null) {
-        dialog = new ItemEditorDialog<T>(parentFrame, itemEditorFactory);
+        dialog = new ItemEditorDialog<>(parentFrame, itemEditorFactory);
       } else {
         final Dialog parentDialog = SwingTasks.getDialog(ItemListControl.this);
-        dialog = new ItemEditorDialog<T>(parentDialog, itemEditorFactory);
+        dialog = new ItemEditorDialog<>(parentDialog, itemEditorFactory);
       }
       dialog.setModal(true);
       dialog.setTitle(this.add ? "Add Item" : "Edit Item");

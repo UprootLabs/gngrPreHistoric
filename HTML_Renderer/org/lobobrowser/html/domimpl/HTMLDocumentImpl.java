@@ -94,7 +94,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   private final HtmlRendererContext rcontext;
   private final UserAgentContext ucontext;
   private final Window window;
-  private final Map<String, Element> elementsById = new WeakValueHashMap<String, Element>();
+  private final Map<String, Element> elementsById = new WeakValueHashMap<>();
   private String documentURI;
   private java.net.URL documentURL;
 
@@ -620,7 +620,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     return element;
   }
 
-  private final Map<String, Element> elementsByName = new HashMap<String, Element>(0);
+  private final Map<String, Element> elementsByName = new HashMap<>(0);
 
   public Element namedItem(final String name) {
     Element element;
@@ -917,7 +917,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     }
   }
 
-  private final ArrayList<DocumentNotificationListener> documentNotificationListeners = new ArrayList<DocumentNotificationListener>(1);
+  private final ArrayList<DocumentNotificationListener> documentNotificationListeners = new ArrayList<>(1);
 
   /**
    * Adds a document notification listener, which is informed about changes to
@@ -1131,7 +1131,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     return new StyleSheetRenderState(this);
   }
 
-  private final Map<String, ImageInfo> imageInfos = new HashMap<String, ImageInfo>(4);
+  private final Map<String, ImageInfo> imageInfos = new HashMap<>(4);
   private final ImageEvent BLANK_IMAGE_EVENT = new ImageEvent(this, null);
 
   /**
@@ -1231,7 +1231,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   private Function onloadHandler;
-  private final List<Function> onloadHandlers = new ArrayList<Function>();
+  private final List<Function> onloadHandlers = new ArrayList<>();
 
   public Function getOnloadHandler() {
     return onloadHandler;
@@ -1276,7 +1276,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     // Access to this class is synchronized on imageInfos.
     public ImageEvent imageEvent;
     public boolean loaded;
-    private final ArrayList<ImageListener> listeners = new ArrayList<ImageListener>(1);
+    private final ArrayList<ImageListener> listeners = new ArrayList<>(1);
 
     void addListener(final ImageListener listener) {
       this.listeners.add(listener);

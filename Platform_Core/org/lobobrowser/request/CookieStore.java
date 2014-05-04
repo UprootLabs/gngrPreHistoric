@@ -45,7 +45,7 @@ public class CookieStore {
 
   private static final Logger logger = Logger.getLogger(CookieStore.class.getName());
 
-  private final Map<String, Map<String, CookieValue>> transientMapByHost = new HashMap<String, Map<String, CookieValue>>();
+  private final Map<String, Map<String, CookieValue>> transientMapByHost = new HashMap<>();
 
   static {
     // Note: Using yy in case years are given as two digits.
@@ -179,7 +179,7 @@ public class CookieStore {
       // Always save a transient cookie. It acts as a cache.
       Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
       if (hostMap == null) {
-        hostMap = new HashMap<String, CookieValue>(2);
+        hostMap = new HashMap<>(2);
         this.transientMapByHost.put(domain, hostMap);
       }
       hostMap.put(name, cookieValue);
@@ -187,18 +187,18 @@ public class CookieStore {
     if (expiresLong != null) {
       try {
         final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domain, true);
-        store.saveObject(this.getPathFromCookieName(name), cookieValue);
+        store.saveObject(getPathFromCookieName(name), cookieValue);
       } catch (final IOException ioe) {
         logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domain + "'", ioe);
       }
     }
   }
 
-  private String getPathFromCookieName(final String cookieName) {
+  private static String getPathFromCookieName(final String cookieName) {
     return COOKIE_PATH_PREFIX + cookieName;
   }
 
-  private String getCookieNameFromPath(final String path) {
+  private static String getCookieNameFromPath(final String path) {
     if (!path.startsWith(COOKIE_PATH_PREFIX)) {
       throw new IllegalArgumentException("Invalid path: " + path);
     }
@@ -214,8 +214,8 @@ public class CookieStore {
       path = "/";
     }
     final boolean liflag = logger.isLoggable(Level.INFO);
-    final Collection<Cookie> cookies = new LinkedList<Cookie>();
-    final Set<String> transientCookieNames = new HashSet<String>();
+    final Collection<Cookie> cookies = new LinkedList<>();
+    final Set<String> transientCookieNames = new HashSet<>();
     synchronized (this) {
       final Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
       if (hostMap != null) {
@@ -249,7 +249,7 @@ public class CookieStore {
         final Iterator<String> pathsIterator = paths.iterator();
         while (pathsIterator.hasNext()) {
           final String filePath = pathsIterator.next();
-          final String cookieName = this.getCookieNameFromPath(filePath);
+          final String cookieName = getCookieNameFromPath(filePath);
           if (!transientCookieNames.contains(cookieName)) {
             final CookieValue cookieValue = (CookieValue) store.retrieveObject(filePath);
             if (cookieValue != null) {
@@ -264,7 +264,7 @@ public class CookieStore {
                   synchronized (this) {
                     Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
                     if (hostMap == null) {
-                      hostMap = new HashMap<String, CookieValue>();
+                      hostMap = new HashMap<>();
                       this.transientMapByHost.put(hostName, hostMap);
                     }
                     hostMap.put(cookieName, cookieValue);
@@ -294,7 +294,7 @@ public class CookieStore {
   public Collection<Cookie> getCookies(final String hostName, final String path) {
     // Security provided by RestrictedStore.
     final Collection<String> possibleDomains = Domains.getPossibleDomains(hostName);
-    final Collection<Cookie> cookies = new LinkedList<Cookie>();
+    final Collection<Cookie> cookies = new LinkedList<>();
     for (final String domain : possibleDomains) {
       cookies.addAll(this.getCookiesStrict(domain, path));
     }

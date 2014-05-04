@@ -44,7 +44,7 @@ public class ClientletFactory {
     return instance;
   }
 
-  private final List<ClientletSelector> selectors = new LinkedList<ClientletSelector>();
+  private final List<ClientletSelector> selectors = new LinkedList<>();
 
   public void addClientletSelector(final ClientletSelector selector) {
     final SecurityManager sm = System.getSecurityManager();

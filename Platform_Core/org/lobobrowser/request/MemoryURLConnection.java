@@ -36,7 +36,7 @@ public class MemoryURLConnection extends URLConnection {
   }
 
   private InputStream inputStream;
-  private final Map<String, List<String>> headersMap = new HashMap<String, List<String>>();
+  private final Map<String, List<String>> headersMap = new HashMap<>();
 
   @Override
   public void connect() throws IOException {
@@ -61,7 +61,7 @@ public class MemoryURLConnection extends URLConnection {
       final String value = pair.value;
       List<String> hvalues = headersMap.get(name);
       if (hvalues == null) {
-        hvalues = new ArrayList<String>(1);
+        hvalues = new ArrayList<>(1);
         headersMap.put(name, hvalues);
       }
       hvalues.add(value);

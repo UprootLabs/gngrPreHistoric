@@ -29,8 +29,8 @@ import org.mozilla.javascript.Function;
 
 public class JavaClassWrapper {
   private final Class<?> javaClass;
-  private final Map<String, JavaFunctionObject> functions = new HashMap<String, JavaFunctionObject>();
-  private final Map<String, PropertyInfo> properties = new HashMap<String, PropertyInfo>();
+  private final Map<String, JavaFunctionObject> functions = new HashMap<>();
+  private final Map<String, PropertyInfo> properties = new HashMap<>();
   private PropertyInfo nameIndexer;
   private PropertyInfo integerIndexer;
 
@@ -69,7 +69,7 @@ public class JavaClassWrapper {
       } else {
         if (isNameIndexer(name, method)) {
           this.updateNameIndexer(name, method);
-        } else if (this.isIntegerIndexer(name, method)) {
+        } else if (isIntegerIndexer(name, method)) {
           this.updateIntegerIndexer(name, method);
         }
         JavaFunctionObject f = this.functions.get(name);
@@ -82,12 +82,12 @@ public class JavaClassWrapper {
     }
   }
 
-  private boolean isNameIndexer(final String name, final Method method) {
+  private static boolean isNameIndexer(final String name, final Method method) {
     return ("namedItem".equals(name) && method.getParameterTypes().length == 1)
         || ("setNamedItem".equals(name) && method.getParameterTypes().length == 2);
   }
 
-  private boolean isIntegerIndexer(final String name, final Method method) {
+  private static boolean isIntegerIndexer(final String name, final Method method) {
     return ("item".equals(name) && method.getParameterTypes().length == 1)
         || ("setItem".equals(name) && method.getParameterTypes().length == 2);
   }
@@ -135,7 +135,7 @@ public class JavaClassWrapper {
     return this.nameIndexer;
   }
 
-  private boolean isPropertyMethod(final String name, final Method method) {
+  private static boolean isPropertyMethod(final String name, final Method method) {
     if (name.startsWith("get") || name.startsWith("is")) {
       return method.getParameterTypes().length == 0;
     } else if (name.startsWith("set")) {
@@ -145,7 +145,7 @@ public class JavaClassWrapper {
     }
   }
 
-  private String propertyUncapitalize(final String text) {
+  private static String propertyUncapitalize(final String text) {
     try {
       if (text.length() > 1 && Character.isUpperCase(text.charAt(1))) {
         // If second letter is capitalized, don't uncapitalize,

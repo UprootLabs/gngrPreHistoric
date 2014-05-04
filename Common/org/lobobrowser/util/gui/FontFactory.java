@@ -42,8 +42,8 @@ public class FontFactory {
   private static final Logger logger = Logger.getLogger(FontFactory.class.getName());
   private static final boolean loggableFine = logger.isLoggable(Level.FINE);
   private static final FontFactory instance = new FontFactory();
-  private final Set<String> fontFamilies = new HashSet<String>(40);
-  private final Map<FontKey, Font> fontMap = new HashMap<FontKey, Font>(50);
+  private final Set<String> fontFamilies = new HashSet<>(40);
+  private final Map<FontKey, Font> fontMap = new HashMap<>(50);
 
   /**
 	 * 
@@ -67,7 +67,7 @@ public class FontFactory {
     return instance;
   }
 
-  private final Map<String, Font> registeredFonts = new HashMap<String, Font>(0);
+  private final Map<String, Font> registeredFonts = new HashMap<>(0);
 
   /**
    * Registers a font family. It does not close the stream provided. Fonts
@@ -152,7 +152,7 @@ public class FontFactory {
     if (fontSuperScript.equals(newSuperscript)) {
       return baseFont;
     } else {
-      final Map<TextAttribute, Integer> additionalAttributes = new HashMap<TextAttribute, Integer>();
+      final Map<TextAttribute, Integer> additionalAttributes = new HashMap<>();
       additionalAttributes.put(TextAttribute.SUPERSCRIPT, newSuperscript);
       return baseFont.deriveFont(additionalAttributes);
     }
@@ -215,7 +215,7 @@ public class FontFactory {
     return createFont(this.defaultFontName, fontStyle, (int) Math.round(key.fontSize));
   }
 
-  private Font createFont(final String name, final int style, final int size) {
+  private static Font createFont(final String name, final int style, final int size) {
     return StyleContext.getDefaultStyleContext().getFont(name, style, size);
     // Proprietary Sun API. Maybe shouldn't use it. Works well for Chinese.
     // return FontManager.getCompositeFontUIResource(new Font(name, style,

@@ -71,7 +71,7 @@ public class ConsoleModel extends PlainDocument {
   }
 
   private class LocalOutputStream extends OutputStream implements Runnable {
-    private final LinkedList<byte[]> dataQueue = new LinkedList<byte[]>();
+    private final LinkedList<byte[]> dataQueue = new LinkedList<>();
 
     public LocalOutputStream() {
       final Thread t = new Thread(this, "ConsoleOutputStream");

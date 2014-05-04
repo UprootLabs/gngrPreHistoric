@@ -759,7 +759,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
           final UINode uiNode = node.findUINode();
           if (uiNode != null) {
             if (repainters == null) {
-              repainters = new ArrayList<RElement>(1);
+              repainters = new ArrayList<>(1);
             }
             final RElement relement = (RElement) uiNode;
             // relement.invalidateRenderStyle();
@@ -814,7 +814,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
   public Component addComponent(final Component component) {
     Set<Component> c = this.components;
     if (c == null) {
-      c = new HashSet<Component>();
+      c = new HashSet<>();
       this.components = c;
     }
     if (c.add(component)) {
@@ -836,7 +836,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
       }
     } else {
       // Remove children not in the set.
-      final Set<Component> workingSet = new HashSet<Component>();
+      final Set<Component> workingSet = new HashSet<>();
       workingSet.addAll(c);
       int count = this.getComponentCount();
       for (int i = 0; i < count;) {

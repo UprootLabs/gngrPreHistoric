@@ -70,7 +70,7 @@ public class OrigUserAgentImpl implements UserAgent {
       });
       final boolean spoofIE = settings.isSpoofIE();
       final String ieVersion = settings.getIeVersion();
-      tv = "Mozilla/" + settings.getMozVersion() + " (compatible" + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + this.getOs() + ") "
+      tv = "Mozilla/" + settings.getMozVersion() + " (compatible" + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + getOs() + ") "
           + this.getName() + "/" + this.getVersion();
       this.textValue = tv;
     }
@@ -101,7 +101,7 @@ public class OrigUserAgentImpl implements UserAgent {
     return "http://lobobrowser.org";
   }
 
-  private String getOs() {
+  private static String getOs() {
     return System.getProperty("os.name") + " " + System.getProperty("os.version");
   }
 

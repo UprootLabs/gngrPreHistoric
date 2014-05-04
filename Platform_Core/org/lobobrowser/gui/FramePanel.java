@@ -61,9 +61,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   private final String windowId;
   private final NavigationEngine navigationEngine = new NavigationEngine();
   private final FramePanel knownParentFrame;
-  private final Collection<NavigationListener> navigationListeners = new ArrayList<NavigationListener>();
-  private final Collection<ResponseListener> responseListeners = new ArrayList<ResponseListener>();
-  private final Collection<ContentListener> contentListeners = new ArrayList<ContentListener>();
+  private final Collection<NavigationListener> navigationListeners = new ArrayList<>();
+  private final Collection<ResponseListener> responseListeners = new ArrayList<>();
+  private final Collection<ContentListener> contentListeners = new ArrayList<>();
   private final Object propertiesMonitor = new Object();
 
   private NavigatorFrame openerFrame;
@@ -1277,7 +1277,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       }
       Map<String, Object> props = this.contentProperties;
       if (props == null) {
-        props = new HashMap<String, Object>(5);
+        props = new HashMap<>(5);
         this.contentProperties = props;
       }
       props.put(name, value);

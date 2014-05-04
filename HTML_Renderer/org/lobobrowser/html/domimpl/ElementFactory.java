@@ -29,7 +29,7 @@ import org.w3c.dom.html2.*;
 import org.w3c.dom.*;
 
 class ElementFactory {
-  private final Map<String, HTMLElementBuilder> builders = new HashMap<String, HTMLElementBuilder>(80);
+  private final Map<String, HTMLElementBuilder> builders = new HashMap<>(80);
 
   private ElementFactory() {
     // This sets up builders for each known element tag.

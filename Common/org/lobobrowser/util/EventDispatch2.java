@@ -36,7 +36,7 @@ public abstract class EventDispatch2 {
   }
 
   public Collection<EventListener> createListenerCollection() {
-    return new ArrayList<EventListener>();
+    return new ArrayList<>();
   }
 
   public final void addListener(final EventListener listener) {

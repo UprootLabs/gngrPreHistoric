@@ -53,7 +53,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
           final Throwable exception = this.exception;
           EventQueue.invokeLater(() -> {
             // Invoke holding no locks
-            final AsyncResultEvent<Throwable> are = new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception);
+            final AsyncResultEvent<Throwable> are = new AsyncResultEvent<>(AsyncResultImpl.this, exception);
             listener.exceptionReceived(are);
           });
 
@@ -61,12 +61,12 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
           final TResult result = this.result;
           EventQueue.invokeLater(() -> {
             // Invoke holding no locks
-            final AsyncResultEvent<TResult> are = new AsyncResultEvent<TResult>(AsyncResultImpl.this, result);
+            final AsyncResultEvent<TResult> are = new AsyncResultEvent<>(AsyncResultImpl.this, result);
             listener.resultReceived(are);
           });
         }
       }
-      evtResult.addListener(new EventListenerWrapper<TResult>(listener));
+      evtResult.addListener(new EventListenerWrapper<>(listener));
     }
   }
 
@@ -78,7 +78,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
    * .AsyncResultListener)
    */
   public void removeResultListener(final AsyncResultListener<TResult> listener) {
-    this.evtResult.removeListener(new EventListenerWrapper<TResult>(listener));
+    this.evtResult.removeListener(new EventListenerWrapper<>(listener));
   }
 
   /*
@@ -93,7 +93,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
           final Throwable exception = this.exception;
           EventQueue.invokeLater(() -> {
             // Invoke holding no locks
-            final AsyncResultEvent<Throwable> are = new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception);
+            final AsyncResultEvent<Throwable> are = new AsyncResultEvent<>(AsyncResultImpl.this, exception);
             evtResult.fireEvent(are);
           });
 
@@ -101,7 +101,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
           final TResult result = this.result;
           EventQueue.invokeLater(() -> {
             // Invoke holding no locks
-            final AsyncResultEvent<TResult> are = new AsyncResultEvent<TResult>(AsyncResultImpl.this, result);
+            final AsyncResultEvent<TResult> are = new AsyncResultEvent<>(AsyncResultImpl.this, result);
             evtResult.fireEvent(are);
           });
         }
@@ -113,7 +113,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
     synchronized (this) {
       this.result = result;
       this.hasResult = true;
-      EventQueue.invokeLater(() -> evtResult.fireEvent(new AsyncResultEvent<TResult>(AsyncResultImpl.this, result)));
+      EventQueue.invokeLater(() -> evtResult.fireEvent(new AsyncResultEvent<>(AsyncResultImpl.this, result)));
     }
   }
 
@@ -121,7 +121,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
     synchronized (this) {
       this.exception = exception;
       this.hasResult = true;
-      EventQueue.invokeLater(() -> evtResult.fireEvent(new AsyncResultEvent<Throwable>(AsyncResultImpl.this, exception)));
+      EventQueue.invokeLater(() -> evtResult.fireEvent(new AsyncResultEvent<>(AsyncResultImpl.this, exception)));
     }
   }
 

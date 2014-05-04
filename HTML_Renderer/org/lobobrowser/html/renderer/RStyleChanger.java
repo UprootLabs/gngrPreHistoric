@@ -68,15 +68,15 @@ final class RStyleChanger extends BaseRenderable implements Renderable {
   public void invalidateLayoutUpTree() {
   }
 
-  public void onMouseClick(final java.awt.event.MouseEvent event, final int x, final int y) {
+  public static void onMouseClick(final java.awt.event.MouseEvent event, final int x, final int y) {
     throw new UnsupportedOperationException("unexpected");
   }
 
-  public void onMousePressed(final java.awt.event.MouseEvent event, final int x, final int y) {
+  public static void onMousePressed(final java.awt.event.MouseEvent event, final int x, final int y) {
     throw new UnsupportedOperationException("unexpected");
   }
 
-  public void onMouseReleased(final java.awt.event.MouseEvent event, final int x, final int y) {
+  public static void onMouseReleased(final java.awt.event.MouseEvent event, final int x, final int y) {
     throw new UnsupportedOperationException("unexpected");
   }
 }

@@ -33,14 +33,14 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
     this.domTree.setRootVisible(false);
     this.domTree.setShowsRootHandles(true);
     this.domTree.addTreeSelectionListener(this);
-    final JTextArea textArea = this.createTextArea();
+    final JTextArea textArea = createTextArea();
     this.textArea = textArea;
     final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(domTree), new JScrollPane(textArea));
     contentPane.setLayout(WrapperLayout.getInstance());
     contentPane.add(splitPane);
   }
 
-  private JTextArea createTextArea() {
+  private static JTextArea createTextArea() {
     final JTextArea textArea = new JTextArea();
     textArea.setEditable(false);
     return textArea;

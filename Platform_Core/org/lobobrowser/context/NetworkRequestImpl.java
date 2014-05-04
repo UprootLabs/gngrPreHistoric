@@ -341,7 +341,7 @@ public class NetworkRequestImpl implements NetworkRequest {
         final byte[] bytes = this.getResponseBytes();
         if (bytes != null) {
           img = Toolkit.getDefaultToolkit().createImage(bytes);
-          this.imageRef = new WeakReference<Image>(img);
+          this.imageRef = new WeakReference<>(img);
         }
       }
       return img;
@@ -451,7 +451,7 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
 
     private Map<String, String> getHeadersImpl() {
-      final Map<String, String> headers = new HashMap<String, String>();
+      final Map<String, String> headers = new HashMap<>();
       final ClientletResponse cresponse = this.cresponse;
       final Iterator<String> headerNames = cresponse.getHeaderNames();
       while (headerNames.hasNext()) {

@@ -65,7 +65,7 @@ public class ActionPool {
     super();
     this.componentSource = componentSource;
     this.window = window;
-    final Collection<EnableableAction> actions = new LinkedList<EnableableAction>();
+    final Collection<EnableableAction> actions = new LinkedList<>();
     this.enableableActions = actions;
     actions.add(this.backAction);
     actions.add(this.forwardAction);
@@ -366,7 +366,7 @@ public class ActionPool {
   class RecentHostsAction extends EnableableAction {
     @Override
     public void updateEnabling() {
-      this.setEnabled(componentSource.hasRecentEntries());
+      this.setEnabled(ComponentSource.hasRecentEntries());
     }
 
     public void actionPerformed(final ActionEvent e) {
@@ -387,7 +387,7 @@ public class ActionPool {
 
   class ConsoleAction extends AbstractAction {
     public void actionPerformed(final ActionEvent e) {
-      componentSource.showConsole();
+      ComponentSource.showConsole();
     }
   }
 

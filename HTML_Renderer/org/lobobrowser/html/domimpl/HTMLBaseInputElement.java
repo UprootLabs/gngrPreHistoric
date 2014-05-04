@@ -324,7 +324,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     }
   }
 
-  private final ArrayList<ImageListener> imageListeners = new ArrayList<ImageListener>(1);
+  private final ArrayList<ImageListener> imageListeners = new ArrayList<>(1);
 
   /**
    * Adds a listener of image loading events. The listener gets called right

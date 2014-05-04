@@ -159,7 +159,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
   public static final String WORD_SPACING = "word_spacing";
   public static final String Z_INDEX = "z-index";
 
-  private static final Map<String, SubPropertySetter> SUB_SETTERS = new HashMap<String, SubPropertySetter>(20);
+  private static final Map<String, SubPropertySetter> SUB_SETTERS = new HashMap<>(20);
 
   private final CSS2PropertiesContext context;
   private AbstractCSS2Properties localStyleProperties;
@@ -191,7 +191,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     synchronized (this) {
       Collection<CSSStyleDeclaration> sd = this.styleDeclarations;
       if (sd == null) {
-        sd = new LinkedList<CSSStyleDeclaration>();
+        sd = new LinkedList<>();
         this.styleDeclarations = sd;
       }
       sd.add(styleDeclaration);
@@ -261,7 +261,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     Map<String, Property> vm = this.valueMap;
     synchronized (this) {
       if (vm == null) {
-        vm = new HashMap<String, Property>(1);
+        vm = new HashMap<>(1);
         this.valueMap = vm;
       }
       vm.put(lowerCaseName, new Property(value, true));
@@ -282,7 +282,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
     Map<String, Property> vm = this.valueMap;
     synchronized (this) {
       if (vm == null) {
-        vm = new HashMap<String, Property>(1);
+        vm = new HashMap<>(1);
         this.valueMap = vm;
       } else {
         if (!important) {

@@ -37,7 +37,7 @@ public class IconFactory {
     return instance;
   }
 
-  private final Map<String, ImageIcon> iconMap = new HashMap<String, ImageIcon>();
+  private final Map<String, ImageIcon> iconMap = new HashMap<>();
 
   public ImageIcon getIcon(final String resourcePath) {
     try {

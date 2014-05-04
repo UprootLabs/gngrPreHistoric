@@ -138,7 +138,7 @@ public class CssParserTest extends JFrame {
       final CSSRule rule = ruleList.item(i);
       writer.println("<DT><strong>Rule: type=" + rule.getType() + ",class=" + rule.getClass().getName() + "</strong></DT>");
       writer.println("<DD>");
-      this.writeRuleInfo(writer, rule);
+      writeRuleInfo(writer, rule);
       writer.println("</DD>");
     }
     writer.println("</DL>");
@@ -148,7 +148,7 @@ public class CssParserTest extends JFrame {
     this.cssOutput.setHtml(html, "about:css", rcontext);
   }
 
-  private void writeRuleInfo(final PrintWriter writer, final CSSRule rule) {
+  private static void writeRuleInfo(final PrintWriter writer, final CSSRule rule) {
     if (rule instanceof CSSStyleRule) {
       final CSSStyleRule styleRule = (CSSStyleRule) rule;
       writer.println("Selector: " + styleRule.getSelectorText());

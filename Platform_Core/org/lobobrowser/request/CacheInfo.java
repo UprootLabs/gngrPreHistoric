@@ -159,7 +159,7 @@ public class CacheInfo {
 
   public Object getPersistentObject(final ClassLoader classLoader) {
     try {
-      final byte[] content = CacheManager.getInstance().getPersistent(this.url, true);
+      final byte[] content = CacheManager.getPersistent(this.url, true);
       if (content == null) {
         return null;
       }
@@ -182,8 +182,8 @@ public class CacheInfo {
     final CacheManager cm = CacheManager.getInstance();
     cm.removeTransient(this.url);
     try {
-      cm.removePersistent(this.url, false);
-      cm.removePersistent(this.url, true);
+      CacheManager.removePersistent(this.url, false);
+      CacheManager.removePersistent(this.url, true);
     } catch (final IOException ioe) {
       logger.log(Level.WARNING, "delete()", ioe);
     }

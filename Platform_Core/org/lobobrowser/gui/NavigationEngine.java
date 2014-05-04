@@ -33,7 +33,7 @@ import org.lobobrowser.util.Urls;
  */
 public class NavigationEngine {
   private static final Logger logger = Logger.getLogger(NavigationEngine.class.getName());
-  private final ArrayList<NavigationEntry> history = new ArrayList<NavigationEntry>();
+  private final ArrayList<NavigationEntry> history = new ArrayList<>();
 
   private int currentIndex = -1;
 
@@ -126,7 +126,7 @@ public class NavigationEngine {
   }
 
   public NavigationEntry[] getForwardNavigationEntries() {
-    final ArrayList<NavigationEntry> entries = new ArrayList<NavigationEntry>();
+    final ArrayList<NavigationEntry> entries = new ArrayList<>();
     int index = this.currentIndex + 1;
     final int size = this.history.size();
     while (index < size) {
@@ -140,7 +140,7 @@ public class NavigationEngine {
    * Gets prior navigation entries, in descending order.
    */
   public NavigationEntry[] getBackNavigationEntries() {
-    final ArrayList<NavigationEntry> entries = new ArrayList<NavigationEntry>();
+    final ArrayList<NavigationEntry> entries = new ArrayList<>();
     int index = this.currentIndex - 1;
     while (index >= 0) {
       entries.add(this.history.get(index));

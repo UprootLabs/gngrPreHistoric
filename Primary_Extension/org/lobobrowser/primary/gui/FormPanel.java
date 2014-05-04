@@ -25,7 +25,7 @@ import java.util.*;
 import java.awt.*;
 
 public class FormPanel extends JComponent {
-  private final Collection<FormField> fields = new ArrayList<FormField>();
+  private final Collection<FormField> fields = new ArrayList<>();
   private boolean fieldsInvalid = false;
 
   public FormPanel() {
@@ -56,7 +56,7 @@ public class FormPanel extends JComponent {
   private void populateComponents() {
     this.removeAll();
     int maxWidth = this.minLabelWidth;
-    final Collection<JLabel> labels = new ArrayList<JLabel>();
+    final Collection<JLabel> labels = new ArrayList<>();
     boolean firstTime = true;
     for (final FormField field : this.fields) {
       if (firstTime) {

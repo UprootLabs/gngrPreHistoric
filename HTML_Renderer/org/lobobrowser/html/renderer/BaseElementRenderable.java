@@ -279,7 +279,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
     // by sendGUIComponentsToParent().
     Collection<Component> gc = this.guiComponents;
     if (gc == null) {
-      gc = new HashSet<Component>(1);
+      gc = new HashSet<>(1);
       this.guiComponents = gc;
     }
     gc.add(component);
@@ -834,7 +834,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
       // Sequence is important.
       // TODO: But possibly added multiple
       // times in table layout?
-      gc = new java.util.LinkedList<DelayedPair>();
+      gc = new java.util.LinkedList<>();
       this.delayedPairs = gc;
     }
     gc.add(pair);

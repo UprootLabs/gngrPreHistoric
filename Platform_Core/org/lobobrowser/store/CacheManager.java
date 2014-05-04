@@ -117,7 +117,7 @@ public final class CacheManager implements Runnable {
     return new CacheInfo(approxSize, numEntries, entryInfo);
   }
 
-  public void putPersistent(final URL url, final byte[] rawContent, final boolean isDecoration) throws IOException {
+  public static void putPersistent(final URL url, final byte[] rawContent, final boolean isDecoration) throws IOException {
     final File cacheFile = getCacheFile(url, isDecoration);
     synchronized (getLock(cacheFile)) {
       final File parent = cacheFile.getParentFile();
@@ -133,7 +133,7 @@ public final class CacheManager implements Runnable {
     }
   }
 
-  public byte[] getPersistent(final URL url, final boolean isDecoration) throws IOException {
+  public static byte[] getPersistent(final URL url, final boolean isDecoration) throws IOException {
     // We don't return an InputStream because further synchronization
     // would be needed to prevent concurrent writes into the file.
     final File cacheFile = getCacheFile(url, isDecoration);
@@ -147,14 +147,14 @@ public final class CacheManager implements Runnable {
     }
   }
 
-  public boolean removePersistent(final URL url, final boolean isDecoration) throws IOException {
+  public static boolean removePersistent(final URL url, final boolean isDecoration) throws IOException {
     final File cacheFile = getCacheFile(url, isDecoration);
     synchronized (getLock(cacheFile)) {
       return cacheFile.delete();
     }
   }
 
-  public JarFile getJarFile(final URL url) throws java.io.IOException {
+  public static JarFile getJarFile(final URL url) throws java.io.IOException {
     final File cacheFile = getCacheFile(url, false);
     synchronized (getLock(cacheFile)) {
       if (!cacheFile.exists()) {
@@ -194,7 +194,7 @@ public final class CacheManager implements Runnable {
    * Touches the cache file corresponding to the given URL and returns
    * <code>true</code> if the file exists.
    */
-  public boolean checkCacheFile(final URL url, final boolean isDecoration) throws IOException {
+  public static boolean checkCacheFile(final URL url, final boolean isDecoration) throws IOException {
     final File file = getCacheFile(url, isDecoration);
     synchronized (getLock(file)) {
       if (file.exists()) {
@@ -226,17 +226,17 @@ public final class CacheManager implements Runnable {
     }
   }
 
-  private long getMaxCacheSize() {
+  private static long getMaxCacheSize() {
     return MAX_CACHE_SIZE;
   }
 
   private void sweepCache() throws Exception {
     final CacheStoreInfo sinfo = this.getCacheStoreInfo();
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("sweepCache(): Cache size is " + sinfo.getLength() + " with a max of " + this.getMaxCacheSize()
+      logger.info("sweepCache(): Cache size is " + sinfo.getLength() + " with a max of " + getMaxCacheSize()
           + ". The number of cache files is " + sinfo.getFileInfos().length + ".");
     }
-    long oversize = sinfo.getLength() - this.getMaxCacheSize();
+    long oversize = sinfo.getLength() - getMaxCacheSize();
     if (oversize > 0) {
       final CacheFileInfo[] finfos = sinfo.getFileInfos();
       // Sort in ascending order of modification

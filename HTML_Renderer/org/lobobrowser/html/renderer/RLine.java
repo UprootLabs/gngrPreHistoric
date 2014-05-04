@@ -39,7 +39,7 @@ import org.lobobrowser.html.style.RenderState;
  * @author J. H. S.
  */
 class RLine extends BaseRCollection {
-  private final ArrayList<Renderable> renderables = new ArrayList<Renderable>(8);
+  private final ArrayList<Renderable> renderables = new ArrayList<>(8);
   // private final RenderState startRenderState;
   private int baseLineOffset;
   private int desiredMaxWidth;
@@ -216,7 +216,7 @@ class RLine extends BaseRCollection {
         final Renderable renderable = renderables.get(i);
         if (renderable instanceof RWord || !(renderable instanceof BoundableRenderable)) {
           if (overflow == null) {
-            overflow = new ArrayList<Renderable>();
+            overflow = new ArrayList<>();
           }
           if (renderable != rword && renderable instanceof RWord && ((RWord) renderable).getX() == 0) {
             // Can't overflow words starting at offset zero.

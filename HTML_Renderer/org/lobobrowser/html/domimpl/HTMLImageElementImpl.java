@@ -182,7 +182,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     }
   }
 
-  private final ArrayList<ImageListener> listeners = new ArrayList<ImageListener>(1);
+  private final ArrayList<ImageListener> listeners = new ArrayList<>(1);
 
   /**
    * Adds a listener of image loading events. The listener gets called right

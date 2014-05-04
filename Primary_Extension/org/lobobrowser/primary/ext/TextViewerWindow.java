@@ -40,7 +40,7 @@ public class TextViewerWindow extends JFrame {
     final JMenuBar menuBar = this.createMenuBar();
     this.setJMenuBar(menuBar);
     final Container contentPane = this.getContentPane();
-    final JTextArea textArea = this.createTextArea();
+    final JTextArea textArea = createTextArea();
     this.textArea = textArea;
     contentPane.setLayout(WrapperLayout.getInstance());
     contentPane.add(new JScrollPane(textArea));
@@ -88,7 +88,7 @@ public class TextViewerWindow extends JFrame {
     this.textArea.setDocument(document);
   }
 
-  private JTextArea createTextArea() {
+  private static JTextArea createTextArea() {
     final JTextArea textArea = new JTextArea();
     textArea.setEditable(false);
     return textArea;

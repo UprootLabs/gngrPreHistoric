@@ -44,7 +44,7 @@ public final class RequestEngine {
   private static final boolean loggerInfo = logger.isLoggable(Level.INFO);
 
   private final SimpleThreadPool threadPool;
-  private final Collection<RequestInfo> processingRequests = new HashSet<RequestInfo>();
+  private final Collection<RequestInfo> processingRequests = new HashSet<>();
   private final CookieStore cookieStore = CookieStore.getInstance();
   private final CacheSettings cacheSettings;
   private final BooleanSettings booleanSettings;
@@ -100,7 +100,7 @@ public final class RequestEngine {
 
   public void cancelRequestIfRunning(final RequestHandler rhToDelete) {
     rhToDelete.cancel();
-    final List<RequestInfo> handlersToCancel = new ArrayList<RequestInfo>();
+    final List<RequestInfo> handlersToCancel = new ArrayList<>();
     synchronized (this.processingRequests) {
       final Iterator<RequestInfo> ri = this.processingRequests.iterator();
       while (ri.hasNext()) {
@@ -233,7 +233,7 @@ public final class RequestEngine {
     }
   }
 
-  private String completeGetUrl(final String baseURL, final ParameterInfo pinfo, final String ref) throws Exception {
+  private static String completeGetUrl(final String baseURL, final ParameterInfo pinfo, final String ref) throws Exception {
     String newNoRefURL;
     final Parameter[] parameters = pinfo.getParameters();
     if (parameters != null && parameters.length > 0) {
@@ -263,7 +263,7 @@ public final class RequestEngine {
     }
   }
 
-  private void addRequestProperties(final URLConnection connection, final ClientletRequest request, final CacheInfo cacheInfo, final String requestMethod,
+  private static void addRequestProperties(final URLConnection connection, final ClientletRequest request, final CacheInfo cacheInfo, final String requestMethod,
       final URL lastRequestURL) throws ProtocolException {
     final UserAgent userAgent = request.getUserAgent();
     connection.addRequestProperty("User-Agent", userAgent.toString());
@@ -302,7 +302,7 @@ public final class RequestEngine {
     }
   }
 
-  private CacheInfo getCacheInfo(final RequestHandler rhandler, final URL url) throws Exception {
+  private static CacheInfo getCacheInfo(final RequestHandler rhandler, final URL url) throws Exception {
     return AccessController.doPrivileged(new PrivilegedAction<CacheInfo>() {
       // Reason: Caller in context may not have privilege to access
       // the local file system, yet it's necessary to be able to load
@@ -315,7 +315,7 @@ public final class RequestEngine {
         if (entry == null) {
           if (!"file".equalsIgnoreCase(url.getProtocol()) || !Strings.isBlank(url.getHost())) {
             try {
-              persistentContent = cm.getPersistent(url, false);
+              persistentContent = CacheManager.getPersistent(url, false);
             } catch (final java.io.IOException ioe) {
               logger.log(Level.WARNING, "getCacheInfo(): Unable to load cache file.", ioe);
             }
@@ -330,7 +330,7 @@ public final class RequestEngine {
     });
   }
 
-  private void cache(final RequestHandler rhandler, final java.net.URL url, final URLConnection connection, final byte[] content,
+  private static void cache(final RequestHandler rhandler, final java.net.URL url, final URLConnection connection, final byte[] content,
       final java.io.Serializable altPersistentObject, final Object altObject, final int approxAltObjectSize) {
     AccessController.doPrivileged(new PrivilegedAction<Object>() {
       // Reason: Caller might not have permission to access the
@@ -397,7 +397,7 @@ public final class RequestEngine {
             out.close();
           }
           try {
-            cm.putPersistent(url, out.toByteArray(), false);
+            CacheManager.putPersistent(url, out.toByteArray(), false);
           } catch (final Exception err) {
             logger.log(Level.WARNING, "cache(): Unable to cache response content.", err);
           }
@@ -412,7 +412,7 @@ public final class RequestEngine {
               if (byteArray.length == 0) {
                 logger.log(Level.WARNING, "cache(): Serialized content has zero bytes for persistent object " + altPersistentObject + ".");
               }
-              cm.putPersistent(url, byteArray, true);
+              CacheManager.putPersistent(url, byteArray, true);
             } catch (final Exception err) {
               logger.log(Level.WARNING, "cache(): Unable to write persistent cached object.", err);
             }
@@ -425,7 +425,7 @@ public final class RequestEngine {
     });
   }
 
-  private boolean mayBeCached(final HttpURLConnection connection) {
+  private static boolean mayBeCached(final HttpURLConnection connection) {
     final String cacheControl = connection.getHeaderField("Cache-Control");
     if (cacheControl != null) {
       final StringTokenizer tok = new StringTokenizer(cacheControl, ",");
@@ -439,7 +439,7 @@ public final class RequestEngine {
     return true;
   }
 
-  private void printRequestHeaders(final URLConnection connection) {
+  private static void printRequestHeaders(final URLConnection connection) {
     final Map<String, List<String>> headers = connection.getRequestProperties();
     final StringBuffer buffer = new StringBuffer();
     for (final Map.Entry<String, List<String>> entry : headers.entrySet()) {
@@ -483,7 +483,7 @@ public final class RequestEngine {
   }
 
   public AsyncResult<byte[]> loadBytesAsync(final URL url) {
-    final AsyncResultImpl<byte[]> asyncResult = new AsyncResultImpl<byte[]>();
+    final AsyncResultImpl<byte[]> asyncResult = new AsyncResultImpl<>();
     this.scheduleRequest(new SimpleRequestHandler(url, RequestType.ELEMENT) {
       @Override
       public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
@@ -515,7 +515,7 @@ public final class RequestEngine {
     return requestType == RequestType.HISTORY;
   }
 
-  private ExtensionManager getSafeExtensionManager() {
+  private static ExtensionManager getSafeExtensionManager() {
     return AccessController.doPrivileged(new PrivilegedAction<ExtensionManager>() {
       public ExtensionManager run() {
         return ExtensionManager.getInstance();
@@ -596,14 +596,14 @@ public final class RequestEngine {
       hconnection.setConnectTimeout(60000);
       hconnection.setReadTimeout(90000);
     }
-    this.addRequestProperties(connection, request, cacheInfo, method, connectionUrl);
+    addRequestProperties(connection, request, cacheInfo, method, connectionUrl);
     // Allow extensions to modify the connection object.
     // Doing it after addRequestProperties() to allow such
     // functionality as altering the Accept header.
-    connection = this.getSafeExtensionManager().dispatchPreConnection(connection);
+    connection = getSafeExtensionManager().dispatchPreConnection(connection);
     // Print request headers
     if (logger.isLoggable(Level.FINE)) {
-      this.printRequestHeaders(connection);
+      printRequestHeaders(connection);
     }
     // POST data if we need to.
     if (isPost) {
@@ -659,7 +659,7 @@ public final class RequestEngine {
       }
       final RequestType requestType = rhandler.getRequestType();
       if (isGet && isOKToRetrieveFromCache(requestType)) {
-        cacheInfo = this.getCacheInfo(rhandler, connectionUrl);
+        cacheInfo = getCacheInfo(rhandler, connectionUrl);
       }
       try {
         URLConnection connection = this.getURLConnection(connectionUrl, request, protocol, method, rhandler, cacheInfo);
@@ -689,7 +689,7 @@ public final class RequestEngine {
               if (linfo) {
                 logger.info("run(): FROM-HTTP: " + connectionUrl);
               }
-              if (this.mayBeCached(hconnection)) {
+              if (mayBeCached(hconnection)) {
                 isCacheable = true;
               } else {
                 if (linfo) {
@@ -740,7 +740,7 @@ public final class RequestEngine {
             throw new CancelClientletException("Stopped");
           }
           // Give a change to extensions to post-process the connection.
-          final URLConnection newConnection = this.getSafeExtensionManager().dispatchPostConnection(connection);
+          final URLConnection newConnection = getSafeExtensionManager().dispatchPostConnection(connection);
           if (newConnection != connection) {
             responseIn = newConnection.getInputStream();
             connection = newConnection;
@@ -758,7 +758,7 @@ public final class RequestEngine {
               final Serializable persObject = response.getNewPersistentCachedObject();
               final Object altObject = response.getNewTransientCachedObject();
               final int altObjectSize = response.getNewTransientObjectSize();
-              this.cache(rhandler, connectionUrl, connection, content, persObject, altObject, altObjectSize);
+              cache(rhandler, connectionUrl, connection, content, persObject, altObject, altObjectSize);
             } else {
               logger.warning("processHandler(): Cacheable response not available: " + connectionUrl);
             }

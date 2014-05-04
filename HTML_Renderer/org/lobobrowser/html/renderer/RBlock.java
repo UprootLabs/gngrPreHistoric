@@ -69,7 +69,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   protected final int listNesting;
   protected final HtmlRendererContext rendererContext;
   protected final RBlockViewport bodyLayout;
-  protected final Map<LayoutKey, LayoutValue> cachedLayout = new Hashtable<LayoutKey, LayoutValue>(5);
+  protected final Map<LayoutKey, LayoutValue> cachedLayout = new Hashtable<>(5);
 
   protected RenderableSpot startSelection;
   protected RenderableSpot endSelection;
@@ -946,7 +946,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   // return new LayoutValue(resultingWidth, resultingHeight, hscroll, vscroll);
   // }
 
-  private int getVUnitIncrement(final RenderState renderState) {
+  private static int getVUnitIncrement(final RenderState renderState) {
     if (renderState != null) {
       return renderState.getFontMetrics().getHeight();
     } else {
@@ -973,7 +973,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
           final int newMin = 0;
           final int newMax = bodyLayout.height;
           vsb.setValues(newValue, newExtent, newMin, newMax);
-          vsb.setUnitIncrement(this.getVUnitIncrement(renderState));
+          vsb.setUnitIncrement(getVUnitIncrement(renderState));
           vsb.setBlockIncrement(newExtent);
         }
         final JScrollBar hsb = this.hScrollBar;
@@ -1340,7 +1340,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
   }
 
   public void scrollByUnits(final int orientation, final int units) {
-    final int offset = orientation == JScrollBar.VERTICAL ? this.getVUnitIncrement(null) * units : units;
+    final int offset = orientation == JScrollBar.VERTICAL ? getVUnitIncrement(null) * units : units;
     this.scrollBy(orientation, offset);
   }
 

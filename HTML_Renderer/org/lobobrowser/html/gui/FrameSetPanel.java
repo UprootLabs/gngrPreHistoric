@@ -58,12 +58,12 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     this.setPreferredSize(new Dimension(600, 400));
   }
 
-  private HtmlLength[] getLengths(final String spec) {
+  private static HtmlLength[] getLengths(final String spec) {
     if (spec == null) {
       return new HtmlLength[] { new HtmlLength("1*") };
     }
     final StringTokenizer tok = new StringTokenizer(spec, ",");
-    final ArrayList<HtmlLength> lengths = new ArrayList<HtmlLength>();
+    final ArrayList<HtmlLength> lengths = new ArrayList<>();
     while (tok.hasMoreTokens()) {
       final String token = tok.nextToken().trim();
       try {
@@ -75,9 +75,9 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     return lengths.toArray(HtmlLength.EMPTY_ARRAY);
   }
 
-  private HTMLElementImpl[] getSubFrames(final HTMLElementImpl parent) {
+  private static HTMLElementImpl[] getSubFrames(final HTMLElementImpl parent) {
     final NodeImpl[] children = parent.getChildrenArray();
-    final ArrayList<NodeImpl> subFrames = new ArrayList<NodeImpl>();
+    final ArrayList<NodeImpl> subFrames = new ArrayList<>();
     for (int i = 0; i < children.length; i++) {
       final NodeImpl child = children[i];
       if (child instanceof HTMLElementImpl) {
@@ -157,9 +157,9 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
         final HTMLElementImpl element = (HTMLElementImpl) this.rootNode;
         final String rows = element.getAttribute("rows");
         final String cols = element.getAttribute("cols");
-        final HtmlLength[] rowLengths = this.getLengths(rows);
-        final HtmlLength[] colLengths = this.getLengths(cols);
-        final HTMLElementImpl[] subframes = this.getSubFrames(element);
+        final HtmlLength[] rowLengths = FrameSetPanel.getLengths(rows);
+        final HtmlLength[] colLengths = FrameSetPanel.getLengths(cols);
+        final HTMLElementImpl[] subframes = FrameSetPanel.getSubFrames(element);
         final Component[] frameComponents = new Component[subframes.length];
         this.frameComponents = frameComponents;
         for (int i = 0; i < subframes.length; i++) {
@@ -199,8 +199,8 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
           final Insets insets = this.getInsets();
           final int width = size.width - insets.left - insets.right;
           final int height = size.height - insets.left - insets.right;
-          final int[] absColLengths = this.getAbsoluteLengths(chl, width);
-          final int[] absRowLengths = this.getAbsoluteLengths(rhl, height);
+          final int[] absColLengths = getAbsoluteLengths(chl, width);
+          final int[] absRowLengths = getAbsoluteLengths(rhl, height);
           this.add(this.getSplitPane(this.htmlContext, absColLengths, 0, absColLengths.length, absRowLengths, 0, absRowLengths.length, fc));
         }
       }
@@ -208,7 +208,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     super.doLayout();
   }
 
-  private int[] getAbsoluteLengths(final HtmlLength[] htmlLengths, final int totalSize) {
+  private static int[] getAbsoluteLengths(final HtmlLength[] htmlLengths, final int totalSize) {
     final int[] absLengths = new int[htmlLengths.length];
     int totalSizeNonMulti = 0;
     int sumMulti = 0;

@@ -6,7 +6,7 @@ public class Items {
   private Items() {
   }
 
-  private static Map<Object, Map<String, Object>> sourceMap = new WeakHashMap<Object, Map<String, Object>>();
+  private static Map<Object, Map<String, Object>> sourceMap = new WeakHashMap<>();
 
   public static Object getItem(final Object source, final String name) {
     final Map<Object, Map<String, Object>> sm = sourceMap;
@@ -24,7 +24,7 @@ public class Items {
     synchronized (sm) {
       Map<String, Object> itemMap = sm.get(source);
       if (itemMap == null) {
-        itemMap = new HashMap<String, Object>(1);
+        itemMap = new HashMap<>(1);
         sm.put(source, itemMap);
       }
       itemMap.put(name, value);

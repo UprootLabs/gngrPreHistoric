@@ -317,7 +317,7 @@ public class ComponentSource implements NavigatorWindowListener {
   /**
    * Whether the request should be saved as a recent history entry.
    */
-  private boolean isHistoryRequest(final RequestType requestType) {
+  private static boolean isHistoryRequest(final RequestType requestType) {
     return (requestType == RequestType.ADDRESS_BAR || requestType == RequestType.CLICK);
   }
 
@@ -376,7 +376,7 @@ public class ComponentSource implements NavigatorWindowListener {
     this.statusMessageComponent.setText(status == null ? this.defaultStatusMessage : status);
   }
 
-  public Collection<String> getPotentialMatches(final String urlPrefix, final int max) {
+  public static Collection<String> getPotentialMatches(final String urlPrefix, final int max) {
     final int colonIdx = urlPrefix.indexOf(':');
     String prefix;
     if (colonIdx == -1) {
@@ -399,7 +399,7 @@ public class ComponentSource implements NavigatorWindowListener {
     return headMatches;
   }
 
-  public Collection<String> getRecentLocations(final int max) {
+  public static Collection<String> getRecentLocations(final int max) {
     return NavigationHistory.getInstance().getRecentItems(max);
   }
 
@@ -487,7 +487,7 @@ public class ComponentSource implements NavigatorWindowListener {
     bookmarksMenu.removeAll();
     final Collection<BookmarkInfo> bookmarkInfoList = BookmarksHistory.getInstance().getRecentItemInfo(
         PREFERRED_MAX_MENU_SIZE * PREFERRED_MAX_MENU_SIZE);
-    final Map<String, JMenu> tagMenus = new HashMap<String, JMenu>();
+    final Map<String, JMenu> tagMenus = new HashMap<>();
     for (final BookmarkInfo binfo : bookmarkInfoList) {
       final java.net.URL url = binfo.getUrl();
       final String urlText = url.toExternalForm();
@@ -562,7 +562,7 @@ public class ComponentSource implements NavigatorWindowListener {
     }
   }
 
-  public boolean hasRecentEntries() {
+  public static boolean hasRecentEntries() {
     return NavigationHistory.getInstance().hasRecentEntries();
   }
 
@@ -598,7 +598,7 @@ public class ComponentSource implements NavigatorWindowListener {
     window.setVisible(true);
   }
 
-  public void showConsole() {
+  public static void showConsole() {
     final TextViewerWindow window = new TextViewerWindow();
     window.setScrollsOnAppends(true);
     window.setSwingDocument(ConsoleModel.getStandard());

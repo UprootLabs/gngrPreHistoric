@@ -30,7 +30,7 @@ import java.util.*;
 
 public class NodeListImpl extends AbstractScriptableDelegate implements NodeList {
   // Note: class must be public for reflection to work.
-  private final ArrayList<Node> nodeList = new ArrayList<Node>();
+  private final ArrayList<Node> nodeList = new ArrayList<>();
 
   public NodeListImpl(final Collection<Node> collection) {
     super();

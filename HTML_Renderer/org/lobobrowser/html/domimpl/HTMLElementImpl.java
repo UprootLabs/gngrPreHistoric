@@ -134,7 +134,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       final String style = this.getAttribute("style");
       if (style != null && style.length() != 0) {
         final CSSOMParser parser = CSSUtilities.mkParser();
-        final InputSource inputSource = this.getCssInputSourceForDecl(style);
+        final InputSource inputSource = getCssInputSourceForDecl(style);
         try {
           final CSSStyleDeclaration sd = parser.parseStyleDeclaration(inputSource);
           sds.addStyleDeclaration(sd);
@@ -192,7 +192,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       // return instance already set for consistency.
       Map<String, AbstractCSS2Properties> cs = this.computedStyles;
       if (cs == null) {
-        cs = new HashMap<String, AbstractCSS2Properties>(2);
+        cs = new HashMap<>(2);
         this.computedStyles = cs;
       } else {
         final AbstractCSS2Properties sds2 = cs.get(pseudoElement);
@@ -264,7 +264,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     super.assignAttributeField(normalName, value);
   }
 
-  protected final InputSource getCssInputSourceForDecl(final String text) {
+  protected final static InputSource getCssInputSourceForDecl(final String text) {
     final java.io.Reader reader = new StringReader(text);
     final InputSource is = new InputSource(reader);
     return is;
@@ -418,7 +418,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     synchronized (this) {
       ihs = this.hasHoverStyleByElement;
       if (ihs == null) {
-        ihs = new HashMap<HTMLElementImpl, Boolean>(2);
+        ihs = new HashMap<>(2);
         this.hasHoverStyleByElement = ihs;
       }
       ihs.put(ancestor, hhs);
@@ -435,7 +435,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     Set<String> pnset = null;
     if (this.isMouseOver) {
       if (pnset == null) {
-        pnset = new HashSet<String>(1);
+        pnset = new HashSet<>(1);
       }
       pnset.add("hover");
     }

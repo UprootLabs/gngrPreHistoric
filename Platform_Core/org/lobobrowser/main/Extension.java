@@ -75,9 +75,9 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   private final EventDispatch2 EVENT = new NavigatorErrorEventDispatch();
 
   public Extension(final File extRoot) throws IOException {
-    this.clientletSelectors = new LinkedList<ClientletSelector>();
-    this.connectionProcessors = new ArrayList<ConnectionProcessor>();
-    this.navigationListeners = new ArrayList<NavigationListener>();
+    this.clientletSelectors = new LinkedList<>();
+    this.connectionProcessors = new ArrayList<>();
+    this.navigationListeners = new ArrayList<>();
     this.extRoot = extRoot;
     InputStream propsInputStream;
     if (extRoot.isDirectory()) {

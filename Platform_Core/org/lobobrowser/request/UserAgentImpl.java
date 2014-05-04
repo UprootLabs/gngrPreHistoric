@@ -91,7 +91,7 @@ public class UserAgentImpl implements UserAgent {
     return "";
   }
 
-  private String getOs() {
+  private static String getOs() {
     return "";
   }
 

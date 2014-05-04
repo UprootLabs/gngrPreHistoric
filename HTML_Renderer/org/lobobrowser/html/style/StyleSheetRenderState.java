@@ -483,7 +483,7 @@ public class StyleSheetRenderState implements RenderState {
     // No synchronization necessary.
     Map<String, WordInfo> map = this.iWordInfoMap;
     if (map == null) {
-      map = new HashMap<String, WordInfo>(1);
+      map = new HashMap<>(1);
       this.iWordInfoMap = map;
     }
     WordInfo wi = map.get(word);
@@ -572,7 +572,7 @@ public class StyleSheetRenderState implements RenderState {
     } else {
       Map<String, ArrayList<Integer>> counters = this.counters;
       if (counters == null) {
-        counters = new HashMap<String, ArrayList<Integer>>(2);
+        counters = new HashMap<>(2);
         this.counters = counters;
         counters.put(counter, new ArrayList<Integer>(0));
       }
@@ -592,7 +592,7 @@ public class StyleSheetRenderState implements RenderState {
     }
     Map<String, ArrayList<Integer>> counters = this.counters;
     if (counters == null) {
-      counters = new HashMap<String, ArrayList<Integer>>(2);
+      counters = new HashMap<>(2);
       this.counters = counters;
       counters.put(counter, new ArrayList<Integer>(0));
     }
@@ -636,7 +636,7 @@ public class StyleSheetRenderState implements RenderState {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
-        this.applyBackgroundRepeat(binfo, backgroundRepeatText);
+        applyBackgroundRepeat(binfo, backgroundRepeatText);
       }
       final String backgroundPositionText = props.getBackgroundPosition();
       if (backgroundPositionText != null) {
@@ -855,7 +855,7 @@ public class StyleSheetRenderState implements RenderState {
   // }
   // }
 
-  private void applyBackgroundRepeat(final BackgroundInfo binfo, final String backgroundRepeatText) {
+  private static void applyBackgroundRepeat(final BackgroundInfo binfo, final String backgroundRepeatText) {
     final String brtl = backgroundRepeatText.toLowerCase();
     if ("repeat".equals(brtl)) {
       binfo.backgroundRepeat = BackgroundInfo.BR_REPEAT;

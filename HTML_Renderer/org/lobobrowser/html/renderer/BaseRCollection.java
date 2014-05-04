@@ -44,7 +44,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
     }
   }
 
-  private boolean checkStartSelection(final Rectangle bounds, final Point selectionPoint) {
+  private static boolean checkStartSelection(final Rectangle bounds, final Point selectionPoint) {
     if (bounds.y > selectionPoint.y) {
       return true;
     } else if (selectionPoint.y >= bounds.y && selectionPoint.y < bounds.y + bounds.height && bounds.x > selectionPoint.x) {
@@ -54,7 +54,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
     }
   }
 
-  private boolean checkEndSelection(final Rectangle bounds, final Point selectionPoint) {
+  private static boolean checkEndSelection(final Rectangle bounds, final Point selectionPoint) {
     if (bounds.y > selectionPoint.y) {
       return true;
     } else if (selectionPoint.y >= bounds.y && selectionPoint.y < bounds.y + bounds.height && selectionPoint.x < bounds.x) {
@@ -94,7 +94,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
           final BoundableRenderable renderable = (BoundableRenderable) robj;
           final Rectangle bounds = renderable.getBounds();
           if (!inSelection) {
-            if (checkPoint1 != null && this.checkStartSelection(bounds, checkPoint1)) {
+            if (checkPoint1 != null && checkStartSelection(bounds, checkPoint1)) {
               if (checkPoint2 != null) {
                 checkPoint1 = checkPoint2;
                 checkPoint2 = null;
@@ -102,12 +102,12 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
                 checkPoint1 = null;
               }
               inSelection = true;
-            } else if (checkPoint2 != null && this.checkStartSelection(bounds, checkPoint2)) {
+            } else if (checkPoint2 != null && checkStartSelection(bounds, checkPoint2)) {
               checkPoint1 = null;
               checkPoint2 = null;
               inSelection = true;
             }
-          } else if (inSelection && checkPoint1 != null && this.checkEndSelection(bounds, checkPoint1)) {
+          } else if (inSelection && checkPoint1 != null && checkEndSelection(bounds, checkPoint1)) {
             return false;
           }
           final int offsetX = bounds.x;
@@ -165,7 +165,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
           final BoundableRenderable renderable = (BoundableRenderable) robj;
           if (!inSelection) {
             final Rectangle bounds = renderable.getBounds();
-            if (checkPoint1 != null && this.checkStartSelection(bounds, checkPoint1)) {
+            if (checkPoint1 != null && checkStartSelection(bounds, checkPoint1)) {
               if (checkPoint2 != null) {
                 checkPoint1 = checkPoint2;
                 checkPoint2 = null;
@@ -173,12 +173,12 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
                 checkPoint1 = null;
               }
               inSelection = true;
-            } else if (checkPoint2 != null && this.checkStartSelection(bounds, checkPoint2)) {
+            } else if (checkPoint2 != null && checkStartSelection(bounds, checkPoint2)) {
               checkPoint1 = null;
               checkPoint2 = null;
               inSelection = true;
             }
-          } else if (inSelection && checkPoint1 != null && this.checkEndSelection(renderable.getBounds(), checkPoint1)) {
+          } else if (inSelection && checkPoint1 != null && checkEndSelection(renderable.getBounds(), checkPoint1)) {
             return false;
           }
           final boolean newInSelection = renderable.extractSelectionText(buffer, inSelection, startPoint, endPoint);

@@ -64,7 +64,7 @@ public class MemoryCacheEntry {
       final int altObjectSize) throws IOException {
     final ByteArrayInputStream in = new ByteArrayInputStream(rawContent);
     String line;
-    final List<NameValuePair> headersList = new LinkedList<NameValuePair>();
+    final List<NameValuePair> headersList = new LinkedList<>();
     while ((line = IORoutines.readLine(in)) != null) {
       if ("".equals(line)) {
         break;

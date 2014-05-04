@@ -30,7 +30,7 @@ class InputSelectControl extends BaseInputControl {
   public InputSelectControl(final HTMLBaseInputElement modelNode) {
     super(modelNode);
     this.setLayout(WrapperLayout.getInstance());
-    final JComboBox<OptionItem> comboBox = new JComboBox<OptionItem>();
+    final JComboBox<OptionItem> comboBox = new JComboBox<>();
     comboBox.addItemListener(new ItemListener() {
       public void itemStateChanged(final ItemEvent e) {
         final OptionItem item = (OptionItem) e.getItem();
@@ -60,8 +60,8 @@ class InputSelectControl extends BaseInputControl {
         }
       }
     });
-    final DefaultListModel<OptionItem> listModel = new DefaultListModel<OptionItem>();
-    final JList<OptionItem> list = new JList<OptionItem>(listModel);
+    final DefaultListModel<OptionItem> listModel = new DefaultListModel<>();
+    final JList<OptionItem> list = new JList<>(listModel);
     this.listModel = listModel;
     list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     list.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -195,13 +195,13 @@ class InputSelectControl extends BaseInputControl {
           }
           if (option.getSelected()) {
             if (selectedIndexes == null) {
-              selectedIndexes = new LinkedList<Integer>();
+              selectedIndexes = new LinkedList<>();
             }
             selectedIndexes.add(new Integer(index));
           }
           if (option.getDefaultSelected()) {
             if (defaultSelectedIndexes == null) {
-              defaultSelectedIndexes = new LinkedList<Integer>();
+              defaultSelectedIndexes = new LinkedList<>();
             }
             defaultSelectedIndexes.add(new Integer(index));
           }
@@ -306,7 +306,7 @@ class InputSelectControl extends BaseInputControl {
       if (values == null) {
         return null;
       }
-      final ArrayList<String> al = new ArrayList<String>();
+      final ArrayList<String> al = new ArrayList<>();
       for (int i = 0; i < values.length; i++) {
         final OptionItem item = (OptionItem) values[i];
         al.add(item.getValue());

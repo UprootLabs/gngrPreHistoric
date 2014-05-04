@@ -43,7 +43,7 @@ public class LocalSecurityPolicy extends Policy {
   private static final String STORE_DIR_NAME = ".lobo";
   private static final String STORE_DIRECTORY_CANONICAL;
   private static final LocalSecurityPolicy instance = new LocalSecurityPolicy();
-  private static final Collection<Permission> BASE_PRIVILEGE = new LinkedList<Permission>();
+  private static final Collection<Permission> BASE_PRIVILEGE = new LinkedList<>();
 
   static {
     final File homeDir = new File(System.getProperty("user.home"));

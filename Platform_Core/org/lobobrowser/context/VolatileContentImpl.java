@@ -35,7 +35,7 @@ import java.util.*;
  * @author J. H. S.
  */
 public class VolatileContentImpl implements ContentBuffer {
-  private static final Map<Long, ContentBuffer> volatileMap = new WeakValueHashMap<Long, ContentBuffer>();
+  private static final Map<Long, ContentBuffer> volatileMap = new WeakValueHashMap<>();
   private final long id;
   private final String contentType;
   private final byte[] bytes;

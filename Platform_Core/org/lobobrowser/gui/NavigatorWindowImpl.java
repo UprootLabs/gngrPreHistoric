@@ -73,14 +73,14 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   private final Properties requestedProperties;
   private final String windowId;
   private final AbstractBrowserWindow browserWindow;
-  private final Map<String, JMenu> menusById = new HashMap<String, JMenu>();
-  private final Collection<JMenu> menus = new LinkedList<JMenu>();
+  private final Map<String, JMenu> menusById = new HashMap<>();
+  private final Collection<JMenu> menus = new LinkedList<>();
   // private final Collection<JMenuItem> sharedMenuItems = new
   // LinkedList<JMenuItem>();
-  private final Collection<Component> addressBarComponents = new LinkedList<Component>();
-  private final Collection<Component> sharedToolbarComponents = new LinkedList<Component>();
-  private final Collection<Component> statusBarComponents = new LinkedList<Component>();
-  private final Collection<Component> toolBars = new LinkedList<Component>();
+  private final Collection<Component> addressBarComponents = new LinkedList<>();
+  private final Collection<Component> sharedToolbarComponents = new LinkedList<>();
+  private final Collection<Component> statusBarComponents = new LinkedList<>();
+  private final Collection<Component> toolBars = new LinkedList<>();
 
   private volatile boolean launched = false;
   private volatile boolean disposingProgressWindow = false;
@@ -288,7 +288,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     }
   }
 
-  private String getWindowTitle(final ClientletResponse response, final ComponentContent content) {
+  private static String getWindowTitle(final ClientletResponse response, final ComponentContent content) {
     String title = content == null ? null : content.getTitle();
     if (title == null) {
       title = response == null ? "" : Urls.getNoRefForm(response.getResponseURL());
@@ -298,7 +298,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
 
   private void handleDocumentRenderingImpl(final NavigatorFrame frame, final ClientletResponse response, final ComponentContent content) {
     if (frame == this.framePanel) {
-      final String title = this.getWindowTitle(response, content);
+      final String title = getWindowTitle(response, content);
       final Object window = this.browserWindow;
       if (window instanceof Frame) {
         ((Frame) window).setTitle(title);

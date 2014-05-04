@@ -51,7 +51,7 @@ final class RWord extends BaseBoundableRenderable {
     this.width = fontMetrics.stringWidth(renderedWord);
   }
 
-  private String transformText(final String word, final int textTransform) {
+  private static String transformText(final String word, final int textTransform) {
     String string;
     switch (textTransform) {
     case RenderState.TEXTTRANSFORM_CAPITALIZE:

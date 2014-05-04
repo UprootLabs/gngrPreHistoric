@@ -23,7 +23,7 @@ import sun.misc.BASE64Decoder;
  */
 public class DataURLConnection extends URLConnection {
 
-  private final HashMap<String, String> headerMap = new HashMap<String, String>();
+  private final HashMap<String, String> headerMap = new HashMap<>();
   private byte[] content = new byte[0];
 
   protected DataURLConnection(final URL url) {

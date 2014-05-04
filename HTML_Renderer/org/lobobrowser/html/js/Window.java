@@ -66,7 +66,7 @@ import org.w3c.dom.views.DocumentView;
 
 public class Window extends AbstractScriptableDelegate implements AbstractView {
   private static final Logger logger = Logger.getLogger(Window.class.getName());
-  private static final Map<HtmlRendererContext, WeakReference<Window>> CONTEXT_WINDOWS = new WeakHashMap<HtmlRendererContext, WeakReference<Window>>();
+  private static final Map<HtmlRendererContext, WeakReference<Window>> CONTEXT_WINDOWS = new WeakHashMap<>();
   // private static final JavaClassWrapper IMAGE_WRAPPER =
   // JavaClassWrapperFactory.getInstance().getClassWrapper(Image.class);
   private static final JavaClassWrapper XMLHTTPREQUEST_WRAPPER = JavaClassWrapperFactory.getInstance()
@@ -156,7 +156,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     synchronized (this) {
       Map<Integer, TaskWrapper> taskMap = this.taskMap;
       if (taskMap == null) {
-        taskMap = new HashMap<Integer, TaskWrapper>(4);
+        taskMap = new HashMap<>(4);
         this.taskMap = taskMap;
       } else {
         oldTaskWrapper = taskMap.get(timeoutID);
@@ -372,11 +372,11 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     ScriptableObject.defineProperty(ws, "XMLHttpRequest", xmlHttpRequestC, ScriptableObject.READONLY);
 
     // HTML element classes
-    this.defineElementClass(ws, doc, "Image", "img", HTMLImageElementImpl.class);
-    this.defineElementClass(ws, doc, "Script", "script", HTMLScriptElementImpl.class);
-    this.defineElementClass(ws, doc, "IFrame", "iframe", HTMLIFrameElementImpl.class);
-    this.defineElementClass(ws, doc, "Option", "option", HTMLOptionElementImpl.class);
-    this.defineElementClass(ws, doc, "Select", "select", HTMLSelectElementImpl.class);
+    defineElementClass(ws, doc, "Image", "img", HTMLImageElementImpl.class);
+    defineElementClass(ws, doc, "Script", "script", HTMLScriptElementImpl.class);
+    defineElementClass(ws, doc, "IFrame", "iframe", HTMLIFrameElementImpl.class);
+    defineElementClass(ws, doc, "Option", "option", HTMLOptionElementImpl.class);
+    defineElementClass(ws, doc, "Select", "select", HTMLSelectElementImpl.class);
   }
 
   private ScriptableObject windowScope;
@@ -401,7 +401,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     }
   }
 
-  private final void defineElementClass(final Scriptable scope, final Document document, final String jsClassName, final String elementName,
+  private final static void defineElementClass(final Scriptable scope, final Document document, final String jsClassName, final String elementName,
       final Class<?> javaClass) {
     final JavaInstantiator ji = new JavaInstantiator() {
       public Object newInstance() {
@@ -430,7 +430,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
         }
       }
       final Window window = new Window(rcontext, rcontext.getUserAgentContext());
-      CONTEXT_WINDOWS.put(rcontext, new WeakReference<Window>(window));
+      CONTEXT_WINDOWS.put(rcontext, new WeakReference<>(window));
       return window;
     }
   }
@@ -784,7 +784,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     private final WeakReference<Window> windowRef;
 
     public WeakWindowTask(final Window window) {
-      this.windowRef = new WeakReference<Window>(window);
+      this.windowRef = new WeakReference<>(window);
     }
 
     protected Window getWindow() {
@@ -804,7 +804,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     public FunctionTimerTask(final Window window, final Integer timeIDInt, final Function function, final boolean removeTask) {
       super(window);
       this.timeIDInt = timeIDInt;
-      this.functionRef = new WeakReference<Function>(function);
+      this.functionRef = new WeakReference<>(function);
       this.removeTask = removeTask;
     }
 

@@ -48,7 +48,7 @@ import java.util.logging.*;
  */
 public class HtmlClientlet implements Clientlet {
   private static final Logger logger = Logger.getLogger(HtmlClientlet.class.getName());
-  private static final Set<String> NON_VISIBLE_ELEMENTS = new HashSet<String>();
+  private static final Set<String> NON_VISIBLE_ELEMENTS = new HashSet<>();
 
   // Maximum buffer size required to determine if a reload due
   // to Http-Equiv is necessary.
@@ -87,7 +87,7 @@ public class HtmlClientlet implements Clientlet {
       final ClientletResponse response = cc.getResponse();
       final boolean charsetProvided = response.isCharsetProvided();
       final String contentLanguage = response.getHeader("Content-Language");
-      Set<Locale> locales = contentLanguage == null ? null : this.extractLocales(contentLanguage);
+      Set<Locale> locales = contentLanguage == null ? null : HtmlClientlet.extractLocales(contentLanguage);
       RefreshInfo refresh = null;
       final Iterator<String> hi = response.getHeaderNames();
       // TODO: What is the behavior if you have
@@ -97,7 +97,7 @@ public class HtmlClientlet implements Clientlet {
         final String[] headerValues = response.getHeaders(headerName);
         if (headerValues != null && headerValues.length > 0) {
           if ("refresh".equalsIgnoreCase(headerName)) {
-            refresh = this.extractRefresh(headerValues[headerValues.length - 1]);
+            refresh = HtmlClientlet.extractRefresh(headerValues[headerValues.length - 1]);
           }
         }
       }
@@ -110,11 +110,11 @@ public class HtmlClientlet implements Clientlet {
           final String content = entry.getValue();
           if (content != null) {
             if ("content-type".equalsIgnoreCase(httpEquiv)) {
-              httpEquivCharset = this.extractCharset(response.getResponseURL(), content);
+              httpEquivCharset = HtmlClientlet.extractCharset(response.getResponseURL(), content);
             } else if ("refresh".equalsIgnoreCase(httpEquiv)) {
-              refresh = this.extractRefresh(content);
+              refresh = HtmlClientlet.extractRefresh(content);
             } else if ("content-language".equalsIgnoreCase(httpEquiv)) {
-              locales = this.extractLocales(content);
+              locales = HtmlClientlet.extractLocales(content);
             }
           }
         }
@@ -219,7 +219,7 @@ public class HtmlClientlet implements Clientlet {
     }
   }
 
-  private String extractCharset(final java.net.URL responseURL, final String contentType) {
+  private static String extractCharset(final java.net.URL responseURL, final String contentType) {
     final StringTokenizer tok = new StringTokenizer(contentType, ";");
     if (tok.hasMoreTokens()) {
       tok.nextToken();
@@ -238,8 +238,8 @@ public class HtmlClientlet implements Clientlet {
     return null;
   }
 
-  private Set<Locale> extractLocales(final String contentLanguage) {
-    final Set<Locale> locales = new HashSet<Locale>(3);
+  private static Set<Locale> extractLocales(final String contentLanguage) {
+    final Set<Locale> locales = new HashSet<>(3);
     final StringTokenizer tok = new StringTokenizer(contentLanguage, ",");
     while (tok.hasMoreTokens()) {
       final String lang = tok.nextToken().trim();
@@ -248,7 +248,7 @@ public class HtmlClientlet implements Clientlet {
     return locales;
   }
 
-  private String getDefaultCharset(final URL url) {
+  private static String getDefaultCharset(final URL url) {
     if (Urls.isLocalFile(url)) {
       final String charset = System.getProperty("file.encoding");
       return charset == null ? "ISO-8859-1" : charset;
@@ -257,7 +257,7 @@ public class HtmlClientlet implements Clientlet {
     }
   }
 
-  private final RefreshInfo extractRefresh(final String refresh) {
+  private final static RefreshInfo extractRefresh(final String refresh) {
     String delayText = null;
     String urlText = null;
     final StringTokenizer tok = new StringTokenizer(refresh, ";");
@@ -330,7 +330,7 @@ public class HtmlClientlet implements Clientlet {
     private void addHttpEquivElement(final HTMLElement element) {
       Collection<HTMLElement> httpEquivElements = this.httpEquivElements;
       if (httpEquivElements == null) {
-        httpEquivElements = new LinkedList<HTMLElement>();
+        httpEquivElements = new LinkedList<>();
         this.httpEquivElements = httpEquivElements;
       }
       httpEquivElements.add(element);
@@ -361,7 +361,7 @@ public class HtmlClientlet implements Clientlet {
         }
       }
       if (!this.hasVisibleElements) {
-        if (this.mayBeVisibleElement(node)) {
+        if (LocalDocumentNotificationListener.mayBeVisibleElement(node)) {
           this.hasVisibleElements = true;
         }
       }
@@ -379,7 +379,7 @@ public class HtmlClientlet implements Clientlet {
     public void structureInvalidated(final NodeImpl node) {
     }
 
-    private final boolean mayBeVisibleElement(final NodeImpl node) {
+    private final static boolean mayBeVisibleElement(final NodeImpl node) {
       if (node instanceof HTMLElement) {
         final HTMLElement element = (HTMLElement) node;
         final boolean visible = !NON_VISIBLE_ELEMENTS.contains(element.getTagName().toLowerCase());
@@ -413,7 +413,7 @@ public class HtmlClientlet implements Clientlet {
       if (httpEquivElements == null) {
         return null;
       }
-      final Map<String, String> httpEquivData = new HashMap<String, String>(0);
+      final Map<String, String> httpEquivData = new HashMap<>(0);
       for (final Element element : httpEquivElements) {
         final String httpEquiv = element.getAttribute("http-equiv");
         if (httpEquiv != null) {

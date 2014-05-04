@@ -47,7 +47,7 @@ import org.lobobrowser.util.Objects;
 
 class RTable extends BaseElementRenderable {
   private static final int MAX_CACHE_SIZE = 10;
-  private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<LayoutKey, LayoutValue>(5);
+  private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<>(5);
   private final TableMatrix tableMatrix;
   private SortedSet<PositionedRenderable> positionedRenderables;
   private int otherOrdinal;
@@ -316,7 +316,7 @@ class RTable extends BaseElementRenderable {
   public Iterator<Renderable> getRenderables() {
     final Collection<PositionedRenderable> prs = this.positionedRenderables;
     if (prs != null) {
-      final Collection<Renderable> c = new java.util.LinkedList<Renderable>();
+      final Collection<Renderable> c = new java.util.LinkedList<>();
       final Iterator<PositionedRenderable> i = prs.iterator();
       while (i.hasNext()) {
         final PositionedRenderable pr = i.next();
@@ -350,7 +350,7 @@ class RTable extends BaseElementRenderable {
     // Expected to be called only in GUI thread.
     SortedSet<PositionedRenderable> others = this.positionedRenderables;
     if (others == null) {
-      others = new TreeSet<PositionedRenderable>(new ZIndexComparator());
+      others = new TreeSet<>(new ZIndexComparator());
       this.positionedRenderables = others;
     }
     others.add(new PositionedRenderable(renderable, verticalAlignable, this.otherOrdinal++, isFloat));

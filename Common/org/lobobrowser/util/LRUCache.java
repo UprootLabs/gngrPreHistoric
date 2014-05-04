@@ -30,13 +30,13 @@ public class LRUCache implements java.io.Serializable {
   private static final long serialVersionUID = 940427225784212823L;
   private int approxMaxSize;
 
-  private final Map<Object, OrderedValue> cacheMap = new HashMap<Object, OrderedValue>();
+  private final Map<Object, OrderedValue> cacheMap = new HashMap<>();
   private volatile transient EventDispatch2 removalEvent;
 
   /**
    * Ascending timestamp order. First is least recently used.
    */
-  private final TreeSet<OrderedValue> timedSet = new TreeSet<OrderedValue>();
+  private final TreeSet<OrderedValue> timedSet = new TreeSet<>();
   private int currentSize = 0;
 
   public LRUCache(final int approxMaxSize) {
@@ -141,7 +141,7 @@ public class LRUCache implements java.io.Serializable {
   }
 
   public List<EntryInfo> getEntryInfoList() {
-    final List<EntryInfo> list = new ArrayList<EntryInfo>();
+    final List<EntryInfo> list = new ArrayList<>();
     final Iterator<OrderedValue> i = this.cacheMap.values().iterator();
     while (i.hasNext()) {
       final OrderedValue ov = i.next();
@@ -169,7 +169,7 @@ public class LRUCache implements java.io.Serializable {
     }
   }
 
-  private class OrderedValue implements Comparable, java.io.Serializable {
+  private class OrderedValue implements Comparable<OrderedValue>, java.io.Serializable {
     private static final long serialVersionUID = 340227625744215821L;
     private long timestamp;
     private int approximateSize;
@@ -187,11 +187,11 @@ public class LRUCache implements java.io.Serializable {
       this.timestamp = System.currentTimeMillis();
     }
 
-    public int compareTo(final Object arg0) {
+    public int compareTo(final OrderedValue arg0) {
       if (this == arg0) {
         return 0;
       }
-      final OrderedValue other = (OrderedValue) arg0;
+      final OrderedValue other = arg0;
       final long diff = this.timestamp - other.timestamp;
       if (diff > 0) {
         return +1;

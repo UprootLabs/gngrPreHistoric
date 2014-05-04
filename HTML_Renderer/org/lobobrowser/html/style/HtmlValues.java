@@ -36,7 +36,7 @@ import org.w3c.dom.css.*;
 import org.lobobrowser.util.*;
 
 public class HtmlValues {
-  public static final Map<String, FontInfo> SYSTEM_FONTS = new HashMap<String, FontInfo>();
+  public static final Map<String, FontInfo> SYSTEM_FONTS = new HashMap<>();
   private static final Logger logger = Logger.getLogger(HtmlValues.class.getName());
   public static final float DEFAULT_FONT_SIZE = 14.0f;
   public static final int DEFAULT_FONT_SIZE_INT = (int) DEFAULT_FONT_SIZE;
@@ -716,7 +716,7 @@ public class HtmlValues {
   }
 
   public static String[] splitCssValue(final String cssValue) {
-    final ArrayList<String> tokens = new ArrayList<String>(4);
+    final ArrayList<String> tokens = new ArrayList<>(4);
     final int len = cssValue.length();
     int parenCount = 0;
     StringBuffer currentWord = null;

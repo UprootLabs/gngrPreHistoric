@@ -106,7 +106,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     synchronized (this.treeLock) {
       ArrayList<Node> nl = this.nodeList;
       if (nl == null) {
-        nl = new ArrayList<Node>(3);
+        nl = new ArrayList<>(3);
         this.nodeList = nl;
       }
       nl.add(newChild);
@@ -141,7 +141,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected NodeList getNodeList(final NodeFilter filter) {
-    final Collection<Node> collection = new ArrayList<Node>();
+    final Collection<Node> collection = new ArrayList<>();
     synchronized (this.treeLock) {
       this.appendChildrenToCollectionImpl(filter, collection);
     }
@@ -187,7 +187,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * condition.
    */
   public ArrayList<NodeImpl> getDescendents(final NodeFilter filter, final boolean nestIntoMatchingNodes) {
-    final ArrayList<NodeImpl> al = new ArrayList<NodeImpl>();
+    final ArrayList<NodeImpl> al = new ArrayList<>();
     synchronized (this.treeLock) {
       this.extractDescendentsArrayImpl(filter, al, nestIntoMatchingNodes);
     }
@@ -414,7 +414,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     synchronized (this.treeLock) {
       ArrayList<Node> nl = this.nodeList;
       if (nl == null) {
-        nl = new ArrayList<Node>();
+        nl = new ArrayList<>();
         this.nodeList = nl;
       }
       nl.add(idx, newChild);
@@ -579,7 +579,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     synchronized (this) {
       if (handler != null) {
         if (this.userDataHandlers == null) {
-          this.userDataHandlers = new HashMap<String, UserDataHandler>();
+          this.userDataHandlers = new HashMap<>();
         } else if (handler == null) {
           this.userDataHandlers.remove(key);
         }
@@ -590,7 +590,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       Map<String, Object> userData = this.userData;
       if (data != null) {
         if (userData == null) {
-          userData = new HashMap<String, Object>();
+          userData = new HashMap<>();
           this.userData = userData;
         }
         return userData.put(key, data);
@@ -675,7 +675,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         t.setParentImpl(this);
         ArrayList<Node> nl = this.nodeList;
         if (nl == null) {
-          nl = new ArrayList<Node>();
+          nl = new ArrayList<>();
           this.nodeList = nl;
         }
         nl.add(t);
@@ -738,7 +738,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
           throw new DOMException(DOMException.NOT_FOUND_ERR, "Node not a child");
         }
         int firstIdx = idx;
-        final List<Object> toDelete = new LinkedList<Object>();
+        final List<Object> toDelete = new LinkedList<>();
         for (int adjIdx = idx; --adjIdx >= 0;) {
           final Object child = this.nodeList.get(adjIdx);
           if (child instanceof Text) {
@@ -780,7 +780,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         }
         final StringBuffer textBuffer = new StringBuffer();
         int firstIdx = idx;
-        final List<Object> toDelete = new LinkedList<Object>();
+        final List<Object> toDelete = new LinkedList<>();
         for (int adjIdx = idx; --adjIdx >= 0;) {
           final Object child = this.nodeList.get(adjIdx);
           if (child instanceof Text) {
@@ -853,7 +853,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         Iterator<Node> i = nl.iterator();
-        final List<Node> textNodes = new LinkedList<Node>();
+        final List<Node> textNodes = new LinkedList<>();
         boolean prevText = false;
         while (i.hasNext()) {
           final Node child = i.next();
@@ -1096,7 +1096,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       final Object parent = this.parentNode;
       if (parent != null || this instanceof Document) {
-        final RenderState prs = this.getParentRenderState(parent);
+        final RenderState prs = getParentRenderState(parent);
         rs = this.createRenderState(prs);
         this.renderState = rs;
         return rs;
@@ -1108,7 +1108,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
-  protected final RenderState getParentRenderState(final Object parent) {
+  protected final static RenderState getParentRenderState(final Object parent) {
     if (parent instanceof NodeImpl) {
       return ((NodeImpl) parent).getRenderState();
     } else {
@@ -1210,7 +1210,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       // the handler before dispatching
       // This is to avoid ConcurrentModificationException during dispatch
       // TODO: Event Bubbling
-      final ArrayList<Function> handlersCopy = new ArrayList<Function>(handlers);
+      final ArrayList<Function> handlersCopy = new ArrayList<>(handlers);
       for (final Function h : handlersCopy) {
         if (handlers.contains(h)) {
           Executor.executeFunction(this, h, event);
@@ -1219,7 +1219,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
-  private final Map<String, List<Function>> onEventHandlers = new HashMap<String, List<Function>>();
+  private final Map<String, List<Function>> onEventHandlers = new HashMap<>();
 
   public void addEventListener(final String type, final Function listener, final boolean useCapture) {
     // TODO
@@ -1229,7 +1229,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     if (onEventHandlers.containsKey(type)) {
       handlerList = onEventHandlers.get(type);
     } else {
-      handlerList = new ArrayList<Function>();
+      handlerList = new ArrayList<>();
       onEventHandlers.put(type, handlerList);
     }
     handlerList.add(listener);

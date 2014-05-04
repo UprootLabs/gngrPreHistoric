@@ -38,7 +38,7 @@ public class ArrayUtilities {
   }
 
   public static <T> Iterator<T> iterator(final T[] array, final int offset, final int length) {
-    return new ArrayIterator<T>(array, offset, length);
+    return new ArrayIterator<>(array, offset, length);
   }
 
   private static class ArrayIterator<T> implements Iterator<T> {

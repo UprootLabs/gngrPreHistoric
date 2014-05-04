@@ -56,7 +56,7 @@ public class ElementImpl extends NodeImpl implements Element {
     synchronized (this) {
       Map<String, String> attrs = this.attributes;
       if (attrs == null) {
-        attrs = new HashMap<String, String>();
+        attrs = new HashMap<>();
         this.attributes = attrs;
       }
       return new NamedNodeMapImpl(this, this.attributes);
@@ -75,11 +75,11 @@ public class ElementImpl extends NodeImpl implements Element {
       synchronized (this) {
         Map<String, String> attrs1 = this.attributes;
         if (attrs1 == null) {
-          attrs1 = Collections.EMPTY_MAP;
+          attrs1 = Collections.emptyMap();
         }
         Map<String, String> attrs2 = ((ElementImpl) arg).attributes;
         if (attrs2 == null) {
-          attrs2 = Collections.EMPTY_MAP;
+          attrs2 = Collections.emptyMap();
         }
         return Objects.equals(attrs1, attrs2);
       }
@@ -126,7 +126,7 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public final String getAttribute(final String name) {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     synchronized (this) {
       final Map<String, String> attributes = this.attributes;
       return attributes == null ? null : attributes.get(normalName);
@@ -139,7 +139,7 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public Attr getAttributeNode(final String name) {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     synchronized (this) {
       final Map<String, String> attributes = this.attributes;
       final String value = attributes == null ? null : attributes.get(normalName);
@@ -161,7 +161,7 @@ public class ElementImpl extends NodeImpl implements Element {
 
   public NodeList getElementsByTagName(final String name) {
     final boolean matchesAll = "*".equals(name);
-    final List<Node> descendents = new LinkedList<Node>();
+    final List<Node> descendents = new LinkedList<>();
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
@@ -198,7 +198,7 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public boolean hasAttribute(final String name) {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     synchronized (this) {
       final Map<String, String> attributes = this.attributes;
       return attributes == null ? false : attributes.containsKey(normalName);
@@ -210,7 +210,7 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public void removeAttribute(final String name) throws DOMException {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     synchronized (this) {
       final Map<String, String> attributes = this.attributes;
       if (attributes == null) {
@@ -221,7 +221,7 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public Attr removeAttributeNode(final Attr oldAttr) throws DOMException {
-    final String normalName = this.normalizeAttributeName(oldAttr.getName());
+    final String normalName = normalizeAttributeName(oldAttr.getName());
     synchronized (this) {
       final Map<String, String> attributes = this.attributes;
       if (attributes == null) {
@@ -268,16 +268,16 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
-  protected final String normalizeAttributeName(final String name) {
+  protected final static String normalizeAttributeName(final String name) {
     return name.toLowerCase();
   }
 
   public void setAttribute(final String name, final String value) throws DOMException {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     synchronized (this) {
       Map<String, String> attribs = this.attributes;
       if (attribs == null) {
-        attribs = new HashMap<String, String>(2);
+        attribs = new HashMap<>(2);
         this.attributes = attribs;
       }
       attribs.put(normalName, value);
@@ -290,10 +290,10 @@ public class ElementImpl extends NodeImpl implements Element {
    * hold a treeLock.
    */
   public void setAttributeImpl(final String name, final String value) throws DOMException {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     Map<String, String> attribs = this.attributes;
     if (attribs == null) {
-      attribs = new HashMap<String, String>(2);
+      attribs = new HashMap<>(2);
       this.attributes = attribs;
     }
     this.assignAttributeField(normalName, value);
@@ -301,11 +301,11 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public Attr setAttributeNode(final Attr newAttr) throws DOMException {
-    final String normalName = this.normalizeAttributeName(newAttr.getName());
+    final String normalName = normalizeAttributeName(newAttr.getName());
     final String value = newAttr.getValue();
     synchronized (this) {
       if (this.attributes == null) {
-        this.attributes = new HashMap<String, String>();
+        this.attributes = new HashMap<>();
       }
       this.attributes.put(normalName, value);
       // this.setIdAttribute(normalName, newAttr.isId());
@@ -323,14 +323,14 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public void setIdAttribute(final String name, final boolean isId) throws DOMException {
-    final String normalName = this.normalizeAttributeName(name);
+    final String normalName = normalizeAttributeName(name);
     if (!"id".equals(normalName)) {
       throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "IdAttribute can't be anything other than ID");
     }
   }
 
   public void setIdAttributeNode(final Attr idAttr, final boolean isId) throws DOMException {
-    final String normalName = this.normalizeAttributeName(idAttr.getName());
+    final String normalName = normalizeAttributeName(idAttr.getName());
     if (!"id".equals(normalName)) {
       throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "IdAttribute can't be anything other than ID");
     }

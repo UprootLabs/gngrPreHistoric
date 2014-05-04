@@ -163,7 +163,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
   }
 
-  private final Map<String, JMenu> menuesById = new HashMap<String, JMenu>(1);
+  private final Map<String, JMenu> menuesById = new HashMap<>(1);
 
   public void addMenu(final String menuId, final JMenu menu) {
     final JMenuBar menuBar = this.menuBar;
@@ -417,7 +417,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
   }
 
-  protected String getWindowTitle(final ClientletResponse response, final ComponentContent content) {
+  protected static String getWindowTitle(final ClientletResponse response, final ComponentContent content) {
     String title = content == null ? null : content.getTitle();
     if (title == null) {
       title = response == null ? "" : Urls.getNoRefForm(response.getResponseURL());
@@ -440,7 +440,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   private void handleDocumentRenderingImpl(final NavigatorFrame frame, final ClientletResponse response, final ComponentContent content) {
     if (frame == this.framePanel) {
-      final String title = this.getWindowTitle(response, content);
+      final String title = BrowserPanel.getWindowTitle(response, content);
       this.setDocumentTitle(title);
     }
     final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response);
@@ -450,7 +450,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     }
   }
 
-  private ExtensionManager getSafeExtensionManager() {
+  private static ExtensionManager getSafeExtensionManager() {
     return AccessController.doPrivileged(new PrivilegedAction<ExtensionManager>() {
       public ExtensionManager run() {
         return ExtensionManager.getInstance();
@@ -459,7 +459,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   }
 
   public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
-    this.getSafeExtensionManager().handleError(frame, response, exception);
+    getSafeExtensionManager().handleError(frame, response, exception);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
   }

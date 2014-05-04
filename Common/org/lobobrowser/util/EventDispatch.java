@@ -35,7 +35,7 @@ public class EventDispatch {
   }
 
   public Collection<GenericEventListener> createListenerCollection() {
-    return new LinkedList<GenericEventListener>();
+    return new LinkedList<>();
   }
 
   public final void addListener(final GenericEventListener listener) {

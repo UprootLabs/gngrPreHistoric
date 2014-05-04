@@ -9,8 +9,8 @@ import java.util.logging.*;
  */
 public class SimpleThreadPool {
   private static final Logger logger = Logger.getLogger(SimpleThreadPool.class.getName());
-  private final LinkedList<SimpleThreadPoolTask> taskList = new LinkedList<SimpleThreadPoolTask>();
-  private final Set<SimpleThreadPoolTask> runningSet = new HashSet<SimpleThreadPoolTask>();
+  private final LinkedList<SimpleThreadPoolTask> taskList = new LinkedList<>();
+  private final Set<SimpleThreadPoolTask> runningSet = new HashSet<>();
   private final int minThreads;
   private final int maxThreads;
   private final String name;

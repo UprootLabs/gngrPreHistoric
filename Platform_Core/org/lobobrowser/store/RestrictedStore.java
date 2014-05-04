@@ -307,7 +307,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
   private Collection<String> getPaths(final Pattern pattern, final File directory) throws IOException {
     // Security: This method is expected to be private.
-    final Collection<String> paths = new LinkedList<String>();
+    final Collection<String> paths = new LinkedList<>();
     final File[] localFiles = directory.listFiles();
     for (int i = 0; i < localFiles.length; i++) {
       final File file = localFiles[i];
@@ -606,7 +606,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
           public ManagedFile[] run() {
             try {
               final File[] files = nativeFile.listFiles();
-              final List<ManagedFile> mfs = new ArrayList<ManagedFile>();
+              final List<ManagedFile> mfs = new ArrayList<>();
               for (int i = 0; i < files.length; i++) {
                 final File file = files[i];
                 final ManagedFile mf = nativeToManaged(file);

@@ -62,7 +62,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
       final ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter, this.nestIntoMatchingNodes);
       this.itemsByIndex = descendents == null ? Collections.emptyList() : descendents;
       final int size = descendents == null ? 0 : descendents.size();
-      final Map<String, ElementImpl> itemsByName = new HashMap<String, ElementImpl>(size * 3 / 2);
+      final Map<String, ElementImpl> itemsByName = new HashMap<>(size * 3 / 2);
       this.itemsByName = itemsByName;
       for (int i = 0; i < size; i++) {
         final Object descNode = descendents.get(i);
@@ -200,7 +200,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
     public LocalNotificationListener(final HTMLDocumentImpl document, final DescendentHTMLCollection collection) {
       super();
       this.document = document;
-      this.collectionRef = new WeakReference<DescendentHTMLCollection>(collection);
+      this.collectionRef = new WeakReference<>(collection);
     }
 
     public void structureInvalidated(final NodeImpl node) {

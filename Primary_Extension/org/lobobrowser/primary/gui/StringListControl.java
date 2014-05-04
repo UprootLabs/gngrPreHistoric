@@ -33,7 +33,7 @@ public class StringListControl extends JComponent {
 
   public StringListControl() {
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-    this.comboBox = new JComboBox<String>();
+    this.comboBox = new JComboBox<>();
     this.comboBox.setEditable(false);
     final JButton editButton = new JButton();
     editButton.setAction(new EditAction());
@@ -75,7 +75,7 @@ public class StringListControl extends JComponent {
     try {
       final BufferedReader reader = new BufferedReader(new StringReader(text));
       String line;
-      final ArrayList<String> stringsAL = new ArrayList<String>();
+      final ArrayList<String> stringsAL = new ArrayList<>();
       while ((line = reader.readLine()) != null) {
         stringsAL.add(line);
       }

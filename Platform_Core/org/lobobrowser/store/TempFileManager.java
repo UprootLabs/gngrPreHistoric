@@ -36,8 +36,8 @@ public class TempFileManager {
   private static final String FILE_PREFIX = GENERAL_PREFIX + ((System.currentTimeMillis() - THIRTY_YEARS) / 1000) + "-";
 
   private final File TEMP_DIRECTORY;
-  private final ReferenceQueue<JarFile> REFERENCE_QUEUE = new ReferenceQueue<JarFile>();
-  private final Map<String, LocalWeakReference> wrByPath = new HashMap<String, LocalWeakReference>();
+  private final ReferenceQueue<JarFile> REFERENCE_QUEUE = new ReferenceQueue<>();
+  private final Map<String, LocalWeakReference> wrByPath = new HashMap<>();
 
   private int counter = 0;
 

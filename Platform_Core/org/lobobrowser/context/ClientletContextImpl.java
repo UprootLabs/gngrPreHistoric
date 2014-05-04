@@ -96,7 +96,7 @@ public class ClientletContextImpl implements ClientletContext {
     synchronized (this) {
       Map<String, Object> items = this.items;
       if (items == null) {
-        items = new HashMap<String, Object>(1);
+        items = new HashMap<>(1);
         this.items = items;
       }
       items.put(name, value);

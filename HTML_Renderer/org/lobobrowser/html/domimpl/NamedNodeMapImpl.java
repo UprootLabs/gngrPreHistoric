@@ -30,8 +30,8 @@ import java.util.*;
 
 public class NamedNodeMapImpl extends AbstractScriptableDelegate implements NamedNodeMap {
   // Note: class must be public for reflection to work.
-  private final Map<String, Node> attributes = new HashMap<String, Node>();
-  private final ArrayList<Node> attributeList = new ArrayList<Node>();
+  private final Map<String, Node> attributes = new HashMap<>();
+  private final ArrayList<Node> attributeList = new ArrayList<>();
 
   public NamedNodeMapImpl(final Element owner, final Map<String, String> attribs) {
     attribs.forEach((name,value) -> {

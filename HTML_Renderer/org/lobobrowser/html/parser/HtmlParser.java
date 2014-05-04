@@ -51,8 +51,8 @@ public class HtmlParser {
   private final String publicId;
   private final String systemId;
 
-  private static final Map<String, Character> ENTITIES = new HashMap<String, Character>(256);
-  private static final Map<String, ElementInfo> ELEMENT_INFOS = new HashMap<String, ElementInfo>(35);
+  private static final Map<String, Character> ENTITIES = new HashMap<>(256);
+  private static final Map<String, ElementInfo> ELEMENT_INFOS = new HashMap<>(35);
 
   /**
    * A node <code>UserData</code> key used to tell nodes that their content may
@@ -351,25 +351,25 @@ public class HtmlParser {
     final ElementInfo onlyTextDE = new ElementInfo(false, ElementInfo.END_ELEMENT_REQUIRED, true);
     final ElementInfo onlyText = new ElementInfo(false, ElementInfo.END_ELEMENT_REQUIRED, false);
 
-    final Set<String> tableCellStopElements = new HashSet<String>();
+    final Set<String> tableCellStopElements = new HashSet<>();
     tableCellStopElements.add("TH");
     tableCellStopElements.add("TD");
     tableCellStopElements.add("TR");
     final ElementInfo tableCellElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, tableCellStopElements);
 
-    final Set<String> headStopElements = new HashSet<String>();
+    final Set<String> headStopElements = new HashSet<>();
     headStopElements.add("BODY");
     headStopElements.add("DIV");
     headStopElements.add("SPAN");
     headStopElements.add("TABLE");
     final ElementInfo headElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, headStopElements);
 
-    final Set<String> optionStopElements = new HashSet<String>();
+    final Set<String> optionStopElements = new HashSet<>();
     optionStopElements.add("OPTION");
     optionStopElements.add("SELECT");
     final ElementInfo optionElement = new ElementInfo(true, ElementInfo.END_ELEMENT_OPTIONAL, optionStopElements);
 
-    final Set<String> paragraphStopElements = new HashSet<String>();
+    final Set<String> paragraphStopElements = new HashSet<>();
     paragraphStopElements.add("P");
     paragraphStopElements.add("DIV");
     paragraphStopElements.add("TABLE");
@@ -615,7 +615,7 @@ public class HtmlParser {
     }
     if (textSb.length() != 0) {
       // int textLine = reader.getLineNumber();
-      final StringBuffer decText = this.entityDecode(textSb);
+      final StringBuffer decText = entityDecode(textSb);
       final Node textNode = doc.createTextNode(decText.toString());
       try {
         parent.appendChild(textNode);
@@ -636,7 +636,7 @@ public class HtmlParser {
           if ("!--".equals(tag)) {
             // int commentLine = reader.getLineNumber();
             final StringBuffer comment = this.passEndOfComment(reader);
-            final StringBuffer decText = this.entityDecode(comment);
+            final StringBuffer decText = entityDecode(comment);
             parent.appendChild(doc.createComment(decText.toString()));
             return TOKEN_COMMENT;
           } else {
@@ -685,7 +685,7 @@ public class HtmlParser {
                 }
                 if (stopTags != null) {
                   if (newStopSet != null) {
-                    final Set<String> newStopSet2 = new HashSet<String>();
+                    final Set<String> newStopSet2 = new HashSet<>();
                     newStopSet2.addAll(stopTags);
                     newStopSet2.addAll(newStopSet);
                     newStopSet = newStopSet2;
@@ -756,7 +756,7 @@ public class HtmlParser {
                         }
                       }
                       if (stopTags != null && newStopSet != null) {
-                        final Set<String> newStopSet2 = new HashSet<String>();
+                        final Set<String> newStopSet2 = new HashSet<>();
                         newStopSet2.addAll(stopTags);
                         newStopSet2.addAll(newStopSet);
                         newStopSet = newStopSet2;
@@ -858,7 +858,7 @@ public class HtmlParser {
                   this.normalLastTag = thisTag.toUpperCase();
                   if (addTextNode) {
                     if (decodeEntities) {
-                      sb = this.entityDecode(sb);
+                      sb = entityDecode(sb);
                     }
                     final String text = sb.toString();
                     if (text.length() != 0) {
@@ -888,7 +888,7 @@ public class HtmlParser {
     this.justReadEmptyElement = false;
     if (addTextNode) {
       if (decodeEntities) {
-        sb = this.entityDecode(sb);
+        sb = entityDecode(sb);
       }
       final String text = sb.toString();
       if (text.length() != 0) {
@@ -1256,7 +1256,7 @@ public class HtmlParser {
             // processed by major browsers.
             element.setAttribute(attributeNameStr, "");
           } else {
-            final StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+            final StringBuffer actualAttributeValue = entityDecode(attributeValue);
             element.setAttribute(attributeNameStr, actualAttributeValue.toString());
           }
         }
@@ -1269,7 +1269,7 @@ public class HtmlParser {
           if (attributeValue == null) {
             element.setAttribute(attributeNameStr, null);
           } else {
-            final StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+            final StringBuffer actualAttributeValue = entityDecode(attributeValue);
             element.setAttribute(attributeNameStr, actualAttributeValue.toString());
           }
         }
@@ -1284,7 +1284,7 @@ public class HtmlParser {
           if (attributeValue == null) {
             element.setAttribute(attributeNameStr, null);
           } else {
-            final StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+            final StringBuffer actualAttributeValue = entityDecode(attributeValue);
             element.setAttribute(attributeNameStr, actualAttributeValue.toString());
           }
         }
@@ -1309,14 +1309,14 @@ public class HtmlParser {
       if (attributeValue == null) {
         element.setAttribute(attributeNameStr, null);
       } else {
-        final StringBuffer actualAttributeValue = this.entityDecode(attributeValue);
+        final StringBuffer actualAttributeValue = entityDecode(attributeValue);
         element.setAttribute(attributeNameStr, actualAttributeValue.toString());
       }
     }
     return false;
   }
 
-  private final StringBuffer entityDecode(final StringBuffer rawText) throws org.xml.sax.SAXException {
+  private final static StringBuffer entityDecode(final StringBuffer rawText) throws org.xml.sax.SAXException {
     int startIdx = 0;
     StringBuffer sb = null;
     for (;;) {
@@ -1355,7 +1355,7 @@ public class HtmlParser {
         }
         sb.append((char) decimal);
       } else {
-        final int chInt = this.getEntityChar(spec);
+        final int chInt = getEntityChar(spec);
         if (chInt == -1) {
           sb.append('&');
           sb.append(spec);
@@ -1372,7 +1372,7 @@ public class HtmlParser {
     return new LocatorImpl(this.publicId, this.systemId, lineNumber, columnNumber);
   }
 
-  private final int getEntityChar(final String spec) {
+  private final static int getEntityChar(final String spec) {
     // TODO: Declared entities
     Character c = ENTITIES.get(spec);
     if (c == null) {

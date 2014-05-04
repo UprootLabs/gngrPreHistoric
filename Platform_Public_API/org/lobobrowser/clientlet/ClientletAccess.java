@@ -26,7 +26,7 @@ package org.lobobrowser.clientlet;
  * Provides utility methods to access the current clientlet context.
  */
 public class ClientletAccess {
-  private static final ThreadLocal<ClientletContext> currentClientletContext = new ThreadLocal<ClientletContext>();
+  private static final ThreadLocal<ClientletContext> currentClientletContext = new ThreadLocal<>();
 
   private ClientletAccess() {
   }

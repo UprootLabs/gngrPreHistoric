@@ -309,7 +309,7 @@ public class SimpleHttpRequest implements HttpRequest {
         err = null;
       }
       synchronized (this) {
-        this.responseHeaders = this.getAllResponseHeaders(c);
+        this.responseHeaders = getAllResponseHeaders(c);
         this.responseHeadersMap = c.getHeaderFields();
       }
       this.changeState(HttpRequest.STATE_LOADED, istatus, istatusText, null);
@@ -347,7 +347,7 @@ public class SimpleHttpRequest implements HttpRequest {
     this.readyEvent.fireEvent(null);
   }
 
-  private String getAllResponseHeaders(final URLConnection c) {
+  private static String getAllResponseHeaders(final URLConnection c) {
     int idx = 0;
     String value;
     final StringBuffer buf = new StringBuffer();

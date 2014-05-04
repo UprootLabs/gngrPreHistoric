@@ -132,7 +132,7 @@ public class Urls {
 
   public static List<NameValuePair> getHeaders(final URLConnection connection) {
     // Random access index recommended.
-    final List<NameValuePair> headers = new ArrayList<NameValuePair>();
+    final List<NameValuePair> headers = new ArrayList<>();
     for (int n = 0;; n++) {
       final String value = connection.getHeaderField(n);
       if (value == null) {

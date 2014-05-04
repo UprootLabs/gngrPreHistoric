@@ -38,7 +38,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
   private static final Logger logger = Logger.getLogger(JavaFunctionObject.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
   private final String className;
-  private final ArrayList<Method> methods = new ArrayList<Method>();
+  private final ArrayList<Method> methods = new ArrayList<>();
 
   public JavaFunctionObject(final String name) {
     super();
@@ -53,7 +53,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     return this.className;
   }
 
-  private String getTypeName(final Object object) {
+  private static String getTypeName(final Object object) {
     return object == null ? "[null]" : object.getClass().getName();
   }
 
@@ -64,7 +64,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     Method matchingMethod = null;
     for (int i = 0; i < size; i++) {
       final Method m = methods.get(i);
-      final Class[] parameterTypes = m.getParameterTypes();
+      final Class<?>[] parameterTypes = m.getParameterTypes();
       if (args == null) {
         if (parameterTypes == null || parameterTypes.length == 0) {
           return m;
@@ -90,7 +90,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     if (method == null) {
       throw new EvaluatorException("No method matching " + this.className + " with " + (args == null ? 0 : args.length) + " arguments.");
     }
-    final Class[] actualArgTypes = method.getParameterTypes();
+    final Class<?>[] actualArgTypes = method.getParameterTypes();
     final int numParams = actualArgTypes.length;
     final Object[] actualArgs = args == null ? new Object[0] : new Object[numParams];
     final boolean linfo = loggableInfo;
@@ -99,7 +99,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
       final Object arg = args[i];
       final Object actualArg = manager.getJavaObject(arg, actualArgTypes[i]);
       if (linfo) {
-        logger.info("call(): For method=" + method.getName() + ": Converted arg=" + arg + " (type=" + this.getTypeName(arg)
+        logger.info("call(): For method=" + method.getName() + ": Converted arg=" + arg + " (type=" + getTypeName(arg)
             + ") into actualArg=" + actualArg + ". Type expected by method is " + actualArgTypes[i].getName() + ".");
       }
       actualArgs[i] = actualArg;
@@ -150,7 +150,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     }
   }
 
-  public java.lang.Object getDefaultValue(final java.lang.Class hint) {
+  public java.lang.Object getDefaultValue(final java.lang.Class<?> hint) {
     if (loggableInfo) {
       logger.info("getDefaultValue(): hint=" + hint + ",this=" + this);
     }

@@ -40,7 +40,7 @@ import org.w3c.dom.*;
 
 public class HtmlRendererContextImpl implements HtmlRendererContext {
   private static final Logger logger = Logger.getLogger(HtmlRendererContextImpl.class.getName());
-  private static final Map<NavigatorFrame, WeakReference<HtmlRendererContextImpl>> weakAssociation = new WeakHashMap<NavigatorFrame, WeakReference<HtmlRendererContextImpl>>();
+  private static final Map<NavigatorFrame, WeakReference<HtmlRendererContextImpl>> weakAssociation = new WeakHashMap<>();
 
   private final NavigatorFrame clientletFrame;
   private final HtmlPanel htmlPanel;
@@ -67,7 +67,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
         }
       }
       hrc = new HtmlRendererContextImpl(frame);
-      weakAssociation.put(frame, new WeakReference<HtmlRendererContextImpl>(hrc));
+      weakAssociation.put(frame, new WeakReference<>(hrc));
       return hrc;
     }
   }
@@ -131,7 +131,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
         }
       }
       // Now try special target types.
-      targetType = this.getTargetType(target);
+      targetType = HtmlRendererContextImpl.getTargetType(target);
     } else {
       targetType = TargetType.SELF;
     }
@@ -142,7 +142,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     }
   }
 
-  private TargetType getTargetType(final String target) {
+  private static TargetType getTargetType(final String target) {
     if ("_blank".equalsIgnoreCase(target)) {
       return TargetType.BLANK;
     } else if ("_parent".equalsIgnoreCase(target)) {
@@ -155,7 +155,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
   }
 
   public void submitForm(final String method, final URL url, final String target, final String enctype, final FormInput[] formInputs) {
-    final TargetType targetType = this.getTargetType(target);
+    final TargetType targetType = HtmlRendererContextImpl.getTargetType(target);
     final ParameterInfo pinfo = new LocalParameterInfo(enctype, formInputs);
     this.clientletFrame.navigate(url, method, pinfo, targetType, RequestType.FORM);
   }

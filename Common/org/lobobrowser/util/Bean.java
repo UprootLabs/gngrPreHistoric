@@ -60,7 +60,7 @@ public class Bean {
   public PropertyDescriptor getPropertyDescriptor(final String propertyName) throws IntrospectionException {
     synchronized (this) {
       if (this.propertyDescriptors == null) {
-        this.propertyDescriptors = new HashMap<String, PropertyDescriptor>();
+        this.propertyDescriptors = new HashMap<>();
         this.populateDescriptors(this.propertyDescriptors, this.clazz);
       }
       return this.propertyDescriptors.get(propertyName);
@@ -70,7 +70,7 @@ public class Bean {
   public Map<String, PropertyDescriptor> getPropertyDescriptorsMap() throws IntrospectionException {
     synchronized (this) {
       if (this.propertyDescriptors == null) {
-        this.propertyDescriptors = new HashMap<String, PropertyDescriptor>();
+        this.propertyDescriptors = new HashMap<>();
         this.populateDescriptors(this.propertyDescriptors, this.clazz);
       }
       return this.propertyDescriptors;

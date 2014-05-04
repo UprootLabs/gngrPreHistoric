@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WeakValueHashMap<K,V> implements Map<K,V> {
-  private final Map<K, LocalWeakReference> map = new HashMap<K, LocalWeakReference>();
-  private final ReferenceQueue<V> queue = new ReferenceQueue<V>();
+  private final Map<K, LocalWeakReference> map = new HashMap<>();
+  private final ReferenceQueue<V> queue = new ReferenceQueue<>();
 
   public WeakValueHashMap() {
     super();

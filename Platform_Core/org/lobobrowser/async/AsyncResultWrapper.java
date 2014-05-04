@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncResultListener<TResult> {
   private AsyncResult<TResult> ar;
-  private final Collection<AsyncResultListener<TResult>> listeners = new LinkedList<AsyncResultListener<TResult>>();
+  private final Collection<AsyncResultListener<TResult>> listeners = new LinkedList<>();
 
   public AsyncResultWrapper(final AsyncResult<TResult> ar) {
     super();

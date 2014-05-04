@@ -31,7 +31,7 @@ public class CookieHandlerImpl extends CookieHandler {
   private static final Logger logger = Logger.getLogger(CookieHandlerImpl.class.getName());
   private final CookieStore cookieStore = CookieStore.getInstance();
 
-  private void printHeaders(final Map<String, List<String>> headers) {
+  private static void printHeaders(final Map<String, List<String>> headers) {
     final StringWriter swriter = new StringWriter();
     final PrintWriter writer = new PrintWriter(swriter);
     writer.println();
@@ -47,7 +47,7 @@ public class CookieHandlerImpl extends CookieHandler {
 
   @Override
   public Map<String, List<String>> get(final URI uri, final Map<String, List<String>> requestHeaders) throws IOException {
-    final Map<String, List<String>> resultHeaders = new java.util.HashMap<String, List<String>>(2);
+    final Map<String, List<String>> resultHeaders = new java.util.HashMap<>(2);
     final java.util.Collection<Cookie> cookies = this.cookieStore.getCookies(uri.getHost(), uri.getPath());
     if (cookies != null) {
       StringBuffer cookieHeaderValue = null;
@@ -74,7 +74,7 @@ public class CookieHandlerImpl extends CookieHandler {
     }
     if (logger.isLoggable(Level.FINE)) {
       logger.info("get(): ---- Cookie headers for uri=[" + uri + "].");
-      this.printHeaders(resultHeaders);
+      printHeaders(resultHeaders);
     }
     return resultHeaders;
   }
@@ -83,7 +83,7 @@ public class CookieHandlerImpl extends CookieHandler {
   public void put(final URI uri, final Map<String, List<String>> responseHeaders) throws IOException {
     if (logger.isLoggable(Level.FINE)) {
       logger.info("put(): ---- Response headers for uri=[" + uri + "].");
-      this.printHeaders(responseHeaders);
+      printHeaders(responseHeaders);
     }
     final CookieStore store = this.cookieStore;
     for (final Map.Entry<String, List<String>> entry : responseHeaders.entrySet()) {

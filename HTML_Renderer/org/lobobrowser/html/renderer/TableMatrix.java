@@ -51,9 +51,9 @@ import org.w3c.dom.html2.HTMLTableRowElement;
 class TableMatrix {
   // private static final NodeFilter ROWS_FILTER = new RowsFilter();
   private static final NodeFilter COLUMNS_FILTER = new ColumnsFilter();
-  private final ArrayList<ArrayList<VirtualCell>> ROWS = new ArrayList<ArrayList<VirtualCell>>();
-  private final ArrayList<Renderable> ALL_CELLS = new ArrayList<Renderable>();
-  private final ArrayList<HTMLTableRowElementImpl> ROW_ELEMENTS = new ArrayList<HTMLTableRowElementImpl>();
+  private final ArrayList<ArrayList<VirtualCell>> ROWS = new ArrayList<>();
+  private final ArrayList<Renderable> ALL_CELLS = new ArrayList<>();
+  private final ArrayList<HTMLTableRowElementImpl> ROW_ELEMENTS = new ArrayList<>();
   private final HTMLElementImpl tableElement;
   private final UserAgentContext parserContext;
   private final HtmlRendererContext rendererContext;
@@ -188,7 +188,7 @@ class TableMatrix {
     this.determineRowSizes(hasBorder, this.cellSpacingY, availHeight, sizeOnly);
   }
 
-  private final HTMLTableRowElementImpl getParentRow(final HTMLTableCellElementImpl cellNode) {
+  private final static HTMLTableRowElementImpl getParentRow(final HTMLTableCellElementImpl cellNode) {
     org.w3c.dom.Node parentNode = cellNode.getParentNode();
     for (;;) {
       if (parentNode instanceof HTMLTableRowElementImpl) {
@@ -245,14 +245,13 @@ class TableMatrix {
     final ArrayList<ArrayList<VirtualCell>> rows = this.ROWS;
     final ArrayList<HTMLTableRowElementImpl> rowElements = this.ROW_ELEMENTS;
     final ArrayList<Renderable> allCells = this.ALL_CELLS;
-    final Map<HTMLTableRowElementImpl, ArrayList<VirtualCell>> rowElementToRowArray = new HashMap<HTMLTableRowElementImpl, ArrayList<VirtualCell>>(
-        2);
+    final Map<HTMLTableRowElementImpl, ArrayList<VirtualCell>> rowElementToRowArray = new HashMap<>(2);
     final ArrayList<NodeImpl> cellList = te.getDescendents(COLUMNS_FILTER, false);
     ArrayList<VirtualCell> currentNullRow = null;
     final Iterator<NodeImpl> ci = cellList.iterator();
     while (ci.hasNext()) {
       final HTMLTableCellElementImpl columnNode = (HTMLTableCellElementImpl) ci.next();
-      final HTMLTableRowElementImpl rowElement = this.getParentRow(columnNode);
+      final HTMLTableRowElementImpl rowElement = getParentRow(columnNode);
       if (rowElement != null && rowElement.getRenderState().getDisplay() == RenderState.DISPLAY_NONE) {
         // Skip row [ 2047122 ]
         continue;
@@ -262,7 +261,7 @@ class TableMatrix {
         currentNullRow = null;
         row = rowElementToRowArray.get(rowElement);
         if (row == null) {
-          row = new ArrayList<VirtualCell>();
+          row = new ArrayList<>();
           rowElementToRowArray.put(rowElement, row);
           rows.add(row);
           rowElements.add(rowElement);
@@ -273,7 +272,7 @@ class TableMatrix {
         if (currentNullRow != null) {
           row = currentNullRow;
         } else {
-          row = new ArrayList<VirtualCell>();
+          row = new ArrayList<>();
           currentNullRow = row;
           rows.add(row);
           // Null TR element must be added to match.
@@ -518,7 +517,7 @@ class TableMatrix {
 
     // Determine tentative column widths based on specified cell widths
 
-    this.determineTentativeSizes(columnSizes, widthsOfExtras, cellAvailWidth, widthKnown);
+    determineTentativeSizes(columnSizes, widthsOfExtras, cellAvailWidth, widthKnown);
 
     // Pre-render cells. This will give the minimum width of each cell,
     // in addition to the minimum height.
@@ -527,7 +526,7 @@ class TableMatrix {
 
     // Increases column widths if they are less than minimums of each cell.
 
-    this.adjustForRenderWidths(columnSizes, hasBorder, cellSpacingX, widthKnown);
+    adjustForRenderWidths(columnSizes, hasBorder, cellSpacingX, widthKnown);
 
     // Adjust for expected total width
 
@@ -542,7 +541,7 @@ class TableMatrix {
    * @param widthsOfExtras
    * @param cellAvailWidth
    */
-  private void determineTentativeSizes(final SizeInfo[] columnSizes, final int widthsOfExtras, final int cellAvailWidth, final boolean setNoWidthColumns) {
+  private static void determineTentativeSizes(final SizeInfo[] columnSizes, final int widthsOfExtras, final int cellAvailWidth, final boolean setNoWidthColumns) {
     final int numCols = columnSizes.length;
 
     // Look at percentages first
@@ -650,7 +649,7 @@ class TableMatrix {
   /**
    * Contracts column sizes according to render sizes.
    */
-  private void adjustForRenderWidths(final SizeInfo[] columnSizes, final int hasBorder, final int cellSpacing, final boolean tableWidthKnown) {
+  private static void adjustForRenderWidths(final SizeInfo[] columnSizes, final int hasBorder, final int cellSpacing, final boolean tableWidthKnown) {
     final int numCols = columnSizes.length;
     for (int i = 0; i < numCols; i++) {
       final SizeInfo si = columnSizes[i];

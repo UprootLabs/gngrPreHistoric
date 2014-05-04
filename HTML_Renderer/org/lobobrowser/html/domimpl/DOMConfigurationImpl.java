@@ -30,7 +30,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMStringList;
 
 public class DOMConfigurationImpl implements DOMConfiguration {
-  private final Map<String, Object> parameters = new HashMap<String, Object>();
+  private final Map<String, Object> parameters = new HashMap<>();
 
   public DOMConfigurationImpl() {
     super();

@@ -25,7 +25,7 @@ import javax.swing.tree.*;
 
 public class PreferencesTree extends JTree {
   public PreferencesTree() {
-    final TreeNode rootNode = this.createRootNode();
+    final TreeNode rootNode = createRootNode();
     this.setModel(new DefaultTreeModel(rootNode));
     this.setRootVisible(false);
   }
@@ -34,15 +34,15 @@ public class PreferencesTree extends JTree {
     this.addSelectionRow(0);
   }
 
-  private TreeNode createRootNode() {
+  private static TreeNode createRootNode() {
     final DefaultMutableTreeNode root = new DefaultMutableTreeNode();
-    root.add(new DefaultMutableTreeNode(this.getGeneralSettingsInfo()));
-    root.add(new DefaultMutableTreeNode(this.getConnectionSettingsInfo()));
-    root.add(new DefaultMutableTreeNode(this.getToolsSettingsInfo()));
+    root.add(new DefaultMutableTreeNode(getGeneralSettingsInfo()));
+    root.add(new DefaultMutableTreeNode(getConnectionSettingsInfo()));
+    root.add(new DefaultMutableTreeNode(getToolsSettingsInfo()));
     return root;
   }
 
-  private SettingsInfo getGeneralSettingsInfo() {
+  private static SettingsInfo getGeneralSettingsInfo() {
     return new SettingsInfo() {
       public AbstractSettingsUI createSettingsUI() {
         return new GeneralSettingsUI();
@@ -62,7 +62,7 @@ public class PreferencesTree extends JTree {
     };
   }
 
-  private SettingsInfo getConnectionSettingsInfo() {
+  private static SettingsInfo getConnectionSettingsInfo() {
     return new SettingsInfo() {
       public AbstractSettingsUI createSettingsUI() {
         return new ConnectionSettingsUI();
@@ -82,7 +82,7 @@ public class PreferencesTree extends JTree {
     };
   }
 
-  private SettingsInfo getToolsSettingsInfo() {
+  private static SettingsInfo getToolsSettingsInfo() {
     return new SettingsInfo() {
       public AbstractSettingsUI createSettingsUI() {
         return new ToolsSettingsUI();
