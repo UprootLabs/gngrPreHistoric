@@ -20,8 +20,6 @@
  */
 package org.lobobrowser.html.style;
 
-import java.awt.Insets;
-
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.util.gui.*;
 

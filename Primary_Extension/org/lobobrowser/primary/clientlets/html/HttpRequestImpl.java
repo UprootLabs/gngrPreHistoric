@@ -29,7 +29,6 @@ import org.lobobrowser.html.ReadyStateChangeListener;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.NetworkRequestEvent;
 import org.lobobrowser.ua.NetworkRequestListener;
-import org.lobobrowser.clientlet.*;
 import org.w3c.dom.Document;
 
 public class HttpRequestImpl implements HttpRequest {

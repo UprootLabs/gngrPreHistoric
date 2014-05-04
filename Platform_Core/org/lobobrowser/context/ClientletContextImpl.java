@@ -26,7 +26,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import org.lobobrowser.clientlet.*;
-import org.lobobrowser.gui.*;
 import org.lobobrowser.io.ManagedStore;
 import org.lobobrowser.request.*;
 import org.lobobrowser.store.*;

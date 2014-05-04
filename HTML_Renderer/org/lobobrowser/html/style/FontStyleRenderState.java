@@ -24,7 +24,6 @@ package org.lobobrowser.html.style;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Toolkit;
-import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 

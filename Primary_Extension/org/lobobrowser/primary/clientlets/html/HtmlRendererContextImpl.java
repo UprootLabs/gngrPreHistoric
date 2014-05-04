@@ -25,7 +25,6 @@ package org.lobobrowser.primary.clientlets.html;
 
 import java.util.logging.*;
 
-import org.lobobrowser.clientlet.*;
 import org.lobobrowser.html.*;
 import org.lobobrowser.html.domimpl.*;
 import org.lobobrowser.html.gui.HtmlPanel;
@@ -34,12 +33,10 @@ import org.w3c.dom.html2.*;
 
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import java.lang.ref.*;
 import org.w3c.dom.*;
-import javax.swing.JOptionPane;
 
 public class HtmlRendererContextImpl implements HtmlRendererContext {
   private static final Logger logger = Logger.getLogger(HtmlRendererContextImpl.class.getName());

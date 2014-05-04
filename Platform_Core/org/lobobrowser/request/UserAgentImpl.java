@@ -23,8 +23,6 @@
  */
 package org.lobobrowser.request;
 
-import java.security.AccessController;
-
 import org.lobobrowser.settings.*;
 import org.lobobrowser.ua.UserAgent;
 

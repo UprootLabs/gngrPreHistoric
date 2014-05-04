@@ -1,9 +1,5 @@
 package org.lobobrowser.html.style;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-
 public class AlignXRenderState extends RenderStateDelegator {
   private final int alignXPercent;
 

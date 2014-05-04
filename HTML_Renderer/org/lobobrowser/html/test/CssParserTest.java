@@ -17,13 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import org.lobobrowser.html.*;
 import org.lobobrowser.html.gui.*;
-import org.lobobrowser.html.parser.*;
 import org.lobobrowser.html.style.*;
 import org.lobobrowser.util.io.*;
 import org.w3c.css.sac.*;

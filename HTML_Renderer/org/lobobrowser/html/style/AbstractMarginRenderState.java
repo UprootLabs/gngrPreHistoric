@@ -21,7 +21,6 @@
 package org.lobobrowser.html.style;
 
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
-import java.awt.Insets;
 
 ;
 

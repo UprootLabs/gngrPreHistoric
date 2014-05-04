@@ -21,13 +21,10 @@
 
 package org.lobobrowser.html.style;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.GraphicsEnvironment;
-import java.awt.font.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +34,6 @@ import java.util.logging.*;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.css.*;
 import org.lobobrowser.util.*;
-import org.lobobrowser.html.domimpl.*;
 
 public class HtmlValues {
   public static final Map<String, FontInfo> SYSTEM_FONTS = new HashMap<String, FontInfo>();

@@ -28,7 +28,6 @@ import java.awt.Insets;
 import java.net.URL;
 import java.util.logging.*;
 
-import org.lobobrowser.clientlet.*;
 import org.lobobrowser.html.*;
 import org.lobobrowser.ua.*;
 

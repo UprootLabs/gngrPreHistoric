@@ -22,7 +22,6 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.ua;
 
-import java.net.URL;
 import org.lobobrowser.clientlet.*;
 
 /**

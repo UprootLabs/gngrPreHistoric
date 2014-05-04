@@ -1,8 +1,6 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
-import java.awt.Insets;
-
 import org.lobobrowser.html.domimpl.*;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.css.CSS2Properties;

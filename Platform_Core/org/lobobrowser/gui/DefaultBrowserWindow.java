@@ -21,7 +21,6 @@
 package org.lobobrowser.gui;
 
 import java.awt.*;
-import java.security.*;
 import javax.swing.*;
 
 import org.lobobrowser.main.ExtensionManager;

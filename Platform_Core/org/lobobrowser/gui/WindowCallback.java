@@ -20,8 +20,6 @@
  */
 package org.lobobrowser.gui;
 
-import java.net.URL;
-
 import org.lobobrowser.ua.*;
 import org.lobobrowser.clientlet.*;
 
