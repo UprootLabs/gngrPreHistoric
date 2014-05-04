@@ -3,7 +3,6 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.*;
 import org.lobobrowser.html.js.Window;
 import org.lobobrowser.html.style.*;
-import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.html2.HTMLIFrameElement;
 

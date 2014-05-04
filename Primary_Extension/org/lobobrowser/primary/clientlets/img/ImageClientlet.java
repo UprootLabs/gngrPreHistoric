@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.util.logging.*;
 
 import org.lobobrowser.clientlet.*;
-import org.lobobrowser.primary.clientlets.PrimaryClientletSelector;
 import org.lobobrowser.util.io.IORoutines;
 
 import javax.swing.*;

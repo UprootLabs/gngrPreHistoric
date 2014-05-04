@@ -27,7 +27,6 @@ import org.lobobrowser.clientlet.*;
 import org.lobobrowser.primary.clientlets.download.DownloadClientlet;
 import org.lobobrowser.primary.clientlets.html.*;
 import org.lobobrowser.primary.clientlets.img.*;
-import org.lobobrowser.util.*;
 import java.util.logging.*;
 
 public class PrimaryClientletSelector implements ClientletSelector {

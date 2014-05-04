@@ -22,7 +22,6 @@ import org.lobobrowser.html.gui.*;
 import org.lobobrowser.html.style.*;
 import org.lobobrowser.util.io.*;
 import org.w3c.css.sac.*;
-import org.w3c.css.*;
 import org.w3c.dom.css.*;
 
 import com.steadystate.css.parser.CSSOMParser;

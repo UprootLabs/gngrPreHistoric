@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.logging.*;
 
 import org.lobobrowser.store.StorageManager;
-import org.lobobrowser.util.*;
 import org.lobobrowser.security.*;
 import org.lobobrowser.store.*;
 

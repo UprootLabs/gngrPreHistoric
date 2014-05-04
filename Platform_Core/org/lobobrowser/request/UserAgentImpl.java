@@ -23,7 +23,6 @@
  */
 package org.lobobrowser.request;
 
-import org.lobobrowser.settings.*;
 import org.lobobrowser.ua.UserAgent;
 
 /**

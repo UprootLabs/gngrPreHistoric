@@ -3,7 +3,6 @@ package org.lobobrowser.primary.clientlets.html;
 import org.lobobrowser.html.HttpRequest;
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.request.RequestEngine;
-import org.lobobrowser.request.UserAgentImpl;
 import org.lobobrowser.ua.NavigatorFrame;
 
 import java.security.Policy;

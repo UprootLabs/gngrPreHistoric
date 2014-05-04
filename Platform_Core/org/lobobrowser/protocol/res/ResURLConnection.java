@@ -26,7 +26,6 @@ package org.lobobrowser.protocol.res;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import org.lobobrowser.main.*;
 
 /**
  * @author J. H. S.

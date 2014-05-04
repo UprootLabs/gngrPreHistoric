@@ -21,7 +21,6 @@
 package org.lobobrowser.gui;
 
 import java.util.EventObject;
-import org.lobobrowser.ua.*;
 import org.lobobrowser.clientlet.*;
 
 public class ContentEvent extends EventObject {

@@ -23,7 +23,6 @@ package org.lobobrowser.primary.clientlets.download;
 import org.lobobrowser.clientlet.*;
 import java.io.*;
 import org.lobobrowser.primary.gui.download.*;
-import org.lobobrowser.primary.gui.*;
 import org.lobobrowser.util.*;
 
 public class DownloadClientlet implements Clientlet {

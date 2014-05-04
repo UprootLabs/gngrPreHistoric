@@ -21,7 +21,6 @@
 package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.style.*;
-import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.html2.HTMLBaseFontElement;
 
 public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HTMLBaseFontElement {

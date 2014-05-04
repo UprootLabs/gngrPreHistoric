@@ -21,7 +21,6 @@
 package org.lobobrowser.ua;
 
 import java.net.URL;
-import org.lobobrowser.ua.*;
 
 /**
  * A navigation event.
