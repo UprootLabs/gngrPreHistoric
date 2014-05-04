@@ -51,7 +51,7 @@ public class SecurityControllerImpl extends SecurityController {
     if (securityDomain == null) {
       return callable.call(ctx, scope, thisObj, args);
     } else {
-      final PrivilegedAction action = new PrivilegedAction() {
+      final PrivilegedAction<?> action = new PrivilegedAction<Object>() {
         public Object run() {
           return callable.call(ctx, scope, thisObj, args);
         }

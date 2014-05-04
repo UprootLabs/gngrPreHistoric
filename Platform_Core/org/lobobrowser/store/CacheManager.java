@@ -108,7 +108,7 @@ public final class CacheManager implements Runnable {
   public CacheInfo getTransientCacheInfo() {
     long approxSize;
     int numEntries;
-    List entryInfo;
+    List<?> entryInfo;
     synchronized (this.transientCache) {
       approxSize = this.transientCache.getApproxSize();
       numEntries = this.transientCache.getNumEntries();

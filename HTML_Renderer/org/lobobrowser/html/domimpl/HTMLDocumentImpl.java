@@ -335,7 +335,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   public String getCookie() {
     final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
-      return (String) AccessController.doPrivileged(new PrivilegedAction() {
+      return (String) AccessController.doPrivileged(new PrivilegedAction<Object>() {
         // Justification: A caller (e.g. Google Analytics script)
         // might want to get cookies from the parent document.
         // If the caller has access to the document, it appears
@@ -356,7 +356,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   public void setCookie(final String cookie) throws DOMException {
     final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
-      AccessController.doPrivileged(new PrivilegedAction() {
+      AccessController.doPrivileged(new PrivilegedAction<Object>() {
         // Justification: A caller (e.g. Google Analytics script)
         // might want to set cookies on the parent document.
         // If the caller has access to the document, it appears

@@ -28,6 +28,7 @@ import java.awt.Toolkit;
 import java.io.*;
 import java.net.*;
 import java.util.EventObject;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.*;
 
@@ -70,7 +71,7 @@ public class SimpleHttpRequest implements HttpRequest {
   /**
    * Response headers are set in this map after a response is received.
    */
-  protected java.util.Map responseHeadersMap;
+  protected Map<String, List<String>> responseHeadersMap;
 
   /**
    * Response headers are set in this string after a response is received.
@@ -167,8 +168,9 @@ public class SimpleHttpRequest implements HttpRequest {
   }
 
   public synchronized String getResponseHeader(final String headerName) {
-    final Map headers = this.responseHeadersMap;
-    return headers == null ? null : (String) headers.get(headerName);
+    final Map<String, List<String>> headers = this.responseHeadersMap;
+    // TODO: should we get only the first header entry?
+    return headers == null ? null : headers.get(headerName).get(0);
   }
 
   public void open(final String method, final String url) throws IOException {

@@ -25,9 +25,9 @@ import java.util.List;
 public class CacheInfo {
   public final long approximateSize;
   public final int numEntries;
-  public final java.util.List entryInfoList;
+  public final java.util.List<?> entryInfoList;
 
-  public CacheInfo(final long approximateSize, final int numEntries, final List entryInfoList) {
+  public CacheInfo(final long approximateSize, final int numEntries, final List<?> entryInfoList) {
     super();
     this.approximateSize = approximateSize;
     this.numEntries = numEntries;

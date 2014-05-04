@@ -303,10 +303,10 @@ class TableMatrix {
     final ArrayList<ArrayList<VirtualCell>> rows = this.ROWS;
     int numRows = rows.size();
     for (int r = 0; r < numRows; r++) {
-      final ArrayList row = rows.get(r);
+      final ArrayList<VirtualCell> row = rows.get(r);
       int numCols = row.size();
       for (int c = 0; c < numCols; c++) {
-        final VirtualCell vc = (VirtualCell) row.get(c);
+        final VirtualCell vc = row.get(c);
         if (vc != null && vc.isTopLeft()) {
           final RTableCell ac = vc.getActualCell();
           int colspan = ac.getColSpan();
@@ -355,10 +355,10 @@ class TableMatrix {
 
     // Adjust row and column of virtual cells
     for (int r = 0; r < numRows; r++) {
-      final ArrayList row = rows.get(r);
+      final ArrayList<VirtualCell> row = rows.get(r);
       final int numCols = row.size();
       for (int c = 0; c < numCols; c++) {
-        final VirtualCell vc = (VirtualCell) row.get(c);
+        final VirtualCell vc = row.get(c);
         if (vc != null) {
           vc.setColumn(c);
           vc.setRow(r);
@@ -379,7 +379,7 @@ class TableMatrix {
     int numCols = 0;
     final ArrayList<HTMLTableRowElementImpl> rowElements = this.ROW_ELEMENTS;
     for (int i = 0; i < numRows; i++) {
-      final ArrayList row = rows.get(i);
+      final ArrayList<VirtualCell> row = rows.get(i);
       final int rs = row.size();
       if (rs > numCols) {
         numCols = rs;
@@ -409,7 +409,7 @@ class TableMatrix {
       } else {
         HtmlLength bestHeightLength = null;
         for (int x = 0; x < rs; x++) {
-          final VirtualCell vc = (VirtualCell) row.get(x);
+          final VirtualCell vc = row.get(x);
           if (vc != null) {
             final HtmlLength vcHeightLength = vc.getHeightLength();
             if (vcHeightLength != null && vcHeightLength.isPreferredOver(bestHeightLength)) {
@@ -427,10 +427,10 @@ class TableMatrix {
 
       // Cells with colspan==1 first.
       for (int y = 0; y < numRows; y++) {
-        final ArrayList row = rows.get(y);
+        final ArrayList<VirtualCell> row = rows.get(y);
         VirtualCell vc;
         try {
-          vc = (VirtualCell) row.get(i);
+          vc = row.get(i);
         } catch (final IndexOutOfBoundsException iob) {
           vc = null;
         }
@@ -447,7 +447,7 @@ class TableMatrix {
       // Now cells with colspan>1.
       if (bestWidthLength == null) {
         for (int y = 0; y < numRows; y++) {
-          final ArrayList row = rows.get(y);
+          final ArrayList<VirtualCell> row = rows.get(y);
           VirtualCell vc;
           try {
             vc = (VirtualCell) row.get(i);
@@ -675,7 +675,7 @@ class TableMatrix {
     colSize.layoutSize = 0;
     for (int row = 0; row < numRows;) {
       // SizeInfo rowSize = rowSizes[row];
-      final ArrayList columns = rows.get(row);
+      final ArrayList<VirtualCell> columns = rows.get(row);
       VirtualCell vc = null;
       try {
         vc = (VirtualCell) columns.get(col);

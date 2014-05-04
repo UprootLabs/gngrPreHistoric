@@ -107,7 +107,7 @@ public class CSSUtilities {
 
     } else {
       // Code might have restrictions on loading items from elsewhere.
-      AccessController.doPrivileged(new PrivilegedAction() {
+      AccessController.doPrivileged(new PrivilegedAction<Object>() {
         public Object run() {
           try {
             request.open("GET", scriptURI, false);

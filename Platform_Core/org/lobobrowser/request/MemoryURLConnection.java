@@ -96,11 +96,11 @@ public class MemoryURLConnection extends URLConnection {
     } catch (final IOException ioe) {
       return null;
     }
-    final List hvalues = this.headersMap.get(name.toLowerCase());
+    final List<String> hvalues = this.headersMap.get(name.toLowerCase());
     if (hvalues == null || hvalues.size() == 0) {
       return null;
     }
-    return (String) hvalues.get(0);
+    return hvalues.get(0);
   }
 
   /*

@@ -230,7 +230,7 @@ public class AboutURLConnection extends URLConnection {
     writer.println("</LI>");
   }
 
-  private class ScoredEntry implements Comparable {
+  private class ScoredEntry implements Comparable<ScoredEntry> {
     private final HistoryEntry<BookmarkInfo> historyEntry;
     private final int score;
 
@@ -248,7 +248,7 @@ public class AboutURLConnection extends URLConnection {
       return score;
     }
 
-    public int compareTo(final Object o) {
+    public int compareTo(final ScoredEntry o) {
       if (this == o) {
         return 0;
       }

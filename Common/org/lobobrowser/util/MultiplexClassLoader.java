@@ -35,9 +35,10 @@ public abstract class MultiplexClassLoader extends BaseClassLoader {
   /**
    * @param parent
    */
-  public MultiplexClassLoader(final Collection classLoaders) {
+  public MultiplexClassLoader(final Collection<BaseClassLoader> classLoaders) {
     super(null);
-    this.parentLoaders = (BaseClassLoader[]) classLoaders.toArray(EMPTY_CLASS_LOADERS);
+    // TODO: Check why input parameter is not being used
+    this.parentLoaders = classLoaders.toArray(EMPTY_CLASS_LOADERS);
   }
 
   /*
@@ -45,9 +46,9 @@ public abstract class MultiplexClassLoader extends BaseClassLoader {
    * 
    * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
    */
-  public synchronized Class loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
+  public synchronized Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
     // First, check if the class has already been loaded
-    Class c = findLoadedClass(name);
+    Class<?> c = findLoadedClass(name);
     if (c == null) {
       try {
         final int len = this.parentLoaders.length;
