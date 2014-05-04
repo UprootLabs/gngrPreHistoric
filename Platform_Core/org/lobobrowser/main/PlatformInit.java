@@ -170,12 +170,7 @@ public class PlatformInit {
     final Logger logger = Logger.getLogger(PlatformInit.class.getName());
     if (logger.isLoggable(Level.INFO)) {
       logger.warning("Entry(): Logger INFO level is enabled.");
-      final java.util.Properties properties = System.getProperties();
-      final Iterator<Entry<Object, Object>> i = properties.entrySet().iterator();
-      while (i.hasNext()) {
-        final Entry<Object, Object> entry = i.next();
-        logger.info("main(): " + entry.getKey() + "=" + entry.getValue());
-      }
+      System.getProperties().forEach((k, v) -> logger.info("main(): " + k + "=" + v));
     }
   }
 
