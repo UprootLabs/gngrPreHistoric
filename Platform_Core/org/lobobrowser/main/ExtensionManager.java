@@ -60,8 +60,11 @@ public class ExtensionManager {
   }
 
   private void createExtensions() {
+    this.createExtensions(getExtDirs(), getExtFiles());
+  }
+
+  public static File[] getExtDirs() {
     File[] extDirs;
-    File[] extFiles;
     final String extDirsProperty = System.getProperty("ext.dirs");
     if (extDirsProperty == null) {
       final File appDir = PlatformInit.getInstance().getApplicationDirectory();
@@ -75,6 +78,11 @@ public class ExtensionManager {
       }
       extDirs = extDirsList.toArray(new File[0]);
     }
+    return extDirs;
+  }
+
+  public static File[] getExtFiles() {
+    File[] extFiles;
     final String extFilesProperty = System.getProperty("ext.files");
     if (extFilesProperty == null) {
       extFiles = new File[0];
@@ -87,7 +95,7 @@ public class ExtensionManager {
       }
       extFiles = extFilesList.toArray(new File[0]);
     }
-    this.createExtensions(extDirs, extFiles);
+    return extFiles;
   }
 
   private void addExtension(final File file) throws java.io.IOException {
