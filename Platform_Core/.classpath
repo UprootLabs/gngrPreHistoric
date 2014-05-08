@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Public_API"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/HTML_Renderer"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
