@@ -33,7 +33,7 @@ import org.lobobrowser.util.io.IORoutines;
 
 import javax.swing.*;
 
-public class ImageClientlet implements Clientlet {
+public final class ImageClientlet implements Clientlet {
   private static final Logger logger = Logger.getLogger(ImageClientlet.class.getName());
 
   public ImageClientlet() {
@@ -62,7 +62,7 @@ public class ImageClientlet implements Clientlet {
     context.setResultingContent(new ImageContent(image, mimeType));
   }
 
-  private static class ImageContent implements ComponentContent {
+  private static final class ImageContent implements ComponentContent {
     private final Image image;
     private final String mimeType;
     private final JScrollPane scrollPane;

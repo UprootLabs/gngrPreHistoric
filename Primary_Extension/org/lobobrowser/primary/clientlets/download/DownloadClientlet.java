@@ -25,7 +25,7 @@ import java.io.*;
 import org.lobobrowser.primary.gui.download.*;
 import org.lobobrowser.util.*;
 
-public class DownloadClientlet implements Clientlet {
+public final class DownloadClientlet implements Clientlet {
   public void process(final ClientletContext context) throws ClientletException {
     final ClientletResponse response = context.getResponse();
     final java.net.URL url = response.getResponseURL();

@@ -59,11 +59,9 @@ public class LocalSecurityPolicy extends Policy {
 
     final Collection<Permission> permissions = BASE_PRIVILEGE;
 
-    // //Note: This means extensions have access to private field values at the
-    // moment.
+    // //Note: This means extensions have access to private field values at the moment.
     // //Required by JavaFX runtime at the time of this writing.
-    // permissions.add(new
-    // java.lang.reflect.ReflectPermission("suppressAccessChecks"));
+    // permissions.add(new java.lang.reflect.ReflectPermission("suppressAccessChecks"));
 
     permissions.add(new PropertyPermission("*", "read,write"));
     permissions.add(new AWTPermission("*"));

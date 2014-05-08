@@ -32,7 +32,7 @@ import java.util.EventObject;
  * @see org.lobobrowser.async.AsyncResultListener
  * @author J. H. S.
  */
-public class AsyncResultEvent<TResult> extends EventObject {
+final class AsyncResultEvent<TResult> extends EventObject {
   private static final long serialVersionUID = -4837654436436995017L;
   private final TResult result;
 

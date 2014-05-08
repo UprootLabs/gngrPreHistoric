@@ -29,7 +29,7 @@ import org.lobobrowser.util.io.IORoutines;
 import java.io.*;
 import javax.swing.*;
 
-public class TextClientlet implements Clientlet {
+public final class TextClientlet implements Clientlet {
   public TextClientlet() {
   }
 

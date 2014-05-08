@@ -46,27 +46,13 @@ import java.util.logging.*;
 /**
  * @author J. H. S.
  */
-public class HtmlClientlet implements Clientlet {
+public final class HtmlClientlet implements Clientlet {
   private static final Logger logger = Logger.getLogger(HtmlClientlet.class.getName());
   private static final Set<String> NON_VISIBLE_ELEMENTS = new HashSet<>();
 
   // Maximum buffer size required to determine if a reload due
   // to Http-Equiv is necessary.
   private static final int MAX_IS_BUFFER_SIZE = 1024 * 100;
-
-  static {
-    // Elements that may be encountered and which
-    // by themselves don't warrant rendering the page yet.
-    final Set<String> nve = NON_VISIBLE_ELEMENTS;
-    nve.add("html");
-    nve.add("body");
-    nve.add("head");
-    nve.add("title");
-    nve.add("meta");
-    nve.add("script");
-    nve.add("style");
-    nve.add("link");
-  }
 
   public HtmlClientlet() {
     super();

@@ -40,8 +40,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
   private final FramePanel frame;
 
   /**
-   * For progress events, but a null event is also fired when the content is
-   * set.
+   * For progress events, but a null event is also fired when the content is set.
    */
   public final EventDispatch evtProgress = new EventDispatch();
 
@@ -55,8 +54,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    * (non-Javadoc)
    * 
    * @see
-   * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception
-   * )
+   * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception)
    */
   public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
     if (this.windowCallback != null) {

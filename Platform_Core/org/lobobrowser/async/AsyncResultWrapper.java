@@ -30,7 +30,7 @@ import java.util.*;
  * 
  * @author J. H. S.
  */
-public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncResultListener<TResult> {
+final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncResultListener<TResult> {
   private AsyncResult<TResult> ar;
   private final Collection<AsyncResultListener<TResult>> listeners = new LinkedList<>();
 
