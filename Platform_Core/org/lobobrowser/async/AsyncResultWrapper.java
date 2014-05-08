@@ -96,13 +96,12 @@ public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncR
    * .AsyncResultEvent)
    */
   public void exceptionReceived(final AsyncResultEvent<Throwable> event) {
-    AsyncResultListener[] listenersArray;
+    AsyncResultListener<TResult>[] listenersArray;
     synchronized (this) {
-      listenersArray = this.listeners.toArray(new AsyncResultListener[0]);
+      listenersArray = makeListenersCopy();
     }
-    for (int i = 0; i < listenersArray.length; i++) {
-      final AsyncResultListener arl = listenersArray[i];
-      arl.exceptionReceived(event);
+    for (AsyncResultListener<TResult> l : listenersArray) {
+      l.exceptionReceived(event);
     }
   }
 
@@ -114,14 +113,19 @@ public class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncR
    * .AsyncResultEvent)
    */
   public void resultReceived(final AsyncResultEvent<TResult> event) {
-    AsyncResultListener[] listenersArray;
+    AsyncResultListener<TResult>[] listenersArray;
     synchronized (this) {
-      listenersArray = this.listeners.toArray(new AsyncResultListener[0]);
+      listenersArray = makeListenersCopy();
     }
-    for (int i = 0; i < listenersArray.length; i++) {
-      final AsyncResultListener<TResult> arl = listenersArray[i];
-      arl.resultReceived(event);
+    for (AsyncResultListener<TResult> l : listenersArray) {
+      l.resultReceived(event);
     }
+  }
+
+  private AsyncResultListener<TResult>[] makeListenersCopy() {
+    @SuppressWarnings("unchecked")
+    AsyncResultListener<TResult>[] arrayCopy = (AsyncResultListener<TResult>[]) this.listeners.toArray();
+    return arrayCopy;
   }
 
   /*

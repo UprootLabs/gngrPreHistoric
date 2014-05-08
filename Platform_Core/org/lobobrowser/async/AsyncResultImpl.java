@@ -138,11 +138,15 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
 
     public void processEvent(final EventObject event) {
       // Invoke holding no locks
-      final AsyncResultEvent are = (AsyncResultEvent) event;
+      final AsyncResultEvent<?> are = (AsyncResultEvent<?>) event;
       if (are.getResult() instanceof Exception) {
-        this.listener.exceptionReceived(are);
+        @SuppressWarnings("unchecked")
+        final AsyncResultEvent<Throwable> areException = (AsyncResultEvent<Throwable>) are;
+        this.listener.exceptionReceived(areException);
       } else {
-        this.listener.resultReceived(are);
+        @SuppressWarnings("unchecked")
+        final AsyncResultEvent<TR> areResult = (AsyncResultEvent<TR>) are;
+        this.listener.resultReceived(areResult);
       }
     }
 
@@ -150,7 +154,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
       if (!(other instanceof EventListenerWrapper)) {
         return false;
       }
-      final EventListenerWrapper elw = (EventListenerWrapper) other;
+      final EventListenerWrapper<?> elw = (EventListenerWrapper<?>) other;
       return Objects.equals(elw.listener, this.listener);
     }
 

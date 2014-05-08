@@ -51,11 +51,7 @@ public class SecurityControllerImpl extends SecurityController {
     if (securityDomain == null) {
       return callable.call(ctx, scope, thisObj, args);
     } else {
-      final PrivilegedAction<?> action = new PrivilegedAction<Object>() {
-        public Object run() {
-          return callable.call(ctx, scope, thisObj, args);
-        }
-      };
+      final PrivilegedAction<?> action = () -> callable.call(ctx, scope, thisObj, args);
       final ProtectionDomain protectionDomain = (ProtectionDomain) securityDomain;
       final AccessControlContext acctx = new AccessControlContext(new ProtectionDomain[] { protectionDomain });
       return AccessController.doPrivileged(action, acctx);
@@ -81,11 +77,11 @@ public class SecurityControllerImpl extends SecurityController {
       super(parent);
     }
 
-    public Class defineClass(final String name, final byte[] b) {
+    public Class<?> defineClass(final String name, final byte[] b) {
       return this.defineClass(name, b, 0, b.length, codesource);
     }
 
-    public void linkClass(final Class clazz) {
+    public void linkClass(final Class<?> clazz) {
       super.resolveClass(clazz);
     }
   }
