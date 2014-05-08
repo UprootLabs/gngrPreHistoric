@@ -197,7 +197,7 @@ public class LocalSecurityPolicy extends Policy {
 
     final URL location = codesource.getLocation();
     if (location == null) {
-      throw new AccessControlException("No location for coodesource=" + codesource);
+      throw new AccessControlException("No location for codesource=" + codesource);
     }
     final boolean isLocal = isLocal(location);
     final Permissions permissions = new Permissions();
