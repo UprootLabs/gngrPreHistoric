@@ -460,11 +460,10 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     // Should not be public
     return doWithClassLoader(() -> {
       ConnectionProcessor[] processors;
-      final Collection<ConnectionProcessor> cp = this.connectionProcessors;
-      URLConnection result = connection;
       synchronized (this) {
-        processors = cp.toArray(ConnectionProcessor.EMPTY_ARRAY);
+        processors = this.connectionProcessors.toArray(ConnectionProcessor.EMPTY_ARRAY);
       }
+      URLConnection result = connection;
       for (ConnectionProcessor processor : processors) {
         result = processor.processPreConnection(connection);
       }
@@ -476,11 +475,10 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     // Should not be public
     return doWithClassLoader(() -> {
       ConnectionProcessor[] processors;
-      final Collection<ConnectionProcessor> cp = this.connectionProcessors;
-      URLConnection result = connection;
       synchronized (this) {
-        processors = cp.toArray(ConnectionProcessor.EMPTY_ARRAY);
+        processors = this.connectionProcessors.toArray(ConnectionProcessor.EMPTY_ARRAY);
       }
+      URLConnection result = connection;
       for (ConnectionProcessor processor : processors) {
         result = processor.processPostConnection(connection);
       }
