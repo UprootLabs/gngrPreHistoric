@@ -28,8 +28,6 @@ import java.util.EventListener;
  * @see FramePanel#addResponseListener(ResponseListener)
  */
 public interface ResponseListener extends EventListener {
-  static final ResponseListener[] EMPTY_ARRAY = new ResponseListener[0];
-
   /**
    * This method is called as soon as a clientlet response intended for the
    * event frame has been fully processed.
