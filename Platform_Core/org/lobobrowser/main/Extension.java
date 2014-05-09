@@ -20,14 +20,38 @@
  */
 package org.lobobrowser.main;
 
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
-import java.net.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.LinkedList;
+import java.util.Properties;
+import java.util.concurrent.Callable;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ClientletSelector;
+import org.lobobrowser.ua.ConnectionProcessor;
+import org.lobobrowser.ua.NavigationEvent;
+import org.lobobrowser.ua.NavigationListener;
+import org.lobobrowser.ua.NavigationVetoException;
+import org.lobobrowser.ua.NavigatorErrorListener;
+import org.lobobrowser.ua.NavigatorExceptionEvent;
+import org.lobobrowser.ua.NavigatorExtension;
+import org.lobobrowser.ua.NavigatorExtensionContext;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.UserAgent;
+import org.lobobrowser.util.EventDispatch2;
 
 /**
  * Encapsulates a browser extension or plugin.
@@ -60,7 +84,6 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
 
   private final int priority;
   private final File extRoot;
-  private final JarFile jarFile;
   private final String extClassName;
   private final String extId;
   private final boolean isPrimary;
@@ -79,17 +102,17 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     this.connectionProcessors = new ArrayList<>();
     this.navigationListeners = new ArrayList<>();
     this.extRoot = extRoot;
+    JarFile jarFile;
     InputStream propsInputStream;
     if (extRoot.isDirectory()) {
       this.isPrimary = false;
-      this.jarFile = null;
+      jarFile = null;
       this.extId = extRoot.getName();
       final File propsFile = new File(extRoot, EXTENSION_PROPERTIES_FILE);
       propsInputStream = propsFile.exists() ? new FileInputStream(propsFile) : null;
     } else {
-      final JarFile jarFile = new JarFile(extRoot);
+      jarFile = new JarFile(extRoot);
       this.isPrimary = extRoot.getName().toLowerCase().equals(PRIMARY_EXTENSION_FILE_NAME);
-      this.jarFile = jarFile;
       final String name = extRoot.getName();
       final int dotIdx = name.lastIndexOf('.');
       this.extId = dotIdx == -1 ? name : name.substring(0, dotIdx);
@@ -112,19 +135,18 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
       this.extClassName = extClassName;
       final String priorityText = mattribs.getProperty(ATTRIBUTE_EXTENSION_PRIORITY);
       if (priorityText != null) {
-        int tp = Integer.parseInt(priorityText.trim());
-        if (tp < LOW_PRIORITY) {
-          tp = LOW_PRIORITY;
-        } else if (tp > HIGH_PRIORITY) {
-          tp = HIGH_PRIORITY;
-        }
-        this.priority = tp;
+        final int tp = Integer.parseInt(priorityText.trim());
+        this.priority = Math.min(HIGH_PRIORITY, Math.max(LOW_PRIORITY, tp));
       } else {
         this.priority = NORMAL_PRIORITY;
       }
     } else {
       this.extClassName = null;
       this.priority = PRIMARY_EXTENSION_PRIORITY;
+    }
+
+    if (jarFile != null) {
+      jarFile.close();
     }
   }
 
@@ -232,9 +254,6 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   }
 
   public void close() throws java.io.IOException {
-    if (this.jarFile != null) {
-      this.jarFile.close();
-    }
   }
 
   public void addClientletSelector(final ClientletSelector cs) {
@@ -247,7 +266,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     }
   }
 
-  public Clientlet getClientlet(final ClientletRequest request, final ClientletResponse response) {
+  protected <V> V doWithClassLoader(Callable<V> r) {
     // Need to set the class loader in thread context, otherwise
     // some library classes may not be found.
     final Thread currentThread = Thread.currentThread();
@@ -257,6 +276,16 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
       currentThread.setContextClassLoader(loader);
     }
     try {
+      return r.call();
+    } catch (Exception e) {
+      throw new Error(e);
+    } finally {
+      currentThread.setContextClassLoader(prevClassLoader);
+    }
+  }
+
+  public Clientlet getClientlet(final ClientletRequest request, final ClientletResponse response) {
+    return doWithClassLoader(() -> {
       synchronized (this) {
         for (final ClientletSelector cs : this.clientletSelectors) {
           final Clientlet c = cs.select(request, response);
@@ -266,19 +295,11 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
         }
       }
       return null;
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+    });
   }
 
   public Clientlet getLastResortClientlet(final ClientletRequest request, final ClientletResponse response) {
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    return doWithClassLoader(() -> {
       synchronized (this) {
         for (final ClientletSelector cs : this.clientletSelectors) {
           final Clientlet c = cs.lastResortSelect(request, response);
@@ -288,9 +309,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
         }
       }
       return null;
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+    });
   }
 
   public void addNavigatorErrorListener(final NavigatorErrorListener listener) {
@@ -397,125 +416,76 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
 
   void dispatchBeforeNavigate(final NavigationEvent event) throws NavigationVetoException {
     // Should not be public
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    doWithClassLoader(() -> {
       NavigationListener[] listeners;
-      final Collection<NavigationListener> nv = this.navigationListeners;
       synchronized (this) {
-        if (nv.isEmpty()) {
-          return;
-        }
-        listeners = nv.toArray(NavigationListener.EMPTY_ARRAY);
+        listeners = this.navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
       }
-      for (int i = 0; i < listeners.length; i++) {
-        listeners[i].beforeNavigate(event);
+      for (NavigationListener l : listeners) {
+        l.beforeNavigate(event);
       }
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return null;
+    });
   }
 
   void dispatchBeforeLocalNavigate(final NavigationEvent event) throws NavigationVetoException {
     // Should not be public
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    doWithClassLoader(() -> {
       NavigationListener[] listeners;
-      final Collection<NavigationListener> nv = this.navigationListeners;
       synchronized (this) {
-        if (nv.isEmpty()) {
-          return;
-        }
-        listeners = nv.toArray(NavigationListener.EMPTY_ARRAY);
+        listeners = this.navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
       }
-      for (int i = 0; i < listeners.length; i++) {
-        listeners[i].beforeLocalNavigate(event);
+      for (NavigationListener l : listeners) {
+        l.beforeLocalNavigate(event);
       }
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return null;
+    });
   }
 
   void dispatchBeforeWindowOpen(final NavigationEvent event) throws NavigationVetoException {
     // Should not be public
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    doWithClassLoader(() -> {
       NavigationListener[] listeners;
-      final Collection<NavigationListener> nv = this.navigationListeners;
       synchronized (this) {
-        if (nv.isEmpty()) {
-          return;
-        }
-        listeners = nv.toArray(NavigationListener.EMPTY_ARRAY);
+        listeners = this.navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
       }
-      for (int i = 0; i < listeners.length; i++) {
-        listeners[i].beforeWindowOpen(event);
+      for (NavigationListener l : listeners) {
+        l.beforeWindowOpen(event);
       }
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return null;
+    });
   }
 
-  URLConnection dispatchPreConnection(URLConnection connection) {
+  URLConnection dispatchPreConnection(final URLConnection connection) {
     // Should not be public
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    return doWithClassLoader(() -> {
       ConnectionProcessor[] processors;
       final Collection<ConnectionProcessor> cp = this.connectionProcessors;
+      URLConnection result = connection;
       synchronized (this) {
-        if (cp.isEmpty()) {
-          return connection;
-        }
         processors = cp.toArray(ConnectionProcessor.EMPTY_ARRAY);
       }
-      for (int i = 0; i < processors.length; i++) {
-        connection = processors[i].processPreConnection(connection);
+      for (ConnectionProcessor processor : processors) {
+        result = processor.processPreConnection(connection);
       }
-      return connection;
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return result;
+    });
   }
 
   URLConnection dispatchPostConnection(URLConnection connection) {
     // Should not be public
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    return doWithClassLoader(() -> {
       ConnectionProcessor[] processors;
+      final Collection<ConnectionProcessor> cp = this.connectionProcessors;
+      URLConnection result = connection;
       synchronized (this) {
-        processors = this.connectionProcessors.toArray(ConnectionProcessor.EMPTY_ARRAY);
+        processors = cp.toArray(ConnectionProcessor.EMPTY_ARRAY);
       }
-      for (int i = 0; i < processors.length; i++) {
-        connection = processors[i].processPostConnection(connection);
+      for (ConnectionProcessor processor : processors) {
+        result = processor.processPostConnection(connection);
       }
-      return connection;
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return result;
+    });
   }
 
   private static class NavigatorErrorEventDispatch extends EventDispatch2 {
