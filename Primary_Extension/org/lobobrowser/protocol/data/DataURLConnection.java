@@ -87,6 +87,7 @@ public class DataURLConnection extends URLConnection {
 
   @Override
   public String getHeaderField(final int n) {
+    // TODO: Looks highly inefficient to convert the keyset to array every time!
     return headerMap.get(headerMap.keySet().toArray()[n]);
   }
 
