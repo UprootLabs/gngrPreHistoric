@@ -27,6 +27,7 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.*;
+
 import javax.swing.JOptionPane;
 
 import org.lobobrowser.html.*;
@@ -38,6 +39,7 @@ import org.lobobrowser.util.io.*;
 import org.lobobrowser.util.*;
 import org.w3c.dom.html2.*;
 
+import java.util.Optional;
 import java.util.logging.*;
 
 /**
@@ -803,12 +805,12 @@ public class SimpleHtmlRendererContext implements HtmlRendererContext {
     return 0;
   }
 
-  public String getNextURL() {
-    return null;
+  public Optional<String> getNextURL() {
+    return Optional.empty();
   }
 
-  public String getPreviousURL() {
-    return null;
+  public Optional<String> getPreviousURL() {
+    return Optional.empty();
   }
 
   public void goToHistoryURL(final String url) {

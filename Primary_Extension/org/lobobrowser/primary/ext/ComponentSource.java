@@ -29,7 +29,9 @@ import org.lobobrowser.primary.settings.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 import java.util.logging.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -526,7 +528,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateBackMore() {
-    final NavigationEntry[] entries = this.window.getBackNavigationEntries();
+    final List<NavigationEntry> entries = this.window.getBackNavigationEntries();
     final JMenu backMoreMenu = this.backMoreMenu;
     backMoreMenu.removeAll();
     for (final NavigationEntry entry : entries) {
@@ -545,7 +547,7 @@ public class ComponentSource implements NavigatorWindowListener {
   }
 
   public void populateForwardMore() {
-    final NavigationEntry[] entries = this.window.getForwardNavigationEntries();
+    final List<NavigationEntry> entries = this.window.getForwardNavigationEntries();
     final JMenu forwardMoreMenu = this.forwardMoreMenu;
     forwardMoreMenu.removeAll();
     for (final NavigationEntry entry : entries) {

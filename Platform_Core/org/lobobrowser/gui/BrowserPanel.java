@@ -26,17 +26,38 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.*;
-import java.util.logging.*;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.util.Objects;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.clientlet.ComponentContent;
-import org.lobobrowser.main.*;
+import org.lobobrowser.main.ExtensionManager;
+import org.lobobrowser.main.PlatformInit;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigationListener;
+import org.lobobrowser.ua.NavigatorEvent;
+import org.lobobrowser.ua.NavigatorEventType;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.NavigatorWindowEvent;
+import org.lobobrowser.ua.NavigatorWindowListener;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgent;
+import org.lobobrowser.util.EventDispatch2;
+import org.lobobrowser.util.Objects;
+import org.lobobrowser.util.Urls;
 
 /**
  * A <code>BrowserPanel</code> contains a {@link FramePanel} along with optional
@@ -329,7 +350,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return (java.awt.Window) parent;
   }
 
-  public NavigationEntry[] getBackNavigationEntries() {
+  public List<NavigationEntry> getBackNavigationEntries() {
     return this.framePanel.getBackNavigationEntries();
   }
 
@@ -337,7 +358,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return this.framePanel.getCurrentNavigationEntry();
   }
 
-  public NavigationEntry[] getForwardNavigationEntries() {
+  public List<NavigationEntry> getForwardNavigationEntries() {
     return this.framePanel.getForwardNavigationEntries();
   }
 

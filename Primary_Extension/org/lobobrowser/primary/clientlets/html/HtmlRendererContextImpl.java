@@ -36,6 +36,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.lang.ref.*;
+
 import org.w3c.dom.*;
 
 public class HtmlRendererContextImpl implements HtmlRendererContext {
@@ -368,14 +369,14 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return this.clientletFrame.getHistoryLength();
   }
 
-  public String getNextURL() {
-    final NavigationEntry entry = this.clientletFrame.getNextNavigationEntry();
-    return entry == null ? null : entry.getUrl().toExternalForm();
+  public Optional<String> getNextURL() {
+    final Optional<NavigationEntry> entry = this.clientletFrame.getNextNavigationEntry();
+    return entry.map((e) -> e.getUrl().toExternalForm());
   }
 
-  public String getPreviousURL() {
-    final NavigationEntry entry = this.clientletFrame.getPreviousNavigationEntry();
-    return entry == null ? null : entry.getUrl().toExternalForm();
+  public Optional<String> getPreviousURL() {
+    final Optional<NavigationEntry> entry = this.clientletFrame.getPreviousNavigationEntry();
+    return entry.map((e) -> e.getUrl().toExternalForm());
   }
 
   public void goToHistoryURL(final String url) {

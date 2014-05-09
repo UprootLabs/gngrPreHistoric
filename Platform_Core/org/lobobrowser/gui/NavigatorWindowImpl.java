@@ -32,6 +32,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -557,11 +558,11 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     return this.framePanel.goTo(entry);
   }
 
-  public NavigationEntry[] getBackNavigationEntries() {
+  public List<NavigationEntry> getBackNavigationEntries() {
     return this.framePanel.getBackNavigationEntries();
   }
 
-  public NavigationEntry[] getForwardNavigationEntries() {
+  public List<NavigationEntry> getForwardNavigationEntries() {
     return this.framePanel.getForwardNavigationEntries();
   }
 

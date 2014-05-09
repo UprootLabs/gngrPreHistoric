@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import org.lobobrowser.ua.*;
+import org.lobobrowser.util.ArrayUtilities;
 import org.lobobrowser.util.Urls;
 
 /**
@@ -125,7 +126,7 @@ public class NavigationEngine {
     return true;
   }
 
-  public NavigationEntry[] getForwardNavigationEntries() {
+  public List<NavigationEntry> getForwardNavigationEntries() {
     final ArrayList<NavigationEntry> entries = new ArrayList<>();
     int index = this.currentIndex + 1;
     final int size = this.history.size();
@@ -133,20 +134,20 @@ public class NavigationEngine {
       entries.add(this.history.get(index));
       index++;
     }
-    return entries.toArray(new NavigationEntry[0]);
+    return entries;
   }
 
   /**
    * Gets prior navigation entries, in descending order.
    */
-  public NavigationEntry[] getBackNavigationEntries() {
+  public List<NavigationEntry> getBackNavigationEntries() {
     final ArrayList<NavigationEntry> entries = new ArrayList<>();
     int index = this.currentIndex - 1;
     while (index >= 0) {
       entries.add(this.history.get(index));
       index--;
     }
-    return entries.toArray(new NavigationEntry[0]);
+    return entries;
   }
 
   public NavigationEntry findEntry(final String absoluteURL) {

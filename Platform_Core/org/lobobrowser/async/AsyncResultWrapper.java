@@ -25,6 +25,8 @@ package org.lobobrowser.async;
 
 import java.util.*;
 
+import org.lobobrowser.util.ArrayUtilities;
+
 /**
  * Internal class.
  * 
@@ -92,40 +94,20 @@ final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncRe
    * (non-Javadoc)
    * 
    * @see
-   * org.xamjwg.clientlet.AsyncResultListener#exceptionReceived(org.xamjwg.clientlet
-   * .AsyncResultEvent)
+   * org.xamjwg.clientlet.AsyncResultListener#exceptionReceived(org.xamjwg.clientlet.AsyncResultEvent)
    */
   public void exceptionReceived(final AsyncResultEvent<Throwable> event) {
-    AsyncResultListener<TResult>[] listenersArray;
-    synchronized (this) {
-      listenersArray = makeListenersCopy();
-    }
-    for (AsyncResultListener<TResult> l : listenersArray) {
-      l.exceptionReceived(event);
-    }
+    ArrayUtilities.forEachSynched(this.listeners, this, (l) -> l.exceptionReceived(event));
   }
 
   /*
    * (non-Javadoc)
    * 
    * @see
-   * org.xamjwg.clientlet.AsyncResultListener#resultReceived(org.xamjwg.clientlet
-   * .AsyncResultEvent)
+   * org.xamjwg.clientlet.AsyncResultListener#resultReceived(org.xamjwg.clientlet.AsyncResultEvent)
    */
   public void resultReceived(final AsyncResultEvent<TResult> event) {
-    AsyncResultListener<TResult>[] listenersArray;
-    synchronized (this) {
-      listenersArray = makeListenersCopy();
-    }
-    for (AsyncResultListener<TResult> l : listenersArray) {
-      l.resultReceived(event);
-    }
-  }
-
-  private AsyncResultListener<TResult>[] makeListenersCopy() {
-    @SuppressWarnings("unchecked")
-    AsyncResultListener<TResult>[] arrayCopy = (AsyncResultListener<TResult>[]) this.listeners.toArray();
-    return arrayCopy;
+    ArrayUtilities.forEachSynched(this.listeners, this, (l) -> l.resultReceived(event));
   }
 
   /*

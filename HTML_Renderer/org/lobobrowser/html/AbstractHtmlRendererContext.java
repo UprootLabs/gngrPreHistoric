@@ -22,6 +22,7 @@ package org.lobobrowser.html;
 
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.Optional;
 
 import org.w3c.dom.html2.HTMLCollection;
 import org.w3c.dom.html2.HTMLElement;
@@ -196,11 +197,11 @@ public abstract class AbstractHtmlRendererContext implements HtmlRendererContext
     return 0;
   }
 
-  public String getNextURL() {
-    return null;
+  public Optional<String> getNextURL() {
+    return Optional.empty();
   }
 
-  public String getPreviousURL() {
+  public Optional<String> getPreviousURL() {
     return null;
   }
 

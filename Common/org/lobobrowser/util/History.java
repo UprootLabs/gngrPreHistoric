@@ -28,6 +28,7 @@ import java.util.*;
 /**
  * @author J. H. S.
  */
+// TODO: Looks like it is not used
 public class History implements java.io.Serializable {
   private static final long serialVersionUID = 2257845000800300100L;
 
@@ -128,13 +129,13 @@ public class History implements java.io.Serializable {
   }
 
   public Collection<String> getHeadMatchItems(final String item, final int maxNumItems) {
-    final Object[] array = this.historySortedSet.toArray();
+    final String[] array = ArrayUtilities.copy(this.historySortedSet, String.class);
     final int idx = Arrays.binarySearch(array, item);
     final int startIdx = idx >= 0 ? idx : (-idx - 1);
     int count = 0;
     final Collection<String> items = new LinkedList<>();
     for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
-      final String potentialItem = (String) array[i];
+      final String potentialItem = array[i];
       if (potentialItem.startsWith(item)) {
         items.add(potentialItem);
       } else {

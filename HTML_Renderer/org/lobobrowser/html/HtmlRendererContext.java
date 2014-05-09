@@ -24,6 +24,8 @@
 package org.lobobrowser.html;
 
 import java.net.URL;
+import java.util.Optional;
+
 import org.w3c.dom.html2.*;
 
 /**
@@ -374,12 +376,12 @@ public interface HtmlRendererContext {
   /**
    * Gets the next URL in the history.
    */
-  public String getNextURL();
+  public Optional<String> getNextURL();
 
   /**
    * Gets the previous URL in the history.
    */
-  public String getPreviousURL();
+  public Optional<String> getPreviousURL();
 
   /**
    * Goes forward one page.

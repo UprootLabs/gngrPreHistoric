@@ -23,6 +23,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.lobobrowser.ua;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * This interface represents a navigator window.
@@ -177,9 +178,9 @@ public interface NavigatorWindow {
    */
   public boolean goTo(NavigationEntry entry);
 
-  public NavigationEntry[] getBackNavigationEntries();
+  public List<NavigationEntry> getBackNavigationEntries();
 
-  public NavigationEntry[] getForwardNavigationEntries();
+  public List<NavigationEntry> getForwardNavigationEntries();
 
   public NavigationEntry getCurrentNavigationEntry();
 

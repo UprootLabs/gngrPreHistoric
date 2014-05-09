@@ -31,6 +31,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.lobobrowser.util.ArrayUtilities;
+
 public abstract class BaseHistory<T> implements java.io.Serializable {
   private static final long serialVersionUID = 2257845020000200400L;
 
@@ -127,13 +129,13 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
 
   public Collection<String> getHeadMatchItems(final String itemPrefix, final int maxNumItems) {
     synchronized (this) {
-      final Object[] array = this.historySortedSet.toArray();
+      String[] array = ArrayUtilities.copy(this.historySortedSet, String.class);
       final int idx = Arrays.binarySearch(array, itemPrefix);
       final int startIdx = idx >= 0 ? idx : (-idx - 1);
       int count = 0;
       final Collection<String> items = new LinkedList<>();
       for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
-        final String potentialItem = (String) array[i];
+        final String potentialItem = array[i];
         if (potentialItem.startsWith(itemPrefix)) {
           items.add(potentialItem);
         } else {

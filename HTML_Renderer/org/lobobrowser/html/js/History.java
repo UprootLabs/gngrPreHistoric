@@ -37,12 +37,12 @@ public class History extends AbstractScriptableDelegate {
 
   public String getNext() {
     final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
-    return ctx != null ? ctx.getNextURL() : null;
+    return ctx != null ? ctx.getNextURL().orElse(null) : null;
   }
 
   public String getPrevious() {
     final HtmlRendererContext ctx = this.window.getHtmlRendererContext();
-    return ctx != null ? ctx.getPreviousURL() : null;
+    return ctx != null ? ctx.getPreviousURL().orElse(null) : null;
   }
 
   public int getLength() {

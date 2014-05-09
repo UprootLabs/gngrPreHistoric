@@ -20,24 +20,61 @@
  */
 package org.lobobrowser.gui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Window;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.security.AccessControlContext;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.*;
-import java.security.*;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.clientlet.SimpleComponentContent;
 import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.main.PlatformInit;
-import org.lobobrowser.request.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.util.gui.*;
-import org.lobobrowser.security.*;
+import org.lobobrowser.request.ClientletRequestHandler;
+import org.lobobrowser.request.ClientletRequestImpl;
+import org.lobobrowser.request.RequestEngine;
+import org.lobobrowser.request.RequestHandler;
+import org.lobobrowser.security.GenericLocalPermission;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigationEvent;
+import org.lobobrowser.ua.NavigationListener;
+import org.lobobrowser.ua.NavigationVetoException;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.ParameterInfo;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.TargetType;
+import org.lobobrowser.util.ArrayUtilities;
+import org.lobobrowser.util.Items;
+import org.lobobrowser.util.Urls;
+import org.lobobrowser.util.WrapperException;
+import org.lobobrowser.util.gui.WrapperLayout;
 
 /**
  * A browser frame panel. It may be used as any other Swing component. The
@@ -224,17 +261,17 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         public Object run() {
           try {
             ExtensionManager.getInstance().dispatchBeforeNavigate(event);
-            NavigationListener[] listeners;
-            synchronized (this) {
-              listeners = navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
-            }
-            for (int i = 0; i < listeners.length; i++) {
-              listeners[i].beforeNavigate(event);
-            }
-            return null;
           } catch (final NavigationVetoException nve) {
             throw new WrapperException(nve);
           }
+          ArrayUtilities.forEachSynched(navigationListeners, this, (listener) -> {
+            try {
+              listener.beforeNavigate(event);
+            } catch (NavigationVetoException nve) {
+              throw new WrapperException(nve);
+            }
+          });
+          return null;
         }
       });
     } catch (final WrapperException we) {
@@ -250,17 +287,17 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         public Object run() {
           try {
             ExtensionManager.getInstance().dispatchBeforeLocalNavigate(event);
-            NavigationListener[] listeners;
-            synchronized (this) {
-              listeners = navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
-            }
-            for (int i = 0; i < listeners.length; i++) {
-              listeners[i].beforeLocalNavigate(event);
-            }
-            return null;
           } catch (final NavigationVetoException nve) {
             throw new WrapperException(nve);
           }
+          ArrayUtilities.forEachSynched(navigationListeners, this, (listener) -> {
+            try {
+              listener.beforeLocalNavigate(event);
+            } catch (NavigationVetoException nve) {
+              throw new WrapperException(nve);
+            }
+          });
+          return null;
         }
       });
     } catch (final WrapperException we) {
@@ -276,17 +313,17 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         public Object run() {
           try {
             ExtensionManager.getInstance().dispatchBeforeWindowOpen(event);
-            NavigationListener[] listeners;
-            synchronized (this) {
-              listeners = navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
-            }
-            for (int i = 0; i < listeners.length; i++) {
-              listeners[i].beforeWindowOpen(event);
-            }
-            return null;
           } catch (final NavigationVetoException nve) {
             throw new WrapperException(nve);
           }
+          ArrayUtilities.forEachSynched(navigationListeners, this, (listener) -> {
+            try {
+              listener.beforeWindowOpen(event);
+            } catch (NavigationVetoException nve) {
+              throw new WrapperException(nve);
+            }
+          });
+          return null;
         }
       });
     } catch (final WrapperException we) {
@@ -295,23 +332,15 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   private void dispatchContentSet(final ContentEvent event) {
-    ContentListener[] listeners;
-    synchronized (this) {
-      listeners = this.contentListeners.toArray(ContentListener.EMPTY_ARRAY);
-    }
-    for (int i = 0; i < listeners.length; i++) {
-      listeners[i].contentSet(event);
-    }
+    ArrayUtilities.forEachSynched(contentListeners, this, (listener) -> {
+      listener.contentSet(event);
+    });
   }
 
   private void dispatchResponseProcessed(final ResponseEvent event) {
-    ResponseListener[] listeners;
-    synchronized (this) {
-      listeners = this.responseListeners.toArray(ResponseListener.EMPTY_ARRAY);
-    }
-    for (int i = 0; i < listeners.length; i++) {
-      listeners[i].responseProcessed(event);
-    }
+    ArrayUtilities.forEachSynched(responseListeners, this, (listener) -> {
+      listener.responseProcessed(event);
+    });
   }
 
   /**
@@ -386,7 +415,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   /**
    * Gets an array of navigation entries that came before the current one.
    */
-  public NavigationEntry[] getBackNavigationEntries() {
+  public List<NavigationEntry> getBackNavigationEntries() {
     final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(org.lobobrowser.security.GenericLocalPermission.EXT_GENERIC);
@@ -400,7 +429,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * Gets an array of navigation entries that would be visited with consecutive
    * <code>forward</code> calls.
    */
-  public NavigationEntry[] getForwardNavigationEntries() {
+  public List<NavigationEntry> getForwardNavigationEntries() {
     final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(org.lobobrowser.security.GenericLocalPermission.EXT_GENERIC);
@@ -1239,17 +1268,17 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     }
   }
 
-  public NavigationEntry getNextNavigationEntry() {
+  public Optional<NavigationEntry> getNextNavigationEntry() {
     synchronized (this) {
-      final NavigationEntry[] entries = this.navigationEngine.getForwardNavigationEntries();
-      return entries.length == 0 ? null : entries[0];
+      final List<NavigationEntry> entries = this.navigationEngine.getForwardNavigationEntries();
+      return entries.stream().findFirst();
     }
   }
 
-  public NavigationEntry getPreviousNavigationEntry() {
+  public Optional<NavigationEntry> getPreviousNavigationEntry() {
     synchronized (this) {
-      final NavigationEntry[] entries = this.navigationEngine.getBackNavigationEntries();
-      return entries.length == 0 ? null : entries[0];
+      final List<NavigationEntry> entries = this.navigationEngine.getBackNavigationEntries();
+      return entries.stream().findFirst();
     }
   }
 

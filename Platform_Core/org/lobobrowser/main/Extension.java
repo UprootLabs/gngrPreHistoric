@@ -51,6 +51,7 @@ import org.lobobrowser.ua.NavigatorExtension;
 import org.lobobrowser.ua.NavigatorExtensionContext;
 import org.lobobrowser.ua.NavigatorWindow;
 import org.lobobrowser.ua.UserAgent;
+import org.lobobrowser.util.ArrayUtilities;
 import org.lobobrowser.util.EventDispatch2;
 
 /**
@@ -417,11 +418,8 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   void dispatchBeforeNavigate(final NavigationEvent event) throws NavigationVetoException {
     // Should not be public
     doWithClassLoader(() -> {
-      NavigationListener[] listeners;
-      synchronized (this) {
-        listeners = this.navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
-      }
-      for (NavigationListener l : listeners) {
+      final NavigationListener[] listeners = ArrayUtilities.copySynched(navigationListeners, this, NavigationListener.EMPTY_ARRAY);
+      for (final NavigationListener l : listeners) {
         l.beforeNavigate(event);
       }
       return null;
@@ -431,11 +429,8 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   void dispatchBeforeLocalNavigate(final NavigationEvent event) throws NavigationVetoException {
     // Should not be public
     doWithClassLoader(() -> {
-      NavigationListener[] listeners;
-      synchronized (this) {
-        listeners = this.navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
-      }
-      for (NavigationListener l : listeners) {
+      final NavigationListener[] listeners = ArrayUtilities.copySynched(navigationListeners, this, NavigationListener.EMPTY_ARRAY);
+      for (final NavigationListener l : listeners) {
         l.beforeLocalNavigate(event);
       }
       return null;
@@ -445,11 +440,8 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   void dispatchBeforeWindowOpen(final NavigationEvent event) throws NavigationVetoException {
     // Should not be public
     doWithClassLoader(() -> {
-      NavigationListener[] listeners;
-      synchronized (this) {
-        listeners = this.navigationListeners.toArray(NavigationListener.EMPTY_ARRAY);
-      }
-      for (NavigationListener l : listeners) {
+      final NavigationListener[] listeners = ArrayUtilities.copySynched(navigationListeners, this, NavigationListener.EMPTY_ARRAY);
+      for (final NavigationListener l : listeners) {
         l.beforeWindowOpen(event);
       }
       return null;
@@ -459,12 +451,9 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   URLConnection dispatchPreConnection(final URLConnection connection) {
     // Should not be public
     return doWithClassLoader(() -> {
-      ConnectionProcessor[] processors;
-      synchronized (this) {
-        processors = this.connectionProcessors.toArray(ConnectionProcessor.EMPTY_ARRAY);
-      }
+      final ConnectionProcessor[] processors = ArrayUtilities.copySynched(connectionProcessors, this, ConnectionProcessor.EMPTY_ARRAY);
       URLConnection result = connection;
-      for (ConnectionProcessor processor : processors) {
+      for (final ConnectionProcessor processor : processors) {
         result = processor.processPreConnection(connection);
       }
       return result;
@@ -474,12 +463,9 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   URLConnection dispatchPostConnection(URLConnection connection) {
     // Should not be public
     return doWithClassLoader(() -> {
-      ConnectionProcessor[] processors;
-      synchronized (this) {
-        processors = this.connectionProcessors.toArray(ConnectionProcessor.EMPTY_ARRAY);
-      }
+      ConnectionProcessor[] processors = ArrayUtilities.copySynched(connectionProcessors, this, ConnectionProcessor.EMPTY_ARRAY);
       URLConnection result = connection;
-      for (ConnectionProcessor processor : processors) {
+      for (final ConnectionProcessor processor : processors) {
         result = processor.processPostConnection(connection);
       }
       return result;

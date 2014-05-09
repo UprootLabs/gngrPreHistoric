@@ -23,7 +23,10 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * @author J. H. S.
@@ -35,6 +38,47 @@ public class ArrayUtilities {
 	 */
   private ArrayUtilities() {
     super();
+  }
+
+  public static <T> T[] copy(Collection<T> collection, Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+    final T[] castedArray = (T[]) Array.newInstance(clazz, collection.size());
+    return collection.toArray(castedArray);
+  }
+
+  /** Slightly more efficient version of the below version. Since it doesn't need to create an array if size is zero.
+   * But that is so only if the passed array is a static zero sized array */
+  public static <T> T[] copySynched(Collection<T> collection, Object syncObj, T[] initArray) {
+    T[] result;
+    synchronized (syncObj) {
+      result = collection.toArray(initArray);
+    }
+    return result;
+  }
+
+  public static <T> T[] copySynched(Collection<T> collection, Object syncObj, Class<T> clazz) {
+    T[] result;
+    synchronized (syncObj) {
+      result = copy(collection, clazz);
+    }
+    return result;
+  }
+
+  /** For each element of collection, the supplied function is called.
+   *  The collection is copied in a synchronized block, to avoid concurrent modifications.
+   *
+   * @param syncObj The object to synchronize upon.
+   * @param func    The function to call on each element.
+   */
+  public static <T, E extends Throwable> void forEachSynched(Collection<T> collection, Object syncObj, Consumer<T> consumer) throws E {
+    if (collection.size() > 0) {
+      @SuppressWarnings("unchecked")
+      Class<T> clazz = (Class<T>) collection.iterator().next().getClass();
+      T[] copy = copySynched(collection, syncObj, clazz);
+      for (T element: copy) {
+        consumer.accept(element);
+      }
+    }
   }
 
   public static <T> Iterator<T> iterator(final T[] array, final int offset, final int length) {

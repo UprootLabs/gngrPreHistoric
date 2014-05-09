@@ -360,9 +360,9 @@ public interface NavigatorFrame {
    */
   public NavigationEntry getCurrentNavigationEntry();
 
-  public NavigationEntry getPreviousNavigationEntry();
+  public Optional<NavigationEntry> getPreviousNavigationEntry();
 
-  public NavigationEntry getNextNavigationEntry();
+  public Optional<NavigationEntry> getNextNavigationEntry();
 
   /**
    * Switches to a new navigation entry in the frame's history, according to the
