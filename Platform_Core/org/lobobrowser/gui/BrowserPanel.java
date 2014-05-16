@@ -406,10 +406,6 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     return this;
   }
 
-  public Component getComponent() {
-    return this;
-  }
-
   private String defaultStatus;
   private String status;
 

@@ -316,10 +316,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     EventQueue.invokeLater(() -> EVENT.fireEvent(event));
   }
 
-  public Component getComponent() {
-    return this.browserWindow;
-  }
-
   public boolean back() {
     final NavigatorFrame frame = this.latestAccessedFrame;
     if (frame != null) {
@@ -573,11 +569,6 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   public boolean hasSource() {
     return this.framePanel.hasSource();
   }
-
-  // public Frame getAwtFrame() {
-  // Window window = this.window;
-  // return window instanceof Frame ? (Frame) window : null;
-  // }
 
   public Window getAwtWindow() {
     return this.browserWindow;

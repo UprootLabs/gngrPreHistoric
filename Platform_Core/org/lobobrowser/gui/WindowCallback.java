@@ -27,11 +27,6 @@ import org.lobobrowser.clientlet.*;
  * A interface that receives calls during requests.
  */
 public interface WindowCallback {
-  /**
-   * Gets a component that may be used as a parent of prompt dialogs during
-   * requests.
-   */
-  public java.awt.Component getComponent();
 
   /**
    * Called when a document has been accessed, but has not yet rendered.
