@@ -103,7 +103,10 @@ public class ExtensionManager {
       logger.warning("addExtension(): File " + file + " does not exist.");
       return;
     }
-    final Extension ei = new Extension(file);
+    addExtension(new Extension(file));
+  }
+
+  private void addExtension(final Extension ei) {
     this.extensionById.put(ei.getId(), ei);
     if (ei.isLibraryOnly()) {
       if (logger.isLoggable(Level.INFO)) {
