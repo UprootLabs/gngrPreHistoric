@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lobobrowser.html.js.NotGetterSetter;
 import org.lobobrowser.html.js.PropertyName;
 import org.mozilla.javascript.Function;
 
@@ -136,12 +137,16 @@ public class JavaClassWrapper {
   }
 
   private static boolean isPropertyMethod(final String name, final Method method) {
-    if (name.startsWith("get") || name.startsWith("is")) {
-      return method.getParameterTypes().length == 0;
-    } else if (name.startsWith("set")) {
-      return method.getParameterTypes().length == 1;
-    } else {
+    if (method.isAnnotationPresent(NotGetterSetter.class)) {
       return false;
+    } else {
+      if (name.startsWith("get") || name.startsWith("is")) {
+        return method.getParameterTypes().length == 0;
+      } else if (name.startsWith("set")) {
+        return method.getParameterTypes().length == 1;
+      } else {
+        return false;
+      }
     }
   }
 

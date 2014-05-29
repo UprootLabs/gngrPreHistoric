@@ -37,6 +37,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     request.abort();
   }
 
+  @NotGetterSetter
   public String getAllResponseHeaders() {
     return request.getAllResponseHeaders();
   }
