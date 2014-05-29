@@ -173,7 +173,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   public void initClassLoader(final ClassLoader parentClassLoader) throws java.net.MalformedURLException, ClassNotFoundException,
       IllegalAccessException, InstantiationException {
     final URL url = this.extRoot.toURI().toURL();
-    final java.net.URL[] urls = new java.net.URL[] { url };
+    final URL[] urls = new URL[] { url };
     final ExtensionClassLoader classLoader = new ExtensionClassLoader(urls, parentClassLoader);
     final String extClassName = this.extClassName;
     NavigatorExtension pe = null;
