@@ -1533,7 +1533,7 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
       size = map == null ? 0 : map.size();
     }
     final StringBuilder sb = new StringBuilder();
-    if (this.localStyleProperties.valueMap != null) {
+    if ((localStyleProperties != null) && (this.localStyleProperties.valueMap != null)) {
       sb.append("local: {");
       for (final String key : this.localStyleProperties.valueMap.keySet()) {
         final Property value = this.localStyleProperties.valueMap.get(key);
