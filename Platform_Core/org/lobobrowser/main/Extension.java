@@ -204,54 +204,33 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   }
 
   public void initExtension() {
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    doWithClassLoader( () ->{
       final NavigatorExtension pe = this.platformExtension;
       if (pe != null) {
         pe.init(this);
       }
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return null;
+    });
   }
 
   public void initExtensionWindow(final NavigatorWindow wcontext) {
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    doWithClassLoader( () ->{
       final NavigatorExtension pe = this.platformExtension;
       if (pe != null) {
         pe.windowOpening(wcontext);
       }
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return null;
+    });
   }
 
   public void shutdownExtensionWindow(final NavigatorWindow wcontext) {
-    final Thread currentThread = Thread.currentThread();
-    final ClassLoader prevClassLoader = currentThread.getContextClassLoader();
-    final ClassLoader loader = this.classLoader;
-    if (loader != null) {
-      currentThread.setContextClassLoader(loader);
-    }
-    try {
+    doWithClassLoader( () ->{
       final NavigatorExtension pe = this.platformExtension;
       if (pe != null) {
         pe.windowClosing(wcontext);
       }
-    } finally {
-      currentThread.setContextClassLoader(prevClassLoader);
-    }
+      return null;
+    });
   }
 
   public void close() throws java.io.IOException {
