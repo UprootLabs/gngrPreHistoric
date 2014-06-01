@@ -163,9 +163,7 @@ public final class RequestEngine {
       // Do not add a line break to post content. Some servers
       // can be picky about that (namely, java.net).
       final byte[] postContent = bufOut.toByteArray();
-      if (loggerInfo) {
-        logger.info("postData(): Will post: " + new String(postContent));
-      }
+      logInfo("postData(): Will post: " + new String(postContent));
       if (connection instanceof HttpURLConnection) {
         if (boolSettings.isHttpUseChunkedEncodingPOST()) {
           ((HttpURLConnection) connection).setChunkedStreamingMode(8192);
@@ -302,7 +300,10 @@ public final class RequestEngine {
     }
   }
 
-  private static CacheInfo getCacheInfo(final RequestHandler rhandler, final URL url) throws Exception {
+  private static CacheInfo getCacheInfo(final RequestHandler rhandler, final URL url, final boolean isGet) throws Exception {
+    final RequestType requestType = rhandler.getRequestType();
+
+    if (isGet && isOKToRetrieveFromCache(requestType)) {
     return AccessController.doPrivileged(new PrivilegedAction<CacheInfo>() {
       // Reason: Caller in context may not have privilege to access
       // the local file system, yet it's necessary to be able to load
@@ -328,6 +329,9 @@ public final class RequestEngine {
         return cinfo;
       }
     });
+    } else {
+      return null;
+    }
   }
 
   private static void cache(final RequestHandler rhandler, final java.net.URL url, final URLConnection connection, final byte[] content,
@@ -338,9 +342,7 @@ public final class RequestEngine {
       public Object run() {
         try {
           final long currentTime = System.currentTimeMillis();
-          if (loggerInfo) {
-            logger.info("cache(): url=" + url + ",content.length=" + content.length + ",currentTime=" + currentTime);
-          }
+          logInfo("cache(): url=" + url + ",content.length=" + content.length + ",currentTime=" + currentTime);
           int actualApproxObjectSize = 0;
           if (altObject != null) {
             if (approxAltObjectSize < content.length) {
@@ -624,43 +626,33 @@ public final class RequestEngine {
      */
   }
 
+  private static void logInfo(final String msg) {
+    if (loggerInfo) {
+      logger.info(msg);
+    }
+  }
+
+  private static void logInfo(final String msg, final Throwable cce) {
+    if (loggerInfo) {
+      logger.log(Level.INFO, msg, cce);
+    }
+  }
+
   private void processHandler(final RequestHandler rhandler, final int recursionLevel, final boolean trackRequestInfo) {
     // Method must be private.
-    final boolean linfo = loggerInfo;
     final URL baseURL = rhandler.getLatestRequestURL();
     RequestInfo rinfo = null;
     ClientletResponseImpl response = null;
-    String method = null;
+    final String method = rhandler.getLatestRequestMethod().toUpperCase();
     try {
       final ClientletRequest request = rhandler.getRequest();
-      method = rhandler.getLatestRequestMethod().toUpperCase();
       // TODO: Hack: instanceof below
       final ParameterInfo pinfo = rhandler instanceof RedirectRequestHandler ? null : request.getParameterInfo();
       final boolean isGet = "GET".equals(method);
-      URL url;
-      if (isGet && pinfo != null) {
-        final String ref = baseURL.getRef();
-        final String noRefForm = Urls.getNoRefForm(baseURL);
-        final String newURLText = completeGetUrl(noRefForm, pinfo, ref);
-        url = new URL(newURLText);
-      } else {
-        url = baseURL;
-      }
-      CacheInfo cacheInfo = null;
+      final URL url = makeCompleteURL(baseURL, pinfo, isGet);
       final String protocol = url.getProtocol();
-      final URL connectionUrl;
-      if (url.getQuery() != null && "file".equalsIgnoreCase(protocol)) {
-        // Remove query (replace file with path) if "file" protocol.
-        final String ref = url.getRef();
-        final String refText = ref == null || ref.length() == 0 ? "" : "#" + ref;
-        connectionUrl = new URL(protocol, url.getHost(), url.getPort(), url.getPath() + refText);
-      } else {
-        connectionUrl = url;
-      }
-      final RequestType requestType = rhandler.getRequestType();
-      if (isGet && isOKToRetrieveFromCache(requestType)) {
-        cacheInfo = getCacheInfo(rhandler, connectionUrl);
-      }
+      final URL connectionUrl = makeConnectionURL(url, protocol);
+      final CacheInfo cacheInfo = getCacheInfo(rhandler, connectionUrl, isGet);
       try {
         URLConnection connection = this.getURLConnection(connectionUrl, request, protocol, method, rhandler, cacheInfo);
         rinfo = new RequestInfo(connection, rhandler);
@@ -682,19 +674,13 @@ public final class RequestEngine {
             final HttpURLConnection hconnection = (HttpURLConnection) connection;
             hconnection.setInstanceFollowRedirects(false);
             final int responseCode = hconnection.getResponseCode();
-            if (linfo) {
-              logger.info("run(): ResponseCode=" + responseCode + " for url=" + connectionUrl);
-            }
+            logInfo("run(): ResponseCode=" + responseCode + " for url=" + connectionUrl);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-              if (linfo) {
-                logger.info("run(): FROM-HTTP: " + connectionUrl);
-              }
+              logInfo("run(): FROM-HTTP: " + connectionUrl);
               if (mayBeCached(hconnection)) {
                 isCacheable = true;
               } else {
-                if (linfo) {
-                  logger.info("run(): NOT CACHEABLE: " + connectionUrl);
-                }
+                logInfo("run(): NOT CACHEABLE: " + connectionUrl);
                 if (cacheInfo != null) {
                   cacheInfo.delete();
                 }
@@ -705,9 +691,7 @@ public final class RequestEngine {
               if (cacheInfo == null) {
                 throw new IllegalStateException("Cache info missing but it is necessary to process response code " + responseCode + ".");
               }
-              if (linfo) {
-                logger.info("run(): FROM-VALIDATION: " + connectionUrl);
-              }
+              logInfo("run(): FROM-VALIDATION: " + connectionUrl);
               // Disconnect the HTTP connection.
               hconnection.disconnect();
               isContentCached = true;
@@ -720,9 +704,7 @@ public final class RequestEngine {
               rinfo.setConnection(connection, responseIn);
             } else if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
                 || responseCode == HttpURLConnection.HTTP_SEE_OTHER) {
-              if (linfo) {
-                logger.info("run(): REDIRECTING: ResponseCode=" + responseCode + " for url=" + url);
-              }
+              logInfo("run(): REDIRECTING: ResponseCode=" + responseCode + " for url=" + url);
               final RequestHandler newHandler = new RedirectRequestHandler(rhandler, hconnection);
               Thread.yield();
               if (recursionLevel > 5) {
@@ -739,55 +721,19 @@ public final class RequestEngine {
           if (rinfo.isAborted()) {
             throw new CancelClientletException("Stopped");
           }
-          // Give a change to extensions to post-process the connection.
+
+          // Give a chance to extensions to post-process the connection.
           final URLConnection newConnection = getSafeExtensionManager().dispatchPostConnection(connection);
           if (newConnection != connection) {
             responseIn = newConnection.getInputStream();
             connection = newConnection;
           }
+
           // Create clientlet response.
           response = new ClientletResponseImpl(rhandler, connection, url, isContentCached, cacheInfo, isCacheable,
               rhandler.getRequestType());
           rhandler.processResponse(response);
-          if (isCacheable) {
-            // Make sure stream reaches EOF so we don't
-            // get null stored content.
-            response.ensureReachedEOF();
-            final byte[] content = response.getStoredContent();
-            if (content != null) {
-              final Serializable persObject = response.getNewPersistentCachedObject();
-              final Object altObject = response.getNewTransientCachedObject();
-              final int altObjectSize = response.getNewTransientObjectSize();
-              cache(rhandler, connectionUrl, connection, content, persObject, altObject, altObjectSize);
-            } else {
-              logger.warning("processHandler(): Cacheable response not available: " + connectionUrl);
-            }
-          } else if (cacheInfo != null && !cacheInfo.hasTransientEntry()) {
-            // Content that came from cache cannot be cached
-            // again, but a RAM entry was missing.
-            final byte[] persContent = cacheInfo.getPersistentContent();
-            final Object altObject = response.getNewTransientCachedObject();
-            final int altObjectSize = response.getNewTransientObjectSize();
-            final MemoryCacheEntry newMemEntry = new MemoryCacheEntry(persContent, cacheInfo.getExpires(), cacheInfo.getRequestTime(),
-                altObject, altObjectSize);
-            final int actualApproxObjectSize;
-            if (altObject != null) {
-              if (altObjectSize < persContent.length) {
-                actualApproxObjectSize = persContent.length;
-              } else {
-                actualApproxObjectSize = altObjectSize;
-              }
-            } else {
-              actualApproxObjectSize = 0;
-            }
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-              // Reason: Privileges needed to access CacheManager.
-              public Object run() {
-                CacheManager.getInstance().putTransient(connectionUrl, newMemEntry, actualApproxObjectSize + persContent.length);
-                return null;
-              }
-            });
-          }
+          updateCache(rhandler, response, connectionUrl, cacheInfo, connection, isCacheable);
         } finally {
           if (trackRequestInfo) {
             synchronized (this.processingRequests) {
@@ -807,20 +753,15 @@ public final class RequestEngine {
         }
       } finally {
         if (cacheInfo != null) {
-          // This is necessary so that the file stream doesn't
-          // stay open potentially.
+          // This is necessary so that the file stream doesn't stay open potentially.
           cacheInfo.dispose();
         }
       }
     } catch (final CancelClientletException cce) {
-      if (linfo) {
-        logger.log(Level.INFO, "run(): Clientlet cancelled: " + baseURL, cce);
-      }
+      logInfo("run(): Clientlet cancelled: " + baseURL, cce);
     } catch (final Throwable exception) {
       if (rinfo != null && rinfo.isAborted()) {
-        if (linfo) {
-          logger.log(Level.INFO, "run(): Exception ignored because request aborted.", exception);
-        }
+        logInfo("run(): Exception ignored because request aborted.", exception);
       } else {
         try {
           if (!rhandler.handleException(response, exception)) {
@@ -834,6 +775,59 @@ public final class RequestEngine {
       }
     } finally {
       rhandler.handleProgress(ProgressType.DONE, baseURL, method, 0, 0);
+    }
+  }
+
+  private static void updateCache(final RequestHandler rhandler, final ClientletResponseImpl response, final URL connectionUrl, final CacheInfo cacheInfo,
+      final URLConnection connection, final boolean isCacheable) throws IOException {
+    if (isCacheable) {
+      // Make sure stream reaches EOF so we don't get null stored content.
+      response.ensureReachedEOF();
+
+      final byte[] content = response.getStoredContent();
+      if (content != null) {
+        final Serializable persObject = response.getNewPersistentCachedObject();
+        final Object altObject = response.getNewTransientCachedObject();
+        final int altObjectSize = response.getNewTransientObjectSize();
+        cache(rhandler, connectionUrl, connection, content, persObject, altObject, altObjectSize);
+      } else {
+        logger.warning("processHandler(): Cacheable response not available: " + connectionUrl);
+      }
+    } else if (cacheInfo != null && !cacheInfo.hasTransientEntry()) {
+      // Content that came from cache cannot be cached again, but a RAM entry was missing.
+      final byte[] persContent = cacheInfo.getPersistentContent();
+      final Object altObject = response.getNewTransientCachedObject();
+      final int altObjectSize = response.getNewTransientObjectSize();
+      final MemoryCacheEntry newMemEntry = new MemoryCacheEntry(persContent, cacheInfo.getExpires(), cacheInfo.getRequestTime(), altObject,
+          altObjectSize);
+      final int actualApproxObjectSize = altObject == null ? 0 : Math.max(altObjectSize, persContent.length);
+      // Reason: Privileges needed to access CacheManager.
+      AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+        CacheManager.getInstance().putTransient(connectionUrl, newMemEntry, actualApproxObjectSize + persContent.length);
+        return null;
+      });
+    }
+  }
+
+  private static URL makeConnectionURL(final URL url, final String protocol) throws MalformedURLException {
+    if (url.getQuery() != null && "file".equalsIgnoreCase(protocol)) {
+      // Remove query (replace file with path) if "file" protocol.
+      final String ref = url.getRef();
+      final String refText = ref == null || ref.length() == 0 ? "" : "#" + ref;
+      return new URL(protocol, url.getHost(), url.getPort(), url.getPath() + refText);
+    } else {
+      return url;
+    }
+  }
+
+  private static URL makeCompleteURL(final URL baseURL, final ParameterInfo pinfo, final boolean isGet) throws Exception, MalformedURLException {
+    if (isGet && pinfo != null) {
+      final String ref = baseURL.getRef();
+      final String noRefForm = Urls.getNoRefForm(baseURL);
+      final String newURLText = completeGetUrl(noRefForm, pinfo, ref);
+      return new URL(newURLText);
+    } else {
+      return baseURL;
     }
   }
 
@@ -896,11 +890,9 @@ public final class RequestEngine {
     public void run() {
       final SecurityManager sm = System.getSecurityManager();
       if (sm != null && this.accessContext != null) {
-        final PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
-          public Object run() {
-            processHandler(handler, 0, true);
-            return null;
-          }
+        final PrivilegedAction<Object> action = () -> {
+          processHandler(handler, 0, true);
+          return null;
         };
         // This way we ensure scheduled requests have the same
         // protection as inline requests, particularly in relation
