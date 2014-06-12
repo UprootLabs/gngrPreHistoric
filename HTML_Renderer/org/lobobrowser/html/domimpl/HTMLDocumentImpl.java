@@ -56,6 +56,7 @@ import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
 import org.lobobrowser.util.Domains;
+import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WeakValueHashMap;
 import org.lobobrowser.util.io.EmptyReader;
@@ -333,44 +334,29 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public String getCookie() {
-    final SecurityManager sm = System.getSecurityManager();
-    if (sm != null) {
-      return (String) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-        // Justification: A caller (e.g. Google Analytics script)
-        // might want to get cookies from the parent document.
-        // If the caller has access to the document, it appears
-        // they should be able to get cookies on that document.
-        // Note that this Document instance cannot be created
-        // with an arbitrary URL.
+    // Justification: A caller (e.g. Google Analytics script)
+    // might want to get cookies from the parent document.
+    // If the caller has access to the document, it appears
+    // they should be able to get cookies on that document.
+    // Note that this Document instance cannot be created
+    // with an arbitrary URL.
 
-        // TODO: Security: Review rationale.
-        public Object run() {
-          return ucontext.getCookie(documentURL);
-        }
-      });
-    } else {
-      return this.ucontext.getCookie(this.documentURL);
-    }
+    // TODO: Security: Review rationale.
+
+    return SecurityUtil.doPrivileged(() -> ucontext.getCookie(documentURL));
   }
 
   public void setCookie(final String cookie) throws DOMException {
-    final SecurityManager sm = System.getSecurityManager();
-    if (sm != null) {
-      AccessController.doPrivileged(new PrivilegedAction<Object>() {
-        // Justification: A caller (e.g. Google Analytics script)
-        // might want to set cookies on the parent document.
-        // If the caller has access to the document, it appears
-        // they should be able to set cookies on that document.
-        // Note that this Document instance cannot be created
-        // with an arbitrary URL.
-        public Object run() {
-          ucontext.setCookie(documentURL, cookie);
-          return null;
-        }
-      });
-    } else {
-      this.ucontext.setCookie(this.documentURL, cookie);
-    }
+    // Justification: A caller (e.g. Google Analytics script)
+    // might want to set cookies on the parent document.
+    // If the caller has access to the document, it appears
+    // they should be able to set cookies on that document.
+    // Note that this Document instance cannot be created
+    // with an arbitrary URL.
+    SecurityUtil.doPrivileged(() -> {
+      ucontext.setCookie(documentURL, cookie);
+      return null;
+    });
   }
 
   public void open() {
@@ -601,6 +587,8 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public Element createElementNS(final String namespaceURI, final String qualifiedName) throws DOMException {
+    System.out.println("request to create element: " + namespaceURI + " : " + qualifiedName);
+    // TODO
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Not implemented: createElementNS");
   }
 
@@ -1199,29 +1187,16 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
             }
           }
         });
-        final SecurityManager sm = System.getSecurityManager();
-        if (sm == null) {
+
+        SecurityUtil.doPrivileged(() -> {
           try {
             httpRequest.open("GET", url, true);
             httpRequest.send(null);
           } catch (final java.io.IOException thrown) {
             logger.log(Level.WARNING, "loadImage()", thrown);
           }
-        } else {
-          AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-              // Code might have restrictions on accessing
-              // items from elsewhere.
-              try {
-                httpRequest.open("GET", url, true);
-                httpRequest.send(null);
-              } catch (final java.io.IOException thrown) {
-                logger.log(Level.WARNING, "loadImage()", thrown);
-              }
-              return null;
-            }
-          });
-        }
+          return null;
+        });
       }
     }
     if (event != null) {
