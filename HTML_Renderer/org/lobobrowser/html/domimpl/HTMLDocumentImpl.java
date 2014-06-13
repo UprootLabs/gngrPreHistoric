@@ -29,8 +29,6 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -43,8 +41,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.HttpRequest;
-import org.lobobrowser.html.ReadyStateChangeListener;
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.io.WritableLineReader;
 import org.lobobrowser.html.js.Event;
@@ -55,6 +51,7 @@ import org.lobobrowser.html.parser.HtmlParser;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
+import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
@@ -1158,31 +1155,29 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
         }
       } else {
         final UserAgentContext uac = rcontext.getUserAgentContext();
-        final HttpRequest httpRequest = uac.createHttpRequest();
+        final NetworkRequest httpRequest = uac.createHttpRequest();
         final ImageInfo newInfo = new ImageInfo();
         map.put(urlText, newInfo);
         newInfo.addListener(imageListener);
-        httpRequest.addReadyStateChangeListener(new ReadyStateChangeListener() {
-          public void readyStateChanged() {
-            if (httpRequest.getReadyState() == HttpRequest.STATE_COMPLETE) {
-              final java.awt.Image newImage = httpRequest.getResponseImage();
-              final ImageEvent newEvent = newImage == null ? null : new ImageEvent(HTMLDocumentImpl.this, newImage);
-              ImageListener[] listeners;
-              synchronized (map) {
-                newInfo.imageEvent = newEvent;
-                newInfo.loaded = true;
-                listeners = newEvent == null ? null : newInfo.getListeners();
-                // Must remove from map in the locked block
-                // that got the listeners. Otherwise a new
-                // listener might miss the event??
-                map.remove(urlText);
-              }
-              if (listeners != null) {
-                final int llength = listeners.length;
-                for (int i = 0; i < llength; i++) {
-                  // Call holding no locks
-                  listeners[i].imageLoaded(newEvent);
-                }
+        httpRequest.addNetworkRequestListener(netEvent -> {
+          if (httpRequest.getReadyState() == NetworkRequest.STATE_COMPLETE) {
+            final java.awt.Image newImage = httpRequest.getResponseImage();
+            final ImageEvent newEvent = newImage == null ? null : new ImageEvent(HTMLDocumentImpl.this, newImage);
+            ImageListener[] listeners;
+            synchronized (map) {
+              newInfo.imageEvent = newEvent;
+              newInfo.loaded = true;
+              listeners = newEvent == null ? null : newInfo.getListeners();
+              // Must remove from map in the locked block
+              // that got the listeners. Otherwise a new
+              // listener might miss the event??
+              map.remove(urlText);
+            }
+            if (listeners != null) {
+              final int llength = listeners.length;
+              for (int i = 0; i < llength; i++) {
+                // Call holding no locks
+                listeners[i].imageLoaded(newEvent);
               }
             }
           }

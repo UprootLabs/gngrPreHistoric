@@ -1,14 +1,15 @@
 package org.lobobrowser.primary.clientlets.html;
 
-import org.lobobrowser.html.HttpRequest;
+import java.security.Policy;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.ua.NavigatorFrame;
-
-import java.security.Policy;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.lobobrowser.ua.NetworkRequest;
 
 public class SilentUserAgentContextImpl implements UserAgentContext {
   private static final Logger logger = Logger.getLogger(SilentUserAgentContextImpl.class.getName());
@@ -48,8 +49,8 @@ public class SilentUserAgentContextImpl implements UserAgentContext {
     logger.log(Level.SEVERE, message);
   }
 
-  public HttpRequest createHttpRequest() {
-    return new HttpRequestImpl(this.frame.createNetworkRequest());
+  public NetworkRequest createHttpRequest() {
+    return this.frame.createNetworkRequest();
   }
 
   /*

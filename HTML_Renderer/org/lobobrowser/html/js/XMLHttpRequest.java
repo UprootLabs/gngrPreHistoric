@@ -4,24 +4,22 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lobobrowser.html.HttpRequest;
-import org.lobobrowser.html.ReadyStateChangeListener;
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.js.JavaScript;
+import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.util.Urls;
-import org.w3c.dom.Document;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Document;
 
 public class XMLHttpRequest extends AbstractScriptableDelegate {
   // TODO: See reference:
   // http://www.xulplanet.com/references/objref/XMLHttpRequest.html
 
   private static final Logger logger = Logger.getLogger(XMLHttpRequest.class.getName());
-  private final HttpRequest request;
+  private final NetworkRequest request;
   private final UserAgentContext pcontext;
   private final Scriptable scope;
   private final java.net.URL codeSource;
@@ -107,12 +105,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     synchronized (this) {
       this.onreadystatechange = value;
       if (value != null && !this.listenerAdded) {
-        this.request.addReadyStateChangeListener(new ReadyStateChangeListener() {
-          public void readyStateChanged() {
-            // Not called in GUI thread to ensure consistency of readyState.
-            executeReadyStateChange();
-          }
-        });
+        this.request.addNetworkRequestListener(netEvent -> executeReadyStateChange());
         this.listenerAdded = true;
       }
     }

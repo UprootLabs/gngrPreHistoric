@@ -35,8 +35,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.lobobrowser.html.HttpRequest;
-import org.lobobrowser.html.ReadyStateChangeListener;
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
@@ -47,6 +45,7 @@ import org.lobobrowser.html.style.BorderInfo;
 import org.lobobrowser.html.style.HtmlInsets;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.gui.GUITasks;
 import org.w3c.dom.css.CSS2Properties;
@@ -491,22 +490,20 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
   protected void loadBackgroundImage(final java.net.URL imageURL) {
     final UserAgentContext ctx = this.userAgentContext;
     if (ctx != null) {
-      final HttpRequest request = ctx.createHttpRequest();
-      request.addReadyStateChangeListener(new ReadyStateChangeListener() {
-        public void readyStateChanged() {
-          final int readyState = request.getReadyState();
-          if (readyState == HttpRequest.STATE_COMPLETE) {
-            final int status = request.getStatus();
-            if (status == 200 || status == 0) {
-              final Image img = request.getResponseImage();
-              BaseElementRenderable.this.backgroundImage = img;
-              // Cause observer to be called
-              final int w = img.getWidth(BaseElementRenderable.this);
-              final int h = img.getHeight(BaseElementRenderable.this);
-              // Maybe image already done...
-              if (w != -1 && h != -1) {
-                BaseElementRenderable.this.repaint();
-              }
+      final NetworkRequest request = ctx.createHttpRequest();
+      request.addNetworkRequestListener(event -> {
+        final int readyState = request.getReadyState();
+        if (readyState == NetworkRequest.STATE_COMPLETE) {
+          final int status = request.getStatus();
+          if (status == 200 || status == 0) {
+            final Image img = request.getResponseImage();
+            BaseElementRenderable.this.backgroundImage = img;
+            // Cause observer to be called
+            final int w = img.getWidth(BaseElementRenderable.this);
+            final int h = img.getHeight(BaseElementRenderable.this);
+            // Maybe image already done...
+            if (w != -1 && h != -1) {
+              BaseElementRenderable.this.repaint();
             }
           }
         }

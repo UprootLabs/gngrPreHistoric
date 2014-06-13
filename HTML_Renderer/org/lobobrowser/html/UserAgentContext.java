@@ -1,5 +1,7 @@
 package org.lobobrowser.html;
 
+import org.lobobrowser.ua.NetworkRequest;
+
 /**
  * Provides information about the user agent (browser) driving the parser and/or
  * renderer.
@@ -16,7 +18,7 @@ public interface UserAgentContext {
    * be used by the renderer to load images, scripts, external style sheets, and
    * implement the Javascript XMLHttpRequest class (AJAX).
    */
-  public HttpRequest createHttpRequest();
+  public NetworkRequest createHttpRequest();
 
   /**
    * Gets browser "code" name.

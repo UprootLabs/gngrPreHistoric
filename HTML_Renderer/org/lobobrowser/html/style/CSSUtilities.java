@@ -35,6 +35,7 @@ import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.*;
 import org.lobobrowser.html.*;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.util.*;
 
 import com.steadystate.css.dom.CSSStyleSheetImpl;
@@ -91,7 +92,7 @@ public class CSSUtilities {
   public static CSSStyleSheet parse(final org.w3c.dom.Node ownerNode, final String href, final HTMLDocumentImpl doc, final String baseUri,
       final boolean considerDoubleSlashComments) throws MalformedURLException {
     final UserAgentContext bcontext = doc.getUserAgentContext();
-    final HttpRequest request = bcontext.createHttpRequest();
+    final NetworkRequest request = bcontext.createHttpRequest();
     final URL baseURL = new URL(baseUri);
     final URL scriptURL = Urls.createURL(baseURL, href);
     final String scriptURI = scriptURL == null ? href : scriptURL.toExternalForm();

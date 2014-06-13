@@ -31,6 +31,16 @@ import org.w3c.dom.Document;
 /**
  * The <code>NetworkRequest</code> interface should be implemented to provide
  * network request capabilities.
+ *
+ * It is used in a similar manner to <code>XMLHttpRequest</code> in Javascript
+ * (AJAX). Normally, a listener will be added by calling {@link
+ * #addReadyStateChangeListener(ReadyStateChangeListener)}, the method {@link
+ * #open(String, URL, boolean, String, String) open} will be called, and
+ * finally, {@link #send(String)} will be called to complete the request.
+ *
+ * @see UserAgentContext#createNetworkRequest()
+ * 
+ * This class supercedes HttpRequest class of yore.
  */
 public interface NetworkRequest {
   /**

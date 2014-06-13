@@ -28,9 +28,9 @@ import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lobobrowser.html.HttpRequest;
 import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.js.Executor;
+import org.lobobrowser.ua.NetworkRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html2.HTMLScriptElement;
@@ -139,7 +139,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
         scriptURI = scriptURL == null ? src : scriptURL.toExternalForm();
         final long time1 = liflag ? System.currentTimeMillis() : 0;
         try {
-          final HttpRequest request = bcontext.createHttpRequest();
+          final NetworkRequest request = bcontext.createHttpRequest();
           // Perform a synchronous request
           final SecurityManager sm = System.getSecurityManager();
           if (sm == null) {
