@@ -28,8 +28,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,6 +44,7 @@ import org.lobobrowser.html.style.HtmlInsets;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.gui.GUITasks;
 import org.w3c.dom.css.CSS2Properties;
@@ -507,30 +506,17 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
             }
           }
         }
-      });
-      final SecurityManager sm = System.getSecurityManager();
-      if (sm == null) {
-        try {
-          request.open("GET", imageURL);
-          request.send(null);
-        } catch (final java.io.IOException thrown) {
-          logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
-        }
-      } else {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-          public Object run() {
-            // Code might have restrictions on accessing
-            // items from elsewhere.
-            try {
-              request.open("GET", imageURL);
-              request.send(null);
-            } catch (final java.io.IOException thrown) {
-              logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
-            }
-            return null;
+        SecurityUtil.doPrivileged(() -> {
+          // Code might have restrictions on accessing items from elsewhere.
+          try {
+            request.open("GET", imageURL);
+            request.send(null);
+          } catch (final java.io.IOException thrown) {
+            logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
           }
+          return null;
         });
-      }
+      });
     }
   }
 

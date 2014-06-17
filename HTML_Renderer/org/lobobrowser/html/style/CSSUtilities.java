@@ -97,29 +97,15 @@ public class CSSUtilities {
     final URL scriptURL = Urls.createURL(baseURL, href);
     final String scriptURI = scriptURL == null ? href : scriptURL.toExternalForm();
     // Perform a synchronous request
-    final SecurityManager sm = System.getSecurityManager();
-    if (sm == null) {
+    SecurityUtil.doPrivileged(() -> {
       try {
         request.open("GET", scriptURI, false);
         request.send(null);
       } catch (final java.io.IOException thrown) {
         logger.log(Level.WARNING, "parse()", thrown);
       }
-
-    } else {
-      // Code might have restrictions on loading items from elsewhere.
-      AccessController.doPrivileged(new PrivilegedAction<Object>() {
-        public Object run() {
-          try {
-            request.open("GET", scriptURI, false);
-            request.send(null);
-          } catch (final java.io.IOException thrown) {
-            logger.log(Level.WARNING, "parse()", thrown);
-          }
-          return null;
-        }
-      });
-    }
+      return null;
+    });
     final int status = request.getStatus();
     if (status != 200 && status != 0) {
       logger.warning("Unable to parse CSS. URI=[" + scriptURI + "]. Response status was " + status + ".");
