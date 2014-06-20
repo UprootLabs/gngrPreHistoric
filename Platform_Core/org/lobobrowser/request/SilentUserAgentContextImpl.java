@@ -1,18 +1,15 @@
-package org.lobobrowser.primary.clientlets.html;
+package org.lobobrowser.request;
 
 import java.security.Policy;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.UserAgentContext;
 
 public class SilentUserAgentContextImpl implements UserAgentContext {
-  private static final Logger logger = Logger.getLogger(SilentUserAgentContextImpl.class.getName());
   private static final Set<String> mediaNames = new HashSet<>();
   private final NavigatorFrame frame;
 
@@ -27,26 +24,13 @@ public class SilentUserAgentContextImpl implements UserAgentContext {
 
   public SilentUserAgentContextImpl(final NavigatorFrame frame) {
     this.frame = frame;
+    if (frame == null) {
+      throw new IllegalArgumentException("frame should not be null");
+    }
   }
 
   public boolean isMedia(final String mediaName) {
     return mediaNames.contains(mediaName.toLowerCase());
-  }
-
-  public void warn(final String message, final Throwable throwable) {
-    logger.log(Level.WARNING, message, throwable);
-  }
-
-  public void error(final String message, final Throwable throwable) {
-    logger.log(Level.SEVERE, message, throwable);
-  }
-
-  public void warn(final String message) {
-    logger.warning(message);
-  }
-
-  public void error(final String message) {
-    logger.log(Level.SEVERE, message);
   }
 
   public NetworkRequest createHttpRequest() {
@@ -128,6 +112,7 @@ public class SilentUserAgentContextImpl implements UserAgentContext {
 
   public String getCookie(final java.net.URL url) {
     // Requires privileges.
+    System.out.println("Get cookie: " + url);
     return RequestEngine.getInstance().getCookie(url);
   }
 
@@ -164,5 +149,15 @@ public class SilentUserAgentContextImpl implements UserAgentContext {
 
   public boolean isInternalCSSEnabled() {
     return true;
+  }
+
+  public boolean isRequestPermitted(final Request request) {
+    System.out.println("Checking :" + request);
+    System.out.println("  context: " + frame.getCurrentNavigationEntry());
+    if (request instanceof CookieRequest) {
+      final CookieRequest cookieRequest = (CookieRequest) request;
+      return true;
+    }
+    return false;
   }
 }

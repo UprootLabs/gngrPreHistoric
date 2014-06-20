@@ -21,12 +21,12 @@
 package org.lobobrowser.html.renderer;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.style.AbstractCSS2Properties;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.ListStyle;
+import org.lobobrowser.ua.UserAgentContext;
 
 class BaseRListElement extends RBlock {
   protected static final String DEFAULT_COUNTER_NAME = "$cobra.counter";

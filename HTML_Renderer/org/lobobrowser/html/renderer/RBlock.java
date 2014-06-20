@@ -43,13 +43,13 @@ import java.util.logging.Logger;
 import javax.swing.JScrollBar;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.domimpl.NodeFilter;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.style.BlockRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.RenderThreadState;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Objects;
 import org.w3c.dom.Node;
 

@@ -23,19 +23,31 @@
  */
 package org.lobobrowser.html.parser;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.w3c.dom.Node;
+import org.lobobrowser.html.io.WritableLineReader;
+import org.lobobrowser.ua.UserAgentContext;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.io.*;
 
 /**
  * The <code>HtmlParser</code> class is an HTML DOM parser. This parser provides

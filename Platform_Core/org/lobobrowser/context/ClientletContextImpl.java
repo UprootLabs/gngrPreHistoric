@@ -23,13 +23,26 @@ package org.lobobrowser.context;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.clientlet.ContentBuffer;
+import org.lobobrowser.clientlet.SimpleComponentContent;
 import org.lobobrowser.io.ManagedStore;
-import org.lobobrowser.request.*;
-import org.lobobrowser.store.*;
-import org.lobobrowser.ua.*;
+import org.lobobrowser.request.SilentUserAgentContextImpl;
+import org.lobobrowser.request.UserAgentImpl;
+import org.lobobrowser.store.StorageManager;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.UserAgent;
+import org.lobobrowser.ua.UserAgentContext;
 
 public class ClientletContextImpl implements ClientletContext {
   private final NavigatorFrame frame;

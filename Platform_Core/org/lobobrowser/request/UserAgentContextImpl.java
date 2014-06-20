@@ -1,4 +1,4 @@
-package org.lobobrowser.primary.clientlets.html;
+package org.lobobrowser.request;
 
 import java.security.Policy;
 import java.util.HashSet;
@@ -6,11 +6,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.request.UserAgentImpl;
 import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.UserAgentContext;
 
 public class UserAgentContextImpl implements UserAgentContext {
   private static final Logger logger = Logger.getLogger(UserAgentContextImpl.class.getName());
@@ -165,5 +165,9 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   public boolean isInternalCSSEnabled() {
     return true;
+  }
+
+  public boolean isRequestPermitted(final Request request) {
+    return false;
   }
 }

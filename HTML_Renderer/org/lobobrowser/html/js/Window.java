@@ -35,7 +35,6 @@ import java.util.logging.Logger;
 import javax.swing.Timer;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.domimpl.HTMLIFrameElementImpl;
@@ -49,6 +48,7 @@ import org.lobobrowser.js.JavaClassWrapperFactory;
 import org.lobobrowser.js.JavaInstantiator;
 import org.lobobrowser.js.JavaObjectWrapper;
 import org.lobobrowser.js.JavaScript;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.ID;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;

@@ -32,7 +32,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.domimpl.HTMLTableCellElementImpl;
 import org.lobobrowser.html.domimpl.HTMLTableElementImpl;
@@ -44,6 +43,7 @@ import org.lobobrowser.html.style.HtmlLength;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.RenderThreadState;
+import org.lobobrowser.ua.UserAgentContext;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLTableCellElement;
 import org.w3c.dom.html2.HTMLTableRowElement;

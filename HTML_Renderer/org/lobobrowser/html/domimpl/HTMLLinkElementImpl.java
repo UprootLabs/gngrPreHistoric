@@ -22,14 +22,23 @@ package org.lobobrowser.html.domimpl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.style.CSSUtilities;
+import org.lobobrowser.html.style.ColorRenderState;
+import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.style.TextDecorationRenderState;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.html2.*;
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.style.*;
-import org.lobobrowser.util.gui.*;
-import com.steadystate.css.dom.*;
-import java.util.logging.*;
+import org.w3c.dom.html2.HTMLBodyElement;
+import org.w3c.dom.html2.HTMLDocument;
+import org.w3c.dom.html2.HTMLLinkElement;
+
+import com.steadystate.css.dom.CSSStyleSheetImpl;
 
 public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLinkElement {
   private static final Logger logger = Logger.getLogger(HTMLLinkElementImpl.class.getName());

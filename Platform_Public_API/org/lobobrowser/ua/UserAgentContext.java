@@ -1,4 +1,6 @@
-package org.lobobrowser.html;
+package org.lobobrowser.ua;
+
+import java.net.URL;
 
 import org.lobobrowser.ua.NetworkRequest;
 
@@ -13,6 +15,69 @@ import org.lobobrowser.ua.NetworkRequest;
  * @see org.lobobrowser.html.parser.DocumentBuilderImpl#DocumentBuilderImpl(UserAgentContext)
  */
 public interface UserAgentContext {
+  static public abstract class Request {
+    final public URL url;
+
+    Request(final URL url) {
+      this.url = url;
+    }
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName() + " : " + url;
+    }
+  }
+
+  static public class CookieRequest extends Request {
+    public CookieRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static public class ImageRequest extends Request {
+    public ImageRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static public class ScriptRequest extends Request {
+
+    public ScriptRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static public class InlineScriptRequest extends Request {
+
+    public InlineScriptRequest() {
+      super(null);
+    }
+  }
+
+  static public class XHRRequest extends Request {
+
+    XHRRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static public class CSSRequest extends Request {
+
+    CSSRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static class FrameRequest extends Request {
+
+    FrameRequest(final URL url) {
+      super(url);
+      // TODO Auto-generated constructor stub
+    }
+  }
+
+  public boolean isRequestPermitted(final Request request);
+
   /**
    * Creates an instance of {@link org.lobobrowser.html.HttpRequest} which can
    * be used by the renderer to load images, scripts, external style sheets, and
@@ -50,6 +115,7 @@ public interface UserAgentContext {
   /**
    * Returns a boolean value indicating whether cookies are enabled in the user
    * agent. This value is used for reporting purposes only.
+   * TODO: Remove
    */
   public boolean isCookieEnabled();
 
@@ -57,17 +123,20 @@ public interface UserAgentContext {
    * Returns a boolean value indicating whether scripting is enabled in the user
    * agent. If this value is <code>false</code>, the parser will not process
    * scripts and Javascript element attributes will have no effect.
+   * TODO: Remove
    */
   public boolean isScriptingEnabled();
 
   /**
    * Returns a boolean value indicating whether remote (non-inline) CSS
    * documents should be loaded.
+   * TODO: Remove
    */
   public boolean isExternalCSSEnabled();
 
   /**
    * Returns a boolean value indicating whether STYLE tags should be processed.
+   * TODO: Remove
    */
   public boolean isInternalCSSEnabled();
 

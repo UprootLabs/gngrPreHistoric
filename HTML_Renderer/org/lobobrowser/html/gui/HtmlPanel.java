@@ -23,23 +23,36 @@
  */
 package org.lobobrowser.html.gui;
 
-import java.awt.*;
+import java.awt.EventQueue;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.util.*;
-import java.io.*;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.parser.*;
-import org.lobobrowser.html.renderer.*;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.DocumentNotificationListener;
+import org.lobobrowser.html.domimpl.ElementImpl;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.NodeImpl;
+import org.lobobrowser.html.parser.DocumentBuilderImpl;
+import org.lobobrowser.html.parser.InputSourceImpl;
+import org.lobobrowser.html.renderer.BoundableRenderable;
+import org.lobobrowser.html.renderer.FrameContext;
+import org.lobobrowser.html.renderer.NodeRenderer;
+import org.lobobrowser.html.renderer.RenderableSpot;
 import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.EventDispatch2;
 import org.lobobrowser.util.gui.WrapperLayout;
 import org.w3c.dom.Document;
 import org.w3c.dom.Text;
-import org.w3c.dom.html2.*;
+import org.w3c.dom.html2.HTMLFrameSetElement;
 
 /**
  * The <code>HtmlPanel</code> class is a Swing component that can render a HTML

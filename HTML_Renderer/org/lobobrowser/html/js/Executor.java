@@ -23,14 +23,13 @@ package org.lobobrowser.html.js;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.js.JavaScript;
-import org.w3c.dom.Document;
-
+import org.lobobrowser.ua.UserAgentContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Document;
 
 public class Executor {
   private static final Logger logger = Logger.getLogger(Executor.class.getName());

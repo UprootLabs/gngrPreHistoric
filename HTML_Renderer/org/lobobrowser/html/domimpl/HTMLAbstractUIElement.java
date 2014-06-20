@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.js.JavaScript;
-import org.w3c.dom.Document;
+import org.lobobrowser.ua.UserAgentContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Document;
 
 /**
  * Implements common functionality of most elements.

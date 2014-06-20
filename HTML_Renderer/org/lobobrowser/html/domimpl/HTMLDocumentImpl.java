@@ -41,7 +41,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.io.WritableLineReader;
 import org.lobobrowser.html.js.Event;
 import org.lobobrowser.html.js.Executor;
@@ -52,6 +51,7 @@ import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
 import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;

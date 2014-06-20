@@ -4,10 +4,10 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Urls;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;

@@ -26,10 +26,10 @@ import java.awt.Graphics;
 import java.awt.Insets;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.style.ListStyle;
 import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.ua.UserAgentContext;
 import org.w3c.dom.html2.HTMLElement;
 
 class RListItem extends BaseRListElement {

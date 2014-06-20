@@ -28,15 +28,15 @@ import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.ua.NetworkRequest;
-import org.w3c.dom.Document;
-import org.w3c.dom.UserDataHandler;
-import org.w3c.dom.html2.HTMLScriptElement;
+import org.lobobrowser.ua.UserAgentContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Document;
+import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.html2.HTMLScriptElement;
 
 public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScriptElement {
   private static final Logger logger = Logger.getLogger(HTMLScriptElementImpl.class.getName());

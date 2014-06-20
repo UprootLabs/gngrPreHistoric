@@ -23,21 +23,37 @@ GNU GENERAL PUBLIC LICENSE
  */
 package org.lobobrowser.primary.clientlets.html;
 
-import java.util.logging.*;
-
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.gui.HtmlPanel;
-import org.lobobrowser.ua.*;
-import org.w3c.dom.html2.*;
-
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.net.URL;
-import java.util.*;
-import java.lang.ref.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.w3c.dom.*;
+import org.lobobrowser.html.BrowserFrame;
+import org.lobobrowser.html.FormInput;
+import org.lobobrowser.html.HtmlObject;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.FrameNode;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.HTMLLinkElementImpl;
+import org.lobobrowser.html.gui.HtmlPanel;
+import org.lobobrowser.request.SilentUserAgentContextImpl;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.Parameter;
+import org.lobobrowser.ua.ParameterInfo;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.TargetType;
+import org.lobobrowser.ua.UserAgentContext;
+import org.w3c.dom.Document;
+import org.w3c.dom.html2.HTMLCollection;
+import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html2.HTMLLinkElement;
 
 public class HtmlRendererContextImpl implements HtmlRendererContext {
   private static final Logger logger = Logger.getLogger(HtmlRendererContextImpl.class.getName());

@@ -38,11 +38,11 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.RenderThreadState;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Objects;
 
 class RTable extends BaseElementRenderable {

@@ -21,8 +21,8 @@
 
 package org.lobobrowser.html.js;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.js.*;
+import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.lobobrowser.ua.UserAgentContext;
 
 public class Navigator extends AbstractScriptableDelegate {
   private final UserAgentContext context;

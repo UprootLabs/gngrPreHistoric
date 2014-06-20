@@ -37,12 +37,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
-import org.lobobrowser.html.UserAgentContext;
 import org.lobobrowser.html.js.Event;
 import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetRenderState;
 import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Objects;
 import org.lobobrowser.util.Strings;
 import org.mozilla.javascript.Function;

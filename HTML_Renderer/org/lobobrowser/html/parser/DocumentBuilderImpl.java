@@ -23,13 +23,19 @@
  */
 package org.lobobrowser.html.parser;
 
-import java.io.*;
-import javax.xml.parsers.DocumentBuilder;
-import java.util.logging.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.logging.Logger;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.io.*;
+import javax.xml.parsers.DocumentBuilder;
+
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.DOMImplementationImpl;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.io.WritableLineReader;
+import org.lobobrowser.ua.UserAgentContext;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;

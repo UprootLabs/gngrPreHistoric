@@ -23,23 +23,65 @@
  */
 package org.lobobrowser.html.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.KeyStroke;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.html.renderer.*;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.ModelNode;
+import org.lobobrowser.html.domimpl.NodeImpl;
+import org.lobobrowser.html.domimpl.UINode;
+import org.lobobrowser.html.renderer.BoundableRenderable;
+import org.lobobrowser.html.renderer.DelayedPair;
+import org.lobobrowser.html.renderer.FrameContext;
+import org.lobobrowser.html.renderer.NodeRenderer;
+import org.lobobrowser.html.renderer.RBlock;
+import org.lobobrowser.html.renderer.RCollection;
+import org.lobobrowser.html.renderer.RElement;
+import org.lobobrowser.html.renderer.Renderable;
+import org.lobobrowser.html.renderer.RenderableContainer;
+import org.lobobrowser.html.renderer.RenderableSpot;
 import org.lobobrowser.html.style.RenderState;
-import org.lobobrowser.util.*;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.Nodes;
 import org.lobobrowser.util.Objects;
 import org.lobobrowser.util.gui.ColorFactory;
-import org.w3c.dom.*;
-
-import java.util.logging.*;
-import java.util.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * A Swing component that renders a HTML block, given by a DOM root or an

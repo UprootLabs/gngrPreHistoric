@@ -24,7 +24,9 @@ import java.net.URL;
 
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.Header;
-import org.lobobrowser.ua.*;
+import org.lobobrowser.ua.ParameterInfo;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgent;
 
 public class ClientletRequestImpl implements ClientletRequest {
   private final String method;
