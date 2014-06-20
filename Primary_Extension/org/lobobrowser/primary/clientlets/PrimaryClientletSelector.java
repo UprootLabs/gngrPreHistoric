@@ -77,6 +77,9 @@ public class PrimaryClientletSelector implements ClientletSelector {
     } else if ("application/xhtml+xml".equals(mimeTypeTL)) {
       // TODO: XHTML needs its own clientlet.
       return new HtmlClientlet();
+    } else if ("application/json".equals(mimeTypeTL)) {
+      // TODO: JSON needs its own clientlet.
+      return new TextClientlet();
     } else {
       final String path = response.getResponseURL().getPath();
       final int lastDotIdx = path.lastIndexOf('.');
