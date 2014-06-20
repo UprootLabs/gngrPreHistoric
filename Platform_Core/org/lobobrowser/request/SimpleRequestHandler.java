@@ -110,10 +110,6 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     return this.cancelled;
   }
 
-  public RequestType getRequestType() {
-    return this.requestType;
-  }
-
   private class LocalHostnameVerifier implements HostnameVerifier {
     /*
      * (non-Javadoc)

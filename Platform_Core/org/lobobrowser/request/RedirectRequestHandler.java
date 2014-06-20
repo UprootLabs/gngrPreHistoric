@@ -152,8 +152,4 @@ public class RedirectRequestHandler implements RequestHandler {
   public boolean isCancelled() {
     return this.cancelled;
   }
-
-  public RequestType getRequestType() {
-    return this.origHandler.getRequestType();
-  }
 }

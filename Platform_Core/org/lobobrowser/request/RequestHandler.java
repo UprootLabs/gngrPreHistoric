@@ -66,5 +66,7 @@ public interface RequestHandler {
 
   public boolean isCancelled();
 
-  public RequestType getRequestType();
+  default public RequestType getRequestType() {
+    return getRequest().getRequestType();
+  }
 }

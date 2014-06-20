@@ -85,10 +85,6 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     return false;
   }
 
-  public RequestType getRequestType() {
-    return this.requestType;
-  }
-
   public abstract void processResponse(ClientletResponse response) throws ClientletException, IOException;
 
   private class LocalHostnameVerifier implements HostnameVerifier {
