@@ -23,14 +23,15 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.InlineScriptRequest;
+import org.lobobrowser.ua.UserAgentContext.ScriptRequest;
+import org.lobobrowser.util.SecurityUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Scriptable;
@@ -130,7 +131,8 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
       }
       final boolean liflag = loggableInfo;
       if (src == null) {
-        if (bcontext.isRequestPermitted(new UserAgentContext.InlineScriptRequest())) {
+        final InlineScriptRequest request = new InlineScriptRequest(((HTMLDocumentImpl) doc).getDocumentURL());
+        if (bcontext.isRequestPermitted(request)) {
           text = this.getText();
           scriptURI = doc.getBaseURI();
           baseLineNumber = 1; // TODO: Line number of inner text??
@@ -143,51 +145,34 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
         this.informExternalScriptLoading();
         final java.net.URL scriptURL = ((HTMLDocumentImpl) doc).getFullURL(src);
         scriptURI = scriptURL == null ? src : scriptURL.toExternalForm();
-        if (bcontext.isRequestPermitted(new UserAgentContext.ScriptRequest(scriptURL))) {
-          final long time1 = liflag ? System.currentTimeMillis() : 0;
-          try {
-            final NetworkRequest request = bcontext.createHttpRequest();
-            // Perform a synchronous request
-            final SecurityManager sm = System.getSecurityManager();
-            if (sm == null) {
+        final long time1 = liflag ? System.currentTimeMillis() : 0;
+        try {
+          // Perform a synchronous request
+          final NetworkRequest request = bcontext.createHttpRequest();
+          SecurityUtil.doPrivileged(() -> {
+            // Code might have restrictions on accessing
+            // items from elsewhere.
               try {
                 request.open("GET", scriptURI, false);
-                request.send(null);
+                request.send(null, new ScriptRequest(scriptURL));
               } catch (final java.io.IOException thrown) {
                 logger.log(Level.WARNING, "processScript()", thrown);
               }
-            } else {
-              AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                  // Code might have restrictions on accessing
-                  // items from elsewhere.
-                  try {
-                    request.open("GET", scriptURI, false);
-                    request.send(null);
-                  } catch (final java.io.IOException thrown) {
-                    logger.log(Level.WARNING, "processScript()", thrown);
-                  }
-                  return null;
-                }
-              });
-            }
-            final int status = request.getStatus();
-            if (status != 200 && status != 0) {
-              this.warn("Script at [" + scriptURI + "] failed to load; HTTP status: " + status + ".");
-              return;
-            }
-            text = request.getResponseText();
-          } finally {
-            if (liflag) {
-              final long time2 = System.currentTimeMillis();
-              logger.info("processScript(): Loaded external Javascript from URI=[" + scriptURI + "] in " + (time2 - time1) + " ms.");
-            }
+              return null;
+            });
+          final int status = request.getStatus();
+          if (status != 200 && status != 0) {
+            this.warn("Script at [" + scriptURI + "] failed to load; HTTP status: " + status + ".");
+            return;
           }
-          baseLineNumber = 1;
-        } else {
-          text = null;
-          baseLineNumber = -1;
+          text = request.getResponseText();
+        } finally {
+          if (liflag) {
+            final long time2 = System.currentTimeMillis();
+            logger.info("processScript(): Loaded external Javascript from URI=[" + scriptURI + "] in " + (time2 - time1) + " ms.");
+          }
         }
+        baseLineNumber = 1;
       }
       final Context ctx = Executor.createContext(this.getDocumentURL(), bcontext);
       try {

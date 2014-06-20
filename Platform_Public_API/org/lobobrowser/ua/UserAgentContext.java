@@ -34,13 +34,19 @@ public interface UserAgentContext {
     }
   }
 
-  static public class ImageRequest extends Request {
+  static public abstract class NetRequest extends Request {
+    public NetRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static public class ImageRequest extends NetRequest {
     public ImageRequest(final URL url) {
       super(url);
     }
   }
 
-  static public class ScriptRequest extends Request {
+  static public class ScriptRequest extends NetRequest {
 
     public ScriptRequest(final URL url) {
       super(url);
@@ -49,28 +55,27 @@ public interface UserAgentContext {
 
   static public class InlineScriptRequest extends Request {
 
-    public InlineScriptRequest() {
-      super(null);
-    }
-  }
-
-  static public class XHRRequest extends Request {
-
-    XHRRequest(final URL url) {
+    public InlineScriptRequest(final URL url) {
       super(url);
     }
   }
 
-  static public class CSSRequest extends Request {
+  static public class XHRRequest extends NetRequest {
 
-    CSSRequest(final URL url) {
+    public XHRRequest(final URL url) {
       super(url);
     }
   }
 
-  static class FrameRequest extends Request {
+  static public class CSSRequest extends NetRequest {
 
-    FrameRequest(final URL url) {
+    public CSSRequest(final URL url) {
+      super(url);
+    }
+  }
+
+  static class FrameRequest extends NetRequest {
+    public FrameRequest(final URL url) {
       super(url);
       // TODO Auto-generated constructor stub
     }

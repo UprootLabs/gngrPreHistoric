@@ -44,6 +44,7 @@ import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.ImageRequest;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.gui.GUITasks;
@@ -510,7 +511,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
           // Code might have restrictions on accessing items from elsewhere.
           try {
             request.open("GET", imageURL);
-            request.send(null);
+            request.send(null, new ImageRequest(imageURL));
           } catch (final java.io.IOException thrown) {
             logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
           }

@@ -25,7 +25,9 @@ package org.lobobrowser.ua;
 
 import java.awt.Image;
 import java.net.URL;
+import java.util.Optional;
 
+import org.lobobrowser.ua.UserAgentContext.Request;
 import org.w3c.dom.Document;
 
 /**
@@ -206,7 +208,7 @@ public interface NetworkRequest {
    *          POST content or <code>null</code> for GET requests.
    * @throws java.io.IOException
    */
-  public void send(String content) throws java.io.IOException;
+  public void send(String content, Request requestType) throws java.io.IOException;
 
   /**
    * Adds a listener of ReadyState changes. The listener should be invoked even
@@ -216,4 +218,6 @@ public interface NetworkRequest {
    *          An instanceof of {@link NetworkRequestListener}.
    */
   public void addNetworkRequestListener(NetworkRequestListener listener);
+
+  Optional<URL> getURL();
 }

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.InlineScriptRequest;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -62,31 +63,41 @@ public class Executor {
     if (doc == null) {
       throw new IllegalStateException("Element does not belong to a document.");
     }
-    final Context ctx = createContext(element.getDocumentURL(), element.getUserAgentContext());
-    try {
-      final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
-      if (scope == null) {
-        throw new IllegalStateException("Scriptable (scope) instance was expected to be keyed as UserData to document using "
-            + Executor.SCOPE_KEY);
-      }
-      final JavaScript js = JavaScript.getInstance();
-      final Scriptable thisScope = (Scriptable) js.getJavascriptObject(thisObject, scope);
+
+    final UserAgentContext uaContext = element.getUserAgentContext();
+    if (uaContext.isRequestPermitted(new InlineScriptRequest(element.getDocumentURL()))) {
+      final Context ctx = createContext(element.getDocumentURL(), element.getUserAgentContext());
       try {
-        final Scriptable eventScriptable = (Scriptable) js.getJavascriptObject(event, thisScope);
-        // ScriptableObject.defineProperty(thisScope, "event", eventScriptable,
-        // ScriptableObject.READONLY);
-        final Object result = f.call(ctx, thisScope, thisScope, new Object[] { eventScriptable });
-        if (!(result instanceof Boolean)) {
+        final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
+        if (scope == null) {
+          throw new IllegalStateException("Scriptable (scope) instance was expected to be keyed as UserData to document using "
+              + Executor.SCOPE_KEY);
+        }
+        final JavaScript js = JavaScript.getInstance();
+        final Scriptable thisScope = (Scriptable) js.getJavascriptObject(thisObject, scope);
+        try {
+          final Scriptable eventScriptable = (Scriptable) js.getJavascriptObject(event, thisScope);
+          // ScriptableObject.defineProperty(thisScope, "event",
+          // eventScriptable,
+          // ScriptableObject.READONLY);
+          final Object result = f.call(ctx, thisScope, thisScope, new Object[] { eventScriptable });
+          if (!(result instanceof Boolean)) {
+            return true;
+          }
+          return ((Boolean) result).booleanValue();
+        } catch (final Throwable thrown) {
+          logger.log(Level.WARNING, "executeFunction(): There was an error in Javascript code.", thrown);
           return true;
         }
-        return ((Boolean) result).booleanValue();
-      } catch (final Throwable thrown) {
-        logger.log(Level.WARNING, "executeFunction(): There was an error in Javascript code.", thrown);
-        return true;
+      } finally {
+        Context.exit();
       }
-    } finally {
-      Context.exit();
+    } else {
+      // TODO: Should this be true. I am copying the return from the exception
+      // clause above.
+      return true;
     }
+
   }
 
   public static boolean executeFunction(final Scriptable thisScope, final Function f, final java.net.URL codeSource, final UserAgentContext ucontext) {

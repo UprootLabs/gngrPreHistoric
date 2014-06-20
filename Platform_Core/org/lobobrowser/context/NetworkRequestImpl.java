@@ -25,22 +25,41 @@ package org.lobobrowser.context;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.lang.ref.*;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import java.util.logging.*;
-
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.request.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.clientlet.ClientletAccess;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.request.RequestEngine;
+import org.lobobrowser.request.RequestHandler;
+import org.lobobrowser.request.SimpleRequestHandler;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.NetworkRequestEvent;
+import org.lobobrowser.ua.NetworkRequestListener;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.util.EventDispatch;
+import org.lobobrowser.util.GenericEventListener;
+import org.lobobrowser.util.Urls;
 import org.w3c.dom.Document;
 
 public class NetworkRequestImpl implements NetworkRequest {
@@ -53,6 +72,10 @@ public class NetworkRequestImpl implements NetworkRequest {
 
   public NetworkRequestImpl(final UserAgentContext uaContext) {
     this.uaContext = uaContext;
+  }
+
+  public Optional<URL> getURL() {
+    return Optional.of(requestURL);
   }
 
   public int getReadyState() {
@@ -157,22 +180,24 @@ public class NetworkRequestImpl implements NetworkRequest {
     this.changeReadyState(NetworkRequest.STATE_LOADING);
   }
 
-  public void send(final String content) throws IOException {
-    try {
-      final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext);
-      this.currentRequestHandler = rhandler;
+  public void send(final String content, Request requestType) throws IOException {
+    if (uaContext.isRequestPermitted(requestType)) {
       try {
-        // TODO: Username and password support
-        if (this.isAsynchronous) {
-          RequestEngine.getInstance().scheduleRequest(rhandler);
-        } else {
-          RequestEngine.getInstance().inlineRequest(rhandler);
+        final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext);
+        this.currentRequestHandler = rhandler;
+        try {
+          // TODO: Username and password support
+          if (this.isAsynchronous) {
+            RequestEngine.getInstance().scheduleRequest(rhandler);
+          } else {
+            RequestEngine.getInstance().inlineRequest(rhandler);
+          }
+        } finally {
+          this.currentRequestHandler = null;
         }
-      } finally {
-        this.currentRequestHandler = null;
+      } catch (final Exception err) {
+        logger.log(Level.SEVERE, "open()", err);
       }
-    } catch (final Exception err) {
-      logger.log(Level.SEVERE, "open()", err);
     }
   }
 

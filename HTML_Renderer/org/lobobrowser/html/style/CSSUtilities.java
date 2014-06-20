@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.CSSRequest;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.Urls;
@@ -96,13 +97,13 @@ public class CSSUtilities {
     final UserAgentContext bcontext = doc.getUserAgentContext();
     final NetworkRequest request = bcontext.createHttpRequest();
     final URL baseURL = new URL(baseUri);
-    final URL scriptURL = Urls.createURL(baseURL, href);
-    final String scriptURI = scriptURL == null ? href : scriptURL.toExternalForm();
+    final URL cssURL = Urls.createURL(baseURL, href);
+    final String cssURI = cssURL == null ? href : cssURL.toExternalForm();
     // Perform a synchronous request
     SecurityUtil.doPrivileged(() -> {
       try {
-        request.open("GET", scriptURI, false);
-        request.send(null);
+        request.open("GET", cssURI, false);
+        request.send(null, new CSSRequest(cssURL));
       } catch (final java.io.IOException thrown) {
         logger.log(Level.WARNING, "parse()", thrown);
       }
@@ -110,7 +111,7 @@ public class CSSUtilities {
     });
     final int status = request.getStatus();
     if (status != 200 && status != 0) {
-      logger.warning("Unable to parse CSS. URI=[" + scriptURI + "]. Response status was " + status + ".");
+      logger.warning("Unable to parse CSS. URI=[" + cssURI + "]. Response status was " + status + ".");
       return null;
     }
 
@@ -118,13 +119,13 @@ public class CSSUtilities {
     if (text != null && !"".equals(text)) {
       final String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
       final CSSOMParser parser = mkParser();
-      final InputSource is = getCssInputSourceForStyleSheet(processedText, scriptURI);
-      is.setURI(scriptURI);
+      final InputSource is = getCssInputSourceForStyleSheet(processedText, cssURI);
+      is.setURI(cssURI);
       try {
-        final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, scriptURI);
+        final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, cssURI);
         return sheet;
       } catch (final Throwable err) {
-        logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + scriptURI + "].", err);
+        logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", err);
         return null;
       }
     } else {
