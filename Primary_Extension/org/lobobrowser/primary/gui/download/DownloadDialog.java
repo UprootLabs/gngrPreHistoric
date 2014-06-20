@@ -20,22 +20,50 @@
  */
 package org.lobobrowser.primary.gui.download;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.logging.*;
-import java.io.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.gui.*;
-import org.lobobrowser.primary.gui.*;
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.request.*;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.border.EmptyBorder;
+
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.gui.DefaultWindowFactory;
+import org.lobobrowser.primary.gui.FieldType;
+import org.lobobrowser.primary.gui.FormField;
+import org.lobobrowser.primary.gui.FormPanel;
+import org.lobobrowser.primary.settings.ToolsSettings;
+import org.lobobrowser.request.AbstractRequestHandler;
+import org.lobobrowser.request.ClientletRequestImpl;
+import org.lobobrowser.request.RequestEngine;
+import org.lobobrowser.request.RequestHandler;
 import org.lobobrowser.ua.ProgressType;
 import org.lobobrowser.ua.RequestType;
-import org.lobobrowser.util.*;
-import org.lobobrowser.primary.settings.*;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.OS;
+import org.lobobrowser.util.Timing;
 
 public class DownloadDialog extends JFrame {
   private static final Logger logger = Logger.getLogger(DownloadDialog.class.getName());
@@ -58,9 +86,10 @@ public class DownloadDialog extends JFrame {
   private final java.net.URL url;
   private final int knownContentLength;
 
-  public DownloadDialog(final ClientletResponse response, final java.net.URL url, final int transferSpeed) {
+  public DownloadDialog(final ClientletResponse response, final java.net.URL url, final int transferSpeed, final UserAgentContext uaContext) {
     this.url = url;
-    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
+    this.uaContext = uaContext;
+    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon(uaContext).getImage());
 
     this.topFormPanel.setMinLabelWidth(100);
     this.bottomFormPanel.setMinLabelWidth(100);
@@ -194,6 +223,8 @@ public class DownloadDialog extends JFrame {
   private long lastProgressValue;
   private double lastTransferRate = Double.NaN;
 
+  final private UserAgentContext uaContext;
+
   private void startDownload(final java.io.File file) {
     this.saveButton.setEnabled(false);
 
@@ -206,7 +237,7 @@ public class DownloadDialog extends JFrame {
     this.bottomFormPanel.revalidate();
 
     final ClientletRequest request = new ClientletRequestImpl(this.url, RequestType.DOWNLOAD);
-    final RequestHandler handler = new DownloadRequestHandler(request, this, file);
+    final RequestHandler handler = new DownloadRequestHandler(request, this, file, uaContext);
 
     this.destinationFile = file;
     this.requestHandler = handler;
@@ -409,8 +440,8 @@ public class DownloadDialog extends JFrame {
     private boolean downloadDone = false;
     private long lastProgressUpdate = 0;
 
-    public DownloadRequestHandler(final ClientletRequest request, final Component dialogComponent, final File file) {
-      super(request, dialogComponent);
+    public DownloadRequestHandler(final ClientletRequest request, final Component dialogComponent, final File file, UserAgentContext uaContext) {
+      super(request, dialogComponent, uaContext);
       this.file = file;
     }
 

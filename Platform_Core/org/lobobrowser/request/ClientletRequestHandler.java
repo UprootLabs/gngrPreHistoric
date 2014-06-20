@@ -24,13 +24,25 @@
 package org.lobobrowser.request;
 
 import java.io.IOException;
-import java.net.*;
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.context.*;
-import org.lobobrowser.gui.*;
+import java.net.URL;
+
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletAccess;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.context.ClientletContextImpl;
+import org.lobobrowser.context.ClientletFactory;
+import org.lobobrowser.gui.FramePanel;
+import org.lobobrowser.gui.WindowCallback;
 import org.lobobrowser.security.LocalSecurityManager;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.EventDispatch;
+import org.lobobrowser.util.Urls;
 
 /**
  * @author J. H. S.
@@ -44,8 +56,8 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    */
   public final EventDispatch evtProgress = new EventDispatch();
 
-  public ClientletRequestHandler(final ClientletRequest request, final WindowCallback clientletUI, final FramePanel frame) {
-    super(request, frame.getComponent());
+  public ClientletRequestHandler(final ClientletRequest request, final WindowCallback clientletUI, final FramePanel frame, final UserAgentContext uaContext) {
+    super(request, frame.getComponent(), uaContext);
     this.windowCallback = clientletUI;
     this.frame = frame;
   }

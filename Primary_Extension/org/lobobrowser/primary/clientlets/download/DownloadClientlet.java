@@ -20,12 +20,21 @@
  */
 package org.lobobrowser.primary.clientlets.download;
 
-import org.lobobrowser.clientlet.*;
-import java.io.*;
-import org.lobobrowser.primary.gui.download.*;
-import org.lobobrowser.util.*;
+import java.io.InputStream;
+
+import org.lobobrowser.clientlet.CancelClientletException;
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.primary.gui.download.DownloadDialog;
+import org.lobobrowser.request.SilentUserAgentContextImpl;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.Urls;
 
 public final class DownloadClientlet implements Clientlet {
+
   public void process(final ClientletContext context) throws ClientletException {
     final ClientletResponse response = context.getResponse();
     final java.net.URL url = response.getResponseURL();
@@ -69,7 +78,8 @@ public final class DownloadClientlet implements Clientlet {
         throw new ClientletException(ioe);
       }
     }
-    final DownloadDialog dialog = new DownloadDialog(response, url, transferSpeed);
+    final UserAgentContext uaContext = new SilentUserAgentContextImpl(context.getNavigatorFrame());
+    final DownloadDialog dialog = new DownloadDialog(response, url, transferSpeed, uaContext);
     dialog.setTitle("Download " + Urls.getNoRefForm(url));
     dialog.pack();
     dialog.setLocationByPlatform(true);

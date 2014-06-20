@@ -14,6 +14,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.lobobrowser.gui.DefaultWindowFactory;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.gui.WrapperLayout;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -27,7 +28,8 @@ public class DomViewerWindow extends JFrame implements TreeSelectionListener {
 
   public DomViewerWindow() {
     super("Lobo DOM Viewer");
-    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
+    final UserAgentContext uaContext = null; // TODO
+    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon(uaContext).getImage());
     final Container contentPane = this.getContentPane();
     this.domTree = new JTree();
     this.domTree.setRootVisible(false);

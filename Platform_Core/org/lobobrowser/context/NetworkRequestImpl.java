@@ -41,7 +41,6 @@ import org.lobobrowser.clientlet.*;
 import org.lobobrowser.ua.*;
 import org.lobobrowser.request.*;
 import org.lobobrowser.util.*;
-
 import org.w3c.dom.Document;
 
 public class NetworkRequestImpl implements NetworkRequest {
@@ -50,8 +49,10 @@ public class NetworkRequestImpl implements NetworkRequest {
   private final EventDispatch READY_STATE_CHANGE = new EventDispatch();
   private volatile int readyState = NetworkRequest.STATE_UNINITIALIZED;
   private volatile LocalResponse localResponse;
+  final private UserAgentContext uaContext;
 
-  public NetworkRequestImpl() {
+  public NetworkRequestImpl(final UserAgentContext uaContext) {
+    this.uaContext = uaContext;
   }
 
   public int getReadyState() {
@@ -73,8 +74,7 @@ public class NetworkRequestImpl implements NetworkRequest {
     return lr == null ? null : lr.getResponseImage();
   }
 
-  // public java.util.jar.JarFile getResponseJarFile() throws
-  // java.io.IOException {
+  // public java.util.jar.JarFile getResponseJarFile() throws java.io.IOException {
   // LocalResponse lr = this.localResponse;
   // return lr == null ? null : lr.getResponseJarFile();
   // }
@@ -145,21 +145,21 @@ public class NetworkRequestImpl implements NetworkRequest {
   private boolean isAsynchronous = false;
   private String requestMethod;
   private java.net.URL requestURL;
-  private String requestUserName;
-  private String requestPassword;
+  // private String requestUserName;
+  // private String requestPassword;
 
   public void open(final String method, final java.net.URL url, final boolean asyncFlag, final String userName, final String password) {
     this.isAsynchronous = asyncFlag;
     this.requestMethod = method;
     this.requestURL = url;
-    this.requestUserName = userName;
-    this.requestPassword = password;
+    // this.requestUserName = userName;
+    // this.requestPassword = password;
     this.changeReadyState(NetworkRequest.STATE_LOADING);
   }
 
   public void send(final String content) throws IOException {
     try {
-      final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content);
+      final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext);
       this.currentRequestHandler = rhandler;
       try {
         // TODO: Username and password support
@@ -265,8 +265,8 @@ public class NetworkRequestImpl implements NetworkRequest {
   private class LocalRequestHandler extends SimpleRequestHandler {
     private final String method;
 
-    public LocalRequestHandler(final URL url, final String method, final String altPostData) {
-      super(url, method, altPostData, RequestType.ELEMENT);
+    public LocalRequestHandler(final URL url, final String method, final String altPostData, final UserAgentContext uaContext) {
+      super(url, method, altPostData, RequestType.ELEMENT, uaContext);
       this.method = method;
     }
 
@@ -305,8 +305,8 @@ public class NetworkRequestImpl implements NetworkRequest {
      * @see net.sourceforge.xamj.http.RequestHandler#handleProgress(int,
      * java.net.URL, int, int)
      */
-    public void handleProgress(final org.lobobrowser.ua.ProgressType progressType, final URL url, final int value, final int max) {
-    }
+    // public void handleProgress(final org.lobobrowser.ua.ProgressType progressType, final URL url, final int value, final int max) {
+    // }
   }
 
   private static class CacheableResponse {
@@ -466,10 +466,10 @@ public class NetworkRequestImpl implements NetworkRequest {
       return headers;
     }
 
-    public int getLength() {
-      final ByteArrayOutputStream out = this.cacheable.buffer;
-      return out == null ? 0 : out.size();
-    }
+    // public int getLength() {
+      // final ByteArrayOutputStream out = this.cacheable.buffer;
+      // return out == null ? 0 : out.size();
+    // }
 
     /**
      * @return Returns the status.

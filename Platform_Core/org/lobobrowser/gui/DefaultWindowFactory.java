@@ -23,17 +23,27 @@
  */
 package org.lobobrowser.gui;
 
-import javax.swing.*;
-
 import java.awt.Frame;
 import java.awt.event.WindowEvent;
-import java.util.*;
-import java.util.logging.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.main.*;
-import org.lobobrowser.settings.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+import org.lobobrowser.main.ExtensionManager;
+import org.lobobrowser.main.PlatformInit;
+import org.lobobrowser.request.SilentUserAgentContextImpl;
+import org.lobobrowser.settings.GeneralSettings;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.EventDispatch;
+import org.lobobrowser.util.ID;
+import org.lobobrowser.util.WeakValueHashMap;
 
 /**
  * Browser windows are created by this factory by default.
@@ -66,9 +76,10 @@ public class DefaultWindowFactory implements WindowFactory {
 
   /**
    * Gets the default image icon for browser windows.
+   * @param uaContext 
    */
-  public ImageIcon getDefaultImageIcon() {
-    return this.getImageIcon(DEFAULT_ICON_URL);
+  public ImageIcon getDefaultImageIcon(final UserAgentContext uaContext) {
+    return this.getImageIcon(DEFAULT_ICON_URL, uaContext);
   }
 
   /**
@@ -76,13 +87,14 @@ public class DefaultWindowFactory implements WindowFactory {
    * 
    * @param urlOrPath
    *          A URL or path.
+   * @param uaContext 
    */
-  private ImageIcon getImageIcon(final String urlOrPath) {
+  private ImageIcon getImageIcon(final String urlOrPath, final UserAgentContext uaContext) {
     synchronized (this) {
       ImageIcon icon = this.imageMap.get(urlOrPath);
       if (icon == null) {
         try {
-          final byte[] imageBytes = org.lobobrowser.request.RequestEngine.getInstance().loadBytes(urlOrPath);
+          final byte[] imageBytes = org.lobobrowser.request.RequestEngine.getInstance().loadBytes(urlOrPath, uaContext);
           icon = new ImageIcon(imageBytes);
           this.imageMap.put(urlOrPath, icon);
         } catch (final Exception err) {
@@ -216,13 +228,14 @@ public class DefaultWindowFactory implements WindowFactory {
       window.setBoundsAssigned(true);
     }
     ImageIcon icon = null;
+    final UserAgentContext uaContext = new SilentUserAgentContextImpl(windowContext.getTopFrame());
     if (iconText != null) {
-      icon = this.getImageIcon(iconText);
+      icon = this.getImageIcon(iconText, uaContext);
       if (icon == null) {
-        icon = this.getDefaultImageIcon();
+        icon = this.getDefaultImageIcon(uaContext);
       }
     } else {
-      icon = this.getDefaultImageIcon();
+      icon = this.getDefaultImageIcon(uaContext);
     }
     if (icon != null) {
       window.setIconImage(icon.getImage());

@@ -171,7 +171,8 @@ public class ClientletContextImpl implements ClientletContext {
   }
 
   public NetworkRequest createNetworkRequest() {
-    return new NetworkRequestImpl();
+    final UserAgentContext uaContext = new SilentUserAgentContextImpl(frame);
+    return new NetworkRequestImpl(uaContext);
   }
 
   public void alert(final String message) {

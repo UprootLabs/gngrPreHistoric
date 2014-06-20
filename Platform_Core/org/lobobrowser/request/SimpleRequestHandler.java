@@ -24,11 +24,18 @@
 package org.lobobrowser.request;
 
 import java.net.URL;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.ua.*;
+
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgentContext;
 
 /**
  * Request handler used by request().
@@ -38,21 +45,26 @@ import org.lobobrowser.ua.*;
 public abstract class SimpleRequestHandler implements RequestHandler {
   private static final Logger logger = Logger.getLogger(SimpleRequestHandler.class.getName());
   private final ClientletRequest request;
-  private final RequestType requestType;
+  private final UserAgentContext uaContext;
 
-  public SimpleRequestHandler(final boolean forNewWindow, final URL url, final RequestType requestType) {
-    this.requestType = requestType;
+  @Override
+  public UserAgentContext getContext() {
+    return uaContext;
+  }
+
+  public SimpleRequestHandler(final boolean forNewWindow, final URL url, final RequestType requestType, final UserAgentContext uaContext) {
     this.request = new ClientletRequestImpl(forNewWindow, url, requestType);
+    this.uaContext = uaContext;
   }
 
-  public SimpleRequestHandler(final URL url, final RequestType requestType) {
-    this.requestType = requestType;
+  public SimpleRequestHandler(final URL url, final RequestType requestType, final UserAgentContext uaContext) {
     this.request = new ClientletRequestImpl(url, requestType);
+    this.uaContext = uaContext;
   }
 
-  public SimpleRequestHandler(final URL url, final String method, final String altPostData, final RequestType requestType) {
-    this.requestType = requestType;
+  public SimpleRequestHandler(final URL url, final String method, final String altPostData, final RequestType requestType, final UserAgentContext uaContext) {
     this.request = new ClientletRequestImpl(url, method, altPostData, requestType);
+    this.uaContext = uaContext;
   }
 
   public boolean isNewNavigationEntry() {

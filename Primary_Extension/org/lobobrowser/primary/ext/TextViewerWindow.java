@@ -20,15 +20,24 @@
  */
 package org.lobobrowser.primary.ext;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-import org.lobobrowser.util.gui.*;
-import org.lobobrowser.gui.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+
+import org.lobobrowser.gui.DefaultWindowFactory;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.gui.WrapperLayout;
 
 public class TextViewerWindow extends JFrame {
   private final JTextArea textArea;
@@ -36,7 +45,8 @@ public class TextViewerWindow extends JFrame {
 
   public TextViewerWindow() {
     super("Lobo Text Viewer");
-    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon().getImage());
+    final UserAgentContext uaContext = null; // TODO
+    this.setIconImage(DefaultWindowFactory.getInstance().getDefaultImageIcon(uaContext).getImage());
     final JMenuBar menuBar = this.createMenuBar();
     this.setJMenuBar(menuBar);
     final Container contentPane = this.getContentPane();

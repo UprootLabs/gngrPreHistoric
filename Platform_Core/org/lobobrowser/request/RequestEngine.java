@@ -20,24 +20,68 @@
  */
 package org.lobobrowser.request;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.security.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.net.CookieHandler;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.Proxy;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.security.AccessControlContext;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import java.util.logging.*;
-
 import org.lobobrowser.async.AsyncResult;
 import org.lobobrowser.async.AsyncResultImpl;
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.CancelClientletException;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.Header;
 import org.lobobrowser.main.ExtensionManager;
-import org.lobobrowser.settings.*;
-import org.lobobrowser.store.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.util.io.*;
+import org.lobobrowser.settings.BooleanSettings;
+import org.lobobrowser.settings.CacheSettings;
+import org.lobobrowser.settings.ConnectionSettings;
+import org.lobobrowser.store.CacheManager;
+import org.lobobrowser.ua.Parameter;
+import org.lobobrowser.ua.ParameterInfo;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgent;
+import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.CookieRequest;
+import org.lobobrowser.util.BoxedObject;
+import org.lobobrowser.util.ID;
+import org.lobobrowser.util.NameValuePair;
+import org.lobobrowser.util.SimpleThreadPool;
+import org.lobobrowser.util.SimpleThreadPoolTask;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.Urls;
+import org.lobobrowser.util.io.Files;
+import org.lobobrowser.util.io.IORoutines;
 
 public final class RequestEngine {
   private static final Logger logger = Logger.getLogger(RequestEngine.class.getName());
@@ -265,7 +309,10 @@ public final class RequestEngine {
       final URL lastRequestURL) throws ProtocolException {
     final UserAgent userAgent = request.getUserAgent();
     connection.addRequestProperty("User-Agent", userAgent.toString());
-    connection.addRequestProperty("X-Java-Version", userAgent.getJavaVersion());
+
+    // TODO: Harshad: Commenting out X-Java-Version. Check if required.
+    // connection.addRequestProperty("X-Java-Version", userAgent.getJavaVersion());
+
     // TODO: Commenting out X-Session-ID. Needs to be privately generated
     // or available with the right permissions only. Extensions should not
     // have access to the private field. This is not doable if extensions
@@ -456,13 +503,13 @@ public final class RequestEngine {
     this.processHandler(rhandler, 0, false);
   }
 
-  public byte[] loadBytes(final String urlOrPath) throws Exception {
-    return this.loadBytes(Urls.guessURL(urlOrPath));
+  public byte[] loadBytes(final String urlOrPath, final UserAgentContext uaContext) throws Exception {
+    return this.loadBytes(Urls.guessURL(urlOrPath), uaContext);
   }
 
-  public byte[] loadBytes(final URL url) throws Exception {
+  public byte[] loadBytes(final URL url, final UserAgentContext uaContext) throws Exception {
     final BoxedObject boxed = new BoxedObject();
-    this.inlineRequest(new SimpleRequestHandler(url, RequestType.ELEMENT) {
+    this.inlineRequest(new SimpleRequestHandler(url, RequestType.ELEMENT, uaContext) {
       @Override
       public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
         if (exception instanceof ClientletException) {
@@ -480,13 +527,13 @@ public final class RequestEngine {
     return (byte[]) boxed.getObject();
   }
 
-  public AsyncResult<byte[]> loadBytesAsync(final String urlOrPath) throws java.net.MalformedURLException {
-    return this.loadBytesAsync(Urls.guessURL(urlOrPath));
+  public AsyncResult<byte[]> loadBytesAsync(final String urlOrPath, final UserAgentContext uaContext) throws java.net.MalformedURLException {
+    return this.loadBytesAsync(Urls.guessURL(urlOrPath), uaContext);
   }
 
-  public AsyncResult<byte[]> loadBytesAsync(final URL url) {
+  public AsyncResult<byte[]> loadBytesAsync(final URL url, final UserAgentContext uaContext) {
     final AsyncResultImpl<byte[]> asyncResult = new AsyncResultImpl<>();
-    this.scheduleRequest(new SimpleRequestHandler(url, RequestType.ELEMENT) {
+    this.scheduleRequest(new SimpleRequestHandler(url, RequestType.ELEMENT, uaContext) {
       @Override
       public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
         asyncResult.setException(exception);
@@ -599,6 +646,9 @@ public final class RequestEngine {
       hconnection.setReadTimeout(90000);
     }
     addRequestProperties(connection, request, cacheInfo, method, connectionUrl);
+
+    // TODO: Consider adding cookies here?
+
     // Allow extensions to modify the connection object.
     // Doing it after addRequestProperties() to allow such
     // functionality as altering the Accept header.
@@ -655,6 +705,9 @@ public final class RequestEngine {
       final CacheInfo cacheInfo = getCacheInfo(rhandler, connectionUrl, isGet);
       try {
         URLConnection connection = this.getURLConnection(connectionUrl, request, protocol, method, rhandler, cacheInfo);
+        System.out.println("Connection url: " + connectionUrl);
+        addCookiesToRequest(connection, rhandler);
+
         rinfo = new RequestInfo(connection, rhandler);
         InputStream responseIn = null;
         if (trackRequestInfo) {
@@ -675,6 +728,8 @@ public final class RequestEngine {
             hconnection.setInstanceFollowRedirects(false);
             final int responseCode = hconnection.getResponseCode();
             logInfo("run(): ResponseCode=" + responseCode + " for url=" + connectionUrl);
+            handleCookies(connectionUrl, hconnection, rhandler);
+
             if (responseCode == HttpURLConnection.HTTP_OK) {
               logInfo("run(): FROM-HTTP: " + connectionUrl);
               if (mayBeCached(hconnection)) {
@@ -775,6 +830,39 @@ public final class RequestEngine {
       }
     } finally {
       rhandler.handleProgress(ProgressType.DONE, baseURL, method, 0, 0);
+    }
+  }
+  final private CookieHandler cookieHandler = new CookieHandlerImpl();
+
+  private void addCookiesToRequest(final URLConnection connection, final RequestHandler rhandler) throws IOException, URISyntaxException {
+    final String protocol = connection.getURL().getProtocol();
+    if ("http".equals(protocol) || "https".equals(protocol)) {
+      final URL url = connection.getURL();
+      if (rhandler.getContext().isRequestPermitted(new CookieRequest(url))) {
+        final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
+        addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
+        addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
+      }
+    }
+  }
+
+  private static void addCookieHeaderToRequest(final URLConnection connection, final Map<String, List<String>> cookieHeaders, final String cookieKey) {
+    if (cookieHeaders.containsKey(cookieKey)) {
+      final List<String> cookieValue = cookieHeaders.get(cookieKey);
+      final String cookieValueStr = cookieValue.stream().reduce("", (e, a) -> a + ";" + e);
+      connection.addRequestProperty(cookieKey, cookieValueStr);
+    }
+  }
+
+  private void handleCookies(final URL url, final HttpURLConnection hconnection, final RequestHandler rhandler) throws URISyntaxException, IOException {
+    final Map<String, List<String>> headerFields = hconnection.getHeaderFields();
+    final boolean cookieSetterExists = headerFields.keySet().stream().anyMatch(key ->
+      "Set-Cookie".equalsIgnoreCase(key) || "Set-Cookie2".equalsIgnoreCase(key)
+    );
+    if (cookieSetterExists) {
+      if (rhandler.getContext().isRequestPermitted(new CookieRequest(url))) {
+        cookieHandler.put(url.toURI(), headerFields);
+      }
     }
   }
 

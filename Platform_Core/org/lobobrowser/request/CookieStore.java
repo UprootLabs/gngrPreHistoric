@@ -23,14 +23,27 @@
  */
 package org.lobobrowser.request;
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
-import java.text.*;
-import java.util.logging.*;
+import java.io.IOException;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.store.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.store.RestrictedStore;
+import org.lobobrowser.store.StorageManager;
+import org.lobobrowser.util.Domains;
+import org.lobobrowser.util.Strings;
 
 /**
  * @author J. H. S.
@@ -168,7 +181,7 @@ public class CookieStore {
     this.saveCookie(domain, path, cookieName, expiresDate, cookieValue);
   }
 
-  public void saveCookie(final String domain, final String path, final String name, final java.util.Date expires, final String value) {
+  private void saveCookie(final String domain, final String path, final String name, final java.util.Date expires, final String value) {
     // TODO: SECURITY
     if (logger.isLoggable(Level.INFO)) {
       logger.info("saveCookie(): domain=" + domain + ",name=" + name + ",expires=" + expires + ",value=[" + value + "].");

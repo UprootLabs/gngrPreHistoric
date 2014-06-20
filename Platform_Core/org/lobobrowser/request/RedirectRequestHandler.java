@@ -24,14 +24,17 @@
 package org.lobobrowser.request;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.net.ssl.HostnameVerifier;
 
 import org.lobobrowser.clientlet.ClientletException;
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
-import org.lobobrowser.ua.*;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.UserAgentContext;
 
 /**
  * @author J. H. S.
@@ -39,6 +42,11 @@ import org.lobobrowser.ua.*;
 public class RedirectRequestHandler implements RequestHandler {
   private final RequestHandler origHandler;
   private final URL latestRequestURL;
+
+  @Override
+  public UserAgentContext getContext() {
+    return origHandler.getContext();
+  }
 
   /**
 	 * 

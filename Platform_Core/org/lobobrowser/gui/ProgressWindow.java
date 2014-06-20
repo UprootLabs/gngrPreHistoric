@@ -43,7 +43,8 @@ public class ProgressWindow extends JFrame {
   public ProgressWindow() throws HeadlessException {
     super(UserAgentImpl.getInstance().getName());
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    final ImageIcon windowIcon = DefaultWindowFactory.getInstance().getDefaultImageIcon();
+    final UserAgentContext uaContext = null; // TODO
+    final ImageIcon windowIcon = DefaultWindowFactory.getInstance().getDefaultImageIcon(uaContext);
     if (windowIcon != null) {
       this.setIconImage(windowIcon.getImage());
     }

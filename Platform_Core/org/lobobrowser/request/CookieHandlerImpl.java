@@ -20,12 +20,15 @@
  */
 package org.lobobrowser.request;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.CookieHandler;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CookieHandlerImpl extends CookieHandler {
   private static final Logger logger = Logger.getLogger(CookieHandlerImpl.class.getName());
@@ -52,9 +55,7 @@ public class CookieHandlerImpl extends CookieHandler {
     if (cookies != null) {
       StringBuffer cookieHeaderValue = null;
       for (final Cookie cookie : cookies) {
-        // We should not decode values. Servers
-        // expect to receive what they set the
-        // values to.
+        // We should not decode values. Servers expect to receive what they set the values to.
         final String cookieName = cookie.getName();
         final String cookieValue = cookie.getValue();
         final String assignment = cookieName + "=" + cookieValue;
@@ -85,15 +86,18 @@ public class CookieHandlerImpl extends CookieHandler {
       logger.info("put(): ---- Response headers for uri=[" + uri + "].");
       printHeaders(responseHeaders);
     }
-    final CookieStore store = this.cookieStore;
+    storeCookies(uri, responseHeaders);
+  }
+
+  public void storeCookies(final URI uri, final Map<String, List<String>> responseHeaders) {
     for (final Map.Entry<String, List<String>> entry : responseHeaders.entrySet()) {
       final String key = entry.getKey();
       for (final String value : entry.getValue()) {
         if (key != null && value != null) {
           if ("Set-Cookie".equalsIgnoreCase(key)) {
-            store.saveCookie(uri.getHost(), value);
+            cookieStore.saveCookie(uri.getHost(), value);
           } else if ("Set-Cookie2".equalsIgnoreCase(key)) {
-            store.saveCookie(uri.getHost(), value);
+            cookieStore.saveCookie(uri.getHost(), value);
           }
         }
       }

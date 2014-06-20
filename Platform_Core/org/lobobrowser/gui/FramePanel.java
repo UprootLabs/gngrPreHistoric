@@ -58,6 +58,7 @@ import org.lobobrowser.request.ClientletRequestHandler;
 import org.lobobrowser.request.ClientletRequestImpl;
 import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.request.RequestHandler;
+import org.lobobrowser.request.SilentUserAgentContextImpl;
 import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.ua.NavigationEntry;
 import org.lobobrowser.ua.NavigationEvent;
@@ -70,8 +71,10 @@ import org.lobobrowser.ua.ParameterInfo;
 import org.lobobrowser.ua.ProgressType;
 import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.TargetType;
+import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.ArrayUtilities;
 import org.lobobrowser.util.Items;
+import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WrapperException;
 import org.lobobrowser.util.gui.WrapperLayout;
@@ -745,21 +748,14 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       }
     }
     final ClientletRequest request = new ClientletRequestImpl(false, url, method, paramInfo, null, referrer, null, requestType);
-    final RequestHandler handler = new ClientletRequestHandler(request, this.getWindowCallback(), this);
-    final SecurityManager sm = System.getSecurityManager();
-    if (sm == null) {
-      RequestEngine.getInstance().scheduleRequest(handler);
-    } else {
-      AccessController.doPrivileged(new PrivilegedAction<Object>() {
-        public Object run() {
-          // Justification: While requests by untrusted code
-          // are generally only allowed on certain hosts,
-          // navigation is an exception.
-          RequestEngine.getInstance().scheduleRequest(handler);
-          return null;
-        }
+    final UserAgentContext uaContext = new SilentUserAgentContextImpl(this);
+    final RequestHandler handler = new ClientletRequestHandler(request, this.getWindowCallback(), this, uaContext);
+    SecurityUtil.doPrivileged(() -> {
+      // Justification: While requests by untrusted code are generally only
+      // allowed on certain hosts,  navigation is an exception.
+        RequestEngine.getInstance().scheduleRequest(handler);
+        return null;
       });
-    }
   }
 
   /**
@@ -866,7 +862,8 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       }
     });
     final FramePanel newFrame = wcontext.getFramePanel();
-    final ClientletRequestHandler handler = new ClientletRequestHandler(request, wcontext, newFrame);
+    final UserAgentContext uaContext = new SilentUserAgentContextImpl(newFrame);
+    final ClientletRequestHandler handler = new ClientletRequestHandler(request, wcontext, newFrame, uaContext);
     handler.evtProgress.addListener(new org.lobobrowser.util.GenericEventListener() {
       public void processEvent(final java.util.EventObject event) {
         // Assumed to execute in GUI thread.
@@ -1201,7 +1198,8 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   public NetworkRequest createNetworkRequest() {
-    return new org.lobobrowser.context.NetworkRequestImpl();
+    final UserAgentContext uaContext = new SilentUserAgentContextImpl(this);
+    return new org.lobobrowser.context.NetworkRequestImpl(uaContext);
   }
 
   public String toString() {

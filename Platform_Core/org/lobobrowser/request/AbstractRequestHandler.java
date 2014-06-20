@@ -20,6 +20,7 @@
  */
 package org.lobobrowser.request;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -28,24 +29,28 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import java.awt.*;
 
 import org.lobobrowser.clientlet.ClientletException;
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.ua.ProgressType;
-import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgentContext;
 
 public abstract class AbstractRequestHandler implements RequestHandler {
   protected final ClientletRequest request;
-  protected final RequestType requestType;
   private final Component dialogComponent;
+  private final UserAgentContext uaContext;
   private boolean cancelled = false;
 
-  public AbstractRequestHandler(final ClientletRequest request, final Component dialogComponent) {
+  public AbstractRequestHandler(final ClientletRequest request, final Component dialogComponent, final UserAgentContext uaContext) {
     this.request = request;
-    this.requestType = request.getRequestType();
     this.dialogComponent = dialogComponent;
+    this.uaContext = uaContext;
+  }
+
+  @Override
+  public UserAgentContext getContext() {
+    return uaContext;
   }
 
   public void cancel() {

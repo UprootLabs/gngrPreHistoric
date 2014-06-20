@@ -22,7 +22,11 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.clientlet;
 
-import org.lobobrowser.ua.*;
+import java.net.URL;
+
+import org.lobobrowser.ua.ParameterInfo;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgent;
 
 /**
  * A URL request such as a HTTP, file or FTP request.

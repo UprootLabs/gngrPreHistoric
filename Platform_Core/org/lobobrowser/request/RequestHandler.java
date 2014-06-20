@@ -20,15 +20,17 @@
  */
 package org.lobobrowser.request;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.net.ssl.HostnameVerifier;
 
 import org.lobobrowser.clientlet.ClientletException;
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
-import org.lobobrowser.ua.*;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.UserAgentContext;
 
 public interface RequestHandler {
   public ClientletRequest getRequest();
@@ -39,11 +41,14 @@ public interface RequestHandler {
    */
   public URL getLatestRequestURL();
 
+
   /**
    * Gets the actual request method, which may be different from the method of
    * the original request.
    */
   public String getLatestRequestMethod();
+
+  public UserAgentContext getContext();
 
   /**
    * Gets a hostname verifier used when an HTTPS host does not match the

@@ -42,7 +42,7 @@ import org.lobobrowser.gui.ConsoleModel;
 import org.lobobrowser.gui.DefaultWindowFactory;
 import org.lobobrowser.gui.FramePanel;
 import org.lobobrowser.request.AuthenticatorImpl;
-import org.lobobrowser.request.CookieHandlerImpl;
+import org.lobobrowser.request.NOPCookieHandlerImpl;
 import org.lobobrowser.security.LocalSecurityManager;
 import org.lobobrowser.security.LocalSecurityPolicy;
 import org.lobobrowser.settings.GeneralSettings;
@@ -105,7 +105,8 @@ public class PlatformInit {
     // Configure authenticator
     Authenticator.setDefault(new AuthenticatorImpl());
     // Configure cookie handler
-    CookieHandler.setDefault(new CookieHandlerImpl());
+    // CookieHandler.setDefault(new CookieHandlerImpl());
+    CookieHandler.setDefault(new NOPCookieHandlerImpl());
   }
 
   /**
