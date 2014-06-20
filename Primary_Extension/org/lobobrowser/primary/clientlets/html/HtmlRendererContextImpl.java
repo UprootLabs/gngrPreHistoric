@@ -101,22 +101,6 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     return this.htmlPanel;
   }
 
-  public void warn(final String message, final Throwable throwable) {
-    logger.log(Level.WARNING, message, throwable);
-  }
-
-  public void error(final String message, final Throwable throwable) {
-    logger.log(Level.SEVERE, message, throwable);
-  }
-
-  public void warn(final String message) {
-    logger.warning(message);
-  }
-
-  public void error(final String message) {
-    logger.log(Level.SEVERE, message);
-  }
-
   public void linkClicked(final HTMLElement linkNode, final URL url, final String target) {
     this.navigateImpl(url, target, RequestType.CLICK, linkNode);
   }
