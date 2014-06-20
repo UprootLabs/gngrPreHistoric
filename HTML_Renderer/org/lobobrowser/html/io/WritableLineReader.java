@@ -23,7 +23,9 @@
  */
 package org.lobobrowser.html.io;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.Reader;
 
 public class WritableLineReader extends LineNumberReader {
   private final Reader delegate;

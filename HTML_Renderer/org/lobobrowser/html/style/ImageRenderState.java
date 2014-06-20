@@ -21,6 +21,7 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
+
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
 public class ImageRenderState extends StyleSheetRenderState {

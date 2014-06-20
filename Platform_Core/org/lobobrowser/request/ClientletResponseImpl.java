@@ -23,19 +23,30 @@
  */
 package org.lobobrowser.request;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.*;
-import java.util.logging.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.EventObject;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import org.lobobrowser.clientlet.ClientletResponse;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.util.io.*;
-
-import java.net.*;
-import java.io.*;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.util.GenericEventListener;
+import org.lobobrowser.util.InputProgressEvent;
+import org.lobobrowser.util.MonitoredInputStream;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.Urls;
+import org.lobobrowser.util.io.BufferExceededException;
+import org.lobobrowser.util.io.RecordedInputStream;
 
 /**
  * @author J. H. S.

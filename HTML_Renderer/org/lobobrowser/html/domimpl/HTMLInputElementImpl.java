@@ -23,10 +23,10 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import org.lobobrowser.html.FormInput;
-import org.w3c.dom.html2.*;
+import org.w3c.dom.html2.HTMLInputElement;
 
 public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLInputElement {
   public HTMLInputElementImpl(final String name) {

@@ -23,10 +23,13 @@
  */
 package org.lobobrowser.request;
 
-import java.net.*;
-import org.lobobrowser.settings.*;
-import org.lobobrowser.gui.*;
-import org.lobobrowser.util.gui.*;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+
+import org.lobobrowser.gui.AuthenticationDialog;
+import org.lobobrowser.settings.AssociatedSettings;
+import org.lobobrowser.settings.ConnectionSettings;
+import org.lobobrowser.util.gui.GUITasks;
 
 public class AuthenticatorImpl extends Authenticator {
   private final ConnectionSettings connectionSettings;

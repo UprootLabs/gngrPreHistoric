@@ -32,9 +32,9 @@
 
 package org.w3c.dom.html2;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.DOMException;
 
 /**
  * An <code>HTMLDocument</code> is the root of the HTML hierarchy and holds the

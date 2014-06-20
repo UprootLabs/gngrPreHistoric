@@ -1,6 +1,6 @@
 package org.lobobrowser.html.gui;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.NodeImpl;
 
 class DocumentNotification {
   public static final int LOOK = 0;

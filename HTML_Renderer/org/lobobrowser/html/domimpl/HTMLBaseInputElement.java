@@ -27,9 +27,9 @@ import java.util.ArrayList;
 
 import org.lobobrowser.html.FormInput;
 import org.lobobrowser.html.js.Executor;
+import org.mozilla.javascript.Function;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLFormElement;
-import org.mozilla.javascript.Function;
 
 public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   public HTMLBaseInputElement(final String name) {

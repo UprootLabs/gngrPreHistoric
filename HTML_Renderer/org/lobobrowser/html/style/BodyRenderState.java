@@ -21,7 +21,7 @@
 package org.lobobrowser.html.style;
 
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
-import org.lobobrowser.util.gui.*;
+import org.lobobrowser.util.gui.ColorFactory;
 
 public class BodyRenderState extends StyleSheetRenderState {
   // Note: BODY behaves like an inline element, but the root

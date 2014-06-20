@@ -20,7 +20,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.UserDataHandler;
 
 public class HTMLTitleElementImpl extends HTMLElementImpl {
   public HTMLTitleElementImpl(final String name) {

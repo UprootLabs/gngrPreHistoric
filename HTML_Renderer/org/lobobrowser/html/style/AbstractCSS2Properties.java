@@ -23,14 +23,21 @@
  */
 package org.lobobrowser.html.style;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.w3c.dom.DOMException;
-import org.w3c.dom.css.*;
 import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.css.CSS2Properties;
+import org.w3c.dom.css.CSSRule;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.CSSStyleSheet;
 
 public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate implements CSS2Properties {
   private static final Logger logger = Logger.getLogger(AbstractCSS2Properties.class.getName());

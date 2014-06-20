@@ -23,12 +23,18 @@
  */
 package org.lobobrowser.request;
 
-import java.io.*;
-import java.net.*;
-import java.util.logging.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.store.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.store.CacheManager;
+import org.lobobrowser.store.ClassLoaderObjectInputStream;
+import org.lobobrowser.util.Urls;
 
 public class CacheInfo {
   private static final Logger logger = Logger.getLogger(CacheInfo.class.getName());

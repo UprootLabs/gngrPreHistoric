@@ -20,7 +20,7 @@
  */
 package org.lobobrowser.html.style;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
 public class DisplayRenderState extends StyleSheetRenderState {
   private final int defaultDisplay;

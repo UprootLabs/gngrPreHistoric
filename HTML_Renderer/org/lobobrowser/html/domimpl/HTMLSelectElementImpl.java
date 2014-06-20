@@ -3,12 +3,11 @@ package org.lobobrowser.html.domimpl;
 import java.util.ArrayList;
 
 import org.lobobrowser.html.FormInput;
+import org.mozilla.javascript.Function;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.html2.HTMLOptionsCollection;
 import org.w3c.dom.html2.HTMLSelectElement;
-
-import org.mozilla.javascript.Function;
 
 public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLSelectElement {
   public HTMLSelectElementImpl(final String name) {

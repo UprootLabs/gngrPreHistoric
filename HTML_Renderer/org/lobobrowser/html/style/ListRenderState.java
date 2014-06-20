@@ -20,8 +20,11 @@
  */
 package org.lobobrowser.html.style;
 
+import java.awt.FontMetrics;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
+
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
-import java.awt.*;
 
 public class ListRenderState extends AbstractMarginRenderState {
   public ListRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {

@@ -1,11 +1,13 @@
 package org.lobobrowser.html.js;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
-import org.lobobrowser.js.*;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.w3c.dom.Document;
-import java.net.*;
-import java.util.logging.*;
 
 public class Location extends AbstractScriptableDelegate {
   private static final Logger logger = Logger.getLogger(Location.class.getName());

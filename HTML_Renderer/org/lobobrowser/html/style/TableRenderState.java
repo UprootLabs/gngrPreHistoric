@@ -21,7 +21,9 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
-import org.lobobrowser.html.domimpl.*;
+
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.domimpl.HTMLTableElementImpl;
 import org.lobobrowser.util.gui.ColorFactory;
 
 public class TableRenderState extends StyleSheetRenderState {

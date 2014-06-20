@@ -23,19 +23,25 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import org.lobobrowser.util.*;
 import org.lobobrowser.util.Objects;
+import org.lobobrowser.util.Strings;
 import org.w3c.dom.Attr;
+import org.w3c.dom.Comment;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Text;
-import org.w3c.dom.Comment;
+import org.w3c.dom.TypeInfo;
 
 public class ElementImpl extends NodeImpl implements Element {
   private final String name;

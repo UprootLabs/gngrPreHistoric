@@ -23,8 +23,10 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.w3c.dom.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.Strings;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 public class TextImpl extends CharacterDataImpl implements Text {
   public TextImpl() {

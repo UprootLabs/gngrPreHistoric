@@ -20,7 +20,10 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.ComputedCSS2Properties;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
 
 /**
  * This element is used for SMALL and BIG.

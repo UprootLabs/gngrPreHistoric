@@ -20,7 +20,7 @@
  */
 package org.lobobrowser.html.js;
 
-import org.lobobrowser.html.*;
+import org.lobobrowser.html.HtmlRendererContext;
 import org.lobobrowser.js.AbstractScriptableDelegate;
 
 public class History extends AbstractScriptableDelegate {

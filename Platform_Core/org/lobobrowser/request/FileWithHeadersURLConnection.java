@@ -23,11 +23,17 @@
  */
 package org.lobobrowser.request;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.NameValuePair;
 import org.lobobrowser.util.io.IORoutines;
 
 /**

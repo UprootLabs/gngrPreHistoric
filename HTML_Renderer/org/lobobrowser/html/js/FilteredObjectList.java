@@ -23,9 +23,10 @@
  */
 package org.lobobrowser.html.js;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
 
-import org.lobobrowser.js.*;
+import org.lobobrowser.js.AbstractScriptableDelegate;
 
 // TODO: Remove if not used
 public class FilteredObjectList extends AbstractScriptableDelegate {

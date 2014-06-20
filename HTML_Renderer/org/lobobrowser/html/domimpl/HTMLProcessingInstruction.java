@@ -5,7 +5,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.domimpl.NodeImpl;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;

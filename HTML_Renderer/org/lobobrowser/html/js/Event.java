@@ -20,9 +20,12 @@
  */
 package org.lobobrowser.html.js;
 
-import org.w3c.dom.html2.*;
-import java.awt.event.*;
-import org.lobobrowser.js.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
+import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.w3c.dom.html2.HTMLElement;
 
 // TODO: Implement org.w3c.events.Event ?
 public class Event extends AbstractScriptableDelegate {

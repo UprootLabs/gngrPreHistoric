@@ -23,7 +23,9 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.w3c.dom.*;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 
 public abstract class CharacterDataImpl extends NodeImpl implements CharacterData {
   protected volatile String text;

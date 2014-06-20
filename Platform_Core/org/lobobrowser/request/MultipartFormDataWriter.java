@@ -20,7 +20,9 @@
  */
 package org.lobobrowser.request;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MultipartFormDataWriter {
   private static final byte[] LINE_BREAK_BYTES;

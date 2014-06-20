@@ -20,8 +20,11 @@
  */
 package org.lobobrowser.html.style;
 
+import java.awt.FontMetrics;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
+
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
-import java.awt.*;
 
 public class BlockQuoteRenderState extends AbstractMarginRenderState {
   public BlockQuoteRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {

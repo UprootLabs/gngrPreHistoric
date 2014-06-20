@@ -23,7 +23,13 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import java.util.ArrayList;
+
+import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.HtmlLength;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.style.TableRenderState;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
@@ -31,7 +37,6 @@ import org.w3c.dom.html2.HTMLElement;
 import org.w3c.dom.html2.HTMLTableCaptionElement;
 import org.w3c.dom.html2.HTMLTableElement;
 import org.w3c.dom.html2.HTMLTableSectionElement;
-import java.util.*;
 
 public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLTableElement {
 

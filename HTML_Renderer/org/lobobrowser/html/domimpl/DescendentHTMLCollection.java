@@ -23,11 +23,15 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.util.*;
-import java.lang.ref.*;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.lobobrowser.js.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.lobobrowser.util.Nodes;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
 

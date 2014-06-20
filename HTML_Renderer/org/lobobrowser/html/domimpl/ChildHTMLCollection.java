@@ -23,7 +23,7 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.js.*;
+import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.w3c.dom.Node;
 import org.w3c.dom.html2.HTMLCollection;
 

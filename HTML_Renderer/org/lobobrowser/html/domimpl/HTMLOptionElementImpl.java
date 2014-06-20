@@ -1,6 +1,8 @@
 package org.lobobrowser.html.domimpl;
 
-import org.w3c.dom.html2.*;
+import org.w3c.dom.html2.HTMLFormElement;
+import org.w3c.dom.html2.HTMLOptionElement;
+import org.w3c.dom.html2.HTMLSelectElement;
 
 public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOptionElement {
   public HTMLOptionElementImpl(final String name) {

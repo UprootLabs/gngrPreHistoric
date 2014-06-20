@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.w3c.dom.*;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Node;
 
 public class CDataSectionImpl extends TextImpl implements CDATASection {
 

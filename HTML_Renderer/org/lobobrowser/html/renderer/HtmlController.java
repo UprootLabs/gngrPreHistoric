@@ -15,7 +15,6 @@ import org.lobobrowser.html.domimpl.HTMLSelectElementImpl;
 import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.js.Event;
 import org.lobobrowser.html.js.Executor;
-
 import org.mozilla.javascript.Function;
 
 class HtmlController {

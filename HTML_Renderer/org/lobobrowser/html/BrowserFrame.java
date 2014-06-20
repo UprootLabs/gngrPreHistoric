@@ -25,7 +25,8 @@ package org.lobobrowser.html;
 
 import java.awt.Component;
 import java.net.URL;
-import org.w3c.dom.*;
+
+import org.w3c.dom.Document;
 
 /**
  * The <code>BrowserFrame</code> interface represents a browser frame. A simple

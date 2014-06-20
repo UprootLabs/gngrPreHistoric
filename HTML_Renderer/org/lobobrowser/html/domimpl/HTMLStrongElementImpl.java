@@ -20,7 +20,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import org.lobobrowser.html.style.FontStyleRenderState;
+import org.lobobrowser.html.style.RenderState;
 
 /**
  * Element used for B and STRONG.

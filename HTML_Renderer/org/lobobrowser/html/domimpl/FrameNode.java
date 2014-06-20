@@ -1,6 +1,6 @@
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.*;
+import org.lobobrowser.html.BrowserFrame;
 
 /**
  * Tag interface for frame nodes.

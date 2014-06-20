@@ -20,7 +20,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.style.TextDecorationRenderState;
 
 /**
  * Element used for STRIKE.

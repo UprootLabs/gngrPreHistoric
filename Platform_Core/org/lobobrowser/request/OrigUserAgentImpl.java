@@ -25,7 +25,7 @@ package org.lobobrowser.request;
 
 import java.security.AccessController;
 
-import org.lobobrowser.settings.*;
+import org.lobobrowser.settings.GeneralSettings;
 import org.lobobrowser.ua.UserAgent;
 
 public class OrigUserAgentImpl implements UserAgent {

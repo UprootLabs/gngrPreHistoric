@@ -23,9 +23,11 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.w3c.dom.DOMStringList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import java.util.*;
+import org.w3c.dom.DOMStringList;
 
 public class DOMStringListImpl implements DOMStringList {
   private final List<String> sourceList;

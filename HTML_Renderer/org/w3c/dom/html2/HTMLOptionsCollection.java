@@ -32,8 +32,8 @@
 
 package org.w3c.dom.html2;
 
-import org.w3c.dom.Node;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 
 /**
  * An <code>HTMLOptionsCollection</code> is a list of nodes representing HTML

@@ -1,6 +1,6 @@
 package org.lobobrowser.html;
 
-import java.awt.*;
+import java.awt.Component;
 
 /**
  * This interface should be implemented to provide OBJECT, EMBED or APPLET

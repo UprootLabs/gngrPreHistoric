@@ -1,8 +1,9 @@
 package org.lobobrowser.html.js;
 
-import java.awt.*;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
-import org.lobobrowser.js.*;
+import org.lobobrowser.js.AbstractScriptableDelegate;
 
 public class Screen extends AbstractScriptableDelegate {
   private final GraphicsEnvironment graphicsEnvironment;

@@ -23,10 +23,16 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.js.*;
-import org.w3c.dom.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
+import org.lobobrowser.js.AbstractScriptableDelegate;
+import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 public class NamedNodeMapImpl extends AbstractScriptableDelegate implements NamedNodeMap {
   // Note: class must be public for reflection to work.

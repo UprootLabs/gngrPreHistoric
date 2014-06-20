@@ -23,7 +23,7 @@
  */
 package org.lobobrowser.html.style;
 
-import java.awt.*;
+import java.awt.FontMetrics;
 
 /**
  * @author J. H. S.

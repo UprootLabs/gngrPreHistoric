@@ -21,7 +21,8 @@
 
 package org.lobobrowser.request;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VerifiedHostsStore {
   private static final VerifiedHostsStore instance = new VerifiedHostsStore();

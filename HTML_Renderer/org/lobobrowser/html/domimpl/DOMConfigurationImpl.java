@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMException;

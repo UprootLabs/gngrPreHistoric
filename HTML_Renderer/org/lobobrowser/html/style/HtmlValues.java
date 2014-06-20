@@ -22,18 +22,19 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
-import org.w3c.dom.css.*;
-import org.lobobrowser.util.*;
+import org.w3c.dom.css.CSS2Properties;
 
 public class HtmlValues {
   public static final Map<String, FontInfo> SYSTEM_FONTS = new HashMap<>();

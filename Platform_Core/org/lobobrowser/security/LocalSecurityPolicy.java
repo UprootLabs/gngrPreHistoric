@@ -31,6 +31,7 @@ import java.awt.*;
 
 import javax.net.ssl.SSLPermission;
 
+import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.util.*;
 
 public class LocalSecurityPolicy extends Policy {

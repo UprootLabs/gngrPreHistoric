@@ -23,10 +23,12 @@
  */
 package org.lobobrowser.html.domimpl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import java.util.logging.*;
 
 class LocalErrorHandler implements ErrorHandler {
   private static final Logger logger = Logger.getLogger(LocalErrorHandler.class.getName());

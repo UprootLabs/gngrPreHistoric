@@ -20,7 +20,7 @@
  */
 package org.lobobrowser.html.style;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class BackgroundInfo {
   public Color backgroundColor;

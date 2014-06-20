@@ -23,15 +23,24 @@
  */
 package org.lobobrowser.html.style;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Toolkit;
 import java.awt.font.TextAttribute;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.lobobrowser.util.gui.FontFactory;
-import org.w3c.dom.css.*;
-import org.w3c.dom.html2.*;
+import org.w3c.dom.css.CSS2Properties;
+import org.w3c.dom.html2.HTMLElement;
 
 /**
  * @author J. H. S.

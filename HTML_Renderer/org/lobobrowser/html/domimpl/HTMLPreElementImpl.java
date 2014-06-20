@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import org.lobobrowser.html.style.PreRenderState;
+import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html2.HTMLPreElement;
 
 public class HTMLPreElementImpl extends HTMLAbstractUIElement implements HTMLPreElement {

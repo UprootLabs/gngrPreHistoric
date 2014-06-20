@@ -20,10 +20,12 @@
  */
 package org.lobobrowser.request;
 
-import java.util.*;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.NameValuePair;
 import org.lobobrowser.util.io.IORoutines;
 
 public class MemoryCacheEntry {

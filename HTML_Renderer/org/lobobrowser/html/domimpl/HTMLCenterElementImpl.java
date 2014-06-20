@@ -20,7 +20,9 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import org.lobobrowser.html.style.AlignXRenderState;
+import org.lobobrowser.html.style.BlockRenderState;
+import org.lobobrowser.html.style.RenderState;
 
 public class HTMLCenterElementImpl extends HTMLAbstractUIElement {
   public HTMLCenterElementImpl(final String name) {

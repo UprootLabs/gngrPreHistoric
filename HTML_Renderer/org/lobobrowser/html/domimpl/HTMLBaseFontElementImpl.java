@@ -20,7 +20,11 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.*;
+import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.BaseFontRenderState;
+import org.lobobrowser.html.style.ComputedCSS2Properties;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html2.HTMLBaseFontElement;
 
 public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HTMLBaseFontElement {
