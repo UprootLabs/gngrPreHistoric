@@ -32,7 +32,7 @@ import org.lobobrowser.util.Urls;
  * <p>
  * Note: This class is not thread safe on its own.
  */
-public class NavigationEngine {
+final public class NavigationEngine {
   private static final Logger logger = Logger.getLogger(NavigationEngine.class.getName());
   private final ArrayList<NavigationEntry> history = new ArrayList<>();
 
