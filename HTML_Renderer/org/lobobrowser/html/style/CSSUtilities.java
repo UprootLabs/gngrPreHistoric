@@ -33,7 +33,8 @@ import java.util.logging.Logger;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
-import org.lobobrowser.ua.UserAgentContext.CSSRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.Urls;
@@ -103,7 +104,7 @@ public class CSSUtilities {
     SecurityUtil.doPrivileged(() -> {
       try {
         request.open("GET", cssURI, false);
-        request.send(null, new CSSRequest(cssURL));
+        request.send(null, new Request(cssURL, RequestKind.CSS));
       } catch (final java.io.IOException thrown) {
         logger.log(Level.WARNING, "parse()", thrown);
       }

@@ -6,7 +6,8 @@ import org.lobobrowser.html.BrowserFrame;
 import org.lobobrowser.html.js.Window;
 import org.lobobrowser.html.style.IFrameRenderState;
 import org.lobobrowser.html.style.RenderState;
-import org.lobobrowser.ua.UserAgentContext.FrameRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.w3c.dom.Document;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html2.HTMLIFrameElement;
@@ -154,7 +155,7 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
     if (frame != null) {
       try {
         final URL fullURL = this.getFullURL(value);
-        if (getUserAgentContext().isRequestPermitted(new FrameRequest(fullURL))) {
+        if (getUserAgentContext().isRequestPermitted(new Request(fullURL, RequestKind.Frame))) {
           frame.loadURL(fullURL);
         }
       } catch (final java.net.MalformedURLException mfu) {

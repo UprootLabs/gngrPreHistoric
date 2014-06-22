@@ -72,7 +72,8 @@ import org.lobobrowser.ua.ProgressType;
 import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.UserAgent;
 import org.lobobrowser.ua.UserAgentContext;
-import org.lobobrowser.ua.UserAgentContext.CookieRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.BoxedObject;
 import org.lobobrowser.util.ID;
 import org.lobobrowser.util.NameValuePair;
@@ -838,7 +839,7 @@ public final class RequestEngine {
     final String protocol = connection.getURL().getProtocol();
     if ("http".equals(protocol) || "https".equals(protocol)) {
       final URL url = connection.getURL();
-      if (rhandler.getContext().isRequestPermitted(new CookieRequest(url))) {
+      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
         final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
         addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
         addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
@@ -860,7 +861,7 @@ public final class RequestEngine {
       "Set-Cookie".equalsIgnoreCase(key) || "Set-Cookie2".equalsIgnoreCase(key)
     );
     if (cookieSetterExists) {
-      if (rhandler.getContext().isRequestPermitted(new CookieRequest(url))) {
+      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
         cookieHandler.put(url.toURI(), headerFields);
       }
     }

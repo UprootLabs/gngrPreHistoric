@@ -9,7 +9,8 @@ import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
-import org.lobobrowser.ua.UserAgentContext.XHRRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.Urls;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
@@ -94,7 +95,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     final Optional<URL> urlOpt = request.getURL();
     if (urlOpt.isPresent()) {
       final URL url = urlOpt.get();
-      request.send(content, new XHRRequest(url));
+      request.send(content, new Request(url, RequestKind.XHR));
     }
   }
 

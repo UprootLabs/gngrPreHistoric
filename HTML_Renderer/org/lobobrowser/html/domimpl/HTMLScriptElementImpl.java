@@ -29,8 +29,8 @@ import java.util.logging.Logger;
 import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
-import org.lobobrowser.ua.UserAgentContext.InlineScriptRequest;
-import org.lobobrowser.ua.UserAgentContext.ScriptRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.SecurityUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
@@ -131,7 +131,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
       }
       final boolean liflag = loggableInfo;
       if (src == null) {
-        final InlineScriptRequest request = new InlineScriptRequest(((HTMLDocumentImpl) doc).getDocumentURL());
+        final Request request = new Request(((HTMLDocumentImpl) doc).getDocumentURL(), RequestKind.InlineScript);
         if (bcontext.isRequestPermitted(request)) {
           text = this.getText();
           scriptURI = doc.getBaseURI();
@@ -154,7 +154,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
             // items from elsewhere.
               try {
                 request.open("GET", scriptURI, false);
-                request.send(null, new ScriptRequest(scriptURL));
+                request.send(null, new Request(scriptURL, RequestKind.ExternalScript));
               } catch (final java.io.IOException thrown) {
                 logger.log(Level.WARNING, "processScript()", thrown);
               }

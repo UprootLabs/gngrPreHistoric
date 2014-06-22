@@ -52,7 +52,8 @@ import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
-import org.lobobrowser.ua.UserAgentContext.ImageRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
@@ -1187,7 +1188,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
         SecurityUtil.doPrivileged(() -> {
           try {
             httpRequest.open("GET", url, true);
-            httpRequest.send(null, new ImageRequest(url));
+            httpRequest.send(null, new Request(url, RequestKind.Image));
           } catch (final java.io.IOException thrown) {
             logger.log(Level.WARNING, "loadImage()", thrown);
           }

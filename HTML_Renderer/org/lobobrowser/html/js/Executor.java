@@ -26,7 +26,8 @@ import java.util.logging.Logger;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.js.JavaScript;
 import org.lobobrowser.ua.UserAgentContext;
-import org.lobobrowser.ua.UserAgentContext.InlineScriptRequest;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -65,7 +66,7 @@ public class Executor {
     }
 
     final UserAgentContext uaContext = element.getUserAgentContext();
-    if (uaContext.isRequestPermitted(new InlineScriptRequest(element.getDocumentURL()))) {
+    if (uaContext.isRequestPermitted(new Request(element.getDocumentURL(), RequestKind.InlineScript))) {
       final Context ctx = createContext(element.getDocumentURL(), element.getUserAgentContext());
       try {
         final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);
