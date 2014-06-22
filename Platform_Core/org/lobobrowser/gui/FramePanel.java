@@ -489,11 +489,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       // into invokeLater task.
       final AccessControlContext context = AccessController.getContext();
       EventQueue.invokeLater(() -> {
-        final PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
-          public Object run() {
-            FramePanel.this.replaceContentImpl(response, content);
-            return null;
-          }
+        final PrivilegedAction<Object> action = () -> {
+          FramePanel.this.replaceContentImpl(response, content);
+          return null;
         };
         AccessController.doPrivileged(action, context);
       });
@@ -752,7 +750,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     final RequestHandler handler = new ClientletRequestHandler(request, this.getWindowCallback(), this, uaContext);
     SecurityUtil.doPrivileged(() -> {
       // Justification: While requests by untrusted code are generally only
-      // allowed on certain hosts,  navigation is an exception.
+      // allowed on certain hosts, navigation is an exception.
         RequestEngine.getInstance().scheduleRequest(handler);
         return null;
       });
