@@ -78,6 +78,9 @@ public final class ImageClientlet implements Clientlet {
     public void addNotify() {
     }
 
+    public void navigatedNotify() {
+    }
+
     public boolean canCopy() {
       // TODO: Support image copy?
       return false;

@@ -795,7 +795,9 @@ public class HtmlParser {
           } finally {
             // This can inform elements to continue with notifications.
             // It can also cause Javascript to get processed.
-            element.setUserData(MODIFYING_KEY, Boolean.FALSE, null);
+            // element.setUserData(MODIFYING_KEY, Boolean.FALSE, null);
+
+            // Note: ^^^ this is commented out here, for TODO #3
           }
         }
       } finally {

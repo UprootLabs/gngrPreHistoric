@@ -1,10 +1,14 @@
 package org.lobobrowser.html.domimpl;
 
+import java.net.URL;
+
 import org.lobobrowser.html.BrowserFrame;
 import org.lobobrowser.html.js.Window;
 import org.lobobrowser.html.style.IFrameRenderState;
 import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.ua.UserAgentContext.FrameRequest;
 import org.w3c.dom.Document;
+import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html2.HTMLIFrameElement;
 
 public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTMLIFrameElement, FrameNode {
@@ -16,16 +20,22 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
 
   public void setBrowserFrame(final BrowserFrame frame) {
     this.browserFrame = frame;
-    if (frame != null) {
+    /*
+    final String src = this.getAttribute("src");
+    if (src != null) {
+      loadURLIntoFrame(src);
+    }*/
+  }
+
+  @Override
+  public Object setUserData(String key, Object data, UserDataHandler handler) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       final String src = this.getAttribute("src");
       if (src != null) {
-        try {
-          frame.loadURL(this.getFullURL(src));
-        } catch (final java.net.MalformedURLException mfu) {
-          this.warn("setBrowserFrame(): Unable to navigate to src.", mfu);
-        }
+        loadURLIntoFrame(src);
       }
     }
+    return super.setUserData(key, data, handler);
   }
 
   public BrowserFrame getBrowserFrame() {
@@ -133,16 +143,23 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
 
   protected void assignAttributeField(final String normalName, final String value) {
     if ("src".equals(normalName)) {
-      final BrowserFrame frame = this.browserFrame;
-      if (frame != null) {
-        try {
-          frame.loadURL(this.getFullURL(value));
-        } catch (final java.net.MalformedURLException mfu) {
-          this.warn("assignAttributeField(): Unable to navigate to src.", mfu);
-        }
-      }
+      loadURLIntoFrame(value);
     } else {
       super.assignAttributeField(normalName, value);
+    }
+  }
+
+  private void loadURLIntoFrame(final String value) {
+    final BrowserFrame frame = this.browserFrame;
+    if (frame != null) {
+      try {
+        final URL fullURL = this.getFullURL(value);
+        if (getUserAgentContext().isRequestPermitted(new FrameRequest(fullURL))) {
+          frame.loadURL(fullURL);
+        }
+      } catch (final java.net.MalformedURLException mfu) {
+        this.warn("loadURLIntoFrame(): Unable to navigate to src.", mfu);
+      }
     }
   }
 

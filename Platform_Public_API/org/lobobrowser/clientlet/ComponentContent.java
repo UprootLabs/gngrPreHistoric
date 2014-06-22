@@ -58,6 +58,9 @@ public interface ComponentContent {
   /** Called after the content has been added to a container for display. */
   public void addNotify();
 
+  /** Called after the addNotify and navigation updated */
+  public void navigatedNotify();
+
   /**
    * Called after the content has been removed from the display container. This
    * method may be used to dispose associated resources.

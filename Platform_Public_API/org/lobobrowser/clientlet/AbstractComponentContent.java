@@ -54,6 +54,9 @@ public abstract class AbstractComponentContent implements ComponentContent {
   public void addNotify() {
   }
 
+  public void navigatedNotify() {
+  }
+
   public void removeNotify() {
   }
 

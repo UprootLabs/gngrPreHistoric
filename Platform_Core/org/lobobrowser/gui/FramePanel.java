@@ -584,11 +584,16 @@ public class FramePanel extends JPanel implements NavigatorFrame {
           this.navigationEngine.addNavigationEntry(navigationEntry);
         }
       }
+
+      if (content != null) {
+        content.navigatedNotify();
+      }
+
       final WindowCallback wc = this.getWindowCallback();
       if (wc != null) {
-        // It's important that the handleDocumentRendering
-        // method be called right after navigationEngine is
-        // updated.
+        // It's important that the handleDocumentRendering method be called
+        // right after navigationEngine is updated.
+        // TODO: Why?
         wc.handleDocumentRendering(this, response, content);
       }
     }

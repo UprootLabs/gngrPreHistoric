@@ -21,16 +21,19 @@
 package org.lobobrowser.primary.clientlets.html;
 
 import java.awt.Component;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.gui.HtmlPanel;
+import org.lobobrowser.util.Nodes;
 import org.lobobrowser.util.io.BufferExceededException;
 import org.lobobrowser.util.io.RecordedInputStream;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html2.HTMLDocument;
 import org.w3c.dom.html2.HTMLElement;
-import java.util.logging.*;
 
 public class HtmlContent implements ComponentContent {
   private static final Logger logger = Logger.getLogger(HtmlContent.class.getName());
@@ -112,6 +115,17 @@ public class HtmlContent implements ComponentContent {
   }
 
   public void addNotify() {
+  }
+
+  public void navigatedNotify() {
+    System.out.println("\n\nnavigation over: " + this);
+    Nodes.forEachNode(document, node -> {
+      if (node instanceof NodeImpl) {
+        final NodeImpl element = (NodeImpl) node;
+        element.setUserData(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY, Boolean.FALSE, null);
+      }
+    });
+
   }
 
   public void removeNotify() {

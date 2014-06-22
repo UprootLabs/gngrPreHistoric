@@ -29,6 +29,7 @@ import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.html.style.ImageRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.mozilla.javascript.Function;
+import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html2.HTMLImageElement;
 
 public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLImageElement {
@@ -145,9 +146,11 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
 
   protected void assignAttributeField(final String normalName, final String value) {
     super.assignAttributeField(normalName, value);
-    if ("src".equals(normalName)) {
+
+    // Commenting out for TODO: #3
+    /* if ("src".equals(normalName)) {
       this.loadImage(value);
-    }
+    }*/
   }
 
   private Function onload;
@@ -180,6 +183,14 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     synchronized (this.listeners) {
       return this.image;
     }
+  }
+
+  @Override
+  public Object setUserData(String key, Object data, UserDataHandler handler) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
+      this.loadImage(getSrc());
+    }
+    return super.setUserData(key, data, handler);
   }
 
   private final ArrayList<ImageListener> listeners = new ArrayList<>(1);
