@@ -660,12 +660,13 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     this.navigate(url, "GET", null, TargetType.SELF, requestType);
   }
 
-  public void navigate(final URL url, final String method, final ParameterInfo paramInfo, final TargetType type, final RequestType requestType) {
+  public void navigate(final URL url, final String method, final ParameterInfo paramInfo, final TargetType type,
+      final RequestType requestType) {
     this.navigate(url, method, paramInfo, type, requestType, this);
   }
 
-  public void navigate(final URL url, final String method, final ParameterInfo paramInfo, final TargetType type, final RequestType requestType,
-      final NavigatorFrame originatingFrame) {
+  public void navigate(final URL url, final String method, final ParameterInfo paramInfo, final TargetType type,
+      final RequestType requestType, final NavigatorFrame originatingFrame) {
     final NavigationEvent event = new NavigationEvent(this, url, method, paramInfo, type, requestType, originatingFrame);
     this.navigate(event);
   }
@@ -818,7 +819,8 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * @return The top frame of the new window. The method may return
    *         <code>null</code> if navigation was vetoed by a listener.
    */
-  public NavigatorFrame open(final java.net.URL url, final String method, final ParameterInfo pinfo, final String windowId, final Properties windowProperties) {
+  public NavigatorFrame open(final java.net.URL url, final String method, final ParameterInfo pinfo, final String windowId,
+      final Properties windowProperties) {
     final NavigationEvent event = new NavigationEvent(this, url, method, pinfo, TargetType.BLANK, RequestType.OPEN_WINDOW, this);
     try {
       this.dispatchBeforeWindowOpen(event);

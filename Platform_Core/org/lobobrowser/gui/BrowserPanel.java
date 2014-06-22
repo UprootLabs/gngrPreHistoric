@@ -460,6 +460,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
       final String title = BrowserPanel.getWindowTitle(response, content);
       this.setDocumentTitle(title);
     }
+
     final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response);
     this.latestAccessedFrame = event.getNavigatorFrame();
     if (!EVENT.fireEvent(event)) {

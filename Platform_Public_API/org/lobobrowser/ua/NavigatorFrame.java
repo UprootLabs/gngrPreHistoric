@@ -60,7 +60,7 @@ public interface NavigatorFrame {
    *          Window properties, following Javascript Window.open() conventions.
    * @throws java.net.MalformedURLException
    */
-  public NavigatorFrame open(java.net.URL url, Properties windowProperties) throws java.net.MalformedURLException;
+  public NavigatorFrame open(java.net.URL url, Properties windowProperties);
 
   /**
    * Opens a URL in a separate window.
