@@ -152,12 +152,6 @@ public class SilentUserAgentContextImpl implements UserAgentContext {
   }
 
   public boolean isRequestPermitted(final Request request) {
-    System.out.println("Checking :" + request);
-    System.out.println("  context: " + frame.getCurrentNavigationEntry());
-    if (request instanceof CookieRequest) {
-      final CookieRequest cookieRequest = (CookieRequest) request;
-      return true;
-    }
-    return false;
+    return frame.isRequestPermitted(request);
   }
 }

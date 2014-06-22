@@ -17,9 +17,11 @@ import org.lobobrowser.ua.NetworkRequest;
 public interface UserAgentContext {
   static public abstract class Request {
     final public URL url;
+    final public int id;
 
-    Request(final URL url) {
+    Request(final URL url, final int id) {
       this.url = url;
+      this.id = id;
     }
 
     @Override
@@ -30,56 +32,56 @@ public interface UserAgentContext {
 
   static public class CookieRequest extends Request {
     public CookieRequest(final URL url) {
-      super(url);
+      super(url, 0);
     }
   }
 
   static public abstract class NetRequest extends Request {
-    public NetRequest(final URL url) {
-      super(url);
+    public NetRequest(final URL url, final int id) {
+      super(url, id);
     }
   }
 
   static public class ImageRequest extends NetRequest {
     public ImageRequest(final URL url) {
-      super(url);
+      super(url, 1);
     }
   }
 
   static public class ScriptRequest extends NetRequest {
 
     public ScriptRequest(final URL url) {
-      super(url);
+      super(url, 2);
     }
   }
 
   static public class InlineScriptRequest extends Request {
 
     public InlineScriptRequest(final URL url) {
-      super(url);
+      super(url, 3);
     }
   }
 
   static public class XHRRequest extends NetRequest {
 
     public XHRRequest(final URL url) {
-      super(url);
+      super(url, 4);
     }
   }
 
   static public class CSSRequest extends NetRequest {
 
     public CSSRequest(final URL url) {
-      super(url);
+      super(url, 5);
     }
   }
 
-  static class FrameRequest extends NetRequest {
+  static public class FrameRequest extends NetRequest {
     public FrameRequest(final URL url) {
-      super(url);
-      // TODO Auto-generated constructor stub
+      super(url, 6);
     }
   }
+  static public int COUNT_REQUEST_ID = 7;
 
   public boolean isRequestPermitted(final Request request);
 

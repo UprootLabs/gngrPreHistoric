@@ -60,6 +60,7 @@ import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.request.RequestHandler;
 import org.lobobrowser.request.SilentUserAgentContextImpl;
 import org.lobobrowser.security.GenericLocalPermission;
+import org.lobobrowser.security.RequestManager;
 import org.lobobrowser.ua.NavigationEntry;
 import org.lobobrowser.ua.NavigationEvent;
 import org.lobobrowser.ua.NavigationListener;
@@ -72,6 +73,7 @@ import org.lobobrowser.ua.ProgressType;
 import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.TargetType;
 import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.util.ArrayUtilities;
 import org.lobobrowser.util.Items;
 import org.lobobrowser.util.SecurityUtil;
@@ -1320,5 +1322,11 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         }
       }
     }
+  }
+
+  private final RequestManager requestManager = new RequestManager(this);
+
+  public boolean isRequestPermitted(final Request request) {
+    return requestManager.isRequestPermitted(request);
   }
 }

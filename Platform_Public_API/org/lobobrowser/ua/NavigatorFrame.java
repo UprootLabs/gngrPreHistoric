@@ -23,9 +23,11 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.lobobrowser.ua;
 
 import java.awt.Component;
-import java.util.*;
+import java.util.Optional;
+import java.util.Properties;
 
 import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.ua.UserAgentContext.Request;
 
 /**
  * Represents a navigator frame. In many ways this interface parallels the
@@ -400,4 +402,6 @@ public interface NavigatorFrame {
    *          property and the underlying implementation.
    */
   public void setProperty(String name, Object value);
+
+  public boolean isRequestPermitted(Request request);
 }
