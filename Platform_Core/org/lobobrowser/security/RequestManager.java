@@ -76,4 +76,8 @@ public class RequestManager {
     });
   }
 
+  public synchronized void reset() {
+    hostToCounterMap = new HashMap<>();
+  }
+
 }

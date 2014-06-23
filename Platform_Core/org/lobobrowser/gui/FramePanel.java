@@ -582,6 +582,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       if (response.isNewNavigationAction()) {
         synchronized (this) {
           this.navigationEngine.addNavigationEntry(navigationEntry);
+          requestManager.reset();
         }
       }
 
