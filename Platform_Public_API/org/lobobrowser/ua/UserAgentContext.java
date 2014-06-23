@@ -1,8 +1,7 @@
 package org.lobobrowser.ua;
 
 import java.net.URL;
-
-import org.lobobrowser.ua.NetworkRequest;
+import java.util.Arrays;
 
 /**
  * Provides information about the user agent (browser) driving the parser and/or
@@ -17,13 +16,22 @@ import org.lobobrowser.ua.NetworkRequest;
 public interface UserAgentContext {
   public enum RequestKind {
     Image, CSS, Cookie, InlineScript, ExternalScript, Frame, XHR;
+
+    public static RequestKind forOrdinal(final int o) {
+      return Arrays.stream(RequestKind.values()).filter(v -> v.ordinal() == o).findFirst().get();
+    }
   }
+
   static public class Request {
     final public RequestKind kind;
     final public URL url;
     public Request(final URL url, final RequestKind kind) {
       this.kind = kind;
       this.url = url;
+    }
+    @Override
+    public String toString() {
+      return kind.toString() + ": " + url;
     }
   }
 
