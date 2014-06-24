@@ -582,7 +582,6 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       if (response.isNewNavigationAction()) {
         synchronized (this) {
           this.navigationEngine.addNavigationEntry(navigationEntry);
-          requestManager.reset();
         }
       }
 
@@ -678,6 +677,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   private void navigate(final NavigationEvent event) {
+    requestManager.reset();
     try {
       this.dispatchBeforeNavigate(event);
     } catch (final NavigationVetoException nve) {
