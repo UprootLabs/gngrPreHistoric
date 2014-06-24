@@ -1,15 +1,31 @@
 package org.lobobrowser.security;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
 
-public class RequestManager {
+public final class RequestManager {
   private final NavigatorFrame frame;
 
   public RequestManager(final NavigatorFrame frame) {
@@ -17,9 +33,9 @@ public class RequestManager {
   }
 
   private static class RequestCounters {
-    private int counters[] = new int [UserAgentContext.RequestKind.values().length];
+    private final int counters[] = new int [UserAgentContext.RequestKind.values().length];
 
-    public void updateCounts(RequestKind kind) {
+    public void updateCounts(final RequestKind kind) {
       counters[kind.ordinal()]++;
     }
 
@@ -76,7 +92,7 @@ public class RequestManager {
   private synchronized void dumpCounters() {
     // Headers
     System.out.print(String.format("%30s  ", ""));
-    Arrays.stream(RequestKind.values()).forEach(kind -> System.out.print(" " + kind.name().substring(0, 2)));
+    getRequestKindNames().forEach(kindName -> System.out.print(" " + kindName.substring(0, 2)));
     System.out.println("");
 
     // Table rows
@@ -85,8 +101,69 @@ public class RequestManager {
     });
   }
 
+  private static Stream<String> getRequestKindNames() {
+    return Arrays.stream(RequestKind.values()).map(kind -> kind.name());
+  }
+
   public synchronized void reset() {
     hostToCounterMap = new HashMap<>();
+  }
+
+  public void manageRequests() {
+    System.out.println("Creating mg dialog");
+    final ManageDialog dlg = new ManageDialog(new JFrame(), "title");
+    dlg.setVisible(true);
+  }
+
+  public class ManageDialog extends JDialog implements ActionListener {
+    public ManageDialog(final JFrame parent, final String title) {
+      super(parent, title, true);
+      if (parent != null) {
+        final Dimension parentSize = parent.getSize();
+        final Point p = parent.getLocation();
+        setLocation(p.x + parentSize.width / 4, p.y + parentSize.height / 4);
+      }
+
+      final String[] columnNames = getColumnNames();
+      final Object[][] requestData = getRequestData();
+
+      final JTable table = new JTable(requestData, columnNames);
+      final JScrollPane scrollTablePane = new JScrollPane(table);
+      table.setFillsViewportHeight(true);
+
+      getContentPane().add(scrollTablePane);
+
+      final JPanel buttonPane = new JPanel();
+      final JButton button = new JButton("OK");
+      buttonPane.add(button);
+      button.addActionListener(this);
+      getContentPane().add(buttonPane, BorderLayout.SOUTH);
+      setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+      pack();
+    }
+
+    private Object[][] getRequestData() {
+      return hostToCounterMap.entrySet().stream().map(entry -> {
+        final List<Object> rowElements = new LinkedList<>();
+        rowElements.add(entry.getKey());
+        Arrays.stream(entry.getValue().counters).forEach(c -> rowElements.add(c));
+
+        return rowElements.toArray();
+      }).toArray(Object[][]::new);
+    }
+
+    private String[] getColumnNames() {
+      final List<String> kindNames = getRequestKindNames().collect(Collectors.toList());
+      kindNames.add(0, "Host");
+      return kindNames.toArray(new String[0]);
+    }
+
+    public void actionPerformed(final ActionEvent e) {
+      setVisible(false);
+      dispose();
+    }
+
   }
 
 }

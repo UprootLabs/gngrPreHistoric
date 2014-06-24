@@ -404,4 +404,5 @@ public interface NavigatorFrame {
   public void setProperty(String name, Object value);
 
   public boolean isRequestPermitted(Request request);
+  public void manageRequests();
 }

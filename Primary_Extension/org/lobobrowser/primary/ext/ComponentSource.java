@@ -125,7 +125,7 @@ public class ComponentSource implements NavigatorWindowListener {
     return new Component[] { this.getBackButton(), this.window.createGap(), this.getForwardButton(), this.window.createGap(),
         this.getStopButton(), this.window.createGap(), this.getRefreshButton(), this.window.createGap(),
         this.window.createGlueComponent(this.addressField, true), this.window.createGap(), this.getGoButton(), this.window.createGap(),
-        this.searchButton, this.window.createGap() };
+        this.searchButton, this.window.createGap(), getRequestManagerButton() };
   }
 
   public Component[] getStatusBarComponents() {
@@ -272,6 +272,13 @@ public class ComponentSource implements NavigatorWindowListener {
     button.setAction(this.actionPool.reloadAction);
     button.setIcon(IconFactory.getInstance().getIcon("/toolbarButtonGraphics/general/Refresh16.gif"));
     button.setToolTipText("Refresh");
+    return button;
+  }
+
+  private Component getRequestManagerButton() {
+    final JButton button = new JButton();
+    button.setAction(this.actionPool.requestManagerAction);
+    button.setToolTipText("Manage requests");
     return button;
   }
 

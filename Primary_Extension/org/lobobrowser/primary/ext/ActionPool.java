@@ -37,6 +37,12 @@ public class ActionPool {
   private final NavigatorWindow window;
   private final Collection<EnableableAction> enableableActions;
 
+  public final Action requestManagerAction = new AbstractAction("Req Mgr") {
+    public void actionPerformed(final ActionEvent e) {
+      System.out.println("Req Mgr button: " + e);
+      window.getTopFrame().manageRequests();
+    }
+  };
   public final GoAction goAction = new GoAction();
   public final SearchAction searchAction = new SearchAction();
   public final ExitAction exitAction = new ExitAction();

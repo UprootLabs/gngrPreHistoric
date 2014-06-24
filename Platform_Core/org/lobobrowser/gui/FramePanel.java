@@ -1337,4 +1337,8 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   public boolean isRequestPermitted(final Request request) {
     return requestManager.isRequestPermitted(request);
   }
+
+  public void manageRequests() {
+    requestManager.manageRequests();
+  }
 }
