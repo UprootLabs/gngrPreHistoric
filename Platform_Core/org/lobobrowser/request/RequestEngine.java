@@ -839,7 +839,7 @@ public final class RequestEngine {
     final String protocol = connection.getURL().getProtocol();
     if ("http".equals(protocol) || "https".equals(protocol)) {
       final URL url = connection.getURL();
-      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
+      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.CookieRead))) {
         final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
         addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
         addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
@@ -861,7 +861,7 @@ public final class RequestEngine {
       "Set-Cookie".equalsIgnoreCase(key) || "Set-Cookie2".equalsIgnoreCase(key)
     );
     if (cookieSetterExists) {
-      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
+      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.CookieWrite))) {
         cookieHandler.put(url.toURI(), headerFields);
       }
     }

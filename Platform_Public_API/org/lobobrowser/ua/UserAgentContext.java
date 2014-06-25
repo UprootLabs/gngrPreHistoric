@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public interface UserAgentContext {
   public enum RequestKind {
-    Image, CSS, Cookie, InlineScript, ExternalScript, Frame, XHR;
+    Image, CSS, CookieWrite, CookieRead, InlineScript, ExternalScript, Frame, XHR;
 
     public static RequestKind forOrdinal(final int o) {
       return Arrays.stream(RequestKind.values()).filter(v -> v.ordinal() == o).findFirst().get();

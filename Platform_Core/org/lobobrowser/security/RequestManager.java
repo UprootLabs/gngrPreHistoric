@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,12 +22,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.lobobrowser.security.RequestRule.RequestRuleSet;
+import org.lobobrowser.ua.NavigationEntry;
 import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
 
 public final class RequestManager {
+  private static final Logger logger = Logger.getLogger(RequestManager.class.getName());
+
   private final NavigatorFrame frame;
 
   public RequestManager(final NavigatorFrame frame) {
@@ -48,6 +54,7 @@ public final class RequestManager {
   }
 
   private Map<String, RequestCounters> hostToCounterMap = new HashMap<>();
+  private Optional<RequestRuleSet> ruleSetOpt = Optional.empty();
 
   private synchronized void updateCounter(final String host, final Request request) {
     if (!hostToCounterMap.containsKey(host)) {
@@ -57,36 +64,21 @@ public final class RequestManager {
   }
 
   public boolean isRequestPermitted(final Request request) {
-    // final String frameHost = frame.getCurrentNavigationEntry().getUrl().getHost();
-    final String requestHost = request.url.getHost();
-    updateCounter(requestHost, request);
-    dumpCounters();
-
-    System.out.println("Checking :" + request);
-    System.out.println("  context: " + frame.getCurrentNavigationEntry());
-    System.out.println("  parent: " + frame.getParentFrame());
-    boolean permitted = false;
-    switch (request.kind) {
-    case CSS:
-      permitted = true;
-      break;
-    case Cookie:
-      break;
-    case ExternalScript:
-      break;
-    case Frame:
-      break;
-    case Image:
-      permitted = true;
-      break;
-    case InlineScript:
-      break;
-    case XHR:
-      break;
-    default:
-      break;
+    final NavigationEntry currentNavigationEntry = frame.getCurrentNavigationEntry();
+    if (currentNavigationEntry != null) {
+      if (!ruleSetOpt.isPresent()) {
+        final String frameHost = currentNavigationEntry.getUrl().getHost();
+        ruleSetOpt = Optional.of(RequestRuleSet.getRuleSet(frameHost));
+      }
+      final Boolean permitted = ruleSetOpt.map(ruleSet -> ruleSet.isRequestPermitted(request)).orElse(false);
+      final String requestHost = request.url.getHost();
+      updateCounter(requestHost, request);
+      dumpCounters();
+      return permitted;
+    } else {
+      logger.warning("Unexpected navigation state. Request without context!");
+      return false;
     }
-    return permitted;
   }
 
   private synchronized void dumpCounters() {
