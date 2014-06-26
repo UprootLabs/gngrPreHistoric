@@ -63,6 +63,16 @@ public final class RequestManager {
     hostToCounterMap.get(host).updateCounts(request.kind);
   }
 
+  private Optional<String> getFrameHost() {
+    final NavigationEntry currentNavigationEntry = frame.getCurrentNavigationEntry();
+    if (currentNavigationEntry != null) {
+      final String frameHost = currentNavigationEntry.getUrl().getHost();
+      return Optional.of(frameHost);
+    } else {
+      return Optional.empty();
+    }
+  }
+
   public boolean isRequestPermitted(final Request request) {
     final NavigationEntry currentNavigationEntry = frame.getCurrentNavigationEntry();
     if (currentNavigationEntry != null) {
@@ -103,7 +113,7 @@ public final class RequestManager {
 
   public void manageRequests() {
     System.out.println("Creating mg dialog");
-    final ManageDialog dlg = new ManageDialog(new JFrame(), "title");
+    final ManageDialog dlg = new ManageDialog(new JFrame(), getFrameHost().orElse("Empty!"));
     dlg.setVisible(true);
   }
 
