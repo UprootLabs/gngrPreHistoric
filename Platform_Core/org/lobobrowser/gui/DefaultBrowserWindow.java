@@ -37,6 +37,10 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
 
   public DefaultBrowserWindow(final boolean hasMenuBar, final boolean hasAddressBar, final boolean hasToolBar, final boolean hasStatusBar,
       final NavigatorWindowImpl windowContext) throws HeadlessException {
+
+    // Maximise window
+    setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
     // TODO: SECURITY: Security needed in this class to prevent removal of all
     // window components??
     this.windowContext = windowContext;
