@@ -21,8 +21,10 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.util.Optional;
 
 public abstract class RenderStateDelegator implements RenderState {
   protected final RenderState delegate;
@@ -162,5 +164,9 @@ public abstract class RenderStateDelegator implements RenderState {
 
   public BorderInfo getBorderInfo() {
     return this.delegate.getBorderInfo();
+  }
+
+  public Optional<Cursor> getCursor() {
+    return this.delegate.getCursor();
   }
 }

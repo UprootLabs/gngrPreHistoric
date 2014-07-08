@@ -24,6 +24,7 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Toolkit;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -1063,5 +1065,38 @@ public class StyleSheetRenderState implements RenderState {
     }
     this.borderInfo = binfo;
     return binfo;
+  }
+
+  public Optional<Cursor> getCursor() {
+    Optional<Cursor> prevCursorOpt = prevRenderState == null ? Optional.empty() : prevRenderState.getCursor();
+    final AbstractCSS2Properties props = this.getCssProperties();
+    if (props == null) {
+      return prevCursorOpt;
+    } else {
+      String cursor = props.getPropertyValue("cursor");
+      if (cursor == null) {
+        return prevCursorOpt;
+      } else {
+        final String cursorTL = cursor.toLowerCase();
+        // TODO: Handle more cursor types, defined here: 
+        if ("default".equals(cursorTL)) {
+          return Optional.empty();
+        } else if ("hand".equals(cursorTL)) {
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        } else if ("pointer".equals(cursorTL)) {
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        } else if ("crosshair".equals(cursorTL)) {
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        } else if ("move".equals(cursorTL)) {
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+        } else if ("text".equals(cursorTL)) {
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        } else if ("wait".equals(cursorTL)) {
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        } else {
+          return prevCursorOpt;
+        }
+      }
+    }
   }
 }

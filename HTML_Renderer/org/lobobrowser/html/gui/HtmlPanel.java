@@ -23,6 +23,7 @@
  */
 package org.lobobrowser.html.gui;
 
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Insets;
 import java.awt.Rectangle;
@@ -317,10 +318,19 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * @see org.lobobrowser.html.test.SimpleHtmlRendererContext
    */
   public void setDocument(final Document node, final HtmlRendererContext rcontext) {
+    setCursor(Cursor.getDefaultCursor());
+
     if (java.awt.EventQueue.isDispatchThread()) {
       this.setDocumentImpl(node, rcontext);
     } else {
       java.awt.EventQueue.invokeLater(() -> HtmlPanel.this.setDocumentImpl(node, rcontext));
+    }
+  }
+
+  @Override
+  public void setCursor(Cursor cursor) {
+    if (cursor != getCursor()) {
+      super.setCursor(cursor);
     }
   }
 

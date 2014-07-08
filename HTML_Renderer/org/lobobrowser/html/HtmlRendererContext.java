@@ -23,6 +23,7 @@
  */
 package org.lobobrowser.html;
 
+import java.awt.Cursor;
 import java.net.URL;
 import java.util.Optional;
 
@@ -403,4 +404,6 @@ public interface HtmlRendererContext {
    * Navigates to a URL in the history list.
    */
   public void goToHistoryURL(String url);
+
+  public void setCursor(Optional<Cursor> cursorOpt);
 }

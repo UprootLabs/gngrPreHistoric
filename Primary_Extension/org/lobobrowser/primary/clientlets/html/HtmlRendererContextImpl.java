@@ -23,6 +23,7 @@ GNU GENERAL PUBLIC LICENSE
  */
 package org.lobobrowser.primary.clientlets.html;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -446,4 +447,8 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     }
   }
 
+  public void setCursor(Optional<Cursor> cursorOpt) {
+    final Cursor cursor = cursorOpt.orElse(Cursor.getDefaultCursor());
+    htmlPanel.setCursor(cursor);
+  }
 }

@@ -1,7 +1,9 @@
 package org.lobobrowser.html.renderer;
 
+import java.awt.Cursor;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,8 +15,10 @@ import org.lobobrowser.html.domimpl.HTMLInputElementImpl;
 import org.lobobrowser.html.domimpl.HTMLLinkElementImpl;
 import org.lobobrowser.html.domimpl.HTMLSelectElementImpl;
 import org.lobobrowser.html.domimpl.ModelNode;
+import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.js.Event;
 import org.lobobrowser.html.js.Executor;
+import org.lobobrowser.html.style.RenderState;
 import org.mozilla.javascript.Function;
 
 class HtmlController {
@@ -130,47 +134,107 @@ class HtmlController {
     return this.onContextMenu(parent, event, x, y);
   }
 
-  public void onMouseOver(ModelNode node, final MouseEvent event, final int x, final int y, final ModelNode limit) {
-    while (node != null) {
-      if (node == limit) {
-        break;
-      }
-      if (node instanceof HTMLAbstractUIElement) {
-        final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-        uiElement.setMouseOver(true);
-        final Function f = uiElement.getOnmouseover();
-        if (f != null) {
-          final Event jsEvent = new Event("mouseover", uiElement, event, x, y);
-          Executor.executeFunction(uiElement, f, jsEvent);
+  public void onMouseOver(final ModelNode nodeStart, final MouseEvent event, final int x, final int y, final ModelNode limit) {
+    {
+      ModelNode node = nodeStart;
+      while (node != null) {
+        if (node == limit) {
+          break;
         }
-        final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
-        if (rcontext != null) {
-          rcontext.onMouseOver(uiElement, event);
+        if (node instanceof HTMLAbstractUIElement) {
+          final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+          uiElement.setMouseOver(true);
+          final Function f = uiElement.getOnmouseover();
+          if (f != null) {
+            final Event jsEvent = new Event("mouseover", uiElement, event, x, y);
+            Executor.executeFunction(uiElement, f, jsEvent);
+          }
+          final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+          if (rcontext != null) {
+            rcontext.onMouseOver(uiElement, event);
+          }
         }
+        node = node.getParentModelNode();
       }
-      node = node.getParentModelNode();
+    }
+
+    setMouseOnMouseOver(nodeStart, limit);
+  }
+
+  private static void setMouseOnMouseOver(final ModelNode nodeStart, final ModelNode limit) {
+    {
+      ModelNode node = nodeStart;
+      while (node != null) {
+        if (node == limit) {
+          break;
+        }
+        if (node instanceof NodeImpl) {
+          final NodeImpl uiElement = (NodeImpl) node;
+          final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+          final RenderState rs = uiElement.getRenderState();
+          final Optional<Cursor> cursorOpt = rs.getCursor();
+          if (cursorOpt.isPresent()) {
+            rcontext.setCursor(cursorOpt);
+            break;
+          }
+          ;
+        }
+        node = node.getParentModelNode();
+      }
     }
   }
 
-  public void onMouseOut(ModelNode node, final MouseEvent event, final int x, final int y, final ModelNode limit) {
-    while (node != null) {
-      if (node == limit) {
-        break;
+  public void onMouseOut(final ModelNode nodeStart, final MouseEvent event, final int x, final int y, final ModelNode limit) {
+    {
+      ModelNode node = nodeStart;
+      while (node != null) {
+        if (node == limit) {
+          break;
+        }
+        if (node instanceof HTMLAbstractUIElement) {
+          final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
+          uiElement.setMouseOver(false);
+          final Function f = uiElement.getOnmouseout();
+          if (f != null) {
+            final Event jsEvent = new Event("mouseout", uiElement, event, x, y);
+            Executor.executeFunction(uiElement, f, jsEvent);
+          }
+          final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+          if (rcontext != null) {
+            rcontext.onMouseOut(uiElement, event);
+          }
+
+        }
+        node = node.getParentModelNode();
       }
-      if (node instanceof HTMLAbstractUIElement) {
-        final HTMLAbstractUIElement uiElement = (HTMLAbstractUIElement) node;
-        uiElement.setMouseOver(false);
-        final Function f = uiElement.getOnmouseout();
-        if (f != null) {
-          final Event jsEvent = new Event("mouseout", uiElement, event, x, y);
-          Executor.executeFunction(uiElement, f, jsEvent);
+    }
+
+    resetCursorOnMouseOut(nodeStart, limit);
+  }
+
+  private static void resetCursorOnMouseOut(final ModelNode nodeStart, final ModelNode limit) {
+    Optional<Cursor> foundCursorOpt = Optional.empty();
+    ModelNode node = limit;
+    while (node != null) {
+      if (node instanceof NodeImpl) {
+        final NodeImpl uiElement = (NodeImpl) node;
+
+        final RenderState rs = uiElement.getRenderState();
+        final Optional<Cursor> cursorOpt = rs.getCursor();
+        foundCursorOpt = cursorOpt;
+        if (cursorOpt.isPresent()) {
+          break;
         }
-        final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
-        if (rcontext != null) {
-          rcontext.onMouseOut(uiElement, event);
-        }
+
       }
       node = node.getParentModelNode();
+    }
+
+    if (nodeStart instanceof NodeImpl) {
+      final NodeImpl uiElement = (NodeImpl) nodeStart;
+      final HtmlRendererContext rcontext = uiElement.getHtmlRendererContext();
+      // rcontext.setCursor(Optional.empty());
+      rcontext.setCursor(foundCursorOpt);
     }
   }
 

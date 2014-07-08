@@ -24,8 +24,10 @@
 package org.lobobrowser.html.style;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.util.Optional;
 
 /**
  * @author J. H. S.
@@ -140,4 +142,6 @@ public interface RenderState {
   public void invalidate();
 
   public BorderInfo getBorderInfo();
+
+  public Optional<Cursor> getCursor();
 }

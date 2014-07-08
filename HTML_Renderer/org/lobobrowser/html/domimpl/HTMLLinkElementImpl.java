@@ -20,14 +20,17 @@
  */
 package org.lobobrowser.html.domimpl;
 
+import java.awt.Cursor;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
 import org.lobobrowser.html.style.CSSUtilities;
 import org.lobobrowser.html.style.ColorRenderState;
+import org.lobobrowser.html.style.CursorRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.TextDecorationRenderState;
 import org.lobobrowser.ua.UserAgentContext;
@@ -263,6 +266,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     if (this.hasAttribute("href")) {
       prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_UNDERLINE);
       prevRenderState = new ColorRenderState(prevRenderState, this.getLinkColor());
+      prevRenderState = new CursorRenderState(prevRenderState, Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)));
     }
     return super.createRenderState(prevRenderState);
   }
