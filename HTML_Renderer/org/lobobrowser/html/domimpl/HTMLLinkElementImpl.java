@@ -130,7 +130,8 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      this.processLink();
+      ((HTMLDocumentImpl) document).addJob(() -> processLink());
+      // this.processLink();
     }
     // else
     // if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key))

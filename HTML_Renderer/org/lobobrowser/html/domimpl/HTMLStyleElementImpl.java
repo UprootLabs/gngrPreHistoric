@@ -76,6 +76,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
+      ((HTMLDocumentImpl) document).addJob(() -> processStyle());
       this.processStyle();
     }
     // else

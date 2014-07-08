@@ -119,11 +119,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     final ThreadGroup prevThreadGroup = LocalSecurityManager.getCurrentThreadGroup();
     // TODO: Thread group needs to be thought through. It's retained in
     // memory, and we need to return the right one in the GUI thread as well.
-    final ThreadGroup newThreadGroup = null; // new
-                                       // org.lobobrowser.context.ClientletThreadGroupImpl("CTG-"
-                                       // +
-                                       // ctx.getResponse().getResponseURL().getHost(),
-                                       // ctx);
+    final ThreadGroup newThreadGroup = null; // new org.lobobrowser.context.ClientletThreadGroupImpl("CTG-" + ctx.getResponse().getResponseURL().getHost(), ctx);
     LocalSecurityManager.setCurrentThreadGroup(newThreadGroup);
     // Set context class loader because the extension was likely
     // compiled to require extension libraries.

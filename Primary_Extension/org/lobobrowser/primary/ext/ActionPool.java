@@ -45,8 +45,7 @@ public class ActionPool {
       putValue(MNEMONIC_KEY, KeyEvent.VK_R);
     }
     public void actionPerformed(final ActionEvent e) {
-      System.out.println("Req Mgr button: " + e);
-      window.getTopFrame().manageRequests();
+      window.getTopFrame().manageRequests(e.getSource());
     }
   };
 

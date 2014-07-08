@@ -110,8 +110,10 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      this.processScript();
+      ((HTMLDocumentImpl) document).addJob(() -> processScript());
+      // this.processScript();
     }
+
     return super.setUserData(key, data, handler);
   }
 
@@ -185,10 +187,11 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
           final long time1 = liflag ? System.currentTimeMillis() : 0;
           if (text != null) {
             ctx.evaluateString(scope, text, scriptURI, baseLineNumber, null);
-          if (liflag) {
-            final long time2 = System.currentTimeMillis();
-            logger.info("addNotify(): Evaluated (or attempted to evaluate) Javascript in " + (time2 - time1) + " ms.");
-          }
+
+            if (liflag) {
+              final long time2 = System.currentTimeMillis();
+              logger.info("addNotify(): Evaluated (or attempted to evaluate) Javascript in " + (time2 - time1) + " ms.");
+            }
           }
         } catch (final EcmaError ecmaError) {
           logger.log(Level.WARNING,

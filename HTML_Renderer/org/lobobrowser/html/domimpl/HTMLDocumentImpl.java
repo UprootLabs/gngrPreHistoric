@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -55,17 +56,20 @@ import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.Domains;
+import org.lobobrowser.util.Nodes;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WeakValueHashMap;
 import org.lobobrowser.util.io.EmptyReader;
 import org.mozilla.javascript.Function;
+import org.mozilla.javascript.annotations.JSConstructor;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -108,7 +112,8 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     this(ucontext, null, null, null);
   }
 
-  public HTMLDocumentImpl(final UserAgentContext ucontext, final HtmlRendererContext rcontext, final WritableLineReader reader, final String documentURI) {
+  public HTMLDocumentImpl(final UserAgentContext ucontext, final HtmlRendererContext rcontext, final WritableLineReader reader,
+      final String documentURI) {
     this.factory = ElementFactory.getInstance();
     this.rcontext = rcontext;
     this.ucontext = ucontext;
@@ -1173,17 +1178,17 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
               // Must remove from map in the locked block
               // that got the listeners. Otherwise a new
               // listener might miss the event??
-              map.remove(urlText);
-            }
-            if (listeners != null) {
-              final int llength = listeners.length;
-              for (int i = 0; i < llength; i++) {
-                // Call holding no locks
-                listeners[i].imageLoaded(newEvent);
-              }
+            map.remove(urlText);
+          }
+          if (listeners != null) {
+            final int llength = listeners.length;
+            for (int i = 0; i < llength; i++) {
+              // Call holding no locks
+              listeners[i].imageLoaded(newEvent);
             }
           }
-        });
+        }
+      });
 
         SecurityUtil.doPrivileged(() -> {
           try {
@@ -1214,30 +1219,24 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
-    final Function onloadHandler = this.onloadHandler;
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
-      if (onloadHandler != null) {
-        // TODO: onload event object?
-        Executor.executeFunction(this, onloadHandler, null);
-      }
-
-      final Event loadEvent = new Event("load", getBody()); // TODO: What should
-                                                            // be the target for
-                                                            // this event?
-      dispatchEventToHandlers(loadEvent, onloadHandlers);
-
-      final Event domContentLoadedEvent = new Event("DOMContentLoaded", getBody()); // TODO:
-                                                                                    // What
-                                                                                    // should
-                                                                                    // be
-                                                                                    // the
-                                                                                    // target
-                                                                                    // for
-                                                                                    // this
-                                                                                    // event?
-      dispatchEvent(domContentLoadedEvent);
-    }
+    // if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
+    // dispatchLoadEvent();
+    // }
     return super.setUserData(key, data, handler);
+  }
+
+  private void dispatchLoadEvent() {
+    final Function onloadHandler = this.onloadHandler;
+    if (onloadHandler != null) {
+      // TODO: onload event object?
+      Executor.executeFunction(this, onloadHandler, null);
+    }
+
+    final Event loadEvent = new Event("load", getBody()); // TODO: What should be the target for this event?
+    dispatchEventToHandlers(loadEvent, onloadHandlers);
+
+    final Event domContentLoadedEvent = new Event("DOMContentLoaded", getBody()); // TODO: What should be the target for this event?
+    dispatchEvent(domContentLoadedEvent);
   }
 
   protected Node createSimilarNode() {
@@ -1381,4 +1380,41 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     onloadHandlers.remove(handler);
   }
 
+  private List<Runnable> jobs = new LinkedList<>();
+
+  public void addJob(Runnable job) {
+    synchronized (jobs) {
+      jobs.add(job);
+    }
+  }
+
+  private void runAllPending() {
+    boolean done = false;
+    while (!done) {
+      List<Runnable> jobsCopy;
+      synchronized (jobs) {
+        jobsCopy = jobs;
+        jobs = new LinkedList<>();
+      }
+      jobsCopy.forEach(j -> j.run());
+      synchronized (jobs) {
+        done = jobs.size() == 0;
+      }
+    }
+  }
+
+  public void finishModifications() {
+    runAllPending();
+    dispatchLoadEvent();
+
+    /* Nodes.forEachNode(document, node -> {
+      if (node instanceof NodeImpl) {
+        final NodeImpl element = (NodeImpl) node;
+        Object oldData = element.getUserData(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY);
+        if (oldData == null || !oldData.equals(Boolean.FALSE)) {
+          element.setUserData(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY, Boolean.FALSE, null);
+        }
+      }
+    });*/
+  }
 }

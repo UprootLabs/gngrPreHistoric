@@ -27,10 +27,10 @@ public class Handler extends URLStreamHandler {
   @Override
   protected void parseURL(final URL u, final String spec, final int start, final int limit) {
     final int index = spec.toLowerCase().indexOf(":");
-    final String protocoll = "data";
+    final String protocol = "data";
     final String path = spec.substring(index + 1);
 
-    setURL(u, protocoll,
+    setURL(u, protocol,
     /* host */null,
     /* port */80,
     /* authority */null,

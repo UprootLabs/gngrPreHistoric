@@ -188,7 +188,8 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
   @Override
   public Object setUserData(String key, Object data, UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      this.loadImage(getSrc());
+      ((HTMLDocumentImpl) document).addJob(() -> loadImage(getSrc()));
+      // this.loadImage(getSrc());
     }
     return super.setUserData(key, data, handler);
   }

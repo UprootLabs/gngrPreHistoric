@@ -794,10 +794,9 @@ public class HtmlParser {
             return TOKEN_BEGIN_ELEMENT;
           } finally {
             // This can inform elements to continue with notifications.
-            // It can also cause Javascript to get processed.
-            // element.setUserData(MODIFYING_KEY, Boolean.FALSE, null);
-
-            // Note: ^^^ this is commented out here, for TODO #3
+            // It can also cause Javascript to be loaded / processed.
+            // Update: Elements now use Document.addJob() to delay processing
+            element.setUserData(MODIFYING_KEY, Boolean.FALSE, null);
           }
         }
       } finally {

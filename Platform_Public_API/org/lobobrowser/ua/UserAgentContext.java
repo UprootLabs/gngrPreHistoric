@@ -15,10 +15,20 @@ import java.util.Arrays;
  */
 public interface UserAgentContext {
   public enum RequestKind {
-    Image, CSS, CookieWrite, CookieRead, InlineScript, ExternalScript, Frame, XHR;
+    Image("Img"), CSS("CSS"), CookieWrite("CookieW"), CookieRead("CookieRead"), InlineScript("InScript"), ExternalScript("ExScript"), Frame("Frame"), XHR("XHR");
+
+    public final String shortName;
+
+    RequestKind(String shortName) {
+      this.shortName = shortName;
+    }
 
     public static RequestKind forOrdinal(final int o) {
       return Arrays.stream(RequestKind.values()).filter(v -> v.ordinal() == o).findFirst().get();
+    }
+
+    public static int numKinds() {
+      return values().length;
     }
   }
 

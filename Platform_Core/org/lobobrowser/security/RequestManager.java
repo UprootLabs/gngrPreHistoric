@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.HierarchyBoundsListener;
+import java.awt.event.HierarchyEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,13 +20,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
-import org.lobobrowser.security.RequestRule.RequestRuleSet;
 import org.lobobrowser.ua.NavigationEntry;
 import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.UserAgentContext;
@@ -39,7 +42,7 @@ public final class RequestManager {
   }
 
   private static class RequestCounters {
-    private final int counters[] = new int [UserAgentContext.RequestKind.values().length];
+    private final int counters[] = new int[UserAgentContext.RequestKind.values().length];
 
     public void updateCounts(final RequestKind kind) {
       counters[kind.ordinal()]++;
@@ -54,41 +57,60 @@ public final class RequestManager {
   }
 
   private Map<String, RequestCounters> hostToCounterMap = new HashMap<>();
-  private Optional<RequestRuleSet> ruleSetOpt = Optional.empty();
+  private Optional<PermissionSystem> permissionSystemOpt = Optional.empty();
 
-  private synchronized void updateCounter(final String host, final Request request) {
+  private synchronized void updateCounter(final Request request) {
+    final String host = request.url.getHost();
     if (!hostToCounterMap.containsKey(host)) {
       hostToCounterMap.put(host, new RequestCounters());
     }
     hostToCounterMap.get(host).updateCounts(request.kind);
   }
 
-  private Optional<String> getFrameHost() {
+  private Optional<NavigationEntry> getFrameNavigationEntry() {
     final NavigationEntry currentNavigationEntry = frame.getCurrentNavigationEntry();
-    if (currentNavigationEntry != null) {
-      final String frameHost = currentNavigationEntry.getUrl().getHost();
-      return Optional.of(frameHost);
+    return Optional.ofNullable(currentNavigationEntry);
+  }
+
+  private Optional<String> getFrameHost() {
+    return getFrameNavigationEntry().map(e -> e.getUrl().getHost());
+  }
+
+  private Optional<URL> getFrameURL() {
+    return getFrameNavigationEntry().map(e -> e.getUrl());
+  }
+
+  private Request rewriteRequest(final Request request) {
+    final Optional<String> frameHostOpt = getFrameHost();
+    if (request.url.getProtocol().equals("data") && frameHostOpt.isPresent()) {
+      try {
+        return new Request(new URL("data", frameHostOpt.get(), "someDataPath"), request.kind);
+      } catch (final MalformedURLException e) {
+        throw new RuntimeException("Couldn't rewrite data request");
+      }
     } else {
-      return Optional.empty();
+      return request;
     }
   }
 
   public boolean isRequestPermitted(final Request request) {
-    final NavigationEntry currentNavigationEntry = frame.getCurrentNavigationEntry();
-    if (currentNavigationEntry != null) {
-      if (!ruleSetOpt.isPresent()) {
-        final String frameHost = currentNavigationEntry.getUrl().getHost();
-        ruleSetOpt = Optional.of(RequestRuleSet.getRuleSet(frameHost));
-      }
-      final Boolean permitted = ruleSetOpt.map(ruleSet -> ruleSet.isRequestPermitted(request)).orElse(false);
-      final String requestHost = request.url.getHost();
-      updateCounter(requestHost, request);
-      dumpCounters();
+    final Request finalRequest = rewriteRequest(request);
+
+    if (permissionSystemOpt.isPresent()) {
+      final Boolean permitted = permissionSystemOpt.map(p -> p.isRequestPermitted(finalRequest)).orElse(false);
+      updateCounter(finalRequest);
+      // dumpCounters();
       return permitted;
     } else {
-      logger.warning("Unexpected navigation state. Request without context!");
+      logger.severe("Unexpected permission system state. Request without context!");
       return false;
     }
+  }
+
+  private void setupPermissionSystem(final URL frameURL) {
+    final RequestRuleStore permissionStore = RequestRuleStore.getStore();
+    final PermissionSystem system = new PermissionSystem(frameURL.getHost(), permissionStore);
+    permissionSystemOpt = Optional.of(system);
   }
 
   private synchronized void dumpCounters() {
@@ -99,39 +121,58 @@ public final class RequestManager {
 
     // Table rows
     hostToCounterMap.forEach((host, counters) -> {
-      System.out.println(String.format("%30s: %s", host, counters));
+      System.out.println(String.format("%30s: %s", "[" + host + "]", counters));
     });
   }
 
   private static Stream<String> getRequestKindNames() {
-    return Arrays.stream(RequestKind.values()).map(kind -> kind.name());
+    return Arrays.stream(RequestKind.values()).map(kind -> kind.shortName);
   }
 
-  public synchronized void reset() {
+  public synchronized void reset(final URL frameUrl) {
     hostToCounterMap = new HashMap<>();
+    setupPermissionSystem(frameUrl);
   }
 
-  public void manageRequests() {
-    System.out.println("Creating mg dialog");
-    final ManageDialog dlg = new ManageDialog(new JFrame(), getFrameHost().orElse("Empty!"));
+  public void manageRequests(final JComponent initiatorComponent) {
+    // permissionSystemOpt.ifPresent(r -> r.dump());
+    final ManageDialog dlg = new ManageDialog(new JFrame(), getFrameURL().map(u -> u.toExternalForm()).orElse("Empty!"), initiatorComponent);
     dlg.setVisible(true);
   }
 
-  public class ManageDialog extends JDialog implements ActionListener {
-    public ManageDialog(final JFrame parent, final String title) {
+  private synchronized String[][] getRequestData() {
+    // hostToCounterMap.keySet().stream().forEach(System.out::println);
+
+    return hostToCounterMap.entrySet().stream().map(entry -> {
+      final List<String> rowElements = new LinkedList<>();
+      rowElements.add(entry.getKey());
+      Arrays.stream(entry.getValue().counters).forEach(c -> rowElements.add(Integer.toString(c)));
+
+      return rowElements.toArray(new String[0]);
+    }).toArray(String[][]::new);
+  }
+
+  private static String[] getColumnNames() {
+    final List<String> kindNames = getRequestKindNames().collect(Collectors.toList());
+    kindNames.add(0, "All");
+    return kindNames.toArray(new String[0]);
+  }
+
+  public final class ManageDialog extends JDialog implements ActionListener {
+    private final JComponent initiator;
+
+    public ManageDialog(final JFrame parent, final String title, final JComponent initiator) {
       super(parent, title, true);
+      this.initiator = initiator;
+      setUndecorated(true);
       if (parent != null) {
         final Dimension parentSize = parent.getSize();
         final Point p = parent.getLocation();
         setLocation(p.x + parentSize.width / 4, p.y + parentSize.height / 4);
       }
 
-      final String[] columnNames = getColumnNames();
-      final Object[][] requestData = getRequestData();
-
-      final JTable table = new JTable(requestData, columnNames);
+      final JComponent table = PermissionTable.makeTable(permissionSystemOpt.get(), getColumnNames(), getRequestData());
       final JScrollPane scrollTablePane = new JScrollPane(table);
-      table.setFillsViewportHeight(true);
 
       getContentPane().add(scrollTablePane);
 
@@ -143,27 +184,30 @@ public final class RequestManager {
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
       pack();
-    }
+      updateLocation();
+      initiator.addHierarchyBoundsListener(new HierarchyBoundsListener() {
 
-    private Object[][] getRequestData() {
-      return hostToCounterMap.entrySet().stream().map(entry -> {
-        final List<Object> rowElements = new LinkedList<>();
-        rowElements.add(entry.getKey());
-        Arrays.stream(entry.getValue().counters).forEach(c -> rowElements.add(c));
+        @Override
+        public void ancestorResized(final HierarchyEvent e) {
+          updateLocation();
+        }
 
-        return rowElements.toArray();
-      }).toArray(Object[][]::new);
-    }
-
-    private String[] getColumnNames() {
-      final List<String> kindNames = getRequestKindNames().collect(Collectors.toList());
-      kindNames.add(0, "Host");
-      return kindNames.toArray(new String[0]);
+        @Override
+        public void ancestorMoved(final HierarchyEvent e) {
+          updateLocation();
+        }
+      });
     }
 
     public void actionPerformed(final ActionEvent e) {
       setVisible(false);
       dispose();
+    }
+
+    private void updateLocation() {
+      final Point locationOnScreen = initiator.getLocationOnScreen();
+      locationOnScreen.translate(initiator.getWidth()-getWidth(), initiator.getHeight());
+      setLocation(locationOnScreen);
     }
 
   }

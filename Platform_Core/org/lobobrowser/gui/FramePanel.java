@@ -44,6 +44,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -677,7 +678,6 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   private void navigate(final NavigationEvent event) {
-    requestManager.reset();
     try {
       this.dispatchBeforeNavigate(event);
     } catch (final NavigationVetoException nve) {
@@ -733,6 +733,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   private void navigateLocal(final NavigationEvent event) {
+    requestManager.reset(event.getURL());
     try {
       this.dispatchBeforeLocalNavigate(event);
     } catch (final NavigationVetoException nve) {
@@ -870,6 +871,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       }
     });
     final FramePanel newFrame = wcontext.getFramePanel();
+    if (opener == null) {
+      newFrame.requestManager.reset(url);
+    }
     final UserAgentContext uaContext = new SilentUserAgentContextImpl(newFrame);
     final ClientletRequestHandler handler = new ClientletRequestHandler(request, wcontext, newFrame, uaContext);
     handler.evtProgress.addListener(new org.lobobrowser.util.GenericEventListener() {
@@ -1338,7 +1342,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     return requestManager.isRequestPermitted(request);
   }
 
-  public void manageRequests() {
-    requestManager.manageRequests();
+  public void manageRequests(Object initiator) {
+    requestManager.manageRequests((JComponent) initiator);
   }
 }

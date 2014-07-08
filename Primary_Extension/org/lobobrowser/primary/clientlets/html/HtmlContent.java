@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.gui.HtmlPanel;
 import org.lobobrowser.util.Nodes;
@@ -119,13 +120,7 @@ public class HtmlContent implements ComponentContent {
 
   public void navigatedNotify() {
     System.out.println("\n\nnavigation over: " + this);
-    Nodes.forEachNode(document, node -> {
-      if (node instanceof NodeImpl) {
-        final NodeImpl element = (NodeImpl) node;
-        element.setUserData(org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY, Boolean.FALSE, null);
-      }
-    });
-
+    ((HTMLDocumentImpl) document).finishModifications();
   }
 
   public void removeNotify() {

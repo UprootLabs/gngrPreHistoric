@@ -21,23 +21,24 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
 
   public void setBrowserFrame(final BrowserFrame frame) {
     this.browserFrame = frame;
-    /*
     final String src = this.getAttribute("src");
     if (src != null) {
       loadURLIntoFrame(src);
-    }*/
+    }
   }
 
+  /*
   @Override
   public Object setUserData(String key, Object data, UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
       final String src = this.getAttribute("src");
       if (src != null) {
-        loadURLIntoFrame(src);
+        ((HTMLDocumentImpl) document).addJob(() -> loadURLIntoFrame(src), true);
+        // loadURLIntoFrame(src);
       }
     }
     return super.setUserData(key, data, handler);
-  }
+  }*/
 
   public BrowserFrame getBrowserFrame() {
     return this.browserFrame;
@@ -142,13 +143,14 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
     this.setAttribute("width", width);
   }
 
+  /*
   protected void assignAttributeField(final String normalName, final String value) {
     if ("src".equals(normalName)) {
       loadURLIntoFrame(value);
     } else {
       super.assignAttributeField(normalName, value);
     }
-  }
+  }*/
 
   private void loadURLIntoFrame(final String value) {
     final BrowserFrame frame = this.browserFrame;
