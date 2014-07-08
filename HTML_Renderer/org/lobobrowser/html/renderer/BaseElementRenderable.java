@@ -272,11 +272,12 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
    * @see org.xamjwg.html.renderer.RenderableContainer#add(java.awt.Component)
    */
   public Component addComponent(final Component component) {
+    // TODO: This gets called too many times!
+
     // Expected to be called in GUI thread.
     // Adds only in local collection.
     // Does not remove from parent.
-    // Sending components to parent is done
-    // by sendGUIComponentsToParent().
+    // Sending components to parent is done by sendGUIComponentsToParent().
     Collection<Component> gc = this.guiComponents;
     if (gc == null) {
       gc = new HashSet<>(1);
@@ -326,6 +327,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
     this.lastBackgroundImageUri = null;
     this.overflowX = RenderState.OVERFLOW_VISIBLE;
     this.overflowY = RenderState.OVERFLOW_VISIBLE;
+
     if (isRootBlock) {
       // The margin of the root block behaves like extra padding.
       final Insets insets1 = this.defaultMarginInsets;
@@ -909,4 +911,5 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
     final Insets marginInsets = this.marginInsets;
     return marginInsets == null ? 0 : marginInsets.top;
   }
+
 }
