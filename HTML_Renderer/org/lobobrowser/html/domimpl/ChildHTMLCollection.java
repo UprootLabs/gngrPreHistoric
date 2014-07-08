@@ -25,7 +25,7 @@ package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.w3c.dom.Node;
-import org.w3c.dom.html2.HTMLCollection;
+import org.w3c.dom.html.HTMLCollection;
 
 public class ChildHTMLCollection extends AbstractScriptableDelegate implements HTMLCollection {
   private final NodeImpl rootNode;

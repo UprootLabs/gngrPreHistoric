@@ -30,7 +30,7 @@ import org.lobobrowser.html.style.ImageRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.mozilla.javascript.Function;
 import org.w3c.dom.UserDataHandler;
-import org.w3c.dom.html2.HTMLImageElement;
+import org.w3c.dom.html.HTMLImageElement;
 
 public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLImageElement {
   public HTMLImageElementImpl() {
@@ -73,6 +73,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     this.setAttribute("border", border);
   }
 
+  /*
   public int getHeight() {
     final UINode r = this.uiNode;
     return r == null ? 0 : r.getBounds().height;
@@ -88,6 +89,24 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
 
   public void setHspace(final int hspace) {
     this.setAttribute("hspace", String.valueOf("hspace"));
+  } */
+
+  public String getHeight() {
+    final UINode r = this.uiNode;
+    int height = r == null ? 0 : r.getBounds().height;
+    return String.valueOf(height);
+  }
+
+  public void setHeight(final String height) {
+    this.setAttribute("height", height);
+  }
+
+  public String getHspace() {
+    return this.getAttribute("hspace");
+  }
+
+  public void setHspace(final String hspace) {
+    this.setAttribute("hspace", hspace);
   }
 
   public boolean getIsMap() {
@@ -127,21 +146,40 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     this.setAttribute("useMap", useMap);
   }
 
-  public int getVspace() {
+  /* public int getVspace() {
     return this.getAttributeAsInt("vspace", 0);
   }
 
   public void setVspace(final int vspace) {
     this.setAttribute("vspace", String.valueOf(vspace));
+  } */
+
+
+  public String getVspace() {
+    return this.getAttribute("vspace");
   }
 
-  public int getWidth() {
+  public void setVspace(final String vspace) {
+    this.setAttribute("vspace", vspace);
+  }
+
+  /* public int getWidth() {
     final UINode r = this.uiNode;
     return r == null ? 0 : r.getBounds().width;
   }
 
   public void setWidth(final int width) {
     this.setAttribute("width", String.valueOf(width));
+  }*/
+
+  public String getWidth() {
+    final UINode r = this.uiNode;
+    final int width = r == null ? 0 : r.getBounds().width;
+    return String.valueOf(width);
+  }
+
+  public void setWidth(final String width) {
+    this.setAttribute("width", width);
   }
 
   protected void assignAttributeField(final String normalName, final String value) {
@@ -263,4 +301,13 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
       dispatchEvent(this.expectedImgSrc, event);
     }
   }
+
+    public String getLowSrc() {
+      // TODO
+      return null;
+    }
+
+    public void setLowSrc(String lowSrc) {
+      // TODO
+    }
 }

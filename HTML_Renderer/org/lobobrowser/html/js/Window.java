@@ -59,8 +59,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.css.CSS2Properties;
 import org.w3c.dom.events.EventException;
-import org.w3c.dom.html2.HTMLCollection;
-import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 

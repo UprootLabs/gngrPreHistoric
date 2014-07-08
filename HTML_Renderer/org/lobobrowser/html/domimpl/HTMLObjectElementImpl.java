@@ -1,8 +1,8 @@
 package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.html2.HTMLFormElement;
-import org.w3c.dom.html2.HTMLObjectElement;
+import org.w3c.dom.html.HTMLFormElement;
+import org.w3c.dom.html.HTMLObjectElement;
 
 public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTMLObjectElement {
   public HTMLObjectElementImpl(final String name) {
@@ -105,12 +105,16 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
     return (HTMLFormElement) this.getAncestorForJavaClass(HTMLFormElement.class);
   }
 
-  public int getHspace() {
+  /* public int getHspace() {
     try {
       return Integer.parseInt(this.getAttribute("hspace"));
     } catch (final Exception err) {
       return 0;
     }
+  }*/
+
+  public String getHspace() {
+    return this.getAttribute("hspace");
   }
 
   public String getStandby() {
@@ -133,12 +137,16 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
     return this.getAttribute("usemap");
   }
 
-  public int getVspace() {
+  /* public int getVspace() {
     try {
       return Integer.parseInt(this.getAttribute("vspace"));
     } catch (final Exception err) {
       return 0;
     }
+  }*/
+
+  public String getVspace() {
+    return this.getAttribute("vspace");
   }
 
   public void setBorder(final String border) {
@@ -157,8 +165,12 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
     this.setAttribute("declare", declare ? "declare" : null);
   }
 
-  public void setHspace(final int hspace) {
+  /* public void setHspace(final int hspace) {
     this.setAttribute("hspace", String.valueOf(hspace));
+  }*/
+
+  public void setHspace(final String hspace) {
+    this.setAttribute("hspace", hspace);
   }
 
   public void setStandby(final String standby) {
@@ -177,7 +189,11 @@ public class HTMLObjectElementImpl extends HTMLAbstractUIElement implements HTML
     this.setAttribute("usemap", useMap);
   }
 
-  public void setVspace(final int vspace) {
+  /* public void setVspace(final int vspace) {
     this.setAttribute("vspace", String.valueOf(vspace));
+  }*/
+
+  public void setVspace(final String vspace) {
+    this.setAttribute("vspace", vspace);
   }
 }

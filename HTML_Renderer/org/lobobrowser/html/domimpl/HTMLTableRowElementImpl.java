@@ -27,9 +27,10 @@ import java.util.ArrayList;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
-import org.w3c.dom.html2.HTMLCollection;
-import org.w3c.dom.html2.HTMLElement;
-import org.w3c.dom.html2.HTMLTableRowElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLTableCellElement;
+import org.w3c.dom.html.HTMLTableRowElement;
 
 public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTableRowElement {
   public HTMLTableRowElementImpl(final String name) {
@@ -154,7 +155,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
         int trcount = 0;
         for (int i = 0; i < size; i++) {
           final Node node = nl.get(i);
-          if (node instanceof org.w3c.dom.html2.HTMLTableCellElement) {
+          if (node instanceof HTMLTableCellElement) {
             if (trcount == index) {
               this.insertAt(cellElement, i);
               return cellElement;
@@ -178,7 +179,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
         int trcount = 0;
         for (int i = 0; i < size; i++) {
           final Node node = nl.get(i);
-          if (node instanceof org.w3c.dom.html2.HTMLTableCellElement) {
+          if (node instanceof HTMLTableCellElement) {
             if (trcount == index) {
               this.removeChildAt(index);
             }

@@ -33,7 +33,7 @@ import java.util.Map;
 import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.util.Nodes;
 import org.w3c.dom.Node;
-import org.w3c.dom.html2.HTMLCollection;
+import org.w3c.dom.html.HTMLCollection;
 
 public class DescendentHTMLCollection extends AbstractScriptableDelegate implements HTMLCollection {
   private final NodeImpl rootNode;

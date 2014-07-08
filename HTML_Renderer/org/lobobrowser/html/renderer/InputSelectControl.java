@@ -17,8 +17,8 @@ import javax.swing.event.ListSelectionEvent;
 import org.lobobrowser.html.domimpl.HTMLBaseInputElement;
 import org.lobobrowser.html.domimpl.HTMLSelectElementImpl;
 import org.lobobrowser.util.gui.WrapperLayout;
-import org.w3c.dom.html2.HTMLOptionElement;
-import org.w3c.dom.html2.HTMLOptionsCollection;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLOptionElement;
 
 class InputSelectControl extends BaseInputControl {
   private final JComboBox<OptionItem> comboBox;
@@ -122,7 +122,7 @@ class InputSelectControl extends BaseInputControl {
     }
     this.suspendSelections = true;
     try {
-      final HTMLOptionsCollection optionElements = selectElement.getOptions();
+      final HTMLCollection optionElements = selectElement.getOptions();
       if (this.state == STATE_COMBO) {
         final JComboBox<OptionItem> comboBox = this.comboBox;
         // First determine current selected option

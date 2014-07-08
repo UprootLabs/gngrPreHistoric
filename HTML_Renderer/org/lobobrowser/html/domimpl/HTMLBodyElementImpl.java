@@ -27,8 +27,8 @@ import org.lobobrowser.html.style.BodyRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.mozilla.javascript.Function;
 import org.w3c.dom.Document;
-import org.w3c.dom.html2.HTMLBodyElement;
-import org.w3c.dom.html2.HTMLDocument;
+import org.w3c.dom.html.HTMLBodyElement;
+import org.w3c.dom.html.HTMLDocument;
 
 public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBodyElement {
   public HTMLBodyElementImpl(final String name) {

@@ -56,20 +56,17 @@ import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.Domains;
-import org.lobobrowser.util.Nodes;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WeakValueHashMap;
 import org.lobobrowser.util.io.EmptyReader;
 import org.mozilla.javascript.Function;
-import org.mozilla.javascript.annotations.JSConstructor;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -80,10 +77,12 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.html2.HTMLCollection;
-import org.w3c.dom.html2.HTMLDocument;
-import org.w3c.dom.html2.HTMLElement;
-import org.w3c.dom.html2.HTMLLinkElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLFrameElement;
+import org.w3c.dom.html.HTMLIFrameElement;
+import org.w3c.dom.html.HTMLLinkElement;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 import org.xml.sax.ErrorHandler;
@@ -1293,7 +1292,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   private class FrameFilter implements NodeFilter {
     public boolean accept(final Node node) {
-      return node instanceof org.w3c.dom.html2.HTMLFrameElement || node instanceof org.w3c.dom.html2.HTMLIFrameElement;
+      return node instanceof HTMLFrameElement || node instanceof HTMLIFrameElement;
     }
   }
 

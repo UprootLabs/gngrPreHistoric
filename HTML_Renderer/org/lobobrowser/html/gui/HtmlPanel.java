@@ -53,7 +53,7 @@ import org.lobobrowser.util.EventDispatch2;
 import org.lobobrowser.util.gui.WrapperLayout;
 import org.w3c.dom.Document;
 import org.w3c.dom.Text;
-import org.w3c.dom.html2.HTMLFrameSetElement;
+import org.w3c.dom.html.HTMLFrameSetElement;
 
 /**
  * The <code>HtmlPanel</code> class is a Swing component that can render a HTML

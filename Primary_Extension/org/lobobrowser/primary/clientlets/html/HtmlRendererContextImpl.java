@@ -52,9 +52,9 @@ import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.TargetType;
 import org.lobobrowser.ua.UserAgentContext;
 import org.w3c.dom.Document;
-import org.w3c.dom.html2.HTMLCollection;
-import org.w3c.dom.html2.HTMLElement;
-import org.w3c.dom.html2.HTMLLinkElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLLinkElement;
 
 public class HtmlRendererContextImpl implements HtmlRendererContext {
   private static final Logger logger = Logger.getLogger(HtmlRendererContextImpl.class.getName());

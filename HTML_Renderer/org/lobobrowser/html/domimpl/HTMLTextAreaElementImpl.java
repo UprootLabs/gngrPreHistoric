@@ -24,7 +24,7 @@
 package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.FormInput;
-import org.w3c.dom.html2.HTMLTextAreaElement;
+import org.w3c.dom.html.HTMLTextAreaElement;
 
 public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTMLTextAreaElement {
   public HTMLTextAreaElementImpl(final String name) {

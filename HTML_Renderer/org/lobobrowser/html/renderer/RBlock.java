@@ -52,6 +52,7 @@ import org.lobobrowser.html.style.RenderThreadState;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Objects;
 import org.w3c.dom.Node;
+import org.w3c.dom.html.HTMLBodyElement;
 
 /**
  * Represents a HTML block in a rendered document, typically a DIV. The root
@@ -1483,7 +1484,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
 
   private static class BodyFilter implements NodeFilter {
     public boolean accept(final Node node) {
-      return node instanceof org.w3c.dom.html2.HTMLBodyElement;
+      return node instanceof HTMLBodyElement;
     }
   }
 

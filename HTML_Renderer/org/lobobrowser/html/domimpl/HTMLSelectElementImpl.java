@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.lobobrowser.html.FormInput;
 import org.mozilla.javascript.Function;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.html2.HTMLElement;
-import org.w3c.dom.html2.HTMLOptionsCollection;
-import org.w3c.dom.html2.HTMLSelectElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLSelectElement;
 
 public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLSelectElement {
   public HTMLSelectElementImpl(final String name) {
@@ -32,9 +32,19 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     return this.getAttributeAsBoolean("multiple");
   }
 
-  private HTMLOptionsCollection options;
+  // private HTMLOptionsCollection options;
+  private HTMLCollection options;
 
-  public HTMLOptionsCollection getOptions() {
+  /* public HTMLOptionsCollection getOptions() {
+    synchronized (this) {
+      if (this.options == null) {
+        this.options = new HTMLOptionsCollectionImpl(this);
+      }
+      return this.options;
+    }
+  }*/
+
+  public HTMLCollection getOptions() {
     synchronized (this) {
       if (this.options == null) {
         this.options = new HTMLOptionsCollectionImpl(this);
@@ -73,9 +83,9 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     }
   }
 
-  public void setLength(final int length) throws DOMException {
+  /* public void setLength(final int length) throws DOMException {
     this.getOptions().setLength(length);
-  }
+  }*/
 
   public void setMultiple(final boolean multiple) {
     final boolean prevMultiple = this.getMultiple();
@@ -89,7 +99,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
 
   public void setSelectedIndex(final int selectedIndex) {
     this.setSelectedIndexImpl(selectedIndex);
-    final HTMLOptionsCollection options = this.getOptions();
+    final HTMLCollection options = this.getOptions();
     final int length = options.getLength();
     for (int i = 0; i < length; i++) {
       final HTMLOptionElementImpl option = (HTMLOptionElementImpl) options.item(i);

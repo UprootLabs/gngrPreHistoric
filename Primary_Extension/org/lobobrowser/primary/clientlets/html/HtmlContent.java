@@ -26,15 +26,13 @@ import java.util.logging.Logger;
 
 import org.lobobrowser.clientlet.ComponentContent;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
-import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.gui.HtmlPanel;
-import org.lobobrowser.util.Nodes;
 import org.lobobrowser.util.io.BufferExceededException;
 import org.lobobrowser.util.io.RecordedInputStream;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.html2.HTMLDocument;
-import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
 
 public class HtmlContent implements ComponentContent {
   private static final Logger logger = Logger.getLogger(HtmlContent.class.getName());

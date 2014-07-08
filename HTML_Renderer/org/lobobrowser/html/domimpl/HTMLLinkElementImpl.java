@@ -37,9 +37,9 @@ import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.html2.HTMLBodyElement;
-import org.w3c.dom.html2.HTMLDocument;
-import org.w3c.dom.html2.HTMLLinkElement;
+import org.w3c.dom.html.HTMLBodyElement;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLLinkElement;
 
 import com.steadystate.css.dom.CSSStyleSheetImpl;
 

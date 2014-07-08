@@ -26,7 +26,7 @@ package org.lobobrowser.html.domimpl;
 import java.util.logging.Level;
 
 import org.lobobrowser.html.FormInput;
-import org.w3c.dom.html2.HTMLInputElement;
+import org.w3c.dom.html.HTMLInputElement;
 
 public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLInputElement {
   public HTMLInputElementImpl(final String name) {
@@ -71,15 +71,28 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     }
   }
 
-  public int getSize() {
+  /* public int getSize() {
     final InputContext ic = this.inputContext;
     return ic == null ? 0 : ic.getControlSize();
-  }
 
   public void setSize(final int size) {
     final InputContext ic = this.inputContext;
     if (ic != null) {
       ic.setControlSize(size);
+    }
+  }
+  }*/
+
+  public String getSize() {
+    final InputContext ic = this.inputContext;
+    final int size = ic == null ? 0 : ic.getControlSize();
+    return String.valueOf(size);
+  }
+
+  public void setSize(final String size) {
+    final InputContext ic = this.inputContext;
+    if (ic != null) {
+      ic.setControlSize(Integer.parseInt(size));
     }
   }
 

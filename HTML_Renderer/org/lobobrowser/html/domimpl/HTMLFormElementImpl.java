@@ -33,8 +33,8 @@ import org.lobobrowser.html.js.Executor;
 import org.mozilla.javascript.Function;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.html2.HTMLCollection;
-import org.w3c.dom.html2.HTMLFormElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLFormElement;
 
 public class HTMLFormElementImpl extends HTMLAbstractUIElement implements HTMLFormElement {
   public HTMLFormElementImpl(final String name) {

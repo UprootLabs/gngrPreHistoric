@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html.HTMLElement;
 
 class ElementFactory {
   private final Map<String, HTMLElementBuilder> builders = new HashMap<>(80);

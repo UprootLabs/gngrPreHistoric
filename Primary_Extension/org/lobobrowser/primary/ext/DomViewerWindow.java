@@ -19,7 +19,7 @@ import org.lobobrowser.util.gui.WrapperLayout;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.html2.HTMLDocument;
+import org.w3c.dom.html.HTMLDocument;
 
 public class DomViewerWindow extends JFrame implements TreeSelectionListener {
 

@@ -26,22 +26,37 @@ package org.lobobrowser.primary.clientlets.html;
 import java.awt.event.ActionEvent;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.domimpl.*;
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.DocumentNotificationListener;
+import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.gui.HtmlPanel;
 import org.lobobrowser.html.parser.DocumentBuilderImpl;
 import org.lobobrowser.html.parser.InputSourceImpl;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.Urls;
-import org.lobobrowser.util.io.*;
-import org.w3c.dom.*;
-import org.w3c.dom.html2.*;
-
-import java.util.logging.*;
+import org.lobobrowser.util.io.RecordedInputStream;
+import org.w3c.dom.Element;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
 
 /**
  * @author J. H. S.

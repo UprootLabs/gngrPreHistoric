@@ -45,8 +45,8 @@ import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.RenderThreadState;
 import org.lobobrowser.ua.UserAgentContext;
 import org.w3c.dom.Node;
-import org.w3c.dom.html2.HTMLTableCellElement;
-import org.w3c.dom.html2.HTMLTableRowElement;
+import org.w3c.dom.html.HTMLTableCellElement;
+import org.w3c.dom.html.HTMLTableRowElement;
 
 class TableMatrix {
   // private static final NodeFilter ROWS_FILTER = new RowsFilter();

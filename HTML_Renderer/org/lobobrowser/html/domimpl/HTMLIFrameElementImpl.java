@@ -9,8 +9,7 @@ import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.w3c.dom.Document;
-import org.w3c.dom.UserDataHandler;
-import org.w3c.dom.html2.HTMLIFrameElement;
+import org.w3c.dom.html.HTMLIFrameElement;
 
 public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTMLIFrameElement, FrameNode {
   private volatile BrowserFrame browserFrame;

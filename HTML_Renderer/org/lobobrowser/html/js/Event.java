@@ -25,7 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import org.lobobrowser.js.AbstractScriptableDelegate;
-import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html.HTMLElement;
 
 // TODO: Implement org.w3c.events.Event ?
 public class Event extends AbstractScriptableDelegate {

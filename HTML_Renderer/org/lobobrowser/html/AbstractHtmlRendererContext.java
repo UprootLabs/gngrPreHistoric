@@ -25,9 +25,9 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.lobobrowser.ua.UserAgentContext;
-import org.w3c.dom.html2.HTMLCollection;
-import org.w3c.dom.html2.HTMLElement;
-import org.w3c.dom.html2.HTMLLinkElement;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLLinkElement;
 
 /**
  * Abstract implementation of the {@link HtmlRendererContext} interface with

@@ -42,7 +42,7 @@ import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.lobobrowser.util.gui.FontFactory;
 import org.w3c.dom.css.CSS2Properties;
-import org.w3c.dom.html2.HTMLElement;
+import org.w3c.dom.html.HTMLElement;
 
 /**
  * @author J. H. S.

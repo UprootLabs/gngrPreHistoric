@@ -25,7 +25,7 @@ import org.lobobrowser.html.style.BaseFontRenderState;
 import org.lobobrowser.html.style.ComputedCSS2Properties;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
-import org.w3c.dom.html2.HTMLBaseFontElement;
+import org.w3c.dom.html.HTMLBaseFontElement;
 
 public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HTMLBaseFontElement {
   public HTMLBaseFontElementImpl(final String name) {
@@ -48,6 +48,7 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     this.setAttribute("face", face);
   }
 
+  /*
   public int getSize() {
     try {
       return Integer.parseInt(this.getAttribute("size"));
@@ -56,9 +57,19 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
       return 0;
     }
   }
+  */
 
+  public String getSize() {
+    return this.getAttribute("size");
+  }
+
+  /*
   public void setSize(final int size) {
     this.setAttribute("size", String.valueOf(size));
+  }*/
+
+  public void setSize(final String size) {
+    this.setAttribute("size", size);
   }
 
   protected RenderState createRenderState(RenderState prevRenderState) {

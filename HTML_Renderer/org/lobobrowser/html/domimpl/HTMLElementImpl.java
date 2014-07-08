@@ -51,8 +51,8 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.html2.HTMLElement;
-import org.w3c.dom.html2.HTMLFormElement;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLFormElement;
 
 import com.steadystate.css.parser.CSSOMParser;
 

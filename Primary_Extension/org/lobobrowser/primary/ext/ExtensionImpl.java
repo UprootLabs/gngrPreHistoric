@@ -20,20 +20,34 @@
  */
 package org.lobobrowser.primary.ext;
 
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.primary.clientlets.*;
-import org.lobobrowser.primary.clientlets.html.*;
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.html.*;
-import org.lobobrowser.html.gui.*;
-import org.lobobrowser.request.*;
+import java.awt.Component;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.w3c.dom.html2.*;
-
-import java.awt.*;
-import java.io.*;
-import java.util.logging.*;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.clientlet.JavaVersionException;
+import org.lobobrowser.clientlet.NavigatorVersionException;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.gui.HtmlPanel;
+import org.lobobrowser.primary.clientlets.PrimaryClientletSelector;
+import org.lobobrowser.primary.clientlets.html.HtmlContent;
+import org.lobobrowser.primary.clientlets.html.HtmlRendererContextImpl;
+import org.lobobrowser.request.UserAgentImpl;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigatorErrorListener;
+import org.lobobrowser.ua.NavigatorExceptionEvent;
+import org.lobobrowser.ua.NavigatorExtension;
+import org.lobobrowser.ua.NavigatorExtensionContext;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.util.Html;
+import org.lobobrowser.util.Strings;
+import org.w3c.dom.html.HTMLDocument;
 
 public class ExtensionImpl implements NavigatorExtension {
   private static final Logger logger = Logger.getLogger(ExtensionImpl.class.getName());
