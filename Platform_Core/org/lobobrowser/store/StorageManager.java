@@ -44,6 +44,7 @@ public class StorageManager implements Runnable {
   private static final String SETTINGS_DIR = "settings";
   private static final StorageManager instance = new StorageManager();
   private final File storeDirectory;
+  private final File cacheRootDirectory;
 
   public static StorageManager getInstance() throws IOException {
     return instance;
@@ -51,6 +52,7 @@ public class StorageManager implements Runnable {
 
   private StorageManager() {
     this.storeDirectory = LocalSecurityPolicy.STORE_DIRECTORY;
+    this.cacheRootDirectory = new File(this.storeDirectory, CACHE_DIR);
     if (!this.storeDirectory.exists()) {
       this.storeDirectory.mkdirs();
     }
@@ -94,7 +96,7 @@ public class StorageManager implements Runnable {
   }
 
   public File getCacheRoot() {
-    return new File(this.storeDirectory, CACHE_DIR);
+    return this.cacheRootDirectory;
   }
 
   private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<>();
