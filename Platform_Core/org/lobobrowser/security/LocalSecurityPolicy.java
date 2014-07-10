@@ -33,6 +33,7 @@ import javax.net.ssl.SSLPermission;
 
 import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.util.*;
+import org.lobobrowser.util.io.Files;
 
 public class LocalSecurityPolicy extends Policy {
   /**
@@ -41,14 +42,15 @@ public class LocalSecurityPolicy extends Policy {
    */
   public static final File STORE_DIRECTORY;
 
-  private static final String STORE_DIR_NAME = ".lobo";
+  private static final String DEFAULT_PROFILE = "default";
+  private static final String STORE_DIR_NAME = ".gngr";
   private static final String STORE_DIRECTORY_CANONICAL;
   private static final LocalSecurityPolicy instance = new LocalSecurityPolicy();
   private static final Collection<Permission> BASE_PRIVILEGE = new LinkedList<>();
 
   static {
     final File homeDir = new File(System.getProperty("user.home"));
-    final File settingsDir = new File(homeDir, STORE_DIR_NAME);
+    final File settingsDir = Files.joinPaths(homeDir, STORE_DIR_NAME, DEFAULT_PROFILE);
     STORE_DIRECTORY = settingsDir;
     String settingsCanonical = "";
     try {
@@ -98,9 +100,23 @@ public class LocalSecurityPolicy extends Policy {
     permissions.add(new java.util.logging.LoggingPermission("control", null));
     permissions.add(GenericLocalPermission.EXT_GENERIC);
 
+    final String recursiveSuffix = File.separator + "-";
     // Note: execute needed to launch external browser.
+    // permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
 
-    permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
+    System.out.println("System protection domain: " + System.class.getProtectionDomain());
+
+    // This is to allow native libraries to be loaded by JDK classes.
+    // TODO: This could be perhaps reduced to paths found in "java.library.path"
+    permissions.add(new FilePermission(System.getProperty("java.home") + recursiveSuffix, "read,execute"));
+
+    Arrays.stream(ExtensionManager.getExtDirs()).forEach(f -> {
+      permissions.add(new FilePermission(f.getAbsolutePath() + recursiveSuffix, "read"));
+    });
+    Arrays.stream(ExtensionManager.getExtFiles()).forEach(f -> {
+      permissions.add(new FilePermission(f.getAbsolutePath() + recursiveSuffix, "read"));
+    });
+    permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL + recursiveSuffix, "read, write, delete"));
   }
 
   /**
@@ -192,7 +208,16 @@ public class LocalSecurityPolicy extends Policy {
     // accessClassInPackage.sun.org.mozilla.javascript.internal.
     if (codesource == null) {
       final Permissions permissions = new Permissions();
-      permissions.add(new RuntimePermission("accessClassInPackage.sun.org.mozilla.javascript.internal"));
+      // Update: We are using Mozilla rhino latest version, and this is not required anymore
+      // But some permission has to be returned.
+      // permissions.add(new RuntimePermission("accessClassInPackage.sun.org.mozilla.javascript.internal"));
+      // System.err.println("No Codesource:");
+      // Thread.dumpStack();
+      //permissions.add(new RuntimePermission("setContextClassLoader"));
+      for (final Permission p : BASE_PRIVILEGE) {
+        permissions.add(p);
+      }
+        permissions.add(StoreHostPermission.forHost("localhost"));
       return permissions;
     }
 
@@ -217,7 +242,7 @@ public class LocalSecurityPolicy extends Policy {
 
       // TODO: Security: This permission should not be given, but it's required
       // by compiled JavaFX runtime at the moment (2/20/2008).
-      permissions.add(new AWTPermission("accessEventQueue"));
+      // permissions.add(new AWTPermission("accessEventQueue"));
 
       final String hostName = location.getHost();
       // Get possible cookie domains for current location
@@ -228,11 +253,4 @@ public class LocalSecurityPolicy extends Policy {
     return permissions;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.security.Policy#refresh()
-   */
-  public void refresh() {
-  }
 }

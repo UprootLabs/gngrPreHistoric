@@ -44,4 +44,13 @@ public class Files {
       return "application/octet-stream";
     }
   }
+
+  /** Appends path components to a given directory */
+  public static File joinPaths(File start, String... components) {
+    File result = start;
+    for (String component : components) {
+      result = new File(result, component);
+    }
+    return result;
+  }
 }
