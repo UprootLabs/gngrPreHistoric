@@ -24,6 +24,7 @@
 package org.lobobrowser.security;
 
 import java.security.*;
+import java.lang.reflect.ReflectPermission;
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -32,6 +33,7 @@ import java.awt.*;
 import javax.net.ssl.SSLPermission;
 
 import org.lobobrowser.main.ExtensionManager;
+import org.lobobrowser.store.StorageManager;
 import org.lobobrowser.util.*;
 import org.lobobrowser.util.io.Files;
 
@@ -219,6 +221,26 @@ public class LocalSecurityPolicy extends Policy {
       }
         permissions.add(StoreHostPermission.forHost("localhost"));
       return permissions;
+    }
+
+    if (codesource.getLocation().getPath().endsWith("jooq-3.4.0.jar")) {
+      // TODO: This permission is very dangerous. See https://github.com/jOOQ/jOOQ/issues/3392
+      final Permissions permissions = new Permissions();
+      permissions.add(new ReflectPermission("suppressAccessChecks"));
+      return permissions;
+    }
+
+    if (codesource.getLocation().getPath().endsWith("h2-1.4.179.jar")) {
+      final Permissions permissions = new Permissions();
+      try {
+        final String userDBPath = StorageManager.getInstance().userDBPath;
+        permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
+        permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL + File.pathSeparator + "*", "read"));
+        permissions.add(new FilePermission(userDBPath + "*", "read, write, delete"));
+        return permissions;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
 
     final URL location = codesource.getLocation();

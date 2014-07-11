@@ -4,6 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/XAMJ_Build/ext/jlfgr-1_0.jar"/>
 	<classpathentry kind="lib" path="lib/javatuples-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.4.179.jar"/>
+	<classpathentry kind="lib" path="lib/jooq-3.4.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Public_API"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
 	<classpathentry kind="output" path=""/>

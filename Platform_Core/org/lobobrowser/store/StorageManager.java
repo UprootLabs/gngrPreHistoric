@@ -23,13 +23,34 @@
  */
 package org.lobobrowser.store;
 
-import java.io.*;
-import java.security.*;
-import java.util.*;
+import static org.jooq.impl.DSL.using;
 
-import java.util.logging.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.security.*;
+import org.jooq.DSLContext;
+import org.lobobrowser.security.LocalSecurityPolicy;
+import org.lobobrowser.security.StoreHostPermission;
 
 /**
  * * @author J. H. S.
@@ -45,6 +66,8 @@ public class StorageManager implements Runnable {
   private static final StorageManager instance = new StorageManager();
   private final File storeDirectory;
   private final File cacheRootDirectory;
+  public final String userDBPath;
+  public final DSLContext userDB;
 
   public static StorageManager getInstance() throws IOException {
     return instance;
@@ -56,6 +79,17 @@ public class StorageManager implements Runnable {
     if (!this.storeDirectory.exists()) {
       this.storeDirectory.mkdirs();
     }
+
+    try {
+      userDBPath = new File(storeDirectory, "user.h2").getAbsolutePath();
+      final Connection conn = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
+      userDB = using(conn);
+      String text = new Scanner(getClass().getResourceAsStream("/info/gngr/schema.sql"), "UTF-8").useDelimiter("\\A").next();
+      userDB.execute(text);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 
   private boolean threadStarted = false;

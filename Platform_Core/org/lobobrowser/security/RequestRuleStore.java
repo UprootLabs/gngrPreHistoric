@@ -1,12 +1,22 @@
 package org.lobobrowser.security;
 
+import info.gngr.db.tables.Permissions;
+import info.gngr.db.tables.records.PermissionsRecord;
+
+import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import org.javatuples.Pair;
+import org.jooq.Condition;
+import org.jooq.DSLContext;
+import org.jooq.Result;
 import org.lobobrowser.security.PermissionSystem.Permission;
+import org.lobobrowser.store.StorageManager;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
 
 interface RequestRuleStore {
@@ -15,11 +25,12 @@ interface RequestRuleStore {
   public void storePermissions(final String frameHost, final String requestHost, Optional<RequestKind> kindOpt, Permission permission);
 
   public static RequestRuleStore getStore() {
-    return InMemoryStore.getInstance();
+    // return InMemoryStore.getInstance();
+    return DBStore.getInstance();
   }
 
   static class HelperPrivate {
-    static void initStore(RequestRuleStore store) {
+    static void initStore(final RequestRuleStore store) {
       final Pair<Permission, Permission[]> permissions = store.getPermissions("*", "");
       assert (!permissions.getValue0().isDecided());
       store.storePermissions("*", "", Optional.empty(), Permission.Deny);
@@ -29,7 +40,7 @@ interface RequestRuleStore {
   }
 
   static class InMemoryStore implements RequestRuleStore {
-    private Map<String, Map<String, Permission[]>> store = new HashMap<>();
+    private final Map<String, Map<String, Permission[]>> store = new HashMap<>();
     private static final Permission[] defaultPermissions = new Permission[RequestKind.numKinds() + 1];
     static {
       for (int i = 0; i < defaultPermissions.length; i++) {
@@ -40,7 +51,7 @@ interface RequestRuleStore {
 
     static private InMemoryStore instance = new InMemoryStore();
 
-    public static RequestRuleStore getInstance() {
+    public static InMemoryStore getInstance() {
       instance.dump();
       return instance;
     }
@@ -123,6 +134,88 @@ interface RequestRuleStore {
         });
         System.out.println("}");
       });
+    }
+  }
+
+  static class DBStore implements RequestRuleStore {
+    private final DSLContext userDB;
+    private static final Permission[] defaultPermissions = new Permission[RequestKind.numKinds()];
+    static {
+      for (int i = 0; i < defaultPermissions.length; i++) {
+        defaultPermissions[i] = Permission.Undecided;
+      }
+    }
+    private static final Pair<Permission, Permission[]> defaultPermissionPair = Pair.with(Permission.Undecided, defaultPermissions);
+
+    static private DBStore instance = new DBStore();
+
+    public static DBStore getInstance() {
+      return instance;
+    }
+
+    public DBStore() {
+      try {
+        userDB = StorageManager.getInstance().userDB;
+      } catch (final IOException e) {
+        throw new RuntimeException(e);
+      }
+      HelperPrivate.initStore(this);
+    }
+
+    private static Condition matchHostsCondition(final String frameHost, final String requestHost) {
+      return Permissions.PERMISSIONS.FRAMEHOST.equal(frameHost).and(Permissions.PERMISSIONS.REQUESTHOST.equal(requestHost));
+    }
+
+    public Pair<Permission, Permission[]> getPermissions(final String frameHostPattern, final String requestHost) {
+      final Result<PermissionsRecord> permissionRecords = AccessController.doPrivileged((PrivilegedAction<Result<PermissionsRecord>>)() -> {
+          return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHostPattern, requestHost));
+      });
+
+      if (permissionRecords.isEmpty()) {
+        return defaultPermissionPair;
+      } else {
+        final PermissionsRecord existingRecord = permissionRecords.get(0);
+        final Integer existingPermissions = existingRecord.getPermissions();
+        final Pair<Permission, Permission[]> permissions = decodeBitMask(existingPermissions);
+        return permissions;
+      }
+    }
+
+    private static Pair<Permission, Permission[]> decodeBitMask(final Integer existingPermissions) {
+      final Permission[] resultPermissions = new Permission[RequestKind.numKinds()];
+      for (int i = 0; i < resultPermissions.length; i++) {
+        resultPermissions[i] = decodeBit(existingPermissions, i+1);
+      }
+      final Pair<Permission, Permission[]> resultPair = Pair.with(decodeBit(existingPermissions, 0), resultPermissions);
+      return resultPair;
+    }
+
+    private static Permission decodeBit(final Integer existingPermissions, final int i) {
+      return ((existingPermissions >> i) & 0x1) == 0x1 ? Permission.Allow : Permission.Deny;
+    }
+
+    public void storePermissions(final String frameHost, final String requestHost, final Optional<RequestKind> kindOpt,
+        final Permission permission) {
+      final Result<PermissionsRecord> permissionRecords = AccessController.doPrivileged((PrivilegedAction<Result<PermissionsRecord>>)() -> {
+          return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHost, requestHost));
+      });
+
+      if (permissionRecords.isEmpty()) {
+        final PermissionsRecord newPermissionRecord = new PermissionsRecord(frameHost, requestHost, makeBitMask(kindOpt));
+        newPermissionRecord.attach(userDB.configuration());
+        newPermissionRecord.store();
+      } else {
+        final PermissionsRecord existingRecord = permissionRecords.get(0);
+        final Integer existingPermissions = existingRecord.getPermissions();
+        final int newPermissions = existingPermissions | makeBitMask(kindOpt);
+        existingRecord.setPermissions(newPermissions);
+        existingRecord.store();
+      }
+    }
+
+    private static Integer makeBitMask(final Optional<RequestKind> kindOpt) {
+      final Integer bitPos = kindOpt.map(k -> k.ordinal() + 1).orElse(0);
+      return 1 << bitPos;
     }
   }
 }
