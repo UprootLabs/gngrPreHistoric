@@ -184,14 +184,21 @@ interface RequestRuleStore {
     private static Pair<Permission, Permission[]> decodeBitMask(final Integer existingPermissions) {
       final Permission[] resultPermissions = new Permission[RequestKind.numKinds()];
       for (int i = 0; i < resultPermissions.length; i++) {
-        resultPermissions[i] = decodeBit(existingPermissions, i+1);
+        resultPermissions[i] = decodeBits(existingPermissions, i+1);
       }
-      final Pair<Permission, Permission[]> resultPair = Pair.with(decodeBit(existingPermissions, 0), resultPermissions);
+      final Pair<Permission, Permission[]> resultPair = Pair.with(decodeBits(existingPermissions, 0), resultPermissions);
       return resultPair;
     }
 
-    private static Permission decodeBit(final Integer existingPermissions, final int i) {
-      return ((existingPermissions >> i) & 0x1) == 0x1 ? Permission.Allow : Permission.Deny;
+    private static final int BITS_PER_KIND = 2;
+
+    private static Permission decodeBits(final Integer existingPermissions, final int i) {
+      final int permissionBits = (existingPermissions >> (i * BITS_PER_KIND)) & 0x3;
+      if (permissionBits < 2) {
+        return Permission.Undecided;
+      } else {
+        return permissionBits == 0x3 ? Permission.Allow : Permission.Deny;
+      }
     }
 
     public void storePermissions(final String frameHost, final String requestHost, final Optional<RequestKind> kindOpt,
@@ -200,22 +207,29 @@ interface RequestRuleStore {
           return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHost, requestHost));
       });
 
+      final Integer permissionMask = makeBitMask(kindOpt, permission);
+
       if (permissionRecords.isEmpty()) {
-        final PermissionsRecord newPermissionRecord = new PermissionsRecord(frameHost, requestHost, makeBitMask(kindOpt));
+        final PermissionsRecord newPermissionRecord = new PermissionsRecord(frameHost, requestHost, permissionMask);
         newPermissionRecord.attach(userDB.configuration());
         newPermissionRecord.store();
       } else {
         final PermissionsRecord existingRecord = permissionRecords.get(0);
         final Integer existingPermissions = existingRecord.getPermissions();
-        final int newPermissions = existingPermissions | makeBitMask(kindOpt);
+        final int newPermissions = existingPermissions | permissionMask;
         existingRecord.setPermissions(newPermissions);
         existingRecord.store();
       }
     }
 
-    private static Integer makeBitMask(final Optional<RequestKind> kindOpt) {
-      final Integer bitPos = kindOpt.map(k -> k.ordinal() + 1).orElse(0);
-      return 1 << bitPos;
+    private static Integer makeBitMask(final Optional<RequestKind> kindOpt, final Permission permission) {
+      if (permission.isDecided()) {
+        final Integer bitPos = kindOpt.map(k -> k.ordinal() + 1).orElse(0) * BITS_PER_KIND;
+        final int bitset = permission == Permission.Allow ? 0x3 : 0x2;
+        return bitset << bitPos;
+      } else {
+        return 0;
+      }
     }
   }
 }
