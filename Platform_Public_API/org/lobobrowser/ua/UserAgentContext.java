@@ -23,8 +23,9 @@ public interface UserAgentContext {
       this.shortName = shortName;
     }
 
+    private static final RequestKind[] VALUES = RequestKind.values();
     public static RequestKind forOrdinal(final int o) {
-      return Arrays.stream(RequestKind.values()).filter(v -> v.ordinal() == o).findFirst().get();
+      return VALUES[o];
     }
 
     public static int numKinds() {
