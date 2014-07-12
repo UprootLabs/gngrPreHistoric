@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+  <!-- Configure the database connection here -->
+  <jdbc>
+    <driver>org.h2.Driver</driver>
+    <url>jdbc:h2:./test-db.h2</url>
+    <user>sa</user>
+    <password></password>
+  </jdbc>
+
+  <generator>
+    <database>
+      <name>org.jooq.util.h2.H2Database</name>
+
+      <includes>.*</includes>
+      <inputSchema>PUBLIC</inputSchema>
+    </database>
+
+    <generate>
+      <!-- Generation flags: See advanced configuration properties -->
+    </generate>
+
+    <target>
+      <packageName>info.gngr.db</packageName>
+
+      <!-- <directory>generated</directory> -->
+      <directory>../../Platform_Core/</directory>
+    </target>
+    <!-- Generate fluent setters in 
+  
+       - records
+       - pojos
+       - interfaces
+       
+       Fluent setters are against the JavaBeans specification, but can be quite
+       useful to those users who do not depend on EL, JSP, JSF, etc.
+       
+       Defaults to false -->
+     <fluentSetters>true</fluentSetters>
+  </generator>
+</configuration>
