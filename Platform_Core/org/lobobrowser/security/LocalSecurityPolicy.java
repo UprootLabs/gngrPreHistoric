@@ -219,7 +219,7 @@ public class LocalSecurityPolicy extends Policy {
       for (final Permission p : BASE_PRIVILEGE) {
         permissions.add(p);
       }
-        permissions.add(StoreHostPermission.forHost("localhost"));
+      permissions.add(StoreHostPermission.forHost("localhost"));
       return permissions;
     }
 
