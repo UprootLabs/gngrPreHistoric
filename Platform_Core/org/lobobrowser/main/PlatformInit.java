@@ -141,6 +141,8 @@ public class PlatformInit {
     }
   }
 
+  public boolean debugOn = false;
+
   /**
    * Initializes platform logging. Note that this method is not implicitly
    * called by {@link #init(boolean, boolean)}.
@@ -150,6 +152,8 @@ public class PlatformInit {
    *          configurations is used.
    */
   public void initLogging(final boolean debugOn) throws Exception {
+    this.debugOn = debugOn;
+
     // Set up debugging & console
     final String loggingToken = debugOn ? "logging-debug" : "logging";
     java.io.InputStream in = this.getClass().getResourceAsStream("/properties/" + loggingToken + ".properties");

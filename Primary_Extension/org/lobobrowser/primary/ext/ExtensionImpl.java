@@ -34,6 +34,7 @@ import org.lobobrowser.clientlet.JavaVersionException;
 import org.lobobrowser.clientlet.NavigatorVersionException;
 import org.lobobrowser.html.HtmlRendererContext;
 import org.lobobrowser.html.gui.HtmlPanel;
+import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.primary.clientlets.PrimaryClientletSelector;
 import org.lobobrowser.primary.clientlets.html.HtmlContent;
 import org.lobobrowser.primary.clientlets.html.HtmlRendererContextImpl;
@@ -148,31 +149,35 @@ public class ExtensionImpl implements NavigatorExtension {
     writer.println("  <dd>" + Html.textToHTML(exception.getMessage()) + "</dd>");
     writer.println("</dl>");
     writer.println("<p></p>");
-    writer.println("<table border='1' width='100%' style='background-color: #B0B0FF; bolder: solid red 2px;'>");
-    writer.println("  <tr><th>");
-    writer.println("  Details");
-    writer.println("  </th></tr>");
-    writer.println("  <tr><td>");
 
-    final StringWriter sw = new StringWriter();
-    final PrintWriter pw = new PrintWriter(sw);
-    exception.printStackTrace(pw);
-    pw.flush();
+    if (PlatformInit.getInstance().debugOn) {
+      writer.println("<table border='1' width='100%' style='background-color: #B0B0FF; bolder: solid red 2px;'>");
+      writer.println("  <tr><th>");
+      writer.println("  Details");
+      writer.println("  </th></tr>");
+      writer.println("  <tr><td>");
 
-    writer.println(Html.textToHTML(sw.toString()));
+      final StringWriter sw = new StringWriter();
+      final PrintWriter pw = new PrintWriter(sw);
+      exception.printStackTrace(pw);
+      pw.flush();
 
-    if (exception.getCause() != null) {
-      final Throwable rootCause = getRootCause(exception);
-      final StringWriter sw2 = new StringWriter();
-      final PrintWriter pw2 = new PrintWriter(sw2);
-      rootCause.printStackTrace(pw2);
-      pw2.flush();
-      writer.println("<p><strong>Root Cause</strong></p>");
-      writer.println(Html.textToHTML(sw2.toString()));
+      writer.println(Html.textToHTML(sw.toString()));
+
+      if (exception.getCause() != null) {
+        final Throwable rootCause = getRootCause(exception);
+        final StringWriter sw2 = new StringWriter();
+        final PrintWriter pw2 = new PrintWriter(sw2);
+        rootCause.printStackTrace(pw2);
+        pw2.flush();
+        writer.println("<p><strong>Root Cause</strong></p>");
+        writer.println(Html.textToHTML(sw2.toString()));
+      }
+
+      writer.println("  </td></tr>");
+      writer.println("</table>");
     }
 
-    writer.println("  </td></tr>");
-    writer.println("</table>");
     writer.println("</body><html>");
     writer.flush();
     return swriter.toString();
