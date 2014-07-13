@@ -292,7 +292,10 @@ public class PlatformInit {
      * String[] startupURLs = this.generalSettings.getStartupURLs(); for(String
      * url : startupURLs) { this.launch(url); }
      */
-    this.launch("http://localhost:8000/");
+    this.launch("about:welcome");
+    // this.launch("http://localhost:8000/");
+    // this.launch("http://localhost:8000/test_link.html");
+    // this.launch("http://localhost:8000/request_permissions.html");
   }
 
   private boolean windowHasBeenShown = false;

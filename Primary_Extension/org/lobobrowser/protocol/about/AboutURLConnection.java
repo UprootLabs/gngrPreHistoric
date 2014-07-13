@@ -27,6 +27,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
+
 import org.lobobrowser.primary.ext.*;
 import org.lobobrowser.util.*;
 
@@ -92,6 +93,8 @@ public class AboutURLConnection extends URLConnection {
       }
     } else if ("java-properties".equals(path)) {
       return getSystemProperties();
+    } else if ("welcome".equals(path)) {
+      return getWelcomeMessage();
     } else {
       return "<p>Unknown about path: " + path + "</p>" + 
         "<h3>Known paths are:</h3>" +
@@ -102,6 +105,22 @@ public class AboutURLConnection extends URLConnection {
         "<li><a href=\"about:java-properties\">about:java-properties</a></li>" +
         "</ul>";
     }
+  }
+
+  private static String getWelcomeMessage() {
+    return
+      "<div>" +
+        "<h1>Welcome to gngr</h1>" +
+        "<p><b>gngr</b> is a privacy-obsessed browser.</p>" +
+        "<p>It is currently a proof-of-concept, and not very stable or secure.</p>" +
+        "<p>We recommend that you use this version for casual browsing only and follow the project's <a href=\"http://blog.gngr.info\">blog</a> to stay abreast of changes.</p>" +
+        "<div style=\"padding:1em;border:1px solid #bbb;background:#efe\">" +
+          "<p>Tip: Checkout the Request Manager button on the right of the URL bar. " +
+          "The Request Manager allows you to control which URL requests are allowed on a given webpage.</p>" +
+          "<p>By default, cookies, scripts and frames are disabled on all websites. " +
+          "You can change these rules as per your preferences.</p>" +
+        "</div>" +
+      "</div>";
   }
 
   private static String getSystemProperties() {
