@@ -93,7 +93,14 @@ public class AboutURLConnection extends URLConnection {
     } else if ("java-properties".equals(path)) {
       return getSystemProperties();
     } else {
-      return "[Unknown about path: " + path + "]";
+      return "<p>Unknown about path: " + path + "</p>" + 
+        "<h3>Known paths are:</h3>" +
+        "<ul>" +
+        "<li><a href=\"about:blank\">about:blank</a></li>" +
+        "<li><a href=\"about:bookmarks\">about:bookmarks</a></li>" +
+        "<li><a href=\"about:bookmark-search?term\">about:bookmark-search?term</a></li>" +
+        "<li><a href=\"about:java-properties\">about:java-properties</a></li>" +
+        "</ul>";
     }
   }
 
