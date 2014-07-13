@@ -446,7 +446,7 @@ public class DownloadDialog extends JFrame {
     }
 
     @Override
-    public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
+    public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
       logger.log(Level.WARNING, "An error occurred trying to download " + response.getResponseURL() + " to " + this.file + ".", exception);
       errorInDownload_Safe();
       return true;

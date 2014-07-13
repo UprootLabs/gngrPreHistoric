@@ -34,6 +34,7 @@ import org.lobobrowser.clientlet.ClientletException;
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.UserAgentContext;
 
 public abstract class AbstractRequestHandler implements RequestHandler {
@@ -73,7 +74,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     return this.request;
   }
 
-  public abstract boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException;
+  public abstract boolean handleException(ClientletResponse response, Throwable exception, RequestType requestType) throws ClientletException;
 
   public abstract void handleProgress(ProgressType progressType, URL url, String method, int value, int max);
 

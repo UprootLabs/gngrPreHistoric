@@ -34,6 +34,7 @@ import org.lobobrowser.clientlet.ClientletException;
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.UserAgentContext;
 
 /**
@@ -118,8 +119,8 @@ public class RedirectRequestHandler implements RequestHandler {
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception
    * )
    */
-  public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
-    return this.origHandler.handleException(response, exception);
+  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
+    return this.origHandler.handleException(response, exception, requestType);
   }
 
   /*

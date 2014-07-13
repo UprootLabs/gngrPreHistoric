@@ -40,6 +40,7 @@ import org.lobobrowser.gui.WindowCallback;
 import org.lobobrowser.security.LocalSecurityManager;
 import org.lobobrowser.ua.NavigatorProgressEvent;
 import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.RequestType;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.EventDispatch;
 import org.lobobrowser.util.Urls;
@@ -68,9 +69,9 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
    * @see
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception)
    */
-  public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
+  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
     if (this.windowCallback != null) {
-      this.windowCallback.handleError(this.frame, response, exception);
+      this.windowCallback.handleError(this.frame, response, exception, requestType);
       return true;
     } else {
       return false;

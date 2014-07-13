@@ -230,8 +230,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     this.framePanel.navigate(url, method, paramInfo, TargetType.SELF, RequestType.PROGRAMMATIC);
   }
 
-  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
-    ExtensionManager.getInstance().handleError(frame, response, exception);
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception, final RequestType requestType) {
+    ExtensionManager.getInstance().handleError(frame, response, exception, requestType);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
   }
@@ -239,7 +239,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   private volatile NavigatorFrame latestAccessedFrame = null;
 
   public void handleDocumentAccess(final NavigatorFrame frame, final ClientletResponse response) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response);
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response, response.getRequestType());
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         EVENT.fireEvent(event);
@@ -292,7 +292,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   private static String getWindowTitle(final ClientletResponse response, final ComponentContent content) {
     String title = content == null ? null : content.getTitle();
     if (title == null) {
-      title = response == null ? "" : Urls.getNoRefForm(response.getResponseURL());
+      title = response == null ? "No response" : Urls.getNoRefForm(response.getResponseURL());
     }
     return title;
   }
@@ -305,7 +305,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
         ((Frame) window).setTitle(title);
       }
     }
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response);
+    final RequestType requestType = response == null ? null: response.getRequestType();
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response, requestType);
     latestAccessedFrame = event.getNavigatorFrame();
     if (!EVENT.fireEvent(event)) {
       logger.warning("handleDocumentRendering(): Did not deliver event to any window: " + event);

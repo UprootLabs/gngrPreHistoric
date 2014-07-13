@@ -302,8 +302,8 @@ public class ExtensionManager {
     return null;
   }
 
-  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
-    final NavigatorExceptionEvent event = new NavigatorExceptionEvent(this, NavigatorEventType.ERROR_OCCURRED, frame, response, exception);
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception, final RequestType requestType) {
+    final NavigatorExceptionEvent event = new NavigatorExceptionEvent(this, NavigatorEventType.ERROR_OCCURRED, frame, response, exception, requestType);
     EventQueue.invokeLater(() -> {
       final Collection<Extension> ext = extensions;
       // Call all plugins once to see if they can select the response.

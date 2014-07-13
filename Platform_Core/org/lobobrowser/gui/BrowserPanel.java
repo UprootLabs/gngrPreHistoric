@@ -422,7 +422,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   }
 
   public void handleDocumentAccess(final NavigatorFrame frame, final ClientletResponse response) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response);
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response, response.getRequestType());
     SwingUtilities.invokeLater(() -> EVENT.fireEvent(event));
   }
 
@@ -461,7 +461,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
       this.setDocumentTitle(title);
     }
 
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response);
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response, response.getRequestType());
     this.latestAccessedFrame = event.getNavigatorFrame();
     if (!EVENT.fireEvent(event)) {
       logger.warning("handleDocumentRendering(): Did not deliver event to any window: " + event);
@@ -476,8 +476,8 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     });
   }
 
-  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception) {
-    getSafeExtensionManager().handleError(frame, response, exception);
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception, final RequestType requestType) {
+    getSafeExtensionManager().handleError(frame, response, exception, requestType);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
   }

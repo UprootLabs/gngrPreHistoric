@@ -58,7 +58,7 @@ public interface RequestHandler {
 
   public void processResponse(ClientletResponse response) throws ClientletException, IOException;
 
-  public boolean handleException(ClientletResponse response, Throwable exception) throws ClientletException;
+  public boolean handleException(ClientletResponse response, Throwable exception, RequestType requestType) throws ClientletException;
 
   public void handleProgress(ProgressType progressType, java.net.URL url, String method, int value, int max);
 

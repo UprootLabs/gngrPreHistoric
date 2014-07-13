@@ -308,7 +308,7 @@ public class NetworkRequestImpl implements NetworkRequest {
      * .URL, java.lang.Exception)
      */
     @Override
-    public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
+    public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
       logger.log(Level.WARNING, "handleException(): url=" + this.getLatestRequestURL() + ",response=[" + response + "]", exception);
       return true;
     }

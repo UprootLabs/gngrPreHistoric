@@ -512,7 +512,7 @@ public final class RequestEngine {
     final BoxedObject boxed = new BoxedObject();
     this.inlineRequest(new SimpleRequestHandler(url, RequestType.ELEMENT, uaContext) {
       @Override
-      public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
+      public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
         if (exception instanceof ClientletException) {
           throw (ClientletException) exception;
         } else {
@@ -536,7 +536,7 @@ public final class RequestEngine {
     final AsyncResultImpl<byte[]> asyncResult = new AsyncResultImpl<>();
     this.scheduleRequest(new SimpleRequestHandler(url, RequestType.ELEMENT, uaContext) {
       @Override
-      public boolean handleException(final ClientletResponse response, final Throwable exception) throws ClientletException {
+      public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
         asyncResult.setException(exception);
         return true;
       }
@@ -820,7 +820,7 @@ public final class RequestEngine {
         logInfo("run(): Exception ignored because request aborted.", exception);
       } else {
         try {
-          if (!rhandler.handleException(response, exception)) {
+          if (!rhandler.handleException(response, exception, rhandler.getRequestType())) {
             logger.log(Level.WARNING, "Was unable to handle exception.", exception);
           }
         } catch (final Exception err) {
