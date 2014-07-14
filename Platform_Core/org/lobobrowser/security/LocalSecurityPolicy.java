@@ -224,8 +224,8 @@ public class LocalSecurityPolicy extends Policy {
     }
 
     if (codesource.getLocation().getPath().endsWith("jooq-3.4.0.jar")) {
-      // TODO: This permission is very dangerous. See https://github.com/jOOQ/jOOQ/issues/3392
       final Permissions permissions = new Permissions();
+      // TODO: This permission is very dangerous. See https://github.com/jOOQ/jOOQ/issues/3392
       permissions.add(new ReflectPermission("suppressAccessChecks"));
       return permissions;
     }
@@ -235,8 +235,8 @@ public class LocalSecurityPolicy extends Policy {
       try {
         final String userDBPath = StorageManager.getInstance().userDBPath;
         permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
-        permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL + File.pathSeparator + "*", "read"));
-        permissions.add(new FilePermission(userDBPath + "*", "read, write, delete"));
+        permissions.add(new FilePermission(userDBPath + ".mv.db", "read, write, delete"));
+        permissions.add(new FilePermission(userDBPath + ".trace.db", "read, write, delete"));
         return permissions;
       } catch (IOException e) {
         throw new RuntimeException(e);
