@@ -50,6 +50,7 @@ public class ComponentSource implements NavigatorWindowListener {
   private final JMenu recentHostsMenu;
   private final JMenu searchersMenu;
   private final JButton searchButton;
+  private final JButton reqManagerButton;
   private final ActionPool actionPool;
   private final DirectorySource directorySource;
 
@@ -62,6 +63,7 @@ public class ComponentSource implements NavigatorWindowListener {
     this.progressBar = new ProgressBar();
     this.statusMessageComponent = new JLabel();
     this.searchButton = this.getSearchButton();
+    this.reqManagerButton = getRequestManagerButton();
     this.updateSearchButtonTooltip();
     final JMenu bookmarksMenu = new JMenu("Recent Bookmarks");
     this.recentBookmarksMenu = bookmarksMenu;
@@ -125,7 +127,7 @@ public class ComponentSource implements NavigatorWindowListener {
     return new Component[] { this.getBackButton(), this.window.createGap(), this.getForwardButton(), this.window.createGap(),
         this.getStopButton(), this.window.createGap(), this.getRefreshButton(), this.window.createGap(),
         this.window.createGlueComponent(this.addressField, true), this.window.createGap(), this.getGoButton(), this.window.createGap(),
-        this.searchButton, this.window.createGap(), getRequestManagerButton() };
+        this.searchButton, this.window.createGap(), reqManagerButton };
   }
 
   public Component[] getStatusBarComponents() {
@@ -275,9 +277,11 @@ public class ComponentSource implements NavigatorWindowListener {
     return button;
   }
 
-  private Component getRequestManagerButton() {
+  private JButton getRequestManagerButton() {
     final JButton button = new JButton();
-    button.setAction(this.actionPool.requestManagerAction);
+    final Action requestManagerAction = this.actionPool.requestManagerAction;
+    requestManagerAction.setEnabled(false);
+    button.setAction(requestManagerAction);
     button.setToolTipText("Manage requests");
     return button;
   }
@@ -332,6 +336,11 @@ public class ComponentSource implements NavigatorWindowListener {
 
   public void documentAccessed(final NavigatorWindowEvent event) {
     final java.net.URL url = event.getUrl();
+
+    // TODO: Have a better condition for isManageable, or change requestManager to deal with other protocols as well
+    final boolean isManageable = "http".equals(url.getProtocol()) || "https".equals(url.getProtocol());
+    reqManagerButton.getAction().setEnabled(isManageable);
+
     if ("GET".equals(event.getMethod()) && isHistoryRequest(event.getRequestType())) {
       NavigationHistory.getInstance().addAsRecent(url, null);
     }
