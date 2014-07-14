@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -192,6 +194,7 @@ public final class RequestManager {
       button.addActionListener(this);
       getContentPane().add(buttonPane, BorderLayout.SOUTH);
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+      addWindowListener(new WindowListenerImpl());
 
       pack();
       updateLocation();
@@ -220,6 +223,37 @@ public final class RequestManager {
       final Point locationOnScreen = initiator.getLocationOnScreen();
       locationOnScreen.translate(initiator.getWidth() - getWidth(), initiator.getHeight());
       setLocation(locationOnScreen);
+    }
+
+    private final class WindowListenerImpl implements WindowListener {
+      @Override
+      public void windowOpened(WindowEvent e) {
+      }
+
+      @Override
+      public void windowIconified(WindowEvent e) {
+      }
+
+      @Override
+      public void windowDeiconified(WindowEvent e) {
+      }
+
+      @Override
+      public void windowDeactivated(WindowEvent e) {
+      }
+
+      @Override
+      public void windowClosing(WindowEvent e) {
+      }
+
+      @Override
+      public void windowClosed(WindowEvent e) {
+        frame.reload();
+      }
+
+      @Override
+      public void windowActivated(WindowEvent e) {
+      }
     }
 
   }

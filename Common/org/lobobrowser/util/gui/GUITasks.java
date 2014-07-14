@@ -93,7 +93,10 @@ public class GUITasks {
 
   // As per this http://stackoverflow.com/a/661244/161257
   public static void addEscapeListener(final JDialog dialog) {
-    ActionListener escListener = e -> dialog.setVisible(false);
+    ActionListener escListener = e -> {
+      dialog.setVisible(false);
+      dialog.dispose();
+    };
 
     dialog.getRootPane().registerKeyboardAction(escListener,
         KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
