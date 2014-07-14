@@ -89,7 +89,7 @@ public class DBRequestRuleStore implements RequestRuleStore {
       return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHost, requestHost));
     });
 
-    final Integer permissionMask = makeBitMask(kindOpt, permission);
+    final Integer permissionMask = makeBitSetMask(kindOpt, permission);
 
     if (permissionRecords.isEmpty()) {
       final PermissionsRecord newPermissionRecord = new PermissionsRecord(frameHost, requestHost, permissionMask);
@@ -98,13 +98,13 @@ public class DBRequestRuleStore implements RequestRuleStore {
     } else {
       final PermissionsRecord existingRecord = permissionRecords.get(0);
       final Integer existingPermissions = existingRecord.getPermissions();
-      final int newPermissions = existingPermissions | permissionMask;
+      final int newPermissions = (existingPermissions & makeBitBlockMask(kindOpt)) | permissionMask;
       existingRecord.setPermissions(newPermissions);
       existingRecord.store();
     }
   }
 
-  private static Integer makeBitMask(final Optional<RequestKind> kindOpt, final Permission permission) {
+  private static Integer makeBitSetMask(final Optional<RequestKind> kindOpt, final Permission permission) {
     if (permission.isDecided()) {
       final Integer bitPos = kindOpt.map(k -> k.ordinal() + 1).orElse(0) * BITS_PER_KIND;
       final int bitset = permission == Permission.Allow ? 0x3 : 0x2;
@@ -112,5 +112,10 @@ public class DBRequestRuleStore implements RequestRuleStore {
     } else {
       return 0;
     }
+  }
+
+  private static Integer makeBitBlockMask(final Optional<RequestKind> kindOpt) {
+    final Integer bitPos = kindOpt.map(k -> k.ordinal() + 1).orElse(0) * BITS_PER_KIND;
+    return ~(0x3 << bitPos);
   }
 }
