@@ -218,7 +218,7 @@ public final class RequestManager {
 
     private void updateLocation() {
       final Point locationOnScreen = initiator.getLocationOnScreen();
-      locationOnScreen.translate(initiator.getWidth()-getWidth(), initiator.getHeight());
+      locationOnScreen.translate(initiator.getWidth() - getWidth(), initiator.getHeight());
       setLocation(locationOnScreen);
     }
 
