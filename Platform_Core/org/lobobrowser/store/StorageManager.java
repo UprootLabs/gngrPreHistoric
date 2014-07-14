@@ -94,8 +94,14 @@ public class StorageManager implements Runnable {
   }
 
   public synchronized void initDB(final Runnable onInit) {
-    // TODO: use selectCount if possible: https://github.com/jOOQ/jOOQ/issues/3396
-    final int tableCount = userDB.select().from("INFORMATION_SCHEMA.TABLES").where("TABLE_SCHEMA = 'PUBLIC'").fetch().size();
+    // TODO: http://stackoverflow.com/questions/24741761/how-to-check-if-a-table-exists-in-jooq
+    final int tableCount =
+        userDB
+        .selectCount()
+        .from("INFORMATION_SCHEMA.TABLES")
+        .where("TABLE_SCHEMA = 'PUBLIC'")
+        .fetchOne().value1();
+
     if (tableCount == 0) {
       final InputStream schemaStream = getClass().getResourceAsStream("/info/gngr/schema.sql");
       final Scanner scanner = new Scanner(schemaStream, "UTF-8");
