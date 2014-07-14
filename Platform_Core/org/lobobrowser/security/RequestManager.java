@@ -31,6 +31,7 @@ import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
+import org.lobobrowser.util.gui.GUITasks;
 
 public final class RequestManager {
   private static final Logger logger = Logger.getLogger(RequestManager.class.getName());
@@ -206,6 +207,8 @@ public final class RequestManager {
           updateLocation();
         }
       });
+
+      GUITasks.addEscapeListener(this);
     }
 
     public void actionPerformed(final ActionEvent e) {

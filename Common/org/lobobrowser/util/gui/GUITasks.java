@@ -20,7 +20,14 @@
  */
 package org.lobobrowser.util.gui;
 
-import java.awt.*;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.KeyStroke;
 
 public class GUITasks {
   public static Frame getTopFrame() {
@@ -82,5 +89,15 @@ public class GUITasks {
       // Not supported
       g.drawLine(x1, y1, x2, y2);
     }
+  }
+
+  // As per this http://stackoverflow.com/a/661244/161257
+  public static void addEscapeListener(final JDialog dialog) {
+    ActionListener escListener = e -> dialog.setVisible(false);
+
+    dialog.getRootPane().registerKeyboardAction(escListener,
+        KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+        JComponent.WHEN_IN_FOCUSED_WINDOW);
+
   }
 }
