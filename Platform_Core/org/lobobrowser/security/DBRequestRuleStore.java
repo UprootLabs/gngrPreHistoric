@@ -46,8 +46,8 @@ public class DBRequestRuleStore implements RequestRuleStore {
   }
 
   public Pair<Permission, Permission[]> getPermissions(final String frameHostPattern, final String requestHost) {
-    final Result<PermissionsRecord> permissionRecords = AccessController.doPrivileged((PrivilegedAction<Result<PermissionsRecord>>)() -> {
-        return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHostPattern, requestHost));
+    final Result<PermissionsRecord> permissionRecords = AccessController.doPrivileged((PrivilegedAction<Result<PermissionsRecord>>) () -> {
+      return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHostPattern, requestHost));
     });
 
     if (permissionRecords.isEmpty()) {
@@ -63,7 +63,7 @@ public class DBRequestRuleStore implements RequestRuleStore {
   private static Pair<Permission, Permission[]> decodeBitMask(final Integer existingPermissions) {
     final Permission[] resultPermissions = new Permission[RequestKind.numKinds()];
     for (int i = 0; i < resultPermissions.length; i++) {
-      resultPermissions[i] = decodeBits(existingPermissions, i+1);
+      resultPermissions[i] = decodeBits(existingPermissions, i + 1);
     }
     final Pair<Permission, Permission[]> resultPair = Pair.with(decodeBits(existingPermissions, 0), resultPermissions);
     return resultPair;
@@ -82,8 +82,8 @@ public class DBRequestRuleStore implements RequestRuleStore {
 
   public void storePermissions(final String frameHost, final String requestHost, final Optional<RequestKind> kindOpt,
       final Permission permission) {
-    final Result<PermissionsRecord> permissionRecords = AccessController.doPrivileged((PrivilegedAction<Result<PermissionsRecord>>)() -> {
-        return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHost, requestHost));
+    final Result<PermissionsRecord> permissionRecords = AccessController.doPrivileged((PrivilegedAction<Result<PermissionsRecord>>) () -> {
+      return userDB.fetch(Permissions.PERMISSIONS, matchHostsCondition(frameHost, requestHost));
     });
 
     final Integer permissionMask = makeBitMask(kindOpt, permission);
