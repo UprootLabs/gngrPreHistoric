@@ -34,11 +34,14 @@ public class DBRequestRuleStore implements RequestRuleStore {
 
   public DBRequestRuleStore() {
     try {
-      userDB = StorageManager.getInstance().userDB;
+      final StorageManager storageManager = StorageManager.getInstance();
+      userDB = storageManager.userDB;
+      storageManager.initDB(() -> {
+        HelperPrivate.initStore(this);
+      });
     } catch (final IOException e) {
       throw new RuntimeException(e);
     }
-    HelperPrivate.initStore(this);
   }
 
   private static Condition matchHostsCondition(final String frameHost, final String requestHost) {

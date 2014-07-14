@@ -24,6 +24,7 @@
 package org.lobobrowser.store;
 
 import static org.jooq.impl.DSL.using;
+import info.gngr.db.tables.Permissions;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -43,12 +44,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jooq.DSLContext;
+import org.jooq.Table;
 import org.lobobrowser.security.LocalSecurityPolicy;
 import org.lobobrowser.security.StoreHostPermission;
 
@@ -84,12 +87,24 @@ public class StorageManager implements Runnable {
       userDBPath = new File(storeDirectory, "user.h2").getAbsolutePath();
       final Connection conn = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
       userDB = using(conn);
-      String text = new Scanner(getClass().getResourceAsStream("/info/gngr/schema.sql"), "UTF-8").useDelimiter("\\A").next();
-      userDB.execute(text);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
+  }
+
+  public synchronized void initDB(final Runnable onInit) {
+    // TODO: use selectCount if possible: https://github.com/jOOQ/jOOQ/issues/3396
+    final int tableCount = userDB.select().from("INFORMATION_SCHEMA.TABLES").where("TABLE_SCHEMA = 'PUBLIC'").fetch().size();
+    if (tableCount == 0) {
+      final InputStream schemaStream = getClass().getResourceAsStream("/info/gngr/schema.sql");
+      final Scanner scanner = new Scanner(schemaStream, "UTF-8");
+      final String text = scanner.useDelimiter("\\A").next();
+      userDB.execute(text);
+      scanner.close();
+
+      onInit.run();
+    }
   }
 
   private boolean threadStarted = false;
