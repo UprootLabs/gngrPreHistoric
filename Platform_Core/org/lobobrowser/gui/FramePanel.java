@@ -870,10 +870,10 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         return new NavigatorWindowImpl(opener, windowId, windowProperties);
       }
     });
+
     final FramePanel newFrame = wcontext.getFramePanel();
-    if (opener == null) {
-      newFrame.requestManager.reset(url);
-    }
+    newFrame.requestManager.reset(url);
+
     final UserAgentContext uaContext = new SilentUserAgentContextImpl(newFrame);
     final ClientletRequestHandler handler = new ClientletRequestHandler(request, wcontext, newFrame, uaContext);
     handler.evtProgress.addListener(new org.lobobrowser.util.GenericEventListener() {
