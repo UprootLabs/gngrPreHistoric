@@ -41,8 +41,6 @@ import org.w3c.dom.html.HTMLBodyElement;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLLinkElement;
 
-import com.steadystate.css.dom.CSSStyleSheetImpl;
-
 public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLinkElement {
   private static final Logger logger = Logger.getLogger(HTMLLinkElementImpl.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
@@ -165,20 +163,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
                 final CSSStyleSheet sheet = CSSUtilities.parse(this, this.getHref(), doc, doc.getBaseURI(), false);
                 if (sheet != null) {
                   this.styleSheet = sheet;
-                  if (sheet instanceof CSSStyleSheetImpl) {
-                    final CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet;
-                    if (isAltStyleSheet) {
-                      sheetImpl.setDisabled(true);
-                    } else {
-                      sheetImpl.setDisabled(this.disabled);
-                    }
-                  } else {
-                    if (isAltStyleSheet) {
-                      sheet.setDisabled(true);
-                    } else {
-                      sheet.setDisabled(this.disabled);
-                    }
-                  }
+                  sheet.setDisabled(isAltStyleSheet | this.disabled);
                   doc.addStyleSheet(sheet);
                 }
               } finally {
@@ -206,7 +191,6 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     if (rcontext != null) {
       final String href = this.getHref();
       if (href != null && href.length() > 0) {
-        final String target = this.getTarget();
         try {
           final URL url = this.getFullURL(href);
           return url == null ? null : url.toExternalForm();
