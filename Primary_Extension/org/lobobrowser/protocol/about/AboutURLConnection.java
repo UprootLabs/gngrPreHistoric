@@ -111,7 +111,7 @@ public class AboutURLConnection extends URLConnection {
     return
       "<div style='max-width:900px;margin:0 auto;text-align:center;'>" +
         "<h1>Welcome to gngr</h1>" +
-        "<p><b>gngr</b> is a privacy-obsessed browser.</p>" +
+        "<p><b>gngr</b> is a browser that cares deeply about privacy.</p>" +
         "<p>It is currently a proof-of-concept, and not very stable or secure.</p>" +
         "<p>We recommend that you use this version for casual browsing only and follow the project's <a href='http://blog.gngr.info'>blog</a> to stay abreast of changes.</p>" +
         "<div style='padding:1em;border:1px solid #bbb;background:#efe'>" +
