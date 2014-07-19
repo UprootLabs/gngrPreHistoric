@@ -223,13 +223,6 @@ public class LocalSecurityPolicy extends Policy {
       return permissions;
     }
 
-    if (codesource.getLocation().getPath().endsWith("jooq-3.4.0.jar")) {
-      final Permissions permissions = new Permissions();
-      // TODO: This permission is very dangerous. See https://github.com/jOOQ/jOOQ/issues/3392
-      permissions.add(new ReflectPermission("suppressAccessChecks"));
-      return permissions;
-    }
-
     if (codesource.getLocation().getPath().endsWith("h2-1.4.179.jar")) {
       final Permissions permissions = new Permissions();
       try {
