@@ -223,7 +223,7 @@ public class LocalSecurityPolicy extends Policy {
       return permissions;
     }
 
-    if (codesource.getLocation().getPath().endsWith("h2-1.4.179.jar")) {
+    if (codesource.getLocation().getPath().endsWith("h2-1.4.180.jar")) {
       final Permissions permissions = new Permissions();
       try {
         final String userDBPath = StorageManager.getInstance().userDBPath;
