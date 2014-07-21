@@ -32,6 +32,7 @@ public class DirectorySource {
   public JMenu getDirectoryMenu() {
     final JMenu searchMenu = new JMenu("Search");
     searchMenu.setMnemonic('S');
+    searchMenu.add(this.getDuckDuckGoSearchMenu());
     searchMenu.add(this.getGoogleSearchMenu());
     searchMenu.add(this.getYahooSearchMenu());
 
@@ -60,6 +61,10 @@ public class DirectorySource {
     menu.add(newsMenu);
     menu.add(infoMenu);
     return menu;
+  }
+
+  private JMenuItem getDuckDuckGoSearchMenu() {
+    return ComponentSource.menuItem("DuckDuckGo", this.actionPool.createNavigateAction("https://duckduckgo.com/html"));
   }
 
   private JMenuItem getGoogleSearchMenu() {
