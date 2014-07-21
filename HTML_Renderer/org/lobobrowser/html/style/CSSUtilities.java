@@ -359,18 +359,19 @@ public class CSSUtilities {
     if (origSelector.getCombinator() == null) {
       w3cSelector = simpleSelector;
     } else {
+      final SimpleSelector parentSelector = simpleSelector == null ? new ElementSelectorImpl(origSelector.getElementName()): simpleSelector;
       switch (origSelector.getCombinator()) {
       case ADJACENT:
-        w3cSelector = new DirectAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, simpleSelector);
+        w3cSelector = new DirectAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, parentSelector);
         break;
       case CHILD:
-        w3cSelector = new ChildSelectorImpl(parent, simpleSelector);
+        w3cSelector = new ChildSelectorImpl(parent, parentSelector);
         break;
       case DESCENDANT:
-        w3cSelector = new DescendantSelectorImpl(parent, simpleSelector);
+        w3cSelector = new DescendantSelectorImpl(parent, parentSelector);
         break;
       case PRECEDING:
-        w3cSelector = new GeneralAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, simpleSelector);
+        w3cSelector = new GeneralAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, parentSelector);
         break;
       }
     }
