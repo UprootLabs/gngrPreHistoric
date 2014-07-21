@@ -51,15 +51,15 @@ public class DirectorySource {
 
     final JMenu softwareMenu = new JMenu("Software");
     softwareMenu.setMnemonic('S');
+    softwareMenu.add(this.getGitHubMenu());
     softwareMenu.add(this.getSourceforgeMenu());
-    softwareMenu.add(this.getFreshmeatMenu());
-    softwareMenu.add(this.getDownloadComMenu());
 
     final JMenu menu = new JMenu("Directory");
     menu.setMnemonic('D');
     menu.add(searchMenu);
     menu.add(newsMenu);
     menu.add(infoMenu);
+    menu.add(softwareMenu);
     return menu;
   }
 
@@ -68,19 +68,19 @@ public class DirectorySource {
   }
 
   private JMenuItem getGoogleSearchMenu() {
-    return ComponentSource.menuItem("Google", this.actionPool.createNavigateAction("http://google.com"));
+    return ComponentSource.menuItem("Google", this.actionPool.createNavigateAction("https://google.com"));
   }
 
   private JMenuItem getYahooSearchMenu() {
-    return ComponentSource.menuItem("Yahoo!", this.actionPool.createNavigateAction("http://search.yahoo.com"));
+    return ComponentSource.menuItem("Yahoo!", this.actionPool.createNavigateAction("https://search.yahoo.com"));
   }
 
   private JMenuItem getYahooNewsMenu() {
-    return ComponentSource.menuItem("Yahoo! News", this.actionPool.createNavigateAction("http://news.yahoo.com"));
+    return ComponentSource.menuItem("Yahoo! News", this.actionPool.createNavigateAction("https://news.yahoo.com"));
   }
 
   private JMenuItem getGoogleNewsMenu() {
-    return ComponentSource.menuItem("Google News", this.actionPool.createNavigateAction("http://news.google.com"));
+    return ComponentSource.menuItem("Google News", this.actionPool.createNavigateAction("https://news.google.com"));
   }
 
   private JMenuItem getCnnMenu() {
@@ -89,9 +89,9 @@ public class DirectorySource {
 
   private JMenu getTechNewsMenu() {
     final JMenu menu = new JMenu("Tech News");
-    menu.add(ComponentSource.menuItem("Slashdot", this.actionPool.createNavigateAction("http://slashdot.org")));
+    menu.add(ComponentSource.menuItem("Hacker News", this.actionPool.createNavigateAction("https://news.ycombinator.com/news")));
+    menu.add(ComponentSource.menuItem("Slashdot", this.actionPool.createNavigateAction("https://slashdot.org")));
     menu.add(ComponentSource.menuItem("DZone", this.actionPool.createNavigateAction("http://dzone.com")));
-    menu.add(ComponentSource.menuItem("Javalobby", this.actionPool.createNavigateAction("http://javalobby.org")));
     return menu;
   }
 
@@ -108,14 +108,11 @@ public class DirectorySource {
   }
 
   private JMenuItem getSourceforgeMenu() {
-    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("http://sourceforge.net"));
+    return ComponentSource.menuItem("SourceForge", this.actionPool.createNavigateAction("http://sourceforge.net"));
   }
 
-  private JMenuItem getFreshmeatMenu() {
-    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("http://freshmeat.net"));
+  private JMenuItem getGitHubMenu() {
+    return ComponentSource.menuItem("GitHub", this.actionPool.createNavigateAction("https://github.com"));
   }
 
-  private JMenuItem getDownloadComMenu() {
-    return ComponentSource.menuItem("Download.com", this.actionPool.createNavigateAction("http://download.com"));
-  }
 }
