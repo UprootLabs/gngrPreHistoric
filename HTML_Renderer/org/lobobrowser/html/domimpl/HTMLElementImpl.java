@@ -166,8 +166,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       }
       this.localStyleDeclarationState = sds;
     }
-    // Synchronization note: Make sure getStyle() does not return multiple
-    // values.
+    // Synchronization note: Make sure getStyle() does not return multiple values.
     return sds;
   }
 

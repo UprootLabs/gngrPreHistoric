@@ -24,7 +24,6 @@
 package org.lobobrowser.store;
 
 import static org.jooq.impl.DSL.using;
-import info.gngr.db.tables.Permissions;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -44,14 +43,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jooq.DSLContext;
-import org.jooq.Table;
 import org.lobobrowser.security.LocalSecurityPolicy;
 import org.lobobrowser.security.StoreHostPermission;
 
