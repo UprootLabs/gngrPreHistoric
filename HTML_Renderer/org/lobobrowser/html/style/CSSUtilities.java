@@ -26,9 +26,12 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.ua.NetworkRequest;
@@ -38,13 +41,60 @@ import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.Urls;
+import org.w3c.css.sac.Condition;
 import org.w3c.css.sac.InputSource;
+import org.w3c.css.sac.Selector;
+import org.w3c.css.sac.SiblingSelector;
+import org.w3c.css.sac.SimpleSelector;
+import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.MediaList;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import com.steadystate.css.dom.CSSFontFaceRuleImpl;
+import com.steadystate.css.dom.CSSMediaRuleImpl;
+import com.steadystate.css.dom.CSSRuleListImpl;
+import com.steadystate.css.dom.CSSStyleDeclarationImpl;
+import com.steadystate.css.dom.CSSStyleRuleImpl;
 import com.steadystate.css.dom.CSSStyleSheetImpl;
+import com.steadystate.css.dom.MediaListImpl;
 import com.steadystate.css.parser.CSSOMParser;
 import com.steadystate.css.parser.SACParserCSS3;
+import com.steadystate.css.parser.SelectorListImpl;
+import com.steadystate.css.parser.selectors.AttributeConditionImpl;
+import com.steadystate.css.parser.selectors.BeginHyphenAttributeConditionImpl;
+import com.steadystate.css.parser.selectors.ChildSelectorImpl;
+import com.steadystate.css.parser.selectors.ClassConditionImpl;
+import com.steadystate.css.parser.selectors.ConditionalSelectorImpl;
+import com.steadystate.css.parser.selectors.DescendantSelectorImpl;
+import com.steadystate.css.parser.selectors.DirectAdjacentSelectorImpl;
+import com.steadystate.css.parser.selectors.ElementSelectorImpl;
+import com.steadystate.css.parser.selectors.GeneralAdjacentSelectorImpl;
+import com.steadystate.css.parser.selectors.IdConditionImpl;
+import com.steadystate.css.parser.selectors.OneOfAttributeConditionImpl;
+import com.steadystate.css.parser.selectors.PrefixAttributeConditionImpl;
+import com.steadystate.css.parser.selectors.PseudoElementSelectorImpl;
+import com.steadystate.css.parser.selectors.SubstringAttributeConditionImpl;
+import com.steadystate.css.parser.selectors.SuffixAttributeConditionImpl;
+
+import cz.vutbr.web.css.CSSException;
+import cz.vutbr.web.css.CSSFactory;
+import cz.vutbr.web.css.CombinedSelector;
+import cz.vutbr.web.css.Declaration;
+import cz.vutbr.web.css.MediaQuery;
+import cz.vutbr.web.css.MediaSpecNone;
+import cz.vutbr.web.css.RuleBlock;
+import cz.vutbr.web.css.RuleFontFace;
+import cz.vutbr.web.css.RuleMedia;
+import cz.vutbr.web.css.RuleSet;
+import cz.vutbr.web.css.Selector.ElementAttribute;
+import cz.vutbr.web.css.Selector.ElementClass;
+import cz.vutbr.web.css.Selector.ElementID;
+import cz.vutbr.web.css.Selector.ElementName;
+import cz.vutbr.web.css.Selector.PseudoPage;
+import cz.vutbr.web.css.Selector.SelectorPart;
+import cz.vutbr.web.css.StyleSheet;
 
 public class CSSUtilities {
   private static final Logger logger = Logger.getLogger(CSSUtilities.class.getName());
@@ -119,19 +169,285 @@ public class CSSUtilities {
     final String text = request.getResponseText();
     if (text != null && !"".equals(text)) {
       final String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
-      final CSSOMParser parser = mkParser();
-      final InputSource is = getCssInputSourceForStyleSheet(processedText, cssURI);
-      is.setURI(cssURI);
-      try {
-        final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, cssURI);
-        return sheet;
-      } catch (final Throwable err) {
-        logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", err);
-        return null;
-      }
+      return parseCSS2(ownerNode, cssURI, processedText);
+      // return parseCSS(ownerNode, cssURI, processedText);
     } else {
       return null;
     }
+  }
+
+  private static CSSStyleSheet parseCSS(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
+    final CSSOMParser parser = mkParser();
+    final InputSource is = getCssInputSourceForStyleSheet(processedText, cssURI);
+    is.setURI(cssURI);
+    try {
+      final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, cssURI);
+      return sheet;
+    } catch (final Throwable err) {
+      logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", err);
+      return null;
+    }
+  }
+
+  private static CSSStyleSheet parseCSS2(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
+    CSSFactory.setAutoImportMedia(new MediaSpecNone());
+    try {
+      final StyleSheet sheet = CSSFactory.parse(processedText);
+      System.out.println("Parse over. Beginning conversion");
+      final CSSStyleSheetImpl w3cSheet = new CSSStyleSheetImpl();
+      w3cSheet.setOwnerNode(ownerNode);
+      final CSSRuleListImpl rules = new CSSRuleListImpl();
+      CSSRule previousRule = null;
+      for (final RuleBlock<?> ruleBlock : sheet) {
+        final CSSRule newRule = convertRuleBlockToW3C(ruleBlock, w3cSheet, previousRule);
+        rules.add(newRule);
+        previousRule = newRule;
+      }
+      w3cSheet.setCssRules(rules);
+
+      return w3cSheet;
+    } catch (IOException | CSSException e) {
+      logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", e);
+      return null;
+    }
+  }
+
+  /*
+  private static Selector convertSelectorToW3C(final cz.vutbr.web.css.Selector origSelector, final Selector parent) {
+
+    Selector w3cSelector = null;
+    System.out.println("Origin selector: " + origSelector);
+    final SimpleSelector simpleSelector = new ElementSelectorImpl(origSelector.getElementName());
+    System.out.println("simple selector: " + simpleSelector);
+
+    if (origSelector.getCombinator() == null) {
+      w3cSelector = simpleSelector;
+    } else {
+      switch (origSelector.getCombinator()) {
+      case ADJACENT:
+        // TODO
+        w3cSelector = new DirectAdjacentSelectorImpl((short) 0, parent, simpleSelector);
+        break;
+      case CHILD:
+        w3cSelector = new ChildSelectorImpl(parent, simpleSelector);
+        break;
+      case DESCENDANT:
+        w3cSelector = new DescendantSelectorImpl(parent, simpleSelector);
+        break;
+      case PRECEDING:
+        w3cSelector = new GeneralAdjacentSelectorImpl((short) 0, parent, simpleSelector);
+        break;
+      }
+    }
+
+    System.out.println("ALl parts: " + origSelector.stream().map(o -> o.toString()).collect(Collectors.joining(", ")));
+    final Stream<SelectorPart> subParts = origSelector.stream();
+
+    for (final SelectorPart part : (Iterable<SelectorPart>)subParts::iterator) {
+      if (part instanceof PseudoPage) {
+        final PseudoPage pseudoPage = (PseudoPage) part;
+        // TODO: Distinguish between pseudo-class and pseudo-element
+        w3cSelector = new DescendantSelectorImpl(w3cSelector, new PseudoElementSelectorImpl(pseudoPage.getValue()));
+      } else if (part instanceof ElementAttribute) {
+        final ElementAttribute elementAttribute = (ElementAttribute) part;
+        Condition condition;
+        switch (elementAttribute.getOperator()) {
+        case EQUALS:
+          final String attrValue = elementAttribute.getValue();
+          condition = new AttributeConditionImpl(elementAttribute.getAttribute(), attrValue, attrValue != null);
+          break;
+        case NO_OPERATOR:
+          condition = new AttributeConditionImpl(elementAttribute.getAttribute(), null, false);
+          break;
+        default:
+          System.err.println("Not implemented operator:" + elementAttribute.getOperator());
+          throw new NotImplementedException();
+        }
+        assert(w3cSelector == simpleSelector);
+        w3cSelector = new ConditionalSelectorImpl(simpleSelector, condition);
+      } else if (part instanceof ElementClass) {
+        final ElementClass elementClass = (ElementClass) part;
+        final Condition condition = new ClassConditionImpl(elementClass.getClassName());
+        assert(w3cSelector == simpleSelector);
+        w3cSelector = new ConditionalSelectorImpl(simpleSelector, condition);
+      } else if (part instanceof ElementID) {
+        final ElementID elementID = (ElementID) part;
+        final Condition condition = new IdConditionImpl(elementID.getID());
+        assert(w3cSelector == simpleSelector);
+        w3cSelector = new ConditionalSelectorImpl(simpleSelector, condition);
+        System.out.println("element id selctor: " + w3cSelector);
+      } else if (part instanceof ElementName) {
+        // TODO: Ignore if first
+      } else {
+        System.err.println("part class: " + part.getClass());
+        throw new NotImplementedException();
+      }
+    }
+    System.out.println("converted selector: " + w3cSelector);
+    return w3cSelector;
+  }
+  */
+
+  private static Selector convertSelectorToW3C(final cz.vutbr.web.css.Selector origSelector, final Selector parent) {
+
+    SimpleSelector simpleSelector = null; // new ElementSelectorImpl(origSelector.getElementName());
+    SimpleSelector pseudoSelector = null;
+
+    final Stream<SelectorPart> subParts = origSelector.stream();
+
+    for (final SelectorPart part : (Iterable<SelectorPart>) subParts::iterator) {
+      if (part instanceof PseudoPage) {
+        final PseudoPage pseudoPage = (PseudoPage) part;
+        // TODO: Distinguish between pseudo-class and pseudo-element
+        // pseudoSelector = new DescendantSelectorImpl(simpleSelector, new PseudoElementSelectorImpl(pseudoPage.getValue()));
+        pseudoSelector = new PseudoElementSelectorImpl(pseudoPage.getValue());
+      } else if (part instanceof ElementAttribute) {
+        final ElementAttribute elementAttribute = (ElementAttribute) part;
+        Condition condition;
+        final String attrValue = elementAttribute.getValue();
+        final boolean valueSpecified = attrValue != null;
+        switch (elementAttribute.getOperator()) {
+        case EQUALS:
+          condition = new AttributeConditionImpl(elementAttribute.getAttribute(), attrValue, valueSpecified);
+          break;
+        case NO_OPERATOR:
+          condition = new AttributeConditionImpl(elementAttribute.getAttribute(), null, false);
+          break;
+        case CONTAINS:
+          condition = new SubstringAttributeConditionImpl(elementAttribute.getAttribute(), attrValue, valueSpecified);
+          break;
+        case DASHMATCH:
+          condition = new BeginHyphenAttributeConditionImpl(elementAttribute.getAttribute(), attrValue, valueSpecified);
+          break;
+        case ENDSWITH:
+          condition = new SuffixAttributeConditionImpl(elementAttribute.getAttribute(), attrValue, valueSpecified);
+          break;
+        case INCLUDES:
+          condition = new OneOfAttributeConditionImpl(elementAttribute.getAttribute(), attrValue, valueSpecified);
+          break;
+        case STARTSWITH:
+          condition = new PrefixAttributeConditionImpl(elementAttribute.getAttribute(), attrValue, valueSpecified);
+          break;
+        default:
+          System.err.println("Not implemented operator:" + elementAttribute.getOperator());
+          throw new NotImplementedException();
+        }
+
+        simpleSelector = new ConditionalSelectorImpl(simpleSelector, condition);
+
+      } else if (part instanceof ElementClass) {
+        final ElementClass elementClass = (ElementClass) part;
+        final Condition condition = new ClassConditionImpl(elementClass.getClassName());
+        final SimpleSelector parentSelector = simpleSelector == null ? new ElementSelectorImpl(origSelector.getElementName()): simpleSelector;
+        simpleSelector = new ConditionalSelectorImpl(parentSelector, condition);
+      } else if (part instanceof ElementID) {
+        final ElementID elementID = (ElementID) part;
+        final Condition condition = new IdConditionImpl(elementID.getID());
+        final SimpleSelector parentSelector = simpleSelector == null ? new ElementSelectorImpl(origSelector.getElementName()): simpleSelector;
+        simpleSelector = new ConditionalSelectorImpl(parentSelector, condition);
+      } else if (part instanceof ElementName) {
+        ElementName elementName = (ElementName) part;
+        assert(simpleSelector == null);
+        simpleSelector = new ElementSelectorImpl(elementName.getName());
+      } else {
+        System.err.println("part class: " + part.getClass());
+        throw new NotImplementedException();
+      }
+    }
+
+    Selector w3cSelector = null;
+    if (origSelector.getCombinator() == null) {
+      w3cSelector = simpleSelector;
+    } else {
+      switch (origSelector.getCombinator()) {
+      case ADJACENT:
+        w3cSelector = new DirectAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, simpleSelector);
+        break;
+      case CHILD:
+        w3cSelector = new ChildSelectorImpl(parent, simpleSelector);
+        break;
+      case DESCENDANT:
+        w3cSelector = new DescendantSelectorImpl(parent, simpleSelector);
+        break;
+      case PRECEDING:
+        w3cSelector = new GeneralAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, simpleSelector);
+        break;
+      }
+    }
+    if (pseudoSelector != null) {
+      w3cSelector = new DescendantSelectorImpl(w3cSelector, pseudoSelector);
+    }
+
+    assert(w3cSelector != null);
+    return w3cSelector;
+  }
+
+  private static CSSRule convertRuleBlockToW3C(final RuleBlock<?> ruleBlock, final CSSStyleSheetImpl parentStyleSheet,
+      final CSSRule parentRule) {
+    if (ruleBlock instanceof RuleSet) {
+      final RuleSet ruleSet = (RuleSet) ruleBlock;
+      return convertRuleSetToW3C(parentStyleSheet, parentRule, ruleSet);
+    } else if (ruleBlock instanceof RuleMedia) {
+      final RuleMedia ruleMedia = (RuleMedia) ruleBlock;
+      final MediaList mediaList = new MediaListImpl();
+      for (final MediaQuery query : ruleMedia.getMediaQueries()) {
+        final String queryType = query.getType();
+        // TODO: Don't ignore null query types.
+        if (queryType != null) {
+          mediaList.appendMedium(queryType);
+        } else {
+          System.out.println("TODO: Null query type: " + query);
+        }
+      }
+      final CSSMediaRuleImpl mediaRule = new CSSMediaRuleImpl(parentStyleSheet, parentRule, mediaList);
+      final CSSRuleListImpl cssRules = new CSSRuleListImpl();
+      for (final RuleSet ruleSet : ruleMedia) {
+        cssRules.add(convertRuleSetToW3C(parentStyleSheet, mediaRule, ruleSet));
+      }
+      mediaRule.setCssRules(cssRules);
+
+      return mediaRule;
+    } else if (ruleBlock instanceof RuleFontFace) {
+      RuleFontFace ruleFontFace = (RuleFontFace) ruleBlock;
+      CSSFontFaceRuleImpl fontFaceRule = new CSSFontFaceRuleImpl(parentStyleSheet, parentRule);
+      CSSStyleDeclarationImpl styleDeclaration = convertDeclarationsToW3C(ruleFontFace, fontFaceRule);
+      fontFaceRule.setStyle(styleDeclaration);
+      return fontFaceRule;
+    } else {
+      System.out.println("rule block class: " + ruleBlock.getClass());
+      throw new NotImplementedException();
+    }
+  }
+
+  private static CSSRule convertRuleSetToW3C(final CSSStyleSheetImpl parentStyleSheet, final CSSRule parentRule, final RuleSet ruleSet) {
+    final List<CombinedSelector> combinedSelectors = ruleSet.getSelectors();
+    final SelectorListImpl selectorList = new SelectorListImpl();
+    combinedSelectors.forEach(combinedSelector -> {
+      Selector w3cSelector = null;
+
+      for (final cz.vutbr.web.css.Selector selector : combinedSelector) {
+        w3cSelector = convertSelectorToW3C(selector, w3cSelector);
+      }
+      selectorList.add(w3cSelector);
+    });
+
+    final CSSStyleRuleImpl w3cRule = new CSSStyleRuleImpl(parentStyleSheet, parentRule, selectorList);
+    w3cRule.setStyle(convertDeclarationsToW3C(ruleSet, w3cRule));
+    return w3cRule;
+  }
+
+  private static CSSStyleDeclarationImpl convertDeclarationsToW3C(final List<Declaration> ruleSet, CSSRule parentRule) {
+    final CSSStyleDeclarationImpl styleDeclarations = new CSSStyleDeclarationImpl(parentRule);
+    for (final Declaration declaration : ruleSet) {
+      final String terms =
+          declaration.stream().map(term -> {
+            return term.toString();
+          }).collect(Collectors.joining());
+
+      styleDeclarations.setProperty(declaration.getProperty(), terms.trim(), declaration.isImportant() ? "important" : "");
+
+    }
+    return styleDeclarations;
   }
 
   public static boolean matchesMedia(final String mediaValues, final UserAgentContext rcontext) {
