@@ -61,8 +61,6 @@ import com.steadystate.css.dom.CSSStyleDeclarationImpl;
 import com.steadystate.css.dom.CSSStyleRuleImpl;
 import com.steadystate.css.dom.CSSStyleSheetImpl;
 import com.steadystate.css.dom.MediaListImpl;
-import com.steadystate.css.parser.CSSOMParser;
-import com.steadystate.css.parser.SACParserCSS3;
 import com.steadystate.css.parser.SelectorListImpl;
 import com.steadystate.css.parser.selectors.AttributeConditionImpl;
 import com.steadystate.css.parser.selectors.BeginHyphenAttributeConditionImpl;
@@ -142,8 +140,10 @@ public class CSSUtilities {
     return is;
   }
 
-  public static CSSOMParser mkParser() {
+  /* public static CSSOMParser mkParser() {
     return new CSSOMParser(new SACParserCSS3());
+  } */
+
   }
 
   public static CSSStyleSheet parse(final org.w3c.dom.Node ownerNode, final String href, final HTMLDocumentImpl doc, final String baseUri,
@@ -179,6 +179,7 @@ public class CSSUtilities {
     }
   }
 
+  /*
   private static CSSStyleSheet parseCSS(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
     final CSSOMParser parser = mkParser();
     final InputSource is = getCssInputSourceForStyleSheet(processedText, cssURI);
@@ -190,7 +191,7 @@ public class CSSUtilities {
       logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", err);
       return null;
     }
-  }
+  }*/
 
   private static CSSStyleSheet parseCSS2(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
     CSSFactory.setAutoImportMedia(new MediaSpecNone());
