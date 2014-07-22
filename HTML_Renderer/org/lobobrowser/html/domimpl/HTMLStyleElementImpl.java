@@ -100,13 +100,8 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
           try {
             final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) CSSUtilities.parseStyleSheet(this, baseURI, processedText);
             doc.addStyleSheet(sheet);
+            sheet.setDisabled(this.disabled);
             this.styleSheet = sheet;
-            if (sheet instanceof CSSStyleSheetImpl) {
-              final CSSStyleSheetImpl sheetImpl = (CSSStyleSheetImpl) sheet;
-              sheetImpl.setDisabled(this.disabled);
-            } else {
-              sheet.setDisabled(this.disabled);
-            }
           } catch (final Throwable err) {
             this.warn("Unable to parse style sheet", err);
           }
