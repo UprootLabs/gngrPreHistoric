@@ -333,18 +333,16 @@ public class CSSUtilities {
           throw new NotImplementedException();
         }
 
-        simpleSelector = new ConditionalSelectorImpl(simpleSelector, condition);
+        simpleSelector = new ConditionalSelectorImpl(makeParentSelector(simpleSelector), condition);
 
       } else if (part instanceof ElementClass) {
         final ElementClass elementClass = (ElementClass) part;
         final Condition condition = new ClassConditionImpl(elementClass.getClassName());
-        final SimpleSelector parentSelector = simpleSelector == null ? new ElementSelectorImpl(origSelector.getElementName()): simpleSelector;
-        simpleSelector = new ConditionalSelectorImpl(parentSelector, condition);
+        simpleSelector = new ConditionalSelectorImpl(makeParentSelector(simpleSelector), condition);
       } else if (part instanceof ElementID) {
         final ElementID elementID = (ElementID) part;
         final Condition condition = new IdConditionImpl(elementID.getID());
-        final SimpleSelector parentSelector = simpleSelector == null ? new ElementSelectorImpl(origSelector.getElementName()): simpleSelector;
-        simpleSelector = new ConditionalSelectorImpl(parentSelector, condition);
+        simpleSelector = new ConditionalSelectorImpl(makeParentSelector(simpleSelector), condition);
       } else if (part instanceof ElementName) {
         ElementName elementName = (ElementName) part;
         assert(simpleSelector == null);
@@ -359,7 +357,7 @@ public class CSSUtilities {
     if (origSelector.getCombinator() == null) {
       w3cSelector = simpleSelector;
     } else {
-      final SimpleSelector parentSelector = simpleSelector == null ? new ElementSelectorImpl(origSelector.getElementName()): simpleSelector;
+      final SimpleSelector parentSelector = makeParentSelector(simpleSelector);
       switch (origSelector.getCombinator()) {
       case ADJACENT:
         w3cSelector = new DirectAdjacentSelectorImpl(SiblingSelector.ANY_NODE, parent, parentSelector);
@@ -381,6 +379,10 @@ public class CSSUtilities {
 
     assert(w3cSelector != null);
     return w3cSelector;
+  }
+
+  private static SimpleSelector makeParentSelector(SimpleSelector simpleSelector) {
+    return simpleSelector == null ? new ElementSelectorImpl("*"): simpleSelector;
   }
 
   private static CSSRule convertRuleBlockToW3C(final RuleBlock<?> ruleBlock, final CSSStyleSheetImpl parentStyleSheet,
