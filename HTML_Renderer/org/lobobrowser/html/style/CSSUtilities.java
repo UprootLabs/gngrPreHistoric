@@ -83,6 +83,7 @@ import cz.vutbr.web.css.CSSFactory;
 import cz.vutbr.web.css.CombinedSelector;
 import cz.vutbr.web.css.Declaration;
 import cz.vutbr.web.css.MediaQuery;
+import cz.vutbr.web.css.MediaSpec;
 import cz.vutbr.web.css.MediaSpecNone;
 import cz.vutbr.web.css.RuleBlock;
 import cz.vutbr.web.css.RuleFontFace;
@@ -194,24 +195,25 @@ public class CSSUtilities {
     try {
       final StyleSheet sheet = CSSFactory.parse(processedText);
       System.out.println("Parse over. Beginning conversion");
-      final CSSStyleSheetImpl w3cSheet = new CSSStyleSheetImpl();
-      w3cSheet.setOwnerNode(ownerNode);
-      final CSSRuleListImpl rules = new CSSRuleListImpl();
-      CSSRule previousRule = null;
-      for (final RuleBlock<?> ruleBlock : sheet) {
-        final CSSRule newRule = convertRuleBlockToW3C(ruleBlock, w3cSheet, previousRule);
-        rules.add(newRule);
-        previousRule = newRule;
-      }
-      w3cSheet.setCssRules(rules);
-
-      return w3cSheet;
+      return convertSheetToW3C(ownerNode, sheet);
     } catch (IOException | CSSException e) {
-      logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", e);
+      logger.log(Level.SEVERE, "Unable to parse CSS. URI=[" + cssURI + "].", e);
       return null;
     }
   }
 
+  private static CSSStyleSheetImpl convertSheetToW3C(final org.w3c.dom.Node ownerNode, final StyleSheet sheet) {
+    final MediaSpec screenMediaSpec = new MediaSpec("screen");
+    final CSSStyleSheetImpl w3cSheet = new CSSStyleSheetImpl();
+    w3cSheet.setOwnerNode(ownerNode);
+    final CSSRuleListImpl rules = new CSSRuleListImpl();
+    CSSRule previousRule = null;
+    for (final RuleBlock<?> ruleBlock : sheet) {
+      final CSSRule newRule = convertRuleBlockToW3C(ruleBlock, w3cSheet, previousRule, screenMediaSpec);
+      if (newRule != null) {
+        rules.add(newRule);
+        previousRule = newRule;
+      }
   /*
   private static Selector convertSelectorToW3C(final cz.vutbr.web.css.Selector origSelector, final Selector parent) {
 
@@ -386,12 +388,14 @@ public class CSSUtilities {
   }
 
   private static CSSRule convertRuleBlockToW3C(final RuleBlock<?> ruleBlock, final CSSStyleSheetImpl parentStyleSheet,
-      final CSSRule parentRule) {
+      final CSSRule parentRule, final MediaSpec mediaSpec) {
     if (ruleBlock instanceof RuleSet) {
       final RuleSet ruleSet = (RuleSet) ruleBlock;
       return convertRuleSetToW3C(parentStyleSheet, parentRule, ruleSet);
     } else if (ruleBlock instanceof RuleMedia) {
       final RuleMedia ruleMedia = (RuleMedia) ruleBlock;
+      final boolean ruleMatches = ruleMedia.getMediaQueries().stream().anyMatch(mediaSpec::matches);
+      if (ruleMatches) {
       final MediaList mediaList = new MediaListImpl();
       for (final MediaQuery query : ruleMedia.getMediaQueries()) {
         final String queryType = query.getType();
@@ -410,6 +414,9 @@ public class CSSUtilities {
       mediaRule.setCssRules(cssRules);
 
       return mediaRule;
+      } else {
+        return null;
+      }
     } else if (ruleBlock instanceof RuleFontFace) {
       RuleFontFace ruleFontFace = (RuleFontFace) ruleBlock;
       CSSFontFaceRuleImpl fontFaceRule = new CSSFontFaceRuleImpl(parentStyleSheet, parentRule);
