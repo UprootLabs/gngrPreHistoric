@@ -891,20 +891,14 @@ public class FramePanel extends JPanel implements NavigatorFrame {
         }
       }
     });
-    final SecurityManager sm = System.getSecurityManager();
-    if (sm == null) {
+
+    SecurityUtil.doPrivileged(() -> {
+      // Justification: While requests by untrusted code are generally only allowed on certain hosts,
+      // navigation is an exception.
       RequestEngine.getInstance().scheduleRequest(handler);
-    } else {
-      AccessController.doPrivileged(new PrivilegedAction<Object>() {
-        public Object run() {
-          // Justification: While requests by untrusted code
-          // are generally only allowed on certain hosts,
-          // navigation is an exception.
-          RequestEngine.getInstance().scheduleRequest(handler);
-          return null;
-        }
-      });
-    }
+      return null;
+    });
+
     return newFrame;
   }
 
