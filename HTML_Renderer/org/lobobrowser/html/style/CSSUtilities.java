@@ -47,6 +47,8 @@ import org.w3c.css.sac.Selector;
 import org.w3c.css.sac.SiblingSelector;
 import org.w3c.css.sac.SimpleSelector;
 import org.w3c.dom.css.CSSRule;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.CSSStyleRule;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.MediaList;
 
@@ -214,81 +216,10 @@ public class CSSUtilities {
         rules.add(newRule);
         previousRule = newRule;
       }
-  /*
-  private static Selector convertSelectorToW3C(final cz.vutbr.web.css.Selector origSelector, final Selector parent) {
-
-    Selector w3cSelector = null;
-    System.out.println("Origin selector: " + origSelector);
-    final SimpleSelector simpleSelector = new ElementSelectorImpl(origSelector.getElementName());
-    System.out.println("simple selector: " + simpleSelector);
-
-    if (origSelector.getCombinator() == null) {
-      w3cSelector = simpleSelector;
-    } else {
-      switch (origSelector.getCombinator()) {
-      case ADJACENT:
-        // TODO
-        w3cSelector = new DirectAdjacentSelectorImpl((short) 0, parent, simpleSelector);
-        break;
-      case CHILD:
-        w3cSelector = new ChildSelectorImpl(parent, simpleSelector);
-        break;
-      case DESCENDANT:
-        w3cSelector = new DescendantSelectorImpl(parent, simpleSelector);
-        break;
-      case PRECEDING:
-        w3cSelector = new GeneralAdjacentSelectorImpl((short) 0, parent, simpleSelector);
-        break;
-      }
     }
-
-    System.out.println("ALl parts: " + origSelector.stream().map(o -> o.toString()).collect(Collectors.joining(", ")));
-    final Stream<SelectorPart> subParts = origSelector.stream();
-
-    for (final SelectorPart part : (Iterable<SelectorPart>)subParts::iterator) {
-      if (part instanceof PseudoPage) {
-        final PseudoPage pseudoPage = (PseudoPage) part;
-        // TODO: Distinguish between pseudo-class and pseudo-element
-        w3cSelector = new DescendantSelectorImpl(w3cSelector, new PseudoElementSelectorImpl(pseudoPage.getValue()));
-      } else if (part instanceof ElementAttribute) {
-        final ElementAttribute elementAttribute = (ElementAttribute) part;
-        Condition condition;
-        switch (elementAttribute.getOperator()) {
-        case EQUALS:
-          final String attrValue = elementAttribute.getValue();
-          condition = new AttributeConditionImpl(elementAttribute.getAttribute(), attrValue, attrValue != null);
-          break;
-        case NO_OPERATOR:
-          condition = new AttributeConditionImpl(elementAttribute.getAttribute(), null, false);
-          break;
-        default:
-          System.err.println("Not implemented operator:" + elementAttribute.getOperator());
-          throw new NotImplementedException();
-        }
-        assert(w3cSelector == simpleSelector);
-        w3cSelector = new ConditionalSelectorImpl(simpleSelector, condition);
-      } else if (part instanceof ElementClass) {
-        final ElementClass elementClass = (ElementClass) part;
-        final Condition condition = new ClassConditionImpl(elementClass.getClassName());
-        assert(w3cSelector == simpleSelector);
-        w3cSelector = new ConditionalSelectorImpl(simpleSelector, condition);
-      } else if (part instanceof ElementID) {
-        final ElementID elementID = (ElementID) part;
-        final Condition condition = new IdConditionImpl(elementID.getID());
-        assert(w3cSelector == simpleSelector);
-        w3cSelector = new ConditionalSelectorImpl(simpleSelector, condition);
-        System.out.println("element id selctor: " + w3cSelector);
-      } else if (part instanceof ElementName) {
-        // TODO: Ignore if first
-      } else {
-        System.err.println("part class: " + part.getClass());
-        throw new NotImplementedException();
-      }
-    }
-    System.out.println("converted selector: " + w3cSelector);
-    return w3cSelector;
+    w3cSheet.setCssRules(rules);
+    return w3cSheet;
   }
-  */
 
   private static Selector convertSelectorToW3C(final cz.vutbr.web.css.Selector origSelector, final Selector parent) {
 
