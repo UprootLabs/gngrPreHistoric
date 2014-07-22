@@ -67,7 +67,6 @@ public class StorageManager implements Runnable {
   private final File storeDirectory;
   private final File cacheRootDirectory;
   public final String userDBPath;
-  public final DSLContext userDB;
 
   public static StorageManager getInstance() throws IOException {
     return instance;
@@ -80,17 +79,28 @@ public class StorageManager implements Runnable {
       this.storeDirectory.mkdirs();
     }
 
-    try {
-      userDBPath = new File(storeDirectory, "user.h2").getAbsolutePath();
-      final Connection conn = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
-      userDB = using(conn);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+    userDBPath = new File(storeDirectory, "user.h2").getAbsolutePath();
 
   }
 
+  private DSLContext userDB;
+
+  public synchronized DSLContext getDB() {
+    if (userDB == null) {
+      try {
+        System.out.println("Opening : " + userDBPath);
+        final Connection conn = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
+        userDB = using(conn);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return userDB;
+  }
+
   public synchronized void initDB(final Runnable onInit) {
+    final DSLContext userDB = getDB();
+
     // TODO: http://stackoverflow.com/questions/24741761/how-to-check-if-a-table-exists-in-jooq
     final int tableCount =
         userDB

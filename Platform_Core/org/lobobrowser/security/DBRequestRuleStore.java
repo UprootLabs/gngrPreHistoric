@@ -35,7 +35,7 @@ public class DBRequestRuleStore implements RequestRuleStore {
   public DBRequestRuleStore() {
     try {
       final StorageManager storageManager = StorageManager.getInstance();
-      userDB = storageManager.userDB;
+      userDB = storageManager.getDB();
       storageManager.initDB(() -> {
         HelperPrivate.initStore(this);
       });
