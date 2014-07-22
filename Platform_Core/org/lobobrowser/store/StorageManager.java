@@ -104,10 +104,10 @@ public class StorageManager implements Runnable {
     // TODO: http://stackoverflow.com/questions/24741761/how-to-check-if-a-table-exists-in-jooq
     final int tableCount =
         userDB
-        .selectCount()
-        .from("INFORMATION_SCHEMA.TABLES")
-        .where("TABLE_SCHEMA = 'PUBLIC'")
-        .fetchOne().value1();
+            .selectCount()
+            .from("INFORMATION_SCHEMA.TABLES")
+            .where("TABLE_SCHEMA = 'PUBLIC'")
+            .fetchOne().value1();
 
     if (tableCount == 0) {
       final InputStream schemaStream = getClass().getResourceAsStream("/info/gngr/schema.sql");
@@ -118,6 +118,7 @@ public class StorageManager implements Runnable {
 
       onInit.run();
     }
+
   }
 
   private boolean threadStarted = false;
@@ -277,7 +278,6 @@ public class StorageManager implements Runnable {
   }
 
   private static final int MANAGED_STORE_UPDATE_DELAY = 1000 * 60 * 5; /* 5 minutes */
-
   public void run() {
     for (;;) {
       try {
