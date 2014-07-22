@@ -148,7 +148,6 @@ public class CSSUtilities {
     CSSFactory.setAutoImportMedia(new MediaSpecNone());
     try {
       final StyleSheet sheet = CSSFactory.parse("*{" + styleStr + "}");
-      System.out.println("Parse over. Beginning conversion");
       CSSStyleSheetImpl w3cSheet = convertSheetToW3C(null, sheet);
       CSSRule firstRule = w3cSheet.getCssRules().item(0);
       CSSStyleRule firstStyleRule = (CSSStyleRule) firstRule;
@@ -214,7 +213,6 @@ public class CSSUtilities {
     CSSFactory.setAutoImportMedia(new MediaSpecNone());
     try {
       final StyleSheet sheet = CSSFactory.parse(processedText);
-      System.out.println("Parse over. Beginning conversion");
       return convertSheetToW3C(ownerNode, sheet);
     } catch (IOException | CSSException e) {
       logger.log(Level.SEVERE, "Unable to parse CSS. URI=[" + cssURI + "].", e);
@@ -241,6 +239,7 @@ public class CSSUtilities {
 
   private static Selector convertSelectorToW3C(final cz.vutbr.web.css.Selector origSelector, final Selector parent) {
 
+    // System.out.println("orig selector: " + origSelector);
     SimpleSelector simpleSelector = null; // new ElementSelectorImpl(origSelector.getElementName());
     SimpleSelector pseudoSelector = null;
 
@@ -329,6 +328,7 @@ public class CSSUtilities {
     }
 
     assert(w3cSelector != null);
+    // System.out.println("  new selector: " + w3cSelector);
     return w3cSelector;
   }
 
@@ -352,7 +352,7 @@ public class CSSUtilities {
         if (queryType != null) {
           mediaList.appendMedium(queryType);
         } else {
-          System.out.println("TODO: Null query type: " + query);
+          System.out.println("TODO: Can't represent Null query type: " + query);
         }
       }
       final CSSMediaRuleImpl mediaRule = new CSSMediaRuleImpl(parentStyleSheet, parentRule, mediaList);
