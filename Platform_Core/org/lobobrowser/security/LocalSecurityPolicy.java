@@ -228,8 +228,18 @@ public class LocalSecurityPolicy extends Policy {
       try {
         final String userDBPath = StorageManager.getInstance().userDBPath;
         permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
-        permissions.add(new FilePermission(userDBPath + ".mv.db", "read, write, delete"));
-        permissions.add(new FilePermission(userDBPath + ".trace.db", "read, write, delete"));
+        // TODO: Request h2 to provide this list
+        final String[] h2Suffixes = new String[] {
+            org.h2.engine.Constants.SUFFIX_LOCK_FILE,
+            org.h2.engine.Constants.SUFFIX_PAGE_FILE,
+            org.h2.engine.Constants.SUFFIX_MV_FILE,
+            org.h2.engine.Constants.SUFFIX_TEMP_FILE,
+            org.h2.engine.Constants.SUFFIX_TRACE_FILE,
+            ".data.db",
+        };
+        for(final String suffix: h2Suffixes) {
+          permissions.add(new FilePermission(userDBPath + suffix, "read, write, delete"));
+        }
         return permissions;
       } catch (IOException e) {
         throw new RuntimeException(e);
