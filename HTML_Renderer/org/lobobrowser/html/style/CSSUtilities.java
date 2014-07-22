@@ -144,6 +144,23 @@ public class CSSUtilities {
     return new CSSOMParser(new SACParserCSS3());
   } */
 
+  public static CSSStyleDeclaration parseStyleDeclaration(String styleStr) {
+    CSSFactory.setAutoImportMedia(new MediaSpecNone());
+    try {
+      final StyleSheet sheet = CSSFactory.parse("*{" + styleStr + "}");
+      System.out.println("Parse over. Beginning conversion");
+      CSSStyleSheetImpl w3cSheet = convertSheetToW3C(null, sheet);
+      CSSRule firstRule = w3cSheet.getCssRules().item(0);
+      CSSStyleRule firstStyleRule = (CSSStyleRule) firstRule;
+      return firstStyleRule.getStyle();
+    } catch (IOException | CSSException e) {
+      logger.log(Level.WARNING, "Unable to parse CSS.", e);
+      return null;
+    }
+  }
+
+  public static CSSStyleSheet parseStyleSheet(final org.w3c.dom.Node ownerNode, final String baseURI, final String stylesheetStr) {
+    return parseCSS2(ownerNode, baseURI, stylesheetStr);
   }
 
   public static CSSStyleSheet parse(final org.w3c.dom.Node ownerNode, final String href, final HTMLDocumentImpl doc, final String baseUri,

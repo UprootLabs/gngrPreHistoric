@@ -96,11 +96,9 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
         if (text != null && !"".equals(text)) {
           final String processedText = CSSUtilities.preProcessCss(text);
           final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
-          final CSSOMParser parser = CSSUtilities.mkParser();
           final String baseURI = doc.getBaseURI();
-          final InputSource is = CSSUtilities.getCssInputSourceForStyleSheet(processedText, baseURI);
           try {
-            final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, this, baseURI);
+            final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) CSSUtilities.parseStyleSheet(this, baseURI, processedText);
             doc.addStyleSheet(sheet);
             this.styleSheet = sheet;
             if (sheet instanceof CSSStyleSheetImpl) {

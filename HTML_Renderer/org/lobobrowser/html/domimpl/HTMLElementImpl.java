@@ -152,10 +152,8 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       // Add any declarations in style attribute (last takes precedence).
       final String style = this.getAttribute("style");
       if (style != null && style.length() != 0) {
-        final CSSOMParser parser = CSSUtilities.mkParser();
-        final InputSource inputSource = getCssInputSourceForDecl(style);
         try {
-          final CSSStyleDeclaration sd = parser.parseStyleDeclaration(inputSource);
+          final CSSStyleDeclaration sd = CSSUtilities.parseStyleDeclaration(style);
           sds.addStyleDeclaration(sd);
         } catch (final Exception err) {
           final String id = this.getId();
