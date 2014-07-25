@@ -53,9 +53,10 @@ public class ToolsSettings implements Serializable {
 
   private static List<SearchEngine> getDefaultSearchEngines() {
     final List<SearchEngine> searchEngines = new ArrayList<>();
+    searchEngines.add(duckDuckGoSearch());
+    searchEngines.add(wikipediaSearch());
     searchEngines.add(googleWebSearch());
     searchEngines.add(yahooWebSearch());
-    searchEngines.add(wikipediaSearch());
     searchEngines.add(googleBlogSearch());
     searchEngines.add(googleCodeSearch());
     searchEngines.add(googleScholarSearch());
@@ -68,6 +69,10 @@ public class ToolsSettings implements Serializable {
 
   private static SearchEngine yahooWebSearch() {
     return new SearchEngine("Yahoo! Web Search", "Yahoo's web search engine.", "http://search.yahoo.com/search", "p");
+  }
+
+  private static SearchEngine duckDuckGoSearch() {
+    return new SearchEngine("DDG", "Duck Duck Go.", "https://duckduckgo.com/html", "q");
   }
 
   private static SearchEngine wikipediaSearch() {
