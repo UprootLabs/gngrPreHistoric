@@ -22,7 +22,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.ua;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.List;
 
 /**
