@@ -51,7 +51,7 @@ import org.lobobrowser.util.WeakValueHashMap;
 public class DefaultWindowFactory implements WindowFactory {
   private static final Logger logger = Logger.getLogger(DefaultWindowFactory.class.getName());
   private static DefaultWindowFactory instance = new DefaultWindowFactory();
-  private static final String DEFAULT_ICON_URL = "res:/images/LoboLogo16.png";
+  private static final String DEFAULT_ICON_URL = "res:/images/gngrLogo.png";
   public final EventDispatch evtWindowShown = new EventDispatch();
   // TODO: Should use an expiring cache instead of a WeakHashMap.
   private final Map<String, ImageIcon> imageMap = new WeakValueHashMap<>();
