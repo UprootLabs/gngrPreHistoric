@@ -208,6 +208,7 @@ public class LocalSecurityPolicy extends Policy {
     // method gets called twice:
     // once with proper codesource and once with null. The second call needs
     // accessClassInPackage.sun.org.mozilla.javascript.internal.
+    /* Doesn't seem to be required anymore!
     if (codesource == null) {
       final Permissions permissions = new Permissions();
       // Update: We are using Mozilla rhino latest version, and this is not required anymore
@@ -221,44 +222,48 @@ public class LocalSecurityPolicy extends Policy {
       }
       permissions.add(StoreHostPermission.forHost("localhost"));
       return permissions;
-    }
-
-    if (codesource.getLocation().getPath().endsWith("h2-1.4.180.jar")) {
-      final Permissions permissions = new Permissions();
-      try {
-        final String userDBPath = StorageManager.getInstance().userDBPath;
-        permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
-        // TODO: Request h2 to provide this list
-        final String[] h2Suffixes = new String[] {
-            org.h2.engine.Constants.SUFFIX_LOCK_FILE,
-            org.h2.engine.Constants.SUFFIX_PAGE_FILE,
-            org.h2.engine.Constants.SUFFIX_MV_FILE,
-            org.h2.engine.Constants.SUFFIX_TEMP_FILE,
-            org.h2.engine.Constants.SUFFIX_TRACE_FILE,
-            ".data.db",
-        };
-        for(final String suffix: h2Suffixes) {
-          permissions.add(new FilePermission(userDBPath + suffix, "read, write, delete"));
-        }
-        return permissions;
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+    } */
+    if (codesource == null) {
+      throw new AccessControlException("codesource was null");
     }
 
     final URL location = codesource.getLocation();
     if (location == null) {
       throw new AccessControlException("No location for codesource=" + codesource);
     }
+
     final boolean isLocal = isLocal(location);
+
     final Permissions permissions = new Permissions();
     if (isLocal) {
-      for (final Permission p : BASE_PRIVILEGE) {
-        permissions.add(p);
+      if (codesource.getLocation().getPath().endsWith("h2-1.4.180.jar")) {
+        try {
+          final String userDBPath = StorageManager.getInstance().userDBPath;
+          permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
+          // TODO: Request h2 to provide this list
+          final String[] h2Suffixes = new String[] {
+              org.h2.engine.Constants.SUFFIX_LOCK_FILE,
+              org.h2.engine.Constants.SUFFIX_PAGE_FILE,
+              org.h2.engine.Constants.SUFFIX_MV_FILE,
+              org.h2.engine.Constants.SUFFIX_TEMP_FILE,
+              org.h2.engine.Constants.SUFFIX_TRACE_FILE,
+              ".data.db",
+          };
+          for (final String suffix : h2Suffixes) {
+            permissions.add(new FilePermission(userDBPath + suffix, "read, write, delete"));
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      } else {
+
+        for (final Permission p : BASE_PRIVILEGE) {
+          permissions.add(p);
+        }
+        // Custom permissions
+        permissions.add(StoreHostPermission.forURL(location));
+        permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
       }
-      // Custom permissions
-      permissions.add(StoreHostPermission.forURL(location));
-      permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
     } else {
       permissions.add(new PropertyPermission("java.version", "read"));
       permissions.add(new PropertyPermission("os.name", "read"));
