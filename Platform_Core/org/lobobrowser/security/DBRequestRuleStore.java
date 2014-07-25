@@ -3,7 +3,6 @@ package org.lobobrowser.security;
 import info.gngr.db.tables.Permissions;
 import info.gngr.db.tables.records.PermissionsRecord;
 
-import java.io.IOException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Optional;
@@ -33,15 +32,11 @@ public class DBRequestRuleStore implements RequestRuleStore {
   }
 
   public DBRequestRuleStore() {
-    try {
-      final StorageManager storageManager = StorageManager.getInstance();
-      userDB = storageManager.getDB();
-      storageManager.initDB(() -> {
-        HelperPrivate.initStore(this);
-      });
-    } catch (final IOException e) {
-      throw new RuntimeException(e);
-    }
+    final StorageManager storageManager = StorageManager.getInstance();
+    userDB = storageManager.getDB();
+    storageManager.initDB(() -> {
+      HelperPrivate.initStore(this);
+    });
   }
 
   private static Condition matchHostsCondition(final String frameHost, final String requestHost) {

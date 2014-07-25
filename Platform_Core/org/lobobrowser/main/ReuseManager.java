@@ -46,13 +46,9 @@ public class ReuseManager {
   private static final String PORT_FILE = "port.dat";
 
   public void shutdown() {
-    try {
-      final java.io.File appHome = StorageManager.getInstance().getAppHome();
-      final java.io.File portFile = new File(appHome, PORT_FILE);
-      portFile.delete();
-    } catch (final IOException ioe) {
-      // ignore
-    }
+    final java.io.File appHome = StorageManager.getInstance().getAppHome();
+    final java.io.File portFile = new File(appHome, PORT_FILE);
+    portFile.delete();
   }
 
   /**

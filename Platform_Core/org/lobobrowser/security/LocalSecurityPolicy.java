@@ -23,18 +23,32 @@
  */
 package org.lobobrowser.security;
 
-import java.security.*;
-import java.lang.reflect.ReflectPermission;
-import java.net.*;
-import java.util.*;
-import java.io.*;
-import java.awt.*;
+import java.awt.AWTPermission;
+import java.io.File;
+import java.io.FilePermission;
+import java.io.IOException;
+import java.net.NetPermission;
+import java.net.SocketPermission;
+import java.net.URL;
+import java.security.AccessControlException;
+import java.security.AccessController;
+import java.security.CodeSource;
+import java.security.Permission;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.Policy;
+import java.security.PrivilegedAction;
+import java.security.SecurityPermission;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.PropertyPermission;
 
 import javax.net.ssl.SSLPermission;
 
 import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.store.StorageManager;
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.io.Files;
 
 public class LocalSecurityPolicy extends Policy {
@@ -237,23 +251,19 @@ public class LocalSecurityPolicy extends Policy {
     final Permissions permissions = new Permissions();
     if (isLocal) {
       if (codesource.getLocation().getPath().endsWith("h2-1.4.180.jar")) {
-        try {
-          final String userDBPath = StorageManager.getInstance().userDBPath;
-          permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
-          // TODO: Request h2 to provide this list
-          final String[] h2Suffixes = new String[] {
-              org.h2.engine.Constants.SUFFIX_LOCK_FILE,
-              org.h2.engine.Constants.SUFFIX_PAGE_FILE,
-              org.h2.engine.Constants.SUFFIX_MV_FILE,
-              org.h2.engine.Constants.SUFFIX_TEMP_FILE,
-              org.h2.engine.Constants.SUFFIX_TRACE_FILE,
-              ".data.db",
-          };
-          for (final String suffix : h2Suffixes) {
-            permissions.add(new FilePermission(userDBPath + suffix, "read, write, delete"));
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+        final String userDBPath = StorageManager.getInstance().userDBPath;
+        permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
+        // TODO: Request h2 to provide this list
+        final String[] h2Suffixes = new String[] {
+            org.h2.engine.Constants.SUFFIX_LOCK_FILE,
+            org.h2.engine.Constants.SUFFIX_PAGE_FILE,
+            org.h2.engine.Constants.SUFFIX_MV_FILE,
+            org.h2.engine.Constants.SUFFIX_TEMP_FILE,
+            org.h2.engine.Constants.SUFFIX_TRACE_FILE,
+            ".data.db",
+        };
+        for (final String suffix : h2Suffixes) {
+          permissions.add(new FilePermission(userDBPath + suffix, "read, write, delete"));
         }
       } else {
 

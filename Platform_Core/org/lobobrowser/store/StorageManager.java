@@ -68,7 +68,7 @@ public class StorageManager implements Runnable {
   private final File cacheRootDirectory;
   public final String userDBPath;
 
-  public static StorageManager getInstance() throws IOException {
+  public static StorageManager getInstance() {
     return instance;
   }
 
