@@ -138,7 +138,7 @@ public class ComponentSource implements NavigatorWindowListener {
   public JMenu getFileMenu() {
     final JMenu openMenu = new JMenu("Open");
     openMenu.setMnemonic('O');
-    openMenu.add(menuItem("Blank Window", 'B', KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK),
+    openMenu.add(menuItem("New Window", 'N', KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK),
         this.actionPool.blankWindowAction));
     openMenu.add(menuItem("Cloned Window", 'C', this.actionPool.clonedWindowAction));
     openMenu.add(menuItem("File...", 'F', "ctrl O", this.actionPool.openFileAction));
@@ -148,7 +148,7 @@ public class ComponentSource implements NavigatorWindowListener {
 
     menu.add(openMenu);
     menu.addSeparator();
-    menu.add(menuItem("Close", 'C', this.actionPool.exitAction));
+    menu.add(menuItem("Close", 'C', KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK), this.actionPool.exitAction));
 
     return menu;
   }
@@ -190,7 +190,12 @@ public class ComponentSource implements NavigatorWindowListener {
     menu.add(menuItem("Back", 'B', "ctrl B", this.actionPool.backAction));
     menu.add(menuItem("Forward", 'F', this.actionPool.forwardAction));
     menu.add(menuItem("Stop", 'S', KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), this.actionPool.stopAction));
-    menu.add(menuItem("Reload", 'R', KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0), this.actionPool.reloadAction));
+
+    JMenuItem reloadMenuItem = menuItem("Reload", 'R', KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0), this.actionPool.reloadAction);
+    reloadMenuItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl R"), "reload action");
+    reloadMenuItem.getActionMap().put("reload action", this.actionPool.reloadAction);
+    menu.add(reloadMenuItem);
+
     menu.addSeparator();
     menu.add(this.backMoreMenu);
     menu.add(this.forwardMoreMenu);

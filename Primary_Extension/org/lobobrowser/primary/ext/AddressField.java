@@ -67,8 +67,16 @@ public class AddressField extends JComboBox<String> {
         }
       }
     });
-    // This needed the first time to set a reasonable
-    // popup size.
+
+    getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl L"), "edit URL");
+    getActionMap().put("edit URL", new AbstractAction() {
+
+      public void actionPerformed(ActionEvent e) {
+        requestFocus();
+      }
+    });
+
+    // This needed the first time to set a reasonable popup size.
     this.onBeforePopupVisible();
   }
 
