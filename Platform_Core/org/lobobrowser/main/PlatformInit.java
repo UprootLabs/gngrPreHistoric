@@ -64,7 +64,10 @@ public class PlatformInit {
   private final GeneralSettings generalSettings;
 
   private PlatformInit() {
-    this.threadExecutor = new SimpleThreadPool("MainThreadPool", 2, 10, 60 * 1000);
+    // TODO: Research a better way to configure the thread pool
+    // TODO: Use thread pools available in JDK?
+    this.threadExecutor = new SimpleThreadPool("MainThreadPool", 2, 3, 60 * 1000);
+
     // One way to avoid a security exception.
     this.generalSettings = GeneralSettings.getInstance();
   }
