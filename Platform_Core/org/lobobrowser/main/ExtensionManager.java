@@ -20,16 +20,36 @@
  */
 package org.lobobrowser.main;
 
-import java.io.*;
-import java.util.*;
-import java.awt.*;
-import java.net.*;
+import java.awt.EventQueue;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-
-import java.util.logging.*;
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.ua.NavigationEvent;
+import org.lobobrowser.ua.NavigationVetoException;
+import org.lobobrowser.ua.NavigatorEventType;
+import org.lobobrowser.ua.NavigatorExceptionEvent;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.util.JoinableTask;
 
 /**
  * Manages platform extensions.
@@ -142,29 +162,14 @@ public class ExtensionManager {
         logger.warning("createExtensions(): No potential extensions found in " + extDir + " directory.");
         continue;
       }
-      for (final File file : extRoots) {
-        try {
-          this.addExtension(file);
-        } catch (final IOException ioe) {
-          logger.log(Level.WARNING, "createExtensions(): Unable to load '" + file + "'.", ioe);
-        }
-      }
+      addAllFileExtensions(extRoots);
     }
-    for (final File file : extFiles) {
-      try {
-        this.addExtension(file);
-      } catch (final IOException ioe) {
-        logger.log(Level.WARNING, "createExtensions(): Unable to load '" + file + "'.", ioe);
-      }
-    }
+    addAllFileExtensions(extFiles);
 
     if (this.extensionById.size() == 0) {
       logger.warning("createExtensions(): No extensions found. This is indicative of a setup error. Extension directories scanned are: "
           + Arrays.asList(extDirs) + ".");
     }
-
-    // Get the system class loader
-    final ClassLoader rootClassLoader = this.getClass().getClassLoader();
 
     // Create class loader for extension "libraries"
     final ArrayList<URL> libraryURLCollection = new ArrayList<>();
@@ -178,7 +183,15 @@ public class ExtensionManager {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("createExtensions(): Creating library class loader with URLs=[" + libraryURLCollection + "].");
     }
-    final ClassLoader librariesCL = new URLClassLoader(libraryURLCollection.toArray(new URL[0]), rootClassLoader);
+    loadExtensions(extensions, libraryURLCollection);
+  }
+
+  private void loadExtensions(final Collection<Extension> extensions,
+      final ArrayList<URL> libraryURLCollection) {
+    // Get the system class loader
+    final ClassLoader rootClassLoader = this.getClass().getClassLoader();
+
+    final URLClassLoader librariesCL = new URLClassLoader(libraryURLCollection.toArray(new URL[0]), rootClassLoader);
 
     // Initialize class loader in each extension, using librariesCL as
     // the parent class loader. Extensions are initialized in parallel.
@@ -212,6 +225,16 @@ public class ExtensionManager {
         task.join();
       } catch (final InterruptedException ie) {
         // ignore
+      }
+    }
+  }
+
+  private void addAllFileExtensions(final File[] extRoots) {
+    for (final File file : extRoots) {
+      try {
+        this.addExtension(file);
+      } catch (final IOException ioe) {
+        logger.log(Level.WARNING, "createExtensions(): Unable to load '" + file + "'.", ioe);
       }
     }
   }
