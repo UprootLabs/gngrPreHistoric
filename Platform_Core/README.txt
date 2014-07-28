@@ -10,7 +10,7 @@ These are the *VM* arguments currently (5/20/2007) needed
 to run Lobo from source (in Eclipse at least):
 
 # New
--Dext.dirs=../XAMJ_Build/ext  -Dext.files=../HTML_Renderer,../Primary_Extension  -Djava.security.debug=denied
+-Dext.dirs=../XAMJ_Build/ext  -Dext.files=../HTML_Renderer/bin,../Primary_Extension/bin  -Djava.security.debug=denied
 
 # Original
 -Dext.dirs=/opt/XAMJ_Project/XAMJ_Build/ext -Dext.files=/opt/XAMJ_Project/Primary_Extension,/opt/XAMJ_Project/Common,/opt/XAMJ_Project/HTML_Renderer,/opt/XAMJ_Project/cssparser/bin,/opt/XAMJ_Project/JWebContentExtension
