@@ -218,12 +218,12 @@ public class ExtensionManager {
       pm.scheduleTask(task);
     }
 
-    // Join tasks to make sure all extensions are
-    // initialized at this point.
+    // Join tasks to make sure all extensions are initialized at this point.
     for (final JoinableTask task : tasks) {
       try {
         task.join();
       } catch (final InterruptedException ie) {
+        // TODO
         // ignore
       }
     }
