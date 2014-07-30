@@ -250,7 +250,8 @@ public class LocalSecurityPolicy extends Policy {
 
     final Permissions permissions = new Permissions();
     if (isLocal) {
-      if (codesource.getLocation().getPath().endsWith("h2-1.4.180.jar")) {
+      final String path = location.getPath();
+      if (path.endsWith("h2-1.4.180.jar")) {
         final String userDBPath = StorageManager.getInstance().userDBPath;
         permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
         // TODO: Request h2 to provide this list
@@ -265,7 +266,18 @@ public class LocalSecurityPolicy extends Policy {
         for (final String suffix : h2Suffixes) {
           permissions.add(new FilePermission(userDBPath + suffix, "read, write, delete"));
         }
-      } else {
+        permissions.add(new PropertyPermission("line.separator", "read"));
+        permissions.add(new PropertyPermission("file.separator", "read"));
+        permissions.add(new PropertyPermission("file.encoding", "read"));
+        permissions.add(new PropertyPermission("java.specification.version", "read"));
+        permissions.add(new PropertyPermission("h2.*", "read"));
+        permissions.add(new RuntimePermission("shutdownHooks"));
+        // TODO: Questionable
+        permissions.add(new PropertyPermission("user.home", "read"));
+      } else if (path.endsWith("jooq-3.5.0-SNAPSHOT.jar")) {
+        permissions.add(new PropertyPermission("org.jooq.settings", "read"));
+      } else if (path.contains("Common") || path.contains("Primary_Extension") || path.contains("HTML_Renderer")) {
+
 
         for (final Permission p : BASE_PRIVILEGE) {
           permissions.add(p);
@@ -273,6 +285,14 @@ public class LocalSecurityPolicy extends Policy {
         // Custom permissions
         permissions.add(StoreHostPermission.forURL(location));
         permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
+      } else if (path.endsWith("cssparser-0.9.14.jar")) {
+        permissions.add(new PropertyPermission("org.w3c.css.sac.parser", "read,write"));
+      } else if (path.endsWith("sac.jar")) {
+        permissions.add(new PropertyPermission("org.w3c.css.sac.parser", "read"));
+      } else if (path.endsWith("js.jar")) {
+        permissions.add(new PropertyPermission("java.vm.name", "read"));
+        permissions.add(new PropertyPermission("line.separator", "read"));
+        permissions.add(new RuntimePermission("getClassLoader"));
       }
     } else {
       permissions.add(new PropertyPermission("java.version", "read"));
