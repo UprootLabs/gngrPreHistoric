@@ -129,13 +129,13 @@ public class ExtensionManager {
   private void addExtension(final Extension ei) {
     this.extensionById.put(ei.getId(), ei);
     if (ei.isLibraryOnly()) {
-      if (logger.isLoggable(Level.INFO)) {
-        logger.info("createExtensions(): Loaded library (no lobo-extension.properties): " + ei);
+      if (logger.isLoggable(Level.FINE)) {
+        logger.fine("createExtensions(): Loaded library (no lobo-extension.properties): " + ei);
       }
       libraries.add(ei);
     } else {
-      if (logger.isLoggable(Level.INFO)) {
-        logger.info("createExtensions(): Loaded extension: " + ei);
+      if (logger.isLoggable(Level.FINE)) {
+        logger.fine("createExtensions(): Loaded extension: " + ei);
       }
       extensions.add(ei);
     }
@@ -180,8 +180,8 @@ public class ExtensionManager {
         logger.log(Level.SEVERE, "createExtensions()", thrown);
       }
     }
-    if (logger.isLoggable(Level.INFO)) {
-      logger.info("createExtensions(): Creating library class loader with URLs=[" + libraryURLCollection + "].");
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("createExtensions(): Creating library class loader with URLs=[" + libraryURLCollection + "].");
     }
     loadExtensions(extensions, libraryURLCollection);
   }
