@@ -63,6 +63,9 @@ public class LocalSecurityPolicy extends Policy {
   private static final String STORE_DIRECTORY_CANONICAL;
   private static final LocalSecurityPolicy instance = new LocalSecurityPolicy();
   private static final Collection<Permission> BASE_PRIVILEGE = new LinkedList<>();
+  private static final String recursiveSuffix = File.separator + "-";
+
+  private static final Collection<Permission> EXTENSION_PERMISSIONS = new LinkedList<>();
 
   static {
     final File homeDir = new File(System.getProperty("user.home"));
@@ -85,6 +88,20 @@ public class LocalSecurityPolicy extends Policy {
     permissions.add(new PropertyPermission("*", "read,write"));
     permissions.add(new AWTPermission("*"));
     permissions.add(new HistoryPermission());
+
+    // We need to compute this early. But we can add them to core later
+    addExtensionPermissions(EXTENSION_PERMISSIONS);
+
+
+    // Note: execute needed to launch external browser.
+    // permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
+
+    // This is to allow native libraries to be loaded by JDK classes.
+    // TODO: This could be perhaps reduced to paths found in "java.library.path"
+    // permissions.add(new FilePermission(System.getProperty("java.home") + recursiveSuffix, "read,execute"));
+  }
+
+  private static void addCorePermissions(final PermissionCollection permissions) {
     permissions.add(new SocketPermission("*", "connect,resolve,listen,accept"));
     permissions.add(new RuntimePermission("createClassLoader"));
     permissions.add(new RuntimePermission("getClassLoader"));
@@ -116,23 +133,28 @@ public class LocalSecurityPolicy extends Policy {
     permissions.add(new java.util.logging.LoggingPermission("control", null));
     permissions.add(GenericLocalPermission.EXT_GENERIC);
 
-    final String recursiveSuffix = File.separator + "-";
-    // Note: execute needed to launch external browser.
-    // permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
+    copyPermissions(EXTENSION_PERMISSIONS, permissions);
+    addStoreDirectoryPermissions(permissions);
+  }
 
-    System.out.println("System protection domain: " + System.class.getProtectionDomain());
+  private static void addStoreDirectoryPermissions(final PermissionCollection permissions) {
+    permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL + recursiveSuffix, "read, write, delete"));
+  }
 
-    // This is to allow native libraries to be loaded by JDK classes.
-    // TODO: This could be perhaps reduced to paths found in "java.library.path"
-    permissions.add(new FilePermission(System.getProperty("java.home") + recursiveSuffix, "read,execute"));
-
+  private static void addExtensionPermissions(final Collection<Permission> extensionPermissions) {
     Arrays.stream(ExtensionManager.getExtDirs()).forEach(f -> {
-      permissions.add(new FilePermission(f.getAbsolutePath() + recursiveSuffix, "read"));
+      extensionPermissions.add(new FilePermission(f.getAbsolutePath() + recursiveSuffix, "read"));
     });
     Arrays.stream(ExtensionManager.getExtFiles()).forEach(f -> {
-      permissions.add(new FilePermission(f.getAbsolutePath() + recursiveSuffix, "read"));
+      extensionPermissions.add(new FilePermission(f.getAbsolutePath() + recursiveSuffix, "read"));
     });
-    permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL + recursiveSuffix, "read, write, delete"));
+  }
+
+  private static void copyPermissions(final Collection<Permission> source, PermissionCollection destination) {
+    for (final Permission p : source) {
+      destination.add(p);
+    }
+    
   }
 
   /**
@@ -279,9 +301,8 @@ public class LocalSecurityPolicy extends Policy {
       } else if (path.contains("Common") || path.contains("Primary_Extension") || path.contains("HTML_Renderer")) {
 
 
-        for (final Permission p : BASE_PRIVILEGE) {
-          permissions.add(p);
-        }
+        addCorePermissions(permissions);
+        copyPermissions(BASE_PRIVILEGE, permissions);
         // Custom permissions
         permissions.add(StoreHostPermission.forURL(location));
         permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
