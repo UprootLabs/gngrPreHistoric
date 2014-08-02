@@ -20,11 +20,13 @@
  */
 package org.lobobrowser.primary.ext;
 
-import javax.swing.*;
-import java.util.*;
-import java.io.*;
-import java.util.logging.*;
-import org.lobobrowser.util.io.*;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
 
 public class IconFactory {
   private static final Logger logger = Logger.getLogger(IconFactory.class.getName());
@@ -40,28 +42,17 @@ public class IconFactory {
   private final Map<String, ImageIcon> iconMap = new HashMap<>();
 
   public ImageIcon getIcon(final String resourcePath) {
-    try {
-      synchronized (this) {
-        ImageIcon icon = this.iconMap.get(resourcePath);
-        if (icon == null) {
-          final InputStream in = this.getClass().getResourceAsStream(resourcePath);
-          if (in == null) {
-            logger.warning("getIcon(): Resource path " + resourcePath + " not found.");
-            return null;
-          }
-          try {
-            final byte[] imageBytes = IORoutines.load(in, 4096);
-            icon = new ImageIcon(imageBytes);
-            this.iconMap.put(resourcePath, icon);
-          } finally {
-            in.close();
-          }
+    synchronized (this) {
+      ImageIcon icon = this.iconMap.get(resourcePath);
+      if (icon == null) {
+        final URL url = this.getClass().getResource(resourcePath);
+        if (url == null) {
+          logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath + " gave error.");
+        } else {
+          icon = new ImageIcon(url);
         }
-        return icon;
       }
-    } catch (final java.io.IOException ioe) {
-      logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath + " gave error.", ioe);
-      return null;
+      return icon;
     }
   }
 }
