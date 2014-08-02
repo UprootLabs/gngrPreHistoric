@@ -127,8 +127,8 @@ public class DefaultWindowFactory implements WindowFactory {
         this.framesById.put(windowId, window);
       }
       window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      if (logger.isLoggable(Level.INFO)) {
-        logger.info("createBaseWindow(): Adding window listener: window=" + window + ",windowId=" + windowId);
+      if (logger.isLoggable(Level.FINE)) {
+        logger.fine("createBaseWindow(): Adding window listener: window=" + window + ",windowId=" + windowId);
       }
       window.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
