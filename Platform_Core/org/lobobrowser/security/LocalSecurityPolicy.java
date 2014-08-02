@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.NetPermission;
 import java.net.SocketPermission;
 import java.net.URL;
+import java.net.URLPermission;
 import java.security.AccessControlException;
 import java.security.AccessController;
 import java.security.CodeSource;
@@ -52,6 +53,8 @@ import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.io.Files;
 
 public class LocalSecurityPolicy extends Policy {
+  private static final String JAVA_HOME = System.getProperty("java.home");
+
   /**
    * Directory where Lobo should save files. Any files saved here have
    * privileges of a remote file.
@@ -96,9 +99,6 @@ public class LocalSecurityPolicy extends Policy {
     // Note: execute needed to launch external browser.
     // permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
 
-    // This is to allow native libraries to be loaded by JDK classes.
-    // TODO: This could be perhaps reduced to paths found in "java.library.path"
-    // permissions.add(new FilePermission(System.getProperty("java.home") + recursiveSuffix, "read,execute"));
   }
 
   private static void addCorePermissions(final PermissionCollection permissions) {
@@ -303,17 +303,31 @@ public class LocalSecurityPolicy extends Policy {
 
         addCorePermissions(permissions);
         copyPermissions(BASE_PRIVILEGE, permissions);
+
+        // These allow request headers to be read. Useful for reading cache related headers, etc
+        permissions.add(new URLPermission("http:*", "GET:*"));
+        permissions.add(new URLPermission("https:*", "GET:*"));
+
         // Custom permissions
-        permissions.add(StoreHostPermission.forURL(location));
+        permissions.add(StoreHostPermission.forURL(location));    // TODO: Check if reall required
         permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
+
       } else if (path.endsWith("cssparser-0.9.14.jar")) {
         permissions.add(new PropertyPermission("org.w3c.css.sac.parser", "read,write"));
+        permissions.add(new PropertyPermission("line.separator", "read"));
       } else if (path.endsWith("sac.jar")) {
         permissions.add(new PropertyPermission("org.w3c.css.sac.parser", "read"));
       } else if (path.endsWith("js.jar")) {
         permissions.add(new PropertyPermission("java.vm.name", "read"));
         permissions.add(new PropertyPermission("line.separator", "read"));
         permissions.add(new RuntimePermission("getClassLoader"));
+      } else if (path.startsWith(JAVA_HOME)) {
+        // This is to allow libraries to be loaded by JDK classes. Required for SSL libraries for example.
+        permissions.add(new FilePermission(JAVA_HOME + recursiveSuffix, "read,execute"));
+
+        permissions.add(new RuntimePermission("loadLibrary.sunec"));
+        permissions.add(new RuntimePermission("accessClassInPackage.*"));
+        permissions.add(new SecurityPermission("putProviderProperty.*"));
       }
     } else {
       permissions.add(new PropertyPermission("java.version", "read"));
