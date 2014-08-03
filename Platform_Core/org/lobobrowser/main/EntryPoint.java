@@ -23,14 +23,16 @@
  */
 package org.lobobrowser.main;
 
-import java.awt.*;
-import javax.swing.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Entry point class of the browser application.
  */
-public class EntryPoint extends Canvas {
+public final class EntryPoint {
   /**
    * Launches a browser window. If a browser instance is found to already exist,
    * the new browser window is opened in the running application.
