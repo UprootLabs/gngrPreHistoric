@@ -240,6 +240,10 @@ public class LocalSecurityPolicy extends Policy {
    * @see java.security.Policy#getPermissions(java.security.CodeSource)
    */
   public PermissionCollection getPermissions(final CodeSource codesource) {
+    if (codesource == null) {
+      throw new AccessControlException("codesource was null");
+    }
+
     // TODO: Important: This was required after switching to JDK Rhino. This
     // method gets called twice:
     // once with proper codesource and once with null. The second call needs
@@ -259,10 +263,6 @@ public class LocalSecurityPolicy extends Policy {
       permissions.add(StoreHostPermission.forHost("localhost"));
       return permissions;
     } */
-    if (codesource == null) {
-      throw new AccessControlException("codesource was null");
-    }
-
     final URL location = codesource.getLocation();
     if (location == null) {
       throw new AccessControlException("No location for codesource=" + codesource);
