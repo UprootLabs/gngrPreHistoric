@@ -835,15 +835,20 @@ public final class RequestEngine {
   }
   final private CookieHandler cookieHandler = new CookieHandlerImpl();
 
-  private void addCookiesToRequest(final URLConnection connection, final RequestHandler rhandler) throws IOException, URISyntaxException {
-    final String protocol = connection.getURL().getProtocol();
-    if ("http".equals(protocol) || "https".equals(protocol)) {
-      final URL url = connection.getURL();
-      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.CookieRead))) {
+  private void addCookiesToRequest(final URLConnection connection, final RequestHandler rhandler) {
+    try {
+      final String protocol = connection.getURL().getProtocol();
+      if ("http".equals(protocol) || "https".equals(protocol)) {
+        final URL url = connection.getURL();
         final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
         addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
         addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
       }
+    } catch (IOException|URISyntaxException e) {
+      logger.warning("Couldn't add cookies for : " + connection.getURL());
+      logger.warning("  .. reason: " + e.getMessage());
+      // TODO: These exceptions should be either not captured, or failure should be 
+      // propagated to caller by return value.
     }
   }
 
