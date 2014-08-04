@@ -96,6 +96,7 @@ import cz.vutbr.web.css.Selector.ElementName;
 import cz.vutbr.web.css.Selector.PseudoPage;
 import cz.vutbr.web.css.Selector.SelectorPart;
 import cz.vutbr.web.css.StyleSheet;
+import cz.vutbr.web.css.TermFunction;
 
 public class CSSUtilities {
   private static final Logger logger = Logger.getLogger(CSSUtilities.class.getName());
@@ -400,7 +401,13 @@ public class CSSUtilities {
     for (final Declaration declaration : ruleSet) {
       final String terms =
           declaration.stream().map(term -> {
-            return term.toString();
+            if (term instanceof TermFunction) {
+              TermFunction termFunction = (TermFunction) term;
+              String valueStr = termFunction.stream().map(t->t.toString()).collect(Collectors.joining(","));
+              return termFunction.getFunctionName() + "(" + valueStr + ")";
+            } else {
+              return term.toString();
+            }
           }).collect(Collectors.joining());
 
       styleDeclarations.setProperty(declaration.getProperty(), terms.trim(), declaration.isImportant() ? "important" : "");
