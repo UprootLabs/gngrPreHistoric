@@ -198,4 +198,10 @@ public class CacheInfo {
   public byte[] getPersistentContent() {
     return persistentContent;
   }
+
+  @Override
+  public String toString() {
+    return "CacheInfo for " + url + ": " +
+             "memEntry: " + memoryEntry;
+  }
 }
