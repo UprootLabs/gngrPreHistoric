@@ -325,7 +325,8 @@ public class CSSUtilities {
       }
     }
     if (pseudoSelector != null) {
-      w3cSelector = new DescendantSelectorImpl(w3cSelector, pseudoSelector);
+      final Selector parentSelector = w3cSelector == null ? makeParentSelector(simpleSelector) : w3cSelector;
+      w3cSelector = new DescendantSelectorImpl(parentSelector, pseudoSelector);
     }
 
     assert(w3cSelector != null);
