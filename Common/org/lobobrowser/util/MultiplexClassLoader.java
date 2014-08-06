@@ -23,19 +23,20 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.net.URL;
+import java.util.Collection;
 
 /**
  * @author J. H. S.
  */
-public abstract class MultiplexClassLoader extends BaseClassLoader {
-  private static final BaseClassLoader[] EMPTY_CLASS_LOADERS = new BaseClassLoader[0];
-  private final BaseClassLoader[] parentLoaders;
+public class MultiplexClassLoader extends BaseClassLoader {
+  private static final ClassLoader[] EMPTY_CLASS_LOADERS = new ClassLoader[0];
+  private final ClassLoader[] parentLoaders;
 
   /**
    * @param parent
    */
-  public MultiplexClassLoader(final Collection<BaseClassLoader> classLoaders) {
+  public MultiplexClassLoader(final Collection<ClassLoader> classLoaders) {
     super(null);
     // TODO: Check why input parameter is not being used
     this.parentLoaders = classLoaders.toArray(EMPTY_CLASS_LOADERS);
@@ -56,9 +57,9 @@ public abstract class MultiplexClassLoader extends BaseClassLoader {
           c = findSystemClass(name);
         } else {
           for (int i = 0; i < len; i++) {
-            final BaseClassLoader parent = this.parentLoaders[i];
+            final ClassLoader parent = this.parentLoaders[i];
             try {
-              c = parent.loadClass(name, false);
+              c = parent.loadClass(name);
               if (c != null) {
                 return c;
               }
@@ -81,4 +82,16 @@ public abstract class MultiplexClassLoader extends BaseClassLoader {
     }
     return c;
   }
+
+  @Override
+  public URL getResource(final String name) {
+    for (final ClassLoader loader: parentLoaders) {
+      URL url = loader.getResource(name);
+      if (url != null) {
+        return url;
+      }
+    }
+    return null;
+  }
+
 }

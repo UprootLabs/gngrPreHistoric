@@ -32,6 +32,7 @@ import java.net.URLStreamHandler;
 import java.security.Permission;
 import java.security.Policy;
 import java.util.EventObject;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -205,9 +206,12 @@ public class PlatformInit {
    *          A directory name relative to the browser application directory.
    */
   public void initNative(final String dirName) {
-    final File appDir = this.getApplicationDirectory();
-    final File nativeDir = new File(appDir, dirName);
-    System.setProperty("java.library.path", nativeDir.getAbsolutePath());
+    // TODO: What is the purpose of this function?
+    final Optional<File> appDirOpt = this.getApplicationDirectory();
+    if (appDirOpt.isPresent()) {
+      final File nativeDir = new File(appDirOpt.get(), dirName);
+      System.setProperty("java.library.path", nativeDir.getAbsolutePath());
+    }
   }
 
   /**
@@ -389,12 +393,16 @@ public class PlatformInit {
 
   private File applicationDirectory;
 
-  public File getApplicationDirectory() {
+  public Optional<File> getApplicationDirectory() {
     File appDir = this.applicationDirectory;
     if (appDir == null) {
       final java.security.ProtectionDomain pd = this.getClass().getProtectionDomain();
       final java.security.CodeSource cs = pd.getCodeSource();
       final java.net.URL url = cs.getLocation();
+      if (url.getProtocol().equals("zipentry")) {
+        System.out.println("Early return");
+        return Optional.empty();
+      }
       final String jarPath = url.getPath();
       File jarFile;
       try {
@@ -422,7 +430,7 @@ public class PlatformInit {
         logger.info("getApplicationDirectory(): url=" + url + ",appDir=" + appDir);
       }
     }
-    return appDir;
+    return Optional.of(appDir);
   }
 
   private static class LocalStreamHandlerFactory implements java.net.URLStreamHandlerFactory {

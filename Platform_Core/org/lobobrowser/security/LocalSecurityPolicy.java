@@ -68,6 +68,7 @@ public class LocalSecurityPolicy extends Policy {
   private static final Collection<Permission> BASE_PRIVILEGE = new LinkedList<>();
   private static final String recursiveSuffix = File.separator + "-";
 
+  private static final Collection<Permission> CORE_PERMISSIONS = new LinkedList<>();
   private static final Collection<Permission> EXTENSION_PERMISSIONS = new LinkedList<>();
 
   static {
@@ -94,6 +95,7 @@ public class LocalSecurityPolicy extends Policy {
 
     // We need to compute this early. But we can add them to core later
     addExtensionPermissions(EXTENSION_PERMISSIONS);
+    initCorePermissions();
 
 
     // Note: execute needed to launch external browser.
@@ -101,43 +103,43 @@ public class LocalSecurityPolicy extends Policy {
 
   }
 
-  private static void addCorePermissions(final PermissionCollection permissions) {
-    permissions.add(new SocketPermission("*", "connect,resolve,listen,accept"));
-    permissions.add(new RuntimePermission("createClassLoader"));
-    permissions.add(new RuntimePermission("getClassLoader"));
-    permissions.add(new RuntimePermission("exitVM"));
-    permissions.add(new RuntimePermission("setIO"));
-    permissions.add(new RuntimePermission("setContextClassLoader"));
-    permissions.add(new RuntimePermission("enableContextClassLoaderOverride"));
-    permissions.add(new RuntimePermission("setFactory"));
-    permissions.add(new RuntimePermission("accessClassInPackage.*"));
-    permissions.add(new RuntimePermission("defineClassInPackage.*"));
-    permissions.add(new RuntimePermission("accessDeclaredMembers"));
-    permissions.add(new RuntimePermission("getStackTrace"));
-    permissions.add(new RuntimePermission("preferences"));
-    permissions.add(new RuntimePermission("modifyThreadGroup"));
-    permissions.add(new RuntimePermission("getProtectionDomain"));
-    permissions.add(new RuntimePermission("shutdownHooks"));
-    permissions.add(new RuntimePermission("modifyThread"));
-    permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
+  private static void initCorePermissions() {
+    CORE_PERMISSIONS.add(new SocketPermission("*", "connect,resolve,listen,accept"));
+    CORE_PERMISSIONS.add(new RuntimePermission("createClassLoader"));
+    CORE_PERMISSIONS.add(new RuntimePermission("getClassLoader"));
+    CORE_PERMISSIONS.add(new RuntimePermission("exitVM"));
+    CORE_PERMISSIONS.add(new RuntimePermission("setIO"));
+    CORE_PERMISSIONS.add(new RuntimePermission("setContextClassLoader"));
+    CORE_PERMISSIONS.add(new RuntimePermission("enableContextClassLoaderOverride"));
+    CORE_PERMISSIONS.add(new RuntimePermission("setFactory"));
+    CORE_PERMISSIONS.add(new RuntimePermission("accessClassInPackage.*"));
+    CORE_PERMISSIONS.add(new RuntimePermission("defineClassInPackage.*"));
+    CORE_PERMISSIONS.add(new RuntimePermission("accessDeclaredMembers"));
+    CORE_PERMISSIONS.add(new RuntimePermission("getStackTrace"));
+    CORE_PERMISSIONS.add(new RuntimePermission("preferences"));
+    CORE_PERMISSIONS.add(new RuntimePermission("modifyThreadGroup"));
+    CORE_PERMISSIONS.add(new RuntimePermission("getProtectionDomain"));
+    CORE_PERMISSIONS.add(new RuntimePermission("shutdownHooks"));
+    CORE_PERMISSIONS.add(new RuntimePermission("modifyThread"));
+    CORE_PERMISSIONS.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
     // loadLibrary necessary in Java 6, in particular loadLibrary.sunmscapi.
-    permissions.add(new RuntimePermission("loadLibrary.*"));
-    permissions.add(new NetPermission("setDefaultAuthenticator"));
-    permissions.add(new NetPermission("setCookieHandler"));
-    permissions.add(new NetPermission("specifyStreamHandler"));
-    permissions.add(new SSLPermission("setHostnameVerifier"));
-    permissions.add(new SSLPermission("getSSLSessionContext"));
-    permissions.add(new SecurityPermission("putProviderProperty.*"));
-    permissions.add(new SecurityPermission("insertProvider.*"));
-    permissions.add(new SecurityPermission("removeProvider.*"));
-    permissions.add(new java.util.logging.LoggingPermission("control", null));
-    permissions.add(GenericLocalPermission.EXT_GENERIC);
+    CORE_PERMISSIONS.add(new RuntimePermission("loadLibrary.*"));
+    CORE_PERMISSIONS.add(new NetPermission("setDefaultAuthenticator"));
+    CORE_PERMISSIONS.add(new NetPermission("setCookieHandler"));
+    CORE_PERMISSIONS.add(new NetPermission("specifyStreamHandler"));
+    CORE_PERMISSIONS.add(new SSLPermission("setHostnameVerifier"));
+    CORE_PERMISSIONS.add(new SSLPermission("getSSLSessionContext"));
+    CORE_PERMISSIONS.add(new SecurityPermission("putProviderProperty.*"));
+    CORE_PERMISSIONS.add(new SecurityPermission("insertProvider.*"));
+    CORE_PERMISSIONS.add(new SecurityPermission("removeProvider.*"));
+    CORE_PERMISSIONS.add(new java.util.logging.LoggingPermission("control", null));
+    CORE_PERMISSIONS.add(GenericLocalPermission.EXT_GENERIC);
 
-    copyPermissions(EXTENSION_PERMISSIONS, permissions);
-    addStoreDirectoryPermissions(permissions);
+    copyPermissions(EXTENSION_PERMISSIONS, CORE_PERMISSIONS);
+    addStoreDirectoryPermissions(CORE_PERMISSIONS);
   }
 
-  private static void addStoreDirectoryPermissions(final PermissionCollection permissions) {
+  private static void addStoreDirectoryPermissions(final Collection<Permission> permissions) {
     permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL + recursiveSuffix, "read, write, delete"));
   }
 
@@ -150,11 +152,16 @@ public class LocalSecurityPolicy extends Policy {
     });
   }
 
+  private static void copyPermissions(final Collection<Permission> source, Collection<Permission> destination) {
+    for (final Permission p : source) {
+      destination.add(p);
+    }
+  }
+
   private static void copyPermissions(final Collection<Permission> source, PermissionCollection destination) {
     for (final Permission p : source) {
       destination.add(p);
     }
-    
   }
 
   /**
@@ -166,10 +173,6 @@ public class LocalSecurityPolicy extends Policy {
    *          A <code>Permission<code> instance.
    */
   public static void addPrivilegedPermission(final Permission permission) {
-    final SecurityManager sm = System.getSecurityManager();
-    if (sm != null) {
-      throw new java.lang.SecurityException("Call this method before the sercurity manager is set.");
-    }
     BASE_PRIVILEGE.add(permission);
   }
 
@@ -203,6 +206,9 @@ public class LocalSecurityPolicy extends Policy {
       if (hasHost(url)) {
         return false;
       }
+      if (unoMatch(url)) {
+        return true;
+      }
       // Files under the settings directory (e.g. cached JARs)
       // are considered remote.
       final String filePath = url.getPath();
@@ -229,6 +235,29 @@ public class LocalSecurityPolicy extends Policy {
       } catch (final java.net.MalformedURLException mfu) {
         return false;
       }
+    } else if (ExtensionManager.ZIPENTRY_PROTOCOL.equalsIgnoreCase(scheme)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private final static URL unoPath;
+  static {
+    URL unoPathTemp = null;
+    try {
+      Class<?> unoClass = ClassLoader.getSystemClassLoader().loadClass("uno.Uno");
+      unoPathTemp = unoClass.getProtectionDomain().getCodeSource().getLocation();
+    } catch (ClassNotFoundException e) {
+      unoPathTemp = null;
+    } finally {
+      unoPath = unoPathTemp;
+    }
+  }
+
+  private static boolean unoMatch(URL url) {
+    if (unoPath != null) {
+      return unoPath.equals(url);
     } else {
       return false;
     }
@@ -298,10 +327,11 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new PropertyPermission("user.home", "read"));
       } else if (path.endsWith("jooq-3.5.0-SNAPSHOT.jar")) {
         permissions.add(new PropertyPermission("org.jooq.settings", "read"));
-      } else if (path.contains("Common") || path.contains("Primary_Extension") || path.contains("HTML_Renderer")) {
+      } else if (unoMatch(location)) {
+        permissions.add(new FilePermission(unoPath.getPath(), "read"));
+      } else if (path.endsWith("core.jar") || path.contains("Common") || path.contains("Primary_Extension") || path.contains("HTML_Renderer")) {
 
-
-        addCorePermissions(permissions);
+        copyPermissions(CORE_PERMISSIONS, permissions);
         copyPermissions(BASE_PRIVILEGE, permissions);
 
         // These allow request headers to be read. Useful for reading cache related headers, etc

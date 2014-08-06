@@ -21,9 +21,13 @@
 package org.lobobrowser.main;
 
 import java.awt.EventQueue;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
@@ -31,13 +35,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.zip.ZipInputStream;
 
 import org.lobobrowser.clientlet.Clientlet;
 import org.lobobrowser.clientlet.ClientletRequest;
@@ -55,6 +65,7 @@ import org.lobobrowser.util.JoinableTask;
  * Manages platform extensions.
  */
 public class ExtensionManager {
+  public static final String ZIPENTRY_PROTOCOL = "zipentry";
   private static final Logger logger = Logger.getLogger(ExtensionManager.class.getName());
   private static final ExtensionManager instance = new ExtensionManager();
   private static final String EXT_DIR_NAME = "ext";
@@ -63,10 +74,10 @@ public class ExtensionManager {
   // given that it is fully built in the constructor.
   private final Map<String, Extension> extensionById = new HashMap<>();
   private final SortedSet<Extension> extensions = new TreeSet<>();
-  private final ArrayList<Extension> libraries = new ArrayList<>();
+  private final ArrayList<URL> libraryURLs = new ArrayList<>();
 
   private ExtensionManager() {
-    this.createExtensions();
+    this.createExtensionsAndLibraries(getExtDirs(), getExtFiles());
   }
 
   public static ExtensionManager getInstance() {
@@ -79,16 +90,16 @@ public class ExtensionManager {
     return instance;
   }
 
-  private void createExtensions() {
-    this.createExtensions(getExtDirs(), getExtFiles());
-  }
-
   public static File[] getExtDirs() {
     File[] extDirs;
     final String extDirsProperty = System.getProperty("ext.dirs");
     if (extDirsProperty == null) {
-      final File appDir = PlatformInit.getInstance().getApplicationDirectory();
-      extDirs = new File[] { new File(appDir, EXT_DIR_NAME) };
+      final Optional<File> appDirOpt = PlatformInit.getInstance().getApplicationDirectory();
+      if (appDirOpt.isPresent()) {
+        extDirs = new File[] { new File(appDirOpt.get(), EXT_DIR_NAME) };
+      } else {
+        extDirs = new File[0];
+      }
     } else {
       final StringTokenizer tok = new StringTokenizer(extDirsProperty, ",");
       final ArrayList<File> extDirsList = new ArrayList<>();
@@ -103,7 +114,8 @@ public class ExtensionManager {
 
   public static File[] getExtFiles() {
     File[] extFiles;
-    final String extFilesProperty = System.getProperty("ext.files");
+    final String extFilesPropertySystem = System.getProperty("ext.files");
+    final String extFilesProperty = extFilesPropertySystem == null ? System.getProperty("jnlp.ext.files") : extFilesPropertySystem;
     if (extFilesProperty == null) {
       extFiles = new File[0];
     } else {
@@ -123,31 +135,30 @@ public class ExtensionManager {
       logger.warning("addExtension(): File " + file + " does not exist.");
       return;
     }
-    addExtension(new Extension(file));
+    if (Extension.isExtension(file)) {
+      addExtension(new Extension(file));
+    } else {
+      libraryURLs.add(file.toURI().toURL());
+    }
   }
 
   private void addExtension(final Extension ei) {
     this.extensionById.put(ei.getId(), ei);
-    if (ei.isLibraryOnly()) {
-      if (logger.isLoggable(Level.FINE)) {
-        logger.fine("createExtensions(): Loaded library (no lobo-extension.properties): " + ei);
-      }
-      libraries.add(ei);
-    } else {
-      if (logger.isLoggable(Level.FINE)) {
-        logger.fine("createExtensions(): Loaded extension: " + ei);
-      }
-      extensions.add(ei);
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("createExtensions(): Loaded extension: " + ei);
     }
+    extensions.add(ei);
   }
 
-  private void createExtensions(final File[] extDirs, final File[] extFiles) {
+  private void createExtensionsAndLibraries(final File[] extDirs, final File[] extFiles) {
     final Collection<Extension> extensions = this.extensions;
-    final Collection<Extension> libraries = this.libraries;
     final Map<String, Extension> extensionById = this.extensionById;
     extensions.clear();
-    libraries.clear();
     extensionById.clear();
+    final List<URL> libraryEntryURLs = new LinkedList<>();
+
+    addFlatExtensions();
+
     for (final File extDir : extDirs) {
       if (!extDir.exists()) {
         logger.warning("createExtensions(): Directory '" + extDir + "' not found.");
@@ -157,12 +168,30 @@ public class ExtensionManager {
         }
         continue;
       }
-      final File[] extRoots = extDir.listFiles(new ExtFileFilter());
-      if (extRoots == null || extRoots.length == 0) {
-        logger.warning("createExtensions(): No potential extensions found in " + extDir + " directory.");
-        continue;
+      if (extDir.isFile()) {
+        // Check if it is a jar. We will load jars from inside this jar.
+        try (final JarFile jf = new JarFile(extDir);) {
+          // We can't close jf, because the class loader will load files lazily.
+          for (final JarEntry jarEntry : (Iterable<JarEntry>) jf.stream()::iterator) {
+            if (!jarEntry.isDirectory() && jarEntry.getName().endsWith(".jar")) {
+              System.out.println("Found entry: " + jarEntry.getName());
+              final InputStream jfIS = jf.getInputStream(jarEntry);
+              final URL libURL = makeZipEntryURL(extDir.getName(), jfIS, jarEntry.getName());
+              libraryEntryURLs.add(libURL);
+            }
+          }
+        } catch (IOException e) {
+          logger.warning("Couldn't open: " + extDir);
+          e.printStackTrace();
+        }
+      } else {
+        final File[] extRoots = extDir.listFiles(new ExtFileFilter());
+        if (extRoots == null || extRoots.length == 0) {
+          logger.warning("createExtensions(): No potential extensions found in " + extDir + " directory.");
+          continue;
+        }
+        addAllFileExtensions(extRoots);
       }
-      addAllFileExtensions(extRoots);
     }
     addAllFileExtensions(extFiles);
 
@@ -171,23 +200,68 @@ public class ExtensionManager {
           + Arrays.asList(extDirs) + ".");
     }
 
-    // Create class loader for extension "libraries"
-    final ArrayList<URL> libraryURLCollection = new ArrayList<>();
-    for (final Extension ei : libraries) {
+    loadExtensions(extensions, libraryURLs);
+  }
+
+  private void addFlatExtensions() {
+    // TODO: in future, avoid using the flat-extensions file. All resources matching
+    // a standard name like "lobo-extension.properties" can be automatically fetched
+    // using ClassLoader.getResources() method. Uno needs to implement it though (needs URL magic).
+    final ClassLoader loader = getClass().getClassLoader();
+    final InputStream indexStream = getClass().getResourceAsStream("/flat-extensions");
+    if (indexStream != null) {
+      final BufferedReader indexReader = new BufferedReader(new InputStreamReader(indexStream));
+
       try {
-        libraryURLCollection.add(ei.getCodeSource());
-      } catch (final java.net.MalformedURLException thrown) {
-        logger.log(Level.SEVERE, "createExtensions()", thrown);
+        String propertyFileName;
+        while ((propertyFileName = indexReader.readLine()) != null) {
+          final InputStream propertyStream = loader.getResourceAsStream(propertyFileName);
+          final Properties extensionAttributes = new Properties();
+          extensionAttributes.load(propertyStream);
+          addExtension(new Extension(extensionAttributes, loader));
+        }
+      } catch (IOException e) {
+        logger.log(Level.SEVERE, "Error while reading embedded resources", e);
       }
     }
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("createExtensions(): Creating library class loader with URLs=[" + libraryURLCollection + "].");
+  }
+
+  /*
+  private void addEmbeddedJars(final List<URL> libraryEntryURLs) {
+    final ClassLoader loader = getClass().getClassLoader();
+    final InputStream indexStream = getClass().getResourceAsStream("/jar-index");
+    System.out.println("jar-index: " + indexStream);
+    if (indexStream != null) {
+      final BufferedReader indexReader = new BufferedReader(new InputStreamReader(indexStream));
+
+      try {
+        String fileName;
+        while ((fileName = indexReader.readLine()) != null) {
+          System.out.println("Filename: " + fileName);
+          final InputStream entryStream = loader.getResourceAsStream(fileName);
+          final URL entryURL = makeZipEntryURL("embedded-jar", entryStream, fileName);
+          if (fileName.endsWith("Primary_Extension.jar")) {
+            final Properties extensionAttributes = new Properties();
+            extensionAttributes.put("extension.class", "org.lobobrowser.primary.ext.ExtensionImpl");
+            addExtension(new Extension(entryURL, extensionAttributes, loader));
+          } else {
+            libraryEntryURLs.add(entryURL);
+          }
+        }
+      } catch (IOException e) {
+        logger.log(Level.SEVERE, "Error while reading embedded resources", e);
+      }
     }
-    loadExtensions(extensions, libraryURLCollection);
+  }*/
+
+  private static URL makeZipEntryURL(final String dirName, final InputStream jfIS, final String entryName) throws IOException, MalformedURLException {
+    final String urlSpec = ZIPENTRY_PROTOCOL + "://" + dirName + "/" + entryName + "!/";
+    final URL libURL = new URL(null, urlSpec, new ZipEntryHandler(new ZipInputStream(jfIS)));
+    return libURL;
   }
 
   private void loadExtensions(final Collection<Extension> extensions,
-      final ArrayList<URL> libraryURLCollection) {
+      final Collection<URL> libraryURLCollection) {
     // Get the system class loader
     final ClassLoader rootClassLoader = this.getClass().getClassLoader();
 
@@ -198,13 +272,12 @@ public class ExtensionManager {
     final Collection<JoinableTask> tasks = new ArrayList<>();
     final PlatformInit pm = PlatformInit.getInstance();
     for (final Extension ei : extensions) {
-      final ClassLoader pcl = librariesCL;
       final Extension fei = ei;
       // Initialize rest of them in parallel.
       final JoinableTask task = new JoinableTask() {
         public void execute() {
           try {
-            fei.initClassLoader(pcl);
+            fei.initClassLoader(librariesCL);
           } catch (final Exception err) {
             logger.log(Level.WARNING, "Unable to create class loader for " + fei + ".", err);
           }
@@ -252,14 +325,13 @@ public class ExtensionManager {
     final Collection<JoinableTask> tasks = new ArrayList<>();
     final PlatformInit pm = PlatformInit.getInstance();
     for (final Extension ei : this.extensions) {
-      final Extension fei = ei;
       final JoinableTask task = new JoinableTask() {
         public void execute() {
-          fei.initExtension();
+          ei.initExtension();
         }
 
         public String toString() {
-          return "initExtensions:" + fei;
+          return "initExtensions:" + ei;
         }
       };
       tasks.add(task);

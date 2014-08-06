@@ -88,7 +88,6 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   private final String extClassName;
   private final String extId;
   private final boolean isPrimary;
-  private final boolean isLibrary;
 
   // TODO: Move these collections to ExtensionManager.
   // More efficient. Consider removal of extensions.
@@ -97,6 +96,31 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   private final Collection<ConnectionProcessor> connectionProcessors;
   private final Collection<NavigationListener> navigationListeners;
   private final EventDispatch2 EVENT = new NavigatorErrorEventDispatch();
+
+  public static boolean isExtension(final File root) {
+    if (root.isDirectory()) {
+      final File propsFile = new File(root, EXTENSION_PROPERTIES_FILE);
+      return propsFile.exists();
+    } else {
+      try (final JarFile jarFile = new JarFile(root)) {
+        final JarEntry jarEntry = jarFile.getJarEntry(EXTENSION_PROPERTIES_FILE);
+        return jarEntry != null;
+      } catch (IOException e) {
+        return false;
+      }
+    }
+  }
+
+  public Extension(Properties mattribs, ClassLoader parentClassLoader) {
+    this.extRoot = null;
+    this.extClassName = mattribs.getProperty(ATTRIBUTE_EXTENSION_CLASS);
+    this.extId = extClassName;
+    this.clientletSelectors = new LinkedList<>();
+    this.connectionProcessors = new ArrayList<>();
+    this.navigationListeners = new ArrayList<>();
+    this.priority = PRIMARY_EXTENSION_PRIORITY;
+    this.isPrimary = true;
+  }
 
   public Extension(final File extRoot) throws IOException {
     this.clientletSelectors = new LinkedList<>();
@@ -120,8 +144,8 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
       final JarEntry jarEntry = jarFile.getJarEntry(EXTENSION_PROPERTIES_FILE);
       propsInputStream = jarEntry == null ? null : jarFile.getInputStream(jarEntry);
     }
-    this.isLibrary = propsInputStream == null;
-    if (!this.isLibrary) {
+    boolean isLibrary = propsInputStream == null;
+    if (!isLibrary) {
       final Properties mattribs = new Properties();
       try {
         mattribs.load(propsInputStream);
@@ -163,19 +187,19 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     return this.isPrimary;
   }
 
-  public boolean isLibraryOnly() {
-    return this.isLibrary;
-  }
-
   private ClassLoader classLoader;
   private NavigatorExtension platformExtension;
 
   public void initClassLoader(final ClassLoader parentClassLoader) throws java.net.MalformedURLException, ClassNotFoundException,
       IllegalAccessException, InstantiationException {
-    final URL url = this.extRoot.toURI().toURL();
-    final URL[] urls = new URL[] { url };
-    final ExtensionClassLoader classLoader = new ExtensionClassLoader(urls, parentClassLoader);
-    final String extClassName = this.extClassName;
+    ClassLoader classLoader;
+    if (extRoot != null) {
+      final URL url = this.extRoot.toURI().toURL();
+      final URL[] urls = new URL[] { url };
+      classLoader = new ExtensionClassLoader(urls, parentClassLoader);
+    } else {
+      classLoader = parentClassLoader;
+    }
     NavigatorExtension pe = null;
     if (extClassName != null) {
       final Class<?> extClass = classLoader.loadClass(extClassName);
@@ -326,7 +350,11 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     if (diff != 0) {
       return diff;
     }
-    return this.extRoot.compareTo(other.extRoot);
+    if (extRoot != null) {
+      return this.extRoot.compareTo(other.extRoot);
+    } else {
+      return -1;
+    }
   }
 
   public int hashCode() {
@@ -341,7 +369,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   }
 
   public String toString() {
-    return "ExtensionInfo[extRoot=" + this.extRoot + ",isLibrary=" + this.isLibrary + "]";
+    return "ExtensionInfo[extRoot=" + this.extRoot + "]";
   }
 
   public void addConnectionProcessor(final ConnectionProcessor processor) {

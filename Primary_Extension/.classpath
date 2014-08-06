@@ -6,6 +6,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/HTML_Renderer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Public_API"/>
-	<classpathentry kind="lib" path="/XAMJ_Build/ext/jlfgr-1_0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

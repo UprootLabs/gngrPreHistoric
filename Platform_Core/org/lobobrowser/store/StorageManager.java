@@ -88,10 +88,10 @@ public class StorageManager implements Runnable {
   public synchronized DSLContext getDB() {
     if (userDB == null) {
       try {
-        System.out.println("Opening : " + userDBPath);
+        Class.forName("org.h2.Driver");
         final Connection conn = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
         userDB = using(conn);
-      } catch (SQLException e) {
+      } catch (SQLException | ClassNotFoundException e) {
         throw new RuntimeException(e);
       }
     }

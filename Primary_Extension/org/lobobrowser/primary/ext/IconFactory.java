@@ -20,13 +20,16 @@
  */
 package org.lobobrowser.primary.ext;
 
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
+
+import org.lobobrowser.util.io.IORoutines;
 
 public class IconFactory {
   private static final Logger logger = Logger.getLogger(IconFactory.class.getName());
@@ -45,11 +48,17 @@ public class IconFactory {
     synchronized (this) {
       ImageIcon icon = this.iconMap.get(resourcePath);
       if (icon == null) {
-        final URL url = this.getClass().getResource(resourcePath);
-        if (url == null) {
+        // TODO: final URL url = this.getClass().getResource(resourcePath);
+        final InputStream stream = this.getClass().getResourceAsStream(resourcePath);
+        if (stream == null) {
           logger.log(Level.WARNING, "getIcon(): Resource path " + resourcePath + " gave error.");
         } else {
-          icon = new ImageIcon(url);
+          try {
+            final byte[] bytes = IORoutines.load(stream);
+            icon = new ImageIcon(bytes);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
         }
       }
       return icon;

@@ -25,6 +25,8 @@ package org.lobobrowser.main;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -42,6 +44,19 @@ public final class EntryPoint {
    * properties.
    */
   public static void main(final String[] args) {
+    // Checking for stack allows us to call AccessController.doPrivileged()
+    // which in turn allows us to reduce the permissions on Uno codesource
+    final int stackDepth = Thread.currentThread().getStackTrace().length;
+    if (stackDepth > 11) {
+      System.err.println("Stack depth (" + stackDepth + ") is too deep! Quitting as a safety precaution");
+      Thread.dumpStack();
+      System.exit(1);
+    } else {
+      privilegedLaunch(args);
+    }
+  }
+
+  private static void launch(final String[] args) {
     try {
       ReuseManager.getInstance().launch(args);
     } catch (final Throwable err) {
@@ -49,10 +64,18 @@ public final class EntryPoint {
       final PrintWriter writer = new PrintWriter(swriter);
       err.printStackTrace(writer);
       writer.flush();
-      JOptionPane.showMessageDialog(new JFrame(), "An unexpected error occurred during application startup:\r\n" + swriter.toString(),
+      JOptionPane.showMessageDialog(new JFrame(),
+          "An unexpected error occurred during application startup:\r\n" + swriter.toString(),
           "ERROR", JOptionPane.ERROR_MESSAGE);
       System.err.println(swriter.toString());
       System.exit(1);
     }
+  }
+
+  private static void privilegedLaunch(final String[] args) {
+    AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+      launch(args);
+      return null;
+    });
   }
 }
