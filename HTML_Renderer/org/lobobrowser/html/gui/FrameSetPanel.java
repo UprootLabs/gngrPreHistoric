@@ -174,21 +174,14 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
             frameComponents[i] = fsp;
           } else {
             if (frameElement instanceof FrameNode) {
-              final BrowserFrame frame = context.createBrowserFrame();
-              ((FrameNode) frameElement).setBrowserFrame(frame);
-              final String src = frameElement.getAttribute("src");
-              if (src != null) {
-                java.net.URL url;
-                try {
-                  url = frameElement.getFullURL(src);
-                  if (url != null) {
-                    frame.loadURL(url);
-                  }
-                } catch (final MalformedURLException mfu) {
-                  logger.warning("Frame URI=[" + src + "] is malformed.");
-                }
+              final FrameNode frameNode = (FrameNode) frameElement;
+              if (frameNode.getBrowserFrame() == null) {
+                final BrowserFrame frame = context.createBrowserFrame();
+                frameNode.setBrowserFrame(frame);
+                frameComponents[i] = frame.getComponent();
+              } else {
+                frameComponents[i] = frameNode.getBrowserFrame().getComponent();
               }
-              frameComponents[i] = frame.getComponent();
             } else {
               frameComponents[i] = new JPanel();
             }

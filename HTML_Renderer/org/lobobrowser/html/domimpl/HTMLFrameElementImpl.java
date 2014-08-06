@@ -23,8 +23,12 @@
  */
 package org.lobobrowser.html.domimpl;
 
+import java.net.MalformedURLException;
+
 import org.lobobrowser.html.BrowserFrame;
 import org.lobobrowser.html.js.Window;
+import org.lobobrowser.ua.UserAgentContext.Request;
+import org.lobobrowser.ua.UserAgentContext.RequestKind;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLFrameElement;
 
@@ -41,6 +45,23 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
 
   public void setBrowserFrame(final BrowserFrame frame) {
     this.browserFrame = frame;
+    loadURL();
+  }
+
+  private void loadURL() {
+    final String src = getAttribute("src");
+    if (src != null) {
+      try {
+        java.net.URL fullURL = getFullURL(src);
+        if (fullURL != null) {
+          if (getUserAgentContext().isRequestPermitted(new Request(fullURL, RequestKind.Frame))) {
+            browserFrame.loadURL(fullURL);
+          }
+        }
+      } catch (final MalformedURLException mfu) {
+        logger.warning("Frame URI=[" + src + "] is malformed.");
+      }
+    }
   }
 
   public BrowserFrame getBrowserFrame() {
