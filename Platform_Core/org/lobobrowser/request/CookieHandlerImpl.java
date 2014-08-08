@@ -92,12 +92,14 @@ public class CookieHandlerImpl extends CookieHandler {
   public void storeCookies(final URI uri, final Map<String, List<String>> responseHeaders) {
     for (final Map.Entry<String, List<String>> entry : responseHeaders.entrySet()) {
       final String key = entry.getKey();
-      for (final String value : entry.getValue()) {
-        if (key != null && value != null) {
-          if ("Set-Cookie".equalsIgnoreCase(key)) {
-            cookieStore.saveCookie(uri.getHost(), value);
-          } else if ("Set-Cookie2".equalsIgnoreCase(key)) {
-            cookieStore.saveCookie(uri.getHost(), value);
+      if (key != null) {
+        for (final String value : entry.getValue()) {
+          if (value != null) {
+            if ("Set-Cookie".equalsIgnoreCase(key)) {
+              cookieStore.saveCookie(uri.getHost(), value);
+            } else if ("Set-Cookie2".equalsIgnoreCase(key)) {
+              cookieStore.saveCookie(uri.getHost(), value);
+            }
           }
         }
       }
