@@ -72,7 +72,7 @@ public class ToolsSettings implements Serializable {
   }
 
   private static SearchEngine duckDuckGoSearch() {
-    return new SearchEngine("DDG", "Duck Duck Go.", "https://duckduckgo.com/html", "q");
+    return new SearchEngine("Duck Duck Go", "Duck Duck Go.", "https://duckduckgo.com/html", "q");
   }
 
   private static SearchEngine wikipediaSearch() {
