@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.PropertyPermission;
+import java.util.StringTokenizer;
 
 import javax.net.ssl.SSLPermission;
 
@@ -54,6 +55,8 @@ import org.lobobrowser.util.io.Files;
 
 public class LocalSecurityPolicy extends Policy {
   private static final String JAVA_HOME = System.getProperty("java.home");
+  private static final String JAVA_CLASS_PATH = System.getProperty("java.class.path");
+  private static final String PATH_SEPARATOR = System.getProperty("path.separator");
 
   /**
    * Directory where Lobo should save files. Any files saved here have
