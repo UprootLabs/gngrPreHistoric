@@ -379,7 +379,11 @@ public class DownloadDialog extends JFrame {
 
   private class SaveAction extends AbstractAction {
     public void actionPerformed(final ActionEvent e) {
-      selectFile();
+      final String msg = "Downloads are disabled for security reasons.\nWe are working on a novel way to sandbox the browser and will enable downloads after the design is completed.";
+      JOptionPane.showMessageDialog(DownloadDialog.this, msg);
+
+      // TODO
+      // selectFile();
     }
   }
 

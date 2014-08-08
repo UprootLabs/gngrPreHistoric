@@ -137,6 +137,17 @@ public class LocalSecurityPolicy extends Policy {
 
     copyPermissions(EXTENSION_PERMISSIONS, CORE_PERMISSIONS);
     addStoreDirectoryPermissions(CORE_PERMISSIONS);
+
+    // Allow resources to be loaded from class path
+    final StringTokenizer strTokenizer = new StringTokenizer(JAVA_CLASS_PATH, PATH_SEPARATOR);
+    while (strTokenizer.hasMoreTokens()) {
+      final String pathElement = strTokenizer.nextToken();
+      if (new File(pathElement).isDirectory()) {
+        final FilePermission fp = new FilePermission(pathElement + recursiveSuffix, "read");
+        CORE_PERMISSIONS.add(fp);
+      }
+    }
+
   }
 
   private static void addStoreDirectoryPermissions(final Collection<Permission> permissions) {
