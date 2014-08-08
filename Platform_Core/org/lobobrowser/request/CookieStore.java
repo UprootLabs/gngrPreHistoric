@@ -134,6 +134,7 @@ public class CookieStore {
     }
     if (domain != null) {
       if (expires == null && maxAge == null && logger.isLoggable(Level.INFO)) {
+        // TODO: Check if this is true:
         // One of the RFCs says transient cookies should not have
         // a domain specified, but websites apparently rely on that,
         // specifically Paypal.
