@@ -706,7 +706,6 @@ public final class RequestEngine {
       final CacheInfo cacheInfo = getCacheInfo(rhandler, connectionUrl, isGet);
       try {
         URLConnection connection = this.getURLConnection(connectionUrl, request, protocol, method, rhandler, cacheInfo);
-        System.out.println("Connection url: " + connectionUrl);
         addCookiesToRequest(connection, rhandler);
 
         rinfo = new RequestInfo(connection, rhandler);
@@ -754,6 +753,7 @@ public final class RequestEngine {
               // Even though the response is actually from the cache,
               // we need to cache it again, if only to update the
               // request time (used to calculate default expiration).
+              // TODO: Can this special case be optimized?
               isCacheable = true;
               connection = cacheInfo.getURLConnection();
               responseIn = connection.getInputStream();
