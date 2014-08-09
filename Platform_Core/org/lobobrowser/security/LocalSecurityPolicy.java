@@ -360,7 +360,7 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new URLPermission("https:*", "GET:*"));
 
         // Custom permissions
-        permissions.add(StoreHostPermission.forURL(location));    // TODO: Check if reall required
+        permissions.add(StoreHostPermission.forURL(location));    // TODO: Check if really required
         permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
 
       } else if (path.endsWith("cssparser-0.9.14.jar")) {
