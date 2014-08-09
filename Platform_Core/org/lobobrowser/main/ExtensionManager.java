@@ -312,6 +312,7 @@ public class ExtensionManager {
     }
   }
 
+  /*
   public ClassLoader getClassLoader(final String extensionId) {
     final Extension ei = this.extensionById.get(extensionId);
     if (ei != null) {
@@ -319,7 +320,7 @@ public class ExtensionManager {
     } else {
       return null;
     }
-  }
+  }*/
 
   public void initExtensions() {
     final Collection<JoinableTask> tasks = new ArrayList<>();
