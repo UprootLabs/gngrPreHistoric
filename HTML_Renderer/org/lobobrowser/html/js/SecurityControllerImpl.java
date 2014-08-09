@@ -65,7 +65,10 @@ public class SecurityControllerImpl extends SecurityController {
   public Object getDynamicSecurityDomain(final Object securityDomain) {
     final Policy policy = this.policy;
     if (policy == null) {
-      return null;
+      // TODO: The check for null may not be required anymore.
+      throw new RuntimeException("No policy has been set in a security controller!");
+      // return Policy.getPolicy();
+      // return null;
     } else {
       final PermissionCollection permissions = this.policy.getPermissions(codesource);
       return new ProtectionDomain(codesource, permissions);
