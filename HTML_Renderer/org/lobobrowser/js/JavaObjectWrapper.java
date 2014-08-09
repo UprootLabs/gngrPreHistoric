@@ -36,6 +36,16 @@ public class JavaObjectWrapper extends ScriptableObject {
   private final Object delegate;
   private final JavaClassWrapper classWrapper;
 
+  @Override
+  public void setParentScope(Scriptable m) {
+    if (m == this) {
+      // TODO: This happens when running jQuery 2
+      super.setParentScope(null);
+    } else {
+      super.setParentScope(m);
+    }
+  }
+
   public JavaObjectWrapper(final JavaClassWrapper classWrapper) throws InstantiationException, IllegalAccessException {
     this.classWrapper = classWrapper;
     // Retaining a strong reference, but note
