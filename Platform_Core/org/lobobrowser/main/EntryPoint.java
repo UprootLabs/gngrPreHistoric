@@ -58,6 +58,7 @@ public final class EntryPoint {
 
   private static void launch(final String[] args) {
     try {
+      TrustManager.installTrustStore(ReuseManager.class.getResourceAsStream("/trustStore.certs"));
       ReuseManager.getInstance().launch(args);
     } catch (final Throwable err) {
       final StringWriter swriter = new StringWriter();
