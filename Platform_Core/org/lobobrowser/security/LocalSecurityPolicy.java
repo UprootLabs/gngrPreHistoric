@@ -141,13 +141,20 @@ public class LocalSecurityPolicy extends Policy {
     copyPermissions(EXTENSION_PERMISSIONS, CORE_PERMISSIONS);
     addStoreDirectoryPermissions(CORE_PERMISSIONS);
 
-    // Allow resources to be loaded from class path
-    final StringTokenizer strTokenizer = new StringTokenizer(JAVA_CLASS_PATH, PATH_SEPARATOR);
-    while (strTokenizer.hasMoreTokens()) {
-      final String pathElement = strTokenizer.nextToken();
-      if (new File(pathElement).isDirectory()) {
-        final FilePermission fp = new FilePermission(pathElement + recursiveSuffix, "read");
-        CORE_PERMISSIONS.add(fp);
+    {
+      /* Allows resources to be loaded from class path.
+         This is only required while running in Eclipse (that is when the URL Class Loader loads the resources and checks
+         for file access permission).
+         This might be broader than currently required, but it is not very potent either.
+         A future strategy might be to pick only resource paths and give permissions on those.
+         */
+      final StringTokenizer strTokenizer = new StringTokenizer(JAVA_CLASS_PATH, PATH_SEPARATOR);
+      while (strTokenizer.hasMoreTokens()) {
+        final String pathElement = strTokenizer.nextToken();
+        if (new File(pathElement).isDirectory()) {
+          final FilePermission fp = new FilePermission(pathElement + recursiveSuffix, "read");
+          CORE_PERMISSIONS.add(fp);
+        }
       }
     }
 
