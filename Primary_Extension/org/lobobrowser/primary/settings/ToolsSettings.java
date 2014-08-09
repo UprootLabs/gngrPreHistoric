@@ -41,10 +41,11 @@ public class ToolsSettings implements Serializable {
     this.selectedSearchEngine = searchEngines.get(0);
     final String userHome = System.getProperty("user.home");
     final File userHomeDirectory = new File(userHome);
+    /*
     this.downloadDirectory = new File(userHomeDirectory, "download");
     if (!this.downloadDirectory.exists()) {
       this.downloadDirectory.mkdirs();
-    }
+    }*/
   }
 
   public static ToolsSettings getInstance() {
