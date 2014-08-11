@@ -84,13 +84,14 @@ public class StorageManager implements Runnable {
   }
 
   private DSLContext userDB;
+  private Connection dbConnection;
 
   public synchronized DSLContext getDB() {
     if (userDB == null) {
       try {
         Class.forName("org.h2.Driver");
-        final Connection conn = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
-        userDB = using(conn);
+        dbConnection = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
+        userDB = using(dbConnection);
       } catch (SQLException | ClassNotFoundException e) {
         throw new RuntimeException(e);
       }
@@ -297,6 +298,18 @@ public class StorageManager implements Runnable {
         } catch (final java.lang.InterruptedException ie) {
           // Ignore this time.
         }
+      }
+    }
+  }
+
+
+  public synchronized void shutdown() {
+    if (dbConnection != null) {
+      try {
+        dbConnection.close();
+      } catch (SQLException e) {
+        // Since we are shutting down, we shouldn't bubble any exception, to let other modules shutdown gracefully
+        e.printStackTrace();
       }
     }
   }

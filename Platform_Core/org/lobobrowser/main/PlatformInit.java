@@ -29,8 +29,10 @@ import java.net.CookieHandler;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
+import java.security.AccessController;
 import java.security.Permission;
 import java.security.Policy;
+import java.security.PrivilegedAction;
 import java.util.EventObject;
 import java.util.Optional;
 import java.util.Properties;
@@ -47,6 +49,7 @@ import org.lobobrowser.request.NOPCookieHandlerImpl;
 import org.lobobrowser.security.LocalSecurityManager;
 import org.lobobrowser.security.LocalSecurityPolicy;
 import org.lobobrowser.settings.GeneralSettings;
+import org.lobobrowser.store.StorageManager;
 import org.lobobrowser.util.GenericEventListener;
 import org.lobobrowser.util.SimpleThreadPool;
 import org.lobobrowser.util.SimpleThreadPoolTask;
@@ -364,12 +367,16 @@ public class PlatformInit {
    * Performs some cleanup and then exits the JVM.
    */
   public static void shutdown() {
-    try {
-      ReuseManager.getInstance().shutdown();
-    } catch (final Exception err) {
-      err.printStackTrace(System.err);
-    }
-    System.exit(0);
+    AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+      try {
+        ReuseManager.getInstance().shutdown();
+        StorageManager.getInstance().shutdown();
+      } catch (final Exception err) {
+        err.printStackTrace(System.err);
+      }
+      System.exit(0);
+      return null;
+    });
   }
 
   /**
