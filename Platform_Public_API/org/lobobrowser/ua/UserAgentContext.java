@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public interface UserAgentContext {
   public enum RequestKind {
-    Image("Img"), CSS("CSS"), CookieWrite("Cookie"), InlineScript("InScript"), ExternalScript("ExScript"), Frame("Frame"), XHR("XHR");
+    Image("Img"), CSS("CSS"), Cookie("Cookie"), InlineScript("InScript"), ExternalScript("ExScript"), Frame("Frame"), XHR("XHR");
 
     public final String shortName;
 

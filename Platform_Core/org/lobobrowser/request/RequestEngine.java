@@ -838,9 +838,11 @@ public final class RequestEngine {
       final String protocol = connection.getURL().getProtocol();
       if ("http".equals(protocol) || "https".equals(protocol)) {
         final URL url = connection.getURL();
-        final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
-        addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
-        addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
+        if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
+          final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
+          addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
+          addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
+        }
       }
     } catch (IOException|URISyntaxException e) {
       logger.warning("Couldn't add cookies for : " + connection.getURL());
@@ -864,7 +866,7 @@ public final class RequestEngine {
       "Set-Cookie".equalsIgnoreCase(key) || "Set-Cookie2".equalsIgnoreCase(key)
     );
     if (cookieSetterExists) {
-      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.CookieWrite))) {
+      if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
         cookieHandler.put(url.toURI(), headerFields);
       }
     }
