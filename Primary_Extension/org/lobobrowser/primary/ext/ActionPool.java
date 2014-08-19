@@ -288,10 +288,10 @@ public class ActionPool {
 
   class AboutAction extends AbstractAction {
     public void actionPerformed(final ActionEvent e) {
-      final String name = window.getUserAgent().getName();
-      final String userAgent = window.getUserAgent().getNameAndVersion();
       window.getTopFrame().alert(
-          "This is " + userAgent + ", a pure Java web browser.\r\n" + "Copyright (c) 2005, 2008 The " + name + " Project.\r\n"
+          "gngr, a pure java web browser.\r\n"
+          + "copyright (c) 2014  Uproot Labs\r\n"
+          + "copyright (c) 2005, 2008 The Lobo Project.\r\n"
               + window.getUserAgent().getInfoUrl());
 
     }

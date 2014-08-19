@@ -59,7 +59,7 @@ public class LocalSecurityPolicy extends Policy {
   private static final String PATH_SEPARATOR = System.getProperty("path.separator");
 
   /**
-   * Directory where Lobo should save files. Any files saved here have
+   * Directory where gngr should save files. Any files saved here have
    * privileges of a remote file.
    */
   public static final File STORE_DIRECTORY;

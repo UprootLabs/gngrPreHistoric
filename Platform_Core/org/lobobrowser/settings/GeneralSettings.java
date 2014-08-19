@@ -33,7 +33,7 @@ import org.lobobrowser.store.StorageManager;
  */
 public class GeneralSettings implements java.io.Serializable {
   private static final Logger logger = Logger.getLogger(GeneralSettings.class.getName());
-  private static final String DEFAULT_STARTUP = "http://lobobrowser.org/browser/home.jsp";
+  private static final String DEFAULT_STARTUP = "https://gngr.info";
   private static final long serialVersionUID = 22574500070000402L;
   private static final GeneralSettings instance;
 

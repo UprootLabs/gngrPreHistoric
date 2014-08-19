@@ -240,12 +240,9 @@ public class ComponentSource implements NavigatorWindowListener {
     final JMenu menu = new JMenu("Help");
     menu.setMnemonic('H');
 
-    menu.add(menuItem("About Lobo", 'A', this.actionPool.aboutAction));
+    menu.add(menuItem("About gngr", 'A', this.actionPool.aboutAction));
     menu.addSeparator();
-    menu.add(menuItem("Project Home Page", this.actionPool.createNavigateAction("http://lobobrowser.org/ext/project-home.jsp")));
-    menu.addSeparator();
-    menu.add(menuItem("Help Forum", this.actionPool.createNavigateAction("http://lobobrowser.org/ext/help-forum.jsp")));
-    menu.add(menuItem("Discussion Forum", this.actionPool.createNavigateAction("http://lobobrowser.org/ext/discussion-forum.jsp")));
+    menu.add(menuItem("Project Home Page", this.actionPool.createNavigateAction("https://gngr.info")));
 
     return menu;
   }

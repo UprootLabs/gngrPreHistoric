@@ -60,7 +60,7 @@ import org.lobobrowser.util.EventDispatch2;
 public class Extension implements Comparable<Object>, NavigatorExtensionContext {
   private static final String ATTRIBUTE_EXTENSION_CLASS = "extension.class";
   private static final String ATTRIBUTE_EXTENSION_PRIORITY = "extension.priority";
-  private static final String EXTENSION_PROPERTIES_FILE = "lobo-extension.properties";
+  private static final String EXTENSION_PROPERTIES_FILE = "gngr-extension.properties";
   private static final String PRIMARY_EXTENSION_FILE_NAME = "primary.jar";
 
   /**

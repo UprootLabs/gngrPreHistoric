@@ -42,7 +42,7 @@ public class UserAgentImpl implements UserAgent {
   }
 
   public String getName() {
-    return "Lobo";
+    return "gngr";
   }
 
   public String getMajorVersion() {

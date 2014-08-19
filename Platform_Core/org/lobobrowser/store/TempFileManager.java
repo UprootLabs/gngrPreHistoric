@@ -29,7 +29,7 @@ import org.lobobrowser.security.*;
 
 public class TempFileManager {
   private static TempFileManager instance;
-  private static final String GENERAL_PREFIX = "LOBO-";
+  private static final String GENERAL_PREFIX = "gngr-";
   private static final long ONE_DAY = 24L * 60 * 60 * 1000;
   private static final long ONE_MONTH = 30L * ONE_DAY;
   private static final long THIRTY_YEARS = 30L * 365 * ONE_DAY;
