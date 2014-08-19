@@ -490,7 +490,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     EVENT.removeListener(listener);
   }
 
-  public class LocalEventDispatch extends EventDispatch2 {
+  public static class LocalEventDispatch extends EventDispatch2 {
     @Override
     protected void dispatchEvent(final EventListener listener, final EventObject event) {
       final NavigatorEvent ne = (NavigatorEvent) event;
