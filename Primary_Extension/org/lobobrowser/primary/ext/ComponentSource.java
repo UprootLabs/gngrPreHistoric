@@ -226,13 +226,11 @@ public class ComponentSource implements NavigatorWindowListener {
   public JMenu getPageServicesMenu() {
     final JMenu menu = new JMenu("Page Services");
     menu.setMnemonic('P');
-    menu.add(this.navMenuItem("Links In (Google)", "Performs a Google 'link' search.", "http://www.google.com/search?q=link:", true));
-    menu.add(this.navMenuItem("Similar Pages (Google)", "Performs a Google 'related' search.", "http://www.google.com/search?q=related:",
+    menu.add(this.navMenuItem("Links In (Google)", "Performs a Google 'link' search.", "https://www.google.com/search?q=link:", true));
+    menu.add(this.navMenuItem("Similar Pages (Google)", "Performs a Google 'related' search.", "https://www.google.com/search?q=related:",
         true));
     menu.add(this.navMenuItem("Wayback Machine", "Takes you to historical snapshots of the site via archive.org.",
-        "http://web.archive.org/web/*/", false));
-    menu.add(this.navMenuItem("Alexa Site Info", "Gives traffic and other information about the site.",
-        "http://www.alexa.com/data/details/main?url=", true));
+        "https://web.archive.org/web/*/", false));
     return menu;
   }
 
