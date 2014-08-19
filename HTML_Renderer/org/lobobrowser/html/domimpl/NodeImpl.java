@@ -580,7 +580,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       if (handler != null) {
         if (this.userDataHandlers == null) {
           this.userDataHandlers = new HashMap<>();
-        } else if (handler == null) {
+        } else {
           this.userDataHandlers.remove(key);
         }
         if (handler != null)
