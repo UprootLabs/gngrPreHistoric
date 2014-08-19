@@ -23,7 +23,6 @@ package org.lobobrowser.settings;
 import java.util.logging.*;
 import java.util.*;
 
-import org.lobobrowser.request.*;
 import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
 
@@ -38,9 +37,6 @@ public class GeneralSettings implements java.io.Serializable {
   private static final GeneralSettings instance;
 
   private volatile Collection<String> startupURLs;
-  private volatile boolean spoofIE;
-  private volatile String ieVersion;
-  private volatile String mozVersion;
   private volatile java.awt.Rectangle initialWindowBounds;
 
   static {
@@ -83,9 +79,6 @@ public class GeneralSettings implements java.io.Serializable {
 
   public void restoreDefaults() {
     this.startupURLs = Collections.singletonList(DEFAULT_STARTUP);
-    this.spoofIE = true;
-    this.ieVersion = "6.0";
-    this.mozVersion = "4.0";
   }
 
   public void saveChecked() throws java.io.IOException {
@@ -126,32 +119,5 @@ public class GeneralSettings implements java.io.Serializable {
 
   public void setInitialWindowBounds(final java.awt.Rectangle initialWindowBounds) {
     this.initialWindowBounds = initialWindowBounds;
-  }
-
-  public String getIeVersion() {
-    return ieVersion;
-  }
-
-  public void setIeVersion(final String ieVersion) {
-    this.ieVersion = ieVersion;
-    UserAgentImpl.getInstance().invalidateUserAgent();
-  }
-
-  public boolean isSpoofIE() {
-    return spoofIE;
-  }
-
-  public void setSpoofIE(final boolean spoofIE) {
-    this.spoofIE = spoofIE;
-    UserAgentImpl.getInstance().invalidateUserAgent();
-  }
-
-  public String getMozVersion() {
-    return mozVersion;
-  }
-
-  public void setMozVersion(final String mozVersion) {
-    this.mozVersion = mozVersion;
-    UserAgentImpl.getInstance().invalidateUserAgent();
   }
 }

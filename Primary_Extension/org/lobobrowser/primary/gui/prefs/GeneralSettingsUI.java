@@ -28,14 +28,17 @@ import java.awt.*;
 
 public class GeneralSettingsUI extends AbstractSettingsUI {
   private final GeneralSettings settings = GeneralSettings.getInstance();
+  /*
   private final FormField ieVersionField;
   private final FormField mozillaVersionField;
   private final CheckBoxPanel ieSpoofPanel;
   private final FormPanel mozPanel;
   private final FormPanel iePanel;
+  */
   private final StringListControl startupPagesStringListControl;
 
   public GeneralSettingsUI() {
+    /*
     this.ieVersionField = new FormField(FieldType.TEXT, "MSIE Version:");
     this.mozillaVersionField = new FormField(FieldType.TEXT, "Mozilla Version:");
     this.mozillaVersionField.setToolTip("Mozilla compatibility version.");
@@ -46,15 +49,16 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     this.ieSpoofPanel = new CheckBoxPanel("Include \"MSIE\" in User-Agent header.", iePanel);
     this.mozPanel = new FormPanel();
     mozPanel.addField(this.mozillaVersionField);
+    */
     this.startupPagesStringListControl = new StringListControl();
     this.startupPagesStringListControl.setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES + " startup URLs, one per line.");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.add(this.getStartupGroupBox());
     this.add(Box.createRigidArea(new Dimension(8, 8)));
-    this.add(this.getUserAgentGroupBox());
+    // this.add(this.getUserAgentGroupBox());
     this.add(SwingTasks.createVerticalFill());
     this.loadSettings();
-    this.ieSpoofPanel.updateEnabling();
+    // this.ieSpoofPanel.updateEnabling();
   }
 
   private static final int MAX_STARTUP_PAGES = 4;
@@ -71,6 +75,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     return startupGroupBox;
   }
 
+  /*
   private Component getUserAgentGroupBox() {
     final JPanel groupBox = new JPanel();
     groupBox.setPreferredSize(new Dimension(400, 100));
@@ -88,6 +93,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   private Component getMozVersionPanel() {
     return this.mozPanel;
   }
+  */
 
   @Override
   public void restoreDefaults() {
@@ -98,20 +104,23 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   @Override
   public void save() {
     final GeneralSettings settings = this.settings;
+    /*
     settings.setSpoofIE(this.ieSpoofPanel.isSelected());
     settings.setIeVersion(this.ieVersionField.getValue());
     settings.setMozVersion(this.mozillaVersionField.getValue());
+    */
     settings.setStartupURLs(this.startupPagesStringListControl.getStrings());
     settings.save();
   }
 
   private void loadSettings() {
     final GeneralSettings settings = this.settings;
+    /*
     this.ieSpoofPanel.setSelected(settings.isSpoofIE());
     this.ieVersionField.setValue(settings.getIeVersion());
     this.mozillaVersionField.setValue(settings.getMozVersion());
     this.mozPanel.revalidate();
-    this.iePanel.revalidate();
+    this.iePanel.revalidate(); */
     this.startupPagesStringListControl.setStrings(settings.getStartupURLs());
   }
 }

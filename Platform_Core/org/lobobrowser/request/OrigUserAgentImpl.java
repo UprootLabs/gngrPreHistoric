@@ -63,6 +63,7 @@ public class OrigUserAgentImpl implements UserAgent {
   public String getUserAgentString() {
     String tv = this.textValue;
     if (tv == null) {
+      /*
       final GeneralSettings settings = AccessController.doPrivileged(new java.security.PrivilegedAction<GeneralSettings>() {
         public GeneralSettings run() {
           return GeneralSettings.getInstance();
@@ -72,6 +73,7 @@ public class OrigUserAgentImpl implements UserAgent {
       final String ieVersion = settings.getIeVersion();
       tv = "Mozilla/" + settings.getMozVersion() + " (compatible" + (spoofIE ? "; MSIE " + ieVersion : "") + "; " + getOs() + ") "
           + this.getName() + "/" + this.getVersion();
+          */
       this.textValue = tv;
     }
     return tv;
