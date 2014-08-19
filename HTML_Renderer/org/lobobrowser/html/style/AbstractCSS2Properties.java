@@ -1758,6 +1758,9 @@ public abstract class AbstractCSS2Properties extends AbstractScriptableDelegate 
               hasXPosition = true;
               position = token;
             }
+          } else if ("none".equals(newValue)) {
+            color = "transparent";
+            image = "none";
           }
         }
         if (color != null) {
