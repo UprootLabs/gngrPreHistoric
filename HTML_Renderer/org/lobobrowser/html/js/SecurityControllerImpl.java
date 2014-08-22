@@ -49,6 +49,7 @@ public class SecurityControllerImpl extends SecurityController {
   public Object callWithDomain(final Object securityDomain, final Context ctx, final Callable callable, final Scriptable scope,
       final Scriptable thisObj, final Object[] args) {
     if (securityDomain == null) {
+      // TODO: Investigate
       return callable.call(ctx, scope, thisObj, args);
     } else {
       final PrivilegedAction<?> action = () -> callable.call(ctx, scope, thisObj, args);
