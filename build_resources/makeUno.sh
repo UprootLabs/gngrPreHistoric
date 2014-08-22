@@ -32,7 +32,7 @@ _expandJar () {
 
 rm -rf $ASSEMBLY_DIR
 mkdir $ASSEMBLY_DIR
-(cd $ASSEMBLY_DIR; jar xf $BUILD_RESOURCES_DIR/uno.jar)
+(cd $ASSEMBLY_DIR; jar xf $BUILD_RESOURCES_DIR/uno_0.0.2.jar)
 cp $BUILD_RESOURCES_DIR/flat-extensions $ASSEMBLY_DIR/
 echo org.lobobrowser.main.EntryPoint >> $ASSEMBLY_DIR/unoConfig
 _expandJar $BUILD_DIR/core.jar
