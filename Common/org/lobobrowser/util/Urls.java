@@ -252,4 +252,10 @@ public class Urls {
         && url1.getPort() == url2.getPort() && Objects.equals(url1.getFile(), url2.getFile())
         && Objects.equals(url1.getUserInfo(), url2.getUserInfo());
   }
+
+  /** Returns the port of a URL always. When the port is not explicitly set, it returns the default port */
+  public static int getPort(final URL url) {
+    final int setPort = url.getPort();
+    return setPort == -1 ? url.getDefaultPort() : setPort;
+  }
 }

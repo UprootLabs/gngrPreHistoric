@@ -1,6 +1,12 @@
 package org.lobobrowser.html.js;
 
+import java.io.IOException;
+import java.net.SocketPermission;
 import java.net.URL;
+import java.net.URLPermission;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +21,7 @@ import org.lobobrowser.util.Urls;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 
 public class XMLHttpRequest extends AbstractScriptableDelegate {
@@ -91,12 +98,36 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     request.open(method, this.getFullURL(url));
   }
 
-  public void send(final String content) throws java.io.IOException {
+  public void send(final String content) throws IOException {
     final Optional<URL> urlOpt = request.getURL();
     if (urlOpt.isPresent()) {
       final URL url = urlOpt.get();
-      request.send(content, new Request(url, RequestKind.XHR));
+      if (isSameOrigin(url, codeSource)) {
+        final URLPermission urlPermission = new URLPermission(url.toExternalForm());
+        final SocketPermission socketPermission = new SocketPermission(url.getHost()+":"+Urls.getPort(url), "connect,resolve");
+        final PrivilegedExceptionAction<Object> action = () -> {
+          request.send(content, new Request(url, RequestKind.XHR));
+          return null;
+        };
+        try {
+          AccessController.doPrivileged(action, null, urlPermission, socketPermission);
+        } catch (PrivilegedActionException e) {
+          throw (IOException) e.getCause();
+        }
+      } else {
+        final String msg = String.format("Failed to execute 'send' on 'XMLHttpRequest': Failed to load '%s'", url.toExternalForm());
+        // TODO: The code 19 is being hard-coded here to match Chromium's code. Better to declare a static constant in a subclass of DOMException.
+        throw new DOMException((short) 19, msg);
+      }
     }
+  }
+
+  private static boolean isSameOrigin(final URL url1, final URL url2) {
+    return
+        url1.getHost().equals(url2.getHost()) &&
+        url1.getPort() == (url2.getPort()) &&
+        url1.getProtocol().equals(url2.getProtocol());
+
   }
 
   private Function onreadystatechange;
