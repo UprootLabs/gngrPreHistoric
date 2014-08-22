@@ -381,10 +381,11 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new SecurityPermission("putProviderProperty.*"));
       }
     } else {
-      permissions.add(new PropertyPermission("java.version", "read"));
-      permissions.add(new PropertyPermission("os.name", "read"));
-      permissions.add(new PropertyPermission("line.separator", "read"));
-      permissions.add(new SocketPermission(location.getHost(), "connect,resolve"));
+      // TODO: Check why the following are required and add comments for each
+      // permissions.add(new PropertyPermission("java.version", "read"));
+      // permissions.add(new PropertyPermission("os.name", "read"));
+      // permissions.add(new PropertyPermission("line.separator", "read"));
+      // permissions.add(new SocketPermission(location.getHost(), "connect,resolve"));
 
       // TODO: Security: This permission should not be given, but it's required
       // by compiled JavaFX runtime at the moment (2/20/2008).
