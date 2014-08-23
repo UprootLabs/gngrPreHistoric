@@ -184,7 +184,6 @@ public class ActionPool {
     final PreferencesDialog dialog = new PreferencesDialog((java.awt.Frame) awtWindow);
     dialog.setTitle("Preferences");
     dialog.setLocationByPlatform(true);
-    dialog.setResizable(false);
     dialog.setSize(new java.awt.Dimension(600, 400));
     dialog.setVisible(true);
   }
