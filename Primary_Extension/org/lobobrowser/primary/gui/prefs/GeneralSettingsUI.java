@@ -54,6 +54,15 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     this.startupPagesStringListControl.setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES + " startup URLs, one per line.");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.add(this.getStartupGroupBox());
+
+    this.add(SwingTasks.createVerticalFill());
+    this.add(new JLabel(
+        "<html><p><b>Note</b>: The startup setting is currently ignored and defaults to <b><i>about:welcome</i></b>.</p>" + 
+        "<br/>" +
+        "<p>The welcome page has important warnings about this release and we would like the user to be aware of them.</p>" +
+        "<br/>" +
+        "<p>We will enable this setting in a future release.</p></html>"));
+
     this.add(Box.createRigidArea(new Dimension(8, 8)));
     // this.add(this.getUserAgentGroupBox());
     this.add(SwingTasks.createVerticalFill());
