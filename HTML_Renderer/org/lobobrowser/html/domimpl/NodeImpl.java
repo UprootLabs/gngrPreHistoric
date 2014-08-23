@@ -45,6 +45,7 @@ import org.lobobrowser.js.AbstractScriptableDelegate;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Objects;
 import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.Urls;
 import org.mozilla.javascript.Function;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
@@ -934,10 +935,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    */
   public URL getFullURL(final String spec) throws MalformedURLException {
     final Object doc = this.document;
+    final String cleanSpec = Urls.encodeIllegalCharacters(spec);
     if (doc instanceof HTMLDocumentImpl) {
-      return ((HTMLDocumentImpl) doc).getFullURL(spec);
+      return ((HTMLDocumentImpl) doc).getFullURL(cleanSpec);
     } else {
-      return new java.net.URL(spec);
+      return new java.net.URL(cleanSpec);
     }
   }
 

@@ -34,6 +34,7 @@ import org.lobobrowser.html.style.CursorRenderState;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.TextDecorationRenderState;
 import org.lobobrowser.ua.UserAgentContext;
+import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
@@ -66,7 +67,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
 
   public String getHref() {
     final String href = this.getAttribute("href");
-    return href == null ? "" : href;
+    return href == null ? "" : Urls.removeControlCharacters(href);
   }
 
   public void setHref(final String href) {

@@ -258,4 +258,34 @@ public class Urls {
     final int setPort = url.getPort();
     return setPort == -1 ? url.getDefaultPort() : setPort;
   }
+
+  /**
+   * Converts the given URL into a valid URL by encoding illegal characters.
+   * Right now it is implemented like in IE7: only spaces are replaced with
+   * "%20". (Firefox 3 also encodes other non-ASCII and some ASCII characters).
+   * 
+   * @param the URL to convert
+   * @return the encoded URL
+   */
+  public static String encodeIllegalCharacters(final String url) {
+    return url.replace(" ", "%20");
+  }
+
+  /**
+   * Converts the given URL into a valid URL by removing control characters
+   * (ASCII code < 32).
+   * 
+   * @param  the URL to convert
+   * @return the encoded URL
+   */
+  public static String removeControlCharacters(final String url) {
+    final StringBuilder sb = new StringBuilder(url.length());
+    for (int i = 0; i < url.length(); i++) {
+      char c = url.charAt(i);
+      if (c >= 32)
+        sb.append(c);
+    }
+    return sb.toString();
+  }
+
 }
