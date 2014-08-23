@@ -24,6 +24,7 @@
 package org.lobobrowser.html.domimpl;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.w3c.dom.DOMException;
@@ -117,7 +118,7 @@ class ElementFactory {
   }
 
   public final HTMLElement createElement(final HTMLDocumentImpl document, final String name) throws DOMException {
-    final String normalName = name.toUpperCase();
+    final String normalName = name.toUpperCase(Locale.ENGLISH);
     // No need to synchronize; read-only map at this point.
     final HTMLElementBuilder builder = this.builders.get(normalName);
     if (builder == null) {
