@@ -1111,8 +1111,7 @@ public class RBlock extends BaseElementRenderable implements RenderableContainer
       if (!bodyLayout.onMouseClick(event, x - bodyLayout.x, y - bodyLayout.y)) {
         return false;
       }
-    }
-    if (!HtmlController.getInstance().onMouseClick(this.modelNode, event, x, y)) {
+    } else if (!HtmlController.getInstance().onMouseClick(this.modelNode, event, x, y)) {
       return false;
     }
     if (this.backgroundColor != null) {
