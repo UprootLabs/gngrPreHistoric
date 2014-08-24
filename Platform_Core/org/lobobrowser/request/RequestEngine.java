@@ -508,7 +508,7 @@ public final class RequestEngine {
     return this.loadBytes(Urls.guessURL(urlOrPath), uaContext);
   }
 
-  public byte[] loadBytes(final URL url, final UserAgentContext uaContext) throws Exception {
+  private byte[] loadBytes(final URL url, final UserAgentContext uaContext) throws Exception {
     final BoxedObject boxed = new BoxedObject();
     this.inlineRequest(new SimpleRequestHandler(url, RequestType.ELEMENT, uaContext) {
       @Override
@@ -528,6 +528,7 @@ public final class RequestEngine {
     return (byte[]) boxed.getObject();
   }
 
+  /*
   public AsyncResult<byte[]> loadBytesAsync(final String urlOrPath, final UserAgentContext uaContext) throws java.net.MalformedURLException {
     return this.loadBytesAsync(Urls.guessURL(urlOrPath), uaContext);
   }
@@ -547,7 +548,7 @@ public final class RequestEngine {
       }
     });
     return asyncResult;
-  }
+  } */
 
   /**
    * Whether possibly cached request should always be revalidated, i.e. any
