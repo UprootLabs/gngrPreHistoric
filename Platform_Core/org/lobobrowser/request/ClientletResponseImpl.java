@@ -46,6 +46,7 @@ import org.lobobrowser.util.MonitoredInputStream;
 import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.io.BufferExceededException;
+import org.lobobrowser.util.io.IORoutines;
 import org.lobobrowser.util.io.RecordedInputStream;
 
 /**
@@ -188,9 +189,9 @@ public class ClientletResponseImpl implements ClientletResponse {
       final URLConnection connection = this.connection;
       InputStream in;
       if (connection instanceof HttpURLConnection) {
-        in = ((HttpURLConnection) connection).getErrorStream();
+        in = IORoutines.getDecodedErrorStream(((HttpURLConnection) connection));
         if (in == null) {
-          in = connection.getInputStream();
+          in = IORoutines.getDecodedStream(connection);
         }
       } else {
         in = connection.getInputStream();

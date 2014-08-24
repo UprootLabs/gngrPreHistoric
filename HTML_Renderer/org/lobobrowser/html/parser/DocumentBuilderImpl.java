@@ -146,6 +146,8 @@ public class DocumentBuilderImpl extends DocumentBuilder {
       if (in != null) {
         wis = new WritableLineReader(new InputStreamReader(in, charset));
       } else if (uri != null) {
+        throw new IllegalArgumentException("The input source didn't have a character stream, nor an inputstream!");
+        /*
         // To comply with the InputSource documentation, we need
         // to do this:
         final java.net.URLConnection connection = new java.net.URL(uri).openConnection();
@@ -154,6 +156,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
           charset = org.lobobrowser.util.Urls.getCharset(connection);
         }
         wis = new WritableLineReader(new InputStreamReader(in, charset));
+        */
       } else {
         throw new IllegalArgumentException("The InputSource must have either a reader, an input stream or a URI.");
       }

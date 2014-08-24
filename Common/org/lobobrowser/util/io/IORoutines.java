@@ -32,8 +32,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.zip.GZIPInputStream;
 
 /**
  * @author J. H. S.
@@ -183,6 +186,26 @@ public class IORoutines {
   public static java.util.List<String> loadStrings(final File file) throws IOException {
     try (final InputStream in = new FileInputStream(file); final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
       return reader.lines().collect(Collectors.toList());
+    }
+  }
+
+  public static InputStream getDecodedStream(final URLConnection connection) throws IOException {
+    final InputStream cis = connection.getInputStream();
+    System.out.println("URL: " + connection.getURL());
+    System.out.println("  Get content encoding: " + connection.getContentEncoding());
+    final InputStream is = "gzip".equals(connection.getContentEncoding()) ? new GZIPInputStream(cis) : cis;
+    return is;
+  }
+
+  public static InputStream getDecodedErrorStream(final HttpURLConnection connection) throws IOException {
+    final InputStream cis = connection.getErrorStream();
+    if (cis != null) {
+      System.out.println("URL: " + connection.getURL());
+      System.out.println("  Get content encoding: " + connection.getContentEncoding());
+      final InputStream is = "gzip".equals(connection.getContentEncoding()) ? new GZIPInputStream(cis) : cis;
+      return is;
+    } else {
+      return null;
     }
   }
 

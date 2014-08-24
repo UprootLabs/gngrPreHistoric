@@ -310,6 +310,7 @@ public final class RequestEngine {
       final URL lastRequestURL) throws ProtocolException {
     final UserAgent userAgent = request.getUserAgent();
     connection.addRequestProperty("User-Agent", userAgent.toString());
+    connection.addRequestProperty("Accept-Encoding", "gzip");
 
     // TODO: Harshad: Commenting out X-Java-Version. Check if required.
     // connection.addRequestProperty("X-Java-Version", userAgent.getJavaVersion());
@@ -708,7 +709,7 @@ public final class RequestEngine {
         addCookiesToRequest(connection, rhandler);
 
         rinfo = new RequestInfo(connection, rhandler);
-        InputStream responseIn = null;
+        // InputStream responseIn = null;
         if (trackRequestInfo) {
           synchronized (this.processingRequests) {
             this.processingRequests.add(rinfo);
@@ -739,8 +740,9 @@ public final class RequestEngine {
                   cacheInfo.delete();
                 }
               }
-              responseIn = connection.getInputStream();
-              rinfo.setConnection(connection, responseIn);
+              // responseIn = connection.getInputStream();
+              // rinfo.setConnection(connection, responseIn);
+              rinfo.setConnection(connection);
             } else if (responseCode == HttpURLConnection.HTTP_NOT_MODIFIED) {
               if (cacheInfo == null) {
                 throw new IllegalStateException("Cache info missing but it is necessary to process response code " + responseCode + ".");
@@ -755,8 +757,9 @@ public final class RequestEngine {
               // TODO: Can this special case be optimized?
               isCacheable = true;
               connection = cacheInfo.getURLConnection();
-              responseIn = connection.getInputStream();
-              rinfo.setConnection(connection, responseIn);
+              // responseIn = connection.getInputStream();
+              // rinfo.setConnection(connection, responseIn);
+              rinfo.setConnection(connection);
             } else if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
                 || responseCode == HttpURLConnection.HTTP_SEE_OTHER) {
               logInfo("run(): REDIRECTING: ResponseCode=" + responseCode + " for url=" + url);
@@ -770,8 +773,9 @@ public final class RequestEngine {
             }
           } else {
             // Force it to throw exception if file does not exist
-            responseIn = connection.getInputStream();
-            rinfo.setConnection(connection, responseIn);
+            // responseIn = connection.getInputStream();
+            // rinfo.setConnection(connection, responseIn);
+            rinfo.setConnection(connection);
           }
           if (rinfo.isAborted()) {
             throw new CancelClientletException("Stopped");
@@ -780,7 +784,7 @@ public final class RequestEngine {
           // Give a chance to extensions to post-process the connection.
           final URLConnection newConnection = getSafeExtensionManager().dispatchPostConnection(connection);
           if (newConnection != connection) {
-            responseIn = newConnection.getInputStream();
+            // responseIn = newConnection.getInputStream();
             connection = newConnection;
           }
 
@@ -795,13 +799,16 @@ public final class RequestEngine {
               this.processingRequests.remove(rinfo);
             }
           }
+          /*
           if (responseIn != null) {
             try {
               responseIn.close();
             } catch (final java.io.IOException ioe) {
               // ignore
             }
-          }
+          }*/
+
+          // TODO: Possible optimisation. By not disconnecting, we might be able to get a faster response for next request
           if (connection instanceof HttpURLConnection) {
             ((HttpURLConnection) connection).disconnect();
           }
@@ -832,6 +839,7 @@ public final class RequestEngine {
       rhandler.handleProgress(ProgressType.DONE, baseURL, method, 0, 0);
     }
   }
+
   final private CookieHandler cookieHandler = new CookieHandlerImpl();
 
   private void addCookiesToRequest(final URLConnection connection, final RequestHandler rhandler) {
@@ -930,7 +938,7 @@ public final class RequestEngine {
     private final RequestHandler requestHandler;
 
     private volatile boolean isAborted = false;
-    private volatile InputStream inputStream;
+    // private volatile InputStream inputStream;
     private volatile URLConnection connection;
 
     RequestInfo(final URLConnection connection, final RequestHandler rhandler) {
@@ -948,10 +956,10 @@ public final class RequestEngine {
         if (this.connection instanceof HttpURLConnection) {
           ((HttpURLConnection) this.connection).disconnect();
         }
-        final InputStream in = this.inputStream;
-        if (in != null) {
-          in.close();
-        }
+        // final InputStream in = this.inputStream;
+        // if (in != null) {
+          // in.close();
+        // }
       } catch (final Exception err) {
         logger.log(Level.SEVERE, "abort()", err);
       }
@@ -961,9 +969,10 @@ public final class RequestEngine {
       return this.requestHandler;
     }
 
-    void setConnection(final URLConnection connection, final InputStream in) {
+    // void setConnection(final URLConnection connection, final InputStream in) {
+    void setConnection(final URLConnection connection) {
       this.connection = connection;
-      this.inputStream = in;
+      // this.inputStream = in;
     }
   }
 
