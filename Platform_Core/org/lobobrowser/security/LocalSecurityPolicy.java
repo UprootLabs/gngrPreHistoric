@@ -346,7 +346,7 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new RuntimePermission("shutdownHooks"));
         // TODO: Questionable
         permissions.add(new PropertyPermission("user.home", "read"));
-      } else if (path.endsWith("jooq-3.5.0-SNAPSHOT.jar")) {
+      } else if (path.endsWith("jooq-3.4.2.jar")) {
         permissions.add(new PropertyPermission("org.jooq.settings", "read"));
       } else if (unoMatch(location)) {
         permissions.add(new FilePermission(unoPath.getPath(), "read"));

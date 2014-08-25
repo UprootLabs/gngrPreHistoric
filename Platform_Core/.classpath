@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="lib/javatuples-1.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Public_API"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
-	<classpathentry kind="lib" path="lib/jooq-3.5.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/jooq-3.4.2.jar"/>
 	<classpathentry kind="lib" path="lib/h2-1.4.180.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
