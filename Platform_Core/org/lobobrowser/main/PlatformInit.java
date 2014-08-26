@@ -45,6 +45,7 @@ import org.lobobrowser.gui.ConsoleModel;
 import org.lobobrowser.gui.DefaultWindowFactory;
 import org.lobobrowser.gui.FramePanel;
 import org.lobobrowser.request.AuthenticatorImpl;
+import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.request.NOPCookieHandlerImpl;
 import org.lobobrowser.security.LocalSecurityManager;
 import org.lobobrowser.security.LocalSecurityPolicy;
@@ -281,7 +282,7 @@ public class PlatformInit {
    * @throws MalformedURLException
    */
   public void launch(final String urlOrPath) throws MalformedURLException {
-    final URL url = org.lobobrowser.util.Urls.guessURL(urlOrPath);
+    final URL url = DomainValidation.guessURL(urlOrPath);
     FramePanel.openWindow(null, url, null, new Properties(), "GET", null);
   }
 

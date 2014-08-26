@@ -506,7 +506,7 @@ public final class RequestEngine {
   }
 
   public byte[] loadBytes(final String urlOrPath, final UserAgentContext uaContext) throws Exception {
-    return this.loadBytes(Urls.guessURL(urlOrPath), uaContext);
+    return this.loadBytes(DomainValidation.guessURL(urlOrPath), uaContext);
   }
 
   private byte[] loadBytes(final URL url, final UserAgentContext uaContext) throws Exception {

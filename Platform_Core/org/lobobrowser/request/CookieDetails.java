@@ -105,7 +105,7 @@ final class CookieDetails {
         logger.log(Level.INFO, "Not rejecting transient cookie that specifies domain '" + domain + "'.");
       }
       // if (!Domains.isValidCookieDomain(domain, urlHostName)) {
-      if (!CookieValidation.isValidCookieDomain(domain, urlHostName)) {
+      if (!DomainValidation.isValidCookieDomain(domain, urlHostName)) {
         logger.log(Level.WARNING, "saveCookie(): Rejecting cookie with invalid domain '" + domain + "' for host '"
             + urlHostName + "'.");
         return false;

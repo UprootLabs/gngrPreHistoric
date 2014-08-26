@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
 	<classpathentry kind="lib" path="lib/jooq-3.4.2.jar"/>
 	<classpathentry kind="lib" path="lib/h2-1.4.180.jar"/>
+	<classpathentry kind="lib" path="lib/public-suffix-list_0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -23,6 +23,8 @@ package org.lobobrowser.context;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -34,6 +36,7 @@ import org.lobobrowser.clientlet.ComponentContent;
 import org.lobobrowser.clientlet.ContentBuffer;
 import org.lobobrowser.clientlet.SimpleComponentContent;
 import org.lobobrowser.io.ManagedStore;
+import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.request.SilentUserAgentContextImpl;
 import org.lobobrowser.request.UserAgentImpl;
 import org.lobobrowser.store.StorageManager;
@@ -124,7 +127,7 @@ public class ClientletContextImpl implements ClientletContext {
 
   public void navigate(final String url) throws java.net.MalformedURLException {
     final java.net.URL responseURL = this.response.getResponseURL();
-    final java.net.URL newURL = org.lobobrowser.util.Urls.guessURL(responseURL, url);
+    final java.net.URL newURL = DomainValidation.guessURL(responseURL, url);
     this.frame.navigate(newURL);
   }
 

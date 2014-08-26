@@ -57,6 +57,7 @@ import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.request.ClientletRequestHandler;
 import org.lobobrowser.request.ClientletRequestImpl;
+import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.request.RequestHandler;
 import org.lobobrowser.request.SilentUserAgentContextImpl;
@@ -657,12 +658,12 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   public final void navigate(final String urlOrPath) throws java.net.MalformedURLException {
-    final URL url = Urls.guessURL(urlOrPath);
+    final URL url = DomainValidation.guessURL(urlOrPath);
     this.navigate(url, "GET", null, TargetType.SELF, RequestType.PROGRAMMATIC);
   }
 
   public final void navigate(final String urlOrPath, final RequestType requestType) throws java.net.MalformedURLException {
-    final URL url = Urls.guessURL(urlOrPath);
+    final URL url = DomainValidation.guessURL(urlOrPath);
     this.navigate(url, "GET", null, TargetType.SELF, requestType);
   }
 
@@ -772,7 +773,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * @return The top frame of the new window.
    */
   public final NavigatorFrame open(final String urlOrPath) throws MalformedURLException {
-    final URL url = Urls.guessURL(urlOrPath);
+    final URL url = DomainValidation.guessURL(urlOrPath);
     return this.open(url, (Properties) null);
   }
 

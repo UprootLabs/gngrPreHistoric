@@ -20,11 +20,13 @@
  */
 package org.lobobrowser.gui;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.ArrayUtilities;
+import org.lobobrowser.request.DomainValidation;
+import org.lobobrowser.ua.NavigationEntry;
 import org.lobobrowser.util.Urls;
 
 /**
@@ -152,7 +154,7 @@ final public class NavigationEngine {
 
   public NavigationEntry findEntry(final String absoluteURL) {
     try {
-      final java.net.URL targetURL = Urls.guessURL(absoluteURL);
+      final java.net.URL targetURL = DomainValidation.guessURL(absoluteURL);
       for (final NavigationEntry entry : this.history) {
         if (Urls.sameNoRefURL(targetURL, entry.getUrl())) {
           return entry;

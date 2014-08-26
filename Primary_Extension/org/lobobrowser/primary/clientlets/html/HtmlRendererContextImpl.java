@@ -43,6 +43,7 @@ import org.lobobrowser.html.domimpl.FrameNode;
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.HTMLLinkElementImpl;
 import org.lobobrowser.html.gui.HtmlPanel;
+import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.request.SilentUserAgentContextImpl;
 import org.lobobrowser.ua.NavigationEntry;
 import org.lobobrowser.ua.NavigatorFrame;
@@ -189,7 +190,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
 
   public HtmlRendererContext open(final String url, final String windowName, final String windowFeatures, final boolean replace) {
     try {
-      final URL urlObj = org.lobobrowser.util.Urls.guessURL(url);
+      final URL urlObj = DomainValidation.guessURL(url);
       return this.open(urlObj, windowName, windowFeatures, replace);
     } catch (final Exception err) {
       logger.log(Level.WARNING, "open(): Unable to open URL [" + url + "].", err);

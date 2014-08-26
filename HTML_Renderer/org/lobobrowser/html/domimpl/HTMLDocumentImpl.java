@@ -51,11 +51,11 @@ import org.lobobrowser.html.parser.HtmlParser;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
+import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.ua.UserAgentContext.RequestKind;
-import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.SecurityUtil;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WeakValueHashMap;
@@ -261,7 +261,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   public void setDomain(final String domain) {
     final String oldDomain = this.domain;
-    if (oldDomain != null && Domains.isValidCookieDomain(domain, oldDomain)) {
+    if (oldDomain != null && DomainValidation.isValidCookieDomain(domain, oldDomain)) {
       this.domain = domain;
     } else {
       throw new SecurityException("Cannot set domain to '" + domain + "' when current domain is '" + oldDomain + "'");

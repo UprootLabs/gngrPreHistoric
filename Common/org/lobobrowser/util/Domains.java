@@ -23,12 +23,12 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
 
 /**
  * @author J. H. S.
  */
 public class Domains {
+  /*
   private static final Collection<String> gTLDs;
 
   static {
@@ -48,7 +48,7 @@ public class Domains {
     gTLDs.add(".coop");
     gTLDs.add(".museum");
     // TODO: New gTLDs?
-  }
+  }*/
 
   /**
 	 * 
@@ -57,6 +57,8 @@ public class Domains {
     super();
   }
 
+  /** @deprecated use the method in DomainValidation.java */
+  /*
   public static boolean isValidCookieDomain(String domain, final String hostName) {
     String plainDomain;
     if (!domain.startsWith(".")) {
@@ -82,14 +84,14 @@ public class Domains {
     } else {
       return Strings.countChars(domain, '.') >= 3;
     }
-  }
+  }*/
 
-  /**
+  /*
    * 
    * @param host
    *          A host name in lower case.
    * @return
-   */
+   /
   public static boolean endsWithGTLD(final String host) {
     final Iterator<String> i = gTLDs.iterator();
     while (i.hasNext()) {
@@ -130,5 +132,5 @@ public class Domains {
     }
     domains.addAll(Domains.getPossibleDomains(testDomain.substring(1)));
     return domains;
-  }
+  }*/
 }

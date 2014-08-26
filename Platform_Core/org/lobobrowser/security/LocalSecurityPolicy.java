@@ -49,8 +49,8 @@ import java.util.StringTokenizer;
 import javax.net.ssl.SSLPermission;
 
 import org.lobobrowser.main.ExtensionManager;
+import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.store.StorageManager;
-import org.lobobrowser.util.Domains;
 import org.lobobrowser.util.io.Files;
 
 public class LocalSecurityPolicy extends Policy {
@@ -153,6 +153,9 @@ public class LocalSecurityPolicy extends Policy {
         final String pathElement = strTokenizer.nextToken();
         if (new File(pathElement).isDirectory()) {
           final FilePermission fp = new FilePermission(pathElement + recursiveSuffix, "read");
+          CORE_PERMISSIONS.add(fp);
+        } else {
+          final FilePermission fp = new FilePermission(pathElement, "read");
           CORE_PERMISSIONS.add(fp);
         }
       }
@@ -394,7 +397,7 @@ public class LocalSecurityPolicy extends Policy {
       final String hostName = location.getHost();
       // Get possible cookie domains for current location
       // and allow managed store access there.
-      final Collection<String> domains = Domains.getPossibleDomains(hostName);
+      final Collection<String> domains = DomainValidation.getPossibleDomains(hostName);
       domains.forEach(domain -> permissions.add(StoreHostPermission.forHost(domain)));
     }
     return permissions;

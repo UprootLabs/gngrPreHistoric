@@ -216,7 +216,7 @@ public class CookieStore {
 
   public Collection<Cookie> getCookies(final String hostName, final String path) {
     // Security provided by RestrictedStore.
-    final Collection<String> possibleDomains = Domains.getPossibleDomains(hostName);
+    final Collection<String> possibleDomains = DomainValidation.getPossibleDomains(hostName);
     final Collection<Cookie> cookies = new LinkedList<>();
     for (final String domain : possibleDomains) {
       cookies.addAll(this.getCookiesStrict(domain, path));
