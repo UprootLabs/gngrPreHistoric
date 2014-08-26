@@ -60,10 +60,8 @@ public class Domains {
   public static boolean isValidCookieDomain(String domain, final String hostName) {
     String plainDomain;
     if (!domain.startsWith(".")) {
-      // Valid domains must start with a dot
-      // according to RFC 2109, but
-      // RFC 2965 specifies a dot is prepended
-      // in the Set-Cookie2 header.
+      // Valid domains must start with a dot according to RFC 2109, but
+      // RFC 2965 specifies a dot is prepended in the Set-Cookie2 header.
       plainDomain = domain;
       domain = "." + domain;
     } else {
