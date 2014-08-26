@@ -25,25 +25,20 @@ package org.lobobrowser.request;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.store.RestrictedStore;
 import org.lobobrowser.store.StorageManager;
 import org.lobobrowser.util.Domains;
-import org.lobobrowser.util.Strings;
 
 /**
  * @author J. H. S.
@@ -51,30 +46,11 @@ import org.lobobrowser.util.Strings;
 public class CookieStore {
   private static final String COOKIE_PATH_PREFIX = ".W$Cookies/";
   private static final String COOKIE_PATH_PATTERN = "\\.W\\$Cookies/.*";
-  private static final DateFormat EXPIRES_FORMAT;
-  private static final DateFormat EXPIRES_FORMAT_BAK1;
-  private static final DateFormat EXPIRES_FORMAT_BAK2;
   private static final CookieStore instance = new CookieStore();
 
   private static final Logger logger = Logger.getLogger(CookieStore.class.getName());
 
   private final Map<String, Map<String, CookieValue>> transientMapByHost = new HashMap<>();
-
-  static {
-    // Note: Using yy in case years are given as two digits.
-    // Note: Must use US locale for cookie dates.
-    final Locale locale = Locale.US;
-    final SimpleDateFormat ef1 = new SimpleDateFormat("EEE, dd MMM yy HH:mm:ss 'GMT'", locale);
-    final SimpleDateFormat ef2 = new SimpleDateFormat("EEE, dd-MMM-yy HH:mm:ss 'GMT'", locale);
-    final SimpleDateFormat ef3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss yy 'GMT'", locale);
-    final TimeZone gmtTimeZone = TimeZone.getTimeZone("GMT");
-    ef1.setTimeZone(gmtTimeZone);
-    ef2.setTimeZone(gmtTimeZone);
-    ef3.setTimeZone(gmtTimeZone);
-    EXPIRES_FORMAT = ef1;
-    EXPIRES_FORMAT_BAK1 = ef2;
-    EXPIRES_FORMAT_BAK2 = ef3;
-  }
 
   private CookieStore() {
   }
@@ -88,98 +64,31 @@ public class CookieStore {
   }
 
   public void saveCookie(final String urlHostName, final String cookieSpec) {
-    // TODO: SECURITY
-    if (logger.isLoggable(Level.INFO)) {
-      logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
-    }
-    final StringTokenizer tok = new StringTokenizer(cookieSpec, ";");
-    String cookieName = null;
-    String cookieValue = null;
-    String domain = null;
-    String path = null;
-    String expires = null;
-    String maxAge = null;
-    // String secure = null;
-    boolean hasCookieName = false;
-    while (tok.hasMoreTokens()) {
-      final String token = tok.nextToken();
-      final int idx = token.indexOf('=');
-      final String name = idx == -1 ? token.trim() : token.substring(0, idx).trim();
-      final String value = idx == -1 ? "" : Strings.unquote(token.substring(idx + 1).trim());
-      if (!hasCookieName) {
-        cookieName = name;
-        cookieValue = value;
-        hasCookieName = true;
-      } else {
-        if ("max-age".equalsIgnoreCase(name)) {
-          maxAge = value;
-        } else if ("path".equalsIgnoreCase(name)) {
-          path = value;
-        } else if ("domain".equalsIgnoreCase(name)) {
-          domain = value;
-        } else if ("expires".equalsIgnoreCase(name)) {
-          expires = value;
-        } else if ("secure".equalsIgnoreCase(name)) {
-          // TODO: SECURITY
-          // secure = value;
-        }
+    try {
+      // TODO: SECURITY
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
       }
-    }
-    if (cookieName == null) {
-      logger.log(Level.SEVERE, "saveCookie(): Invalid cookie spec from '" + urlHostName + "'");
-      return;
-    }
-    if (path == null || path.length() == 0) {
-      path = "/";
-    }
-    if (domain != null) {
-      if (expires == null && maxAge == null && logger.isLoggable(Level.INFO)) {
-        // TODO: Check if this is true:
-        // One of the RFCs says transient cookies should not have
-        // a domain specified, but websites apparently rely on that,
-        // specifically Paypal.
-        logger.log(Level.INFO, "saveCookie(): Not rejecting transient cookie that specifies domain '" + domain + "'.");
-      }
-      if (!Domains.isValidCookieDomain(domain, urlHostName)) {
-        logger.log(Level.WARNING, "saveCookie(): Rejecting cookie with invalid domain '" + domain + "' for host '" + urlHostName + "'.");
+      final CookieDetails cookieDetails = CookieDetails.parseCookieSpec(cookieSpec);
+
+      if (cookieDetails.name == null) {
+        logger.log(Level.SEVERE, "saveCookie(): Invalid name in cookie spec from '" + urlHostName + "'");
         return;
       }
-    }
-    if (domain == null) {
-      domain = urlHostName;
-    } else if (domain.startsWith(".")) {
-      domain = domain.substring(1);
-    }
-    // TODO: Secure
-    java.util.Date expiresDate = null;
-    if (maxAge != null) {
-      try {
-        expiresDate = new java.util.Date(System.currentTimeMillis() + Integer.parseInt(maxAge) * 1000);
-      } catch (final java.lang.NumberFormatException nfe) {
-        logger.log(Level.WARNING, "saveCookie(): Max-age is not formatted correctly: " + maxAge + ".");
+
+      if (!cookieDetails.isValidDomain(urlHostName)) {
+        logger.log(Level.SEVERE, "saveCookie(): Invalid domain in cookie spec from '" + urlHostName + "'");
+        return;
       }
-    } else if (expires != null) {
-      synchronized (EXPIRES_FORMAT) {
-        try {
-          expiresDate = EXPIRES_FORMAT.parse(expires);
-        } catch (final Exception pe) {
-          if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, "saveCookie(): Bad date format: " + expires + ". Will try again.", pe);
-          }
-          try {
-            expiresDate = EXPIRES_FORMAT_BAK1.parse(expires);
-          } catch (final Exception pe2) {
-            try {
-              expiresDate = EXPIRES_FORMAT_BAK2.parse(expires);
-            } catch (final Exception pe3) {
-              logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + expires, pe3);
-              return;
-            }
-          }
-        }
-      }
+
+      final String effectiveDomain = cookieDetails.getEffectiveDomain(urlHostName);
+      final java.util.Date expiresDate = cookieDetails.getExpiresDate();
+      // TODO: Secure
+      this.saveCookie(effectiveDomain, cookieDetails.getEffectivePath(), cookieDetails.name, expiresDate, cookieDetails.value);
+    } catch (final ParseException pe3) {
+      logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + cookieSpec, pe3);
+      return;
     }
-    this.saveCookie(domain, path, cookieName, expiresDate, cookieValue);
   }
 
   private void saveCookie(final String domain, final String path, final String name, final java.util.Date expires, final String value) {
