@@ -408,7 +408,6 @@ public class PlatformInit {
       final java.security.CodeSource cs = pd.getCodeSource();
       final java.net.URL url = cs.getLocation();
       if (url.getProtocol().equals("zipentry")) {
-        System.out.println("Early return");
         return Optional.empty();
       }
       final String jarPath = url.getPath();

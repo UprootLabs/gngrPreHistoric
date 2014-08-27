@@ -74,7 +74,6 @@ public final class DomainValidation {
       return true;
     }
     if (endsWithGTLD(name)) {
-      System.out.println("Ended with TLD");
       return true;
     }
     final int lastDotIdx = nameTL.lastIndexOf('.');
@@ -140,8 +139,6 @@ public final class DomainValidation {
     if (!"".equals(finalURL.getHost()) && finalURL.toExternalForm().indexOf(' ') != -1) {
       throw new MalformedURLException("There are blanks in the URL: " + finalURL.toExternalForm());
     }
-    System.out.println("Guessed url: " + finalURL);
-    System.out.println("  orig url : " + baseURL + " , " + spec);
     return finalURL;
   }
 

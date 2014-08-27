@@ -191,8 +191,6 @@ public class IORoutines {
 
   public static InputStream getDecodedStream(final URLConnection connection) throws IOException {
     final InputStream cis = connection.getInputStream();
-    System.out.println("URL: " + connection.getURL());
-    System.out.println("  Get content encoding: " + connection.getContentEncoding());
     final InputStream is = "gzip".equals(connection.getContentEncoding()) ? new GZIPInputStream(cis) : cis;
     return is;
   }
@@ -200,8 +198,6 @@ public class IORoutines {
   public static InputStream getDecodedErrorStream(final HttpURLConnection connection) throws IOException {
     final InputStream cis = connection.getErrorStream();
     if (cis != null) {
-      System.out.println("URL: " + connection.getURL());
-      System.out.println("  Get content encoding: " + connection.getContentEncoding());
       final InputStream is = "gzip".equals(connection.getContentEncoding()) ? new GZIPInputStream(cis) : cis;
       return is;
     } else {
