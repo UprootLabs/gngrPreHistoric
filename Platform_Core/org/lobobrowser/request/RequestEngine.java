@@ -883,7 +883,7 @@ public final class RequestEngine {
   private static void addCookieHeaderToRequest(final URLConnection connection, final Map<String, List<String>> cookieHeaders, final String cookieKey) {
     final List<String> cookieValue = cookieHeaders.get(cookieKey);
     if (cookieValue != null) {
-      final String cookieValueStr = cookieValue.stream().reduce("", (e, a) -> a + ";" + e);
+      final String cookieValueStr = cookieValue.stream().collect(Collectors.joining(";"));
       connection.addRequestProperty(cookieKey, cookieValueStr);
     }
   }
