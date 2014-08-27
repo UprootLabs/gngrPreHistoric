@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -51,11 +50,10 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.lobobrowser.async.AsyncResult;
-import org.lobobrowser.async.AsyncResultImpl;
 import org.lobobrowser.clientlet.CancelClientletException;
 import org.lobobrowser.clientlet.ClientletException;
 import org.lobobrowser.clientlet.ClientletRequest;
@@ -128,11 +126,11 @@ public final class RequestEngine {
   }
 
   public void setCookie(final URL url, final String cookieSpec) {
-    this.cookieStore.saveCookie(url, cookieSpec);
-  }
-
-  public void setCookie(final String urlHostName, final String cookieSpec) {
-    this.cookieStore.saveCookie(urlHostName, cookieSpec);
+    try {
+      this.cookieStore.saveCookie(url.toURI(), cookieSpec);
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public void cancelAllRequests() {

@@ -24,7 +24,7 @@
 package org.lobobrowser.request;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,9 +36,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.store.RestrictedStore;
 import org.lobobrowser.store.StorageManager;
-import org.lobobrowser.util.Domains;
 
 /**
  * @author J. H. S.
@@ -59,17 +59,17 @@ public class CookieStore {
     return instance;
   }
 
-  public void saveCookie(final URL url, final String cookieSpec) {
-    this.saveCookie(url.getHost(), cookieSpec);
-  }
-
-  public void saveCookie(final String urlHostName, final String cookieSpec) {
+  public void saveCookie(final URI url, final String cookieSpec) {
+    final String urlHostName = url.getHost();
     try {
       // TODO: SECURITY
       if (logger.isLoggable(Level.INFO)) {
         logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
       }
-      final CookieDetails cookieDetails = CookieDetails.parseCookieSpec(cookieSpec);
+      final CookieDetails cookieDetails = CookieDetails.parseCookieSpec(url, cookieSpec);
+      if (PlatformInit.getInstance().debugOn) {
+        System.out.println("Cookie details: " + cookieDetails);
+      }
 
       if (cookieDetails.name == null) {
         logger.log(Level.SEVERE, "saveCookie(): Invalid name in cookie spec from '" + urlHostName + "'");
@@ -128,13 +128,25 @@ public class CookieStore {
     return path.substring(COOKIE_PATH_PREFIX.length());
   }
 
+  /* Path-match algorithm as per section 5.4.1 of RFC 6264. */
+  private static boolean pathMatch(final String cookiePath, final String requestPath) {
+    if (cookiePath.equals(requestPath)) {
+      return true;
+    } else if (requestPath.startsWith(cookiePath)) {
+      return ((cookiePath.charAt(cookiePath.length() - 1) == '/') ||
+          (requestPath.charAt(cookiePath.length()) == '/'));
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Gets cookies belonging exactly to the host name given, not to a broader
    * domain.
    */
   private Collection<Cookie> getCookiesStrict(final String hostName, String path) {
     if (path == null || path.length() == 0) {
-      path = "/";
+      path = "/";     // TODO: Confirm that this is correct. Issue #14 in browserTesting
     }
     final boolean liflag = logger.isLoggable(Level.INFO);
     final Collection<Cookie> cookies = new LinkedList<>();
@@ -151,7 +163,7 @@ public class CookieStore {
               logger.info("getCookiesStrict(): Cookie " + entry.getKey() + " from " + hostName + " expired: " + cookieValue.getExpires());
             }
           } else {
-            if (path.startsWith(cookieValue.getPath())) {
+            if (pathMatch(cookieValue.getPath(), path)) {
               final String cookieName = entry.getKey();
               transientCookieNames.add(cookieName);
               cookies.add(new Cookie(cookieName, cookieValue.getValue()));
@@ -182,7 +194,7 @@ public class CookieStore {
                 }
                 store.removeObject(filePath);
               } else {
-                if (path.startsWith(cookieValue.getPath())) {
+                if (pathMatch(cookieValue.getPath(), path)) {
                   // Found one that is not in main memory. Cache it.
                   synchronized (this) {
                     Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);

@@ -1,9 +1,11 @@
 package org.lobobrowser.request;
 
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -32,8 +34,8 @@ final class CookieDetails {
     EXPIRES_FORMAT_BAK2 = ef3;
   }
 
-  public CookieDetails(String name, String value, String domain, String path, String expires, String maxAge) {
-    super();
+  public CookieDetails(URI requestURL, String name, String value, String domain, String path, String expires, String maxAge) {
+    this.requestURL = requestURL;
     this.name = name;
     this.value = value;
     this.domain = domain;
@@ -42,6 +44,7 @@ final class CookieDetails {
     this.maxAge = maxAge;
   }
 
+  final URI requestURL;
   final String name;
   final String value;
   final String domain;
@@ -50,10 +53,22 @@ final class CookieDetails {
   final String maxAge;
 
   final String getEffectivePath() {
-    if (path == null || path.length() == 0) {
-      return "/";
+    if (path == null || path.length() == 0 || path.charAt(0) != '/') {
+      return getDefaultPath();
     } else {
       return path;
+    }
+  }
+
+  /* As per section 5.1.4 of RFC 6265 */
+  private String getDefaultPath() {
+    String urlPath = requestURL.getPath();
+    if(urlPath == null || urlPath.length() == 0 || urlPath.charAt(0) != '/') {
+      return "/";
+    } else if (Strings.countChars(urlPath, '/') == 1) {
+      return "/";
+    } else {
+      return urlPath.substring(0, urlPath.lastIndexOf('/'));
     }
   }
 
@@ -114,7 +129,7 @@ final class CookieDetails {
     return true;
   }
 
-  static CookieDetails parseCookieSpec(final String cookieSpec) {
+  static CookieDetails parseCookieSpec(final URI requestURL, final String cookieSpec) {
     final StringTokenizer tok = new StringTokenizer(cookieSpec, ";");
     String cookieName = null;
     String cookieValue = null;
@@ -148,7 +163,20 @@ final class CookieDetails {
         }
       }
     }
-    return new CookieDetails(cookieName, cookieValue, domain, path, expires, maxAge);
+    return new CookieDetails(requestURL, cookieName, cookieValue, domain, path, expires, maxAge);
   }
 
+  @Override
+  public String toString() {
+    String expiresDateStr = "";
+    try {
+      expiresDateStr = Optional.ofNullable(getExpiresDate()).toString();
+    } catch(ParseException e) {
+      expiresDateStr = "Error parsing: " + e.getMessage();
+    }
+    return "CookieDetails [name=" + name + ", value=" + value + ", domain=" + domain + ", path=" + path + ", expires=" + expires
+        + ", maxAge=" + maxAge + ", effectivePath=" + getEffectivePath() + ", expiresDate=" + expiresDateStr + "]";
+  }
+
+  
 }
