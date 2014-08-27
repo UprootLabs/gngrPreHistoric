@@ -32,21 +32,16 @@ public class CookieValue implements Serializable {
   private final String value;
   private final String path;
   private final Long expirationTime;
+  private final boolean secure;
+  private final boolean httpOnly;
   private static final long serialVersionUID = 225784501000400500L;
 
-  /**
-	 * 
-	 */
-  public CookieValue(final String value, final String path, final Long expirationTime) {
+  public CookieValue(final String value, final String path, final Long expirationTime, boolean secure, boolean httpOnly) {
     this.value = value;
     this.path = path;
     this.expirationTime = expirationTime;
-  }
-
-  public CookieValue(final String value, final String path) {
-    this.value = value;
-    this.path = path;
-    this.expirationTime = null;
+    this.secure = secure;
+    this.httpOnly = httpOnly;
   }
 
   public String getValue() {
@@ -68,5 +63,11 @@ public class CookieValue implements Serializable {
 
   public String toString() {
     return "CookieValue[value=" + value + ",path=" + path + ",expiration=" + expirationTime + "]";
+  }
+
+  /* Returns true if the secure flag is valid for the given protocol type */
+
+  public boolean checkSecure(final boolean secureProtocol) {
+    return !secure || secureProtocol;
   }
 }

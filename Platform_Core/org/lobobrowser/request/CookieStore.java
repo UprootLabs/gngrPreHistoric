@@ -91,7 +91,7 @@ public class CookieStore {
         logger.info("saveCookie(): " + cookieDetails);
       }
       final Long expiresLong = expires == null ? null : expires.getTime();
-      final CookieValue cookieValue = new CookieValue(cookieDetails.value, cookieDetails.getEffectivePath(), expiresLong);
+      final CookieValue cookieValue = new CookieValue(cookieDetails.value, cookieDetails.getEffectivePath(), expiresLong, cookieDetails.secure, cookieDetails.httpOnly);
       synchronized (this) {
         // Always save a transient cookie. It acts as a cache.
         Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
@@ -140,10 +140,11 @@ public class CookieStore {
    * Gets cookies belonging exactly to the host name given, not to a broader
    * domain.
    */
-  private Collection<Cookie> getCookiesStrict(final String hostName, String path) {
+  private Collection<Cookie> getCookiesStrict(final String protocol, final String hostName, String path) {
     if (path == null || path.length() == 0) {
       path = "/";     // TODO: Confirm that this is correct. Issue #14 in browserTesting
     }
+    final boolean secureProtocol = "https".equalsIgnoreCase(protocol);
     final boolean liflag = logger.isLoggable(Level.INFO);
     final Collection<Cookie> cookies = new LinkedList<>();
     final Set<String> transientCookieNames = new HashSet<>();
@@ -160,9 +161,11 @@ public class CookieStore {
             }
           } else {
             if (pathMatch(cookieValue.getPath(), path)) {
-              final String cookieName = entry.getKey();
-              transientCookieNames.add(cookieName);
-              cookies.add(new Cookie(cookieName, cookieValue.getValue()));
+              if (cookieValue.checkSecure(secureProtocol)) {
+                final String cookieName = entry.getKey();
+                transientCookieNames.add(cookieName);
+                cookies.add(new Cookie(cookieName, cookieValue.getValue()));
+              }
             } else {
               if (liflag) {
                 logger.info("getCookiesStrict(): Skipping cookie " + cookieValue + " since it does not match path " + path);
@@ -200,8 +203,10 @@ public class CookieStore {
                     }
                     hostMap.put(cookieName, cookieValue);
                   }
-                  // Now add cookie to the collection.
-                  cookies.add(new Cookie(cookieName, cookieValue.getValue()));
+                  if (cookieValue.checkSecure(secureProtocol)) {
+                    // Now add cookie to the collection.
+                    cookies.add(new Cookie(cookieName, cookieValue.getValue()));
+                  }
                 } else {
                   if (logger.isLoggable(Level.INFO)) {
                     logger.info("getCookiesStrict(): Skipping cookie " + cookieValue + " since it does not match path " + path);
@@ -222,12 +227,12 @@ public class CookieStore {
     return cookies;
   }
 
-  public Collection<Cookie> getCookies(final String hostName, final String path) {
+  public Collection<Cookie> getCookies(final String protocol, final String hostName, final String path) {
     // Security provided by RestrictedStore.
     final Collection<String> possibleDomains = DomainValidation.getPossibleDomains(hostName);
     final Collection<Cookie> cookies = new LinkedList<>();
     for (final String domain : possibleDomains) {
-      cookies.addAll(this.getCookiesStrict(domain, path));
+      cookies.addAll(this.getCookiesStrict(protocol, domain, path));
     }
     if (logger.isLoggable(Level.INFO)) {
       logger.info("getCookies(): For host=" + hostName + ", found " + cookies.size() + " cookies: " + cookies);

@@ -113,7 +113,7 @@ public final class RequestEngine {
   }
 
   public String getCookie(final java.net.URL url) {
-    final Collection<Cookie> cookies = this.cookieStore.getCookies(url.getHost(), url.getPath());
+    final Collection<Cookie> cookies = this.cookieStore.getCookies(url.getProtocol(), url.getHost(), url.getPath());
     final StringBuffer cookieText = new StringBuffer();
     cookies.forEach(cookie -> {
       cookieText.append(cookie.getName());
