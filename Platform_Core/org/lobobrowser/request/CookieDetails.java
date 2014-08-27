@@ -34,7 +34,7 @@ final class CookieDetails {
     EXPIRES_FORMAT_BAK2 = ef3;
   }
 
-  public CookieDetails(URI requestURL, String name, String value, String domain, String path, String expires, String maxAge) {
+  public CookieDetails(URI requestURL, String name, String value, String domain, String path, String expires, String maxAge, final boolean secure, final boolean httpOnly) {
     this.requestURL = requestURL;
     this.name = name;
     this.value = value;
@@ -42,6 +42,8 @@ final class CookieDetails {
     this.path = path;
     this.expires = expires;
     this.maxAge = maxAge;
+    this.secure = secure;
+    this.httpOnly = httpOnly;
     this.requestHostName = requestURL.getHost();
   }
 
@@ -53,6 +55,7 @@ final class CookieDetails {
   private final String path;
   final String expires;
   final String maxAge;
+  final boolean secure, httpOnly;
 
   final String getEffectivePath() {
     if (path == null || path.length() == 0 || path.charAt(0) != '/') {
@@ -139,7 +142,8 @@ final class CookieDetails {
     String path = null;
     String expires = null;
     String maxAge = null;
-    // String secure = null;
+    boolean secure = false;
+    boolean httpOnly = false;
     boolean hasCookieName = false;
     while (tok.hasMoreTokens()) {
       final String token = tok.nextToken();
@@ -160,12 +164,13 @@ final class CookieDetails {
         } else if ("expires".equalsIgnoreCase(name)) {
           expires = value;
         } else if ("secure".equalsIgnoreCase(name)) {
-          // TODO: SECURITY
-          // secure = value;
+          secure = true;
+        } else if ("httponly".equalsIgnoreCase(name)) {
+          httpOnly = true;
         }
       }
     }
-    return new CookieDetails(requestURL, cookieName, cookieValue, domain, path, expires, maxAge);
+    return new CookieDetails(requestURL, cookieName, cookieValue, domain, path, expires, maxAge, secure, httpOnly);
   }
 
   @Override
