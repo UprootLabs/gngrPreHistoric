@@ -62,6 +62,7 @@ import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.clientlet.Header;
 import org.lobobrowser.main.ExtensionManager;
+import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.settings.BooleanSettings;
 import org.lobobrowser.settings.CacheSettings;
 import org.lobobrowser.settings.ConnectionSettings;
@@ -689,6 +690,22 @@ public final class RequestEngine {
     }
   }
 
+  private static void dumpRequestInfo(URLConnection connection) {
+    if (PlatformInit.getInstance().debugOn) {
+      System.out.println("URL: " + connection.getURL());
+      System.out.println("  Request Headers: ");
+      connection.getRequestProperties().forEach((key, value) -> System.out.println("    " + key + " : " + value));
+    }
+  }
+
+  private static void dumpResponseInfo(URLConnection connection) {
+    if (PlatformInit.getInstance().debugOn) {
+      System.out.println("URL: " + connection.getURL());
+      System.out.println("  Response Headers: ");
+      connection.getHeaderFields().forEach((key, value) -> System.out.println("    " + key + " : " + value));
+    }
+  }
+
   private void processHandler(final RequestHandler rhandler, final int recursionLevel, final boolean trackRequestInfo) {
     // Method must be private.
     final URL baseURL = rhandler.getLatestRequestURL();
@@ -707,6 +724,7 @@ public final class RequestEngine {
       try {
         URLConnection connection = this.getURLConnection(connectionUrl, request, protocol, method, rhandler, cacheInfo);
         addCookiesToRequest(connection, rhandler);
+        dumpRequestInfo(connection);
 
         rinfo = new RequestInfo(connection, rhandler);
         // InputStream responseIn = null;
@@ -728,6 +746,7 @@ public final class RequestEngine {
             hconnection.setInstanceFollowRedirects(false);
             final int responseCode = hconnection.getResponseCode();
             logInfo("run(): ResponseCode=" + responseCode + " for url=" + connectionUrl);
+            dumpResponseInfo(connection);
             handleCookies(connectionUrl, hconnection, rhandler);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {

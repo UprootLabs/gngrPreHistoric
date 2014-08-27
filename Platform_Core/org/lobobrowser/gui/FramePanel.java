@@ -588,6 +588,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       }
 
       if (content != null) {
+        if (PlatformInit.getInstance().debugOn) {
+          System.out.println("Navigation over: " + response.getResponseURL());
+        }
         content.navigatedNotify();
       }
 

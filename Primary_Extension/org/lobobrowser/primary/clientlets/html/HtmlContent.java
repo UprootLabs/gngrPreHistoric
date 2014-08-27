@@ -117,7 +117,6 @@ public class HtmlContent implements ComponentContent {
   }
 
   public void navigatedNotify() {
-    System.out.println("\n\nnavigation over: " + this);
     ((HTMLDocumentImpl) document).finishModifications();
   }
 
