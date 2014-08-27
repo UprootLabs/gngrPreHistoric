@@ -42,9 +42,11 @@ final class CookieDetails {
     this.path = path;
     this.expires = expires;
     this.maxAge = maxAge;
+    this.requestHostName = requestURL.getHost();
   }
 
   final URI requestURL;
+  final String requestHostName;
   final String name;
   final String value;
   final String domain;
@@ -72,9 +74,9 @@ final class CookieDetails {
     }
   }
 
-  final String getEffectiveDomain(final String urlHostName) {
+  final String getEffectiveDomain() {
     if (domain == null) {
-      return urlHostName;
+      return requestHostName;
     } else if (domain.startsWith(".")) {
       return domain.substring(1);
     } else {
@@ -110,7 +112,7 @@ final class CookieDetails {
     return expiresDate;
   }
 
-  boolean isValidDomain(final String urlHostName) {
+  boolean isValidDomain() {
     if (domain != null) {
       if (expires == null && maxAge == null && logger.isLoggable(Level.INFO)) {
         // TODO: Check if this is true:
@@ -120,9 +122,9 @@ final class CookieDetails {
         logger.log(Level.INFO, "Not rejecting transient cookie that specifies domain '" + domain + "'.");
       }
       // if (!Domains.isValidCookieDomain(domain, urlHostName)) {
-      if (!DomainValidation.isValidCookieDomain(domain, urlHostName)) {
+      if (!DomainValidation.isValidCookieDomain(domain, requestHostName)) {
         logger.log(Level.WARNING, "saveCookie(): Rejecting cookie with invalid domain '" + domain + "' for host '"
-            + urlHostName + "'.");
+            + requestHostName + "'.");
         return false;
       }
     }

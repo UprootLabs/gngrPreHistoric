@@ -61,59 +61,55 @@ public class CookieStore {
 
   public void saveCookie(final URI url, final String cookieSpec) {
     final String urlHostName = url.getHost();
-    try {
-      // TODO: SECURITY
-      if (logger.isLoggable(Level.INFO)) {
-        logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
-      }
-      final CookieDetails cookieDetails = CookieDetails.parseCookieSpec(url, cookieSpec);
-      if (PlatformInit.getInstance().debugOn) {
-        System.out.println("Cookie details: " + cookieDetails);
-      }
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
+    }
+    final CookieDetails cookieDetails = CookieDetails.parseCookieSpec(url, cookieSpec);
+    if (PlatformInit.getInstance().debugOn) {
+      System.out.println("Cookie details: " + cookieDetails);
+    }
 
-      if (cookieDetails.name == null) {
-        logger.log(Level.SEVERE, "saveCookie(): Invalid name in cookie spec from '" + urlHostName + "'");
-        return;
-      }
-
-      if (!cookieDetails.isValidDomain(urlHostName)) {
-        logger.log(Level.SEVERE, "saveCookie(): Invalid domain in cookie spec from '" + urlHostName + "'");
-        return;
-      }
-
-      final String effectiveDomain = cookieDetails.getEffectiveDomain(urlHostName);
-      final java.util.Date expiresDate = cookieDetails.getExpiresDate();
-      // TODO: Secure
-      this.saveCookie(effectiveDomain, cookieDetails.getEffectivePath(), cookieDetails.name, expiresDate, cookieDetails.value);
-    } catch (final ParseException pe3) {
-      logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + cookieSpec, pe3);
+    if (cookieDetails.name == null) {
+      logger.log(Level.SEVERE, "saveCookie(): Invalid name in cookie spec from '" + urlHostName + "'");
       return;
     }
+
+    if (!cookieDetails.isValidDomain()) {
+      logger.log(Level.SEVERE, "saveCookie(): Invalid domain in cookie spec from '" + urlHostName + "'");
+      return;
+    }
+
+    this.saveCookie(cookieDetails);
   }
 
-  private void saveCookie(final String domain, final String path, final String name, final java.util.Date expires, final String value) {
-    // TODO: SECURITY
-    if (logger.isLoggable(Level.INFO)) {
-      logger.info("saveCookie(): domain=" + domain + ",name=" + name + ",expires=" + expires + ",value=[" + value + "].");
-    }
-    final Long expiresLong = expires == null ? null : expires.getTime();
-    final CookieValue cookieValue = new CookieValue(value, path, expiresLong);
-    synchronized (this) {
-      // Always save a transient cookie. It acts as a cache.
-      Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
-      if (hostMap == null) {
-        hostMap = new HashMap<>(2);
-        this.transientMapByHost.put(domain, hostMap);
+  private void saveCookie(final CookieDetails cookieDetails) {
+    final String name = cookieDetails.name;
+    final String domain = cookieDetails.getEffectiveDomain();
+    try {
+      final java.util.Date expires = cookieDetails.getExpiresDate();
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info("saveCookie(): " + cookieDetails);
       }
-      hostMap.put(name, cookieValue);
-    }
-    if (expiresLong != null) {
-      try {
+      final Long expiresLong = expires == null ? null : expires.getTime();
+      final CookieValue cookieValue = new CookieValue(cookieDetails.value, cookieDetails.getEffectivePath(), expiresLong);
+      synchronized (this) {
+        // Always save a transient cookie. It acts as a cache.
+        Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
+        if (hostMap == null) {
+          hostMap = new HashMap<>(2);
+          this.transientMapByHost.put(domain, hostMap);
+        }
+        hostMap.put(name, cookieValue);
+      }
+      if (expiresLong != null) {
         final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domain, true);
         store.saveObject(getPathFromCookieName(name), cookieValue);
-      } catch (final IOException ioe) {
-        logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domain + "'", ioe);
       }
+    } catch (final IOException ioe) {
+      logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domain + "'", ioe);
+    } catch (final ParseException pe3) {
+      logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + cookieDetails.expires, pe3);
+      return;
     }
   }
 
