@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -91,7 +92,7 @@ public class CookieStore {
         logger.info("saveCookie(): " + cookieDetails);
       }
       final Long expiresLong = expires == null ? null : expires.getTime();
-      final CookieValue cookieValue = new CookieValue(cookieDetails.value, cookieDetails.getEffectivePath(), expiresLong, cookieDetails.secure, cookieDetails.httpOnly);
+      final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(), expiresLong, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
       synchronized (this) {
         // Always save a transient cookie. It acts as a cache.
         Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
@@ -110,6 +111,23 @@ public class CookieStore {
     } catch (final ParseException pe3) {
       logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + cookieDetails.expires, pe3);
       return;
+    }
+  }
+
+  // This should be 1000 * 1000, but for optimization has been converted to 1024*1024
+  private static final long MILLION_LIKE = 1024*1024;
+
+  private long previousTimeNanos = System.currentTimeMillis() * MILLION_LIKE;
+  private long getMonotonicTime() {
+    final long previousTimeMillis = previousTimeNanos / MILLION_LIKE;
+    final long currentMillis = System.currentTimeMillis();
+    if (previousTimeMillis == currentMillis) {
+      previousTimeNanos += 1;
+      return previousTimeNanos;
+    } else {
+      final long currentNanos = currentMillis * MILLION_LIKE;
+      previousTimeNanos = currentNanos;
+      return currentNanos;
     }
   }
 
@@ -146,8 +164,8 @@ public class CookieStore {
     }
     final boolean secureProtocol = "https".equalsIgnoreCase(protocol);
     final boolean liflag = logger.isLoggable(Level.INFO);
-    final Collection<Cookie> cookies = new LinkedList<>();
     final Set<String> transientCookieNames = new HashSet<>();
+    final List<CookieValue> selectedCookies = new LinkedList<>();
     synchronized (this) {
       final Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
       if (hostMap != null) {
@@ -164,7 +182,7 @@ public class CookieStore {
               if (cookieValue.checkSecure(secureProtocol)) {
                 final String cookieName = entry.getKey();
                 transientCookieNames.add(cookieName);
-                cookies.add(new Cookie(cookieName, cookieValue.getValue()));
+                selectedCookies.add(cookieValue);
               }
             } else {
               if (liflag) {
@@ -205,7 +223,7 @@ public class CookieStore {
                   }
                   if (cookieValue.checkSecure(secureProtocol)) {
                     // Now add cookie to the collection.
-                    cookies.add(new Cookie(cookieName, cookieValue.getValue()));
+                    selectedCookies.add(cookieValue);
                   }
                 } else {
                   if (logger.isLoggable(Level.INFO)) {
@@ -223,6 +241,12 @@ public class CookieStore {
       logger.log(Level.SEVERE, "getCookiesStrict()", ioe);
     } catch (final ClassNotFoundException cnf) {
       logger.log(Level.SEVERE, "getCookiesStrict(): Possible engine versioning error.", cnf);
+    }
+
+    selectedCookies.sort(null);
+    final Collection<Cookie> cookies = new LinkedList<>();
+    for (CookieValue cookieValue : selectedCookies) {
+      cookies.add(new Cookie(cookieValue.getName(), cookieValue.getValue()));
     }
     return cookies;
   }

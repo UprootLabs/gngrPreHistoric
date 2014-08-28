@@ -28,20 +28,28 @@ import java.io.Serializable;
 /**
  * @author J. H. S.
  */
-public class CookieValue implements Serializable {
+public class CookieValue implements Serializable, Comparable<CookieValue> {
+  private final String name;
   private final String value;
   private final String path;
   private final Long expirationTime;
   private final boolean secure;
   private final boolean httpOnly;
+  private final long creationTime;
   private static final long serialVersionUID = 225784501000400500L;
 
-  public CookieValue(final String value, final String path, final Long expirationTime, boolean secure, boolean httpOnly) {
+  public CookieValue(final String name, final String value, final String path, final Long expirationTime, final boolean secure, final boolean httpOnly, final long creationTime) {
+    this.name = name;
     this.value = value;
     this.path = path;
     this.expirationTime = expirationTime;
     this.secure = secure;
     this.httpOnly = httpOnly;
+    this.creationTime = creationTime;
+  }
+
+  public String getName() {
+    return this.name;
   }
 
   public String getValue() {
@@ -62,12 +70,25 @@ public class CookieValue implements Serializable {
   }
 
   public String toString() {
-    return "CookieValue[value=" + value + ",path=" + path + ",expiration=" + expirationTime + "]";
+    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTime + ",creationTime="+creationTime+"]";
   }
 
   /* Returns true if the secure flag is valid for the given protocol type */
 
   public boolean checkSecure(final boolean secureProtocol) {
     return !secure || secureProtocol;
+  }
+
+  /** Orders cookies by these rules (section 5.4, point 2 of RFC 6265)
+   *   - cookies with longer paths are smaller
+   *   - if path lengths are same, cookies with earlier creation time are smaller
+   */
+  public int compareTo(final CookieValue other) {
+    final int pathCompare = ((Integer)(path.length())).compareTo(other.path.length());
+    if (pathCompare == 0) {
+      return ((Long)creationTime).compareTo(other.creationTime);
+    } else {
+      return -pathCompare;
+    }
   }
 }
