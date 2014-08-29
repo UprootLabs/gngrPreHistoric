@@ -867,7 +867,7 @@ public final class RequestEngine {
         if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
           final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
           addCookieHeaderToRequest(connection, cookieHeaders, "Cookie");
-          addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
+          // addCookieHeaderToRequest(connection, cookieHeaders, "Cookie2");
         }
       }
     } catch (IOException|URISyntaxException e) {
@@ -889,7 +889,7 @@ public final class RequestEngine {
   private void handleCookies(final URL url, final HttpURLConnection hconnection, final RequestHandler rhandler) throws URISyntaxException, IOException {
     final Map<String, List<String>> headerFields = hconnection.getHeaderFields();
     final boolean cookieSetterExists = headerFields.keySet().stream().anyMatch(key ->
-      "Set-Cookie".equalsIgnoreCase(key) || "Set-Cookie2".equalsIgnoreCase(key)
+      "Set-Cookie".equalsIgnoreCase(key) // || "Set-Cookie2".equalsIgnoreCase(key)
     );
     if (cookieSetterExists) {
       if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {

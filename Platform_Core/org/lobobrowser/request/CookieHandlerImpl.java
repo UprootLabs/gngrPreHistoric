@@ -97,8 +97,8 @@ public class CookieHandlerImpl extends CookieHandler {
           if (value != null) {
             if ("Set-Cookie".equalsIgnoreCase(key)) {
               cookieStore.saveCookie(uri, value);
-            } else if ("Set-Cookie2".equalsIgnoreCase(key)) {
-              cookieStore.saveCookie(uri, value);
+            // } else if ("Set-Cookie2".equalsIgnoreCase(key)) {
+              // cookieStore.saveCookie(uri, value);
             }
           }
         }
