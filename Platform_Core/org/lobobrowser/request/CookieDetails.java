@@ -110,7 +110,7 @@ final class CookieDetails {
             try {
               expiresDate = Optional.of(EXPIRES_FORMAT_BAK2.parse(expires));
             } catch (final ParseException pe3) {
-              logger.log(Level.WARNING, "saveCookie(): Giving up on cookie date format: " + expires, pe3);
+              logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + expires, pe3);
             }
           }
         }
