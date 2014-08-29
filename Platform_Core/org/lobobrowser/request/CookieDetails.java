@@ -87,7 +87,7 @@ final class CookieDetails {
     }
   }
 
-  final java.util.Date getExpiresDate() throws ParseException {
+  final java.util.Date getExpiresDate() {
     java.util.Date expiresDate = null;
     if (maxAge != null) {
       try {
@@ -107,7 +107,11 @@ final class CookieDetails {
           try {
             expiresDate = EXPIRES_FORMAT_BAK1.parse(expires);
           } catch (final Exception pe2) {
-            expiresDate = EXPIRES_FORMAT_BAK2.parse(expires);
+            try {
+              expiresDate = EXPIRES_FORMAT_BAK2.parse(expires);
+            } catch (final ParseException pe3) {
+              logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + expires, pe3);
+            }
           }
         }
       }
@@ -179,12 +183,7 @@ final class CookieDetails {
 
   @Override
   public String toString() {
-    String expiresDateStr = "";
-    try {
-      expiresDateStr = Optional.ofNullable(getExpiresDate()).toString();
-    } catch(ParseException e) {
-      expiresDateStr = "Error parsing: " + e.getMessage();
-    }
+    final String expiresDateStr = Optional.ofNullable(getExpiresDate()).toString();
     return "CookieDetails [name=" + name + ", value=" + value + ", domain=" + domain + ", path=" + path + ", expires=" + expires
         + ", maxAge=" + maxAge + ", effectivePath=" + getEffectivePath() + ", expiresDate=" + expiresDateStr + "]";
   }

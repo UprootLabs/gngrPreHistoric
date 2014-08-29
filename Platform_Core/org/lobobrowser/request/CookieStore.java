@@ -25,7 +25,6 @@ package org.lobobrowser.request;
 
 import java.io.IOException;
 import java.net.URI;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -112,9 +111,6 @@ public class CookieStore {
       }
     } catch (final IOException ioe) {
       logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domain + "'", ioe);
-    } catch (final ParseException pe3) {
-      logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + cookieDetails.expires, pe3);
-      return;
     }
   }
 
