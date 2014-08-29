@@ -24,6 +24,7 @@
 package org.lobobrowser.request;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * @author J. H. S.
@@ -32,17 +33,17 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   private final String name;
   private final String value;
   private final String path;
-  private final Long expirationTime;
+  private final Optional<Long> expirationTimeOpt;
   private final boolean secure;
   private final boolean httpOnly;
   private final long creationTime;
   private static final long serialVersionUID = 225784501000400500L;
 
-  public CookieValue(final String name, final String value, final String path, final Long expirationTime, final boolean secure, final boolean httpOnly, final long creationTime) {
+  public CookieValue(final String name, final String value, final String path, final Optional<Long> expirationTimeOpt, final boolean secure, final boolean httpOnly, final long creationTime) {
     this.name = name;
     this.value = value;
     this.path = path;
-    this.expirationTime = expirationTime;
+    this.expirationTimeOpt = expirationTimeOpt;
     this.secure = secure;
     this.httpOnly = httpOnly;
     this.creationTime = creationTime;
@@ -56,8 +57,8 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
     return this.value;
   }
 
-  public Long getExpires() {
-    return this.expirationTime;
+  public Optional<Long> getExpires() {
+    return this.expirationTimeOpt;
   }
 
   public String getPath() {
@@ -65,12 +66,12 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   }
 
   public boolean isExpired() {
-    final Long exp = this.expirationTime;
-    return exp == null ? false : exp.longValue() < System.currentTimeMillis();
+    final Optional<Long> expOpt = this.expirationTimeOpt;
+    return expOpt.map(exp -> exp.longValue() < System.currentTimeMillis()).orElse(false);
   }
 
   public String toString() {
-    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTime + ",creationTime="+creationTime+"]";
+    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTimeOpt + ",creationTime="+creationTime+"]";
   }
 
   /* Returns true if the secure flag is valid for the given protocol type */

@@ -90,12 +90,12 @@ public class CookieStore {
     final String name = cookieDetails.name;
     final String domain = cookieDetails.getEffectiveDomain();
     try {
-      final java.util.Date expires = cookieDetails.getExpiresDate();
+      final Optional<java.util.Date> expiresOpt = cookieDetails.getExpiresDate();
       if (logger.isLoggable(Level.INFO)) {
         logger.info("saveCookie(): " + cookieDetails);
       }
-      final Long expiresLong = expires == null ? null : expires.getTime();
-      final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(), expiresLong, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
+      final Optional<Long> expiresLongOpt = expiresOpt.map(e -> e.getTime());
+      final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(), expiresLongOpt, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
       synchronized (this) {
         // Always save a transient cookie. It acts as a cache.
         Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
@@ -105,7 +105,7 @@ public class CookieStore {
         }
         hostMap.put(name, cookieValue);
       }
-      if (expiresLong != null) {
+      if (expiresLongOpt.isPresent()) {
         final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domain, true);
         store.saveObject(getPathFromCookieName(name), cookieValue);
       }

@@ -87,28 +87,28 @@ final class CookieDetails {
     }
   }
 
-  final java.util.Date getExpiresDate() {
-    java.util.Date expiresDate = null;
+  final Optional<java.util.Date> getExpiresDate() {
+    Optional<java.util.Date> expiresDate = Optional.empty();
     if (maxAge != null) {
       try {
         final int maxAgeSeconds = Integer.parseInt(maxAge);
-        expiresDate = new java.util.Date(System.currentTimeMillis() + maxAgeSeconds * 1000);
+        expiresDate = Optional.of(new java.util.Date(System.currentTimeMillis() + maxAgeSeconds * 1000));
       } catch (final java.lang.NumberFormatException nfe) {
         logger.log(Level.WARNING, "saveCookie(): Max-age is not formatted correctly: " + maxAge + ".");
       }
     } else if (expires != null) {
       synchronized (EXPIRES_FORMAT) {
         try {
-          expiresDate = EXPIRES_FORMAT.parse(expires);
+          expiresDate = Optional.of(EXPIRES_FORMAT.parse(expires));
         } catch (final Exception pe) {
           if (logger.isLoggable(Level.INFO)) {
             logger.log(Level.INFO, "saveCookie(): Bad date format: " + expires + ". Will try again.", pe);
           }
           try {
-            expiresDate = EXPIRES_FORMAT_BAK1.parse(expires);
+            expiresDate = Optional.of(EXPIRES_FORMAT_BAK1.parse(expires));
           } catch (final Exception pe2) {
             try {
-              expiresDate = EXPIRES_FORMAT_BAK2.parse(expires);
+              expiresDate = Optional.of(EXPIRES_FORMAT_BAK2.parse(expires));
             } catch (final ParseException pe3) {
               logger.log(Level.SEVERE, "saveCookie(): Giving up on cookie date format: " + expires, pe3);
             }
