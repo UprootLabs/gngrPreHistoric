@@ -24,6 +24,9 @@ public final class DomainValidation {
     }
     final String plainDomainTL = plainDomain.toLowerCase();
     final String hostNameTL = requestHostName.toLowerCase();
+    if (plainDomainTL.equals(hostNameTL)){
+      return true;
+    } else {
     if (!hostNameTL.endsWith(plainDomainTL)) {
       return false;
     } else {
@@ -31,10 +34,15 @@ public final class DomainValidation {
       // and there is a residual character after that
       final int nonCommonLength = hostNameTL.length() - plainDomainTL.length();
       final boolean residualCharacterExists = nonCommonLength >= 2;
-      final char firstNonCommonCharacter = hostNameTL.charAt(nonCommonLength - 1);
-      if((!residualCharacterExists) || (firstNonCommonCharacter != '.')) {
+      if (!residualCharacterExists) {
         return false;
+      } else {
+        final char firstNonCommonCharacter = hostNameTL.charAt(nonCommonLength - 1);
+        if (firstNonCommonCharacter != '.') {
+          return false;
+        }
       }
+    }
     }
 
     return !isPublicSuffix(plainDomain);
