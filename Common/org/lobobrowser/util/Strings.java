@@ -284,10 +284,17 @@ public class Strings {
   // return text.substring(startIdx, endIdx + 1);
   // }
 
+  /**
+   * Removes the double-quotes at the beginning and end of a string. If input
+   * string doesn't have the double-quote character at beginning or end, it
+   * is returned unchanged.
+   */
   public static String unquote(final String text) {
-    if (text.startsWith("\"") && text.endsWith("\"")) {
-      // substring works on indices
-      return text.substring(1, text.length() - 1);
+    final int length = text.length();
+    if (length >= 2) {
+      if ((text.charAt(0) == '"') && (text.charAt(length - 1) == '"')) {
+        return text.substring(1, length - 1);
+      }
     }
     return text;
   }
