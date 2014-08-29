@@ -149,7 +149,7 @@ final class CookieDetails {
       final String token = tok.nextToken();
       final int idx = token.indexOf('=');
       final String name = idx == -1 ? token.trim() : token.substring(0, idx).trim();
-      final String value = idx == -1 ? "" : Strings.unquote(token.substring(idx + 1).trim());
+      final String value = idx == -1 ? "" : token.substring(idx + 1).trim();
       if (!hasCookieName) {
         cookieName = name;
         cookieValue = value;
