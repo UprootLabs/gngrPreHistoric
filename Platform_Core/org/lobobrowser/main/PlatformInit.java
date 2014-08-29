@@ -56,6 +56,9 @@ import org.lobobrowser.util.SimpleThreadPool;
 import org.lobobrowser.util.SimpleThreadPoolTask;
 import org.lobobrowser.util.Urls;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
+
 ;
 /**
  * A singleton class that is used to initialize a browser session in the current
@@ -100,6 +103,9 @@ public class PlatformInit {
     // Configure URL protocol handlers
     final PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory.getInstance();
     URL.setURLStreamHandlerFactory(factory);
+    OkHttpClient okHttpClient = new OkHttpClient();
+    okHttpClient.setFollowRedirects(false);
+    factory.addFactory(new OkUrlFactory(okHttpClient));
     factory.addFactory(new LocalStreamHandlerFactory());
   }
 

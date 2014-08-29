@@ -366,6 +366,10 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(StoreHostPermission.forURL(location));    // TODO: Check if really required
         permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
 
+        // Added due to OkHttp
+        permissions.add(new NetPermission("getProxySelector"));
+        permissions.add(new NetPermission("getCookieHandler"));
+
       } else if (path.endsWith("cssparser-0.9.14.jar")) {
         permissions.add(new PropertyPermission("org.w3c.css.sac.parser", "read,write"));
         permissions.add(new PropertyPermission("line.separator", "read"));
@@ -375,6 +379,17 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new PropertyPermission("java.vm.name", "read"));
         permissions.add(new PropertyPermission("line.separator", "read"));
         permissions.add(new RuntimePermission("getClassLoader"));
+
+      } else if (path.endsWith("okhttp-urlconnection-2.0.0.jar")) {
+        permissions.add(new NetPermission("getProxySelector"));
+        permissions.add(new NetPermission("getCookieHandler"));
+        permissions.add(new PropertyPermission("http.*", "read"));
+        permissions.add(new SocketPermission("*", "connect,resolve,listen,accept"));
+      } else if (path.endsWith("okhttp-2.0.1-SNAPSHOT.jar")) {
+        permissions.add(new NetPermission("getProxySelector"));
+        permissions.add(new NetPermission("getCookieHandler"));
+        permissions.add(new PropertyPermission("http.*", "read"));
+        permissions.add(new SocketPermission("*", "connect,resolve,listen,accept"));
       } else if (path.startsWith(JAVA_HOME)) {
         // This is to allow libraries to be loaded by JDK classes. Required for SSL libraries for example.
         permissions.add(new FilePermission(JAVA_HOME + recursiveSuffix, "read,execute"));
