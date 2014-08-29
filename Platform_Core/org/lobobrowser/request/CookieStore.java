@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,22 +66,25 @@ public class CookieStore {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
     }
-    final CookieDetails cookieDetails = CookieDetails.parseCookieSpec(url, cookieSpec);
-    if (PlatformInit.getInstance().debugOn) {
-      System.out.println("Cookie details: " + cookieDetails);
-    }
+    final Optional<CookieDetails> cookieDetailsOpt = CookieDetails.parseCookieSpec(url, cookieSpec);
+    if (cookieDetailsOpt.isPresent()) {
+      final CookieDetails cookieDetails = cookieDetailsOpt.get();
+      if (PlatformInit.getInstance().debugOn) {
+        System.out.println("Cookie details: " + cookieDetails);
+      }
 
-    if (cookieDetails.name == null) {
-      logger.log(Level.SEVERE, "saveCookie(): Invalid name in cookie spec from '" + urlHostName + "'");
-      return;
-    }
+      if (cookieDetails.name == null) {
+        logger.log(Level.SEVERE, "saveCookie(): Invalid name in cookie spec from '" + urlHostName + "'");
+        return;
+      }
 
-    if (!cookieDetails.isValidDomain()) {
-      logger.log(Level.SEVERE, "saveCookie(): Invalid domain in cookie spec from '" + urlHostName + "'");
-      return;
-    }
+      if (!cookieDetails.isValidDomain()) {
+        logger.log(Level.SEVERE, "saveCookie(): Invalid domain in cookie spec from '" + urlHostName + "'");
+        return;
+      }
 
-    this.saveCookie(cookieDetails);
+      this.saveCookie(cookieDetails);
+    }
   }
 
   private void saveCookie(final CookieDetails cookieDetails) {

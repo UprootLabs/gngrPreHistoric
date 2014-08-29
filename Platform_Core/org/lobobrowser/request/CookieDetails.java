@@ -134,7 +134,7 @@ final class CookieDetails {
     return true;
   }
 
-  static CookieDetails parseCookieSpec(final URI requestURL, final String cookieSpec) {
+  static Optional<CookieDetails> parseCookieSpec(final URI requestURL, final String cookieSpec) {
     final StringTokenizer tok = new StringTokenizer(cookieSpec, ";");
     String cookieName = null;
     String cookieValue = null;
@@ -151,9 +151,13 @@ final class CookieDetails {
       final String name = idx == -1 ? token.trim() : token.substring(0, idx).trim();
       final String value = idx == -1 ? "" : token.substring(idx + 1).trim();
       if (!hasCookieName) {
-        cookieName = name;
-        cookieValue = value;
-        hasCookieName = true;
+        if ((idx == -1) || (name.length() == 0)) {
+          return Optional.empty();
+        } else {
+          cookieName = name;
+          cookieValue = value;
+          hasCookieName = true;
+        }
       } else {
         if ("max-age".equalsIgnoreCase(name)) {
           maxAge = value;
@@ -170,7 +174,7 @@ final class CookieDetails {
         }
       }
     }
-    return new CookieDetails(requestURL, cookieName, cookieValue, domain, path, expires, maxAge, secure, httpOnly);
+    return Optional.of(new CookieDetails(requestURL, cookieName, cookieValue, domain, path, expires, maxAge, secure, httpOnly));
   }
 
   @Override
