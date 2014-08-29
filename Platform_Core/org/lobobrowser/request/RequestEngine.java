@@ -84,6 +84,7 @@ import org.lobobrowser.util.io.Files;
 import org.lobobrowser.util.io.IORoutines;
 
 public final class RequestEngine {
+  private static final int MAX_REDIRECT_COUNT = 30;
   private static final Logger logger = Logger.getLogger(RequestEngine.class.getName());
   private static final boolean loggerInfo = logger.isLoggable(Level.INFO);
 
@@ -782,7 +783,7 @@ public final class RequestEngine {
               logInfo("run(): REDIRECTING: ResponseCode=" + responseCode + " for url=" + url);
               final RequestHandler newHandler = new RedirectRequestHandler(rhandler, hconnection);
               Thread.yield();
-              if (recursionLevel > 5) {
+              if (recursionLevel > MAX_REDIRECT_COUNT) {
                 throw new ClientletException("Exceeded redirect recursion limit.");
               }
               this.processHandler(newHandler, recursionLevel + 1, trackRequestInfo);
