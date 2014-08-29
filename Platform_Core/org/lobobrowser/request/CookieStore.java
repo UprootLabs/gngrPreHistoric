@@ -162,7 +162,7 @@ public class CookieStore {
    * Gets cookies belonging exactly to the host name given, not to a broader
    * domain.
    */
-  private Collection<Cookie> getCookiesStrict(final String protocol, final String hostName, String path) {
+  private List<CookieValue> getCookiesStrict(final String protocol, final String hostName, String path) {
     if (path == null || path.length() == 0) {
       path = "/";     // TODO: Confirm that this is correct. Issue #14 in browserTesting
     }
@@ -247,20 +247,20 @@ public class CookieStore {
       logger.log(Level.SEVERE, "getCookiesStrict(): Possible engine versioning error.", cnf);
     }
 
-    selectedCookies.sort(null);
-    final Collection<Cookie> cookies = new LinkedList<>();
-    for (CookieValue cookieValue : selectedCookies) {
-      cookies.add(new Cookie(cookieValue.getName(), cookieValue.getValue()));
-    }
-    return cookies;
+    return selectedCookies;
   }
 
   public Collection<Cookie> getCookies(final String protocol, final String hostName, final String path) {
     // Security provided by RestrictedStore.
     final Collection<String> possibleDomains = DomainValidation.getPossibleDomains(hostName);
-    final Collection<Cookie> cookies = new LinkedList<>();
+    final List<CookieValue> allCookies = new LinkedList<>();
     for (final String domain : possibleDomains) {
-      cookies.addAll(this.getCookiesStrict(protocol, domain, path));
+      allCookies.addAll(this.getCookiesStrict(protocol, domain, path));
+    }
+    allCookies.sort(null);
+    final List<Cookie> cookies = new LinkedList<>();
+    for (CookieValue cookieValue : allCookies) {
+      cookies.add(new Cookie(cookieValue.getName(), cookieValue.getValue()));
     }
     if (logger.isLoggable(Level.INFO)) {
       logger.info("getCookies(): For host=" + hostName + ", found " + cookies.size() + " cookies: " + cookies);
