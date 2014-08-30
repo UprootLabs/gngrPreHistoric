@@ -97,37 +97,43 @@ public abstract class AbstractRequestHandler implements RequestHandler {
      * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
      * javax.net.ssl.SSLSession)
      */
-    public boolean verify(final String host, final SSLSession arg1) {
-      this.verified = false;
-      final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
-      if (vhs.contains(host)) {
+    public boolean verify(final String host, final SSLSession session) {
+      if (OkHostnameVerifier.INSTANCE.verify(host, session)) {
         return true;
-      }
-      try {
-        SwingUtilities.invokeAndWait(new Runnable() {
-          public void run() {
-            boolean verified = false;
-            final Component dc = dialogComponent;
-            if (dc != null) {
-              final int result = JOptionPane.showConfirmDialog(dc, "Host " + host
-                  + " does not match SSL certificate or CA not recognized. Proceed anyway?", "Security Warning", JOptionPane.YES_NO_OPTION);
-              verified = result == JOptionPane.YES_OPTION;
-              if (verified) {
-                vhs.add(host);
+      } else {
+        this.verified = false;
+        final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
+        if (vhs.contains(host)) {
+          return true;
+        }
+        // TODO: call with doPrivileged()
+        try {
+          SwingUtilities.invokeAndWait(new Runnable() {
+            public void run() {
+              boolean verified = false;
+              final Component dc = dialogComponent;
+              if (dc != null) {
+                final int result = JOptionPane.showConfirmDialog(dc, "Host " + host
+                    + " does not match SSL certificate or CA not recognized. Proceed anyway?", "Security Warning",
+                    JOptionPane.YES_NO_OPTION);
+                verified = result == JOptionPane.YES_OPTION;
+                if (verified) {
+                  vhs.add(host);
+                }
+              }
+              synchronized (LocalHostnameVerifier.this) {
+                LocalHostnameVerifier.this.verified = verified;
               }
             }
-            synchronized (LocalHostnameVerifier.this) {
-              LocalHostnameVerifier.this.verified = verified;
-            }
-          }
-        });
-      } catch (final InterruptedException ie) {
-        throw new IllegalStateException(ie);
-      } catch (final InvocationTargetException ite) {
-        throw new IllegalStateException(ite.getCause());
-      }
-      synchronized (this) {
-        return this.verified;
+          });
+        } catch (final InterruptedException ie) {
+          throw new IllegalStateException(ie);
+        } catch (final InvocationTargetException ite) {
+          throw new IllegalStateException(ite.getCause());
+        }
+        synchronized (this) {
+          return this.verified;
+        }
       }
     }
   }

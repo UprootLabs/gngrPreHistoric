@@ -39,6 +39,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.net.ssl.SSLSocketFactory;
 import javax.swing.UIManager;
 
 import org.lobobrowser.gui.ConsoleModel;
@@ -99,11 +100,13 @@ public class PlatformInit {
    * <p>
    * This method is invoked by {@link #init(boolean, boolean)}.
    */
-  public void initProtocols() {
+  public void initProtocols(final SSLSocketFactory sslSocketFactory) {
     // Configure URL protocol handlers
     final PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory.getInstance();
     URL.setURLStreamHandlerFactory(factory);
     OkHttpClient okHttpClient = new OkHttpClient();
+    // HttpsURLConnection.setDefaultSSLSocketFactory(sslSocketFactory);
+    okHttpClient.setSslSocketFactory(sslSocketFactory);
     okHttpClient.setFollowRedirects(false);
     factory.addFactory(new OkUrlFactory(okHttpClient));
     factory.addFactory(new LocalStreamHandlerFactory());
@@ -239,13 +242,6 @@ public class PlatformInit {
   }
 
   /**
-   * @deprecated Use {@link #init(boolean, boolean)}.
-   */
-  public void init(final String[] args, final boolean exitWhenAllWindowsAreClosed) throws Exception {
-    this.init(exitWhenAllWindowsAreClosed, true);
-  }
-
-  /**
    * Initializes security, protocols, look & feel, console, the default window
    * factory, extensions and <code>java.library.path</code>. This method should
    * be invoked before using other functionality in the browser API. If this
@@ -266,11 +262,12 @@ public class PlatformInit {
    * @see #initProtocols()
    * @see #initExtensions()
    */
-  public void init(final boolean exitWhenAllWindowsAreClosed, final boolean initConsole) throws Exception {
+  public void init(final boolean exitWhenAllWindowsAreClosed, final boolean initConsole, final SSLSocketFactory sslSocketFactory) throws Exception {
     initOtherProperties();
+
     initNative(NATIVE_DIR_NAME);
     initSecurity();
-    initProtocols();
+    initProtocols(sslSocketFactory);
     initHTTP();
     initLookAndFeel();
     if (initConsole) {

@@ -20,7 +20,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 public final class TrustManager {
 
-  public static void installTrustStore(final InputStream extraCertsStream) {
+  public static SSLSocketFactory makeSSLSocketFactory(final InputStream extraCertsStream) {
     final String sep = File.separator;
     final String hardDefaultPath = System.getProperty("java.home") + sep + "lib" + sep + "security" + sep + "cacerts";
     final String defaultStorePath = System.getProperty("javax.net.ssl.trustStore", hardDefaultPath);
@@ -48,12 +48,22 @@ public final class TrustManager {
       tmf.init(keyStore);
       SSLContext sc = SSLContext.getInstance("TLS");
       sc.init(null, tmf.getTrustManagers(), null);
-      SSLSocketFactory socketFactory = sc.getSocketFactory();
-      HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
-    } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | IOException | CertificateException | UnrecoverableEntryException e) {
+      return sc.getSocketFactory();
+    } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | IOException | CertificateException
+        | UnrecoverableEntryException e) {
       throw new RuntimeException(e);
     }
 
+  }
+
+  /**
+   * Works only with default HttpsURLConnection manager. Better to use OkHttp
+   * API or the below API calls directly.
+   *
+   * @deprecated
+   * */
+  public static void installTrustStore(final SSLSocketFactory socketFactory) {
+    HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
   }
 
 }

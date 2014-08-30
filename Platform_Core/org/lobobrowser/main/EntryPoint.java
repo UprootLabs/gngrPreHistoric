@@ -28,6 +28,7 @@ import java.io.StringWriter;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+import javax.net.ssl.SSLSocketFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -58,8 +59,8 @@ public final class EntryPoint {
 
   private static void launch(final String[] args) {
     try {
-      TrustManager.installTrustStore(ReuseManager.class.getResourceAsStream("/trustStore.certs"));
-      ReuseManager.getInstance().launch(args);
+      final SSLSocketFactory socketFactory = TrustManager.makeSSLSocketFactory(ReuseManager.class.getResourceAsStream("/trustStore.certs"));
+      ReuseManager.getInstance().launch(args, socketFactory);
     } catch (final Throwable err) {
       final StringWriter swriter = new StringWriter();
       final PrintWriter writer = new PrintWriter(swriter);
