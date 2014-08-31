@@ -67,7 +67,12 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
 
   public boolean isExpired() {
     final Optional<Long> expOpt = getExpires();
-    return expOpt.map(exp -> exp.longValue() < System.currentTimeMillis()).orElse(false);
+    /* we use `less than or equal to` to check the time instead of just `less than` because
+     * System.currentTimeMillis() is not fine grained. If a cookie has max-age set to 0 for example,
+     * we need to ensure that it expires immediately, even if System.currentTimeMillis() doesn't
+     * return a newer value.
+     */
+    return expOpt.map(exp -> exp.longValue() <= System.currentTimeMillis()).orElse(false);
   }
 
   public String toString() {
