@@ -864,7 +864,7 @@ public final class RequestEngine {
   private void addCookiesToRequest(final URLConnection connection, final RequestHandler rhandler) {
     try {
       final String protocol = connection.getURL().getProtocol();
-      if ("http".equals(protocol) || "https".equals(protocol)) {
+      if ("http".equalsIgnoreCase(protocol) || "https".equalsIgnoreCase(protocol)) {
         final URL url = connection.getURL();
         if (rhandler.getContext().isRequestPermitted(new Request(url, RequestKind.Cookie))) {
           final Map<String, List<String>> cookieHeaders = cookieHandler.get(url.toURI(), null);
