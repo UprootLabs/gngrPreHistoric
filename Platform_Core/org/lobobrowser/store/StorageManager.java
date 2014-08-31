@@ -165,6 +165,9 @@ public class StorageManager implements Runnable {
 
   private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<>();
 
+  /**
+   * @param hostName  should be canonicalized to lower case
+   */
   public RestrictedStore getRestrictedStore(String hostName, final boolean createIfNotExists) throws IOException {
     final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {

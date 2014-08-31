@@ -89,6 +89,7 @@ public class CookieStore {
   private void saveCookie(final CookieDetails cookieDetails) {
     final String name = cookieDetails.name;
     final String domain = cookieDetails.getEffectiveDomain();
+    final String domainTL = domain.toLowerCase();
     try {
       final Optional<java.util.Date> expiresOpt = cookieDetails.getExpiresDate();
       if (logger.isLoggable(Level.INFO)) {
@@ -98,19 +99,19 @@ public class CookieStore {
       final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(), expiresLongOpt, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
       synchronized (this) {
         // Always save a transient cookie. It acts as a cache.
-        Map<String, CookieValue> hostMap = this.transientMapByHost.get(domain);
+        Map<String, CookieValue> hostMap = this.transientMapByHost.get(domainTL);
         if (hostMap == null) {
           hostMap = new HashMap<>(2);
-          this.transientMapByHost.put(domain, hostMap);
+          this.transientMapByHost.put(domainTL, hostMap);
         }
         hostMap.put(name, cookieValue);
       }
       if (expiresLongOpt.isPresent()) {
-        final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domain, true);
+        final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domainTL, true);
         store.saveObject(getPathFromCookieName(name), cookieValue);
       }
     } catch (final IOException ioe) {
-      logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domain + "'", ioe);
+      logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domainTL + "'", ioe);
     }
   }
 
@@ -159,6 +160,7 @@ public class CookieStore {
    * domain.
    */
   private List<CookieValue> getCookiesStrict(final String protocol, final String hostName, String path) {
+    final String hostNameTL = hostName.toLowerCase();
     if (path == null || path.length() == 0) {
       path = "/";     // TODO: Confirm that this is correct. Issue #14 in browserTesting
     }
@@ -167,7 +169,7 @@ public class CookieStore {
     final Set<String> transientCookieNames = new HashSet<>();
     final List<CookieValue> selectedCookies = new LinkedList<>();
     synchronized (this) {
-      final Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
+      final Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostNameTL);
       if (hostMap != null) {
         final Iterator<Map.Entry<String, CookieValue>> i = hostMap.entrySet().iterator();
         while (i.hasNext()) {
@@ -175,7 +177,7 @@ public class CookieStore {
           final CookieValue cookieValue = entry.getValue();
           if (cookieValue.isExpired()) {
             if (liflag) {
-              logger.info("getCookiesStrict(): Cookie " + entry.getKey() + " from " + hostName + " expired: " + cookieValue.getExpires());
+              logger.info("getCookiesStrict(): Cookie " + entry.getKey() + " from " + hostNameTL + " expired: " + cookieValue.getExpires());
             }
           } else {
             if (pathMatch(cookieValue.getPath(), path)) {
@@ -194,7 +196,7 @@ public class CookieStore {
       }
     }
     try {
-      final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(hostName, false);
+      final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(hostNameTL, false);
       if (store != null) {
         Collection<String> paths;
         paths = store.getPaths(COOKIE_PATH_PATTERN);
