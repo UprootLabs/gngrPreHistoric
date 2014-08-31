@@ -119,7 +119,7 @@ public class PermissionSystem {
     }
 
     public boolean isRequestPermitted(final Request request) {
-      final String requestHost = request.url.getHost();
+      final String requestHost = request.url.getHost().toLowerCase();
       final PermissionRow row = getRow(requestHost);
       return row.isRequestPermitted(request);
     }

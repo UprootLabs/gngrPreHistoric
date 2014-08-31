@@ -63,7 +63,7 @@ public final class RequestManager {
   private Optional<PermissionSystem> permissionSystemOpt = Optional.empty();
 
   private synchronized void updateCounter(final Request request) {
-    final String host = request.url.getHost();
+    final String host = request.url.getHost().toLowerCase();
     ensureHostInCounter(host);
     hostToCounterMap.get(host).updateCounts(request.kind);
   }
@@ -80,7 +80,7 @@ public final class RequestManager {
   }
 
   private Optional<String> getFrameHost() {
-    return getFrameNavigationEntry().map(e -> e.getUrl().getHost());
+    return getFrameNavigationEntry().map(e -> e.getUrl().getHost().toLowerCase());
   }
 
   private Optional<URL> getFrameURL() {
@@ -116,10 +116,11 @@ public final class RequestManager {
 
   private void setupPermissionSystem(final URL frameURL) {
     final RequestRuleStore permissionStore = RequestRuleStore.getStore();
-    final PermissionSystem system = new PermissionSystem(frameURL.getHost(), permissionStore);
+    final String frameHost = frameURL.getHost().toLowerCase();
+    final PermissionSystem system = new PermissionSystem(frameHost, permissionStore);
 
     // Prime the boards with atleast one row
-    system.getLastBoard().getRow(frameURL.getHost());
+    system.getLastBoard().getRow(frameHost);
 
     permissionSystemOpt = Optional.of(system);
   }
@@ -142,7 +143,7 @@ public final class RequestManager {
 
   public synchronized void reset(final URL frameUrl) {
     hostToCounterMap = new HashMap<>();
-    ensureHostInCounter(frameUrl.getHost());
+    ensureHostInCounter(frameUrl.getHost().toLowerCase());
     setupPermissionSystem(frameUrl);
   }
 

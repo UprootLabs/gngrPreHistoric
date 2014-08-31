@@ -40,7 +40,7 @@ public class StoreHostPermission extends BasicPermission {
     if (LocalSecurityPolicy.isLocal(url)) {
       return new StoreHostPermission("*");
     } else {
-      final String hostName = url.getHost();
+      final String hostName = url.getHost().toLowerCase();
       if (hostName != null && hostName.indexOf('*') != -1) {
         throw new SecurityException("Invalid host: " + hostName);
       }
