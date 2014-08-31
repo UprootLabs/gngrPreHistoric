@@ -117,13 +117,17 @@ public abstract class SimpleRequestHandler implements RequestHandler {
      * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
      * javax.net.ssl.SSLSession)
      */
-    public boolean verify(final String host, final SSLSession arg1) {
-      final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
-      if (vhs.contains(host)) {
+    public boolean verify(final String host, final SSLSession session) {
+      if (OkHostnameVerifier.INSTANCE.verify(host, session)) {
         return true;
+      } else {
+        final VerifiedHostsStore vhs = VerifiedHostsStore.getInstance();
+        if (vhs.contains(host)) {
+          return true;
+        }
+        // Does not ask user.
+        return false;
       }
-      // Does not ask user.
-      return false;
     }
   }
 
