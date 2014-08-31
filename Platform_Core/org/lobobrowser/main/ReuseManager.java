@@ -23,9 +23,22 @@
  */
 package org.lobobrowser.main;
 
-import java.io.*;
-import java.net.*;
-import java.util.logging.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.net.ssl.SSLSocketFactory;
 
 import org.lobobrowser.store.StorageManager;
 
@@ -54,7 +67,7 @@ public class ReuseManager {
   /**
    * May launch in this VM or a second one.
    */
-  public void launch(final String[] args) throws Exception {
+  public void launch(final String[] args, final SSLSocketFactory sslSocketFactory) throws Exception {
     boolean launched = false;
     // long time1 = System.currentTimeMillis();
     try {
@@ -144,7 +157,7 @@ public class ReuseManager {
         }
       }
       entry.initLogging(debugOn);
-      entry.init(true, !debugOn);
+      entry.init(true, !debugOn, sslSocketFactory);
       entry.start(args);
     }
   }
