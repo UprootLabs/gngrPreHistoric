@@ -826,10 +826,11 @@ public final class RequestEngine {
             }
           }*/
 
-          // TODO: Possible optimisation. By not disconnecting, we might be able to get a faster response for next request
+          // TODO: Possible optimization. By not disconnecting, we might be able to get a faster response for next request
+          /*
           if (connection instanceof HttpURLConnection) {
             ((HttpURLConnection) connection).disconnect();
-          }
+          }*/
         }
       } finally {
         if (cacheInfo != null) {
