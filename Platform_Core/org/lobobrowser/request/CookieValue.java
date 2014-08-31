@@ -33,7 +33,7 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   private final String name;
   private final String value;
   private final String path;
-  private final Optional<Long> expirationTimeOpt;
+  private final Long expirationTimeNullable;  // Nullable, because Optional is not serializable!
   private final boolean secure;
   private final boolean httpOnly;
   private final long creationTime;
@@ -43,7 +43,7 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
     this.name = name;
     this.value = value;
     this.path = path;
-    this.expirationTimeOpt = expirationTimeOpt;
+    this.expirationTimeNullable = expirationTimeOpt.orElse(null);
     this.secure = secure;
     this.httpOnly = httpOnly;
     this.creationTime = creationTime;
@@ -58,7 +58,7 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   }
 
   public Optional<Long> getExpires() {
-    return this.expirationTimeOpt;
+    return Optional.ofNullable(this.expirationTimeNullable);
   }
 
   public String getPath() {
@@ -66,12 +66,12 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   }
 
   public boolean isExpired() {
-    final Optional<Long> expOpt = this.expirationTimeOpt;
+    final Optional<Long> expOpt = getExpires();
     return expOpt.map(exp -> exp.longValue() < System.currentTimeMillis()).orElse(false);
   }
 
   public String toString() {
-    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTimeOpt + ",creationTime="+creationTime+"]";
+    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTimeNullable + ",creationTime="+creationTime+"]";
   }
 
   /* Returns true if the secure flag is valid for the given protocol type */
