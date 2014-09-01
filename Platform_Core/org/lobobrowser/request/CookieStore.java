@@ -65,7 +65,7 @@ public class CookieStore {
     if (logger.isLoggable(Level.INFO)) {
       logger.info("saveCookie(): host=" + urlHostName + ",cookieSpec=[" + cookieSpec + "]");
     }
-    final Optional<CookieDetails> cookieDetailsOpt = CookieDetails.parseCookieSpec(url, cookieSpec);
+    final Optional<CookieDetails> cookieDetailsOpt = CookieParsing.parseCookieSpec(url, cookieSpec);
     if (cookieDetailsOpt.isPresent()) {
       final CookieDetails cookieDetails = cookieDetailsOpt.get();
       if (PlatformInit.getInstance().debugOn) {
