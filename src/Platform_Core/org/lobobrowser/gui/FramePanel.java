@@ -79,7 +79,6 @@ import org.lobobrowser.ua.UserAgentContext.Request;
 import org.lobobrowser.util.ArrayUtilities;
 import org.lobobrowser.util.Items;
 import org.lobobrowser.util.SecurityUtil;
-import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.WrapperException;
 import org.lobobrowser.util.gui.WrapperLayout;
 
