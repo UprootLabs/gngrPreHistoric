@@ -25,9 +25,14 @@ package org.lobobrowser.clientlet;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 
 import org.lobobrowser.io.ManagedStore;
-import org.lobobrowser.ua.*;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NetworkRequest;
+import org.lobobrowser.ua.ProgressType;
+import org.lobobrowser.ua.UserAgent;
 
 /**
  * The context in which a clientlet processes a web or file response.
@@ -119,7 +124,7 @@ public interface ClientletContext {
    * provided for convenience. It does not set any properties such as title or
    * source code.
    */
-  public void setResultingContent(java.awt.Component content);
+  public void setResultingContent(java.awt.Component content, final URL url);
 
   /**
    * Gets content previously set with {@link #setResultingContent(Component)}.

@@ -41,7 +41,7 @@ public final class TextClientlet implements Clientlet {
         final JTextArea textArea = new JTextArea(text);
         textArea.setEditable(false);
         final JScrollPane pane = new JScrollPane(textArea);
-        context.setResultingContent(pane);
+        context.setResultingContent(pane, context.getResponse().getResponseURL());
       } finally {
         in.close();
       }

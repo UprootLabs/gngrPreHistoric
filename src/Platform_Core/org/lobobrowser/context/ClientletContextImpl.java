@@ -23,6 +23,7 @@ package org.lobobrowser.context;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -129,9 +130,9 @@ public class ClientletContextImpl implements ClientletContext {
     this.frame.navigate(newURL);
   }
 
-  public final void setResultingContent(final Component content) {
+  public final void setResultingContent(final Component content, final URL url) {
     // Must call other overload, which may be overridden.
-    this.setResultingContent(new SimpleComponentContent(content));
+    this.setResultingContent(new SimpleComponentContent(content, url.toExternalForm(), null));
   }
 
   public void setResultingContent(final ComponentContent content) {
