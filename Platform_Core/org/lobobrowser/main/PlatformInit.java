@@ -50,7 +50,6 @@ import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.request.NOPCookieHandlerImpl;
 import org.lobobrowser.security.LocalSecurityManager;
 import org.lobobrowser.security.LocalSecurityPolicy;
-import org.lobobrowser.settings.GeneralSettings;
 import org.lobobrowser.store.StorageManager;
 import org.lobobrowser.util.GenericEventListener;
 import org.lobobrowser.util.SimpleThreadPool;
@@ -70,7 +69,7 @@ import com.squareup.okhttp.OkUrlFactory;
 public class PlatformInit {
   private static final String NATIVE_DIR_NAME = "native";
   private final SimpleThreadPool threadExecutor;
-  private final GeneralSettings generalSettings;
+  // private final GeneralSettings generalSettings;
 
   private PlatformInit() {
     // TODO: Research a better way to configure the thread pool
@@ -78,7 +77,7 @@ public class PlatformInit {
     this.threadExecutor = new SimpleThreadPool("MainThreadPool", 2, 3, 60 * 1000);
 
     // One way to avoid a security exception.
-    this.generalSettings = GeneralSettings.getInstance();
+    // this.generalSettings = GeneralSettings.getInstance();
   }
 
   /**
