@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.javatuples.Pair;
 import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.store.RestrictedStore;
 import org.lobobrowser.store.StorageManager;
@@ -51,7 +52,7 @@ public class CookieStore {
 
   private static final Logger logger = Logger.getLogger(CookieStore.class.getName());
 
-  private final Map<String, Map<String, CookieValue>> transientMapByHost = new HashMap<>();
+  private final Map<String, Map<Pair<String, String>, CookieValue>> transientMapByHost = new HashMap<>();
 
   private CookieStore() {
   }
@@ -99,12 +100,12 @@ public class CookieStore {
       final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(), expiresLongOpt, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
       synchronized (this) {
         // Always save a transient cookie. It acts as a cache.
-        Map<String, CookieValue> hostMap = this.transientMapByHost.get(domainTL);
+        Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(domainTL);
         if (hostMap == null) {
           hostMap = new HashMap<>(2);
           this.transientMapByHost.put(domainTL, hostMap);
         }
-        hostMap.put(name, cookieValue);
+        hostMap.put(new Pair<>(cookieDetails.name, cookieDetails.getEffectivePath()) , cookieValue);
       }
       if (expiresLongOpt.isPresent()) {
         final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domainTL, true);
@@ -166,14 +167,15 @@ public class CookieStore {
     }
     final boolean secureProtocol = "https".equalsIgnoreCase(protocol);
     final boolean liflag = logger.isLoggable(Level.INFO);
-    final Set<String> transientCookieNames = new HashSet<>();
+    // final Set<String> transientCookieNames = new HashSet<>();
+    final Set<Pair<String, String>> transientCookieNames = new HashSet<>();
     final List<CookieValue> selectedCookies = new LinkedList<>();
     synchronized (this) {
-      final Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostNameTL);
+      final Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(hostNameTL);
       if (hostMap != null) {
-        final Iterator<Map.Entry<String, CookieValue>> i = hostMap.entrySet().iterator();
+        final Iterator<Map.Entry<Pair<String, String>, CookieValue>> i = hostMap.entrySet().iterator();
         while (i.hasNext()) {
-          final Map.Entry<String, CookieValue> entry = i.next();
+          final Map.Entry<Pair<String, String>, CookieValue> entry = i.next();
           final CookieValue cookieValue = entry.getValue();
           if (cookieValue.isExpired()) {
             if (liflag) {
@@ -182,8 +184,9 @@ public class CookieStore {
           } else {
             if (pathMatch(cookieValue.getPath(), path)) {
               if (cookieValue.checkSecure(secureProtocol)) {
-                final String cookieName = entry.getKey();
-                transientCookieNames.add(cookieName);
+                final Pair<String, String> cookieNameAndPath = entry.getKey();
+                // transientCookieNames.add(new Pair<>(cookieName, cookieValue.getPath()));
+                transientCookieNames.add(cookieNameAndPath);
                 selectedCookies.add(cookieValue);
               }
             } else {
@@ -204,9 +207,9 @@ public class CookieStore {
         while (pathsIterator.hasNext()) {
           final String filePath = pathsIterator.next();
           final String cookieName = getCookieNameFromPath(filePath);
-          if (!transientCookieNames.contains(cookieName)) {
-            final CookieValue cookieValue = (CookieValue) store.retrieveObject(filePath);
-            if (cookieValue != null) {
+          final CookieValue cookieValue = (CookieValue) store.retrieveObject(filePath);
+          if (cookieValue != null) {
+            if (!transientCookieNames.contains(new Pair<>(cookieName, cookieValue.getPath()))) {
               if (cookieValue.isExpired()) {
                 if (logger.isLoggable(Level.INFO)) {
                   logger.info("getCookiesStrict(): Cookie " + cookieName + " from " + hostName + " expired: " + cookieValue.getExpires());
@@ -216,12 +219,12 @@ public class CookieStore {
                 if (pathMatch(cookieValue.getPath(), path)) {
                   // Found one that is not in main memory. Cache it.
                   synchronized (this) {
-                    Map<String, CookieValue> hostMap = this.transientMapByHost.get(hostName);
+                    Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(hostName);
                     if (hostMap == null) {
                       hostMap = new HashMap<>();
                       this.transientMapByHost.put(hostName, hostMap);
                     }
-                    hostMap.put(cookieName, cookieValue);
+                    hostMap.put(new Pair<>(cookieName, cookieValue.getPath()), cookieValue);
                   }
                   if (cookieValue.checkSecure(secureProtocol)) {
                     // Now add cookie to the collection.
@@ -233,9 +236,9 @@ public class CookieStore {
                   }
                 }
               }
-            } else {
-              logger.warning("getCookiesStrict(): Expected to find cookie named " + cookieName + " but file is missing.");
             }
+          } else {
+            logger.warning("getCookiesStrict(): Expected to find cookie named " + cookieName + " but file is missing.");
           }
         }
       }
