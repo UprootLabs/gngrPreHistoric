@@ -1,6 +1,7 @@
 package org.lobobrowser.request;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,7 +11,7 @@ import org.lobobrowser.util.Strings;
 final class CookieDetails {
   private static final Logger logger = Logger.getLogger(CookieDetails.class.getName());
 
-  public CookieDetails(URI requestURL, String name, String value, String domain, String path, String expires, String maxAge, final boolean secure, final boolean httpOnly) {
+  public CookieDetails(URI requestURL, String name, String value, String domain, String path, Optional<Date> expires, Long maxAge, final boolean secure, final boolean httpOnly) {
     this.requestURL = requestURL;
     this.name = name;
     this.value = value;
@@ -29,8 +30,8 @@ final class CookieDetails {
   final String value;
   final String domain;
   private final String path;
-  final String expires;
-  final String maxAge;
+  final Optional<Date> expires;
+  final Long maxAge;
   final boolean secure, httpOnly;
 
   final String getEffectivePath() {
@@ -66,14 +67,14 @@ final class CookieDetails {
   final Optional<java.util.Date> getExpiresDate() {
     Optional<java.util.Date> expiresDate = Optional.empty();
     if (maxAge != null) {
-      try {
-        final int maxAgeSeconds = Integer.parseInt(maxAge);
-        expiresDate = Optional.of(new java.util.Date(System.currentTimeMillis() + maxAgeSeconds * 1000));
-      } catch (final java.lang.NumberFormatException nfe) {
-        logger.log(Level.WARNING, "saveCookie(): Max-age is not formatted correctly: " + maxAge + ".");
+      if (maxAge <= 0) {
+        logger.log(Level.WARNING, "getExpiresDate(): Max-age is negative or zero: " + maxAge + ".");
+        expiresDate = Optional.of(new java.util.Date(0));
+      } else {
+        expiresDate = Optional.of(new java.util.Date(System.currentTimeMillis() + maxAge * 1000));
       }
-    } else if (expires != null) {
-      expiresDate = CookieParsing.parseExpires(expires);
+    } else if (expires.isPresent()) {
+      return expires;
     }
     return expiresDate;
   }
@@ -99,9 +100,8 @@ final class CookieDetails {
 
   @Override
   public String toString() {
-    final String expiresDateStr = Optional.ofNullable(getExpiresDate()).toString();
     return "CookieDetails [name=" + name + ", value=" + value + ", domain=" + domain + ", path=" + path + ", expires=" + expires
-        + ", maxAge=" + maxAge + ", effectivePath=" + getEffectivePath() + ", expiresDate=" + expiresDateStr + "]";
+        + ", maxAge=" + maxAge + ", effectivePath=" + getEffectivePath() + ", expiresDate=" + getExpiresDate() + "]";
   }
 
   
