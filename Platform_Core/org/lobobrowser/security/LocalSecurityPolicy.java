@@ -49,6 +49,7 @@ import java.util.StringTokenizer;
 import javax.net.ssl.SSLPermission;
 
 import org.lobobrowser.main.ExtensionManager;
+import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.store.StorageManager;
 import org.lobobrowser.util.io.Files;
@@ -297,6 +298,13 @@ public class LocalSecurityPolicy extends Policy {
       throw new AccessControlException("codesource was null");
     }
 
+    if (PlatformInit.getInstance().debugOn) {
+      System.out.println("Codesource: " + codesource.getLocation());
+      if (codesource.getCodeSigners() != null) {
+        System.out.println("  signers: " + codesource.getCodeSigners().length);
+      }
+    }
+
     // TODO: Important: This was required after switching to JDK Rhino. This
     // method gets called twice:
     // once with proper codesource and once with null. The second call needs
@@ -326,6 +334,7 @@ public class LocalSecurityPolicy extends Policy {
     final Permissions permissions = new Permissions();
     if (isLocal) {
       final String path = location.getPath();
+      // System.out.println("Path: " + path);
       if (path.endsWith("h2-1.4.180.jar")) {
         final String userDBPath = StorageManager.getInstance().userDBPath;
         permissions.add(new FilePermission(STORE_DIRECTORY_CANONICAL, "read"));
@@ -415,6 +424,11 @@ public class LocalSecurityPolicy extends Policy {
       final Collection<String> domains = DomainValidation.getPossibleDomains(hostName);
       domains.forEach(domain -> permissions.add(StoreHostPermission.forHost(domain)));
     }
+
+    if (PlatformInit.getInstance().debugOn) {
+      System.out.println("Returning permissions: " + permissions);
+    }
+
     return permissions;
   }
 
