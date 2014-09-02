@@ -99,7 +99,11 @@ public final class DomainValidation {
       return true;
     } else {
       final int sepIndex = name.indexOf('.');
-      return endsWithGTLD(name.substring(sepIndex));
+      if (sepIndex < 0) {
+        return false;
+      } else {
+        return endsWithGTLD(name.substring(sepIndex + 1));
+      }
     }
   }
 
