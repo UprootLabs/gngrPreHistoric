@@ -183,6 +183,7 @@ public final class CacheManager implements Runnable {
     if (isDecoration) {
       fileName += ".decor";
     }
+    // TODO: Use lowercase hostname (for case-insensitive match)
     return StorageManager.getInstance().getContentCacheFile(url.getHost(), fileName);
   }
 
