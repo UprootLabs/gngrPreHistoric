@@ -798,7 +798,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       final URL documentURL = baseURI == null ? null : new URL(baseURI);
       return Urls.createURL(documentURL, uri);
     } catch (final MalformedURLException mfu) {
-      // Try agan, without the baseURI.
+      // Try again, without the baseURI.
       try {
         return new URL(uri);
       } catch (final MalformedURLException mfu2) {
