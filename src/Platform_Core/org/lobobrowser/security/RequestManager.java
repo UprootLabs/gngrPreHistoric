@@ -114,9 +114,8 @@ public final class RequestManager {
     }
   }
 
-  private void setupPermissionSystem(final URL frameURL) {
+  private void setupPermissionSystem(final String frameHost) {
     final RequestRuleStore permissionStore = RequestRuleStore.getStore();
-    final String frameHost = frameURL.getHost().toLowerCase();
     final PermissionSystem system = new PermissionSystem(frameHost, permissionStore);
 
     // Prime the boards with atleast one row
@@ -143,8 +142,10 @@ public final class RequestManager {
 
   public synchronized void reset(final URL frameUrl) {
     hostToCounterMap = new HashMap<>();
-    ensureHostInCounter(frameUrl.getHost().toLowerCase());
-    setupPermissionSystem(frameUrl);
+    final String frameHostOrig = frameUrl.getHost();
+    final String frameHost = frameHostOrig == null ? "" : frameHostOrig.toLowerCase();
+    ensureHostInCounter(frameHost);
+    setupPermissionSystem(frameHost);
   }
 
   public void manageRequests(final JComponent initiatorComponent) {
