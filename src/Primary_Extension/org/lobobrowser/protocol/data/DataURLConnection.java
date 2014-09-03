@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Base64;
 import java.util.HashMap;
-
-import sun.misc.BASE64Decoder;
 
 /**
  * http://www.ietf.org/rfc/rfc2397.txt
@@ -68,10 +67,10 @@ public class DataURLConnection extends URLConnection {
       if (charset == null) {
         charset = UTF8;
       }
-      value = java.net.URLDecoder.decode(value, charset);
       if (base64) {
-        this.content = new BASE64Decoder().decodeBuffer(value);
+        this.content = Base64.getDecoder().decode(value);
       } else {
+        value = java.net.URLDecoder.decode(value, charset);
         this.content = value.getBytes();
       }
     } catch (final IOException e) {
