@@ -427,7 +427,7 @@ public class ComponentSource implements NavigatorWindowListener {
       this.clearState();
       this.window.getTopFrame().navigate(roughLocation, requestType);
     } catch (final java.net.MalformedURLException mfu) {
-      ExtensionImpl.showError(this.window.getTopFrame(), null, new java.net.MalformedURLException(roughLocation));
+      ExtensionImpl.showError(this.window.getTopFrame(), null, mfu);
     }
   }
 
