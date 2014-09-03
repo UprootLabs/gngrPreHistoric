@@ -38,9 +38,9 @@ public class DataURLConnection extends URLConnection {
     final String UTF8 = "UTF-8";
     this.headerMap.clear();
     final String path = getURL().getPath();
-    int index2 = path.toLowerCase().indexOf(",");
+    int index2 = path.indexOf(",");
     if (index2 == -1) {
-      index2 = path.toLowerCase().lastIndexOf(";");
+      index2 = path.lastIndexOf(";");
     }
     final String mediatype = path.substring(0, index2).trim();
     boolean base64 = false;
