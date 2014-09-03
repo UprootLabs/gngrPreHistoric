@@ -132,11 +132,7 @@ public final class DomainValidation {
             finalURL = new URL(baseURL, "http://" + spec);
           } else {
             final String possibleHost = spec.substring(0, slashIdx).toLowerCase();
-            if (DomainValidation.isLikelyHostName(possibleHost)) {
-              finalURL = new URL(baseURL, "http://" + spec);
-            } else {
-              finalURL = new URL(baseURL, "file:" + spec);
-            }
+            finalURL = guessProtocol(baseURL, spec, possibleHost);
           }
         }
       } else {
@@ -144,7 +140,8 @@ public final class DomainValidation {
           // Likely a drive
           finalURL = new URL(baseURL, "file:" + spec);
         } else {
-          throw mfu;
+          final String possibleHost = spec.substring(0, idx).toLowerCase();
+          finalURL = guessProtocol(baseURL, spec, possibleHost);
         }
       }
     }
@@ -152,6 +149,16 @@ public final class DomainValidation {
       throw new MalformedURLException("There are blanks in the URL: " + finalURL.toExternalForm());
     }
     return finalURL;
+  }
+
+  private static URL guessProtocol(URL baseURL, String spec, final String possibleHost) throws MalformedURLException {
+    if (DomainValidation.isLikelyHostName(possibleHost)) {
+      // TODO: Use https when possible
+      return new URL(baseURL, "http://" + spec);
+    } else {
+      // TODO: Should file URLs be guessed? Probably not.
+      return new URL(baseURL, "file:" + spec);
+    }
   }
 
   public static URL guessURL(final String spec) throws MalformedURLException {
