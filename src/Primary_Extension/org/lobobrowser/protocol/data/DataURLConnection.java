@@ -68,6 +68,7 @@ public class DataURLConnection extends URLConnection {
       if (charset == null) {
         charset = UTF8;
       }
+      value = removeSpaceCharacters(value);
       if (base64) {
         this.content = Base64.getDecoder().decode(value);
       } else {
@@ -77,6 +78,14 @@ public class DataURLConnection extends URLConnection {
       e.printStackTrace();
     }
 
+  }
+
+  private static String removeSpaceCharacters(String value) {
+    value = value.replace("\n", "");
+    value = value.replace("\r", "");
+    value = value.replace(" ", "");
+    value = value.replace("\t", "");
+    return value;
   }
 
   @Override
