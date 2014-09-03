@@ -43,10 +43,15 @@ public class DataURLConnection extends URLConnection {
     if (index2 == -1) {
       index2 = path.lastIndexOf(";");
     }
-    final String mediatype = path.substring(0, index2).trim();
-    boolean base64 = false;
-    final String[] split = mediatype.split("[;,]");
     String value = path.substring(index2 + 1).trim();
+    String mediatype;
+    if (index2 == -1) {
+      mediatype = "text/plain;charset=US-ASCII";
+    } else {
+      mediatype = path.substring(0, index2).trim();
+    }
+    boolean base64 = false;
+    final String[] split = mediatype.split("[;]");
     if (split[0].equals("")) {
       split[0] = "text/plain";
     }
