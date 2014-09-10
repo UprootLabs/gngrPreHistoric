@@ -122,6 +122,9 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
           }
         }
       }
+
+    document.setUserData(Executor.SCOPE_KEY, null, null);
+
     // This will ensure that a fresh scope will be created by getWindowScope() on the next call
     this.windowScope = null;
     }
@@ -146,6 +149,9 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       }
       this.forgetAllTasks();
       this.initWindowScope(document);
+
+      // Set up Javascript scope
+      document.setUserData(Executor.SCOPE_KEY, getWindowScope(), null);
 
       this.document = document;
     }

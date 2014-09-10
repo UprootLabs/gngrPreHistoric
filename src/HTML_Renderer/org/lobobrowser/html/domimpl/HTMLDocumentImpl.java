@@ -145,8 +145,6 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     // Window must be retained or it will be garbage collected.
     this.window = window;
     window.setDocument(this);
-    // Set up Javascript scope
-    this.setUserData(Executor.SCOPE_KEY, window.getWindowScope(), null);
   }
 
   private Set<Locale> locales;
