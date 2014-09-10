@@ -335,6 +335,8 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     }
   }
 
+  /* Removing because this eval method interferes with the default eval() method.
+   * The context of the JS eval() call is not preserved by this method.
   public Object eval(final String javascript) {
     final HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
     if (document == null) {
@@ -356,6 +358,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       Context.exit();
     }
   }
+  */
 
   public void focus() {
     final HtmlRendererContext rcontext = this.rcontext;
