@@ -130,22 +130,23 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   public void setDocument(final HTMLDocumentImpl document) {
     final Document prevDocument = this.document;
     if (prevDocument != document) {
-      // Should clearing of the state be done
-      // when window "unloads"?
+      final Function onunload = this.onunload;
+      if (onunload != null) {
+        final HTMLDocumentImpl oldDoc = (HTMLDocumentImpl) prevDocument;
+        Executor.executeFunction(this.getWindowScope(), onunload, oldDoc.getDocumentURL(), this.uaContext);
+        this.onunload = null;
+      }
+
+      // TODO: Should clearing of the state be done when window "unloads"?
       if (prevDocument != null) {
         // Only clearing when the previous document was not null
         // because state might have been set on the window before
         // the very first document is added.
         this.clearState();
       }
-      this.initWindowScope(document);
       this.forgetAllTasks();
-      final Function onunload = this.onunload;
-      if (onunload != null) {
-        final HTMLDocumentImpl oldDoc = (HTMLDocumentImpl) this.document;
-        Executor.executeFunction(this.getWindowScope(), onunload, oldDoc.getDocumentURL(), this.uaContext);
-        this.onunload = null;
-      }
+      this.initWindowScope(document);
+
       this.document = document;
     }
   }
