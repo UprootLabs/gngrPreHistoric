@@ -407,12 +407,21 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
         // Window scope needs to be top-most scope.
         windowScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(this, null);
         windowScope = ctx.initStandardObjects((ScriptableObject)windowScope);
+        final Object consoleJSObj = JavaScript.getInstance().getJavascriptObject(new Console(), windowScope);
+        ScriptableObject.putProperty(windowScope, "console", consoleJSObj);
         this.windowScope = windowScope;
         return windowScope;
       } finally {
         Context.exit();
       }
     }
+  }
+
+  static public class Console {
+    public void log(final Object obj) {
+      System.out.println("> " + obj);
+    }
+
   }
 
   private final static void defineElementClass(final Scriptable scope, final Document document, final String jsClassName, final String elementName,
