@@ -335,6 +335,17 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     }
   }
 
+  private Object evalInScope(final String javascript) {
+    final Context ctx = Executor.createContext(document.getDocumentURL(), this.uaContext);
+    try {
+      final String scriptURI = "window.eval";
+      return ctx.evaluateString(getWindowScope(), javascript, scriptURI, 1, null);
+    } finally {
+      Context.exit();
+    }
+  }
+
+
   /* Removing because this eval method interferes with the default eval() method.
    * The context of the JS eval() call is not preserved by this method.
   public Object eval(final String javascript) {
@@ -894,7 +905,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
         if (doc == null) {
           throw new IllegalStateException("Cannot perform operation when document is unset.");
         }
-        window.eval(this.expression);
+        window.evalInScope(this.expression);
       } catch (final Throwable err) {
         logger.log(Level.WARNING, "actionPerformed()", err);
       }
