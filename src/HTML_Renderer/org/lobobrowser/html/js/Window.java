@@ -393,11 +393,11 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     defineElementClass(ws, doc, "Select", "select", HTMLSelectElementImpl.class);
   }
 
-  private ScriptableObject windowScope;
+  private Scriptable windowScope;
 
-  public Scriptable getWindowScope() {
+  private Scriptable getWindowScope() {
     synchronized (this) {
-      ScriptableObject windowScope = this.windowScope;
+      Scriptable windowScope = this.windowScope;
       if (windowScope != null) {
         return windowScope;
       }
@@ -405,8 +405,8 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       final Context ctx = Context.enter();
       try {
         // Window scope needs to be top-most scope.
-        windowScope = (ScriptableObject) JavaScript.getInstance().getJavascriptObject(this, null);
-        ctx.initStandardObjects(windowScope);
+        windowScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(this, null);
+        windowScope = ctx.initStandardObjects((ScriptableObject)windowScope);
         this.windowScope = windowScope;
         return windowScope;
       } finally {
