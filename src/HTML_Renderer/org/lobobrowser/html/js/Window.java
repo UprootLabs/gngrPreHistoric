@@ -106,17 +106,24 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   }
 
   private void clearState() {
-    final Scriptable s = this.getWindowScope();
-    if (s != null) {
-      final Object[] ids = s.getIds();
-      for (int i = 0; i < ids.length; i++) {
-        final Object id = ids[i];
-        if (id instanceof String) {
-          s.delete((String) id);
-        } else if (id instanceof Integer) {
-          s.delete(((Integer) id).intValue());
+    synchronized (this) {
+      // Commenting out call to getWindowScope() since that creates a new scope which is wasteful
+      // if we are going to destroy it anyway.
+      // final Scriptable s = this.getWindowScope();
+      final Scriptable s = this.windowScope;
+      if (s != null) {
+        final Object[] ids = s.getIds();
+        for (int i = 0; i < ids.length; i++) {
+          final Object id = ids[i];
+          if (id instanceof String) {
+            s.delete((String) id);
+          } else if (id instanceof Integer) {
+            s.delete(((Integer) id).intValue());
+          }
         }
       }
+    // This will ensure that a fresh scope will be created by getWindowScope() on the next call
+    this.windowScope = null;
     }
   }
 
