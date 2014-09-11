@@ -42,6 +42,40 @@ public class Objects {
         || clazz == Byte.class || clazz == Short.class || clazz == Character.class;
   }
 
+  /* Checks whether the arguments are an exact match to the parameter types */
+  public static boolean areSameTo(final Object[] objects, final Class[] types) {
+    final int length = objects.length;
+    if (length != types.length) {
+      return false;
+    }
+    for (int i = 0; i < length; i++) {
+      if (!isSameOrBox(objects[i], types[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /* Checks whether a value is an exact match to the clazz */
+  public static boolean isSameOrBox(final Object value, final Class<? extends Object> clazz) {
+    if (clazz.isInstance(value)) {
+      return true;
+    }
+    if (clazz.isPrimitive()) {
+      if ((clazz == double.class && value instanceof Double) || (clazz == int.class && value instanceof Integer)
+          || (clazz == long.class && value instanceof Long) || (clazz == boolean.class && value instanceof Boolean)
+          || (clazz == byte.class && value instanceof Byte) || (clazz == char.class && value instanceof Character)
+          || (clazz == short.class && value instanceof Short) || (clazz == float.class && value instanceof Float)) {
+        return true;
+      }
+    }
+    if (isNumeric(clazz) && isNumeric(value)) {
+      return true;
+    }
+
+    return false;
+  }
+
   public static boolean areAssignableTo(final Object[] objects, final Class[] types) {
     final int length = objects.length;
     if (length != types.length) {
