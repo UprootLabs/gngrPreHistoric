@@ -57,7 +57,31 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     return object == null ? "[null]" : object.getClass().getName();
   }
 
+  private Method getExactMethod(final Object[] args) {
+    final ArrayList<Method> methods = this.methods;
+    final int size = methods.size();
+    for (int i = 0; i < size; i++) {
+      final Method m = methods.get(i);
+      final Class<?>[] parameterTypes = m.getParameterTypes();
+      if (args == null) {
+        if (parameterTypes == null || parameterTypes.length == 0) {
+          return m;
+        }
+      } else if (parameterTypes != null && args.length == parameterTypes.length) {
+        if (Objects.areSameTo(args, parameterTypes)) {
+          return m;
+        }
+      }
+    }
+    return null;
+  }
+
   private Method getBestMethod(final Object[] args) {
+    final Method exactMethod = getExactMethod(args);
+    if (exactMethod != null) {
+      return exactMethod;
+    }
+
     final ArrayList<Method> methods = this.methods;
     final int size = methods.size();
     int matchingNumParams = 0;
