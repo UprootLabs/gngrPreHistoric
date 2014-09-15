@@ -203,6 +203,7 @@ public class ColorFactory {
   }
 
   private static final String RGB_START = "rgb(";
+  private static final String RGBA_START = "rgba(";
 
   public boolean isColor(final String colorSpec) {
     if (colorSpec.startsWith("#")) {
@@ -272,6 +273,32 @@ public class ColorFactory {
             }
           }
           color = new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
+        } else if (normalSpec.startsWith(RGBA_START)) {
+          final int endIdx = normalSpec.lastIndexOf(')');
+          final String commaValues = endIdx == -1 ? normalSpec.substring(RGBA_START.length()) : normalSpec.substring(RGBA_START.length(),
+              endIdx);
+          final StringTokenizer tok = new StringTokenizer(commaValues, ",");
+          try {
+            if (tok.hasMoreTokens()) {
+              final String rstr = tok.nextToken().trim();
+              final int r = Integer.parseInt(rstr);
+              if (tok.hasMoreTokens()) {
+                final String gstr = tok.nextToken().trim();
+                final int g = Integer.parseInt(gstr);
+                if (tok.hasMoreTokens()) {
+                  final String bstr = tok.nextToken().trim();
+                  final int b = Integer.parseInt(bstr);
+                  if (tok.hasMoreTokens()) {
+                    final String astr = tok.nextToken().trim();
+                    final float a = Float.parseFloat(astr);
+                    color = new Color(r / 255.0f, g / 255.0f, b / 255.0f, a);
+                  }
+                }
+              }
+            }
+          } catch (final NumberFormatException nfe) {
+            // ignore
+          }
         } else {
           if (logger.isLoggable(Level.INFO)) {
             logger.warning("getColor(): Color spec [" + normalSpec + "] unknown.");
