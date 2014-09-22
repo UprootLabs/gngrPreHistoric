@@ -31,6 +31,7 @@ import java.util.logging.*;
 import javax.swing.text.StyleContext;
 
 import org.lobobrowser.util.Objects;
+import org.lobobrowser.util.Strings;
 
 /** Note: Undocumented class? */
 //import sun.font.FontManager;
@@ -167,7 +168,7 @@ public class FontFactory {
     if (fontNames != null) {
       final StringTokenizer tok = new StringTokenizer(fontNames, ",");
       while (tok.hasMoreTokens()) {
-        final String face = tok.nextToken().trim();
+        final String face = Strings.unquoteSingle(tok.nextToken().trim());
         final String faceTL = face.toLowerCase();
         if (registeredFonts.containsKey(faceTL)) {
           baseFont = registeredFonts.get(faceTL);
