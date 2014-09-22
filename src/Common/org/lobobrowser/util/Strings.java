@@ -299,6 +299,21 @@ public class Strings {
     return text;
   }
 
+  /**
+   * Removes the single-quotes at the beginning and end of a string. If input
+   * string doesn't have the single-quote character at beginning or end, it
+   * is returned unchanged.
+   */
+  public static String unquoteSingle(final String text) {
+    final int length = text.length();
+    if (length >= 2) {
+      if ((text.charAt(0) == '\'') && (text.charAt(length - 1) == '\'')) {
+        return text.substring(1, length - 1);
+      }
+    }
+    return text;
+  }
+
   public static String[] split(final String phrase) {
     final int length = phrase.length();
     final ArrayList<String> wordList = new ArrayList<>();
