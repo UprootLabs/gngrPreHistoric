@@ -511,16 +511,16 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
           }
         }
       });
-        SecurityUtil.doPrivileged(() -> {
-          // Code might have restrictions on accessing items from elsewhere.
-          try {
-            request.open("GET", imageURL);
-            request.send(null, new Request(imageURL, RequestKind.Image));
-          } catch (final java.io.IOException thrown) {
-            logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
-          }
-          return null;
-        });
+      SecurityUtil.doPrivileged(() -> {
+        // Code might have restrictions on accessing items from elsewhere.
+        try {
+          request.open("GET", imageURL);
+          request.send(null, new Request(imageURL, RequestKind.Image));
+        } catch (final java.io.IOException thrown) {
+          logger.log(Level.WARNING, "loadBackgroundImage()", thrown);
+        }
+        return null;
+      });
     }
   }
 
