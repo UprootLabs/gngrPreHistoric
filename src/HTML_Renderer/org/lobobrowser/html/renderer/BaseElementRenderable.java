@@ -510,6 +510,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
             }
           }
         }
+      });
         SecurityUtil.doPrivileged(() -> {
           // Code might have restrictions on accessing items from elsewhere.
           try {
@@ -520,7 +521,6 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
           }
           return null;
         });
-      });
     }
   }
 
