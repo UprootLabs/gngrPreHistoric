@@ -69,9 +69,6 @@ public class Objects {
         return true;
       }
     }
-    if (isNumeric(clazz) && isNumeric(value)) {
-      return true;
-    }
 
     return false;
   }
