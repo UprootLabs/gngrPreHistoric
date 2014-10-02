@@ -25,13 +25,13 @@ package org.lobobrowser.html.domimpl;
 
 import org.w3c.dom.Node;
 
-public final class ElementFilter implements NodeFilter {
+public final class NodeNameFilter implements NodeFilter {
   private final String elementName;
 
   /**
    * @param name
    */
-  public ElementFilter(final String name) {
+  public NodeNameFilter(final String name) {
     super();
     elementName = name;
   }

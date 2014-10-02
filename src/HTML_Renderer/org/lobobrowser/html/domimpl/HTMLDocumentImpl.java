@@ -41,6 +41,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.html.domimpl.NodeFilter.AnchorFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.AppletFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.ElementFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.ElementNameFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.FormFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.FrameFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.ImageFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.LinkFilter;
+import org.lobobrowser.html.domimpl.NodeFilter.TagNameFilter;
 import org.lobobrowser.html.io.WritableLineReader;
 import org.lobobrowser.html.js.Event;
 import org.lobobrowser.html.js.Executor;
@@ -1204,89 +1213,6 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
     ImageListener[] getListeners() {
       return this.listeners.toArray(ImageListener.EMPTY_ARRAY);
-    }
-  }
-
-  private class ImageFilter implements NodeFilter {
-    public boolean accept(final Node node) {
-      return "IMG".equalsIgnoreCase(node.getNodeName());
-    }
-  }
-
-  private class AppletFilter implements NodeFilter {
-    public boolean accept(final Node node) {
-      // TODO: "OBJECT" elements that are applets too.
-      return "APPLET".equalsIgnoreCase(node.getNodeName());
-    }
-  }
-
-  private class LinkFilter implements NodeFilter {
-    public boolean accept(final Node node) {
-      return node instanceof HTMLLinkElement;
-    }
-  }
-
-  private class AnchorFilter implements NodeFilter {
-    public boolean accept(final Node node) {
-      final String nodeName = node.getNodeName();
-      return "A".equalsIgnoreCase(nodeName) || "ANCHOR".equalsIgnoreCase(nodeName);
-    }
-  }
-
-  private class FormFilter implements NodeFilter {
-    public boolean accept(final Node node) {
-      final String nodeName = node.getNodeName();
-      return "FORM".equalsIgnoreCase(nodeName);
-    }
-  }
-
-  private class FrameFilter implements NodeFilter {
-    public boolean accept(final Node node) {
-      return node instanceof HTMLFrameElement || node instanceof HTMLIFrameElement;
-    }
-  }
-
-  // private class BodyFilter implements NodeFilter {
-  // public boolean accept(Node node) {
-  // return node instanceof org.w3c.dom.html2.HTMLBodyElement;
-  // }
-  // }
-
-  private class ElementNameFilter implements NodeFilter {
-    private final String name;
-
-    public ElementNameFilter(final String name) {
-      this.name = name;
-    }
-
-    public boolean accept(final Node node) {
-      // TODO: Case sensitive?
-      return (node instanceof Element) && this.name.equals(((Element) node).getAttribute("name"));
-    }
-  }
-
-  private class ElementFilter implements NodeFilter {
-    public ElementFilter() {
-    }
-
-    public boolean accept(final Node node) {
-      return node instanceof Element;
-    }
-  }
-
-  private class TagNameFilter implements NodeFilter {
-    private final String name;
-
-    public TagNameFilter(final String name) {
-      this.name = name;
-    }
-
-    public boolean accept(final Node node) {
-      if (!(node instanceof Element)) {
-        return false;
-      }
-      final String n = this.name;
-      return n.equalsIgnoreCase(((Element) node).getTagName());
     }
   }
 

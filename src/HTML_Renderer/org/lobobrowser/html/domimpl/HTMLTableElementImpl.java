@@ -79,11 +79,11 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
   }
 
   public HTMLCollection getRows() {
-    return new DescendentHTMLCollection(this, new ElementFilter("TR"), this.treeLock, false);
+    return new DescendentHTMLCollection(this, new NodeNameFilter("TR"), this.treeLock, false);
   }
 
   public HTMLCollection getTBodies() {
-    return new DescendentHTMLCollection(this, new ElementFilter("TBODY"), this.treeLock, false);
+    return new DescendentHTMLCollection(this, new NodeNameFilter("TBODY"), this.treeLock, false);
   }
 
   public String getAlign() {
@@ -202,7 +202,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
   }
 
   public void deleteTHead() {
-    this.removeChildren(new ElementFilter("THEAD"));
+    this.removeChildren(new NodeNameFilter("THEAD"));
   }
 
   public HTMLElement createTFoot() {
@@ -211,7 +211,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
   }
 
   public void deleteTFoot() {
-    this.removeChildren(new ElementFilter("TFOOT"));
+    this.removeChildren(new NodeNameFilter("TFOOT"));
   }
 
   public HTMLElement createCaption() {
@@ -220,7 +220,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
   }
 
   public void deleteCaption() {
-    this.removeChildren(new ElementFilter("CAPTION"));
+    this.removeChildren(new NodeNameFilter("CAPTION"));
   }
 
   /**
