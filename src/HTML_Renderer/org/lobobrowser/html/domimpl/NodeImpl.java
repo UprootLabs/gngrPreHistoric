@@ -714,9 +714,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     synchronized (this.treeLock) {
       this.removeChildrenImpl(filter);
     }
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
+
+    this.postChildListChanged();
+
   }
 
   protected void removeChildrenImpl(final NodeFilter filter) {
