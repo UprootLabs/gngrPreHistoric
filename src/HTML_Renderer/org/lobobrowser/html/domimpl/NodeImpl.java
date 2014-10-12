@@ -137,6 +137,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
+        for (Node node : nl) {
+          if (node instanceof NodeImpl) {
+            ((NodeImpl) node).setParentImpl(null);
+          }
+        }
         oldNodeList = nl;
         this.nodeList = null;
       }
@@ -461,6 +466,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       if (newChild instanceof NodeImpl) {
         ((NodeImpl) newChild).setParentImpl(this);
       }
+      if (oldChild instanceof NodeImpl) {
+        ((NodeImpl) oldChild).setParentImpl(null);
+      }
     }
 
     if(oldChild instanceof NodeImpl) {
@@ -483,6 +491,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       if (nl == null || !nl.remove(oldChild)) {
         throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
       }
+      if (oldChild instanceof NodeImpl) {
+        ((NodeImpl) oldChild).setParentImpl(null);
+      }
     }
 
     if (oldChild instanceof NodeImpl) {
@@ -495,6 +506,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   public Node removeChildAt(final int index) throws DOMException {
+    NodeImpl oldChild = null;
     try {
       synchronized (this.treeLock) {
         final ArrayList<Node> nl = this.nodeList;
@@ -506,11 +518,15 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
           throw new DOMException(DOMException.INDEX_SIZE_ERR, "No node with that index");
         }
         if (n instanceof NodeImpl) {
-          ((NodeImpl) n).handleDeletedFromParent();
+          oldChild = ((NodeImpl) n);
+          oldChild.setParentImpl(null);
         }
         return n;
       }
     } finally {
+      if (oldChild != null) {
+        oldChild.handleDeletedFromParent();
+      }
       this.postChildListChanged();
     }
   }
@@ -1330,7 +1346,6 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * from a parent node
    */
   private void handleDeletedFromParent() {
-    this.setParentImpl(null);
     changeDocumentAttachment(false);
   }
 
