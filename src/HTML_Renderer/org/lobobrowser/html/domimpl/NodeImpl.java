@@ -136,7 +136,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        oldNodeList = this.nodeList;
+        oldNodeList = nl;
         this.nodeList = null;
       }
     }
