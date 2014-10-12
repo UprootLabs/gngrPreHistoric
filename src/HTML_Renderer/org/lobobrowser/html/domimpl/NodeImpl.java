@@ -141,9 +141,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    for (Node node : oldNodeList) {
-      final NodeImpl n = (NodeImpl) node;
-      n.handleDeletedFromParent();
+    if (oldNodeList != null) {
+      for (Node node : oldNodeList) {
+        final NodeImpl n = (NodeImpl) node;
+        n.handleDeletedFromParent();
+      }
     }
 
     this.postChildListChanged();
