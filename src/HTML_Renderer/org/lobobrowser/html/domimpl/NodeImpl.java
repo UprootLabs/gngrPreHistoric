@@ -1270,28 +1270,57 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   private volatile boolean attachedToDocument = false;
 
+  /**
+   * @return the attachment with the document. true if the element is attached
+   *         to the document, false otherwise.
+   */
   protected boolean isAttachedToDocument() {
     return this.attachedToDocument;
   }
 
+  /**
+   * This method is intended to be overriden by subclasses that are interested
+   * in processing their child-list whenever it is updated.
+   */
   protected void handleChildListChanged() {
 
   }
 
+  /**
+   * This method is intended to be overriden by subclasses that are interested
+   * in performing some operation when they are attached/detached from the
+   * document.
+   */
   protected void handleDocumentAttachmentChanged() {
 
   }
 
+  /**
+   * This method will be called on a node whenever it is being appended to a
+   * parent node
+   */
   private void handleAddedToParent() {
     final NodeImpl parent = (NodeImpl) this.parentNode;
     changeDocumentAttachment(parent.isAttachedToDocument());
   }
 
+  /**
+   * This method will be called on a node whenever it is being deleted
+   * from a parent node
+   */
   private void handleDeletedFromParent() {
     this.parentNode = null;
     changeDocumentAttachment(false);
   }
 
+  /**
+   * This method will change the attachment of a node with the document. It will
+   * also change the attachment of all its child nodes.
+   *
+   * @param attached
+   *          the attachment with the document. true when attached, false
+   *          otherwise.
+   */
   private void changeDocumentAttachment(boolean attached) {
     if (this.attachedToDocument != attached) {
       this.attachedToDocument = attached;
@@ -1305,6 +1334,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
+  /**
+   * Common tasks to be performed when the NodeList of an element is changed.
+   */
   private void postChildListChanged() {
     this.handleChildListChanged();
 
