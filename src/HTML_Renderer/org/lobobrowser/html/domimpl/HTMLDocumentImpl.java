@@ -1415,4 +1415,10 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       }
     });*/
   }
+
+  @Override
+  protected boolean isAttachedToDocument() {
+    return true;
+  }
+
 }

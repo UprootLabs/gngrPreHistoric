@@ -116,9 +116,15 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
+    final NodeImpl childNode = (NodeImpl) newChild;
+    childNode.handleAddedToParent();
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
+
     return newChild;
   }
 
@@ -129,6 +135,12 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected void removeAllChildrenImpl() {
+    final ArrayList<Node> oldNodeList = new ArrayList<>();
+
+    if(nodeList != null && nodeList.size() > 0) {
+      oldNodeList.addAll(nodeList);
+    }
+
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
@@ -136,6 +148,14 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         // this.nodeList = null;
       }
     }
+
+    for (Node node : oldNodeList) {
+      final NodeImpl n = (NodeImpl) node;
+      n.handleDeletedFromParent();
+    }
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
@@ -405,6 +425,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         ((NodeImpl) newChild).setParentImpl(this);
       }
     }
+
+    ((NodeImpl) newChild).handleAddedToParent();
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
@@ -423,6 +448,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         ((NodeImpl) newChild).setParentImpl(this);
       }
     }
+
+    ((NodeImpl) newChild).handleAddedToParent();
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
@@ -437,12 +467,22 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
       }
       nl.set(idx, newChild);
+      if (newChild instanceof NodeImpl) {
+        ((NodeImpl) newChild).setParentImpl(this);
+      }
     }
+
+    ((NodeImpl) oldChild).handleDeletedFromParent();
+    ((NodeImpl) newChild).handleAddedToParent();
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
     return newChild;
   }
+
 
   public Node removeChild(final Node oldChild) throws DOMException {
     synchronized (this.treeLock) {
@@ -451,9 +491,15 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
       }
     }
+
+    ((NodeImpl) oldChild).handleDeletedFromParent();
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
+
     return oldChild;
   }
 
@@ -468,9 +514,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         if (n == null) {
           throw new DOMException(DOMException.INDEX_SIZE_ERR, "No node with that index");
         }
+        ((NodeImpl) n).handleDeletedFromParent();
         return n;
       }
     } finally {
+      this.handleChildListChanged();
       if (!this.notificationsSuspended) {
         this.informStructureInvalid();
       }
@@ -682,6 +730,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         nl.add(t);
       }
     }
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
@@ -721,6 +772,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         ((NodeImpl) newChild).setParentImpl(this);
       }
     }
+
+    ((NodeImpl) newChild).handleAddedToParent();
+
+    this.handleChildListChanged();
+
     if (!this.notificationsSuspended) {
       this.informStructureInvalid();
     }
@@ -762,6 +818,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         return textNode;
       }
     } finally {
+
+      this.handleChildListChanged();
+
       if (!this.notificationsSuspended) {
         this.informStructureInvalid();
       }
@@ -806,6 +865,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         return textNode;
       }
     } finally {
+
+      this.handleChildListChanged();
+
       if (!this.notificationsSuspended) {
         this.informStructureInvalid();
       }
@@ -1249,4 +1311,42 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     dispatchEventToHandlers(evt, onEventHandlers.get(evt.getType()));
     return false;
   }
+
+  protected volatile boolean attachedToDocument = false;
+
+  protected boolean isAttachedToDocument() {
+    return this.attachedToDocument;
+  }
+
+  protected void handleChildListChanged() {
+
+  }
+
+  protected void handleDocumentAttachmentChanged() {
+
+  }
+
+  private void handleAddedToParent() {
+    final NodeImpl parent = (NodeImpl) this.parentNode;
+    changeDocumentAttachment(parent.isAttachedToDocument());
+  }
+
+  private void handleDeletedFromParent() {
+    this.parentNode = null;
+    changeDocumentAttachment(false);
+  }
+
+  private void changeDocumentAttachment(boolean attached) {
+    if (this.attachedToDocument != attached) {
+      this.attachedToDocument = attached;
+      handleDocumentAttachmentChanged();
+    }
+    if(nodeList != null) {
+      for (Node node : this.nodeList) {
+        final NodeImpl childNode = (NodeImpl) node;
+        childNode.changeDocumentAttachment(attached);
+      }
+    }
+  }
+
 }
