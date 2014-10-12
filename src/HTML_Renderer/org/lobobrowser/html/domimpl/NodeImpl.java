@@ -144,8 +144,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
     if (oldNodeList != null) {
       for (Node node : oldNodeList) {
-        final NodeImpl n = (NodeImpl) node;
-        n.handleDeletedFromParent();
+        if (node instanceof NodeImpl) {
+          ((NodeImpl) node).handleDeletedFromParent();
+        }
       }
     }
 
@@ -484,7 +485,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    ((NodeImpl) oldChild).handleDeletedFromParent();
+    if (oldChild instanceof NodeImpl) {
+      ((NodeImpl) oldChild).handleDeletedFromParent();
+    }
 
     this.postChildListChanged();
 
@@ -502,7 +505,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         if (n == null) {
           throw new DOMException(DOMException.INDEX_SIZE_ERR, "No node with that index");
         }
-        ((NodeImpl) n).handleDeletedFromParent();
+        if (n instanceof NodeImpl) {
+          ((NodeImpl) n).handleDeletedFromParent();
+        }
         return n;
       }
     } finally {
@@ -1315,8 +1320,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * parent node
    */
   private void handleAddedToParent() {
-    final NodeImpl parent = (NodeImpl) this.parentNode;
-    changeDocumentAttachment(parent.isAttachedToDocument());
+    if (this.parentNode instanceof NodeImpl) {
+      changeDocumentAttachment(((NodeImpl) this.parentNode).isAttachedToDocument());
+    }
   }
 
   /**
@@ -1343,8 +1349,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
     if(nodeList != null) {
       for (Node node : this.nodeList) {
-        final NodeImpl childNode = (NodeImpl) node;
-        childNode.changeDocumentAttachment(attached);
+        if (node instanceof NodeImpl) {
+          ((NodeImpl) node).changeDocumentAttachment(attached);
+        }
       }
     }
   }
