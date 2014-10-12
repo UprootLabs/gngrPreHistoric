@@ -116,8 +116,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    final NodeImpl childNode = (NodeImpl) newChild;
-    childNode.handleAddedToParent();
+    if(newChild instanceof NodeImpl) {
+      ((NodeImpl) newChild).handleAddedToParent();
+    }
 
     this.postChildListChanged();
 
@@ -417,7 +418,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    ((NodeImpl) newChild).handleAddedToParent();
+    if (newChild instanceof NodeImpl) {
+      ((NodeImpl) newChild).handleAddedToParent();
+    }
 
     this.postChildListChanged();
 
@@ -437,7 +440,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    ((NodeImpl) newChild).handleAddedToParent();
+    if (newChild instanceof NodeImpl) {
+      ((NodeImpl) newChild).handleAddedToParent();
+    }
 
     this.postChildListChanged();
 
@@ -457,8 +462,13 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    ((NodeImpl) oldChild).handleDeletedFromParent();
-    ((NodeImpl) newChild).handleAddedToParent();
+    if(oldChild instanceof NodeImpl) {
+      ((NodeImpl) oldChild).handleDeletedFromParent();
+    }
+
+    if(newChild instanceof NodeImpl) {
+      ((NodeImpl) newChild).handleAddedToParent();
+    }
 
     this.postChildListChanged();
 
@@ -745,7 +755,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    ((NodeImpl) newChild).handleAddedToParent();
+    if(newChild instanceof NodeImpl) {
+      ((NodeImpl) newChild).handleAddedToParent();
+    }
 
     this.postChildListChanged();
 
