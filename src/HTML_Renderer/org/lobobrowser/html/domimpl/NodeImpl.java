@@ -135,17 +135,12 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected void removeAllChildrenImpl() {
-    final ArrayList<Node> oldNodeList = new ArrayList<>();
-
-    if(nodeList != null && nodeList.size() > 0) {
-      oldNodeList.addAll(nodeList);
-    }
+    final ArrayList<Node> oldNodeList = this.nodeList;
 
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        nl.clear();
-        // this.nodeList = null;
+        this.nodeList = null;
       }
     }
 
