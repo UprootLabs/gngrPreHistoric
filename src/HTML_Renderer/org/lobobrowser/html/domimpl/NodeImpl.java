@@ -119,11 +119,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     final NodeImpl childNode = (NodeImpl) newChild;
     childNode.handleAddedToParent();
 
-    this.handleChildListChanged();
-
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
+    this.postChildListChanged();
 
     return newChild;
   }
@@ -149,11 +145,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       n.handleDeletedFromParent();
     }
 
-    this.handleChildListChanged();
+    this.postChildListChanged();
 
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
   }
 
   protected NodeList getNodeList(final NodeFilter filter) {
@@ -423,11 +416,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
     ((NodeImpl) newChild).handleAddedToParent();
 
-    this.handleChildListChanged();
+    this.postChildListChanged();
 
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
     return newChild;
   }
 
@@ -446,11 +436,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
     ((NodeImpl) newChild).handleAddedToParent();
 
-    this.handleChildListChanged();
+    this.postChildListChanged();
 
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
     return newChild;
   }
 
@@ -470,11 +457,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     ((NodeImpl) oldChild).handleDeletedFromParent();
     ((NodeImpl) newChild).handleAddedToParent();
 
-    this.handleChildListChanged();
+    this.postChildListChanged();
 
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
     return newChild;
   }
 
@@ -489,11 +473,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
     ((NodeImpl) oldChild).handleDeletedFromParent();
 
-    this.handleChildListChanged();
-
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
+    this.postChildListChanged();
 
     return oldChild;
   }
@@ -513,10 +493,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         return n;
       }
     } finally {
-      this.handleChildListChanged();
-      if (!this.notificationsSuspended) {
-        this.informStructureInvalid();
-      }
+      this.postChildListChanged();
     }
   }
 
@@ -726,11 +703,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
     }
 
-    this.handleChildListChanged();
+    this.postChildListChanged();
 
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
   }
 
   protected void removeChildren(final NodeFilter filter) {
@@ -770,11 +744,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
     ((NodeImpl) newChild).handleAddedToParent();
 
-    this.handleChildListChanged();
+    this.postChildListChanged();
 
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
     return newChild;
   }
 
@@ -813,12 +784,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         return textNode;
       }
     } finally {
-
-      this.handleChildListChanged();
-
-      if (!this.notificationsSuspended) {
-        this.informStructureInvalid();
-      }
+      this.postChildListChanged();
     }
   }
 
@@ -860,12 +826,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         return textNode;
       }
     } finally {
-
-      this.handleChildListChanged();
-
-      if (!this.notificationsSuspended) {
-        this.informStructureInvalid();
-      }
+      this.postChildListChanged();
     }
   }
 
@@ -1341,6 +1302,14 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         final NodeImpl childNode = (NodeImpl) node;
         childNode.changeDocumentAttachment(attached);
       }
+    }
+  }
+
+  private void postChildListChanged() {
+    this.handleChildListChanged();
+
+    if (!this.notificationsSuspended) {
+      this.informStructureInvalid();
     }
   }
 
