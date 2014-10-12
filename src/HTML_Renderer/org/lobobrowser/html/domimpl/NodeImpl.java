@@ -131,11 +131,12 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected void removeAllChildrenImpl() {
-    final ArrayList<Node> oldNodeList = this.nodeList;
+    ArrayList<Node> oldNodeList = null;
 
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
+        oldNodeList = this.nodeList;
         this.nodeList = null;
       }
     }
