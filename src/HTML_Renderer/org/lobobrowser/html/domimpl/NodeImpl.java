@@ -1309,7 +1309,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * from a parent node
    */
   private void handleDeletedFromParent() {
-    this.parentNode = null;
+    this.setParentImpl(null);
     changeDocumentAttachment(false);
   }
 
