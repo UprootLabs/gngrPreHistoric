@@ -1307,7 +1307,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     return false;
   }
 
-  protected volatile boolean attachedToDocument = false;
+  private volatile boolean attachedToDocument = false;
 
   protected boolean isAttachedToDocument() {
     return this.attachedToDocument;
