@@ -1318,7 +1318,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /**
    * This method will change the attachment of a node with the document. It will
-   * also change the attachment of all its child nodes.
+   * also change the attachment of all its descendant nodes.
    *
    * @param attached
    *          the attachment with the document. true when attached, false
