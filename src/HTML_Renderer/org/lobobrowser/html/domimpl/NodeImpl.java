@@ -128,11 +128,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected void removeAllChildrenImpl() {
-
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
-        for (Node node : nl) {
+        for (final Node node : nl) {
           if (node instanceof NodeImpl) {
             ((NodeImpl) node).handleDeletedFromParent();;
           }
@@ -455,7 +454,6 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
     return newChild;
   }
-
 
   public Node removeChild(final Node oldChild) throws DOMException {
     synchronized (this.treeLock) {
