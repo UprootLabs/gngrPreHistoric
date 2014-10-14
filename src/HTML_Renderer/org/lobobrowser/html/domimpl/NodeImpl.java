@@ -112,7 +112,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).handleAddedToParent();
+        ((NodeImpl) newChild).handleAddedToParent(this);
       }
     }
 
@@ -405,7 +405,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(idx, newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).handleAddedToParent();
+        ((NodeImpl) newChild).handleAddedToParent(this);
       }
     }
 
@@ -423,7 +423,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(idx, newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).handleAddedToParent();
+        ((NodeImpl) newChild).handleAddedToParent(this);
       }
     }
 
@@ -442,7 +442,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       nl.set(idx, newChild);
 
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).handleAddedToParent();
+        ((NodeImpl) newChild).handleAddedToParent(this);
       }
 
       if (oldChild instanceof NodeImpl) {
@@ -733,7 +733,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(idx + 1, newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).handleAddedToParent();
+        ((NodeImpl) newChild).handleAddedToParent(this);
       }
     }
 
@@ -1295,12 +1295,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * NOTE: changeDocumentAttachment will call updateIds() which needs to
    * be tree locked, and hence these methods are also being tree locked
    */
-  private void handleAddedToParent() {
-    if (this.parentNode instanceof NodeImpl) {
-      final NodeImpl parent = (NodeImpl) this.parentNode;
-      this.setParentImpl(parent);
-      changeDocumentAttachment(parent.isAttachedToDocument());
-    }
+  private void handleAddedToParent(final NodeImpl parent) {
+    this.setParentImpl(parent);
+    changeDocumentAttachment(parent.isAttachedToDocument());
   }
 
   /**
