@@ -112,12 +112,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).setParentImpl(this);
+        ((NodeImpl) newChild).handleAddedToParent();
       }
-    }
-
-    if(newChild instanceof NodeImpl) {
-      ((NodeImpl) newChild).handleAddedToParent();
     }
 
     this.postChildListChanged();
@@ -132,26 +128,16 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   protected void removeAllChildrenImpl() {
-    ArrayList<Node> oldNodeList = null;
 
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
       if (nl != null) {
         for (Node node : nl) {
           if (node instanceof NodeImpl) {
-            ((NodeImpl) node).setParentImpl(null);
+            ((NodeImpl) node).handleDeletedFromParent();;
           }
         }
-        oldNodeList = nl;
         this.nodeList = null;
-      }
-    }
-
-    if (oldNodeList != null) {
-      for (Node node : oldNodeList) {
-        if (node instanceof NodeImpl) {
-          ((NodeImpl) node).handleDeletedFromParent();
-        }
       }
     }
 
@@ -420,12 +406,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(idx, newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).setParentImpl(this);
+        ((NodeImpl) newChild).handleAddedToParent();
       }
-    }
-
-    if (newChild instanceof NodeImpl) {
-      ((NodeImpl) newChild).handleAddedToParent();
     }
 
     this.postChildListChanged();
@@ -442,12 +424,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(idx, newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).setParentImpl(this);
+        ((NodeImpl) newChild).handleAddedToParent();
       }
-    }
-
-    if (newChild instanceof NodeImpl) {
-      ((NodeImpl) newChild).handleAddedToParent();
     }
 
     this.postChildListChanged();
@@ -463,20 +441,14 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
       }
       nl.set(idx, newChild);
+
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).setParentImpl(this);
+        ((NodeImpl) newChild).handleAddedToParent();
       }
+
       if (oldChild instanceof NodeImpl) {
-        ((NodeImpl) oldChild).setParentImpl(null);
+        ((NodeImpl) oldChild).handleDeletedFromParent();;
       }
-    }
-
-    if(oldChild instanceof NodeImpl) {
-      ((NodeImpl) oldChild).handleDeletedFromParent();
-    }
-
-    if(newChild instanceof NodeImpl) {
-      ((NodeImpl) newChild).handleAddedToParent();
     }
 
     this.postChildListChanged();
@@ -492,12 +464,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
       }
       if (oldChild instanceof NodeImpl) {
-        ((NodeImpl) oldChild).setParentImpl(null);
+        ((NodeImpl) oldChild).handleDeletedFromParent();;
       }
-    }
-
-    if (oldChild instanceof NodeImpl) {
-      ((NodeImpl) oldChild).handleDeletedFromParent();
     }
 
     this.postChildListChanged();
@@ -506,7 +474,6 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   public Node removeChildAt(final int index) throws DOMException {
-    NodeImpl oldChild = null;
     try {
       synchronized (this.treeLock) {
         final ArrayList<Node> nl = this.nodeList;
@@ -518,15 +485,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
           throw new DOMException(DOMException.INDEX_SIZE_ERR, "No node with that index");
         }
         if (n instanceof NodeImpl) {
-          oldChild = ((NodeImpl) n);
-          oldChild.setParentImpl(null);
+          ((NodeImpl) n).handleDeletedFromParent();;
         }
         return n;
       }
     } finally {
-      if (oldChild != null) {
-        oldChild.handleDeletedFromParent();
-      }
       this.postChildListChanged();
     }
   }
@@ -772,12 +735,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
       nl.add(idx + 1, newChild);
       if (newChild instanceof NodeImpl) {
-        ((NodeImpl) newChild).setParentImpl(this);
+        ((NodeImpl) newChild).handleAddedToParent();
       }
-    }
-
-    if(newChild instanceof NodeImpl) {
-      ((NodeImpl) newChild).handleAddedToParent();
     }
 
     this.postChildListChanged();
@@ -1337,7 +1296,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    */
   private void handleAddedToParent() {
     if (this.parentNode instanceof NodeImpl) {
-      changeDocumentAttachment(((NodeImpl) this.parentNode).isAttachedToDocument());
+      final NodeImpl parent = (NodeImpl) this.parentNode;
+      this.setParentImpl(parent);
+      changeDocumentAttachment(parent.isAttachedToDocument());
     }
   }
 
@@ -1346,6 +1307,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * from a parent node
    */
   private void handleDeletedFromParent() {
+    this.setParentImpl(null);
     changeDocumentAttachment(false);
   }
 
@@ -1357,13 +1319,13 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    *          the attachment with the document. true when attached, false
    *          otherwise.
    */
-  private void changeDocumentAttachment(boolean attached) {
+  private void changeDocumentAttachment(final boolean attached) {
     if (this.attachedToDocument != attached) {
       this.attachedToDocument = attached;
       handleDocumentAttachmentChanged();
     }
     if(nodeList != null) {
-      for (Node node : this.nodeList) {
+      for (final Node node : this.nodeList) {
         if (node instanceof NodeImpl) {
           ((NodeImpl) node).changeDocumentAttachment(attached);
         }
