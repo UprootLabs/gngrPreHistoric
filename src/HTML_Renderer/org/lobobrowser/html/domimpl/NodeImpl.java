@@ -1290,7 +1290,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /**
    * This method will be called on a node whenever it is being appended to a
-   * parent node
+   * parent node.
+   *
+   * NOTE: changeDocumentAttachment will call updateIds() which needs to
+   * be tree locked, and hence these methods are also being tree locked
    */
   private void handleAddedToParent() {
     if (this.parentNode instanceof NodeImpl) {
@@ -1302,7 +1305,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /**
    * This method will be called on a node whenever it is being deleted
-   * from a parent node
+   * from a parent node.
+   *
+   * NOTE: changeDocumentAttachment will call updateIds() which needs to
+   * be tree locked, and hence these methods are also being tree locked
    */
   private void handleDeletedFromParent() {
     this.setParentImpl(null);
