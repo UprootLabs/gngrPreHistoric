@@ -121,6 +121,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     return newChild;
   }
 
+  // TODO not used by anyone
   protected void removeAllChildren() {
     synchronized (this.treeLock) {
       this.removeAllChildrenImpl();
@@ -471,6 +472,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     return oldChild;
   }
 
+  // TODO used internally, hide from JS
   public Node removeChildAt(final int index) throws DOMException {
     try {
       synchronized (this.treeLock) {
@@ -727,6 +729,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
+  // TODO used internally, hide from JS
   public Node insertAfter(final Node newChild, final Node refChild) {
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
@@ -745,6 +748,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     return newChild;
   }
 
+  // TODO used internally, hide from JS
   public Text replaceAdjacentTextNodes(final Text node, final String textContent) {
     try {
       synchronized (this.treeLock) {
@@ -784,6 +788,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
+  // TODO used internally only in this class, hide from JS
   public Text replaceAdjacentTextNodes(final Text node) {
     try {
       synchronized (this.treeLock) {
