@@ -885,9 +885,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         }
       }
     }
-    if (!this.notificationsSuspended) {
-      this.informStructureInvalid();
-    }
+    this.postChildListChanged();
   }
 
   public String toString() {
