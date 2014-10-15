@@ -483,7 +483,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
           throw new DOMException(DOMException.INDEX_SIZE_ERR, "No node with that index");
         }
         if (n instanceof NodeImpl) {
-          ((NodeImpl) n).handleDeletedFromParent();;
+          ((NodeImpl) n).handleDeletedFromParent();
         }
         return n;
       }
