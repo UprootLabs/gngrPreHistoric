@@ -61,6 +61,7 @@ public class ElementImpl extends NodeImpl implements Element {
   public NamedNodeMap getAttributes() {
     synchronized (this) {
       Map<String, String> attrs = this.attributes;
+
       if (attrs == null) {
         attrs = new HashMap<>();
         this.attributes = attrs;
@@ -216,27 +217,15 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public void removeAttribute(final String name) throws DOMException {
-    final String normalName = normalizeAttributeName(name);
-    synchronized (this) {
-      final Map<String, String> attributes = this.attributes;
-      if (attributes == null) {
-        return;
-      }
-      attributes.remove(normalName);
-    }
+    changeAttribute(name, null);
   }
 
   public Attr removeAttributeNode(final Attr oldAttr) throws DOMException {
-    final String normalName = normalizeAttributeName(oldAttr.getName());
-    synchronized (this) {
-      final Map<String, String> attributes = this.attributes;
-      if (attributes == null) {
-        return null;
-      }
-      final String oldValue = attributes.remove(normalName);
-      // TODO: "specified" attributes
-      return oldValue == null ? null : this.getAttr(normalName, oldValue);
-    }
+    final String attrName = oldAttr.getName();
+    final String oldValue = changeAttribute(attrName, null);
+
+    final String normalName = normalizeAttributeName(attrName);
+    return oldValue == null ? null : this.getAttr(normalName, oldValue);
   }
 
   public void removeAttributeNS(final String namespaceURI, final String localName) throws DOMException {
@@ -279,44 +268,15 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public void setAttribute(final String name, final String value) throws DOMException {
-    final String normalName = normalizeAttributeName(name);
-    synchronized (this) {
-      Map<String, String> attribs = this.attributes;
-      if (attribs == null) {
-        attribs = new HashMap<>(2);
-        this.attributes = attribs;
-      }
-      attribs.put(normalName, value);
-    }
-    this.assignAttributeField(normalName, value);
-  }
-
-  /**
-   * Fast method to set attributes. It is not thread safe. Calling thread should
-   * hold a treeLock.
-   */
-  public void setAttributeImpl(final String name, final String value) throws DOMException {
-    final String normalName = normalizeAttributeName(name);
-    Map<String, String> attribs = this.attributes;
-    if (attribs == null) {
-      attribs = new HashMap<>(2);
-      this.attributes = attribs;
-    }
-    this.assignAttributeField(normalName, value);
-    attribs.put(normalName, value);
+    // Convert null to "null" : String.
+    // This is how Firefox behaves and is also consistent with DOM 3
+    final String valueNonNull = value == null ? "null" : value;
+    changeAttribute(name, valueNonNull);
   }
 
   public Attr setAttributeNode(final Attr newAttr) throws DOMException {
-    final String normalName = normalizeAttributeName(newAttr.getName());
-    final String value = newAttr.getValue();
-    synchronized (this) {
-      if (this.attributes == null) {
-        this.attributes = new HashMap<>();
-      }
-      this.attributes.put(normalName, value);
-      // this.setIdAttribute(normalName, newAttr.isId());
-    }
-    this.assignAttributeField(normalName, value);
+    changeAttribute(newAttr.getName(), newAttr.getValue());
+
     return newAttr;
   }
 
@@ -488,6 +448,62 @@ public class ElementImpl extends NodeImpl implements Element {
     } else {
       return text;
     }
+  }
+
+  /**
+   * To be overridden by Elements that need a notification of attribute changes.
+   * 
+   * This is called only when the element is attached to a document at the time
+   * the attribute is changed. If an attribute is changed while not attached to
+   * a document, this function is *not* called when the element is attached to a
+   * document. We chose this design because it covers our current use cases
+   * well.
+   * 
+   * If, in the future, a notification is always desired then the design can be
+   * altered easily later.
+   *
+   * @param name
+   *          normalized name
+   * @param oldValue
+   *          null, if the attribute was absent
+   * @param newValue
+   *          null, if the attribute is now removed
+   */
+  protected void handleAttributeChanged(final String name, final String oldValue, final String newValue) {
+  }
+
+  /**
+   * changes an attribute to the specified value. If the specified value is
+   * null, the attribute is removed
+   *
+   * @return the old attribute value. null if not set previously.
+   */
+  private String changeAttribute(final String name, final String newValue) {
+    final String normalName = normalizeAttributeName(name);
+
+    String oldValue = null;
+    synchronized (this) {
+      if (newValue == null) {
+        if (attributes != null) {
+          oldValue = attributes.remove(normalName);
+        }
+      } else {
+        if (attributes == null) {
+          attributes = new HashMap<>(2);
+        }
+        oldValue = attributes.put(normalName, newValue);
+
+        this.assignAttributeField(normalName, newValue);
+      }
+    }
+
+    // TODO: Update id map here instead of in assignAttributeField
+
+    if (isAttachedToDocument()) {
+      handleAttributeChanged(normalName, oldValue, newValue);
+    }
+
+    return oldValue;
   }
 
 }
