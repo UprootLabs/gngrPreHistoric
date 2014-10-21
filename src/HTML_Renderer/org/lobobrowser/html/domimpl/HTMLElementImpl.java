@@ -474,7 +474,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     super.informInvalid();
   }
 
-  public void informInvalidAttibute(final String normalName) {
+  private void informInvalidAttibute(final String normalName) {
     // This is called when an attribute changes while
     // the element is allowing notifications.
     if ("style".equals(normalName)) {
