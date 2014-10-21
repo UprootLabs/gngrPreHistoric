@@ -62,6 +62,9 @@ public class ElementImpl extends NodeImpl implements Element {
     synchronized (this) {
       Map<String, String> attrs = this.attributes;
 
+      // TODO: Check if NamedNodeMapImpl can be changed to dynamically query the attributes field
+      //       instead of keeping a reference to it. This will allow the NamedNodeMap to be live as well
+      //       as avoid allocating of a HashMap here when attributes are empty.
       if (attrs == null) {
         attrs = new HashMap<>();
         this.attributes = attrs;
