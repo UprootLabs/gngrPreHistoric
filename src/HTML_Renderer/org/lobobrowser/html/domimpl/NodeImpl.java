@@ -58,6 +58,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.html.HTMLDocument;
 
 // TODO: Implement org.w3c.dom.events.EventTarget ?
 public abstract class NodeImpl extends AbstractScriptableDelegate implements Node, ModelNode {
@@ -1292,13 +1293,14 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     return false;
   }
 
-  private volatile boolean attachedToDocument = false;
+  private volatile boolean attachedToDocument = this instanceof HTMLDocument;
 
   /**
    * @return the attachment with the document. true if the element is attached
-   *         to the document, false otherwise.
+   *         to the document, false otherwise. Document nodes are considered
+   *         attached by default.
    */
-  protected boolean isAttachedToDocument() {
+  protected final boolean isAttachedToDocument() {
     return this.attachedToDocument;
   }
 

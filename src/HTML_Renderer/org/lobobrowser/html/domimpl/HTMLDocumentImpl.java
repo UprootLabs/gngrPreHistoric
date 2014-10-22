@@ -1294,11 +1294,6 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     });*/
   }
 
-  @Override
-  protected boolean isAttachedToDocument() {
-    return true;
-  }
-
   final class StyleSheetManager {
 
     private volatile List<JStyleSheetWrapper> styleSheets = null;
@@ -1383,5 +1378,4 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     }
 
   }
-
 }
