@@ -1357,6 +1357,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     if (this.attachedToDocument != attached) {
       this.attachedToDocument = attached;
       handleDocumentAttachmentChanged();
+      if (this instanceof ElementImpl) {
+        final ElementImpl elementImpl = (ElementImpl) this;
+        elementImpl.updateIdMap(attached);
+      }
     }
     if(nodeList != null) {
       for (final Node node : this.nodeList) {

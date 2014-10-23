@@ -98,10 +98,9 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
-  private String id;
-
   public String getId() {
-    final String id = this.id;
+    // TODO: Check if a cache is useful for this attribute. Original gngr code had a cache here.
+    final String id = this.getAttribute("id");
     return id == null ? "" : id;
   }
 
@@ -239,29 +238,17 @@ public class ElementImpl extends NodeImpl implements Element {
     // Note: overriders assume that processing here is only done after
     // checking attribute names, i.e. they may not call the super
     // implementation if an attribute is already taken care of.
-    boolean isName = false;
-    if ("id".equals(normalName) || (isName = "name".equals(normalName))) {
-      // Note that the value of name is used
-      // as an ID, but the value of ID is not
-      // used as a name.
-      if (!isName) {
-        this.id = value;
-      }
+
+    // TODO: Need to move this to a separate function, similar to updateIdMap()
+    // TODO: Need to update the name map, whenever attachment changes
+    if (isAttachedToDocument()) {
       final HTMLDocumentImpl document = (HTMLDocumentImpl) this.document;
-      if (document != null) {
-        // // Do not remove old ID. Consider scenario where both
-        // // name and ID are provided in an element.
-        // if (oldId != null) {
-        // document.removeElementById(oldId);
-        // }
-        document.setElementById(value, this);
-        if (isName) {
-          final String oldName = this.getAttribute("name");
-          if (oldName != null) {
-            document.removeNamedItem(oldName);
-          }
-          document.setNamedItem(value, this);
+      if ("name".equals(normalName)) {
+        final String oldName = this.getAttribute("name");
+        if (oldName != null) {
+          document.removeNamedItem(oldName);
         }
+        document.setNamedItem(value, this);
       }
     }
   }
@@ -484,6 +471,10 @@ public class ElementImpl extends NodeImpl implements Element {
 
     String oldValue = null;
     synchronized (this) {
+      // Need to call this before modifying the attribute map because
+      // the old value is accessed inside assignAttributeField().
+      this.assignAttributeField(normalName, newValue);
+
       if (newValue == null) {
         if (attributes != null) {
           oldValue = attributes.remove(normalName);
@@ -492,13 +483,14 @@ public class ElementImpl extends NodeImpl implements Element {
         if (attributes == null) {
           attributes = new HashMap<>(2);
         }
-        oldValue = attributes.put(normalName, newValue);
 
-        this.assignAttributeField(normalName, newValue);
+        oldValue = attributes.put(normalName, newValue);
       }
     }
 
-    // TODO: Update id map here instead of in assignAttributeField
+    if ("id".equals(normalName)) {
+      updateIdMap(oldValue, newValue);
+    }
 
     if (isAttachedToDocument()) {
       handleAttributeChanged(normalName, oldValue, newValue);
@@ -507,4 +499,25 @@ public class ElementImpl extends NodeImpl implements Element {
     return oldValue;
   }
 
+  protected void updateIdMap(final boolean isAttached) {
+    if (hasAttribute("id")) {
+      final String id = getId();
+      if (isAttached) {
+        ((HTMLDocumentImpl) document).setElementById(id, this);
+      } else {
+        ((HTMLDocumentImpl) document).removeElementById(getId());
+      }
+    }
+  }
+
+  private void updateIdMap(final String oldIdValue, final String newIdValue) {
+    if (isAttachedToDocument() && !Objects.equals(oldIdValue, newIdValue)) {
+      if (oldIdValue != null) {
+        ((HTMLDocumentImpl) document).removeElementById(oldIdValue);
+      }
+      if (newIdValue != null) {
+        ((HTMLDocumentImpl) document).setElementById(newIdValue, this);
+      }
+    }
+  }
 }
