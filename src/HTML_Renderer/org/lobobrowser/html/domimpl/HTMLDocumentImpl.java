@@ -199,7 +199,11 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
    */
   void setElementById(final String id, final Element element) {
     synchronized (this) {
-      this.elementsById.put(id, element);
+      // TODO: Need to take care of document order. The following check is crude and only takes
+      //       care of document order for elements in static HTML.
+      if (!elementsById.containsKey(id)) {
+        this.elementsById.put(id, element);
+      }
     }
   }
 
