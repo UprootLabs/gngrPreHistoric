@@ -160,7 +160,10 @@ public class CSSNorm
         "ul     { margin-left: 0; padding-left: 40px; }"+
         // In jStyleParser code, these were in the recommended section,
         // but we have moved them here as they are not part of the W3C recommendation.
-        "abbr, acronym   { font-variant: small-caps; letter-spacing: 0.1em }";
+        "abbr, acronym   { font-variant: small-caps; letter-spacing: 0.1em }"+
+
+        // In both Firefox and Chromium, text-align for tables is reset and not inherited
+        "table {text-align: left}";
     }
 
     /**
