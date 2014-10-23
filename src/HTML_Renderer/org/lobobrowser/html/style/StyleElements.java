@@ -24,13 +24,11 @@ public class StyleElements {
       //Analyze HTML attributes
       String attrs = "";
       final String tagName = el.getTagName();
-      //setting table and cell borders
-      if (tagName.equals("table")) {
+      if ("table".equals(tagName)) {
+        //setting table and cell borders
         attrs = getTableElementStyle(el, attrs);
-      }
-
-      //Text properties
-      if (tagName.equals("font")) {
+      } else if ("font".equals(tagName)) {
+        //Text properties
         attrs = getFontElementStyle(el, attrs);
       }
 
