@@ -618,11 +618,13 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public Element getElementById(final String elementId) {
-    Element element;
-    synchronized (this) {
-      element = this.elementsById.get(elementId);
+    if (elementId != null && elementId.length() > 0) {
+      synchronized (this) {
+        return this.elementsById.get(elementId);
+      }
+    } else {
+      return null;
     }
-    return element;
   }
 
   private final Map<String, Element> elementsByName = new HashMap<>(0);
