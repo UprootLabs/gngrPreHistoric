@@ -47,6 +47,6 @@ public class ListRenderState extends AbstractMarginRenderState {
   }
 
   public int getDefaultDisplay() {
-    return DISPLAY_LIST_ITEM;
+    return DISPLAY_BLOCK;
   }
 }

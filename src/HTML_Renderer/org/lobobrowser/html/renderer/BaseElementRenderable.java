@@ -37,6 +37,7 @@ import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.BackgroundInfo;
 import org.lobobrowser.html.style.BorderInfo;
 import org.lobobrowser.html.style.HtmlInsets;
@@ -387,7 +388,11 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
       this.lastBackgroundImageUri = backgroundImageUri;
       this.loadBackgroundImage(backgroundImageUri);
     }
+      //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = rootElement.getCurrentStyle();
+    */
+    final JStyleProperties props = rootElement.getCurrentStyle();
     if (props == null) {
       this.clearStyle(isRootBlock);
     } else {

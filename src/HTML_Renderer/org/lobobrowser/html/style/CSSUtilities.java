@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
+import org.lobobrowser.html.domimpl.HTMLElementImpl;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.ua.UserAgentContext.Request;
@@ -86,6 +87,7 @@ import cz.vutbr.web.css.MediaQuery;
 import cz.vutbr.web.css.MediaSpec;
 import cz.vutbr.web.css.MediaSpecNone;
 import cz.vutbr.web.css.RuleBlock;
+import cz.vutbr.web.css.RuleFactory;
 import cz.vutbr.web.css.RuleFontFace;
 import cz.vutbr.web.css.RuleMedia;
 import cz.vutbr.web.css.RuleSet;
@@ -97,9 +99,13 @@ import cz.vutbr.web.css.Selector.PseudoPage;
 import cz.vutbr.web.css.Selector.SelectorPart;
 import cz.vutbr.web.css.StyleSheet;
 import cz.vutbr.web.css.TermFunction;
+import cz.vutbr.web.csskit.RuleFactoryImpl;
+import cz.vutbr.web.csskit.antlr.CSSParserFactory;
+import cz.vutbr.web.csskit.antlr.CSSParserFactory.SourceType;
 
 public class CSSUtilities {
   private static final Logger logger = Logger.getLogger(CSSUtilities.class.getName());
+  private static final RuleFactory rf = RuleFactoryImpl.getInstance();
 
   private CSSUtilities() {
   }
@@ -163,6 +169,10 @@ public class CSSUtilities {
     return parseCSS2(ownerNode, baseURI, stylesheetStr);
   }
 
+  public static StyleSheet jParseStyleSheet(final org.w3c.dom.Node ownerNode, final String baseURI, final String stylesheetStr) {
+    return jParseCSS2(ownerNode, baseURI, stylesheetStr);
+  }
+
   public static CSSStyleSheet parse(final org.w3c.dom.Node ownerNode, final String href, final HTMLDocumentImpl doc, final String baseUri,
       final boolean considerDoubleSlashComments) throws MalformedURLException {
     final UserAgentContext bcontext = doc.getUserAgentContext();
@@ -196,6 +206,44 @@ public class CSSUtilities {
     }
   }
 
+  public static StyleSheet jParse(final org.w3c.dom.Node ownerNode, final String href, final HTMLDocumentImpl doc, final String baseUri,
+      final boolean considerDoubleSlashComments) throws MalformedURLException {
+    final UserAgentContext bcontext = doc.getUserAgentContext();
+    final NetworkRequest request = bcontext.createHttpRequest();
+    final URL baseURL = new URL(baseUri);
+    final URL cssURL = Urls.createURL(baseURL, href);
+    final String cssURI = cssURL == null ? href : cssURL.toExternalForm();
+    // Perform a synchronous request
+    SecurityUtil.doPrivileged(() -> {
+      try {
+        request.open("GET", cssURI, false);
+        request.send(null, new Request(cssURL, RequestKind.CSS));
+      } catch (final java.io.IOException thrown) {
+        logger.log(Level.WARNING, "parse()", thrown);
+      }
+      return getEmptyStyleSheet();
+    });
+    final int status = request.getStatus();
+    if (status != 200 && status != 0) {
+      logger.warning("Unable to parse CSS. URI=[" + cssURI + "]. Response status was " + status + ".");
+      return getEmptyStyleSheet();
+    }
+
+    final String text = request.getResponseText();
+    if (text != null && !"".equals(text)) {
+      final String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
+      return jParseCSS2(ownerNode, cssURI, processedText);
+    } else {
+      return getEmptyStyleSheet();
+    }
+  }
+
+  public static StyleSheet getEmptyStyleSheet() {
+    StyleSheet css = rf.createStyleSheet();
+    css.unlock();
+    return css;
+  }
+
   /*
   private static CSSStyleSheet parseCSS(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
     final CSSOMParser parser = mkParser();
@@ -218,6 +266,27 @@ public class CSSUtilities {
     } catch (IOException | CSSException e) {
       logger.log(Level.SEVERE, "Unable to parse CSS. URI=[" + cssURI + "].", e);
       return null;
+    }
+  }
+
+  private static StyleSheet jParseCSS2(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
+    CSSFactory.setAutoImportMedia(new MediaSpecNone());
+    try {
+      final URL base = new URL(cssURI);
+      return CSSParserFactory.parse(processedText, null, SourceType.EMBEDDED, base);
+    } catch (IOException | CSSException e) {
+      logger.log(Level.SEVERE, "Unable to parse CSS. URI=[" + cssURI + "].", e);
+      return getEmptyStyleSheet();
+    }
+  }
+
+  public static StyleSheet jParseInlineStyle(final String style, final String encoding, final SourceType type,
+      final HTMLElementImpl element, final boolean inlinePriority) {
+    try {
+      return CSSParserFactory.parse(style, encoding, type, element, inlinePriority, element.getDocumentURL());
+    } catch (IOException | CSSException e) {
+      logger.log(Level.SEVERE, "Unable to parse CSS. CSS=[" + style + "].", e);
+      return getEmptyStyleSheet();
     }
   }
 

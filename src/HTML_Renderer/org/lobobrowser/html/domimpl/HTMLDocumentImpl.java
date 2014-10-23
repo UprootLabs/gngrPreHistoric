@@ -48,9 +48,14 @@ import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.html.js.Location;
 import org.lobobrowser.html.js.Window;
 import org.lobobrowser.html.parser.HtmlParser;
+import org.lobobrowser.html.style.StyleElements;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
+
+import co.uproot.css.domimpl.JStyleSheetWrapper;
+import co.uproot.css.domimpl.StyleSheetBridge;
+
 import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
@@ -83,6 +88,9 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFrameElement;
 import org.w3c.dom.html.HTMLIFrameElement;
 import org.w3c.dom.html.HTMLLinkElement;
+import org.w3c.dom.stylesheets.DocumentStyle;
+import org.w3c.dom.stylesheets.LinkStyle;
+import org.w3c.dom.stylesheets.StyleSheetList;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 import org.xml.sax.ErrorHandler;
@@ -91,7 +99,7 @@ import org.xml.sax.SAXException;
 /**
  * Implementation of the W3C <code>HTMLDocument</code> interface.
  */
-public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, DocumentView {
+public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, DocumentView, DocumentStyle {
   private static final Logger logger = Logger.getLogger(HTMLDocumentImpl.class.getName());
   private final ElementFactory factory;
   private final HtmlRendererContext rcontext;
@@ -100,6 +108,8 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   private final Map<String, Element> elementsById = new WeakValueHashMap<>();
   private String documentURI;
   private java.net.URL documentURL;
+  protected final StyleSheetManager styleSheetManager = new StyleSheetManager();
+
 
   private WritableLineReader reader;
 
@@ -400,8 +410,12 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       this.setTitle(null);
       this.setBaseURI(null);
       this.setDefaultTarget(null);
+      //TODO to be removed during code cleanup
+      /*
       this.styleSheets.clear();
       this.styleSheetAggregator = null;
+      */
+      this.styleSheetManager.invalidateStyles();
       reader = this.reader;
     }
     if (reader != null) {
@@ -826,6 +840,8 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     }
   }
 
+  //TODO to be removed during code cleanup
+  /*
   private final Collection<CSSStyleSheet> styleSheets = new CSSStyleSheetList();
 
   public class CSSStyleSheetList extends ArrayList<CSSStyleSheet> {
@@ -839,7 +855,10 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       return (CSSStyleSheet) get(index);
     }
   }
+  */
 
+  //TODO to be removed during code cleanup
+  /*
   final void addStyleSheet(final CSSStyleSheet ss) {
     synchronized (this.treeLock) {
       this.styleSheets.add(ss);
@@ -861,11 +880,15 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     }
     this.allInvalidated();
   }
+  */
 
   public void allInvalidated(final boolean forgetRenderStates) {
     if (forgetRenderStates) {
       synchronized (this.treeLock) {
+        //TODO to be removed during code cleanup
+        /*
         this.styleSheetAggregator = null;
+        */
         // Need to invalidate all children up to
         // this point.
         this.forgetRenderState();
@@ -885,10 +908,19 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     this.allInvalidated();
   }
 
+  //TODO to be removed during code cleanup
+  /*
   public Collection<CSSStyleSheet> getStyleSheets() {
     return this.styleSheets;
   }
+  */
 
+  public StyleSheetList getStyleSheets() {
+    return styleSheetManager.constructStyleSheetList();
+  }
+
+  //TODO to be removed during code cleanup
+  /*
   private StyleSheetAggregator styleSheetAggregator = null;
 
   final StyleSheetAggregator getStyleSheetAggregator() {
@@ -906,6 +938,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       return ssa;
     }
   }
+  */
 
   private final ArrayList<DocumentNotificationListener> documentNotificationListeners = new ArrayList<>(1);
 
@@ -1402,6 +1435,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public void finishModifications() {
+    StyleElements.normalizeHTMLTree(this);
     runAllPending();
     dispatchLoadEvent();
 
@@ -1419,6 +1453,95 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   @Override
   protected boolean isAttachedToDocument() {
     return true;
+  }
+
+  private Node getInstance() {
+    return this;
+  }
+
+  final class StyleSheetManager {
+
+    private volatile List<JStyleSheetWrapper> styleSheets = null;
+
+    final StyleSheetBridge bridge = new StyleSheetBridge() {
+
+      public void notifyStyleSheetChanged(final CSSStyleSheet styleSheet) {
+        final Node ownerNode = styleSheet.getOwnerNode();
+        if (ownerNode != null) {
+          final boolean disabled = styleSheet.getDisabled();
+          if (ownerNode instanceof HTMLStyleElementImpl) {
+            final HTMLStyleElementImpl htmlStyleElement = (HTMLStyleElementImpl) ownerNode;
+            if (htmlStyleElement.getDisabled() != disabled) {
+              htmlStyleElement.setDisabledImpl(disabled);
+            }
+          } else if (ownerNode instanceof HTMLLinkElementImpl) {
+            final HTMLLinkElementImpl htmlLinkElement = (HTMLLinkElementImpl) ownerNode;
+            if (htmlLinkElement.getDisabled() != disabled) {
+              htmlLinkElement.setDisabledImpl(disabled);
+            }
+          }
+        }
+        allInvalidated();
+      }
+
+      public List<JStyleSheetWrapper> getDocStyleSheets() {
+        return getDocStyleSheetList();
+      }
+
+    };
+
+    private List<JStyleSheetWrapper> getDocStyleSheetList() {
+      synchronized (treeLock) {
+        if (styleSheets == null) {
+          styleSheets = new ArrayList<>();
+          final List<JStyleSheetWrapper> docStyles = new ArrayList<JStyleSheetWrapper>();
+          scanElementStyleSheets(docStyles, getInstance());
+          styleSheets.addAll(docStyles);
+        }
+      }
+      return this.styleSheets;
+    }
+
+    private void scanElementStyleSheets(final List<JStyleSheetWrapper> styles, final Node node) {
+      if (node instanceof LinkStyle) {
+        final LinkStyle linkStyle = (LinkStyle) node;
+        final JStyleSheetWrapper sheet = (JStyleSheetWrapper) linkStyle.getSheet();
+        if (sheet != null) {
+          styles.add(sheet);
+        }
+      }
+
+      if (node.hasChildNodes()) {
+        final NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+          scanElementStyleSheets(styles, nodeList.item(i));
+        }
+      }
+    }
+
+    // TODO enabled style sheets can be cached
+    List<cz.vutbr.web.css.StyleSheet> getEnabledJStyleSheets() {
+      final List<JStyleSheetWrapper> documentStyles = this.getDocStyleSheetList();
+      final List<cz.vutbr.web.css.StyleSheet> jStyleSheets = new ArrayList<cz.vutbr.web.css.StyleSheet>();
+      for (final JStyleSheetWrapper style : documentStyles) {
+        if ((!style.getDisabled()) && (style.getJStyleSheet() != null)) {
+          jStyleSheets.add(style.getJStyleSheet());
+        }
+      }
+      return jStyleSheets;
+    }
+
+    void invalidateStyles() {
+      synchronized (treeLock) {
+        this.styleSheets = null;
+      }
+      allInvalidated();
+    }
+
+    StyleSheetList constructStyleSheetList() {
+      return JStyleSheetWrapper.getStyleSheets(bridge);
+    }
+
   }
 
 }

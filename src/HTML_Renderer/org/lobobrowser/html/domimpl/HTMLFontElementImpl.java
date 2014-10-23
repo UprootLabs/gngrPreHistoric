@@ -59,6 +59,8 @@ public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFo
     return super.createRenderState(prevRenderState);
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected AbstractCSS2Properties createDefaultStyleSheet() {
     final String fontFamily = this.getAttribute("face");
     final String color = this.getAttribute("color");
@@ -84,5 +86,6 @@ public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFo
     }
     return css;
   }
+  */
 
 }

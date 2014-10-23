@@ -39,6 +39,8 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
     this.setAttribute("align", align);
   }
 
+  //TODO to be removed during code cleanup
+  /*
   private final float getHeadingFontSize() {
     final String tagName = this.getTagName();
     try {
@@ -86,9 +88,13 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
     }
     return "14px";
   }
+  */
 
   protected RenderState createRenderState(final RenderState prevRenderState) {
+    //TODO to be removed during code cleanup
+    /*
     final float fontSize = this.getHeadingFontSize();
+     */
     // (can't put a RenderState in the middle - messes up "em" sizes).
     // prevRenderState = new FontSizeRenderState(prevRenderState, fontSize,
     // java.awt.Font.BOLD);
@@ -120,10 +126,13 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
     buffer.append("\r\n\r\n");
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected AbstractCSS2Properties createDefaultStyleSheet() {
     final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
     css.internalSetLC("font-size", this.getHeadingFontSizeText());
     css.internalSetLC("font-weight", "bolder");
     return css;
   }
+  */
 }

@@ -22,6 +22,7 @@
  */
 package org.lobobrowser.html.domimpl;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -42,7 +44,12 @@ import org.lobobrowser.html.style.CSS2PropertiesContext;
 import org.lobobrowser.html.style.CSSUtilities;
 import org.lobobrowser.html.style.ComputedCSS2Properties;
 import org.lobobrowser.html.style.LocalCSS2Properties;
+import org.lobobrowser.html.style.CSSNorm;
+import org.lobobrowser.html.style.ComputedJStyleProperties;
+import org.lobobrowser.html.style.JStyleProperties;
+import org.lobobrowser.html.style.LocalJStyleProperties;
 import org.lobobrowser.html.style.RenderState;
+import org.lobobrowser.html.style.StyleElements;
 import org.lobobrowser.html.style.StyleSheetAggregator;
 import org.lobobrowser.html.style.StyleSheetRenderState;
 import org.lobobrowser.util.Strings;
@@ -55,9 +62,25 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
 
 import com.steadystate.css.parser.CSSOMParser;
+import cz.vutbr.web.css.CSSException;
+import cz.vutbr.web.css.CSSFactory;
+import cz.vutbr.web.css.NodeData;
+import cz.vutbr.web.css.Selector;
+import cz.vutbr.web.css.Selector.PseudoDeclaration;
+import cz.vutbr.web.css.StyleSheet;
+import cz.vutbr.web.csskit.MatchConditionOnElements;
+import cz.vutbr.web.csskit.antlr.CSSParserFactory;
+import cz.vutbr.web.domassign.DirectAnalyzer;
 
 public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2PropertiesContext {
   private final boolean noStyleSheet;
+  private static final MatchConditionOnElements elementMatchCondition = new MatchConditionOnElements();
+  private static final StyleSheet recommendedStyle = parseStyle(CSSNorm.stdStyleSheet(), StyleSheet.Origin.AGENT);
+  private static final StyleSheet userAgentStyle = parseStyle(CSSNorm.userStyleSheet(), StyleSheet.Origin.AGENT);
+
+  static {
+    CSSFactory.registerDefaultMatchCondition(elementMatchCondition);
+  }
 
   public HTMLElementImpl(final String name, final boolean noStyleSheet) {
     super(name);
@@ -69,14 +92,20 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     this.noStyleSheet = false;
   }
 
+  //TODO to be removed during code cleanup
+  /*
   private volatile AbstractCSS2Properties currentStyleDeclarationState;
   private volatile AbstractCSS2Properties localStyleDeclarationState;
+  */
 
   protected final void forgetLocalStyle() {
     synchronized (this) {
+      //TODO to be removed during code cleanup
+      /*
       this.currentStyleDeclarationState = null;
       this.localStyleDeclarationState = null;
       this.computedStyles = null;
+      */
     }
   }
 
@@ -84,10 +113,13 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     // TODO: OPTIMIZATION: If we had a ComputedStyle map in
     // window (Mozilla model) the map could be cleared in one shot.
     synchronized (this) {
+      //TODO to be removed during code cleanup
+      /*
       this.currentStyleDeclarationState = null;
       this.computedStyles = null;
       this.isHoverStyle = null;
       this.hasHoverStyleByElement = null;
+      */
       if (deep) {
         final java.util.ArrayList<Node> nl = this.nodeList;
         if (nl != null) {
@@ -107,6 +139,57 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
    * Gets the style object associated with the element. It may return null only
    * if the type of element does not handle stylesheets.
    */
+  // TODO Cache this method
+  // TODO hide from JS
+  public JStyleProperties getCurrentStyle() {
+    synchronized (this) {
+      return new ComputedJStyleProperties(this, getNodeData(null), true);
+    }
+  }
+
+  private static StyleSheet parseStyle(final String cssdata, final StyleSheet.Origin origin) {
+    try {
+      final StyleSheet newsheet = CSSFactory.parse(cssdata);
+      newsheet.setOrigin(origin);
+      return newsheet;
+    } catch (IOException | CSSException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  // TODO Cache this method
+  private NodeData getNodeData(final Selector.PseudoDeclaration psuedoElement) {
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
+    final List<StyleSheet> jSheets = new ArrayList<StyleSheet>();
+    jSheets.add(recommendedStyle);
+    jSheets.add(userAgentStyle);
+    jSheets.addAll(doc.styleSheetManager.getEnabledJStyleSheets());
+
+    final StyleSheet attributeStyle = StyleElements.convertAttributesToStyles(this);
+    if (attributeStyle != null) {
+      jSheets.add(attributeStyle);
+    }
+
+    final StyleSheet inlineStyle = this.getInlineJStyle();
+    if(inlineStyle != null) {
+      jSheets.add(inlineStyle);
+    }
+
+    final DirectAnalyzer domAnalyser = new cz.vutbr.web.domassign.DirectAnalyzer(jSheets);
+    final NodeData nodeData = domAnalyser.getElementStyle(this, psuedoElement, "screen");
+    final Node parent = this.parentNode;
+    if (parent != null && parent instanceof HTMLElementImpl) {
+      final HTMLElementImpl parentElement = (HTMLElementImpl) parent;
+      nodeData.inheritFrom(parentElement.getNodeData(psuedoElement));
+      nodeData.concretize();
+    }
+    return nodeData;
+  }
+
+  //TODO to be removed during code cleanup
+  /*
+   * @cmk
+   * Backup of old method
   public AbstractCSS2Properties getCurrentStyle() {
     synchronized (this) {
       final AbstractCSS2Properties currSds = this.currentStyleDeclarationState;
@@ -135,12 +218,21 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       return sds;
     }
   }
+   */
 
   /**
    * Gets the local style object associated with the element. The properties
    * object returned only includes properties from the local style attribute. It
    * may return null only if the type of element does not handle stylesheets.
    */
+  public JStyleProperties getStyle() {
+    return new LocalJStyleProperties(this);
+  }
+
+  //TODO to be removed during code cleanup
+  /**
+   * @cmk
+   * Backup of old method
   public AbstractCSS2Properties getStyle() {
     AbstractCSS2Properties sds;
     synchronized (this) {
@@ -167,14 +259,58 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     // Synchronization note: Make sure getStyle() does not return multiple values.
     return sds;
   }
+  */
 
+  private StyleSheet getInlineJStyle() {
+    synchronized (this) {
+      final String style = this.getAttribute("style");
+      if (style != null && style.length() != 0) {
+        return CSSUtilities.jParseInlineStyle(style, null, CSSParserFactory.SourceType.INLINE, this, true);
+      }
+    }
+    // Synchronization note: Make sure getStyle() does not return multiple values.
+    return null;
+  }
+
+  //TODO to be removed during code cleanup
+  /*
   protected AbstractCSS2Properties createDefaultStyleSheet() {
     // Override to provide element defaults.
     return null;
   }
 
   private Map<String, AbstractCSS2Properties> computedStyles;
+  */
 
+  private Selector.PseudoDeclaration getPseudoDeclaration(final String pseudoElement) {
+    if ((pseudoElement != null)) {
+      String choppedPseudoElement = pseudoElement;
+      if (pseudoElement.startsWith("::")) {
+        choppedPseudoElement = pseudoElement.substring(2, pseudoElement.length());
+      } else if (pseudoElement.startsWith(":")) {
+        choppedPseudoElement = pseudoElement.substring(1, pseudoElement.length());
+      }
+      final Selector.PseudoDeclaration[] pseudoDeclarations = Selector.PseudoDeclaration.values();
+      for (final Selector.PseudoDeclaration pd : pseudoDeclarations) {
+        if (pd.isPseudoElement()) {
+          if (pd.value().equals(choppedPseudoElement)) {
+            return pd;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  // TODO hide from JS
+  // Chromium(v37) and firefox(v32) do not expose this function
+  // couldn't find anything in the standards.
+  public JStyleProperties getComputedStyle(final String pseudoElement) {
+    return new ComputedJStyleProperties(this, getNodeData(getPseudoDeclaration(pseudoElement)), false);
+  }
+
+  //TODO to be removed during code cleanup
+  /*
   public AbstractCSS2Properties getComputedStyle(String pseudoElement) {
     if (pseudoElement == null) {
       pseudoElement = "";
@@ -220,6 +356,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
     return sds;
   }
+  */
 
   public void setStyle(final Object value) {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Cannot set style property");
@@ -292,6 +429,8 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
    * 
    * @param style
    */
+  //TODO to be removed during code cleanup
+  /*
   protected final AbstractCSS2Properties addStyleSheetDeclarations(AbstractCSS2Properties style, final Set<String> pseudoNames) {
     final Node pn = this.parentNode;
     if (pn == null) {
@@ -334,9 +473,31 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
     return style;
   }
+  */
 
   private boolean isMouseOver = false;
 
+  public void setMouseOver(final boolean mouseOver) {
+    if (this.isMouseOver != mouseOver) {
+      if (mouseOver) {
+        elementMatchCondition.addMatch(this, PseudoDeclaration.HOVER);
+      } else {
+        elementMatchCondition.removeMatch(this, PseudoDeclaration.HOVER);
+      }
+      // Change isMouseOver field before checking to invalidate.
+      this.isMouseOver = mouseOver;
+      // Check if descendents are affected (e.g. div:hover a { ... } )
+      this.invalidateDescendentsForHover();
+      if (this.hasHoverStyle()) {
+        // TODO: OPTIMIZATION: In some cases it should be much
+        // better to simply invalidate the "look" of the node.
+        this.informInvalid();
+      }
+    }
+  }
+
+  //TODO to be removed during code cleanup
+  /*
   public void setMouseOver(final boolean mouseOver) {
     if (this.isMouseOver != mouseOver) {
       // Change isMouseOver field before checking to invalidate.
@@ -350,6 +511,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       }
     }
   }
+  */
 
   private void invalidateDescendentsForHover() {
     synchronized (this.treeLock) {
@@ -374,9 +536,24 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
+  //TODO to be removed during code cleanup
+  /*
   private Boolean isHoverStyle = null;
   private Map<HTMLElementImpl, Boolean> hasHoverStyleByElement = null;
+  */
 
+  //TODO: need to optimize it by checking if there is hover style for the given element
+  private boolean hasHoverStyle() {
+    return true;
+  }
+
+  //TODO: need to optimize it by checking if there is hover style for the given element
+  private boolean hasHoverStyle(final HTMLElementImpl ancestor) {
+    return true;
+  }
+
+  //TODO to be removed during code cleanup
+  /*
   private boolean hasHoverStyle() {
     Boolean ihs;
     synchronized (this) {
@@ -441,6 +618,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
     return hhs.booleanValue();
   }
+  */
 
   /**
    * Gets the pseudo-element lowercase names currently applicable to this
@@ -458,6 +636,8 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return pnset;
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected final Collection<CSSStyleDeclaration> findStyleDeclarations(final String elementName, final String id, final String className,
       final Set<String> pseudoNames) {
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
@@ -467,6 +647,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
     return ssa.getActiveStyleDeclarations(this, elementName, id, className, pseudoNames);
   }
+  */
 
   public void informInvalid() {
     // This is called when an attribute or child changes.
@@ -769,6 +950,8 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return uiNode == null ? 0 : uiNode.getBoundsRelativeToBlock().height;
   }
 
+  //TODO to be removed during code cleanup
+  /*
   public AbstractCSS2Properties getParentStyle() {
     final Object parent = this.parentNode;
     if (parent instanceof HTMLElementImpl) {
@@ -776,6 +959,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
     return null;
   }
+  */
 
   public String getDocumentBaseURI() {
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;

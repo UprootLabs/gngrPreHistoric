@@ -54,6 +54,7 @@ import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.domimpl.UINode;
 import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.HtmlInsets;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
@@ -770,7 +771,11 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   private boolean addElsewhereIfFloat(final BoundableRenderable renderable, final HTMLElementImpl element, final boolean usesAlignAttribute,
+    //TODO to be removed during code cleanup
+      /*
       final AbstractCSS2Properties style, final boolean layout) {
+      */
+      final JStyleProperties style, final boolean layout) {
     // "static" handled here
     String align = null;
     if (style != null) {
@@ -858,7 +863,11 @@ public class RBlockViewport extends BaseRCollection {
   private boolean addElsewhereIfPositioned(final RElement renderable, final HTMLElementImpl element, final boolean usesAlignAttribute,
       final boolean layoutIfPositioned, final boolean obeysFloats) {
     // At this point block already has bounds.
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties style = element.getCurrentStyle();
+    */
+    final JStyleProperties style = element.getCurrentStyle();
     final int position = getPosition(element);
     final boolean absolute = position == RenderState.POSITION_ABSOLUTE;
     final boolean relative = position == RenderState.POSITION_RELATIVE;
@@ -2144,7 +2153,11 @@ public class RBlockViewport extends BaseRCollection {
     }
 
     public void layoutMarkup(final RBlockViewport bodyLayout, final HTMLElementImpl markupElement) {
+      //TODO to be removed during code cleanup
+      /*
       final AbstractCSS2Properties style = markupElement.getCurrentStyle();
+      */
+      final JStyleProperties style = markupElement.getCurrentStyle();
       int currMethod = this.method;
       if (style != null) {
         final String display = style.getDisplay();
@@ -2229,15 +2242,16 @@ public class RBlockViewport extends BaseRCollection {
         }
         break;
       case DISPLAY_BLOCK:
-        bodyLayout.layoutRBlock(markupElement);
-        break;
-      case DISPLAY_LIST_ITEM:
+        //TODO refer issue #87
         final String tagName = markupElement.getTagName();
         if ("UL".equalsIgnoreCase(tagName) || "OL".equalsIgnoreCase(tagName)) {
           bodyLayout.layoutList(markupElement);
         } else {
-          bodyLayout.layoutListItem(markupElement);
+          bodyLayout.layoutRBlock(markupElement);
         }
+        break;
+      case DISPLAY_LIST_ITEM:
+        bodyLayout.layoutListItem(markupElement);
         break;
       case DISPLAY_TABLE:
         bodyLayout.layoutRTable(markupElement);
@@ -2700,7 +2714,10 @@ public class RBlockViewport extends BaseRCollection {
     if (position == RenderState.POSITION_ABSOLUTE || position == RenderState.POSITION_FIXED) {
       return Boolean.TRUE;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = element.getCurrentStyle();
+    */
     final RenderState rs = element.getRenderState();
     final int floatValue = rs == null ? RenderState.FLOAT_NONE : rs.getFloat();
     if (floatValue != RenderState.FLOAT_NONE) {

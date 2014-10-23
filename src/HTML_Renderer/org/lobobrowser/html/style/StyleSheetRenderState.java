@@ -152,7 +152,15 @@ public class StyleSheetRenderState implements RenderState {
     // Dummy implementation
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected final AbstractCSS2Properties getCssProperties() {
+    final HTMLElementImpl element = this.element;
+    return element == null ? null : element.getCurrentStyle();
+  }
+  */
+
+  protected final JStyleProperties getCssProperties() {
     final HTMLElementImpl element = this.element;
     return element == null ? null : element.getCurrentStyle();
   }
@@ -188,7 +196,11 @@ public class StyleSheetRenderState implements RenderState {
     if (f != null) {
       return f;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties style = this.getCssProperties();
+    */
+    final JStyleProperties style = this.getCssProperties();
     final RenderState prs = this.prevRenderState;
     if (style == null) {
       if (prs != null) {
@@ -290,7 +302,11 @@ public class StyleSheetRenderState implements RenderState {
     if (c != null) {
       return c;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getColor();
     if (colorValue == null || "".equals(colorValue)) {
       final RenderState prs = this.prevRenderState;
@@ -361,7 +377,11 @@ public class StyleSheetRenderState implements RenderState {
     if (c != INVALID_COLOR) {
       return c;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getOverlayColor();
     if (colorValue == null || colorValue.length() == 0) {
       final RenderState prs = this.prevRenderState;
@@ -383,7 +403,11 @@ public class StyleSheetRenderState implements RenderState {
     if (td != -1) {
       return td;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     final String tdText = props == null ? null : props.getTextDecoration();
     if (tdText == null) {
       final RenderState prs = this.prevRenderState;
@@ -420,7 +444,11 @@ public class StyleSheetRenderState implements RenderState {
     if (tt != -1) {
       return tt;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     final String tdText = props == null ? null : props.getTextTransform();
     if (tdText == null) {
       final RenderState prs = this.prevRenderState;
@@ -623,7 +651,11 @@ public class StyleSheetRenderState implements RenderState {
       return binfo;
     }
     binfo = null;
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props != null) {
       final String backgroundColorText = props.getBackgroundColor();
       if (backgroundColorText != null) {
@@ -668,7 +700,11 @@ public class StyleSheetRenderState implements RenderState {
     if (tiText != null) {
       return tiText;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     tiText = props == null ? null : props.getTextIndent();
     if (tiText == null) {
       final RenderState prs = this.prevRenderState;
@@ -703,7 +739,11 @@ public class StyleSheetRenderState implements RenderState {
     if (ws != null) {
       return ws.intValue();
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;
     if (whiteSpaceText == null) {
@@ -735,7 +775,11 @@ public class StyleSheetRenderState implements RenderState {
     if (mi != INVALID_INSETS) {
       return mi;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       mi = null;
     } else {
@@ -750,7 +794,11 @@ public class StyleSheetRenderState implements RenderState {
     if (mi != INVALID_INSETS) {
       return mi;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       mi = null;
     } else {
@@ -886,7 +934,11 @@ public class StyleSheetRenderState implements RenderState {
     if (v != null) {
       return v.intValue();
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     int visibility;
     if (props == null) {
       visibility = VISIBILITY_VISIBLE;
@@ -918,7 +970,11 @@ public class StyleSheetRenderState implements RenderState {
     if (p != null) {
       return p.intValue();
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     int position;
     if (props == null) {
       position = POSITION_STATIC;
@@ -952,7 +1008,11 @@ public class StyleSheetRenderState implements RenderState {
     if (p != null) {
       return p.intValue();
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     int floatValue;
     if (props == null) {
       floatValue = FLOAT_NONE;
@@ -987,10 +1047,15 @@ public class StyleSheetRenderState implements RenderState {
     if (overflow != -1) {
       return overflow;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       overflow = OVERFLOW_NONE;
     } else {
+      // TODO need to implement specific method for this instead of using getPropertyValue.
       String overflowText = props.getPropertyValue("overflow-x");
       if (overflowText == null) {
         overflowText = props.getOverflow();
@@ -1021,10 +1086,15 @@ public class StyleSheetRenderState implements RenderState {
     if (overflow != -1) {
       return overflow;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       overflow = OVERFLOW_NONE;
     } else {
+      // TODO need to implement specific method for this instead of using getPropertyValue.
       String overflowText = props.getPropertyValue("overflow-y");
       if (overflowText == null) {
         overflowText = props.getOverflow();
@@ -1057,7 +1127,11 @@ public class StyleSheetRenderState implements RenderState {
     if (binfo != INVALID_BORDER_INFO) {
       return binfo;
     }
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props != null) {
       binfo = HtmlValues.getBorderInfo(props, this);
     } else {
@@ -1069,10 +1143,15 @@ public class StyleSheetRenderState implements RenderState {
 
   public Optional<Cursor> getCursor() {
     Optional<Cursor> prevCursorOpt = prevRenderState == null ? Optional.empty() : prevRenderState.getCursor();
+    //TODO to be removed during code cleanup
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       return prevCursorOpt;
     } else {
+      // TODO need to implement specific method for this instead of using getPropertyValue.
       String cursor = props.getPropertyValue("cursor");
       if (cursor == null) {
         return prevCursorOpt;

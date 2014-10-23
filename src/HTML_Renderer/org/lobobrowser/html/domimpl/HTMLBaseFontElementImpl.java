@@ -48,6 +48,7 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     this.setAttribute("face", face);
   }
 
+  //TODO to be removed during code cleanup
   /*
   public int getSize() {
     try {
@@ -63,6 +64,7 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     return this.getAttribute("size");
   }
 
+  //TODO to be removed during code cleanup
   /*
   public void setSize(final int size) {
     this.setAttribute("size", String.valueOf(size));
@@ -82,6 +84,8 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     return super.createRenderState(prevRenderState);
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected AbstractCSS2Properties createDefaultStyleSheet() {
     final String fontFamily = this.getAttribute("face");
     final String color = this.getAttribute("color");
@@ -105,5 +109,6 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     }
     return css;
   }
+  */
 
 }

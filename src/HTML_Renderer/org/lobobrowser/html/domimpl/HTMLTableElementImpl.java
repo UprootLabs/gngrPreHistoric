@@ -26,6 +26,7 @@ package org.lobobrowser.html.domimpl;
 import java.util.ArrayList;
 
 import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.HtmlLength;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
@@ -165,7 +166,11 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    */
   public HtmlLength getHeightLength(final int availHeight) {
     try {
+      //TODO to be removed during code cleanup
+      /*
       final AbstractCSS2Properties props = this.getCurrentStyle();
+      */
+      final JStyleProperties props = this.getCurrentStyle();
       final String heightText = props == null ? null : props.getHeight();
       if (heightText == null) {
         return new HtmlLength(this.getAttribute("height"));
@@ -184,7 +189,11 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    */
   public HtmlLength getWidthLength(final int availWidth) {
     try {
+      //TODO to be removed during code cleanup
+      /*
       final AbstractCSS2Properties props = this.getCurrentStyle();
+      */
+      final JStyleProperties props = this.getCurrentStyle();
       final String widthText = props == null ? null : props.getWidth();
       if (widthText == null) {
         return new HtmlLength(this.getAttribute("width"));

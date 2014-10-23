@@ -32,7 +32,10 @@ public class PreRenderState extends BlockRenderState {
     if (ws != null) {
       return ws.intValue();
     }
+    /*
     final AbstractCSS2Properties props = this.getCssProperties();
+    */
+    final JStyleProperties props = this.getCssProperties();
     final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;
     if (whiteSpaceText == null) {

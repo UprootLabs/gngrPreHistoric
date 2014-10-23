@@ -26,15 +26,27 @@ package org.lobobrowser.html.domimpl;
 import org.lobobrowser.html.style.CSSUtilities;
 import org.lobobrowser.ua.UserAgentContext;
 import org.w3c.css.sac.InputSource;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.html.HTMLStyleElement;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.steadystate.css.dom.CSSStyleSheetImpl;
 import com.steadystate.css.parser.CSSOMParser;
 
-public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleElement {
+import co.uproot.css.domimpl.JStyleSheetWrapper;
+import cz.vutbr.web.css.StyleSheet;
+
+public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleElement, LinkStyle {
+  //TODO to be removed during code cleanup
+  /*
   private CSSStyleSheet styleSheet;
+  */
+  private JStyleSheetWrapper styleSheet;
 
   public HTMLStyleElementImpl() {
     super("STYLE", true);
@@ -58,6 +70,11 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     }
   }
 
+  //TODO hide from JS
+  public void setDisabledImpl(final boolean disabled) {
+    this.disabled = disabled;
+  }
+
   public String getMedia() {
     return this.getAttribute("media");
   }
@@ -76,7 +93,11 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
+      //TODO to be removed during code cleanup
+      /*
       ((HTMLDocumentImpl) document).addJob(() -> processStyle());
+      */
+      this.processStyle();
     }
     // else
     // if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key))
@@ -86,6 +107,8 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     return super.setUserData(key, data, handler);
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected void processStyle() {
     this.styleSheet = null;
     final UserAgentContext uacontext = this.getUserAgentContext();
@@ -108,8 +131,112 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
       }
     }
   }
+  */
 
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
   }
+
+  @Override
+  public void setAttribute(final String name, final String value) throws DOMException {
+    super.setAttribute(name, value);
+    if (isAttachedToDocument()) {
+      final String nameLowerCase = name.toLowerCase();
+      if ("type".equals(nameLowerCase) || "media".equals(nameLowerCase) || "title".equals(nameLowerCase)) {
+        this.disabled = false;
+        this.processStyle();
+      }
+    }
+  }
+
+  private String getOnlyText() {
+    final NodeList nl = this.getChildNodes();
+    final StringBuilder sb = new StringBuilder();
+    for(int i = 0; i < nl.getLength(); i++) {
+      final Node n = nl.item(i);
+      if(n.getNodeType() == Node.TEXT_NODE) {
+        final Text textNode = (Text) n;
+        sb.append(textNode.getTextContent());
+      }
+    }
+    return sb.toString();
+  }
+
+  private boolean isAllowedType() {
+    final String type = this.getType();
+    return ((type == null) || (type.trim().length() == 0) || (type.equalsIgnoreCase("text/css")));
+  }
+
+  // TODO: check if this method can be made private
+  protected void processStyle() {
+    if (isAttachedToDocument()) {
+      /* check if type == "text/css" or no, empty value is also allowed as well.
+       if it is something other than empty or "text/css" set the style sheet to null
+       we need not check for the media type here, jStyle parser should take care of this.
+       */
+      if (isAllowedType()) {
+        final UserAgentContext uacontext = this.getUserAgentContext();
+        if (uacontext.isInternalCSSEnabled()) {
+          final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+          final JStyleSheetWrapper newStyleSheet = processStyleHelper();
+          newStyleSheet.setDisabled(this.disabled);
+          this.styleSheet = newStyleSheet;
+          doc.styleSheetManager.invalidateStyles();
+        }
+      } else {
+        this.detachStyleSheet();
+      }
+    }
+  }
+
+  private JStyleSheetWrapper processStyleHelper() {
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+    // TODO a sanity check can be done for the media type while setting it to the style sheet
+    // as in is it a valid media type or not
+    try {
+      final String text = this.getOnlyText();
+      final String processedText = CSSUtilities.preProcessCss(text);
+      final String baseURI = doc.getBaseURI();
+      // TODO if the new StyleSheet contains any @import rules, then we should queue them for further processing
+      final StyleSheet jSheet = CSSUtilities.jParseStyleSheet(this, baseURI, processedText);
+      return new JStyleSheetWrapper(jSheet, this.getMedia(), null, this.getType(), this.getTitle(), this, doc.styleSheetManager.bridge);
+    } catch (final Throwable err) {
+      this.warn("Unable to parse style sheet", err);
+    }
+    return this.getEmptyStyleSheet();
+  }
+
+  private JStyleSheetWrapper getEmptyStyleSheet() {
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+    return new JStyleSheetWrapper(CSSUtilities.getEmptyStyleSheet(), this.getMedia(), null, this.getType(), this.getTitle(), this,
+        doc.styleSheetManager.bridge);
+  }
+
+  private void detachStyleSheet() {
+    if (this.styleSheet != null) {
+      this.styleSheet.setOwnerNode(null);
+      this.styleSheet = null;
+      final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+      doc.styleSheetManager.invalidateStyles();
+    }
+  }
+
+  public CSSStyleSheet getSheet() {
+    return this.styleSheet;
+  }
+
+  @Override
+  protected void handleChildListChanged() {
+    this.processStyle();
+  }
+
+  @Override
+  protected void handleDocumentAttachmentChanged() {
+    if (isAttachedToDocument()) {
+      this.processStyle();
+    } else {
+      this.detachStyleSheet();
+    }
+  }
+
 }

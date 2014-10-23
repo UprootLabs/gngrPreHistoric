@@ -36,16 +36,25 @@ import org.lobobrowser.html.style.TextDecorationRenderState;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.html.HTMLBodyElement;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLLinkElement;
+import org.w3c.dom.stylesheets.LinkStyle;
 
-public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLinkElement {
+import co.uproot.css.domimpl.JStyleSheetWrapper;
+import cz.vutbr.web.css.StyleSheet;
+
+public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLinkElement, LinkStyle {
   private static final Logger logger = Logger.getLogger(HTMLLinkElementImpl.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
+  //TODO to be removed during code cleanup
+  /*
   private CSSStyleSheet styleSheet;
+  */
+  private JStyleSheetWrapper styleSheet;
 
   public HTMLLinkElementImpl(final String name) {
     super(name);
@@ -63,6 +72,11 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     if (sheet != null) {
       sheet.setDisabled(disabled);
     }
+  }
+
+  //TODO hide from JS
+  public void setDisabledImpl(final boolean disabled) {
+    this.disabled = disabled;
   }
 
   public String getHref() {
@@ -129,8 +143,12 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
+      //TODO to be removed during code cleanup
+      /*
       ((HTMLDocumentImpl) document).addJob(() -> processLink());
       // this.processLink();
+      */
+      this.processLinkHelper(true);
     }
     // else
     // if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key))
@@ -140,10 +158,28 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     return super.setUserData(key, data, handler);
   }
 
+  // TODO can go in Urls util class.
+  private boolean isWellFormedURL() {
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+    try {
+      final URL baseURL = new URL(doc.getBaseURI());
+      // we call createURL just to check whether it throws an exception 
+      // if the URL is not well formed.
+      Urls.createURL(baseURL, this.getHref());
+      return true;
+    } catch (final MalformedURLException mfe) {
+      this.warn("Will not parse CSS. URI=[" + this.getHref() + "] with BaseURI=[" + doc.getBaseURI()
+          + "] does not appear to be a valid URI.");
+      return false;
+    }
+  }
+
   /**
    * If the LINK refers to a stylesheet document, this method loads and parses
    * it.
    */
+  //TODO to be removed during code cleanup
+  /*
   protected void processLink() {
     this.styleSheet = null;
     final String rel = this.getAttribute("rel");
@@ -186,6 +222,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
       }
     }
   }
+  */
 
   public String getAbsoluteHref() {
     final HtmlRendererContext rcontext = this.getHtmlRendererContext();
@@ -262,4 +299,161 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     // To change, perhaps add method to AbstractScriptableDelegate.
     return this.getHref();
   }
+
+  /**
+   * Sets the owner node to null so as to update the old reference of the
+   * stylesheet held by JS
+   */
+  private void detachStyleSheet() {
+    if (this.styleSheet != null) {
+      this.styleSheet.setOwnerNode(null);
+      this.styleSheet = null;
+      final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+      doc.styleSheetManager.invalidateStyles();
+    }
+  }
+
+  @Override
+  public void setAttribute(final String name, final String value) throws DOMException {
+    final String nameLowerCase = name.toLowerCase();
+    final String oldValue = this.getAttribute(nameLowerCase);
+    super.setAttribute(name, value);
+    // TODO according to firefox's behavior whenever a valid attribute is
+    // changed on the element the disabled flag is set to false. Need to
+    // verify with the specs.
+    // TODO check for all the attributes associated with an link element
+    // according to firefox if the new value of rel/href is the same as the 
+    // old one then, the nothing has to be done. In all other cases the link element
+    // has to be re-processed.
+    if (isSameRel(nameLowerCase, oldValue) || isSameHref(nameLowerCase, oldValue)) {
+      return;
+    } else if ("rel".equals(nameLowerCase) || "href".equals(nameLowerCase) || "type".equals(nameLowerCase) || "media".equals(nameLowerCase)) {
+      this.disabled = false;
+      this.detachStyleSheet();
+      this.processLinkHelper(true);
+    }
+  }
+
+  private boolean isSameRel(final String name, final String oldValue) {
+    if ("rel".equals(name)) {
+      if (this.isSameAttributeValue("rel", oldValue)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isSameHref(final String name, final String oldValue) {
+    if ("href".equals(name)) {
+      if (this.isSameAttributeValue("href", oldValue)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isSameAttributeValue(final String name, final String oldValue) {
+    final String newValue = this.getAttribute(name);
+    if (oldValue == null) {
+      return newValue == null;
+    } else {
+      return oldValue.equals(newValue);
+    }
+  }
+
+  private String getCleanRel() {
+    final String rel = this.getRel();
+    return rel == null ? null : rel.trim().toLowerCase();
+  }
+
+  private boolean isStyleSheet() {
+    final String rel = this.getCleanRel();
+    return ((rel != null) && (rel.equals("stylesheet")));
+  }
+
+  private boolean isAltStyleSheet() {
+    final String rel = this.getCleanRel();
+    return ((rel != null) && (rel.equals("alternate stylesheet")));
+  }
+
+  private boolean isAllowedRel() {
+    return ((isStyleSheet()) || (isAltStyleSheet()));
+  }
+
+  private boolean isAllowedType() {
+    final String type = this.getType();
+    return ((type == null) || (type.trim().length() == 0) || (type.equalsIgnoreCase("text/css")));
+  }
+
+  private void processLink() {
+    final UserAgentContext uacontext = this.getUserAgentContext();
+    if (uacontext.isExternalCSSEnabled()) {
+      final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+      try {
+        final boolean liflag = loggableInfo;
+        final long time1 = liflag ? System.currentTimeMillis() : 0;
+        try {
+          final String href = this.getHref();
+          final StyleSheet jSheet = CSSUtilities.jParse(this, href, doc, doc.getBaseURI(), false);
+          if (this.styleSheet != null) {
+            this.styleSheet.setJStyleSheet(jSheet);
+          } else {
+            final JStyleSheetWrapper styleSheet = new JStyleSheetWrapper(jSheet, this.getMedia(), href, this.getType(), this.getTitle(),
+                this, doc.styleSheetManager.bridge);
+            this.styleSheet = styleSheet;
+          }
+          this.styleSheet.setDisabled(this.isAltStyleSheet() | this.disabled);
+          doc.styleSheetManager.invalidateStyles();
+        } finally {
+          if (liflag) {
+            final long time2 = System.currentTimeMillis();
+            logger.info("processLink(): Loaded and parsed CSS (or attempted to) at URI=[" + this.getHref() + "] in " + (time2 - time1)
+                + " ms.");
+          }
+        }
+      } catch (final MalformedURLException mfe) {
+        this.detachStyleSheet();
+        this.warn("Will not parse CSS. URI=[" + this.getHref() + "] with BaseURI=[" + doc.getBaseURI()
+            + "] does not appear to be a valid URI.");
+      } catch (final Throwable err) {
+        this.warn("Unable to parse CSS. URI=[" + this.getHref() + "].", err);
+      }
+    }
+  }
+
+  private void processLinkHelper(final boolean defer) {
+    // according to firefox, whenever the URL is not well formed, the style sheet has to be null
+    // and in all other cases an empty style sheet has to be set till the link resource can be fetched
+    // and processed. But however the style sheet is not in ready state till it is processed. This is 
+    // indicated by setting the jStyleSheet of the JStyleSheetWrapper to null.
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+    if (isAttachedToDocument() && isWellFormedURL() && isAllowedRel() && isAllowedType()) {
+      if (defer) {
+        this.styleSheet = this.getEmptyStyleSheet();
+        doc.styleSheetManager.invalidateStyles();
+        //TODO need to think how to schedule this. refer issue #69
+        doc.addJob(() -> this.processLinkHelper(false));
+      } else {
+        processLink();
+      }
+    } else {
+      this.detachStyleSheet();
+    }
+  }
+
+  private JStyleSheetWrapper getEmptyStyleSheet() {
+    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
+    return new JStyleSheetWrapper(null, this.getMedia(), this.getHref(), this.getType(), this.getTitle(), this,
+        doc.styleSheetManager.bridge);
+  }
+
+  public CSSStyleSheet getSheet() {
+    return this.styleSheet;
+  }
+
+  @Override
+  protected void handleDocumentAttachmentChanged() {
+    this.processLinkHelper(true);
+  }
+
 }

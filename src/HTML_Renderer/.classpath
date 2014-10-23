@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Public_API"/>
 	<classpathentry kind="lib" path="/XAMJ_Build/ext/jstyleparser-1.18.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Core"/>
+	<classpathentry kind="lib" path="/XAMJ_Build/ext/ jstyleDomBridge.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

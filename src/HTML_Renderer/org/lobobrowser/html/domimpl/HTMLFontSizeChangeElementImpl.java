@@ -29,6 +29,7 @@ import org.lobobrowser.html.style.RenderState;
  * This element is used for SMALL and BIG.
  */
 public class HTMLFontSizeChangeElementImpl extends HTMLAbstractUIElement {
+  //TODO check whether being used
   private final int fontChange;
 
   public HTMLFontSizeChangeElementImpl(final String name, final int fontChange) {
@@ -40,6 +41,8 @@ public class HTMLFontSizeChangeElementImpl extends HTMLAbstractUIElement {
     return super.createRenderState(prevRenderState);
   }
 
+  //TODO to be removed during code cleanup
+  /*
   protected AbstractCSS2Properties createDefaultStyleSheet() {
     final ModelNode parentModelNode = this.getParentModelNode();
     final RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
@@ -51,5 +54,6 @@ public class HTMLFontSizeChangeElementImpl extends HTMLAbstractUIElement {
     css.internalSetLC("font-size", fontSize);
     return css;
   }
+  */
 
 }

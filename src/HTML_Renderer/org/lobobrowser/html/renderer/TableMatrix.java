@@ -39,6 +39,7 @@ import org.lobobrowser.html.domimpl.HTMLTableRowElementImpl;
 import org.lobobrowser.html.domimpl.NodeFilter;
 import org.lobobrowser.html.domimpl.NodeImpl;
 import org.lobobrowser.html.style.AbstractCSS2Properties;
+import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.HtmlLength;
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
@@ -203,7 +204,11 @@ class TableMatrix {
 
   private static HtmlLength getWidthLength(final HTMLElementImpl element, final int availWidth) {
     try {
+      //TODO to be removed during code cleanup
+      /*
       final AbstractCSS2Properties props = element.getCurrentStyle();
+      */
+      final JStyleProperties props = element.getCurrentStyle();
       final String widthText = props == null ? null : props.getWidth();
       if (widthText == null) {
         final String widthAttr = element.getAttribute("width");
@@ -220,7 +225,11 @@ class TableMatrix {
 
   private static HtmlLength getHeightLength(final HTMLElementImpl element, final int availHeight) {
     try {
+      //TODO to be removed during code cleanup
+      /*
       final AbstractCSS2Properties props = element.getCurrentStyle();
+      */
+      final JStyleProperties props = element.getCurrentStyle();
       final String heightText = props == null ? null : props.getHeight();
       if (heightText == null) {
         final String ha = element.getAttribute("height");
