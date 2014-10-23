@@ -1453,10 +1453,6 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     return true;
   }
 
-  private Node getInstance() {
-    return this;
-  }
-
   final class StyleSheetManager {
 
     private volatile List<JStyleSheetWrapper> styleSheets = null;
@@ -1493,7 +1489,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
         if (styleSheets == null) {
           styleSheets = new ArrayList<>();
           final List<JStyleSheetWrapper> docStyles = new ArrayList<>();
-          scanElementStyleSheets(docStyles, getInstance());
+          scanElementStyleSheets(docStyles, HTMLDocumentImpl.this);
           styleSheets.addAll(docStyles);
         }
       }
