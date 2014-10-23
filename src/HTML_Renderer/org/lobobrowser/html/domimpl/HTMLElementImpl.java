@@ -160,7 +160,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   // TODO Cache this method
   private NodeData getNodeData(final Selector.PseudoDeclaration psuedoElement) {
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
-    final List<StyleSheet> jSheets = new ArrayList<StyleSheet>();
+    final List<StyleSheet> jSheets = new ArrayList<>();
     jSheets.add(recommendedStyle);
     jSheets.add(userAgentStyle);
     jSheets.addAll(doc.styleSheetManager.getEnabledJStyleSheets());
@@ -282,7 +282,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   private Map<String, AbstractCSS2Properties> computedStyles;
   */
 
-  private Selector.PseudoDeclaration getPseudoDeclaration(final String pseudoElement) {
+  static private Selector.PseudoDeclaration getPseudoDeclaration(final String pseudoElement) {
     if ((pseudoElement != null)) {
       String choppedPseudoElement = pseudoElement;
       if (pseudoElement.startsWith("::")) {

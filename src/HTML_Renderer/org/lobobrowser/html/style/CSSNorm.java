@@ -155,14 +155,14 @@ public class CSSNorm
         "option { display: none; }"+
         "br     { display: block; }"+
         "hr     { display: block; margin-top: 1px solid; }"+
-        
+
         //standard <ul> margin according to Mozilla
         "ul     { margin-left: 0; padding-left: 40px; }"+
         // In jStyleParser code, these were in the recommended section,
         // but we have moved them here as they are not part of the W3C recommendation.
         "abbr, acronym   { font-variant: small-caps; letter-spacing: 0.1em }";
     }
-    
+
     /**
      * A style sheet defining a basic style of form fields. This style sheet may be used
      * for a simple rendering of form fields when their functionality is not implemented
@@ -261,5 +261,5 @@ public class CSSNorm
             "  display: none;"+
             "}";
     }
-    
+
 }

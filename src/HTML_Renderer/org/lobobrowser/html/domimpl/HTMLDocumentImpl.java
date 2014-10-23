@@ -30,7 +30,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -48,14 +47,10 @@ import org.lobobrowser.html.js.Executor;
 import org.lobobrowser.html.js.Location;
 import org.lobobrowser.html.js.Window;
 import org.lobobrowser.html.parser.HtmlParser;
-import org.lobobrowser.html.style.StyleElements;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.StyleSheetAggregator;
+import org.lobobrowser.html.style.StyleElements;
 import org.lobobrowser.html.style.StyleSheetRenderState;
-
-import co.uproot.css.domimpl.JStyleSheetWrapper;
-import co.uproot.css.domimpl.StyleSheetBridge;
-
 import org.lobobrowser.request.DomainValidation;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;
@@ -95,6 +90,9 @@ import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+
+import co.uproot.css.domimpl.JStyleSheetWrapper;
+import co.uproot.css.domimpl.StyleSheetBridge;
 
 /**
  * Implementation of the W3C <code>HTMLDocument</code> interface.
@@ -1494,7 +1492,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       synchronized (treeLock) {
         if (styleSheets == null) {
           styleSheets = new ArrayList<>();
-          final List<JStyleSheetWrapper> docStyles = new ArrayList<JStyleSheetWrapper>();
+          final List<JStyleSheetWrapper> docStyles = new ArrayList<>();
           scanElementStyleSheets(docStyles, getInstance());
           styleSheets.addAll(docStyles);
         }
@@ -1522,7 +1520,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     // TODO enabled style sheets can be cached
     List<cz.vutbr.web.css.StyleSheet> getEnabledJStyleSheets() {
       final List<JStyleSheetWrapper> documentStyles = this.getDocStyleSheetList();
-      final List<cz.vutbr.web.css.StyleSheet> jStyleSheets = new ArrayList<cz.vutbr.web.css.StyleSheet>();
+      final List<cz.vutbr.web.css.StyleSheet> jStyleSheets = new ArrayList<>();
       for (final JStyleSheetWrapper style : documentStyles) {
         if ((!style.getDisabled()) && (style.getJStyleSheet() != null)) {
           jStyleSheets.add(style.getJStyleSheet());
