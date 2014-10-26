@@ -1843,16 +1843,13 @@ public class RBlockViewport extends BaseRCollection {
     final Rectangle clipBounds = g.getClipBounds();
     final Iterator<Renderable> i = this.getRenderables(clipBounds);
     if (i != null) {
-      int renderableCount = 0;
       while (i.hasNext()) {
-        renderableCount++;
         final Object robj = i.next();
         // The expected behavior in HTML is for boxes
         // not to be clipped unless overflow=hidden.
         if (robj instanceof BoundableRenderable) {
           final BoundableRenderable renderable = (BoundableRenderable) robj;
           renderable.paintTranslated(g);
-          // numRenderables++;
         } else {
           ((Renderable) robj).paint(g);
         }
