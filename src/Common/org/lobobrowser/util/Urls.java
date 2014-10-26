@@ -98,10 +98,10 @@ public class Urls {
           final int eqIdx = token.indexOf('=');
           if (eqIdx != -1) {
             final String value = token.substring(eqIdx + 1).trim();
-            int seconds;
+
             try {
-              seconds = Integer.parseInt(value);
-              return new Long(baseTime + seconds * 1000);
+              final long seconds = Long.parseLong(value);
+              return new Long(baseTime + seconds * 1000L);
             } catch (final NumberFormatException nfe) {
               logger.warning("getExpiration(): Bad Cache-Control max-age value: " + value);
               // ignore
