@@ -980,7 +980,6 @@ public class RBlockViewport extends BaseRCollection {
 
   private void addRenderableToLine(final Renderable renderable) {
     // this.skipLineBreakBefore = false;
-    final RenderState rs = renderable.getModelNode().getRenderState();
     final RLine line = this.currentLine;
     final int liney = line.y;
     final boolean emptyLine = line.isEmpty();
