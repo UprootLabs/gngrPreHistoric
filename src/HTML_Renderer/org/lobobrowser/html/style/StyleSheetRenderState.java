@@ -941,11 +941,11 @@ public class StyleSheetRenderState implements RenderState {
     final JStyleProperties props = this.getCssProperties();
     int visibility;
     if (props == null) {
-      visibility = VISIBILITY_VISIBLE;
+      visibility = getPrevVisibility();
     } else {
       final String visibText = props.getVisibility();
       if (visibText == null || visibText.length() == 0) {
-        visibility = VISIBILITY_VISIBLE;
+        visibility = getPrevVisibility();
       } else {
         final String visibTextTL = visibText.toLowerCase();
         if (visibTextTL.equals("hidden")) {
@@ -961,6 +961,15 @@ public class StyleSheetRenderState implements RenderState {
     }
     this.cachedVisibility = new Integer(visibility);
     return visibility;
+  }
+
+  private int getPrevVisibility() {
+    final RenderState prs = this.prevRenderState;
+    if (prs != null) {
+      return prs.getVisibility();
+    } else {
+      return VISIBILITY_VISIBLE;
+    }
   }
 
   private Integer cachedPosition;
