@@ -101,6 +101,12 @@ final class RBlank extends BaseBoundableRenderable {
    */
   public final void paint(final Graphics g) {
     final RenderState rs = this.modelNode.getRenderState();
+
+    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+      // Just don't paint it.
+      return;
+    }
+
     final Color bkg = rs.getTextBackgroundColor();
     if (bkg != null) {
       final Color oldColor = g.getColor();

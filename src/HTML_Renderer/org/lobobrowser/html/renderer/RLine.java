@@ -110,6 +110,12 @@ class RLine extends BaseRCollection {
   public void paint(final Graphics g) {
     // Paint according to render state of the start of line first.
     final RenderState rs = this.modelNode.getRenderState();
+
+    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+      // Just don't paint it.
+      return;
+    }
+
     if (rs != null) {
       final Color textColor = rs.getColor();
       g.setColor(textColor);
