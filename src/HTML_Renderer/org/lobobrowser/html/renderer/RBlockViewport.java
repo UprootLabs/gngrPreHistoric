@@ -99,7 +99,6 @@ public class RBlockViewport extends BaseRCollection {
   private static final Logger logger = Logger.getLogger(RBlockViewport.class.getName());
 
   // private final ArrayList awtComponents = new ArrayList();
-  private final RenderableContainer container;
   private final int listNesting;
   private final UserAgentContext userAgentContext;
   private final HtmlRendererContext rendererContext;
@@ -214,7 +213,6 @@ public class RBlockViewport extends BaseRCollection {
     this.userAgentContext = pcontext;
     this.rendererContext = rcontext;
     this.frameContext = frameContext;
-    this.container = container;
     this.listNesting = listNesting;
     // Layout here can always be "invalidated"
     this.layoutUpTreeCanBeInvalidated = true;
