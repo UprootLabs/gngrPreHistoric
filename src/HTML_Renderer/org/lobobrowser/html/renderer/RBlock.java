@@ -61,7 +61,7 @@ import org.w3c.dom.html.HTMLBodyElement;
  * Immediately below an <code>RBlock</code> you will find a node of type
  * {@link RBlockViewport}.
  */
-public class RBlock extends BaseElementRenderable implements RenderableContainer, ImageObserver {
+public class RBlock extends BaseElementRenderable {
   protected static final Logger logger = Logger.getLogger(RBlock.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
   private static final int MAX_CACHE_SIZE = 10;

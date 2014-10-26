@@ -33,7 +33,7 @@ import org.lobobrowser.html.style.RenderState;
 /**
  * @author J. H. S.
  */
-final class RStyleChanger extends BaseRenderable implements Renderable {
+final class RStyleChanger extends BaseRenderable {
   // private final static Logger logger = Logger.getLogger(RStyleChanger.class);
   private final ModelNode modelNode;
 

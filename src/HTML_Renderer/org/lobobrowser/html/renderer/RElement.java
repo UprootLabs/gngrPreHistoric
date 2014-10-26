@@ -27,7 +27,7 @@ import org.lobobrowser.html.domimpl.UINode;
  * A renderer node for elements such as blocks, lists, tables, inputs, images,
  * etc.
  */
-public interface RElement extends RCollection, UINode, BoundableRenderable {
+public interface RElement extends RCollection, UINode {
   /**
    * Lays out the subtree below the RElement. The RElement is expected to set
    * its own dimensions, but not its origin.
