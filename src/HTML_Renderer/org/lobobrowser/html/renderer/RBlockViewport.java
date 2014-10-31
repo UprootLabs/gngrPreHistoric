@@ -2252,11 +2252,7 @@ public class RBlockViewport extends BaseRCollection {
         break;
       case DISPLAY_INLINE_BLOCK:
         // TODO
-        if (markupElement.getUINode() instanceof RBlock) {
-          bodyLayout.layoutRInlineBLock(markupElement);
-        } else {
-          bodyLayout.layoutMarkup(markupElement);
-        }
+        bodyLayout.layoutMarkup(markupElement);
         break;
       default:
         // Assume INLINE
