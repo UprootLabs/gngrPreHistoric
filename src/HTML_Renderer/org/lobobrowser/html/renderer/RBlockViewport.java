@@ -753,7 +753,7 @@ public class RBlockViewport extends BaseRCollection {
       final int fontHeight = rs.getFontMetrics().getHeight();
       line.setHeight(fontHeight);
     }
-    line.setLineBreak(new LineBreak(breakType, startNode));
+    line.setLineBreak(new LineBreak(breakType));
     int newLineY;
     final FloatingBounds fb = this.floatBounds;
     if (breakType == LineBreak.NONE || fb == null) {
@@ -1278,7 +1278,7 @@ public class RBlockViewport extends BaseRCollection {
             line.delete(0, line.length());
           }
           final RLine prevLine = this.currentLine;
-          prevLine.setLineBreak(new LineBreak(LineBreak.NONE, textNode));
+          prevLine.setLineBreak(new LineBreak(LineBreak.NONE));
           this.addLine(textNode, prevLine, prevLine.y + prevLine.height);
           break;
         default:

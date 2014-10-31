@@ -20,8 +20,6 @@
  */
 package org.lobobrowser.html.renderer;
 
-import org.lobobrowser.html.domimpl.ModelNode;
-
 public class LineBreak {
   public static final int NONE = 0;
   public static final int LEFT = 1;
@@ -29,20 +27,13 @@ public class LineBreak {
   public static final int ALL = 3;
 
   private final int breakType;
-  private final ModelNode newLineNode;
 
-  public LineBreak(final int breakType, final ModelNode newLineNode) {
-    super();
+  public LineBreak(final int breakType) {
     this.breakType = breakType;
-    this.newLineNode = newLineNode;
   }
 
   public int getBreakType() {
     return this.breakType;
-  }
-
-  public ModelNode getModelNode() {
-    return this.newLineNode;
   }
 
   public static int getBreakType(final String clearAttr) {
