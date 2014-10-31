@@ -1112,9 +1112,15 @@ public class RBlock extends BaseElementRenderable {
       if (!bodyLayout.onMouseClick(event, x - bodyLayout.x, y - bodyLayout.y)) {
         return false;
       }
-    } else if (!HtmlController.getInstance().onMouseClick(this.modelNode, event, x, y)) {
+    }
+
+    // changed for issue #106
+    // the following was joined above with else, but it is now separated, so that the RBlock can continue processing even if bodyLayout didn't capture the click
+    // this happens with, for example, a div which has large width and height, but tiny or empty contents.
+    if (!HtmlController.getInstance().onMouseClick(this.modelNode, event, x, y)) {
       return false;
     }
+
     if (this.backgroundColor != null) {
       return false;
     }
