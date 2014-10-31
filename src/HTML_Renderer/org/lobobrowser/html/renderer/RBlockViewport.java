@@ -631,6 +631,13 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   private final void positionRBlock(final HTMLElementImpl markupElement, final RBlock renderable) {
+    {
+      final RenderState rs = renderable.modelNode.getRenderState();
+      final int clear = rs.getClear();
+      if (clear != LineBreak.NONE) {
+        addLineBreak(renderable.modelNode, clear);
+      }
+    }
     if (!this.addElsewhereIfPositioned(renderable, markupElement, false, true, false)) {
       final int availContentHeight = this.availContentHeight;
       final RLine line = this.currentLine;

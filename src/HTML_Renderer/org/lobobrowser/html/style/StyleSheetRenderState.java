@@ -39,6 +39,7 @@ import java.util.StringTokenizer;
 
 import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
+import org.lobobrowser.html.renderer.LineBreak;
 import org.lobobrowser.util.gui.ColorFactory;
 import org.lobobrowser.util.gui.FontFactory;
 import org.w3c.dom.css.CSS2Properties;
@@ -1042,6 +1043,29 @@ public class StyleSheetRenderState implements RenderState {
     }
     this.cachedFloat = new Integer(floatValue);
     return floatValue;
+  }
+
+  private Integer cachedClear = null;
+
+  public int getClear() {
+    if (cachedClear == null) {
+      final AbstractCSS2Properties props = this.getCssProperties();
+      if (props == null) {
+        cachedClear = new Integer(LineBreak.NONE);
+      } else {
+        final String clearStr = getCssProperties().getClear();
+        if ("both".equals(clearStr)) {
+          cachedClear = new Integer(LineBreak.ALL);
+        } else if ("left".equals(clearStr)) {
+          cachedClear = new Integer(LineBreak.LEFT);
+        } else if ("right".equals(clearStr)) {
+          cachedClear = new Integer(LineBreak.RIGHT);
+        } else {
+          cachedClear = new Integer(LineBreak.NONE);
+        }
+      }
+    }
+    return cachedClear;
   }
 
   public String toString() {

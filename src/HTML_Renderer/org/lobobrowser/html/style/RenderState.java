@@ -81,6 +81,8 @@ public interface RenderState {
 
   public int getFloat();
 
+  public int getClear();
+
   public int getVisibility();
 
   public Font getFont();
