@@ -202,7 +202,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   }
 
   public String getBottom() {
-    return helperGetValue("bottom");
+    return helperTryBoth("bottom");
   }
 
   public String getCaptionSide() {
@@ -308,7 +308,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   }
 
   public String getLeft() {
-    return helperGetValue("left");
+    return helperTryBoth("left");
   }
 
   public String getLetterSpacing() {
@@ -354,19 +354,19 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   }
 
   public String getMarginTop() {
-    return helperGetValue("margin-top");
+    return helperTryBoth("margin-top");
   }
 
   public String getMarginRight() {
-    return helperGetValue("margin-right");
+    return helperTryBoth("margin-right");
   }
 
   public String getMarginBottom() {
-    return helperGetValue("margin-bottom");
+    return helperTryBoth("margin-bottom");
   }
 
   public String getMarginLeft() {
-    return helperGetValue("margin-left");
+    return helperTryBoth("margin-left");
   }
 
   public String getMarkerOffset() {
@@ -495,7 +495,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   }
 
   public String getRight() {
-    return helperGetProperty("right");
+    return helperTryBoth("right");
   }
 
   public String getSize() {
@@ -553,7 +553,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   }
 
   public String getTop() {
-    return helperGetValue("top");
+    return helperTryBoth("top");
   }
 
   public String getUnicodeBidi() {
