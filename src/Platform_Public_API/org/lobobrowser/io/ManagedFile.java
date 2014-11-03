@@ -22,7 +22,9 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.io;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Represents a file location in a managed store.

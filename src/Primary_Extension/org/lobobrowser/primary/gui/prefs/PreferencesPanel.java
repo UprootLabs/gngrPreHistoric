@@ -20,11 +20,13 @@
  */
 package org.lobobrowser.primary.gui.prefs;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
 
 import org.lobobrowser.primary.gui.ValidationException;
-import org.lobobrowser.util.gui.*;
+import org.lobobrowser.util.gui.WrapperLayout;
 
 public class PreferencesPanel extends JPanel {
   private AbstractSettingsUI ui;

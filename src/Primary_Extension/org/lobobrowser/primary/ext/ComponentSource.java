@@ -20,20 +20,39 @@
  */
 package org.lobobrowser.primary.ext;
 
-import org.lobobrowser.request.*;
-import org.lobobrowser.ua.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.gui.*;
-import org.lobobrowser.primary.settings.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.*;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.event.MenuEvent;
+
+import org.lobobrowser.gui.ConsoleModel;
+import org.lobobrowser.primary.settings.SearchEngine;
+import org.lobobrowser.primary.settings.ToolsSettings;
+import org.lobobrowser.request.ClientletRequestHandler;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.NavigatorWindowEvent;
+import org.lobobrowser.ua.NavigatorWindowListener;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.util.Timing;
 
 public class ComponentSource implements NavigatorWindowListener {
   private static final Logger logger = Logger.getLogger(ComponentSource.class.getName());

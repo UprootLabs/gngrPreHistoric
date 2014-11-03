@@ -23,8 +23,9 @@
  */
 package org.lobobrowser.util;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.EventObject;
-import java.beans.*;
 
 /**
  * @author J. H. S.

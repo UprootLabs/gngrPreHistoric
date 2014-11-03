@@ -20,7 +20,8 @@
  */
 package org.lobobrowser.primary.ext;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class DirectorySource {
   private final ActionPool actionPool;

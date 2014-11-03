@@ -23,7 +23,9 @@
  */
 package org.lobobrowser.util.io;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Wraps an InputStream and records all of the bytes read. This stream supports

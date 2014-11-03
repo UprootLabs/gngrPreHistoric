@@ -23,13 +23,23 @@
  */
 package org.lobobrowser.protocol.about;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Properties;
+import java.util.TreeSet;
 
-import org.lobobrowser.primary.ext.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.primary.ext.BookmarkInfo;
+import org.lobobrowser.primary.ext.BookmarksHistory;
+import org.lobobrowser.primary.ext.HistoryEntry;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.Timing;
 
 /**
  * @author J. H. S.

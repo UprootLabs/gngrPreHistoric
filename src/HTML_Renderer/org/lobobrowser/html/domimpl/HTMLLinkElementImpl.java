@@ -36,7 +36,6 @@ import org.lobobrowser.html.style.TextDecorationRenderState;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.html.HTMLBodyElement;

@@ -22,17 +22,22 @@ package org.lobobrowser.primary.ext;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.primary.gui.*;
-import org.lobobrowser.primary.gui.prefs.*;
-import org.lobobrowser.primary.settings.*;
-import org.lobobrowser.ua.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFileChooser;
 
-import javax.swing.*;
-
-import java.util.*;
-import java.util.logging.*;
-import java.net.*;
+import org.lobobrowser.primary.gui.SearchDialog;
+import org.lobobrowser.primary.gui.prefs.PreferencesDialog;
+import org.lobobrowser.primary.settings.ToolsSettings;
+import org.lobobrowser.ua.NavigationEntry;
+import org.lobobrowser.ua.NavigatorWindow;
+import org.lobobrowser.ua.RequestType;
 
 public class ActionPool {
   private static final Logger logger = Logger.getLogger(ActionPool.class.getName());

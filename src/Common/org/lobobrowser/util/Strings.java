@@ -20,8 +20,9 @@
  */
 package org.lobobrowser.util;
 
-import java.io.*;
-import java.security.*;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class Strings {

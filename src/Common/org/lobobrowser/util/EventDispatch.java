@@ -23,7 +23,9 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.EventObject;
+import java.util.LinkedList;
 
 /**
  * @author J. H. S.

@@ -20,8 +20,11 @@
  */
 package org.lobobrowser.gui;
 
-import org.lobobrowser.ua.*;
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.NavigatorProgressEvent;
+import org.lobobrowser.ua.RequestType;
 
 /**
  * A interface that receives calls during requests.

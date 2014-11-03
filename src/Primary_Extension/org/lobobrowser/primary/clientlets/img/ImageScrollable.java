@@ -22,12 +22,15 @@
 package org.lobobrowser.primary.clientlets.img;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Rectangle;
-
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.ImageObserver;
+
+import javax.swing.JComponent;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 
 public class ImageScrollable extends JComponent implements Scrollable {
   private final Image image;

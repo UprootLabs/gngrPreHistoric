@@ -23,7 +23,9 @@
  */
 package org.lobobrowser.primary.clientlets;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * @author J. H. S.

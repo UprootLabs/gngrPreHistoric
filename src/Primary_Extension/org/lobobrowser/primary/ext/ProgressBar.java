@@ -20,10 +20,14 @@
  */
 package org.lobobrowser.primary.ext;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JProgressBar;
-import org.lobobrowser.ua.*;
-import java.awt.*;
-import java.util.logging.*;
+
+import org.lobobrowser.ua.ProgressType;
 
 public class ProgressBar extends JProgressBar {
   private static final Logger logger = Logger.getLogger(ProgressBar.class.getName());

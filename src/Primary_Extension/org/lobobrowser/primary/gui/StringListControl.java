@@ -20,13 +20,19 @@
  */
 package org.lobobrowser.primary.gui;
 
-import java.awt.event.*;
-import java.awt.*;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.ArrayList;
 
-import javax.swing.*;
-
-import java.io.*;
-import java.util.*;
+import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 public class StringListControl extends JComponent {
   private final JComboBox<String> comboBox;

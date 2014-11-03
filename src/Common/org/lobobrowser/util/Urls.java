@@ -23,11 +23,17 @@
  */
 package org.lobobrowser.util;
 
-import java.net.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
+import java.util.logging.Logger;
 
 public class Urls {
   private static final Logger logger = Logger.getLogger(Urls.class.getName());

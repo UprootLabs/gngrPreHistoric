@@ -20,7 +20,14 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * A cache with least-recently-used policy. Note that this class is not thread

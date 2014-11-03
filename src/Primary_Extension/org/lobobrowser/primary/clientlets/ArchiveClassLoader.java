@@ -33,11 +33,14 @@ import java.security.CodeSource;
 import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.jar.*;
-import java.util.zip.*;
-import java.util.logging.*;
+import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.BaseClassLoader;
+import org.lobobrowser.util.CollectionUtilities;
+import org.lobobrowser.util.GenericURLConnection;
 import org.lobobrowser.util.io.IORoutines;
 
 /**

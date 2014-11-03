@@ -20,9 +20,16 @@
  */
 package org.lobobrowser.primary.gui;
 
-import javax.swing.*;
-import java.util.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class FormPanel extends JComponent {
   private final Collection<FormField> fields = new ArrayList<>();

@@ -20,14 +20,26 @@
  */
 package org.lobobrowser.primary.gui.prefs;
 
-import org.lobobrowser.settings.*;
-import org.lobobrowser.primary.gui.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.net.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.lobobrowser.primary.gui.FieldType;
+import org.lobobrowser.primary.gui.FormField;
+import org.lobobrowser.primary.gui.FormPanel;
+import org.lobobrowser.primary.gui.SwingTasks;
+import org.lobobrowser.primary.gui.ValidationException;
+import org.lobobrowser.settings.ConnectionSettings;
 
 public class ConnectionSettingsUI extends AbstractSettingsUI {
   private final ConnectionSettings settings = ConnectionSettings.getInstance();

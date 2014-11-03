@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.store;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author J. H. S.

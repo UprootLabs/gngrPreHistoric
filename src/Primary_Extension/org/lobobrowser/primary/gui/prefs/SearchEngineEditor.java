@@ -20,10 +20,14 @@
  */
 package org.lobobrowser.primary.gui.prefs;
 
-import org.lobobrowser.primary.gui.*;
-import org.lobobrowser.primary.settings.*;
-import org.lobobrowser.util.gui.*;
-import org.lobobrowser.util.*;
+import org.lobobrowser.primary.gui.AbstractItemEditor;
+import org.lobobrowser.primary.gui.FieldType;
+import org.lobobrowser.primary.gui.FormField;
+import org.lobobrowser.primary.gui.FormPanel;
+import org.lobobrowser.primary.gui.ValidationException;
+import org.lobobrowser.primary.settings.SearchEngine;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.gui.WrapperLayout;
 
 public class SearchEngineEditor extends AbstractItemEditor<SearchEngine> {
   private final FormPanel formPanel = new FormPanel();

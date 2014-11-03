@@ -20,12 +20,19 @@
  */
 package org.lobobrowser.primary.ext;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Collection;
+import java.util.Iterator;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-
-import java.util.*;
-import java.awt.event.*;
 
 public class AddressField extends JComboBox<String> {
   private static final long serialVersionUID = 3726432852226425553L;

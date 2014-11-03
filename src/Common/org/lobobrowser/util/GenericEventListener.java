@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * @author J. H. S.

@@ -20,8 +20,10 @@
  */
 package org.lobobrowser.gui;
 
+import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.Box.Filler;
-import java.awt.*;
 
 /**
  * A component used in conjunction with <code>BoxLayot</code>.

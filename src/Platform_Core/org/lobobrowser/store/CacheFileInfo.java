@@ -23,7 +23,7 @@
  */
 package org.lobobrowser.store;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * @author J. H. S.

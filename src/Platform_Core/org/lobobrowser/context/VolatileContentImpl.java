@@ -25,11 +25,11 @@ package org.lobobrowser.context;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import org.lobobrowser.clientlet.ContentBuffer;
-import org.lobobrowser.util.*;
-
-import java.util.*;
+import org.lobobrowser.util.ID;
+import org.lobobrowser.util.WeakValueHashMap;
 
 /**
  * @author J. H. S.

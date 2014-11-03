@@ -23,10 +23,17 @@
  */
 package org.lobobrowser.gui;
 
-import javax.swing.text.*;
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.text.PlainDocument;
+import javax.swing.text.Position;
 
 /**
  * The Swing document model that is used to store console output.

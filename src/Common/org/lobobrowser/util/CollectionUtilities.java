@@ -23,7 +23,11 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 /**
  * @author J. H. S.

@@ -20,7 +20,7 @@
  */
 package org.lobobrowser.util.io;
 
-import java.io.*;
+import java.io.File;
 
 public class Files {
   private Files() {

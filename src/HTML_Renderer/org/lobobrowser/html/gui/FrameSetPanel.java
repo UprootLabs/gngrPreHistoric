@@ -27,7 +27,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;

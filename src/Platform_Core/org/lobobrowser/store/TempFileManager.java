@@ -20,12 +20,18 @@
  */
 package org.lobobrowser.store;
 
-import java.io.*;
-import java.util.jar.*;
-import java.util.*;
-import java.lang.ref.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.jar.JarFile;
 
-import org.lobobrowser.security.*;
+import org.lobobrowser.security.LocalSecurityPolicy;
 
 public class TempFileManager {
   private static TempFileManager instance;

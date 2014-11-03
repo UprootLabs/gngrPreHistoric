@@ -20,9 +20,11 @@
  */
 package org.lobobrowser.gui;
 
-import javax.swing.JProgressBar;
 import java.awt.Graphics;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JProgressBar;
 
 public class OpenProgressBar extends JProgressBar {
   private static final Logger logger = Logger.getLogger(OpenProgressBar.class.getName());

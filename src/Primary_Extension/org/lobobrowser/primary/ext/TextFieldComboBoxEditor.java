@@ -22,8 +22,13 @@ package org.lobobrowser.primary.ext;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import javax.swing.*;
-import javax.swing.event.*;
+
+import javax.swing.ComboBoxEditor;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /*
  * Created on Jun 6, 2005

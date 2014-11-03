@@ -23,11 +23,16 @@
  */
 package org.lobobrowser.primary.clientlets;
 
-import org.lobobrowser.clientlet.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ClientletSelector;
 import org.lobobrowser.primary.clientlets.download.DownloadClientlet;
-import org.lobobrowser.primary.clientlets.html.*;
-import org.lobobrowser.primary.clientlets.img.*;
-import java.util.logging.*;
+import org.lobobrowser.primary.clientlets.html.HtmlClientlet;
+import org.lobobrowser.primary.clientlets.img.ImageClientlet;
 
 public class PrimaryClientletSelector implements ClientletSelector {
   private static final Logger logger = Logger.getLogger(PrimaryClientletSelector.class.getName());

@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.async;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.lobobrowser.util.ArrayUtilities;
 

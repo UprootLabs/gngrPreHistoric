@@ -23,11 +23,13 @@
  */
 package org.lobobrowser.util;
 
-import java.util.*;
-import java.util.logging.*;
-import java.security.*;
-import java.math.*;
+import java.math.BigInteger;
 import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author J. H. S.

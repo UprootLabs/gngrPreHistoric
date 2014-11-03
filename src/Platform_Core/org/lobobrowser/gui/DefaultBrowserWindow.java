@@ -20,8 +20,17 @@
  */
 package org.lobobrowser.gui;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.HeadlessException;
+import java.awt.RenderingHints;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.ua.NavigatorFrame;

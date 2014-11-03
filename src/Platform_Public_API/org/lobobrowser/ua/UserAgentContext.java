@@ -1,7 +1,6 @@
 package org.lobobrowser.ua;
 
 import java.net.URL;
-import java.util.Arrays;
 
 /**
  * Provides information about the user agent (browser) driving the parser and/or

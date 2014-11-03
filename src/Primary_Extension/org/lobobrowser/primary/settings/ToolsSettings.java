@@ -1,9 +1,12 @@
 package org.lobobrowser.primary.settings;
 
+import java.io.File;
 import java.io.Serializable;
-import java.util.logging.*;
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lobobrowser.store.StorageManager;
 

@@ -20,7 +20,8 @@
  */
 package org.lobobrowser.context;
 
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletThreadGroup;
 
 public class ClientletThreadGroupImpl extends ThreadGroup implements ClientletThreadGroup {
   private final ClientletContext context;

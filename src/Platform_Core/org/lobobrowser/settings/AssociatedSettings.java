@@ -21,10 +21,12 @@
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
-import org.lobobrowser.util.*;
-import org.lobobrowser.security.*;
+import org.lobobrowser.util.LRUCache;
 
 /**
  * Settings associated with host names. This is a singleton class with an

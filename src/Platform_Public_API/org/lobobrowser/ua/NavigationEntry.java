@@ -23,7 +23,8 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.lobobrowser.ua;
 
 import java.net.URL;
-import org.lobobrowser.clientlet.*;
+
+import org.lobobrowser.clientlet.ClientletResponse;
 
 /**
  * Represents one item in the navigation history.

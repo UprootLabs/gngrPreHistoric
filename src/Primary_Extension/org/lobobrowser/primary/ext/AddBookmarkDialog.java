@@ -20,16 +20,25 @@
  */
 package org.lobobrowser.primary.ext;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import org.lobobrowser.primary.gui.FieldType;
 import org.lobobrowser.primary.gui.FormField;
 import org.lobobrowser.primary.gui.FormPanel;
-import org.lobobrowser.util.*;
+import org.lobobrowser.util.Strings;
 
 public class AddBookmarkDialog extends JDialog {
   private final FormField urlField = new FormField(FieldType.TEXT, "URL:");

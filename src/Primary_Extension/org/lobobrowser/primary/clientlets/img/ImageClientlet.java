@@ -26,12 +26,17 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.clientlet.*;
+import javax.swing.JScrollPane;
+
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ComponentContent;
 import org.lobobrowser.util.io.IORoutines;
-
-import javax.swing.*;
 
 public final class ImageClientlet implements Clientlet {
   private static final Logger logger = Logger.getLogger(ImageClientlet.class.getName());

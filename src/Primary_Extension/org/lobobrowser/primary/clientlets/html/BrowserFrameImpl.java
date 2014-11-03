@@ -26,10 +26,14 @@ package org.lobobrowser.primary.clientlets.html;
 import java.awt.Component;
 import java.awt.Insets;
 import java.net.URL;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.lobobrowser.html.*;
-import org.lobobrowser.ua.*;
+import org.lobobrowser.html.BrowserFrame;
+import org.lobobrowser.html.HtmlRendererContext;
+import org.lobobrowser.ua.NavigatorFrame;
+import org.lobobrowser.ua.RequestType;
+import org.lobobrowser.ua.TargetType;
 
 public class BrowserFrameImpl implements BrowserFrame {
   private static final Logger logger = Logger.getLogger(BrowserFrameImpl.class.getName());

@@ -21,7 +21,8 @@
 package org.lobobrowser.gui;
 
 import java.util.EventObject;
-import org.lobobrowser.clientlet.*;
+
+import org.lobobrowser.clientlet.ClientletResponse;
 
 public class ResponseEvent extends EventObject {
   private final ClientletResponse response;

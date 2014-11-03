@@ -20,11 +20,16 @@
  */
 package org.lobobrowser.primary.gui;
 
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+
+import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import java.awt.*;
 
 public class SwingTasks {
   private static final String NESTED_ENABLING = "$nested.enabling";

@@ -23,7 +23,8 @@
  */
 package org.lobobrowser.primary.ext;
 
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lobobrowser.store.StorageManager;
 

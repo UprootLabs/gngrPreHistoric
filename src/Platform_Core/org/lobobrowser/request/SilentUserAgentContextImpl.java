@@ -4,7 +4,6 @@ import java.security.Policy;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.lobobrowser.request.RequestEngine;
 import org.lobobrowser.ua.NavigatorFrame;
 import org.lobobrowser.ua.NetworkRequest;
 import org.lobobrowser.ua.UserAgentContext;

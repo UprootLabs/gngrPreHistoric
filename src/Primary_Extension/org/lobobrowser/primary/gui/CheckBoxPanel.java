@@ -22,7 +22,11 @@ package org.lobobrowser.primary.gui;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 public class CheckBoxPanel extends JPanel {
   private final JCheckBox checkBox;

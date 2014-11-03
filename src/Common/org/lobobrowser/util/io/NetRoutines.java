@@ -20,7 +20,7 @@
  */
 package org.lobobrowser.util.io;
 
-import java.net.*;
+import java.net.InetAddress;
 
 public class NetRoutines {
   public static boolean isLocalAddress(final String host) {

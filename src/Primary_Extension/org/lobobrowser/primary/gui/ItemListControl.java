@@ -20,10 +20,19 @@
  */
 package org.lobobrowser.primary.gui;
 
-import java.awt.event.*;
-import java.awt.*;
-import javax.swing.*;
-import java.util.*;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 public class ItemListControl<T> extends JComponent {
   private final JComboBox<T> comboBox;

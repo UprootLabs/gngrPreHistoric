@@ -23,14 +23,21 @@
  */
 package org.lobobrowser.store;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
-import java.util.logging.*;
-import java.util.*;
-import java.util.jar.*;
-import org.lobobrowser.util.*;
-import org.lobobrowser.util.io.*;
-import org.lobobrowser.security.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.lobobrowser.security.GenericLocalPermission;
+import org.lobobrowser.util.LRUCache;
+import org.lobobrowser.util.Strings;
+import org.lobobrowser.util.Urls;
+import org.lobobrowser.util.io.IORoutines;
 
 /**
  * @author J. H. S.

@@ -23,11 +23,13 @@
  */
 package org.lobobrowser.protocol.vc;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.lobobrowser.context.*;
+import org.lobobrowser.context.VolatileContentImpl;
 
 /**
  * @author J. H. S.

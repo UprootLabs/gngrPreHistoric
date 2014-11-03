@@ -23,14 +23,33 @@
  */
 package org.lobobrowser.store;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.*;
-import java.util.regex.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.lobobrowser.io.*;
+import org.lobobrowser.io.ManagedFile;
+import org.lobobrowser.io.ManagedFileFilter;
+import org.lobobrowser.io.ManagedStore;
+import org.lobobrowser.io.QuotaExceededException;
 import org.lobobrowser.util.WrapperException;
 
 public final class RestrictedStore implements QuotaSource, ManagedStore {

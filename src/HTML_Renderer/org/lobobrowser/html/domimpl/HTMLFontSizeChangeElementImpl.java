@@ -20,7 +20,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
 
 /**

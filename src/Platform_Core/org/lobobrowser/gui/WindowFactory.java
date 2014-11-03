@@ -20,9 +20,9 @@
  */
 package org.lobobrowser.gui;
 
-import java.util.*;
+import java.util.Properties;
 
-import org.lobobrowser.ua.*;
+import org.lobobrowser.ua.NavigatorWindow;
 
 /**
  * Factory used to create browser windows. It is used when the JavaScript method

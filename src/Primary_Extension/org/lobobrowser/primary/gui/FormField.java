@@ -20,8 +20,11 @@
  */
 package org.lobobrowser.primary.gui;
 
-import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 public class FormField {
   public final FieldType type;

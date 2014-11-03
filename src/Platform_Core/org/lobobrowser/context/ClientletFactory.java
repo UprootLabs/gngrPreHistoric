@@ -20,9 +20,14 @@
  */
 package org.lobobrowser.context;
 
-import java.util.*;
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.security.*;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletRequest;
+import org.lobobrowser.clientlet.ClientletResponse;
+import org.lobobrowser.clientlet.ClientletSelector;
+import org.lobobrowser.security.GenericLocalPermission;
 
 public class ClientletFactory {
   // private static final Logger logger =

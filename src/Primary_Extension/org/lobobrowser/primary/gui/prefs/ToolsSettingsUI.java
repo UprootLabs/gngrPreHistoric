@@ -20,12 +20,19 @@
  */
 package org.lobobrowser.primary.gui.prefs;
 
-import org.lobobrowser.primary.gui.*;
-import org.lobobrowser.primary.settings.*;
+import java.awt.Component;
+import java.util.Collection;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+
+import org.lobobrowser.primary.gui.AbstractItemEditor;
+import org.lobobrowser.primary.gui.ItemEditorFactory;
+import org.lobobrowser.primary.gui.ItemListControl;
+import org.lobobrowser.primary.gui.SwingTasks;
+import org.lobobrowser.primary.settings.SearchEngine;
+import org.lobobrowser.primary.settings.ToolsSettings;
 
 public class ToolsSettingsUI extends AbstractSettingsUI {
   private final ToolsSettings settings = ToolsSettings.getInstance();

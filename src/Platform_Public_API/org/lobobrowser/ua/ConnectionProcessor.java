@@ -22,7 +22,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.ua;
 
-import java.net.*;
+import java.net.URLConnection;
 
 /**
  * A connection pre- and post-processor.

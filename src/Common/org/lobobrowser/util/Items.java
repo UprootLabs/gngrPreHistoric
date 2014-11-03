@@ -1,6 +1,8 @@
 package org.lobobrowser.util;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class Items {
   private Items() {

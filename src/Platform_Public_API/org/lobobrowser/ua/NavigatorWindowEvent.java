@@ -22,7 +22,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.ua;
 
-import org.lobobrowser.clientlet.*;
+import org.lobobrowser.clientlet.ClientletResponse;
 
 /**
  * An event containing information about navigation.

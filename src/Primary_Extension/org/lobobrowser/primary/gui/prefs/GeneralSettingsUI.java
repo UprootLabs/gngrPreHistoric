@@ -20,11 +20,18 @@
  */
 package org.lobobrowser.primary.gui.prefs;
 
-import org.lobobrowser.settings.*;
-import org.lobobrowser.primary.gui.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+import org.lobobrowser.primary.gui.StringListControl;
+import org.lobobrowser.primary.gui.SwingTasks;
+import org.lobobrowser.settings.GeneralSettings;
 
 public class GeneralSettingsUI extends AbstractSettingsUI {
   private final GeneralSettings settings = GeneralSettings.getInstance();

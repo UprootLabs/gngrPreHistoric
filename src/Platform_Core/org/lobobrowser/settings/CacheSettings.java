@@ -21,11 +21,12 @@
 package org.lobobrowser.settings;
 
 import java.io.Serializable;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.lobobrowser.security.GenericLocalPermission;
+import org.lobobrowser.store.CacheManager;
 import org.lobobrowser.store.StorageManager;
-import org.lobobrowser.security.*;
-import org.lobobrowser.store.*;
 
 /**
  * Browser cache settings. This is a singleton class with an instance obtained

@@ -23,7 +23,7 @@
  */
 package org.lobobrowser.store;
 
-import java.io.*;
+import java.io.IOException;
 
 /**
  * @author J. H. S.

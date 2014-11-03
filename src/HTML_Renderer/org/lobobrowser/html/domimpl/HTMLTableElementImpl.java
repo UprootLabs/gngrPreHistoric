@@ -25,9 +25,9 @@ package org.lobobrowser.html.domimpl;
 
 import java.util.ArrayList;
 
-import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.HtmlLength;
 import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.html.style.TableRenderState;
 import org.w3c.dom.DOMException;

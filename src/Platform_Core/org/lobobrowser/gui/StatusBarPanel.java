@@ -22,8 +22,9 @@ package org.lobobrowser.gui;
 
 import java.awt.Dimension;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 /**
  * The status bar component.

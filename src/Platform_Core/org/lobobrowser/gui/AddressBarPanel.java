@@ -20,8 +20,10 @@
  */
 package org.lobobrowser.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 /**
  * The address bar panel of a browser window.

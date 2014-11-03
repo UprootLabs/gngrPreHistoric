@@ -23,10 +23,18 @@
  */
 package org.lobobrowser.util.gui;
 
-import java.util.*;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.font.TextAttribute;
-import java.util.logging.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.text.StyleContext;
 

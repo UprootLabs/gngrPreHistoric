@@ -25,7 +25,6 @@ package org.lobobrowser.html.domimpl;
 
 import org.lobobrowser.html.style.CSSUtilities;
 import org.lobobrowser.ua.UserAgentContext;
-import org.w3c.css.sac.InputSource;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

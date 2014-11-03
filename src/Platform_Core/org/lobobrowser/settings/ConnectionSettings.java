@@ -23,12 +23,15 @@
  */
 package org.lobobrowser.settings;
 
-import java.net.*;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lobobrowser.util.io.*;
+
 import org.lobobrowser.security.GenericLocalPermission;
 import org.lobobrowser.store.StorageManager;
+import org.lobobrowser.util.io.NetRoutines;
 
 /**
  * Connection settings. This is a singleton class with an instance obtained by

@@ -24,7 +24,7 @@ import org.lobobrowser.clientlet.Clientlet;
 import org.lobobrowser.clientlet.ClientletRequest;
 import org.lobobrowser.clientlet.ClientletResponse;
 import org.lobobrowser.clientlet.ClientletSelector;
-import org.lobobrowser.main.*;
+import org.lobobrowser.main.ExtensionManager;
 
 public class CoreClientletSelector implements ClientletSelector {
   public Clientlet select(final ClientletRequest request, final ClientletResponse response) {

@@ -20,9 +20,10 @@
  */
 package org.lobobrowser.main;
 
-import java.util.*;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Global URL stream handler factory used by the browser.

@@ -23,11 +23,16 @@
  */
 package org.lobobrowser.primary.clientlets;
 
-import org.lobobrowser.clientlet.*;
-import org.lobobrowser.util.io.IORoutines;
+import java.io.IOException;
+import java.io.InputStream;
 
-import java.io.*;
-import javax.swing.*;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import org.lobobrowser.clientlet.Clientlet;
+import org.lobobrowser.clientlet.ClientletContext;
+import org.lobobrowser.clientlet.ClientletException;
+import org.lobobrowser.util.io.IORoutines;
 
 public final class TextClientlet implements Clientlet {
   public TextClientlet() {

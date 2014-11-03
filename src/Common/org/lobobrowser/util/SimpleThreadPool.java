@@ -1,7 +1,11 @@
 package org.lobobrowser.util;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A thread pool that allows cancelling all running tasks without shutting down

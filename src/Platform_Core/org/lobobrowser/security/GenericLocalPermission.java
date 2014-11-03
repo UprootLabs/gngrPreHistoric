@@ -20,7 +20,7 @@
  */
 package org.lobobrowser.security;
 
-import java.security.*;
+import java.security.BasicPermission;
 
 public class GenericLocalPermission extends BasicPermission {
   // public static final java.security.Permission FRAME_PARENT = new
