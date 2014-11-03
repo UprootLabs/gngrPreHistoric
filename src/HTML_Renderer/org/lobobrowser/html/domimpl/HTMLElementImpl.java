@@ -78,10 +78,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   private static final StyleSheet recommendedStyle = parseStyle(CSSNorm.stdStyleSheet(), StyleSheet.Origin.AGENT);
   private static final StyleSheet userAgentStyle = parseStyle(CSSNorm.userStyleSheet(), StyleSheet.Origin.AGENT);
 
-  static {
-    CSSFactory.registerDefaultMatchCondition(elementMatchCondition);
-  }
-
   public HTMLElementImpl(final String name, final boolean noStyleSheet) {
     super(name);
     this.noStyleSheet = noStyleSheet;
@@ -176,6 +172,8 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
 
     final DirectAnalyzer domAnalyser = new cz.vutbr.web.domassign.DirectAnalyzer(jSheets);
+    domAnalyser.registerMatchCondition(elementMatchCondition);
+
     final NodeData nodeData = domAnalyser.getElementStyle(this, psuedoElement, "screen");
     final Node parent = this.parentNode;
     if (parent != null && parent instanceof HTMLElementImpl) {
