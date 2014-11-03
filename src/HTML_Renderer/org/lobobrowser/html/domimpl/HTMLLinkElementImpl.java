@@ -313,27 +313,6 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     }
   }
 
-  @Override
-  public void setAttribute(final String name, final String value) throws DOMException {
-    final String nameLowerCase = name.toLowerCase();
-    final String oldValue = this.getAttribute(nameLowerCase);
-    super.setAttribute(name, value);
-    // TODO according to firefox's behavior whenever a valid attribute is
-    // changed on the element the disabled flag is set to false. Need to
-    // verify with the specs.
-    // TODO check for all the attributes associated with an link element
-    // according to firefox if the new value of rel/href is the same as the 
-    // old one then, the nothing has to be done. In all other cases the link element
-    // has to be re-processed.
-    if (isSameRel(nameLowerCase, oldValue) || isSameHref(nameLowerCase, oldValue)) {
-      return;
-    } else if ("rel".equals(nameLowerCase) || "href".equals(nameLowerCase) || "type".equals(nameLowerCase) || "media".equals(nameLowerCase)) {
-      this.disabled = false;
-      this.detachStyleSheet();
-      this.processLinkHelper(true);
-    }
-  }
-
   private boolean isSameRel(final String name, final String oldValue) {
     if ("rel".equals(name)) {
       if (this.isSameAttributeValue("rel", oldValue)) {
@@ -456,4 +435,23 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     this.processLinkHelper(true);
   }
 
+  @Override
+  protected void handleAttributeChanged(final String name, final String oldValue, final String newValue) {
+    super.handleAttributeChanged(name, oldValue, newValue);
+
+    // TODO according to firefox's behavior whenever a valid attribute is
+    // changed on the element the disabled flag is set to false. Need to
+    // verify with the specs.
+    // TODO check for all the attributes associated with an link element
+    // according to firefox if the new value of rel/href is the same as the 
+    // old one then, the nothing has to be done. In all other cases the link element
+    // has to be re-processed.
+    if (isSameRel(name, oldValue) || isSameHref(name, oldValue)) {
+      return;
+    } else if ("rel".equals(name) || "href".equals(name) || "type".equals(name) || "media".equals(name)) {
+      this.disabled = false;
+      this.detachStyleSheet();
+      this.processLinkHelper(true);
+    }
+  }
 }
