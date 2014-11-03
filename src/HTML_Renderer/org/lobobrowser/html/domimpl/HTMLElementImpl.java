@@ -57,7 +57,6 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
 
-import com.steadystate.css.parser.CSSOMParser;
 import cz.vutbr.web.css.CSSException;
 import cz.vutbr.web.css.CSSFactory;
 import cz.vutbr.web.css.NodeData;

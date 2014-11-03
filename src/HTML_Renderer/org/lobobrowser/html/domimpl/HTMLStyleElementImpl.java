@@ -35,9 +35,6 @@ import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.html.HTMLStyleElement;
 import org.w3c.dom.stylesheets.LinkStyle;
 
-import com.steadystate.css.dom.CSSStyleSheetImpl;
-import com.steadystate.css.parser.CSSOMParser;
-
 import co.uproot.css.domimpl.JStyleSheetWrapper;
 import cz.vutbr.web.css.StyleSheet;
 
