@@ -42,10 +42,6 @@ import co.uproot.css.domimpl.JStyleSheetWrapper;
 import cz.vutbr.web.css.StyleSheet;
 
 public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleElement, LinkStyle {
-  //TODO to be removed during code cleanup
-  /*
-  private CSSStyleSheet styleSheet;
-  */
   private JStyleSheetWrapper styleSheet;
 
   public HTMLStyleElementImpl() {
@@ -93,10 +89,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      //TODO to be removed during code cleanup
-      /*
-      ((HTMLDocumentImpl) document).addJob(() -> processStyle());
-      */
+      // TODO: Check if this is still required, since we are handling this in changeDocumentAttachment()
       this.processStyle();
     }
     // else
@@ -107,32 +100,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     return super.setUserData(key, data, handler);
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  protected void processStyle() {
-    this.styleSheet = null;
-    final UserAgentContext uacontext = this.getUserAgentContext();
-    if (uacontext.isInternalCSSEnabled()) {
-      if (CSSUtilities.matchesMedia(this.getMedia(), this.getUserAgentContext())) {
-        final String text = this.getRawInnerText(true);
-        if (text != null && !"".equals(text)) {
-          final String processedText = CSSUtilities.preProcessCss(text);
-          final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
-          final String baseURI = doc.getBaseURI();
-          try {
-            final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) CSSUtilities.parseStyleSheet(this, baseURI, processedText);
-            doc.addStyleSheet(sheet);
-            sheet.setDisabled(this.disabled);
-            this.styleSheet = sheet;
-          } catch (final Throwable err) {
-            this.warn("Unable to parse style sheet", err);
-          }
-        }
-      }
-    }
-  }
-  */
-
+  // TODO: This should probably not be a nop. We should probably be handling changes to inner text.
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
   }

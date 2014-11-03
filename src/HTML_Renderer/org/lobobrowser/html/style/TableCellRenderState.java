@@ -223,10 +223,6 @@ public class TableCellRenderState extends DisplayRenderState {
     if (ws != null) {
       return ws.intValue();
     }
-    //TODO to be removed during code cleanup
-    /*
-    final AbstractCSS2Properties props = this.getCssProperties();
-    */
     final JStyleProperties props = this.getCssProperties();
     final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;

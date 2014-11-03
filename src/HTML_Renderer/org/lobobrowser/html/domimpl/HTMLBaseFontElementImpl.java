@@ -46,27 +46,9 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     this.setAttribute("face", face);
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  public int getSize() {
-    try {
-      return Integer.parseInt(this.getAttribute("size"));
-    } catch (final Exception thrown) {
-      this.warn("getSize(): Unable to parse size attribute in " + this + ".", thrown);
-      return 0;
-    }
-  }
-  */
-
   public String getSize() {
     return this.getAttribute("size");
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  public void setSize(final int size) {
-    this.setAttribute("size", String.valueOf(size));
-  }*/
 
   public void setSize(final String size) {
     this.setAttribute("size", size);
@@ -81,32 +63,5 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     }
     return super.createRenderState(prevRenderState);
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  protected AbstractCSS2Properties createDefaultStyleSheet() {
-    final String fontFamily = this.getAttribute("face");
-    final String color = this.getAttribute("color");
-    final String size = this.getAttribute("size");
-    final ModelNode parentModelNode = this.getParentModelNode();
-    final RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
-    String fontSize = null;
-    if (parentRS != null) {
-      final int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
-      fontSize = HtmlValues.getFontSizeSpec(fontNumber);
-    }
-    final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
-    if (fontSize != null) {
-      css.internalSetLC("font-size", fontSize);
-    }
-    if (fontFamily != null) {
-      css.internalSetLC("font-family", fontFamily);
-    }
-    if (color != null) {
-      css.internalSetLC("color", color);
-    }
-    return css;
-  }
-  */
 
 }

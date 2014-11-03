@@ -34,10 +34,6 @@ public class ImageRenderState extends StyleSheetRenderState {
     if (mi != INVALID_INSETS) {
       return mi;
     }
-    //TODO to be removed during code cleanup
-    /*
-    final AbstractCSS2Properties props = this.getCssProperties();
-    */
     final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       mi = null;

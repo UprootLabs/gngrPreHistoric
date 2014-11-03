@@ -20,7 +20,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html.HTMLFontElement;
 
@@ -56,34 +55,5 @@ public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFo
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return super.createRenderState(prevRenderState);
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  protected AbstractCSS2Properties createDefaultStyleSheet() {
-    final String fontFamily = this.getAttribute("face");
-    final String color = this.getAttribute("color");
-    final String size = this.getAttribute("size");
-    String fontSize = null;
-    if (size != null) {
-      final ModelNode parentModelNode = this.getParentModelNode();
-      final RenderState parentRS = parentModelNode == null ? null : parentModelNode.getRenderState();
-      if (parentRS != null) {
-        final int fontNumber = HtmlValues.getFontNumberOldStyle(size, parentRS);
-        fontSize = HtmlValues.getFontSizeSpec(fontNumber);
-      }
-    }
-    final ComputedCSS2Properties css = new ComputedCSS2Properties(this);
-    if (fontSize != null) {
-      css.internalSetLC("font-size", fontSize);
-    }
-    if (fontFamily != null) {
-      css.internalSetLC("font-family", fontFamily);
-    }
-    if (color != null) {
-      css.internalSetLC("color", color);
-    }
-    return css;
-  }
-  */
 
 }

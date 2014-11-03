@@ -50,10 +50,6 @@ import cz.vutbr.web.css.StyleSheet;
 public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLinkElement, LinkStyle {
   private static final Logger logger = Logger.getLogger(HTMLLinkElementImpl.class.getName());
   private static final boolean loggableInfo = logger.isLoggable(Level.INFO);
-  //TODO to be removed during code cleanup
-  /*
-  private CSSStyleSheet styleSheet;
-  */
   private JStyleSheetWrapper styleSheet;
 
   public HTMLLinkElementImpl(final String name) {
@@ -143,11 +139,6 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
 
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      //TODO to be removed during code cleanup
-      /*
-      ((HTMLDocumentImpl) document).addJob(() -> processLink());
-      // this.processLink();
-      */
       this.processLinkHelper(true);
     }
     // else
@@ -173,56 +164,6 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
       return false;
     }
   }
-
-  /**
-   * If the LINK refers to a stylesheet document, this method loads and parses
-   * it.
-   */
-  //TODO to be removed during code cleanup
-  /*
-  protected void processLink() {
-    this.styleSheet = null;
-    final String rel = this.getAttribute("rel");
-    if (rel != null) {
-      final String cleanRel = rel.trim().toLowerCase();
-      final boolean isStyleSheet = cleanRel.equals("stylesheet");
-      final boolean isAltStyleSheet = cleanRel.equals("alternate stylesheet");
-      if (isStyleSheet || isAltStyleSheet) {
-        final UserAgentContext uacontext = this.getUserAgentContext();
-        if (uacontext.isExternalCSSEnabled()) {
-          final String media = this.getMedia();
-          if (CSSUtilities.matchesMedia(media, uacontext)) {
-            final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
-            try {
-              final boolean liflag = loggableInfo;
-              final long time1 = liflag ? System.currentTimeMillis() : 0;
-              try {
-                final CSSStyleSheet sheet = CSSUtilities.parse(this, this.getHref(), doc, doc.getBaseURI(), false);
-                if (sheet != null) {
-                  this.styleSheet = sheet;
-                  sheet.setDisabled(isAltStyleSheet | this.disabled);
-                  doc.addStyleSheet(sheet);
-                }
-              } finally {
-                if (liflag) {
-                  final long time2 = System.currentTimeMillis();
-                  logger.info("processLink(): Loaded and parsed CSS (or attempted to) at URI=[" + this.getHref() + "] in "
-                      + (time2 - time1) + " ms.");
-                }
-              }
-
-            } catch (final MalformedURLException mfe) {
-              this.warn("Will not parse CSS. URI=[" + this.getHref() + "] with BaseURI=[" + doc.getBaseURI()
-                  + "] does not appear to be a valid URI.");
-            } catch (final Throwable err) {
-              this.warn("Unable to parse CSS. URI=[" + this.getHref() + "].", err);
-            }
-          }
-        }
-      }
-    }
-  }
-  */
 
   public String getAbsoluteHref() {
     final HtmlRendererContext rcontext = this.getHtmlRendererContext();

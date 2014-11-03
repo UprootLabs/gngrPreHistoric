@@ -165,10 +165,6 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    */
   public HtmlLength getHeightLength(final int availHeight) {
     try {
-      //TODO to be removed during code cleanup
-      /*
-      final AbstractCSS2Properties props = this.getCurrentStyle();
-      */
       final JStyleProperties props = this.getCurrentStyle();
       final String heightText = props == null ? null : props.getHeight();
       if (heightText == null) {
@@ -188,10 +184,6 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
    */
   public HtmlLength getWidthLength(final int availWidth) {
     try {
-      //TODO to be removed during code cleanup
-      /*
-      final AbstractCSS2Properties props = this.getCurrentStyle();
-      */
       final JStyleProperties props = this.getCurrentStyle();
       final String widthText = props == null ? null : props.getWidth();
       if (widthText == null) {

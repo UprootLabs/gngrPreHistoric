@@ -658,17 +658,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return uiNode == null ? 0 : uiNode.getBoundsRelativeToBlock().height;
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  public AbstractCSS2Properties getParentStyle() {
-    final Object parent = this.parentNode;
-    if (parent instanceof HTMLElementImpl) {
-      return ((HTMLElementImpl) parent).getCurrentStyle();
-    }
-    return null;
-  }
-  */
-
   public String getDocumentBaseURI() {
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     if (doc != null) {

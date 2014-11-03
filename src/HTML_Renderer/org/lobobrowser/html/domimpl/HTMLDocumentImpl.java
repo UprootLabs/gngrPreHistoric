@@ -408,11 +408,6 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       this.setTitle(null);
       this.setBaseURI(null);
       this.setDefaultTarget(null);
-      //TODO to be removed during code cleanup
-      /*
-      this.styleSheets.clear();
-      this.styleSheetAggregator = null;
-      */
       this.styleSheetManager.invalidateStyles();
       reader = this.reader;
     }
@@ -838,55 +833,9 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     }
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  private final Collection<CSSStyleSheet> styleSheets = new CSSStyleSheetList();
-
-  public class CSSStyleSheetList extends ArrayList<CSSStyleSheet> {
-    private static final long serialVersionUID = -7972017267951066017L;
-
-    public int getLength() {
-      return this.size();
-    }
-
-    public CSSStyleSheet item(final int index) {
-      return (CSSStyleSheet) get(index);
-    }
-  }
-  */
-
-  //TODO to be removed during code cleanup
-  /*
-  final void addStyleSheet(final CSSStyleSheet ss) {
-    synchronized (this.treeLock) {
-      this.styleSheets.add(ss);
-      this.styleSheetAggregator = null;
-      // Need to invalidate all children up to
-      // this point.
-      this.forgetRenderState();
-      // TODO: this might be ineffcient.
-      final ArrayList<Node> nl = this.nodeList;
-      if (nl != null) {
-        final Iterator<Node> i = nl.iterator();
-        while (i.hasNext()) {
-          final Object node = i.next();
-          if (node instanceof HTMLElementImpl) {
-            ((HTMLElementImpl) node).forgetStyle(true);
-          }
-        }
-      }
-    }
-    this.allInvalidated();
-  }
-  */
-
   public void allInvalidated(final boolean forgetRenderStates) {
     if (forgetRenderStates) {
       synchronized (this.treeLock) {
-        //TODO to be removed during code cleanup
-        /*
-        this.styleSheetAggregator = null;
-        */
         // Need to invalidate all children up to
         // this point.
         this.forgetRenderState();
@@ -906,37 +855,9 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     this.allInvalidated();
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  public Collection<CSSStyleSheet> getStyleSheets() {
-    return this.styleSheets;
-  }
-  */
-
   public StyleSheetList getStyleSheets() {
     return styleSheetManager.constructStyleSheetList();
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  private StyleSheetAggregator styleSheetAggregator = null;
-
-  final StyleSheetAggregator getStyleSheetAggregator() {
-    synchronized (this.treeLock) {
-      StyleSheetAggregator ssa = this.styleSheetAggregator;
-      if (ssa == null) {
-        ssa = new StyleSheetAggregator(this);
-        try {
-          ssa.addStyleSheets(this.styleSheets);
-        } catch (final MalformedURLException mfu) {
-          logger.log(Level.WARNING, "getStyleSheetAggregator()", mfu);
-        }
-        this.styleSheetAggregator = ssa;
-      }
-      return ssa;
-    }
-  }
-  */
 
   private final ArrayList<DocumentNotificationListener> documentNotificationListeners = new ArrayList<>(1);
 

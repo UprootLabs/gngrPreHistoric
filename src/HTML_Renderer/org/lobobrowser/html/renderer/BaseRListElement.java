@@ -45,10 +45,6 @@ class BaseRListElement extends RBlock {
       return;
     }
     final HTMLElementImpl rootElement = (HTMLElementImpl) rootNode;
-    //TODO to be removed during code cleanup
-    /*
-    final AbstractCSS2Properties props = rootElement.getCurrentStyle();
-    */
     final JStyleProperties props = rootElement.getCurrentStyle();
     if (props == null) {
       return;

@@ -31,10 +31,5 @@ public interface CSS2PropertiesContext {
 
   public void informInvalid();
 
-  //TODO to be removed during code cleanup
-  /*
-  public AbstractCSS2Properties getParentStyle();
-  */
-
   public String getDocumentBaseURI();
 }
