@@ -141,20 +141,6 @@ public class CSSUtilities {
     return css;
   }
 
-  /*
-  private static CSSStyleSheet parseCSS(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
-    final CSSOMParser parser = mkParser();
-    final InputSource is = getCssInputSourceForStyleSheet(processedText, cssURI);
-    is.setURI(cssURI);
-    try {
-      final CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(is, ownerNode, cssURI);
-      return sheet;
-    } catch (final Throwable err) {
-      logger.log(Level.WARNING, "Unable to parse CSS. URI=[" + cssURI + "].", err);
-      return null;
-    }
-  }*/
-
   private static StyleSheet jParseCSS2(final org.w3c.dom.Node ownerNode, final String cssURI, final String processedText) {
     CSSFactory.setAutoImportMedia(new MediaSpecNone());
     try {
