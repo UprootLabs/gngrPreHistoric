@@ -39,11 +39,8 @@ import java.util.logging.Level;
 
 import org.lobobrowser.html.FormInput;
 import org.lobobrowser.html.parser.HtmlParser;
-import org.lobobrowser.html.style.AbstractCSS2Properties;
 import org.lobobrowser.html.style.CSS2PropertiesContext;
 import org.lobobrowser.html.style.CSSUtilities;
-import org.lobobrowser.html.style.ComputedCSS2Properties;
-import org.lobobrowser.html.style.LocalCSS2Properties;
 import org.lobobrowser.html.style.CSSNorm;
 import org.lobobrowser.html.style.ComputedJStyleProperties;
 import org.lobobrowser.html.style.JStyleProperties;

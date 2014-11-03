@@ -25,7 +25,6 @@ package org.lobobrowser.html.domimpl;
 
 import java.util.ArrayList;
 
-import org.lobobrowser.html.style.AbstractCSS2Properties;
 import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.HtmlLength;
 import org.lobobrowser.html.style.HtmlValues;

@@ -38,7 +38,6 @@ import org.lobobrowser.html.domimpl.HTMLTableElementImpl;
 import org.lobobrowser.html.domimpl.HTMLTableRowElementImpl;
 import org.lobobrowser.html.domimpl.NodeFilter;
 import org.lobobrowser.html.domimpl.NodeImpl;
-import org.lobobrowser.html.style.AbstractCSS2Properties;
 import org.lobobrowser.html.style.JStyleProperties;
 import org.lobobrowser.html.style.HtmlLength;
 import org.lobobrowser.html.style.HtmlValues;
