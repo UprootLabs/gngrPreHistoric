@@ -138,6 +138,7 @@ public class StyleSheetAggregator {
       }
       // TODO: Attribute selectors
     } else if (rule instanceof CSSImportRule) {
+      /* TODO: Need to implement this as part of Issue #48
       final UserAgentContext uacontext = document.getUserAgentContext();
       if (uacontext.isExternalCSSEnabled()) {
         final CSSImportRule importRule = (CSSImportRule) rule;
@@ -150,7 +151,8 @@ public class StyleSheetAggregator {
             this.addStyleSheet(sheet);
           }
         }
-      }
+      } */
+      System.out.println("Note that @import is not implemented yet. The rendering may not be as intended.");
     } else if (rule instanceof CSSMediaRule) {
       final CSSMediaRule mrule = (CSSMediaRule) rule;
       final MediaList mediaList = mrule.getMedia();
