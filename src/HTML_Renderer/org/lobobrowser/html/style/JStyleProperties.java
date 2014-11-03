@@ -636,12 +636,13 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
     final NodeData nodeData = getNodeData();
     if (nodeData != null) {
       final Term<?> value = nodeData.getValue(propertyName, true);
+      final String valueStr = value == null ? null : value.toString();
       // TODO
       // hack for inch support. need to implement it where it is actually processed.
-      if(value != null && value.toString().matches("[0-9]+(.[0-9]+)?in")) {
+      if(valueStr != null && valueStr.matches("[0-9]+(.[0-9]+)?in")) {
         return inch2Pixel(value);
       }
-      return value == null ? null : value.toString();
+      return valueStr;
     } else {
       return nullIfAbsent ? null : "";
     }
