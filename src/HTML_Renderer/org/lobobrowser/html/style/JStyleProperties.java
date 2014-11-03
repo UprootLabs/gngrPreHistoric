@@ -181,7 +181,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   // TODO
   // temp hack to support border thin/medium/thick
   // this method should be removed once it is implemented where border is actually processed
-  private String border2Pixel(final String width) {
+  private static String border2Pixel(final String width) {
     if(width != null) {
       if("thin".equalsIgnoreCase(width)) {
         return "1px";
@@ -651,7 +651,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   // TODO
   // temp hack to support inch
   // remove this method once it's natively supported where the value is actually processed
-  private String inch2Pixel(final Term<?> value) {
+  private static String inch2Pixel(final Term<?> value) {
     final String valueStr = value.toString();
     try {
       final String num = valueStr.substring(0, valueStr.length() - 2);
