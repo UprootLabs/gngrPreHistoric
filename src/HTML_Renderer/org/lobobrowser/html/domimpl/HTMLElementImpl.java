@@ -85,15 +85,9 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     this.noStyleSheet = false;
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  private volatile AbstractCSS2Properties currentStyleDeclarationState;
-  private volatile AbstractCSS2Properties localStyleDeclarationState;
-  */
-
   protected final void forgetLocalStyle() {
     synchronized (this) {
-      //TODO to be removed during code cleanup
+      //TODO to be reconsidered in issue #41
       /*
       this.currentStyleDeclarationState = null;
       this.localStyleDeclarationState = null;
@@ -106,7 +100,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     // TODO: OPTIMIZATION: If we had a ComputedStyle map in
     // window (Mozilla model) the map could be cleared in one shot.
     synchronized (this) {
-      //TODO to be removed during code cleanup
+      //TODO to be reconsidered in issue #41
       /*
       this.currentStyleDeclarationState = null;
       this.computedStyles = null;
@@ -181,40 +175,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return nodeData;
   }
 
-  //TODO to be removed during code cleanup
-  /*
-   * @cmk
-   * Backup of old method
-  public AbstractCSS2Properties getCurrentStyle() {
-    synchronized (this) {
-      final AbstractCSS2Properties currSds = this.currentStyleDeclarationState;
-      if (currSds != null) {
-        return currSds;
-      }
-    }
-    // Can't do the following in synchronized block (reverse locking order with
-    // document).
-    // First, add declarations from stylesheet
-    AbstractCSS2Properties sds = this.createDefaultStyleSheet();
-    sds = this.addStyleSheetDeclarations(sds, this.getPseudoNames());
-    if (sds == null) {
-      sds = new ComputedCSS2Properties(this);
-    }
-    // Now add local style if any.
-    sds.setLocalStyleProperties(this.getStyle());
-    synchronized (this) {
-      // Check if style properties were set while outside
-      // the synchronized block (can happen).
-      final AbstractCSS2Properties setProps = this.currentStyleDeclarationState;
-      if (setProps != null) {
-        return setProps;
-      }
-      this.currentStyleDeclarationState = sds;
-      return sds;
-    }
-  }
-   */
-
   /**
    * Gets the local style object associated with the element. The properties
    * object returned only includes properties from the local style attribute. It
@@ -223,38 +183,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   public JStyleProperties getStyle() {
     return new LocalJStyleProperties(this);
   }
-
-  //TODO to be removed during code cleanup
-  /**
-   * @cmk
-   * Backup of old method
-  public AbstractCSS2Properties getStyle() {
-    AbstractCSS2Properties sds;
-    synchronized (this) {
-      sds = this.localStyleDeclarationState;
-      if (sds != null) {
-        return sds;
-      }
-      sds = new LocalCSS2Properties(this);
-      // Add any declarations in style attribute (last takes precedence).
-      final String style = this.getAttribute("style");
-      if (style != null && style.length() != 0) {
-        try {
-          final CSSStyleDeclaration sd = CSSUtilities.parseStyleDeclaration(style);
-          sds.addStyleDeclaration(sd);
-        } catch (final Exception err) {
-          final String id = this.getId();
-          final String withId = id == null ? "" : " with ID '" + id + "'";
-          this.warn("Unable to parse style attribute value for element " + this.getTagName() + withId + " in " + this.getDocumentURL()
-              + ".", err);
-        }
-      }
-      this.localStyleDeclarationState = sds;
-    }
-    // Synchronization note: Make sure getStyle() does not return multiple values.
-    return sds;
-  }
-  */
 
   private StyleSheet getInlineJStyle() {
     synchronized (this) {
@@ -266,16 +194,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     // Synchronization note: Make sure getStyle() does not return multiple values.
     return null;
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  protected AbstractCSS2Properties createDefaultStyleSheet() {
-    // Override to provide element defaults.
-    return null;
-  }
-
-  private Map<String, AbstractCSS2Properties> computedStyles;
-  */
 
   static private Selector.PseudoDeclaration getPseudoDeclaration(final String pseudoElement) {
     if ((pseudoElement != null)) {
@@ -303,55 +221,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   public JStyleProperties getComputedStyle(final String pseudoElement) {
     return new ComputedJStyleProperties(this, getNodeData(getPseudoDeclaration(pseudoElement)), false);
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  public AbstractCSS2Properties getComputedStyle(String pseudoElement) {
-    if (pseudoElement == null) {
-      pseudoElement = "";
-    }
-    synchronized (this) {
-      final Map<String, AbstractCSS2Properties> cs = this.computedStyles;
-      if (cs != null) {
-        final AbstractCSS2Properties sds = cs.get(pseudoElement);
-        if (sds != null) {
-          return sds;
-        }
-      }
-    }
-    // Can't do the following in synchronized block (reverse locking order with
-    // document).
-    // First, add declarations from stylesheet
-    final Set<String> pes = pseudoElement.length() == 0 ? null : Collections.singleton(pseudoElement);
-    AbstractCSS2Properties sds = this.createDefaultStyleSheet();
-    sds = this.addStyleSheetDeclarations(sds, pes);
-    // Now add local style if any.
-    final AbstractCSS2Properties localStyle = this.getStyle();
-    if (sds == null) {
-      sds = new ComputedCSS2Properties(this);
-      sds.setLocalStyleProperties(localStyle);
-    } else {
-      sds.setLocalStyleProperties(localStyle);
-    }
-    synchronized (this) {
-      // Check if style properties were set while outside
-      // the synchronized block (can happen). We need to
-      // return instance already set for consistency.
-      Map<String, AbstractCSS2Properties> cs = this.computedStyles;
-      if (cs == null) {
-        cs = new HashMap<>(2);
-        this.computedStyles = cs;
-      } else {
-        final AbstractCSS2Properties sds2 = cs.get(pseudoElement);
-        if (sds2 != null) {
-          return sds2;
-        }
-      }
-      cs.put(pseudoElement, sds);
-    }
-    return sds;
-  }
-  */
 
   public void setStyle(final Object value) {
     throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Cannot set style property");
@@ -418,58 +287,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return is;
   }
 
-  /**
-   * Adds style sheet declarations applicable to this element. A properties
-   * object is created if necessary when the one passed is <code>null</code>.
-   * 
-   * @param style
-   */
-  //TODO to be removed during code cleanup
-  /*
-  protected final AbstractCSS2Properties addStyleSheetDeclarations(AbstractCSS2Properties style, final Set<String> pseudoNames) {
-    final Node pn = this.parentNode;
-    if (pn == null) {
-      // do later
-      return style;
-    }
-    final String classNames = this.getClassName();
-    if (classNames != null && classNames.length() != 0) {
-      final String id = this.getId();
-      final String elementName = this.getTagName();
-      final String[] classNameArray = Strings.split(classNames);
-      for (int i = classNameArray.length; --i >= 0;) {
-        final String className = classNameArray[i];
-        final Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, className, pseudoNames);
-        if (sds != null) {
-          final Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
-          while (sdsi.hasNext()) {
-            final CSSStyleDeclaration sd = sdsi.next();
-            if (style == null) {
-              style = new ComputedCSS2Properties(this);
-            }
-            style.addStyleDeclaration(sd);
-          }
-        }
-      }
-    } else {
-      final String id = this.getId();
-      final String elementName = this.getTagName();
-      final Collection<CSSStyleDeclaration> sds = this.findStyleDeclarations(elementName, id, null, pseudoNames);
-      if (sds != null) {
-        final Iterator<CSSStyleDeclaration> sdsi = sds.iterator();
-        while (sdsi.hasNext()) {
-          final CSSStyleDeclaration sd = sdsi.next();
-          if (style == null) {
-            style = new ComputedCSS2Properties(this);
-          }
-          style.addStyleDeclaration(sd);
-        }
-      }
-    }
-    return style;
-  }
-  */
-
   private boolean isMouseOver = false;
 
   public void setMouseOver(final boolean mouseOver) {
@@ -490,23 +307,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       }
     }
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  public void setMouseOver(final boolean mouseOver) {
-    if (this.isMouseOver != mouseOver) {
-      // Change isMouseOver field before checking to invalidate.
-      this.isMouseOver = mouseOver;
-      // Check if descendents are affected (e.g. div:hover a { ... } )
-      this.invalidateDescendentsForHover();
-      if (this.hasHoverStyle()) {
-        // TODO: OPTIMIZATION: In some cases it should be much
-        // better to simply invalidate the "look" of the node.
-        this.informInvalid();
-      }
-    }
-  }
-  */
 
   private void invalidateDescendentsForHover() {
     synchronized (this.treeLock) {
@@ -531,12 +331,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  //TODO to be removed during code cleanup
-  /*
-  private Boolean isHoverStyle = null;
-  private Map<HTMLElementImpl, Boolean> hasHoverStyleByElement = null;
-  */
-
   //TODO: need to optimize it by checking if there is hover style for the given element
   private boolean hasHoverStyle() {
     return true;
@@ -546,74 +340,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   private boolean hasHoverStyle(final HTMLElementImpl ancestor) {
     return true;
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  private boolean hasHoverStyle() {
-    Boolean ihs;
-    synchronized (this) {
-      ihs = this.isHoverStyle;
-      if (ihs != null) {
-        return ihs.booleanValue();
-      }
-    }
-    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
-    if (doc == null) {
-      ihs = Boolean.FALSE;
-    } else {
-      final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
-      final String id = this.getId();
-      final String elementName = this.getTagName();
-      final String classNames = this.getClassName();
-      String[] classNameArray = null;
-      if (classNames != null && classNames.length() != 0) {
-        classNameArray = Strings.split(classNames);
-      }
-      ihs = Boolean.valueOf(ssa.affectedByPseudoNameInAncestor(this, this, elementName, id, classNameArray, "hover"));
-    }
-    synchronized (this) {
-      this.isHoverStyle = ihs;
-    }
-    return ihs.booleanValue();
-  }
-
-  private boolean hasHoverStyle(final HTMLElementImpl ancestor) {
-    Map<HTMLElementImpl, Boolean> ihs;
-    synchronized (this) {
-      ihs = this.hasHoverStyleByElement;
-      if (ihs != null) {
-        final Boolean f = ihs.get(ancestor);
-        if (f != null) {
-          return f.booleanValue();
-        }
-      }
-    }
-    Boolean hhs;
-    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
-    if (doc == null) {
-      hhs = Boolean.FALSE;
-    } else {
-      final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
-      final String id = this.getId();
-      final String elementName = this.getTagName();
-      final String classNames = this.getClassName();
-      String[] classNameArray = null;
-      if (classNames != null && classNames.length() != 0) {
-        classNameArray = Strings.split(classNames);
-      }
-      hhs = Boolean.valueOf(ssa.affectedByPseudoNameInAncestor(this, ancestor, elementName, id, classNameArray, "hover"));
-    }
-    synchronized (this) {
-      ihs = this.hasHoverStyleByElement;
-      if (ihs == null) {
-        ihs = new HashMap<>(2);
-        this.hasHoverStyleByElement = ihs;
-      }
-      ihs.put(ancestor, hhs);
-    }
-    return hhs.booleanValue();
-  }
-  */
 
   /**
    * Gets the pseudo-element lowercase names currently applicable to this
@@ -630,19 +356,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
     return pnset;
   }
-
-  //TODO to be removed during code cleanup
-  /*
-  protected final Collection<CSSStyleDeclaration> findStyleDeclarations(final String elementName, final String id, final String className,
-      final Set<String> pseudoNames) {
-    final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
-    if (doc == null) {
-      return null;
-    }
-    final StyleSheetAggregator ssa = doc.getStyleSheetAggregator();
-    return ssa.getActiveStyleDeclarations(this, elementName, id, className, pseudoNames);
-  }
-  */
 
   public void informInvalid() {
     // This is called when an attribute or child changes.
