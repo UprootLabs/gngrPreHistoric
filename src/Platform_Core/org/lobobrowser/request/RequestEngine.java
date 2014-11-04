@@ -426,6 +426,13 @@ public final class RequestEngine {
               if (CacheInfo.HEADER_REQUEST_TIME.equalsIgnoreCase(headerKey)) {
                 continue;
               }
+
+              // Fix #142: When stored in cache, decoding of input stream has been already done.  Hence, don't store the content-encoding header
+              // TODO: Evaluate the trade-offs of storing the original response with compression. Will save disk-space but increase read-back time.
+              if ("content-encoding".equalsIgnoreCase(headerKey)) {
+                continue;
+              }
+
               final String headerPrefix = headerKey == null || headerKey.length() == 0 ? "" : headerKey + ": ";
               final byte[] headerBytes = (headerPrefix + headerValue + "\r\n").getBytes("ISO-8859-1");
               out.write(headerBytes);
