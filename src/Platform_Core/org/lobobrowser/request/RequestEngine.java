@@ -393,7 +393,9 @@ public final class RequestEngine {
           final long currentTime = System.currentTimeMillis();
           logInfo("cache(): url=" + url + ",content.length=" + content.length + ",currentTime=" + currentTime);
           final Long expiration = Urls.getExpiration(connection, currentTime);
-          storeCacheEntry(url, connection, content, altPersistentObject, altObject, approxAltObjectSize, currentTime, expiration);
+          if (expiration != null && expiration > 0) {
+            storeCacheEntry(url, connection, content, altPersistentObject, altObject, approxAltObjectSize, currentTime, expiration);
+          }
         } catch (final Exception err) {
           logger.log(Level.WARNING, "cache()", err);
         }
