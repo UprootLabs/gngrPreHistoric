@@ -467,7 +467,8 @@ public final class RequestEngine {
               objOut.flush();
               final byte[] byteArray = fileOut.toByteArray();
               if (byteArray.length == 0) {
-                logger.log(Level.WARNING, "cache(): Serialized content has zero bytes for persistent object " + altPersistentObject + ".");
+                logger
+                    .log(Level.WARNING, "cache(): Serialized content has zero bytes for persistent object " + altPersistentObject + ".");
               }
               CacheManager.putPersistent(url, byteArray, true);
             } catch (final Exception err) {
