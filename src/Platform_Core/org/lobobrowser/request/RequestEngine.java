@@ -358,10 +358,9 @@ public final class RequestEngine {
       // the local file system, yet it's necessary to be able to load
       // a cache file.
       public CacheInfo run() {
-        MemoryCacheEntry entry;
         byte[] persistentContent = null;
         final CacheManager cm = CacheManager.getInstance();
-        entry = (MemoryCacheEntry) cm.getTransient(url);
+        final MemoryCacheEntry entry = (MemoryCacheEntry) cm.getTransient(url);
         if (entry == null) {
           if (!"file".equalsIgnoreCase(url.getProtocol()) || !Strings.isBlank(url.getHost())) {
             try {
