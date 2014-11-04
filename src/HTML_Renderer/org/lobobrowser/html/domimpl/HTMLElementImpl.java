@@ -358,6 +358,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     super.informInvalid();
   }
 
+  // TODO: Use the handleAttributeChanged() system and remove informInvalidAttribute
   private void informInvalidAttibute(final String normalName) {
     if (isAttachedToDocument()) {
       // This is called when an attribute changes while
