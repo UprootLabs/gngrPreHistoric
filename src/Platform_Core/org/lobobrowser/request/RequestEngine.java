@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -391,96 +392,103 @@ public final class RequestEngine {
         try {
           final long currentTime = System.currentTimeMillis();
           logInfo("cache(): url=" + url + ",content.length=" + content.length + ",currentTime=" + currentTime);
-          int actualApproxObjectSize = 0;
-          if (altObject != null) {
-            if (approxAltObjectSize < content.length) {
-              actualApproxObjectSize = content.length;
-            } else {
-              actualApproxObjectSize = approxAltObjectSize;
-            }
-          }
           final Long expiration = Urls.getExpiration(connection, currentTime);
-          final List<NameValuePair> headers = Urls.getHeaders(connection);
-          final MemoryCacheEntry memEntry = new MemoryCacheEntry(content, headers, expiration, altObject, actualApproxObjectSize);
-          final int approxMemEntrySize = content.length + (altObject == null ? 0 : approxAltObjectSize);
-          final CacheManager cm = CacheManager.getInstance();
-          cm.putTransient(url, memEntry, approxMemEntrySize);
-          final ByteArrayOutputStream out = new ByteArrayOutputStream();
-          try {
-            boolean hadDate = false;
-            boolean hadContentLength = false;
-            for (int counter = 0; true; counter++) {
-              final String headerKey = connection.getHeaderFieldKey(counter);
-              if (headerKey != null) {
-                if (!hadDate && "date".equalsIgnoreCase(headerKey)) {
-                  hadDate = true;
-                }
-                if (!hadContentLength && "content-length".equalsIgnoreCase(headerKey)) {
-                  hadContentLength = true;
-                }
-              }
-              final String headerValue = connection.getHeaderField(counter);
-              if (headerValue == null) {
-                break;
-              }
-              if (CacheInfo.HEADER_REQUEST_TIME.equalsIgnoreCase(headerKey)) {
-                continue;
-              }
-
-              // Fix #142: When stored in cache, decoding of input stream has been already done.  Hence, don't store the content-encoding header
-              // TODO: Evaluate the trade-offs of storing the original response with compression. Will save disk-space but increase read-back time.
-              if ("content-encoding".equalsIgnoreCase(headerKey)) {
-                continue;
-              }
-
-              final String headerPrefix = headerKey == null || headerKey.length() == 0 ? "" : headerKey + ": ";
-              final byte[] headerBytes = (headerPrefix + headerValue + "\r\n").getBytes("ISO-8859-1");
-              out.write(headerBytes);
-            }
-            if (!hadDate) {
-              final String currentDate = Urls.PATTERN_RFC1123.format(new java.util.Date());
-              final byte[] headerBytes = ("Date: " + currentDate + "\r\n").getBytes("ISO-8859-1");
-              out.write(headerBytes);
-            }
-            if (!hadContentLength) {
-              final byte[] headerBytes = ("Content-Length: " + content.length + "\r\n").getBytes("ISO-8859-1");
-              out.write(headerBytes);
-            }
-            final byte[] rtHeaderBytes = (CacheInfo.HEADER_REQUEST_TIME + ": " + currentTime + "\r\n").getBytes("ISO-8859-1");
-            out.write(rtHeaderBytes);
-            out.write(IORoutines.LINE_BREAK_BYTES);
-            out.write(content);
-          } finally {
-            out.close();
-          }
-          try {
-            CacheManager.putPersistent(url, out.toByteArray(), false);
-          } catch (final Exception err) {
-            logger.log(Level.WARNING, "cache(): Unable to cache response content.", err);
-          }
-          if (altPersistentObject != null) {
-            try {
-              final ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
-              // No need to buffer - Java API already does.
-              final ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-              objOut.writeObject(altPersistentObject);
-              objOut.flush();
-              final byte[] byteArray = fileOut.toByteArray();
-              if (byteArray.length == 0) {
-                logger
-                    .log(Level.WARNING, "cache(): Serialized content has zero bytes for persistent object " + altPersistentObject + ".");
-              }
-              CacheManager.putPersistent(url, byteArray, true);
-            } catch (final Exception err) {
-              logger.log(Level.WARNING, "cache(): Unable to write persistent cached object.", err);
-            }
-          }
+          storeCacheEntry(url, connection, content, altPersistentObject, altObject, approxAltObjectSize, currentTime, expiration);
         } catch (final Exception err) {
           logger.log(Level.WARNING, "cache()", err);
         }
         return null;
       }
+
     });
+  }
+
+  private static void storeCacheEntry(final java.net.URL url, final URLConnection connection, final byte[] content,
+      final java.io.Serializable altPersistentObject, final Object altObject, final int approxAltObjectSize, final long currentTime,
+      final Long expiration) throws UnsupportedEncodingException, IOException {
+    int actualApproxObjectSize = 0;
+    if (altObject != null) {
+      if (approxAltObjectSize < content.length) {
+        actualApproxObjectSize = content.length;
+      } else {
+        actualApproxObjectSize = approxAltObjectSize;
+      }
+    }
+    final List<NameValuePair> headers = Urls.getHeaders(connection);
+    final MemoryCacheEntry memEntry = new MemoryCacheEntry(content, headers, expiration, altObject, actualApproxObjectSize);
+    final int approxMemEntrySize = content.length + (altObject == null ? 0 : approxAltObjectSize);
+    final CacheManager cm = CacheManager.getInstance();
+    cm.putTransient(url, memEntry, approxMemEntrySize);
+    final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    try {
+      boolean hadDate = false;
+      boolean hadContentLength = false;
+      for (int counter = 0; true; counter++) {
+        final String headerKey = connection.getHeaderFieldKey(counter);
+        if (headerKey != null) {
+          if (!hadDate && "date".equalsIgnoreCase(headerKey)) {
+            hadDate = true;
+          }
+          if (!hadContentLength && "content-length".equalsIgnoreCase(headerKey)) {
+            hadContentLength = true;
+          }
+        }
+        final String headerValue = connection.getHeaderField(counter);
+        if (headerValue == null) {
+          break;
+        }
+        if (CacheInfo.HEADER_REQUEST_TIME.equalsIgnoreCase(headerKey)) {
+          continue;
+        }
+
+        // Fix #142: When stored in cache, decoding of input stream has been already done.  Hence, don't store the content-encoding header
+        // TODO: Evaluate the trade-offs of storing the original response with compression. Will save disk-space but increase read-back time.
+        if ("content-encoding".equalsIgnoreCase(headerKey)) {
+          continue;
+        }
+
+        final String headerPrefix = headerKey == null || headerKey.length() == 0 ? "" : headerKey + ": ";
+        final byte[] headerBytes = (headerPrefix + headerValue + "\r\n").getBytes("ISO-8859-1");
+        out.write(headerBytes);
+      }
+      if (!hadDate) {
+        final String currentDate = Urls.PATTERN_RFC1123.format(new java.util.Date());
+        final byte[] headerBytes = ("Date: " + currentDate + "\r\n").getBytes("ISO-8859-1");
+        out.write(headerBytes);
+      }
+      if (!hadContentLength) {
+        final byte[] headerBytes = ("Content-Length: " + content.length + "\r\n").getBytes("ISO-8859-1");
+        out.write(headerBytes);
+      }
+      final byte[] rtHeaderBytes = (CacheInfo.HEADER_REQUEST_TIME + ": " + currentTime + "\r\n").getBytes("ISO-8859-1");
+      out.write(rtHeaderBytes);
+      out.write(IORoutines.LINE_BREAK_BYTES);
+      out.write(content);
+    } finally {
+      out.close();
+    }
+    try {
+      CacheManager.putPersistent(url, out.toByteArray(), false);
+    } catch (final Exception err) {
+      logger.log(Level.WARNING, "cache(): Unable to cache response content.", err);
+    }
+    if (altPersistentObject != null) {
+      try {
+        final ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
+        // No need to buffer - Java API already does.
+        final ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+        objOut.writeObject(altPersistentObject);
+        objOut.flush();
+        final byte[] byteArray = fileOut.toByteArray();
+        if (byteArray.length == 0) {
+          logger
+              .log(Level.WARNING, "cache(): Serialized content has zero bytes for persistent object " + altPersistentObject + ".");
+        }
+        CacheManager.putPersistent(url, byteArray, true);
+      } catch (final Exception err) {
+        logger.log(Level.WARNING, "cache(): Unable to write persistent cached object.", err);
+      }
+    }
   }
 
   private static boolean mayBeCached(final HttpURLConnection connection) {
