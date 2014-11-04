@@ -353,6 +353,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 
   public void informInvalid() {
     // This is called when an attribute or child changes.
+    // TODO: forgetStyle can call informInvalid() since informInvalid() seems to always follow forgetStyle()
     this.forgetStyle(false);
     super.informInvalid();
   }
@@ -362,11 +363,23 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     // the element is allowing notifications.
     if ("style".equals(normalName)) {
       this.forgetLocalStyle();
-    } else if ("id".equals(normalName) || "class".equals(normalName)) {
-      this.forgetStyle(false);
     }
-    // Call super implementation of informValid().
+
+    forgetStyle(true);
+    informInvalidRecursive();
+  }
+
+  private void informInvalidRecursive() {
     super.informInvalid();
+    NodeImpl[] nodeList = this.getChildrenArray();
+    if (nodeList != null) {
+      for (NodeImpl n : nodeList) {
+        if (n instanceof HTMLElementImpl) {
+          HTMLElementImpl htmlElementImpl = (HTMLElementImpl) n;
+          htmlElementImpl.informInvalidRecursive();
+        }
+      }
+    }
   }
 
   /**
