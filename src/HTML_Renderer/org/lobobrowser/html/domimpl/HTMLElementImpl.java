@@ -359,14 +359,16 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   }
 
   private void informInvalidAttibute(final String normalName) {
-    // This is called when an attribute changes while
-    // the element is allowing notifications.
-    if ("style".equals(normalName)) {
-      this.forgetLocalStyle();
-    }
+    if (isAttachedToDocument()) {
+      // This is called when an attribute changes while
+      // the element is allowing notifications.
+      if ("style".equals(normalName)) {
+        this.forgetLocalStyle();
+      }
 
-    forgetStyle(true);
-    informInvalidRecursive();
+      forgetStyle(true);
+      informInvalidRecursive();
+    }
   }
 
   private void informInvalidRecursive() {
