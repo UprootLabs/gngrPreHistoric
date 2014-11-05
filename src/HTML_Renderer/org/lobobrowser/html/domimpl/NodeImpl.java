@@ -106,9 +106,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   public Node appendChild(final Node newChild) throws DOMException {
     synchronized (this.treeLock) {
       if (isInclusiveAncestorOf(newChild)) {
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Trying to append an element which is same as the current node or already a descendant.");
-      }
-      if ((newChild instanceof NodeImpl) && ((NodeImpl) newChild).isInclusiveAncestorOf(this)) {
+        final Node prevParent = newChild.getParentNode();
+        if (prevParent instanceof NodeImpl) {
+          ((NodeImpl) prevParent).removeChild(newChild);
+        }
+      } else if ((newChild instanceof NodeImpl) && ((NodeImpl) newChild).isInclusiveAncestorOf(this)) {
         throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Trying to append an ancestor element.");
       }
 
