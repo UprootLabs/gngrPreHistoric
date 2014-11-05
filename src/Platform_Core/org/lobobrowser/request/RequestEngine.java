@@ -689,7 +689,7 @@ public final class RequestEngine {
   }
 
   private static boolean isOKToRetrieveFromCache(final RequestType requestType) {
-    return false && requestType != RequestType.SOFT_RELOAD && requestType !=
+    return requestType != RequestType.SOFT_RELOAD && requestType !=
     RequestType.HARD_RELOAD && requestType != RequestType.DOWNLOAD;
 
   }
