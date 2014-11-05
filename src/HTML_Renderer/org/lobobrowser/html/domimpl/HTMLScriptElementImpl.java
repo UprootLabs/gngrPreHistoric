@@ -108,15 +108,6 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     this.setAttribute("type", type);
   }
 
-  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      ((HTMLDocumentImpl) document).addJob(() -> processScript());
-      // this.processScript();
-    }
-
-    return super.setUserData(key, data, handler);
-  }
-
   protected final void processScript() {
     final UserAgentContext bcontext = this.getUserAgentContext();
     if (bcontext == null) {
@@ -208,5 +199,15 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
 
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
+  }
+
+  @Override
+  protected void handleDocumentAttachmentChanged() {
+    if (isAttachedToDocument()) {
+      ((HTMLDocumentImpl) document).addJob(() -> processScript());
+    } else {
+      // TODO What does script element do when detached?
+    }
+    super.handleDocumentAttachmentChanged();
   }
 }
