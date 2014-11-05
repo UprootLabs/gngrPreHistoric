@@ -586,10 +586,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
     final HtmlParser parser = new HtmlParser(document.getUserAgentContext(), document, null, null, null);
     synchronized (this) {
-      final ArrayList<Node> nl = this.nodeList;
-      if (nl != null) {
-        nl.clear();
-      }
+      removeAllChildrenImpl();
     }
     // Should not synchronize around parser probably.
     try {
