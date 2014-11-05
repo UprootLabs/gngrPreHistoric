@@ -105,6 +105,13 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   public Node appendChild(final Node newChild) throws DOMException {
     synchronized (this.treeLock) {
+      if (isInclusiveAncestorOf(newChild)) {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Trying to append an element which is same as the current node or already a descendant.");
+      }
+      if ((newChild instanceof NodeImpl) && ((NodeImpl) newChild).isInclusiveAncestorOf(this)) {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Trying to append an ancestor element.");
+      }
+
       ArrayList<Node> nl = this.nodeList;
       if (nl == null) {
         nl = new ArrayList<>(3);
@@ -313,6 +320,16 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     }
   }
 
+  private boolean isInclusiveAncestorOf(final Node other) {
+    if (other == this) {
+      return true;
+    } else if (other == null) {
+      return false;
+    } else {
+      return this.isAncestorOf(other);
+    }
+  }
+
   public short compareDocumentPosition(final Node other) throws DOMException {
     final Node parent = this.getParentNode();
     if (!(other instanceof NodeImpl)) {
@@ -435,6 +452,13 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   public Node replaceChild(final Node newChild, final Node oldChild) throws DOMException {
     synchronized (this.treeLock) {
+      if (this.isInclusiveAncestorOf(newChild)) {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild is already a child of the node");
+      }
+      if ((newChild instanceof NodeImpl) && ((NodeImpl) newChild).isInclusiveAncestorOf(this)) {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Trying to set an ancestor element as a child.");
+      }
+
       final ArrayList<Node> nl = this.nodeList;
       final int idx = nl == null ? -1 : nl.indexOf(oldChild);
       if (idx == -1) {
