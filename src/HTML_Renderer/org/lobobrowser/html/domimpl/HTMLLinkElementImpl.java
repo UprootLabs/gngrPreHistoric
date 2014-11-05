@@ -136,18 +136,6 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     this.setAttribute("type", type);
   }
 
-  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      this.processLinkHelper(true);
-    }
-    // else
-    // if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key))
-    // {
-    // this.informDocumentInvalid();
-    // }
-    return super.setUserData(key, data, handler);
-  }
-
   // TODO can go in Urls util class.
   private boolean isWellFormedURL() {
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
