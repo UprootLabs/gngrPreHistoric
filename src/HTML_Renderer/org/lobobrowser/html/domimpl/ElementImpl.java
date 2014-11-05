@@ -429,12 +429,9 @@ public class ElementImpl extends NodeImpl implements Element {
       this.warn("setInnerText(): Element " + this + " does not belong to a document.");
       return;
     }
-    synchronized (this.treeLock) {
-      final ArrayList<Node> nl = this.nodeList;
-      if (nl != null) {
-        nl.clear();
-      }
-    }
+
+    removeAllChildrenImpl();
+
     // Create node and call appendChild outside of synchronized block.
     final Node textNode = document.createTextNode(newText);
     this.appendChild(textNode);
