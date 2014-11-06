@@ -424,8 +424,8 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public void setInnerText(final String newText) {
-    // TODO: Is this check really required? Can't we set inner text while the node is not attached to document?
-    if (!isAttachedToDocument()) {
+    final org.w3c.dom.Document document = this.document;
+    if (document == null) {
       this.warn("setInnerText(): Element " + this + " does not belong to a document.");
       return;
     }
