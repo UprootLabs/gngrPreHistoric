@@ -176,8 +176,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   int getChildCount() {
-    final ArrayList<Node> nl = this.nodeList;
     synchronized (this.treeLock) {
+      final ArrayList<Node> nl = this.nodeList;
       return nl == null ? 0 : nl.size();
     }
   }
