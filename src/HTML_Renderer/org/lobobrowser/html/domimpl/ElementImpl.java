@@ -424,6 +424,7 @@ public class ElementImpl extends NodeImpl implements Element {
   }
 
   public void setInnerText(final String newText) {
+    // TODO: Is this check for owner document really required?
     final org.w3c.dom.Document document = this.document;
     if (document == null) {
       this.warn("setInnerText(): Element " + this + " does not belong to a document.");
