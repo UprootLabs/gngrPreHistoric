@@ -542,7 +542,8 @@ public class HtmlValues {
       return (int) Math.round(dpi * inches);
     } else if (lcSpec.endsWith("ex") && renderState != null) {
       // Factor below is to try to match size in other browsers.
-      final double xHeight = renderState.getFontMetrics().getAscent() * 0.47;
+      // Update: for #157, the factor of 0.47 was too low when testing with reddit homepage (the vote count).
+      final double xHeight = renderState.getFontMetrics().getAscent() * 0.6;
       final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
       try {
