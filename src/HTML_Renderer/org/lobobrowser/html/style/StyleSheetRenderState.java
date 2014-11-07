@@ -210,7 +210,7 @@ public class StyleSheetRenderState implements RenderState {
     }
     if (newFontSize != null) {
       try {
-        fontSize = new Float(HtmlValues.getFontSize(newFontSize, prevRenderState));
+        fontSize = new Float(HtmlValues.getFontSize(newFontSize, prs));
       } catch (final Exception err) {
         fontSize = HtmlValues.DEFAULT_FONT_SIZE_BOX;
       }

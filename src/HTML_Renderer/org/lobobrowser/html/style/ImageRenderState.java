@@ -29,6 +29,7 @@ public class ImageRenderState extends StyleSheetRenderState {
     super(prevRenderState, element);
   }
 
+  // TODO: if this logic can be moved to attr2Styles, then this render state could be chopped off.
   public HtmlInsets getMarginInsets() {
     HtmlInsets mi = this.marginInsets;
     if (mi != INVALID_INSETS) {

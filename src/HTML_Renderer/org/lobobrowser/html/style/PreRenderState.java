@@ -28,13 +28,11 @@ public class PreRenderState extends BlockRenderState {
   }
 
   public int getWhiteSpace() {
+    // TODO: The common parts of this and super method could be extracted into a single function
     final Integer ws = this.iWhiteSpace;
     if (ws != null) {
       return ws.intValue();
     }
-    /*
-    final AbstractCSS2Properties props = this.getCssProperties();
-    */
     final JStyleProperties props = this.getCssProperties();
     final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;

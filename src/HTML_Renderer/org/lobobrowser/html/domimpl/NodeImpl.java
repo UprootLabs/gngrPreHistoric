@@ -1133,9 +1133,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   public RenderState getRenderState() {
     // Generally called from the GUI thread, except for
     // offset properties.
-    RenderState rs;
     synchronized (this.treeLock) {
-      rs = this.renderState;
+      RenderState rs = this.renderState;
       if (rs != INVALID_RENDER_STATE) {
         return rs;
       }

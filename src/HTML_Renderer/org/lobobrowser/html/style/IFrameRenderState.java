@@ -29,6 +29,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
     super(prevRenderState, element);
   }
 
+  // TODO: if this logic can be moved to attr2Styles, then this render state could be chopped off.
   public int getOverflowX() {
     int overflow = this.overflowX;
     if (overflow != -1) {
