@@ -33,14 +33,12 @@ public class BlockQuoteRenderState extends AbstractMarginRenderState {
 
   protected HtmlInsets getDefaultMarginInsets() {
     final HtmlInsets insets = new HtmlInsets();
-    final RenderState prevRS = this.getPreviousRenderState();
-    final FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
+    final FontMetrics fm = this.getFontMetrics();
     insets.top = fm.getHeight();
     insets.bottom = fm.getHeight();
     insets.topType = HtmlInsets.TYPE_PIXELS;
     insets.bottomType = HtmlInsets.TYPE_PIXELS;
     final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-    final double leftInches = 30 / 72.0;
     insets.left = (int) Math.round(dpi * 30.0 / 72.0);
     insets.right = insets.left / 2;
     insets.leftType = HtmlInsets.TYPE_PIXELS;

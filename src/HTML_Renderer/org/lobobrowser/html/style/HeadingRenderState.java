@@ -31,8 +31,7 @@ public class HeadingRenderState extends AbstractMarginRenderState {
 
   protected HtmlInsets getDefaultMarginInsets() {
     final HtmlInsets insets = new HtmlInsets();
-    final RenderState prevRS = this.getPreviousRenderState();
-    final FontMetrics fm = prevRS == null ? this.getFontMetrics() : prevRS.getFontMetrics();
+    final FontMetrics fm = this.getFontMetrics();
     insets.top = fm.getHeight();
     insets.bottom = fm.getHeight();
     insets.topType = HtmlInsets.TYPE_PIXELS;

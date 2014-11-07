@@ -113,8 +113,6 @@ public interface RenderState {
 
   public void setHighlight(boolean highlight);
 
-  public RenderState getPreviousRenderState();
-
   public int getAlignXPercent();
 
   public int getAlignYPercent();

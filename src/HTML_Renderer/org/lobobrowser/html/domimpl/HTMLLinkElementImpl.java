@@ -29,10 +29,8 @@ import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
 import org.lobobrowser.html.style.CSSUtilities;
-import org.lobobrowser.html.style.ColorRenderState;
 import org.lobobrowser.html.style.CursorRenderState;
 import org.lobobrowser.html.style.RenderState;
-import org.lobobrowser.html.style.TextDecorationRenderState;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.gui.ColorFactory;
@@ -215,8 +213,9 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
 
   protected RenderState createRenderState(RenderState prevRenderState) {
     if (this.hasAttribute("href")) {
-      prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_UNDERLINE);
-      prevRenderState = new ColorRenderState(prevRenderState, this.getLinkColor());
+      // Removed the following two as part of #135
+      // prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_UNDERLINE);
+      // prevRenderState = new ColorRenderState(prevRenderState, this.getLinkColor());
       prevRenderState = new CursorRenderState(prevRenderState, Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)));
     }
     return super.createRenderState(prevRenderState);

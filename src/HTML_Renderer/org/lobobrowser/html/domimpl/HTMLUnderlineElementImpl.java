@@ -20,19 +20,14 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.RenderState;
-import org.lobobrowser.html.style.TextDecorationRenderState;
 
 /**
  * Element used for U.
  */
+// TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLUnderlineElementImpl extends HTMLAbstractUIElement {
   public HTMLUnderlineElementImpl(final String name) {
     super(name);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
-    prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_UNDERLINE);
-    return super.createRenderState(prevRenderState);
-  }
 }

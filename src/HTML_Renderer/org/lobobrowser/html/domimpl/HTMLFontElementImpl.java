@@ -20,7 +20,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html.HTMLFontElement;
 
 public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFontElement {
@@ -50,10 +49,6 @@ public class HTMLFontElementImpl extends HTMLAbstractUIElement implements HTMLFo
 
   public void setSize(final String size) {
     this.setAttribute("size", size);
-  }
-
-  protected RenderState createRenderState(final RenderState prevRenderState) {
-    return super.createRenderState(prevRenderState);
   }
 
 }

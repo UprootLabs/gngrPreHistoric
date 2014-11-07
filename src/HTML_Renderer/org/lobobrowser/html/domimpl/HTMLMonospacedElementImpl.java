@@ -20,19 +20,13 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.FontNameRenderState;
-import org.lobobrowser.html.style.RenderState;
 
 /**
  * Element used for TT and CODE.
  */
+// TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLMonospacedElementImpl extends HTMLAbstractUIElement {
   public HTMLMonospacedElementImpl(final String name) {
     super(name);
-  }
-
-  protected RenderState createRenderState(RenderState prevRenderState) {
-    prevRenderState = new FontNameRenderState(prevRenderState, "Monospaced");
-    return super.createRenderState(prevRenderState);
   }
 }

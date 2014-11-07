@@ -34,10 +34,6 @@ public abstract class RenderStateDelegator implements RenderState {
     this.delegate = delegate;
   }
 
-  public RenderState getPreviousRenderState() {
-    return this.delegate;
-  }
-
   public int getAlignXPercent() {
     return delegate.getAlignXPercent();
   }

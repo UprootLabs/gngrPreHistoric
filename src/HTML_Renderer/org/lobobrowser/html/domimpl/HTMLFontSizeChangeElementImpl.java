@@ -20,22 +20,14 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.RenderState;
 
 /**
  * This element is used for SMALL and BIG.
  */
+// TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLFontSizeChangeElementImpl extends HTMLAbstractUIElement {
-  //TODO check whether being used
-  private final int fontChange;
-
   public HTMLFontSizeChangeElementImpl(final String name, final int fontChange) {
     super(name);
-    this.fontChange = fontChange;
-  }
-
-  protected RenderState createRenderState(final RenderState prevRenderState) {
-    return super.createRenderState(prevRenderState);
   }
 
 }

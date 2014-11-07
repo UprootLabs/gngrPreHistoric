@@ -20,19 +20,14 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.FontStyleRenderState;
-import org.lobobrowser.html.style.RenderState;
 
 /**
  * Element used for B and STRONG.
  */
+// TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLStrongElementImpl extends HTMLAbstractUIElement {
   public HTMLStrongElementImpl(final String name) {
     super(name);
   }
 
-  protected RenderState createRenderState(RenderState prevRenderState) {
-    prevRenderState = new FontStyleRenderState(prevRenderState, java.awt.Font.BOLD);
-    return super.createRenderState(prevRenderState);
-  }
 }

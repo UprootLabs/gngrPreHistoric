@@ -28,7 +28,6 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Toolkit;
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -76,9 +75,6 @@ public class StyleSheetRenderState implements RenderState {
   private boolean iHighlight;
 
   protected BackgroundInfo iBackgroundInfo = INVALID_BACKGROUND_INFO;
-
-  static {
-  }
 
   public StyleSheetRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
     this.prevRenderState = prevRenderState;
@@ -140,13 +136,8 @@ public class StyleSheetRenderState implements RenderState {
     return displayInt;
   }
 
-  public RenderState getPreviousRenderState() {
-    return this.prevRenderState;
-  }
-
   public int getFontBase() {
-    final RenderState prs = this.prevRenderState;
-    return prs == null ? 3 : prs.getFontBase();
+    return 3;
   }
 
   public void repaint() {
@@ -192,11 +183,6 @@ public class StyleSheetRenderState implements RenderState {
     final JStyleProperties style = this.getCssProperties();
     final RenderState prs = this.prevRenderState;
     if (style == null) {
-      if (prs != null) {
-        f = prs.getFont();
-        this.iFont = f;
-        return f;
-      }
       f = DEFAULT_FONT;
       this.iFont = f;
       return f;
@@ -217,11 +203,6 @@ public class StyleSheetRenderState implements RenderState {
     final boolean isSub = verticalAlign != null && verticalAlign.equalsIgnoreCase("sub");
     if (newFontSize == null && newFontWeight == null && newFontStyle == null && newFontFamily == null && newFontVariant == null) {
       if (!isSuper && !isSub) {
-        if (prs != null) {
-          f = prs.getFont();
-          this.iFont = f;
-          return f;
-        }
         f = DEFAULT_FONT;
         this.iFont = f;
         return f;
@@ -229,7 +210,7 @@ public class StyleSheetRenderState implements RenderState {
     }
     if (newFontSize != null) {
       try {
-        fontSize = new Float(HtmlValues.getFontSize(newFontSize, prs));
+        fontSize = new Float(HtmlValues.getFontSize(newFontSize, prevRenderState));
       } catch (final Exception err) {
         fontSize = HtmlValues.DEFAULT_FONT_SIZE_BOX;
       }
@@ -242,32 +223,18 @@ public class StyleSheetRenderState implements RenderState {
     }
     if (newFontFamily != null) {
       fontFamily = newFontFamily;
-    } else if (fontFamily == null && prs != null) {
-      fontFamily = prs.getFont().getFamily();
     }
     if (fontFamily == null) {
       fontFamily = DEFAULT_FONT_FAMILY;
     }
     if (newFontStyle != null) {
       fontStyle = newFontStyle;
-    } else if (fontStyle == null && prs != null) {
-      final int fstyle = prs.getFont().getStyle();
-      if ((fstyle & Font.ITALIC) != 0) {
-        fontStyle = "italic";
-      }
     }
     if (newFontVariant != null) {
       fontVariant = newFontVariant;
-    } else if (prs != null) {
-      // TODO: smallcaps?
     }
     if (newFontWeight != null) {
       fontWeight = newFontWeight;
-    } else if (fontWeight == null && prs != null) {
-      final int fstyle = prs.getFont().getStyle();
-      if ((fstyle & Font.BOLD) != 0) {
-        fontWeight = "bold";
-      }
     }
     final HTMLDocumentImpl document = this.document;
     final Set<Locale> locales = document == null ? null : document.getLocales();
@@ -277,9 +244,6 @@ public class StyleSheetRenderState implements RenderState {
       superscript = new Integer(1);
     } else if (isSub) {
       superscript = new Integer(-1);
-    }
-    if (superscript == null && prs != null) {
-      superscript = (Integer) prs.getFont().getAttributes().get(TextAttribute.SUPERSCRIPT);
     }
     f = FONT_FACTORY.getFont(fontFamily, fontStyle, fontVariant, fontWeight, fontSize.floatValue(), locales, superscript);
     this.iFont = f;
@@ -294,14 +258,7 @@ public class StyleSheetRenderState implements RenderState {
     final JStyleProperties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getColor();
     if (colorValue == null || "".equals(colorValue)) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        c = prs.getColor();
-        this.iColor = c;
-        return c;
-      } else {
-        colorValue = "black";
-      }
+      colorValue = "black";
     }
     c = ColorFactory.getInstance().getColor(colorValue);
     this.iColor = c;
@@ -316,16 +273,6 @@ public class StyleSheetRenderState implements RenderState {
     Color localColor;
     final BackgroundInfo binfo = this.getBackgroundInfo();
     localColor = binfo == null ? null : binfo.backgroundColor;
-    if (localColor == null && this.getDisplay() == DISPLAY_INLINE) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        final Color ancestorColor = prs.getBackgroundColor();
-        if (ancestorColor != null) {
-          this.iBackgroundColor = ancestorColor;
-          return ancestorColor;
-        }
-      }
-    }
     this.iBackgroundColor = localColor;
     return localColor;
   }
@@ -342,16 +289,6 @@ public class StyleSheetRenderState implements RenderState {
     } else {
       final BackgroundInfo binfo = this.getBackgroundInfo();
       localColor = binfo == null ? null : binfo.backgroundColor;
-      if (localColor == null) {
-        final RenderState prs = this.prevRenderState;
-        if (prs != null) {
-          final Color ancestorColor = prs.getTextBackgroundColor();
-          if (ancestorColor != null) {
-            this.iTextBackgroundColor = ancestorColor;
-            return ancestorColor;
-          }
-        }
-      }
     }
     this.iTextBackgroundColor = localColor;
     return localColor;
@@ -365,14 +302,7 @@ public class StyleSheetRenderState implements RenderState {
     final JStyleProperties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getOverlayColor();
     if (colorValue == null || colorValue.length() == 0) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        c = prs.getOverlayColor();
-        this.iOverlayColor = c;
-        return c;
-      } else {
-        colorValue = null;
-      }
+      colorValue = null;
     }
     c = colorValue == null ? null : ColorFactory.getInstance().getColor(colorValue);
     this.iOverlayColor = c;
@@ -386,14 +316,6 @@ public class StyleSheetRenderState implements RenderState {
     }
     final JStyleProperties props = this.getCssProperties();
     final String tdText = props == null ? null : props.getTextDecoration();
-    if (tdText == null) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        td = prs.getTextDecorationMask();
-        this.iTextDecoration = td;
-        return td;
-      }
-    }
     td = 0;
     if (tdText != null) {
       final StringTokenizer tok = new StringTokenizer(tdText.toLowerCase(), ", \t\n\r");
@@ -423,14 +345,6 @@ public class StyleSheetRenderState implements RenderState {
     }
     final JStyleProperties props = this.getCssProperties();
     final String tdText = props == null ? null : props.getTextTransform();
-    if (tdText == null) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        tt = prs.getTextTransform();
-        this.iTextTransform = tt;
-        return tt;
-      }
-    }
     tt = 0;
     if (tdText != null) {
       if ("none".equals(tdText)) {
@@ -528,10 +442,6 @@ public class StyleSheetRenderState implements RenderState {
       if (element != null) {
         textAlign = element.getAttribute("align");
         if (textAlign == null || textAlign.length() == 0) {
-          final RenderState prs = this.prevRenderState;
-          if (prs != null) {
-            return prs.getAlignXPercent();
-          }
           textAlign = null;
         }
       }
@@ -672,14 +582,7 @@ public class StyleSheetRenderState implements RenderState {
     final JStyleProperties props = this.getCssProperties();
     tiText = props == null ? null : props.getTextIndent();
     if (tiText == null) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        final String parentText = prs.getTextIndentText();
-        this.iTextIndentText = parentText;
-        return parentText;
-      } else {
-        tiText = "";
-      }
+      tiText = "";
     }
     return tiText;
   }
@@ -708,12 +611,7 @@ public class StyleSheetRenderState implements RenderState {
     final String whiteSpaceText = props == null ? null : props.getWhiteSpace();
     int wsValue;
     if (whiteSpaceText == null) {
-      final RenderState prs = this.prevRenderState;
-      if (prs != null) {
-        wsValue = prs.getWhiteSpace();
-      } else {
-        wsValue = WS_NORMAL;
-      }
+      wsValue = WS_NORMAL;
     } else {
       final String whiteSpaceTextTL = whiteSpaceText.toLowerCase();
       if ("nowrap".equals(whiteSpaceTextTL)) {
@@ -890,11 +788,11 @@ public class StyleSheetRenderState implements RenderState {
     final JStyleProperties props = this.getCssProperties();
     int visibility;
     if (props == null) {
-      visibility = getPrevVisibility();
+      visibility = VISIBILITY_VISIBLE;
     } else {
       final String visibText = props.getVisibility();
       if (visibText == null || visibText.length() == 0) {
-        visibility = getPrevVisibility();
+        visibility = VISIBILITY_VISIBLE;
       } else {
         final String visibTextTL = visibText.toLowerCase();
         if (visibTextTL.equals("hidden")) {
@@ -910,15 +808,6 @@ public class StyleSheetRenderState implements RenderState {
     }
     this.cachedVisibility = new Integer(visibility);
     return visibility;
-  }
-
-  private int getPrevVisibility() {
-    final RenderState prs = this.prevRenderState;
-    if (prs != null) {
-      return prs.getVisibility();
-    } else {
-      return VISIBILITY_VISIBLE;
-    }
   }
 
   private Integer cachedPosition;
@@ -1103,7 +992,7 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public Optional<Cursor> getCursor() {
-    Optional<Cursor> prevCursorOpt = prevRenderState == null ? Optional.empty() : prevRenderState.getCursor();
+    final Optional<Cursor> prevCursorOpt = prevRenderState == null ? Optional.empty() : prevRenderState.getCursor();
     final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       return prevCursorOpt;

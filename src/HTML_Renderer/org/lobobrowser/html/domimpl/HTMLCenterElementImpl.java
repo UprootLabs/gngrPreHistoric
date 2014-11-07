@@ -20,17 +20,10 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.AlignXRenderState;
-import org.lobobrowser.html.style.BlockRenderState;
-import org.lobobrowser.html.style.RenderState;
 
+// TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLCenterElementImpl extends HTMLAbstractUIElement {
   public HTMLCenterElementImpl(final String name) {
     super(name);
-  }
-
-  protected RenderState createRenderState(RenderState prevRenderState) {
-    prevRenderState = new AlignXRenderState(prevRenderState, 50);
-    return new BlockRenderState(prevRenderState, this);
   }
 }
