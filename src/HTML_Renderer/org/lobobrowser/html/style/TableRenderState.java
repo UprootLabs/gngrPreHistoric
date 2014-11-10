@@ -31,10 +31,6 @@ public class TableRenderState extends StyleSheetRenderState {
     super(prevRenderState, element);
   }
 
-  public Color getTextBackgroundColor() {
-    return super.getTextBackgroundColor();
-  }
-
   protected int getDefaultDisplay() {
     return DISPLAY_TABLE;
   }
