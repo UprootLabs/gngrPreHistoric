@@ -318,7 +318,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
   public void onMouseMoved(final MouseEvent event, final int x, final int y, final boolean triggerEvent, final ModelNode limit) {
     if (triggerEvent) {
       if (this.isContainedByNode()) {
-        HtmlController.getInstance().onMouseOver(this.modelNode, event, x, y, limit);
+        HtmlController.getInstance().onMouseOver(this, this.modelNode, event, x, y, limit);
       }
     }
   }
