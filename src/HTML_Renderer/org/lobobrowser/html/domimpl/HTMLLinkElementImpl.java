@@ -20,24 +20,16 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import java.awt.Cursor;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lobobrowser.html.HtmlRendererContext;
 import org.lobobrowser.html.style.CSSUtilities;
-import org.lobobrowser.html.style.CursorRenderState;
-import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.ua.UserAgentContext;
 import org.lobobrowser.util.Urls;
-import org.lobobrowser.util.gui.ColorFactory;
-import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.html.HTMLBodyElement;
-import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLLinkElement;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -189,6 +181,11 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     }
   }
 
+  /*
+   * Not used anymore after removal of createRenderState. However, it can be re-implemented using
+   * HTMLElementImple.elementMatchCondition.
+   * Note that there are privacy implications here. It is better to understand them before
+   * re-implementing.
   private java.awt.Color getLinkColor() {
     final HTMLDocument doc = (HTMLDocument) this.document;
     if (doc != null) {
@@ -209,17 +206,18 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
       }
     }
     return java.awt.Color.BLUE;
-  }
+  }*/
 
+  /*
   protected RenderState createRenderState(RenderState prevRenderState) {
     if (this.hasAttribute("href")) {
-      // Removed the following two as part of #135
+      // Removed the following three as part of #135
       // prevRenderState = new TextDecorationRenderState(prevRenderState, RenderState.MASK_TEXTDECORATION_UNDERLINE);
       // prevRenderState = new ColorRenderState(prevRenderState, this.getLinkColor());
-      prevRenderState = new CursorRenderState(prevRenderState, Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)));
+      // prevRenderState = new CursorRenderState(prevRenderState, Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)));
     }
     return super.createRenderState(prevRenderState);
-  }
+  }*/
 
   public String toString() {
     // Javascript code often depends on this being exactly href. See js9.html.

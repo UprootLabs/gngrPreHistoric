@@ -992,7 +992,7 @@ public class StyleSheetRenderState implements RenderState {
   }
 
   public Optional<Cursor> getCursor() {
-    final Optional<Cursor> prevCursorOpt = prevRenderState == null ? Optional.empty() : prevRenderState.getCursor();
+    final Optional<Cursor> prevCursorOpt = Optional.empty();
     final JStyleProperties props = this.getCssProperties();
     if (props == null) {
       return prevCursorOpt;
@@ -1005,9 +1005,7 @@ public class StyleSheetRenderState implements RenderState {
         final String cursorTL = cursor.toLowerCase();
         // TODO: Handle more cursor types, defined here: 
         if ("default".equals(cursorTL)) {
-          return Optional.empty();
-        } else if ("hand".equals(cursorTL)) {
-          return Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+          return Optional.of(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         } else if ("pointer".equals(cursorTL)) {
           return Optional.of(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         } else if ("crosshair".equals(cursorTL)) {
