@@ -21,8 +21,6 @@
 
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.BlockRenderState;
-import org.lobobrowser.html.style.RenderState;
 import org.w3c.dom.html.HTMLDivElement;
 
 public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDivElement {
@@ -37,10 +35,6 @@ public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDiv
 
   public void setAlign(final String align) {
     this.setAttribute("align", align);
-  }
-
-  protected RenderState createRenderState(final RenderState prevRenderState) {
-    return new BlockRenderState(prevRenderState, this);
   }
 
   protected void appendInnerTextImpl(final StringBuffer buffer) {
