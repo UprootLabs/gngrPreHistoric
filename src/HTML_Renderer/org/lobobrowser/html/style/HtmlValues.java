@@ -153,6 +153,7 @@ public class HtmlValues {
     binfo.insets = insets;
   }
 
+  /* Not used by anyone
   private static int getBorderWidth(final String sizeText, final int borderStyle, final RenderState renderState) {
     if (borderStyle == BORDER_STYLE_NONE) {
       return 0;
@@ -162,7 +163,7 @@ public class HtmlValues {
       }
       return HtmlValues.getPixelSize(sizeText, renderState, DEFAULT_BORDER_WIDTH);
     }
-  }
+  }*/
 
   private static HtmlInsets updateTopInset(HtmlInsets insets, String sizeText, final RenderState renderState) {
     if (sizeText == null) {
@@ -578,6 +579,7 @@ public class HtmlValues {
     }
   }
 
+  /* This was called from BodyRenderState.getMarginInsets() which has now been commented out
   public static int getOldSyntaxPixelSizeSimple(String spec, final int errorValue) {
     if (spec == null) {
       return errorValue;
@@ -588,7 +590,7 @@ public class HtmlValues {
     } catch (final NumberFormatException nfe) {
       return errorValue;
     }
-  }
+  }*/
 
   public static java.net.URL getURIFromStyleValue(final String fullURLStyleValue) {
     final String start = "url(";

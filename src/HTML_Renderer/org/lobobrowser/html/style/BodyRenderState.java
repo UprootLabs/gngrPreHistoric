@@ -36,6 +36,7 @@ public class BodyRenderState extends StyleSheetRenderState {
     super.invalidate();
   }
 
+  // TODO: We can get rid of this if #158 is implemented
   public BackgroundInfo getBackgroundInfo() {
     BackgroundInfo binfo = this.iBackgroundInfo;
     if (binfo != INVALID_BACKGROUND_INFO) {
@@ -55,6 +56,9 @@ public class BodyRenderState extends StyleSheetRenderState {
     return binfo;
   }
 
+  // TODO: This currently doesn't have any effect because margins are being set by default styles.
+  //       It would be best to move this into StyleElements.attribute2Style() as part of #158
+  /*
   public HtmlInsets getMarginInsets() {
     HtmlInsets insets = this.marginInsets;
     if (insets != INVALID_INSETS) {
@@ -112,6 +116,6 @@ public class BodyRenderState extends StyleSheetRenderState {
     }
     this.marginInsets = insets;
     return insets;
-  }
+  }*/
 
 }
