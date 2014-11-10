@@ -42,6 +42,7 @@ public class TableRenderState extends StyleSheetRenderState {
     this.backgroundInfo = INVALID_BACKGROUND_INFO;
   }
 
+  // TODO: This could be removed after #158 is implemented
   public BackgroundInfo getBackgroundInfo() {
     BackgroundInfo binfo = this.backgroundInfo;
     if (binfo != INVALID_BACKGROUND_INFO) {
