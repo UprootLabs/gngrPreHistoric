@@ -20,19 +20,13 @@
  */
 package org.lobobrowser.html.domimpl;
 
-import org.lobobrowser.html.style.FontStyleRenderState;
-import org.lobobrowser.html.style.RenderState;
 
 /**
  * Element used for TH.
  */
+// TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLTableHeadElementImpl extends HTMLTableCellElementImpl {
   public HTMLTableHeadElementImpl(final String name) {
     super(name);
-  }
-
-  protected RenderState createRenderState(RenderState prevRenderState) {
-    prevRenderState = new FontStyleRenderState(prevRenderState, java.awt.Font.BOLD);
-    return super.createRenderState(prevRenderState);
   }
 }
