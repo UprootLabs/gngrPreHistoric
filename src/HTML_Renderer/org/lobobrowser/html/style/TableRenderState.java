@@ -73,6 +73,7 @@ public class TableRenderState extends StyleSheetRenderState {
     return binfo;
   }
 
+  /* This is being handled by attribute to style mechanism, but keeping the method here for future reference, in case that mechanism is not complete
   public BorderInfo getBorderInfo() {
     BorderInfo binfo = this.borderInfo;
     if (binfo != INVALID_BORDER_INFO) {
@@ -131,6 +132,6 @@ public class TableRenderState extends StyleSheetRenderState {
     }
     this.borderInfo = binfo;
     return binfo;
-  }
+  }*/
 
 }
