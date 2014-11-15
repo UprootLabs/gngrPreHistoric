@@ -83,19 +83,6 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
     this.setAttribute("type", type);
   }
 
-  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
-      // TODO: Check if this is still required, since we are handling this in changeDocumentAttachment()
-      this.processStyle();
-    }
-    // else
-    // if(com.steadystate.css.dom.CSSStyleSheetImpl.KEY_DISABLED_CHANGED.equals(key))
-    // {
-    // this.informDocumentInvalid();
-    // }
-    return super.setUserData(key, data, handler);
-  }
-
   // TODO: This should probably not be a nop. We should probably be handling changes to inner text.
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
