@@ -1412,8 +1412,8 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
           scanElementStyleSheets(docStyles, HTMLDocumentImpl.this);
           styleSheets.addAll(docStyles);
         }
+        return this.styleSheets;
       }
-      return this.styleSheets;
     }
 
     private void scanElementStyleSheets(final List<JStyleSheetWrapper> styles, final Node node) {
