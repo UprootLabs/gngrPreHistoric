@@ -136,7 +136,7 @@ class RTable extends BaseElementRenderable {
         final Iterator<DelayedPair> i = pairs.iterator();
         while (i.hasNext()) {
           final DelayedPair pair = i.next();
-          if (pair.targetParent == this) {
+          if (pair.containingBlock == this) {
             this.importDelayedPair(pair);
           }
         }
@@ -362,7 +362,8 @@ class RTable extends BaseElementRenderable {
 
   private void importDelayedPair(final DelayedPair pair) {
     final BoundableRenderable r = pair.child;
-    r.setOrigin(pair.x, pair.y);
+    // TODO: Important: This was uncommented because the logic is now different. See RBlockViewport for inspiration.
+    // r.setOrigin(pair.x, pair.y);
     this.addPositionedRenderable(r, false, false);
   }
 

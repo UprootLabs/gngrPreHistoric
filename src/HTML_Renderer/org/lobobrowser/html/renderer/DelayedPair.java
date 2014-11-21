@@ -20,17 +20,54 @@
  */
 package org.lobobrowser.html.renderer;
 
-public class DelayedPair {
-  public final RenderableContainer targetParent;
-  public final BoundableRenderable child;
-  public final int x;
-  public final int y;
+import org.lobobrowser.html.style.HtmlValues;
+import org.lobobrowser.html.style.RenderState;
 
-  public DelayedPair(final RenderableContainer parent, final BoundableRenderable child, final int x, final int y) {
+public class DelayedPair {
+  public final RenderableContainer containingBlock;
+  public final RenderableContainer immediateContainingBlock;
+  public final BoundableRenderable child;
+  private final String left;
+  private final String top;
+  private final String bottom;
+  private final String right;
+  private final RenderState rs;
+  public final int currY;
+
+  public DelayedPair(final RenderableContainer immediateContainingBlock, final RenderableContainer containingBlock, final BoundableRenderable child, final String left, final String right, final String top, final String bottom, final RenderState rs, final int currY) {
     super();
-    this.targetParent = parent;
+    this.immediateContainingBlock = immediateContainingBlock;
+    this.containingBlock = containingBlock;
     this.child = child;
-    this.x = x;
-    this.y = y;
+    this.left = left;
+    this.right = right;
+    this.top = top;
+    this.bottom = bottom;
+    this.rs = rs;
+    this.currY = currY;
+  }
+
+  private static Integer helperGetPixelSize(final String spec, final RenderState rs, final int errorValue, final int avail) {
+    if (spec != null) {
+      return HtmlValues.getPixelSize(spec, rs, errorValue, avail);
+    } else {
+      return null;
+    }
+  }
+
+  public Integer getLeft() {
+    return helperGetPixelSize(left, rs, 0, containingBlock.getInnerWidth());
+  }
+
+  public Integer getRight() {
+    return helperGetPixelSize(right, rs, 0, containingBlock.getInnerWidth());
+  }
+
+  public Integer getTop() {
+    return helperGetPixelSize(top, rs, 0, containingBlock.getInnerHeight());
+  }
+
+  public Integer getBottom() {
+    return helperGetPixelSize(bottom, rs, 0, containingBlock.getInnerHeight());
   }
 }

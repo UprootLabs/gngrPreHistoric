@@ -282,18 +282,6 @@ public class RBlockViewport extends BaseRCollection {
     // New floating algorithm.
     this.layoutPass((NodeImpl) this.modelNode);
 
-    final Collection<DelayedPair> delayedPairs = container.getDelayedPairs();
-    if (delayedPairs != null && delayedPairs.size() > 0) {
-      // Add positioned renderables that belong here
-      final Iterator<DelayedPair> i = delayedPairs.iterator();
-      while (i.hasNext()) {
-        final DelayedPair pair = i.next();
-        if (pair.targetParent == container) {
-          this.importDelayedPair(pair);
-        }
-      }
-    }
-
     // Compute maxY according to last block.
     int maxY = this.maxY;
     int maxYWholeBlock = maxY;
@@ -886,20 +874,27 @@ public class RBlockViewport extends BaseRCollection {
             inheritedFloatBoundsSource = floatBounds == null ? null : new ParentFloatingBoundsSource(blockShiftRight, expectedWidth, newX,
                 newY, floatBounds);
           }
-          block.layout(this.availContentWidth, this.availContentHeight, false, false, inheritedFloatBoundsSource, this.sizeOnly);
+          final boolean floating = element.getRenderState().getFloat() != RenderState.FLOAT_NONE;
+          final boolean growHorizontally = relative && !floating;
+          block.layout(this.availContentWidth, this.availContentHeight, growHorizontally, false, inheritedFloatBoundsSource, this.sizeOnly);
         } else {
           renderable.layout(this.availContentWidth, this.availContentHeight, this.sizeOnly);
         }
       }
+
       final RenderState rs = element.getRenderState();
       final String leftText = style.getLeft();
+      final String rightText = style.getRight();
+      final String bottomText = style.getBottom();
+      final String topText = style.getTop();
+
       final RLine line = this.currentLine;
       final int lineBottomY = line == null ? 0 : line.getY() + line.getHeight();
       int newLeft;
+
       if (leftText != null) {
         newLeft = HtmlValues.getPixelSize(leftText, rs, 0, this.availContentWidth);
       } else {
-        final String rightText = style.getRight();
         if (rightText != null) {
           final int right = HtmlValues.getPixelSize(rightText, rs, 0, this.availContentWidth);
           newLeft = this.desiredWidth - right - renderable.getWidth();
@@ -910,11 +905,10 @@ public class RBlockViewport extends BaseRCollection {
         }
       }
       int newTop = relative ? 0 : lineBottomY;
-      final String topText = style.getTop();
+
       if (topText != null) {
         newTop = HtmlValues.getPixelSize(topText, rs, newTop, this.availContentHeight);
       } else {
-        final String bottomText = style.getBottom();
         if (bottomText != null) {
           final int bottom = HtmlValues.getPixelSize(bottomText, rs, 0, this.availContentHeight);
           newTop = this.desiredHeight - bottom - renderable.getHeight();
@@ -945,9 +939,8 @@ public class RBlockViewport extends BaseRCollection {
           rrel.assignDimension();
         }
       } else {
-        // Schedule as delayed pair. Will be positioned after
-        // everything else.
-        this.scheduleAbsDelayedPair(renderable, newLeft, newTop);
+        // Schedule as delayed pair. Will be positioned after everything else.
+        this.scheduleAbsDelayedPair(renderable, leftText, rightText, topText, bottomText, rs, currentLine.getY() + currentLine.getHeight());
         // Does not affect bounds of this viewport yet.
         return true;
       }
@@ -1029,7 +1022,7 @@ public class RBlockViewport extends BaseRCollection {
     try {
       line.addWord(renderable);
       // Check if the line goes into the float.
-      if (floatBounds != null && cleary > liney) {
+      if (!line.isAllowOverflow() && floatBounds != null && cleary > liney) {
         final int rightOffset = this.fetchRightOffset(liney);
         final int topLineX = this.desiredWidth - rightOffset;
         if (line.getX() + line.getWidth() > topLineX) {
@@ -1214,14 +1207,10 @@ public class RBlockViewport extends BaseRCollection {
       this.currentLine.setAllowOverflow(allowOverflow);
       try {
         final int length = text.length();
-        boolean firstWord = true;
         final StringBuffer word = new StringBuffer(12);
         for (int i = 0; i < length; i++) {
           char ch = text.charAt(i);
           if (Character.isWhitespace(ch)) {
-            if (firstWord) {
-              firstWord = false;
-            }
             final int wlen = word.length();
             if (wlen > 0) {
               final RWord rword = new RWord(textNode, word.toString(), container, fm, descent, ascentPlusLeading, wordHeight, textTransform);
@@ -1613,7 +1602,9 @@ public class RBlockViewport extends BaseRCollection {
     this.scheduleFloat(floatInfo);
   }
 
-  private void scheduleAbsDelayedPair(final BoundableRenderable renderable, final int x, final int y) {
+  private void scheduleAbsDelayedPair(final BoundableRenderable renderable,
+      final String leftText, final String rightText, final String topText, final String bottomText,
+      final RenderState rs, final int currY) {
     // It gets reimported in the local
     // viewport if it turns out it can't be exported up.
     RenderableContainer container = this.container;
@@ -1638,16 +1629,62 @@ public class RBlockViewport extends BaseRCollection {
         break;
       }
     }
-    final DelayedPair pair = new DelayedPair(container, renderable, x, y);
+    final DelayedPair pair = new DelayedPair(this.container, container, renderable, leftText, rightText, topText, bottomText, rs, currY);
     this.container.addDelayedPair(pair);
   }
 
   void importDelayedPair(final DelayedPair pair) {
+    positionPairChild(pair);
     final BoundableRenderable r = pair.child;
-    r.setOrigin(pair.x, pair.y);
     this.addPositionedRenderable(r, false, false);
     // Size of block does not change - it's
     // set in stone?
+  }
+
+  private static void positionPairChild(final DelayedPair pair) {
+    final RenderableContainer parent = pair.containingBlock;
+    final BoundableRenderable child = pair.child;
+    Integer x = pair.getLeft();
+    Integer y = pair.getTop();
+    Integer width = null;
+    Integer height = null;
+    final Integer right = pair.getRight();
+    final Integer bottom = pair.getBottom();
+    if (right != null) {
+      if (x != null) {
+        width = parent.getInnerWidth() - (x + right) ;
+      } else {
+        x = parent.getInnerWidth() - (child.getWidth() + right);
+      }
+    }
+    if (bottom != null) {
+      if (y != null) {
+        height = parent.getInnerHeight() - (y + bottom) ;
+      } else {
+        y = parent.getInnerHeight() - child.getHeight() - bottom;
+      }
+    }
+    if (x != null) {
+      child.setX(x);
+    } else {
+      child.setX(0);
+    }
+    if (y != null) {
+      child.setY(y);
+    } else {
+      if (pair.immediateContainingBlock != parent) {
+        final Insets immediateInsets = pair.immediateContainingBlock.getInsets(false, false);
+        child.setY(pair.currY + (pair.immediateContainingBlock.getY() + immediateInsets.top) - parent.getY());
+      } else {
+        child.setY(pair.currY);
+      }
+    }
+    if (width != null) {
+      child.setWidth(width);
+    }
+    if (height != null) {
+      child.setHeight(height);
+    }
   }
 
   private final void addPositionedRenderable(final BoundableRenderable renderable, final boolean verticalAlignable, final boolean isFloat) {
@@ -2769,6 +2806,20 @@ public class RBlockViewport extends BaseRCollection {
       this.addPositionedRenderable(renderable, true, true);
     } else {
       this.addExportableFloat(renderable, leftFloat, newX, newY);
+    }
+  }
+
+  public void positionDelayed() {
+    final Collection<DelayedPair> delayedPairs = container.getDelayedPairs();
+    if (delayedPairs != null && delayedPairs.size() > 0) {
+      // Add positioned renderables that belong here
+      final Iterator<DelayedPair> i = delayedPairs.iterator();
+      while (i.hasNext()) {
+        final DelayedPair pair = i.next();
+        if (pair.containingBlock == container) {
+          this.importDelayedPair(pair);
+        }
+      }
     }
   }
 }
