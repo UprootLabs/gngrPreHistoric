@@ -128,9 +128,7 @@ class RTable extends BaseElementRenderable {
       tm.doLayout(insets);
 
       // Import applicable delayed pairs.
-      // Only needs to be done if layout was
-      // forced. Otherwise, they should've
-      // been imported already.
+      // Only needs to be done if layout was forced. Otherwise, they should've been imported already.
       final Collection<DelayedPair> pairs = this.delayedPairs;
       if (pairs != null) {
         final Iterator<DelayedPair> i = pairs.iterator();
@@ -361,9 +359,8 @@ class RTable extends BaseElementRenderable {
   }
 
   private void importDelayedPair(final DelayedPair pair) {
+    pair.positionPairChild();
     final BoundableRenderable r = pair.child;
-    // TODO: Important: This was uncommented because the logic is now different. See RBlockViewport for inspiration.
-    // r.setOrigin(pair.x, pair.y);
     this.addPositionedRenderable(r, false, false);
   }
 

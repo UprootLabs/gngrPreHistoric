@@ -20,22 +20,23 @@
  */
 package org.lobobrowser.html.renderer;
 
+import java.awt.Insets;
+
 import org.lobobrowser.html.style.HtmlValues;
 import org.lobobrowser.html.style.RenderState;
 
 public class DelayedPair {
   public final RenderableContainer containingBlock;
-  public final RenderableContainer immediateContainingBlock;
+  private final RenderableContainer immediateContainingBlock;
   public final BoundableRenderable child;
   private final String left;
   private final String top;
   private final String bottom;
   private final String right;
   private final RenderState rs;
-  public final int currY;
+  private final int currY;
 
   public DelayedPair(final RenderableContainer immediateContainingBlock, final RenderableContainer containingBlock, final BoundableRenderable child, final String left, final String right, final String top, final String bottom, final RenderState rs, final int currY) {
-    super();
     this.immediateContainingBlock = immediateContainingBlock;
     this.containingBlock = containingBlock;
     this.child = child;
@@ -69,5 +70,51 @@ public class DelayedPair {
 
   public Integer getBottom() {
     return helperGetPixelSize(bottom, rs, 0, containingBlock.getInnerHeight());
+  }
+
+  public void positionPairChild() {
+    final RenderableContainer parent = this.containingBlock;
+    final BoundableRenderable child = this.child;
+    Integer x = this.getLeft();
+    Integer y = this.getTop();
+    Integer width = null;
+    Integer height = null;
+    final Integer right = this.getRight();
+    final Integer bottom = this.getBottom();
+    if (right != null) {
+      if (x != null) {
+        width = parent.getInnerWidth() - (x + right) ;
+      } else {
+        x = parent.getInnerWidth() - (child.getWidth() + right);
+      }
+    }
+    if (bottom != null) {
+      if (y != null) {
+        height = parent.getInnerHeight() - (y + bottom) ;
+      } else {
+        y = parent.getInnerHeight() - child.getHeight() - bottom;
+      }
+    }
+    if (x != null) {
+      child.setX(x);
+    } else {
+      child.setX(0);
+    }
+    if (y != null) {
+      child.setY(y);
+    } else {
+      if (this.immediateContainingBlock != parent) {
+        final Insets immediateInsets = this.immediateContainingBlock.getInsets(false, false);
+        child.setY(this.currY + (this.immediateContainingBlock.getY() + immediateInsets.top) - parent.getY());
+      } else {
+        child.setY(this.currY);
+      }
+    }
+    if (width != null) {
+      child.setWidth(width);
+    }
+    if (height != null) {
+      child.setHeight(height);
+    }
   }
 }

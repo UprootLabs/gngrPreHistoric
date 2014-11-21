@@ -1634,57 +1634,10 @@ public class RBlockViewport extends BaseRCollection {
   }
 
   void importDelayedPair(final DelayedPair pair) {
-    positionPairChild(pair);
+    pair.positionPairChild();
     final BoundableRenderable r = pair.child;
     this.addPositionedRenderable(r, false, false);
-    // Size of block does not change - it's
-    // set in stone?
-  }
-
-  private static void positionPairChild(final DelayedPair pair) {
-    final RenderableContainer parent = pair.containingBlock;
-    final BoundableRenderable child = pair.child;
-    Integer x = pair.getLeft();
-    Integer y = pair.getTop();
-    Integer width = null;
-    Integer height = null;
-    final Integer right = pair.getRight();
-    final Integer bottom = pair.getBottom();
-    if (right != null) {
-      if (x != null) {
-        width = parent.getInnerWidth() - (x + right) ;
-      } else {
-        x = parent.getInnerWidth() - (child.getWidth() + right);
-      }
-    }
-    if (bottom != null) {
-      if (y != null) {
-        height = parent.getInnerHeight() - (y + bottom) ;
-      } else {
-        y = parent.getInnerHeight() - child.getHeight() - bottom;
-      }
-    }
-    if (x != null) {
-      child.setX(x);
-    } else {
-      child.setX(0);
-    }
-    if (y != null) {
-      child.setY(y);
-    } else {
-      if (pair.immediateContainingBlock != parent) {
-        final Insets immediateInsets = pair.immediateContainingBlock.getInsets(false, false);
-        child.setY(pair.currY + (pair.immediateContainingBlock.getY() + immediateInsets.top) - parent.getY());
-      } else {
-        child.setY(pair.currY);
-      }
-    }
-    if (width != null) {
-      child.setWidth(width);
-    }
-    if (height != null) {
-      child.setHeight(height);
-    }
+    // Size of block does not change - it's  set in stone?
   }
 
   private final void addPositionedRenderable(final BoundableRenderable renderable, final boolean verticalAlignable, final boolean isFloat) {
