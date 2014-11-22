@@ -124,7 +124,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
       }
       final boolean liflag = loggableInfo;
       if (src == null) {
-        final Request request = new Request(((HTMLDocumentImpl) doc).getDocumentURL(), RequestKind.InlineScript);
+        final Request request = new Request(((HTMLDocumentImpl) doc).getDocumentURL(), RequestKind.JavaScript);
         if (bcontext.isRequestPermitted(request)) {
           text = this.getText();
           scriptURI = doc.getBaseURI();
@@ -147,7 +147,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
             // items from elsewhere.
               try {
                 request.open("GET", scriptURI, false);
-                request.send(null, new Request(scriptURL, RequestKind.ExternalScript));
+                request.send(null, new Request(scriptURL, RequestKind.JavaScript));
               } catch (final java.io.IOException thrown) {
                 logger.log(Level.WARNING, "processScript()", thrown);
               }

@@ -66,7 +66,7 @@ public class Executor {
     }
 
     final UserAgentContext uaContext = element.getUserAgentContext();
-    if (uaContext.isRequestPermitted(new Request(element.getDocumentURL(), RequestKind.InlineScript))) {
+    if (uaContext.isRequestPermitted(new Request(element.getDocumentURL(), RequestKind.JavaScript))) {
       final Context ctx = createContext(element.getDocumentURL(), element.getUserAgentContext());
       try {
         final Scriptable scope = (Scriptable) doc.getUserData(Executor.SCOPE_KEY);

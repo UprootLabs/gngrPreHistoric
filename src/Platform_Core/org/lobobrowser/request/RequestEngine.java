@@ -308,7 +308,7 @@ public final class RequestEngine {
   }
 
   private static void addRequestProperties(final URLConnection connection, final ClientletRequest request, final CacheInfo cacheInfo, final String requestMethod,
-      final URL lastRequestURL) throws ProtocolException {
+      final URL lastRequestURL, final RequestHandler rhandler) throws ProtocolException {
     final UserAgent userAgent = request.getUserAgent();
     connection.addRequestProperty("User-Agent", userAgent.toString());
     connection.addRequestProperty("Accept-Encoding", "gzip");
@@ -325,7 +325,9 @@ public final class RequestEngine {
     // userAgent.getSessionID(connection.getURL()));
     final String referrer = request.getReferrer();
     if (referrer != null) {
-      connection.addRequestProperty("Referer", referrer);
+      if (rhandler.getContext().isRequestPermitted(new Request(request.getRequestURL(), RequestKind.Referrer))) {
+        connection.addRequestProperty("Referer", referrer);
+      }
     }
     if (cacheInfo != null) {
       final String date = cacheInfo.getDateAsText();
@@ -665,7 +667,7 @@ public final class RequestEngine {
       hconnection.setConnectTimeout(60000);
       hconnection.setReadTimeout(90000);
     }
-    addRequestProperties(connection, request, cacheInfo, method, connectionUrl);
+    addRequestProperties(connection, request, cacheInfo, method, connectionUrl, rhandler);
 
     // TODO: Consider adding cookies here?
 

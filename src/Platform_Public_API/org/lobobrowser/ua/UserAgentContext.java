@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public interface UserAgentContext {
   public enum RequestKind {
-    Image("Img"), CSS("CSS"), Cookie("Cookie"), InlineScript("InScript"), ExternalScript("ExScript"), Frame("Frame"), XHR("XHR");
+    Image("Img"), CSS("CSS"), Cookie("Cookie"), JavaScript("JS"), Frame("Frame"), XHR("XHR"), Referrer("Referrer");
 
     public final String shortName;
 
