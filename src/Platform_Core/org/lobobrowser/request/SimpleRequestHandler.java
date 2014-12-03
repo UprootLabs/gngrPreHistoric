@@ -52,11 +52,6 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     return uaContext;
   }
 
-  public SimpleRequestHandler(final boolean forNewWindow, final URL url, final RequestType requestType, final UserAgentContext uaContext) {
-    this.request = new ClientletRequestImpl(forNewWindow, url, requestType);
-    this.uaContext = uaContext;
-  }
-
   public SimpleRequestHandler(final URL url, final RequestType requestType, final UserAgentContext uaContext) {
     this.request = new ClientletRequestImpl(url, requestType);
     this.uaContext = uaContext;
