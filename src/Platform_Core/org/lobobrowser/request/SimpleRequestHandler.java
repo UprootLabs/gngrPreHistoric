@@ -24,6 +24,8 @@
 package org.lobobrowser.request;
 
 import java.net.URL;
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -126,4 +128,7 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     }
   }
 
+  public Optional<Map<String, String>> getRequestedHeaders() {
+    return Optional.empty();
+  }
 }

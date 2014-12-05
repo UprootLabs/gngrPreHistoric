@@ -48,6 +48,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -670,6 +671,8 @@ public final class RequestEngine {
     addRequestProperties(connection, request, cacheInfo, method, connectionUrl, rhandler);
 
     // TODO: Consider adding cookies here?
+    addRequestedHeadersToRequest(connection, rhandler);
+
 
     // Allow extensions to modify the connection object.
     // Doing it after addRequestProperties() to allow such
@@ -879,6 +882,14 @@ public final class RequestEngine {
   }
 
   final private CookieHandler cookieHandler = new CookieHandlerImpl();
+
+  private static void addRequestedHeadersToRequest(final URLConnection connection, final RequestHandler rhandler) {
+    final Optional<Map<String, String>> requestedHeadersOpt = rhandler.getRequestedHeaders();
+    if (requestedHeadersOpt.isPresent()) {
+      final Map<String, String> requestedHeaders = requestedHeadersOpt.get();
+      requestedHeaders.forEach((key, value) -> connection.addRequestProperty(key, value));
+    }
+  }
 
   private void addCookiesToRequest(final URLConnection connection, final RequestHandler rhandler) {
     try {

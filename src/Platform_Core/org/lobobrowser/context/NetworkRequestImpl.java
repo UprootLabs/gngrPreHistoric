@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -134,9 +135,9 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
   }
 
-  public String getAllResponseHeaders() {
+  public String getAllResponseHeaders(final List<String> excludedHeadersLowerCase) {
     final LocalResponse lr = this.localResponse;
-    return lr == null ? null : lr.getAllResponseHeaders();
+    return lr == null ? null : lr.getAllResponseHeaders(excludedHeadersLowerCase);
   }
 
   public String getResponseHeader(final String headerName) {
@@ -183,7 +184,8 @@ public class NetworkRequestImpl implements NetworkRequest {
   public void send(final String content, Request requestType) throws IOException {
     if (uaContext.isRequestPermitted(requestType)) {
       try {
-        final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext);
+        final Map<String, String> requestedHeadersCopy = new HashMap<>(requestedHeaders);
+        final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext, requestedHeadersCopy);
         this.currentRequestHandler = rhandler;
         try {
           // TODO: Username and password support
@@ -289,10 +291,12 @@ public class NetworkRequestImpl implements NetworkRequest {
 
   private class LocalRequestHandler extends SimpleRequestHandler {
     private final String method;
+    private final Map<String, String> requestedHeadersCopy;
 
-    public LocalRequestHandler(final URL url, final String method, final String altPostData, final UserAgentContext uaContext) {
+    public LocalRequestHandler(final URL url, final String method, final String altPostData, final UserAgentContext uaContext, final Map<String, String> requestedHeaders) {
       super(url, method, altPostData, RequestType.ELEMENT, uaContext);
       this.method = method;
+      this.requestedHeadersCopy = requestedHeaders;
     }
 
     @Override
@@ -332,6 +336,12 @@ public class NetworkRequestImpl implements NetworkRequest {
      */
     // public void handleProgress(final org.lobobrowser.ua.ProgressType progressType, final URL url, final int value, final int max) {
     // }
+
+    @Override
+    public Optional<Map<String, String>> getRequestedHeaders() {
+      return Optional.of(requestedHeadersCopy);
+    }
+
   }
 
   private static class CacheableResponse {
@@ -514,19 +524,21 @@ public class NetworkRequestImpl implements NetworkRequest {
       return this.getHeaders().get(headerName.toLowerCase());
     }
 
-    public String getAllResponseHeaders() {
+    public String getAllResponseHeaders(final List<String> excludedHeadersLowerCase) {
       final ClientletResponse cresponse = this.cresponse;
       final Iterator<String> headerNames = cresponse.getHeaderNames();
       final StringBuffer allHeadersBuf = new StringBuffer();
       while (headerNames.hasNext()) {
         final String headerName = headerNames.next();
         if (headerName != null) {
-          final String[] values = cresponse.getHeaders(headerName);
-          for (int i = 0; i < values.length; i++) {
-            allHeadersBuf.append(headerName);
-            allHeadersBuf.append(": ");
-            allHeadersBuf.append(values[i]);
-            allHeadersBuf.append("\r\n");
+          if (!excludedHeadersLowerCase.contains(headerName.toLowerCase())) {
+            final String[] values = cresponse.getHeaders(headerName);
+            for (int i = 0; i < values.length; i++) {
+              allHeadersBuf.append(headerName);
+              allHeadersBuf.append(": ");
+              allHeadersBuf.append(values[i]);
+              allHeadersBuf.append("\r\n");
+            }
           }
         }
       }
@@ -551,4 +563,18 @@ public class NetworkRequestImpl implements NetworkRequest {
       return this.cacheable.getResponseBytes();
     }
   }
+
+  private Map<String, String> requestedHeaders = new HashMap<>();
+
+  public void addRequestedHeader(final String key, final String value) {
+    if (key != null && value != null) {
+      if (requestedHeaders.containsKey(key)) {
+        // Need to merge values as per https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#setRequestHeader()
+        String oldValue = requestedHeaders.get(key);
+        requestedHeaders.put(key, oldValue + "," + key);
+      }
+      requestedHeaders.put(key, value);
+    }
+  }
+
 }

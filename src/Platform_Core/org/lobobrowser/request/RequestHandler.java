@@ -22,6 +22,8 @@ package org.lobobrowser.request;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.net.ssl.HostnameVerifier;
 
@@ -68,5 +70,9 @@ public interface RequestHandler {
 
   default public RequestType getRequestType() {
     return getRequest().getRequestType();
+  }
+
+  default public Optional<Map<String, String>> getRequestedHeaders() {
+    return Optional.empty();
   }
 }

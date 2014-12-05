@@ -7,6 +7,8 @@ import java.net.URLPermission;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,9 +47,16 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     request.abort();
   }
 
+  // excluded as per https://dvcs.w3.org/hg/xhr/raw-file/default/xhr-1/Overview.html
+  private static final List<String> excludedResponseHeadersLowerCase = Arrays.asList(
+      "set-cookie",
+      "set-cookie2"
+  );
+
   @NotGetterSetter
   public String getAllResponseHeaders() {
-    return request.getAllResponseHeaders();
+    // TODO: Need to also filter out based on CORS
+    return request.getAllResponseHeaders(excludedResponseHeadersLowerCase);
   }
 
   public int getReadyState() {
@@ -59,7 +68,12 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   }
 
   public String getResponseHeader(final String headerName) {
-    return request.getResponseHeader(headerName);
+    // TODO: Need to also filter out based on CORS
+    if (excludedResponseHeadersLowerCase.contains(headerName.toLowerCase())) {
+      return request.getResponseHeader(headerName);
+    } else {
+      return null;
+    }
   }
 
   public String getResponseText() {
@@ -82,7 +96,8 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     return Urls.createURL(this.codeSource, relativeUrl);
   }
 
-  public void open(final String method, final String url, final boolean asyncFlag, final String userName, final String password) throws java.io.IOException {
+  public void open(final String method, final String url, final boolean asyncFlag, final String userName, final String password)
+      throws java.io.IOException {
     request.open(method, this.getFullURL(url), asyncFlag, userName, password);
   }
 
@@ -164,6 +179,68 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
       }
     } catch (final Exception err) {
       logger.log(Level.WARNING, "Error processing ready state change.", err);
+    }
+  }
+
+  // This list comes from https://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html#the-setrequestheader()-method
+  // It has been lower-cased for faster comparison
+  private static String[] prohibitedHeaders = {
+      "accept-charset",
+      "accept-encoding",
+      "access-control-request-headers",
+      "access-control-request-method",
+      "connection",
+      "content-length",
+      "cookie",
+      "cookie2",
+      "date",
+      "dnt",
+      "expect",
+      "host",
+      "keep-alive",
+      "origin",
+      "referer",
+      "te",
+      "trailer",
+      "transfer-encoding",
+      "upgrade",
+      "user-agent",
+      "via"
+  };
+
+  private static boolean isProhibited(final String header) {
+    final String headerTL = header.toLowerCase();
+    for (final String prohibitedHeader : prohibitedHeaders) {
+      if (prohibitedHeader.equals(headerTL)) {
+        return true;
+      }
+    }
+    final boolean prohibitedPrefixMatch = headerTL.startsWith("proxy-") || headerTL.startsWith("sec-");
+    return prohibitedPrefixMatch;
+  }
+
+  private static boolean isWellFormattedHeaderValue(String header, String value) {
+    // TODO Needs implementation as per https://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html#the-setrequestheader()-method
+    return true;
+  }
+
+  // As per: http://www.w3.org/TR/XMLHttpRequest2/#the-setrequestheader-method
+  public void setRequestHeader(final String header, final String value) {
+    System.out.println("\n\nXMLHttpRequest.setRequestHeader() " + header + " : " + value);
+    final int readyState = request.getReadyState();
+    if (readyState == NetworkRequest.STATE_LOADING) {
+      if (isWellFormattedHeaderValue(header, value)) {
+        if (!isProhibited(header)) {
+          System.out.println("Adding header: " + header);
+          request.addRequestedHeader(header, value);
+        } else {
+          System.out.println("Prohibited header: " + header);
+        }
+      } else {
+        throw new DOMException(DOMException.SYNTAX_ERR, "header or value not well formatted");
+      }
+    } else {
+      throw new DOMException(DOMException.INVALID_STATE_ERR, "Can't set header when request state is: " + readyState);
     }
   }
 

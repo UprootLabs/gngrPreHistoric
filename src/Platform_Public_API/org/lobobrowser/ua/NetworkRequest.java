@@ -25,6 +25,7 @@ package org.lobobrowser.ua;
 
 import java.awt.Image;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 import org.lobobrowser.ua.UserAgentContext.Request;
@@ -117,7 +118,7 @@ public interface NetworkRequest {
   /**
    * Gets a string with all the response headers.
    */
-  public String getAllResponseHeaders();
+  public String getAllResponseHeaders(final List<String> excludedHeadersLowerCase);
 
   /**
    * Gets a response header value.
@@ -220,4 +221,6 @@ public interface NetworkRequest {
   public void addNetworkRequestListener(NetworkRequestListener listener);
 
   Optional<URL> getURL();
+
+  public void addRequestedHeader(String header, String value);
 }
