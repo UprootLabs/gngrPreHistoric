@@ -500,17 +500,20 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
           final int status = request.getStatus();
           if (status == 200 || status == 0) {
             final Image img = request.getResponseImage();
-            BaseElementRenderable.this.backgroundImage = img;
-            // Cause observer to be called
-            final int w = img.getWidth(BaseElementRenderable.this);
-            final int h = img.getHeight(BaseElementRenderable.this);
-            // Maybe image already done...
-            if (w != -1 && h != -1) {
-              BaseElementRenderable.this.repaint();
+            if (img != null) {
+              BaseElementRenderable.this.backgroundImage = img;
+              // Cause observer to be called
+              final int w = img.getWidth(BaseElementRenderable.this);
+              final int h = img.getHeight(BaseElementRenderable.this);
+              // Maybe image already done...
+              if (w != -1 && h != -1) {
+                BaseElementRenderable.this.repaint();
+              }
             }
           }
         }
       });
+
       SecurityUtil.doPrivileged(() -> {
         // Code might have restrictions on accessing items from elsewhere.
         try {
@@ -645,6 +648,10 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
       startY = newStartY;
 
     }
+
+    // TODO: Check if we can use TexturePaint to draw repeated background images
+    // See example: http://www.informit.com/articles/article.aspx?p=26349&seqNum=4
+
     // Using clientG (clipped below) beyond this point.
     final Graphics clientG = g.create(startX, startY, totalWidth, totalHeight);
     try {
@@ -665,57 +672,36 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
           final int w = image.getWidth(this);
           final int h = image.getHeight(this);
           if (w != -1 && h != -1) {
+            final int imageY = getImageY(totalHeight, binfo, h);
+            final int imageX = getImageX(totalHeight, binfo, h);
+
+            // TODO: optimise this. Although it works fine, it makes an extra `draw` call when imageX or imageY are negative
+            final int baseX = (bkgBounds.x / w) * w - (w - imageX);
+            final int baseY = (bkgBounds.y / h) * h - (h - imageY);
+
             switch (binfo == null ? BackgroundInfo.BR_REPEAT : binfo.backgroundRepeat) {
             case BackgroundInfo.BR_NO_REPEAT: {
-              int imageX;
-              if (binfo.backgroundXPositionAbsolute) {
-                imageX = binfo.backgroundXPosition;
-              } else {
-                imageX = (binfo.backgroundXPosition * (totalWidth - w)) / 100;
-              }
-              int imageY;
-              if (binfo.backgroundYPositionAbsolute) {
-                imageY = binfo.backgroundYPosition;
-              } else {
-                imageY = (binfo.backgroundYPosition * (totalHeight - h)) / 100;
-              }
               clientG.drawImage(image, imageX, imageY, w, h, this);
               break;
             }
             case BackgroundInfo.BR_REPEAT_X: {
-              int imageY;
-              if (binfo.backgroundYPositionAbsolute) {
-                imageY = binfo.backgroundYPosition;
-              } else {
-                imageY = (binfo.backgroundYPosition * (totalHeight - h)) / 100;
-              }
               // Modulate starting x.
-              int x = (bkgBounds.x / w) * w;
               final int topX = bkgBounds.x + bkgBounds.width;
-              for (; x < topX; x += w) {
+              for (int x = baseX; x < topX; x += w) {
                 clientG.drawImage(image, x, imageY, w, h, this);
               }
               break;
             }
             case BackgroundInfo.BR_REPEAT_Y: {
-              int imageX;
-              if (binfo.backgroundXPositionAbsolute) {
-                imageX = binfo.backgroundXPosition;
-              } else {
-                imageX = (binfo.backgroundXPosition * (totalWidth - w)) / 100;
-              }
               // Modulate starting y.
-              int y = (bkgBounds.y / h) * h;
               final int topY = bkgBounds.y + bkgBounds.height;
-              for (; y < topY; y += h) {
+              for (int y = baseY; y < topY; y += h) {
                 clientG.drawImage(image, imageX, y, w, h, this);
               }
               break;
             }
             default: {
               // Modulate starting x and y.
-              final int baseX = (bkgBounds.x / w) * w;
-              final int baseY = (bkgBounds.y / h) * h;
               final int topX = bkgBounds.x + bkgBounds.width;
               final int topY = bkgBounds.y + bkgBounds.height;
               // Replacing this:
@@ -732,6 +718,30 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
       }
     } finally {
       clientG.dispose();
+    }
+  }
+
+  private static int getImageY(final int totalHeight, final BackgroundInfo binfo, final int h) {
+    if (binfo == null) {
+      return 0;
+    } else {
+      if (binfo.backgroundYPositionAbsolute) {
+        return binfo.backgroundYPosition;
+      } else {
+        return (binfo.backgroundYPosition * (totalHeight - h)) / 100;
+      }
+    }
+  }
+
+  private static int getImageX(final int totalWidth, final BackgroundInfo binfo, final int w) {
+    if (binfo == null) {
+      return 0;
+    } else {
+      if (binfo.backgroundXPositionAbsolute) {
+        return binfo.backgroundXPosition;
+      } else {
+        return (binfo.backgroundXPosition * (totalWidth - w)) / 100;
+      }
     }
   }
 
