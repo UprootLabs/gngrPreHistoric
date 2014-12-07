@@ -24,6 +24,8 @@
 package org.lobobrowser.main;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.Authenticator;
 import java.net.CookieHandler;
 import java.net.MalformedURLException;
@@ -33,13 +35,19 @@ import java.security.AccessController;
 import java.security.Permission;
 import java.security.Policy;
 import java.security.PrivilegedAction;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.EventObject;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.ssl.SSLSocketFactory;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.lobobrowser.gui.ConsoleModel;
@@ -68,6 +76,7 @@ import com.squareup.okhttp.OkUrlFactory;
  */
 public class PlatformInit {
   private static final String NATIVE_DIR_NAME = "native";
+  private static final long THIRTY_DAYS_MILLIS = 30 * 24 * 60 * 60 * 1000L;
   private final SimpleThreadPool threadExecutor;
   // private final GeneralSettings generalSettings;
 
@@ -262,6 +271,8 @@ public class PlatformInit {
    * @see #initExtensions()
    */
   public void init(final boolean exitWhenAllWindowsAreClosed, final boolean initConsole, final SSLSocketFactory sslSocketFactory) throws Exception {
+    checkReleaseDate();
+
     initOtherProperties();
 
     initNative(NATIVE_DIR_NAME);
@@ -274,6 +285,27 @@ public class PlatformInit {
     }
     initWindowFactory(exitWhenAllWindowsAreClosed);
     initExtensions();
+  }
+
+  private void checkReleaseDate() {
+    final InputStream relStream = getClass().getResourceAsStream("/properties/release.properties");
+    final Properties relProps = new Properties();
+    try {
+      relProps.load(relStream);
+      final String dateStr = relProps.getProperty("version.releaseDate");
+      final SimpleDateFormat yyyyMMDDFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+      final Date releaseDate = yyyyMMDDFormat.parse(dateStr);
+      final Date releaseDatePlus30Days = new Date(releaseDate.getTime() + THIRTY_DAYS_MILLIS);
+      final Date currDate = new Date(System.currentTimeMillis());
+      if (releaseDatePlus30Days.before(currDate)) {
+        final String version = relProps.getProperty("version.string");
+        final String checkForUpdatesMessage = "<html><h3><center>This version of gngr is old</center></h3><p>gngr "+version+"</p><p>Released on: " + releaseDate + "</p><p>This version is more than 30 days old and was not intended for long-time use.</p><p>Please check if a newer version is available on https://gngr.info</p></html>";
+        JOptionPane.showMessageDialog(null, checkForUpdatesMessage);
+      }
+    } catch (IOException | ParseException e) {
+      e.printStackTrace();
+      System.exit(1);
+    }
   }
 
   /**
