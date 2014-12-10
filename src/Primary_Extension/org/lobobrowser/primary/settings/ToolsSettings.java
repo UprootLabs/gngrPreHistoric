@@ -61,18 +61,15 @@ public class ToolsSettings implements Serializable {
     searchEngines.add(wikipediaSearch());
     searchEngines.add(googleWebSearch());
     searchEngines.add(yahooWebSearch());
-    searchEngines.add(googleBlogSearch());
-    searchEngines.add(googleCodeSearch());
-    searchEngines.add(googleScholarSearch());
     return searchEngines;
   }
 
   private static SearchEngine googleWebSearch() {
-    return new SearchEngine("Google Web Search", "Google's main search engine.", "http://google.com/search", "q");
+    return new SearchEngine("Google Web Search", "Google's main search engine.", "https://google.com/search", "q");
   }
 
   private static SearchEngine yahooWebSearch() {
-    return new SearchEngine("Yahoo! Web Search", "Yahoo's web search engine.", "http://search.yahoo.com/search", "p");
+    return new SearchEngine("Yahoo! Web Search", "Yahoo's web search engine.", "https://search.yahoo.com/search", "p");
   }
 
   private static SearchEngine duckDuckGoSearch() {
@@ -80,20 +77,7 @@ public class ToolsSettings implements Serializable {
   }
 
   private static SearchEngine wikipediaSearch() {
-    return new SearchEngine("Wikipedia", "English Wikipedia article search.", "http://en.wikipedia.org/wiki/Special:Search", "search");
-  }
-
-  private static SearchEngine googleBlogSearch() {
-    return new SearchEngine("Google Blog Search", "Google's blog search engine.", "http://blogsearch.google.com/blogsearch", "q");
-  }
-
-  private static SearchEngine googleCodeSearch() {
-    return new SearchEngine("Google Code Search", "Google's program source code search engine.", "http://google.com/codesearch?lr=", "q");
-  }
-
-  private static SearchEngine googleScholarSearch() {
-    return new SearchEngine("Google Scholar Search", "Google's search engine for scholarly literature.",
-        "http://scholar.google.com/scholar", "q");
+    return new SearchEngine("Wikipedia", "English Wikipedia article search.", "https://en.wikipedia.org/wiki/Special:Search", "search");
   }
 
   public void save() {

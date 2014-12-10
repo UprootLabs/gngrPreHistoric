@@ -101,11 +101,11 @@ public class DirectorySource {
   }
 
   private JMenuItem getWikipediaMenu() {
-    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("http://wikipedia.org"));
+    return ComponentSource.menuItem("Wikipedia", this.actionPool.createNavigateAction("https://wikipedia.org"));
   }
 
   private JMenuItem getWiktionaryMenu() {
-    return ComponentSource.menuItem("Wiktionary", this.actionPool.createNavigateAction("http://wiktionary.org"));
+    return ComponentSource.menuItem("Wiktionary", this.actionPool.createNavigateAction("https://wiktionary.org"));
   }
 
   private JMenuItem getSourceforgeMenu() {
