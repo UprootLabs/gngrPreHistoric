@@ -745,7 +745,8 @@ public final class RequestEngine {
       try {
         URLConnection connection = this.getURLConnection(connectionUrl, request, protocol, method, rhandler, cacheInfo);
         addCookiesToRequest(connection, rhandler);
-        dumpRequestInfo(connection);
+        // This causes exceptions sometimes (when the connection is already open)
+        // dumpRequestInfo(connection);
 
         rinfo = new RequestInfo(connection, rhandler);
         // InputStream responseIn = null;
