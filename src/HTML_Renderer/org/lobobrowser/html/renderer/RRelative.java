@@ -40,6 +40,11 @@ public class RRelative extends BaseRCollection {
     this.child = child;
     this.xoffset = xoffset;
     this.yoffset = yoffset;
+
+    // without this, the UI controls don't display nor interact.
+    if (child instanceof RUIControl) {
+      this.container.addComponent(((RUIControl) child).widget.getComponent());
+    }
   }
 
   public void assignDimension() {
