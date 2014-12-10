@@ -23,6 +23,9 @@
  */
 package org.lobobrowser.request;
 
+import info.gngr.db.tables.Cookies;
+import info.gngr.db.tables.records.CookiesRecord;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
@@ -38,6 +41,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.javatuples.Pair;
+import org.jooq.DSLContext;
+import org.jooq.Result;
 import org.lobobrowser.main.PlatformInit;
 import org.lobobrowser.store.RestrictedStore;
 import org.lobobrowser.store.StorageManager;
@@ -91,32 +96,34 @@ public class CookieStore {
     final String name = cookieDetails.name;
     final String domain = cookieDetails.getEffectiveDomain();
     final String domainTL = domain.toLowerCase();
-    try {
-      final Optional<java.util.Date> expiresOpt = cookieDetails.getExpiresDate();
-      if (logger.isLoggable(Level.INFO)) {
-        logger.info("saveCookie(): " + cookieDetails);
+    final Optional<java.util.Date> expiresOpt = cookieDetails.getExpiresDate();
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("saveCookie(): " + cookieDetails);
+    }
+    final Optional<Long> expiresLongOpt = expiresOpt.map(e -> e.getTime());
+    final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(),
+        expiresLongOpt, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
+    synchronized (this) {
+      // Always save a transient cookie. It acts as a cache.
+      Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(domainTL);
+      if (hostMap == null) {
+        hostMap = new HashMap<>(2);
+        this.transientMapByHost.put(domainTL, hostMap);
       }
-      final Optional<Long> expiresLongOpt = expiresOpt.map(e -> e.getTime());
-      final CookieValue cookieValue = new CookieValue(cookieDetails.name, cookieDetails.value, cookieDetails.getEffectivePath(), expiresLongOpt, cookieDetails.secure, cookieDetails.httpOnly, getMonotonicTime());
-      synchronized (this) {
-        // Always save a transient cookie. It acts as a cache.
-        Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(domainTL);
-        if (hostMap == null) {
-          hostMap = new HashMap<>(2);
-          this.transientMapByHost.put(domainTL, hostMap);
-        }
-        hostMap.put(new Pair<>(cookieDetails.name, cookieDetails.getEffectivePath()) , cookieValue);
-      }
-      if (expiresLongOpt.isPresent()) {
-        final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(domainTL, true);
-        store.saveObject(getPathFromCookieName(name), cookieValue);
-      }
-    } catch (final IOException ioe) {
-      logger.log(Level.WARNING, "saveCookie(): Unable to save cookie named '" + name + "' with domain '" + domainTL + "'", ioe);
+      hostMap.put(new Pair<>(cookieDetails.name, cookieDetails.getEffectivePath()), cookieValue);
+    }
+    if (expiresLongOpt.isPresent()) {
+      final DSLContext userDB = StorageManager.getInstance().getDB();
+      userDB
+          .mergeInto(Cookies.COOKIES)
+          .values(domainTL, name, cookieValue.getValue(), cookieValue.getPath(), true, true, cookieValue.getCreationTime(),
+              cookieValue.getExpires().orElse(null))
+          .execute();
     }
   }
 
   // This should be 1000 * 1000, but for optimization has been converted to 1024*1024
+  // TODO: This seems like premature optimisation, since cookies are not that frequently stored.
   private static final long MILLION_LIKE = 1024*1024;
 
   private long previousTimeNanos = System.currentTimeMillis() * MILLION_LIKE;
@@ -201,51 +208,54 @@ public class CookieStore {
     try {
       final RestrictedStore store = StorageManager.getInstance().getRestrictedStore(hostNameTL, false);
       if (store != null) {
-        Collection<String> paths;
-        paths = store.getPaths(COOKIE_PATH_PATTERN);
-        final Iterator<String> pathsIterator = paths.iterator();
-        while (pathsIterator.hasNext()) {
-          final String filePath = pathsIterator.next();
-          final String cookieName = getCookieNameFromPath(filePath);
-          final CookieValue cookieValue = (CookieValue) store.retrieveObject(filePath);
-          if (cookieValue != null) {
-            if (!transientCookieNames.contains(new Pair<>(cookieName, cookieValue.getPath()))) {
-              if (cookieValue.isExpired()) {
-                if (logger.isLoggable(Level.INFO)) {
-                  logger.info("getCookiesStrict(): Cookie " + cookieName + " from " + hostName + " expired: " + cookieValue.getExpires());
+        final DSLContext userDB = StorageManager.getInstance().getDB();
+        final Result<CookiesRecord> cookieResult = userDB.selectFrom(Cookies.COOKIES)
+            .where(Cookies.COOKIES.HOSTNAME.eq(hostNameTL))
+            .fetch();
+
+        if (cookieResult.isNotEmpty()) {
+          CookiesRecord cookiesRecord = cookieResult.get(0);
+          final String cookieName = cookiesRecord.getName();
+          final CookieValue cookieValue = new CookieValue(
+              cookiesRecord.getName(),
+              cookiesRecord.getValue(),
+              cookiesRecord.getPath(),
+              Optional.ofNullable(cookiesRecord.getExpirationtime()),
+              cookiesRecord.getSecure(), cookiesRecord.getHttponly(),
+              cookiesRecord.getCreationtime()
+              );
+          if (!transientCookieNames.contains(new Pair<>(cookieName, cookieValue.getPath()))) {
+            if (cookieValue.isExpired()) {
+              if (logger.isLoggable(Level.INFO)) {
+                logger.info("getCookiesStrict(): Cookie " + cookieName + " from " + hostName + " expired: " + cookieValue.getExpires());
+              }
+              cookiesRecord.delete();
+            } else {
+              if (pathMatch(cookieValue.getPath(), path)) {
+                // Found one that is not in main memory. Cache it.
+                synchronized (this) {
+                  Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(hostName);
+                  if (hostMap == null) {
+                    hostMap = new HashMap<>();
+                    this.transientMapByHost.put(hostName, hostMap);
+                  }
+                  hostMap.put(new Pair<>(cookieName, cookieValue.getPath()), cookieValue);
                 }
-                store.removeObject(filePath);
+                if (cookieValue.checkSecure(secureProtocol)) {
+                  // Now add cookie to the collection.
+                  selectedCookies.add(cookieValue);
+                }
               } else {
-                if (pathMatch(cookieValue.getPath(), path)) {
-                  // Found one that is not in main memory. Cache it.
-                  synchronized (this) {
-                    Map<Pair<String, String>, CookieValue> hostMap = this.transientMapByHost.get(hostName);
-                    if (hostMap == null) {
-                      hostMap = new HashMap<>();
-                      this.transientMapByHost.put(hostName, hostMap);
-                    }
-                    hostMap.put(new Pair<>(cookieName, cookieValue.getPath()), cookieValue);
-                  }
-                  if (cookieValue.checkSecure(secureProtocol)) {
-                    // Now add cookie to the collection.
-                    selectedCookies.add(cookieValue);
-                  }
-                } else {
-                  if (logger.isLoggable(Level.INFO)) {
-                    logger.info("getCookiesStrict(): Skipping cookie " + cookieValue + " since it does not match path " + path);
-                  }
+                if (logger.isLoggable(Level.INFO)) {
+                  logger.info("getCookiesStrict(): Skipping cookie " + cookieValue + " since it does not match path " + path);
                 }
               }
             }
-          } else {
-            logger.warning("getCookiesStrict(): Expected to find cookie named " + cookieName + " but file is missing.");
           }
         }
       }
     } catch (final IOException ioe) {
       logger.log(Level.SEVERE, "getCookiesStrict()", ioe);
-    } catch (final ClassNotFoundException cnf) {
-      logger.log(Level.SEVERE, "getCookiesStrict(): Possible engine versioning error.", cnf);
     }
 
     return selectedCookies;

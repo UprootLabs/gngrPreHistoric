@@ -23,27 +23,25 @@
  */
 package org.lobobrowser.request;
 
-import java.io.Serializable;
 import java.util.Optional;
 
 /**
  * @author J. H. S.
  */
-public class CookieValue implements Serializable, Comparable<CookieValue> {
+public class CookieValue implements Comparable<CookieValue> {
   private final String name;
   private final String value;
   private final String path;
-  private final Long expirationTimeNullable;  // Nullable, because Optional is not serializable!
+  private final Optional<Long> expirationTimeOpt;
   private final boolean secure;
   private final boolean httpOnly;
   private final long creationTime;
-  private static final long serialVersionUID = 225784501000400500L;
 
   public CookieValue(final String name, final String value, final String path, final Optional<Long> expirationTimeOpt, final boolean secure, final boolean httpOnly, final long creationTime) {
     this.name = name;
     this.value = value;
     this.path = path;
-    this.expirationTimeNullable = expirationTimeOpt.orElse(null);
+    this.expirationTimeOpt = expirationTimeOpt;
     this.secure = secure;
     this.httpOnly = httpOnly;
     this.creationTime = creationTime;
@@ -58,7 +56,7 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   }
 
   public Optional<Long> getExpires() {
-    return Optional.ofNullable(this.expirationTimeNullable);
+    return expirationTimeOpt;
   }
 
   public String getPath() {
@@ -76,7 +74,7 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
   }
 
   public String toString() {
-    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTimeNullable + ",creationTime="+creationTime+"]";
+    return "CookieValue[name="+name+" value=" + value + ",path=" + path + ",expiration=" + expirationTimeOpt + ",creationTime="+creationTime+"]";
   }
 
   /* Returns true if the secure flag is valid for the given protocol type */
@@ -96,5 +94,9 @@ public class CookieValue implements Serializable, Comparable<CookieValue> {
     } else {
       return -pathCompare;
     }
+  }
+
+  public long getCreationTime() {
+    return creationTime;
   }
 }

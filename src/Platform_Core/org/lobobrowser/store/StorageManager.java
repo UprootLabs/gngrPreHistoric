@@ -92,6 +92,7 @@ public class StorageManager implements Runnable {
         Class.forName("org.h2.Driver");
         dbConnection = DriverManager.getConnection("jdbc:h2:" + userDBPath, "sa", "");
         userDB = using(dbConnection);
+        initDB(userDB);
       } catch (SQLException | ClassNotFoundException e) {
         throw new RuntimeException(e);
       }
@@ -99,16 +100,8 @@ public class StorageManager implements Runnable {
     return userDB;
   }
 
-  public synchronized void initDB(final Runnable onInit) {
-    final DSLContext userDB = getDB();
-
-    // TODO: http://stackoverflow.com/questions/24741761/how-to-check-if-a-table-exists-in-jooq
-    final int tableCount =
-        userDB
-            .selectCount()
-            .from("INFORMATION_SCHEMA.TABLES")
-            .where("TABLE_SCHEMA = 'PUBLIC'")
-            .fetchOne().value1();
+  private void initDB(final DSLContext userDB) {
+    final int tableCount = getTableCount(userDB);
 
     if (tableCount == 0) {
       final InputStream schemaStream = getClass().getResourceAsStream("/info/gngr/schema.sql");
@@ -116,10 +109,19 @@ public class StorageManager implements Runnable {
       final String text = scanner.useDelimiter("\\A").next();
       userDB.execute(text);
       scanner.close();
-
-      onInit.run();
     }
 
+  }
+
+  private static int getTableCount(final DSLContext userDB) {
+    // TODO: https://stackoverflow.com/questions/24741761/how-to-check-if-a-table-exists-in-jooq
+    final int tableCount =
+        userDB
+            .selectCount()
+            .from("INFORMATION_SCHEMA.TABLES")
+            .where("TABLE_SCHEMA = 'PUBLIC'")
+            .fetchOne().value1();
+    return tableCount;
   }
 
   private boolean threadStarted = false;
