@@ -152,10 +152,10 @@ public class CSSUtilities {
     }
   }
 
-  public static StyleSheet jParseInlineStyle(final String style, final String encoding, final SourceType type,
+  public static StyleSheet jParseInlineStyle(final String style, final String encoding,
       final HTMLElementImpl element, final boolean inlinePriority) {
     try {
-      return CSSParserFactory.parse(style, encoding, type, element, inlinePriority, element.getDocumentURL());
+      return CSSParserFactory.parse(style, encoding, SourceType.INLINE, element, inlinePriority, element.getDocumentURL());
     } catch (IOException | CSSException e) {
       logger.log(Level.SEVERE, "Unable to parse CSS. CSS=[" + style + "].", e);
       return getEmptyStyleSheet();

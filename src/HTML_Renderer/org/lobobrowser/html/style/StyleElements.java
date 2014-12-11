@@ -33,7 +33,7 @@ public class StyleElements {
       }
 
       if (attrs.length() > 0) {
-        return CSSUtilities.jParseInlineStyle(attrs, null, CSSParserFactory.SourceType.INLINE, el, false);
+        return CSSUtilities.jParseInlineStyle(attrs, null, el, false);
       }
     }
     return null;

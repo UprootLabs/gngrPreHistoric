@@ -182,7 +182,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     synchronized (this) {
       final String style = this.getAttribute("style");
       if (style != null && style.length() != 0) {
-        return CSSUtilities.jParseInlineStyle(style, null, CSSParserFactory.SourceType.INLINE, this, true);
+        return CSSUtilities.jParseInlineStyle(style, null, this, true);
       }
     }
     // Synchronization note: Make sure getStyle() does not return multiple values.
