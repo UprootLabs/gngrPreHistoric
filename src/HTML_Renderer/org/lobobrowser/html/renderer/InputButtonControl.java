@@ -63,9 +63,9 @@ class InputButtonControl extends BaseInputControl {
     if (text == null || text.length() == 0) {
       final String type = element.getType();
       if ("submit".equalsIgnoreCase(type)) {
-        text = "Submit Query";
+        text = " ";
       } else if ("reset".equalsIgnoreCase(type)) {
-        text = "Reset";
+        text = " ";
       } else {
         text = "";
       }
