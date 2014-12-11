@@ -897,7 +897,11 @@ public class RBlockViewport extends BaseRCollection {
       } else {
         if (rightText != null) {
           final int right = HtmlValues.getPixelSize(rightText, rs, 0, this.availContentWidth);
-          newLeft = this.desiredWidth - right - renderable.getWidth();
+          if (relative) {
+            newLeft = -right;
+          } else {
+            newLeft = this.desiredWidth - right - renderable.getWidth();
+          }
           // If right==0 and renderable.width is larger than the parent's width,
           // the expected behavior is for newLeft to be negative.
         } else {
@@ -911,9 +915,10 @@ public class RBlockViewport extends BaseRCollection {
       } else {
         if (bottomText != null) {
           final int bottom = HtmlValues.getPixelSize(bottomText, rs, 0, this.availContentHeight);
-          newTop = this.desiredHeight - bottom - renderable.getHeight();
-          if (!relative && newTop < 0) {
-            newTop = 0;
+          if (relative) {
+            newTop = -bottom;
+          } else {
+            newTop = Math.max(0, this.desiredHeight - bottom - renderable.getHeight());
           }
         }
       }
