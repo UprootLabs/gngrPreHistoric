@@ -1159,6 +1159,9 @@ public class RBlockViewport extends BaseRCollection {
       sr.add(newLine);
       this.currentLine = newLine;
     }
+    if (block instanceof RUIControl) {
+      this.container.addComponent(((RUIControl) block).widget.getComponent());
+    }
   }
 
   private void addLineAfterBlock(final RBlock block, final boolean informLineDone) {
