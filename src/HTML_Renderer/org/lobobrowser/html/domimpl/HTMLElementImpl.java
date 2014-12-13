@@ -674,10 +674,6 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
   }
 
-  public String toString() {
-    return super.toString() + "[currentStyle=" + this.getCurrentStyle() + "]";
-  }
-
   @Override
   protected void handleDocumentAttachmentChanged() {
     if (isAttachedToDocument()) {
