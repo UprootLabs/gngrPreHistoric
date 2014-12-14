@@ -447,9 +447,6 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
         Insets regularMarginInsets = (autoMarginX == 0 && autoMarginY == 0) ? tentativeMarginInsets
             : (minsets == null ? defaultMarginInsets : minsets.getAWTInsets(dmtop, dmleft, dmbottom, dmright, availWidth, availHeight,
                 autoMarginX, autoMarginY));
-        if (paddingInsets == null) {
-          paddingInsets = RBlockViewport.ZERO_INSETS;
-        }
         if (regularMarginInsets == null) {
           regularMarginInsets = RBlockViewport.ZERO_INSETS;
         }
