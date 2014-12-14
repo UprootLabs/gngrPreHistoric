@@ -753,6 +753,10 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
 
   protected static final int SCROLL_BAR_THICKNESS = 16;
 
+  public Insets getBorderInsets() {
+    return this.borderInsets == null ? RBlockViewport.ZERO_INSETS : this.borderInsets;
+  }
+
   /**
    * Gets insets of content area. It includes margin, borders and scrollbars,
    * but not padding.
@@ -760,6 +764,7 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
   public Insets getInsets(final boolean hscroll, final boolean vscroll) {
     final Insets mi = this.marginInsets;
     final Insets bi = this.borderInsets;
+    final Insets pi = this.paddingInsets;
     int top = 0;
     int bottom = 0;
     int left = 0;
@@ -775,6 +780,12 @@ abstract class BaseElementRenderable extends BaseRCollection implements RElement
       left += bi.left;
       bottom += bi.bottom;
       right += bi.right;
+    }
+    if (pi != null) {
+      top += pi.top;
+      left += pi.left;
+      bottom += pi.bottom;
+      right += pi.right;
     }
     if (hscroll) {
       bottom += SCROLL_BAR_THICKNESS;

@@ -20,6 +20,8 @@
  */
 package org.lobobrowser.html.renderer;
 
+import java.awt.Insets;
+
 import org.lobobrowser.html.domimpl.ModelNode;
 import org.lobobrowser.ua.UserAgentContext;
 
@@ -28,7 +30,12 @@ public class RImgControl extends RUIControl {
     super(me, widget, container, frameContext, ucontext);
   }
 
-  protected void applyStyle(final int availWidth, final int availHeight) {
-    super.applyStyle(availWidth, availHeight);
+  // TODO: This is a hack. RUIControl excludes border insets from the UI control. Images need to exclude padding as well.
+  // Hence, we are returing getInsets() from getBorderInsets().
+  // A better way would be to create two methods: one for excluded space and one for included space and implement as per convenience.
+  // Yet another idea: check if RImgControl really needs to sub-class RUIControl or it can directly sub-class BaseElementRenderable.
+  @Override
+  public Insets getBorderInsets() {
+    return getInsets(false, false);
   }
 }

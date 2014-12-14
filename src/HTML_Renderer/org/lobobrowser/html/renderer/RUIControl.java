@@ -91,7 +91,7 @@ class RUIControl extends BaseElementRenderable {
     // We need to paint the GUI component.
     // For various reasons, we need to do that
     // instead of letting AWT do it.
-    final Insets insets = this.getInsets(false, false);
+    final Insets insets = this.getBorderInsets();
     g.translate(insets.left, insets.top);
     try {
       this.widget.paint(g);
@@ -175,9 +175,8 @@ class RUIControl extends BaseElementRenderable {
   public void updateWidgetBounds(final int guiX, final int guiY) {
     // Overrides
     super.updateWidgetBounds(guiX, guiY);
-    final Insets insets = this.getInsets(false, false);
-    this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width - insets.left - insets.right, this.height - insets.top
-        - insets.bottom);
+    final Insets insets = this.getBorderInsets();
+    this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width - insets.left - insets.right, this.height - insets.top - insets.bottom);
   }
 
   public Color getBlockBackgroundColor() {
@@ -270,8 +269,8 @@ class RUIControl extends BaseElementRenderable {
       final UIControl widget = this.widget;
       widget.reset(availWidth, availHeight);
       final Insets insets = this.getInsets(false, false);
-      int finalWidth = declaredWidth == -1 ? -1 : declaredWidth - insets.left - insets.right;
-      int finalHeight = declaredHeight == -1 ? -1 : declaredHeight - insets.top - insets.bottom;
+      int finalWidth = declaredWidth == -1 ? -1 : declaredWidth + insets.left + insets.right;
+      int finalHeight = declaredHeight == -1 ? -1 : declaredHeight + insets.top + insets.bottom;
       if (finalWidth == -1 || finalHeight == -1) {
         final Dimension size = widget.getPreferredSize();
         if (finalWidth == -1) {
