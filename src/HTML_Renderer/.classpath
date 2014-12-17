@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/XAMJ_Build/ext/js.jar" sourcepath="/home/hrj/.m2/repository/org/mozilla/rhino/1.7R4/rhino-1.7R4-sources.jar"/>
+	<classpathentry kind="lib" path="/XAMJ_Build/ext/sac.jar"/>
+	<classpathentry kind="lib" path="/XAMJ_Build/ext/cssparser-0.9.14.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Public_API"/>
+	<classpathentry kind="lib" path="/XAMJ_Build/ext/jstyleparser-1.18.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Platform_Core"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
