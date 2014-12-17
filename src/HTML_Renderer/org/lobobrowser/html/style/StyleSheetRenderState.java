@@ -878,7 +878,7 @@ public class StyleSheetRenderState implements RenderState {
 
   public int getClear() {
     if (cachedClear == null) {
-      final AbstractCSS2Properties props = this.getCssProperties();
+      final JStyleProperties props = this.getCssProperties();
       if (props == null) {
         cachedClear = new Integer(LineBreak.NONE);
       } else {
