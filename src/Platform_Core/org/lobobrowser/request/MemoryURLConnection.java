@@ -76,13 +76,14 @@ public class MemoryURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderField(int)
    */
+  @Override
   public String getHeaderField(final int n) {
     try {
       this.connect();
-      final NameValuePair pair = (NameValuePair) this.memoryEntry.headers.get(n);
+      final NameValuePair pair = this.memoryEntry.headers.get(n);
       return pair.value;
     } catch (final IndexOutOfBoundsException iob) {
       return null;
@@ -93,9 +94,10 @@ public class MemoryURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderField(java.lang.String)
    */
+  @Override
   public String getHeaderField(final String name) {
     try {
       this.connect();
@@ -103,7 +105,7 @@ public class MemoryURLConnection extends URLConnection {
       return null;
     }
     final List<String> hvalues = this.headersMap.get(name.toLowerCase());
-    if (hvalues == null || hvalues.size() == 0) {
+    if ((hvalues == null) || (hvalues.size() == 0)) {
       return null;
     }
     return hvalues.get(0);
@@ -111,13 +113,14 @@ public class MemoryURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderFieldKey(int)
    */
+  @Override
   public String getHeaderFieldKey(final int n) {
     try {
       this.connect();
-      final NameValuePair pair = (NameValuePair) this.memoryEntry.headers.get(n);
+      final NameValuePair pair = this.memoryEntry.headers.get(n);
       return pair.name;
     } catch (final IndexOutOfBoundsException iob) {
       return null;
@@ -128,9 +131,10 @@ public class MemoryURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderFields()
    */
+  @Override
   public Map<String, List<String>> getHeaderFields() {
     try {
       this.connect();
@@ -140,6 +144,7 @@ public class MemoryURLConnection extends URLConnection {
     return this.headersMap;
   }
 
+  @Override
   public InputStream getInputStream() throws IOException {
     this.connect();
     return this.inputStream;

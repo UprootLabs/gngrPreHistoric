@@ -34,6 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -56,7 +57,7 @@ public class ProgressWindow extends JFrame {
    */
   public ProgressWindow() throws HeadlessException {
     super(UserAgentImpl.getInstance().getName());
-    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     final UserAgentContext uaContext = null; // TODO
     final ImageIcon windowIcon = DefaultWindowFactory.getInstance().getDefaultImageIcon(uaContext);
     if (windowIcon != null) {
@@ -94,7 +95,7 @@ public class ProgressWindow extends JFrame {
       statusProgressBar.setIndeterminate(false);
       statusProgressBar.setValue(value);
       statusProgressBar.setMaximum(max);
-      if (value == 0 || max == 0) {
+      if ((value == 0) || (max == 0)) {
         statusProgressBar.setString("");
       } else {
         final int percent = (value * 100) / max;

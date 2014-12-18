@@ -48,7 +48,8 @@ class RUIControl extends BaseElementRenderable {
   protected final ModelNode modelNode;
   private final FrameContext frameContext;
 
-  public RUIControl(final ModelNode me, final UIControl widget, final RenderableContainer container, final FrameContext frameContext, final UserAgentContext ucontext) {
+  public RUIControl(final ModelNode me, final UIControl widget, final RenderableContainer container, final FrameContext frameContext,
+      final UserAgentContext ucontext) {
     super(container, me, ucontext);
     this.modelNode = me;
     this.widget = widget;
@@ -56,12 +57,14 @@ class RUIControl extends BaseElementRenderable {
     widget.setRUIControl(this);
   }
 
+  @Override
   public void focus() {
     super.focus();
     final java.awt.Component c = this.widget.getComponent();
     c.requestFocus();
   }
 
+  @Override
   public final void invalidateLayoutLocal() {
     // Invalidate widget (some redundancy)
     super.invalidateLayoutLocal();
@@ -77,12 +80,13 @@ class RUIControl extends BaseElementRenderable {
   }
 
   public boolean hasBackground() {
-    return this.backgroundColor != null || this.backgroundImage != null || this.lastBackgroundImageUri != null;
+    return (this.backgroundColor != null) || (this.backgroundImage != null) || (this.lastBackgroundImageUri != null);
   }
 
+  @Override
   public final void paint(final Graphics g) {
     final RenderState rs = this.modelNode.getRenderState();
-    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+    if ((rs != null) && (rs.getVisibility() != RenderState.VISIBILITY_VISIBLE)) {
       // Just don't paint it.
       return;
     }
@@ -147,7 +151,7 @@ class RUIControl extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#invalidateState(org.xamjwg
    * .html.renderer.RenderableContext)
@@ -158,7 +162,7 @@ class RUIControl extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.domimpl.ContainingBlockContext#repaint(org.xamjwg.html.
    * renderer.RenderableContext)
@@ -172,25 +176,29 @@ class RUIControl extends BaseElementRenderable {
     }
   }
 
+  @Override
   public void updateWidgetBounds(final int guiX, final int guiY) {
     // Overrides
     super.updateWidgetBounds(guiX, guiY);
     final Insets insets = this.getBorderInsets();
-    this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width - insets.left - insets.right, this.height - insets.top - insets.bottom);
+    this.widget.setBounds(guiX + insets.left, guiY + insets.top, this.width - insets.left - insets.right, this.height - insets.top
+        - insets.bottom);
   }
 
+  @Override
   public Color getBlockBackgroundColor() {
     return this.widget.getBackgroundColor();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#paintSelection(java.awt.Graphics
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
+  @Override
   public boolean paintSelection(final Graphics g, boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     inSelection = super.paintSelection(g, inSelection, startPoint, endPoint);
     if (inSelection) {
@@ -208,7 +216,9 @@ class RUIControl extends BaseElementRenderable {
     return inSelection;
   }
 
-  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
+  @Override
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint,
+      final RenderableSpot endPoint) {
     // No text here
     return inSelection;
   }
@@ -224,6 +234,7 @@ class RUIControl extends BaseElementRenderable {
   private LayoutValue lastLayoutValue = null;
   private final Map<LayoutKey, LayoutValue> cachedLayout = new HashMap<>(5);
 
+  @Override
   public void doLayout(final int availWidth, final int availHeight, final boolean sizeOnly) {
     final Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
     final RenderState rs = this.modelNode.getRenderState();
@@ -271,7 +282,7 @@ class RUIControl extends BaseElementRenderable {
       final Insets insets = this.getInsets(false, false);
       int finalWidth = declaredWidth == -1 ? -1 : declaredWidth + insets.left + insets.right;
       int finalHeight = declaredHeight == -1 ? -1 : declaredHeight + insets.top + insets.bottom;
-      if (finalWidth == -1 || finalHeight == -1) {
+      if ((finalWidth == -1) || (finalHeight == -1)) {
         final Dimension size = widget.getPreferredSize();
         if (finalWidth == -1) {
           finalWidth = size.width + insets.left + insets.right;
@@ -306,7 +317,7 @@ class RUIControl extends BaseElementRenderable {
   public final void preferredSizeInvalidated() {
     final int dw = RUIControl.this.declaredWidth;
     final int dh = RUIControl.this.declaredHeight;
-    if (dw == -1 || dh == -1) {
+    if ((dw == -1) || (dh == -1)) {
       this.frameContext.delayedRelayout((NodeImpl) this.modelNode);
     } else {
       RUIControl.this.repaint();
@@ -340,6 +351,7 @@ class RUIControl extends BaseElementRenderable {
       this.font = font;
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this) {
         return true;
@@ -348,13 +360,14 @@ class RUIControl extends BaseElementRenderable {
         return false;
       }
       final LayoutKey other = (LayoutKey) obj;
-      return other.availWidth == this.availWidth && other.availHeight == this.availHeight && other.whitespace == this.whitespace
+      return (other.availWidth == this.availWidth) && (other.availHeight == this.availHeight) && (other.whitespace == this.whitespace)
           && Objects.equals(other.font, this.font);
     }
 
+    @Override
     public int hashCode() {
       final Font font = this.font;
-      return (this.availWidth * 1000 + this.availHeight) ^ (font == null ? 0 : font.hashCode());
+      return ((this.availWidth * 1000) + this.availHeight) ^ (font == null ? 0 : font.hashCode());
     }
   }
 

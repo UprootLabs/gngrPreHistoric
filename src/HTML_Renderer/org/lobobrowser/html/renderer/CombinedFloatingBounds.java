@@ -60,6 +60,7 @@ class CombinedFloatingBounds implements FloatingBounds {
     return Math.max(this.floatBounds1.getRightClearY(y), this.floatBounds2.getRightClearY(y));
   }
 
+  @Override
   public boolean equals(final Object obj) {
     // Important for layout caching.
     if (!(obj instanceof CombinedFloatingBounds)) {
@@ -69,6 +70,7 @@ class CombinedFloatingBounds implements FloatingBounds {
     return Objects.equals(other.floatBounds1, this.floatBounds1) && Objects.equals(other.floatBounds2, this.floatBounds2);
   }
 
+  @Override
   public int hashCode() {
     final FloatingBounds fbounds1 = this.floatBounds1;
     final FloatingBounds fbounds2 = this.floatBounds2;

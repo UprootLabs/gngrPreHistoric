@@ -6,14 +6,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 class BrokenComponent extends Component {
+  @Override
   public Dimension getPreferredSize() {
     return new Dimension(10, 10);
   }
 
+  @Override
   public void update(final Graphics g) {
     this.paint(g);
   }
 
+  @Override
   public void paint(final Graphics g) {
     g.setColor(Color.RED);
     final Dimension size = this.getSize();

@@ -48,7 +48,7 @@ public interface ModelNode {
   /**
    * Sets a document item. A radio button, for example, can use this to set
    * button group state.
-   * 
+   *
    * @param name
    * @param value
    */

@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
  */
 public class HTMLAbstractUIElement extends HTMLElementImpl {
   private Function onfocus, onblur, onclick, ondblclick, onmousedown, onmouseup, onmouseover, onmousemove, onmouseout, onkeypress,
-      onkeydown, onkeyup, oncontextmenu;
+  onkeydown, onkeyup, oncontextmenu;
 
   public HTMLAbstractUIElement(final String name) {
     super(name);
@@ -161,10 +161,11 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
       }
       if (uac.isScriptingEnabled()) {
         final String attributeValue = this.getAttribute(attributeName);
-        if (attributeValue == null || attributeValue.length() == 0) {
+        if ((attributeValue == null) || (attributeValue.length() == 0)) {
           f = null;
         } else {
-          final String functionCode = "function " + normalAttributeName + "_" + System.identityHashCode(this) + "() { " + attributeValue + " }";
+          final String functionCode = "function " + normalAttributeName + "_" + System.identityHashCode(this) + "() { " + attributeValue
+              + " }";
           final Document doc = this.document;
           if (doc == null) {
             throw new IllegalStateException("Element does not belong to a document.");
@@ -203,6 +204,7 @@ public class HTMLAbstractUIElement extends HTMLElementImpl {
     }
   }
 
+  @Override
   protected void assignAttributeField(final String normalName, final String value) {
     super.assignAttributeField(normalName, value);
     if (normalName.startsWith("on")) {

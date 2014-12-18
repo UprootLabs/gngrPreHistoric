@@ -40,13 +40,14 @@ public class MultipartFormDataWriter {
   }
 
   /**
-   * 
+   *
    * @param name
    * @param contentType
    * @param in
    *          Data stream. The caller is responsible for closing it.
    */
-  public final void writeFileData(final String name, final String fileName, final String contentType, final InputStream in) throws java.io.IOException {
+  public final void writeFileData(final String name, final String fileName, final String contentType, final InputStream in)
+      throws java.io.IOException {
     final String headers = "--" + this.boundary + "\r\n" + "Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName
         + "\"\r\n" + "Content-Type: " + contentType + "\r\n" + "\r\n";
     final OutputStream out = this.out;

@@ -33,7 +33,7 @@ import java.io.InputStream;
  * <p>
  * Note: Buffered streams should wrap this class as opposed to the other way
  * around.
- * 
+ *
  * @author J. H. S.
  */
 public class RecordedInputStream extends InputStream {
@@ -47,8 +47,8 @@ public class RecordedInputStream extends InputStream {
   private byte[] resetBuffer = null;
 
   /**
-	 * 
-	 */
+   *
+   */
   public RecordedInputStream(final InputStream delegate, final int maxBufferSize) {
     super();
     this.delegate = delegate;
@@ -57,11 +57,12 @@ public class RecordedInputStream extends InputStream {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#read()
    */
+  @Override
   public int read() throws IOException {
-    if (this.readPosition != -1 && this.readPosition < this.resetBuffer.length) {
+    if ((this.readPosition != -1) && (this.readPosition < this.resetBuffer.length)) {
       final int b = this.resetBuffer[this.readPosition];
       this.readPosition++;
       return b;
@@ -83,31 +84,35 @@ public class RecordedInputStream extends InputStream {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#available()
    */
+  @Override
   public int available() throws IOException {
     return this.delegate.available();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#close()
    */
+  @Override
   public void close() throws IOException {
     this.delegate.close();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#markSupported()
    */
+  @Override
   public boolean markSupported() {
     return true;
   }
 
+  @Override
   public synchronized void mark(final int readlimit) {
     if (this.hasReachedMaxBufferSize) {
       throw new java.lang.IllegalStateException("Maximum buffer size was already reached.");
@@ -115,6 +120,7 @@ public class RecordedInputStream extends InputStream {
     this.markPosition = this.store.size();
   }
 
+  @Override
   public synchronized void reset() throws IOException {
     if (this.hasReachedMaxBufferSize) {
       throw new java.lang.IllegalStateException("Maximum buffer size was already reached.");
@@ -129,11 +135,12 @@ public class RecordedInputStream extends InputStream {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#read(byte[], int, int)
    */
+  @Override
   public int read(final byte[] buffer, final int offset, final int length) throws IOException {
-    if (this.readPosition != -1 && this.readPosition < this.resetBuffer.length) {
+    if ((this.readPosition != -1) && (this.readPosition < this.resetBuffer.length)) {
       final int minLength = Math.min(this.resetBuffer.length - this.readPosition, length);
       System.arraycopy(this.resetBuffer, this.readPosition, buffer, offset, minLength);
       this.readPosition += minLength;

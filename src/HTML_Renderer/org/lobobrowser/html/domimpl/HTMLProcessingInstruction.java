@@ -12,7 +12,7 @@ import org.w3c.dom.ProcessingInstruction;
 /**
  * HTML DOM object representing processing instruction as per HTML 4.0
  * specification.
- * 
+ *
  * @author vitek
  */
 public class HTMLProcessingInstruction extends NodeImpl implements ProcessingInstruction, Cloneable {
@@ -24,26 +24,32 @@ public class HTMLProcessingInstruction extends NodeImpl implements ProcessingIns
     this.data = data;
   }
 
+  @Override
   protected Node createSimilarNode() {
     return (Node) clone();
   }
 
+  @Override
   public String getLocalName() {
     return target;
   }
 
+  @Override
   public String getNodeName() {
     return target;
   }
 
+  @Override
   public short getNodeType() {
     return Node.PROCESSING_INSTRUCTION_NODE;
   }
 
+  @Override
   public String getNodeValue() throws DOMException {
     return data;
   }
 
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
     this.data = nodeValue;
   }
@@ -60,14 +66,16 @@ public class HTMLProcessingInstruction extends NodeImpl implements ProcessingIns
     this.data = data;
   }
 
+  @Override
   public Object clone() {
     try {
-      return (HTMLProcessingInstruction) super.clone();
+      return super.clone();
     } catch (final CloneNotSupportedException e) {
       throw new IllegalStateException(e);
     }
   }
 
+  @Override
   public String toString() {
     return "<?" + target + " " + data + ">";
   }

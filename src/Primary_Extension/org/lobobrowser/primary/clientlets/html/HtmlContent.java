@@ -105,7 +105,7 @@ public class HtmlContent implements ComponentContent {
       if (node instanceof HTMLElement) {
         final HTMLElement element = (HTMLElement) node;
         final String name = element.getAttribute("name");
-        if (name != null && name.equalsIgnoreCase("description")) {
+        if ((name != null) && name.equalsIgnoreCase("description")) {
           return element.getAttribute("description");
         }
       }
@@ -132,12 +132,12 @@ public class HtmlContent implements ComponentContent {
   }
 
   public void setProperty(final String name, final Object value) {
-    if ("defaultMarginInsets".equals(name) && value instanceof java.awt.Insets) {
+    if ("defaultMarginInsets".equals(name) && (value instanceof java.awt.Insets)) {
       this.panel.setDefaultMarginInsets((java.awt.Insets) value);
       ;
-    } else if ("defaultOverflowX".equals(name) && value instanceof Integer) {
+    } else if ("defaultOverflowX".equals(name) && (value instanceof Integer)) {
       this.panel.setDefaultOverflowX((Integer) value);
-    } else if ("defaultOverflowY".equals(name) && value instanceof Integer) {
+    } else if ("defaultOverflowY".equals(name) && (value instanceof Integer)) {
       this.panel.setDefaultOverflowY((Integer) value);
     } else {
       if (logger.isLoggable(Level.INFO)) {

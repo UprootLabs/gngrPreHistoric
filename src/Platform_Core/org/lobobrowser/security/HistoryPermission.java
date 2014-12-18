@@ -38,36 +38,40 @@ public class HistoryPermission extends Permission {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.security.Permission#implies(java.security.Permission)
    */
+  @Override
   public boolean implies(final Permission permission) {
     return permission instanceof HistoryPermission;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.security.Permission#getActions()
    */
+  @Override
   public String getActions() {
     return null;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(final Object obj) {
     return obj instanceof HistoryPermission;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return 1000;
   }

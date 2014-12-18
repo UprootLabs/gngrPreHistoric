@@ -47,7 +47,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.swing.ComboBoxEditor#getEditorComponent()
    */
   public Component getEditorComponent() {
@@ -58,7 +58,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.swing.ComboBoxEditor#setItem(java.lang.Object)
    */
   public void setItem(final Object arg0) {
@@ -70,7 +70,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.swing.ComboBoxEditor#getItem()
    */
   public Object getItem() {
@@ -79,7 +79,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.swing.ComboBoxEditor#selectAll()
    */
   public void selectAll() {
@@ -88,7 +88,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * javax.swing.ComboBoxEditor#addActionListener(java.awt.event.ActionListener)
    */
@@ -98,7 +98,7 @@ public class TextFieldComboBoxEditor implements ComboBoxEditor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * javax.swing.ComboBoxEditor#removeActionListener(java.awt.event.ActionListener
    * )

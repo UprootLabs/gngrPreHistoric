@@ -29,7 +29,6 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.html.HTMLStyleElement;
 import org.w3c.dom.stylesheets.LinkStyle;
@@ -84,6 +83,7 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
   }
 
   // TODO: This should probably not be a nop. We should probably be handling changes to inner text.
+  @Override
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
   }
@@ -103,9 +103,9 @@ public class HTMLStyleElementImpl extends HTMLElementImpl implements HTMLStyleEl
   private String getOnlyText() {
     final NodeList nl = this.getChildNodes();
     final StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < nl.getLength(); i++) {
+    for (int i = 0; i < nl.getLength(); i++) {
       final Node n = nl.item(i);
-      if(n.getNodeType() == Node.TEXT_NODE) {
+      if (n.getNodeType() == Node.TEXT_NODE) {
         final Text textNode = (Text) n;
         sb.append(textNode.getTextContent());
       }

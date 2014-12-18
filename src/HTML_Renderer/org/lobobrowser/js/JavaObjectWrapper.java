@@ -37,7 +37,7 @@ public class JavaObjectWrapper extends ScriptableObject {
   private final JavaClassWrapper classWrapper;
 
   @Override
-  public void setParentScope(Scriptable m) {
+  public void setParentScope(final Scriptable m) {
     if (m == this) {
       // TODO: This happens when running jQuery 2
       super.setParentScope(null);
@@ -68,7 +68,7 @@ public class JavaObjectWrapper extends ScriptableObject {
 
   /**
    * Returns the Java object.
-   * 
+   *
    * @return An object or <code>null</code> if garbage collected.
    */
   public Object getJavaObject() {
@@ -76,10 +76,12 @@ public class JavaObjectWrapper extends ScriptableObject {
     return this.delegate;
   }
 
+  @Override
   public String getClassName() {
     return this.classWrapper.getClassName();
   }
 
+  @Override
   public Object get(final int index, final Scriptable start) {
     final PropertyInfo pinfo = this.classWrapper.getIntegerIndexer();
     if (pinfo == null) {
@@ -107,6 +109,7 @@ public class JavaObjectWrapper extends ScriptableObject {
     }
   }
 
+  @Override
   public Object get(final String name, final Scriptable start) {
     final PropertyInfo pinfo = this.classWrapper.getProperty(name);
     if (pinfo != null) {
@@ -164,6 +167,7 @@ public class JavaObjectWrapper extends ScriptableObject {
     }
   }
 
+  @Override
   public void put(final int index, final Scriptable start, final Object value) {
     final PropertyInfo pinfo = this.classWrapper.getIntegerIndexer();
     if (pinfo == null) {
@@ -183,6 +187,7 @@ public class JavaObjectWrapper extends ScriptableObject {
     }
   }
 
+  @Override
   public void put(final String name, final Scriptable start, final Object value) {
     if (value instanceof org.mozilla.javascript.Undefined) {
       super.put(name, start, value);
@@ -198,7 +203,8 @@ public class JavaObjectWrapper extends ScriptableObject {
           actualValue = JavaScript.getInstance().getJavaObject(value, pinfo.getPropertyType());
           setter.invoke(this.getJavaObject(), new Object[] { actualValue });
         } catch (final IllegalArgumentException iae) {
-          final Exception newException = new IllegalArgumentException("Property named '" + name + "' could not be set with value " + value + ".",
+          final Exception newException = new IllegalArgumentException("Property named '" + name + "' could not be set with value " + value
+              + ".",
               iae);
           throw new WrappedException(newException);
         } catch (final Exception err) {
@@ -230,15 +236,17 @@ public class JavaObjectWrapper extends ScriptableObject {
     return new JavaConstructorObject(className, classWrapper);
   }
 
-  public static Function getConstructor(final String className, final JavaClassWrapper classWrapper, final Scriptable scope, final JavaInstantiator instantiator) {
+  public static Function getConstructor(final String className, final JavaClassWrapper classWrapper, final Scriptable scope,
+      final JavaInstantiator instantiator) {
     return new JavaConstructorObject(className, classWrapper, instantiator);
   }
 
+  @Override
   public java.lang.Object getDefaultValue(final java.lang.Class hint) {
     if (loggableInfo) {
       logger.info("getDefaultValue(): hint=" + hint + ",this=" + this.getJavaObject());
     }
-    if (hint == null || String.class.equals(hint)) {
+    if ((hint == null) || String.class.equals(hint)) {
       final Object javaObject = this.getJavaObject();
       if (javaObject == null) {
         throw new IllegalStateException("Java object (class=" + this.classWrapper + ") is null.");
@@ -258,6 +266,7 @@ public class JavaObjectWrapper extends ScriptableObject {
     }
   }
 
+  @Override
   public String toString() {
     final Object javaObject = this.getJavaObject();
     final String type = javaObject == null ? "<null>" : javaObject.getClass().getName();

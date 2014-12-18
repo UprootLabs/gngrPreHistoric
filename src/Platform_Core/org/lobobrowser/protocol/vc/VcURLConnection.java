@@ -53,35 +53,39 @@ public class VcURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#connect()
    */
+  @Override
   public void connect() throws IOException {
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getContentLength()
    */
+  @Override
   public int getContentLength() {
     return this.vc.getBytes().length;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getContentType()
    */
+  @Override
   public String getContentType() {
     return this.vc.getContentType();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getInputStream()
    */
+  @Override
   public InputStream getInputStream() throws IOException {
     return new ByteArrayInputStream(this.vc.getBytes());
   }

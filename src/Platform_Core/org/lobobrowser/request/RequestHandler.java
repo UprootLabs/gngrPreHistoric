@@ -43,7 +43,6 @@ public interface RequestHandler {
    */
   public URL getLatestRequestURL();
 
-
   /**
    * Gets the actual request method, which may be different from the method of
    * the original request.

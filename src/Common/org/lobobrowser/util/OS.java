@@ -28,8 +28,8 @@ package org.lobobrowser.util;
  */
 public class OS {
   /**
-	 * 
-	 */
+   *
+   */
   private OS() {
     super();
   }

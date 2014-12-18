@@ -106,12 +106,12 @@ public class ID {
   public static long getGlobalProcessID() {
     return globalProcessID;
   }
-  */
+   */
 
   public static int random(final int min, final int max) {
     if (max <= min) {
       return min;
     }
-    return Math.abs(RANDOM1.nextInt()) % (max - min) + min;
+    return (Math.abs(RANDOM1.nextInt()) % (max - min)) + min;
   }
 }

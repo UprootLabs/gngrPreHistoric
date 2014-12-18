@@ -35,16 +35,17 @@ import java.net.URLStreamHandler;
 public class Handler extends URLStreamHandler {
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLStreamHandler#openConnection(java.net.URL)
    */
+  @Override
   protected URLConnection openConnection(final URL arg0) throws IOException {
     return new ResURLConnection(arg0);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLStreamHandler#openConnection(java.net.URL, java.net.Proxy)
    */
   @Override

@@ -32,9 +32,9 @@ import javax.swing.KeyStroke;
 public class GUITasks {
   public static Frame getTopFrame() {
     final Frame[] frames = Frame.getFrames();
-    for (int i = 0; i < frames.length; i++) {
-      if (frames[i].getFocusOwner() != null) {
-        return frames[i];
+    for (final Frame frame : frames) {
+      if (frame.getFocusOwner() != null) {
+        return frame;
       }
     }
     if (frames.length > 0) {
@@ -93,7 +93,7 @@ public class GUITasks {
 
   // As per this http://stackoverflow.com/a/661244/161257
   public static void addEscapeListener(final JDialog dialog) {
-    ActionListener escListener = e -> {
+    final ActionListener escListener = e -> {
       dialog.setVisible(false);
       dialog.dispose();
     };

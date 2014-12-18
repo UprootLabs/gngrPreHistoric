@@ -54,6 +54,7 @@ public class HTMLBaseFontElementImpl extends HTMLAbstractUIElement implements HT
     this.setAttribute("size", size);
   }
 
+  @Override
   protected RenderState createRenderState(RenderState prevRenderState) {
     final String size = this.getAttribute("size");
     if (size != null) {

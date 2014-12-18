@@ -50,7 +50,8 @@ public interface WindowCallback {
 
   /**
    * Invoked when there's a request error.
-   * @param requestType 
+   *
+   * @param requestType
    */
   public void handleError(NavigatorFrame frame, ClientletResponse response, Throwable exception, RequestType requestType);
 

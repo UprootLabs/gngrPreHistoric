@@ -121,13 +121,13 @@ public class CSSUtilities {
       return getEmptyStyleSheet();
     });
     final int status = request.getStatus();
-    if (status != 200 && status != 0) {
+    if ((status != 200) && (status != 0)) {
       logger.warning("Unable to parse CSS. URI=[" + cssURI + "]. Response status was " + status + ".");
       return getEmptyStyleSheet();
     }
 
     final String text = request.getResponseText();
-    if (text != null && !"".equals(text)) {
+    if ((text != null) && !"".equals(text)) {
       final String processedText = considerDoubleSlashComments ? preProcessCss(text) : text;
       return jParseCSS2(ownerNode, cssURI, processedText);
     } else {
@@ -136,7 +136,7 @@ public class CSSUtilities {
   }
 
   public static StyleSheet getEmptyStyleSheet() {
-    StyleSheet css = rf.createStyleSheet();
+    final StyleSheet css = rf.createStyleSheet();
     css.unlock();
     return css;
   }
@@ -163,7 +163,7 @@ public class CSSUtilities {
   }
 
   public static boolean matchesMedia(final String mediaValues, final UserAgentContext rcontext) {
-    if (mediaValues == null || mediaValues.length() == 0) {
+    if ((mediaValues == null) || (mediaValues.length() == 0)) {
       return true;
     }
     if (rcontext == null) {

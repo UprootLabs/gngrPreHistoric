@@ -26,7 +26,7 @@ package org.lobobrowser.gui;
 public interface FramePanelFactory {
   /**
    * Creates a {@link FramePanel} given its parent.
-   * 
+   *
    * @param parent
    *          The containing {@link FramePanel}.
    */
@@ -35,7 +35,7 @@ public interface FramePanelFactory {
 
   /**
    * Creates a top-level{@link FramePanel} given a window ID.
-   * 
+   *
    * @param windowId
    *          A string that identifies the window. This may be <code>null</code>
    *          .

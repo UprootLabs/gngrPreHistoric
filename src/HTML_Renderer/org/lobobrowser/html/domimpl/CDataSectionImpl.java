@@ -38,18 +38,20 @@ public class CDataSectionImpl extends TextImpl implements CDATASection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getnodeName()
    */
+  @Override
   public String getNodeName() {
     return "#cdata-section";
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getnodeType()
    */
+  @Override
   public short getNodeType() {
     return Node.CDATA_SECTION_NODE;
   }

@@ -96,7 +96,7 @@ public class ItemListControl<T> extends JComponent {
     final Collection<T> items = new ArrayList<>();
     final int count = this.comboBox.getItemCount();
     for (int i = 0; i < count; i++) {
-      items.add((T) this.comboBox.getItemAt(i));
+      items.add(this.comboBox.getItemAt(i));
     }
     return items;
   }

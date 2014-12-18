@@ -32,7 +32,7 @@ import java.awt.Rectangle;
 public interface UINode {
   /**
    * Called
-   * 
+   *
    * @param modelNode
    */
   public void repaint(ModelNode modelNode);

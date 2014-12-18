@@ -27,8 +27,9 @@ public class HTMLBaseElementImpl extends HTMLElementImpl {
     super(name, true);
   }
 
+  @Override
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && (data != Boolean.TRUE)) {
       this.processBaseTag();
     }
     return super.setUserData(key, data, handler);

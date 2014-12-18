@@ -95,7 +95,7 @@ import org.lobobrowser.util.gui.WrapperLayout;
  * <p>
  * A frame panel with navigation controls and a status bar can be obtained with
  * {@link BrowserPanel}.
- * 
+ *
  * @see PlatformInit#init(boolean, boolean)
  */
 public class FramePanel extends JPanel implements NavigatorFrame {
@@ -151,7 +151,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Causes an event to be fired. This method is for internal use.
-   * 
+   *
    * @param response
    *          A clientlet response.
    */
@@ -161,7 +161,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Adds a listener of navigation events.
-   * 
+   *
    * @param listener
    *          The listener.
    */
@@ -178,7 +178,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   /**
    * Removes a listener of navigation events previously added with
    * {@link #addNavigationListener(NavigationListener)}.
-   * 
+   *
    * @param listener
    *          The listener.
    */
@@ -194,7 +194,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Adds a listener of content events.
-   * 
+   *
    * @param listener
    *          The listener.
    * @see #getComponentContent()
@@ -212,7 +212,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   /**
    * Removes a listener of content events previously added with
    * {@link #addNavigationListener(NavigationListener)}.
-   * 
+   *
    * @param listener
    *          The listener.
    */
@@ -228,7 +228,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Adds a listener of response events.
-   * 
+   *
    * @param listener
    *          The listener.
    */
@@ -245,7 +245,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   /**
    * Removes a listener of navigation events previously added with
    * {@link #addNavigationListener(NavigationListener)}.
-   * 
+   *
    * @param listener
    *          The listener.
    */
@@ -273,7 +273,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
           ArrayUtilities.forEachSynched(navigationListeners, this, (listener) -> {
             try {
               listener.beforeNavigate(event);
-            } catch (NavigationVetoException nve) {
+            } catch (final NavigationVetoException nve) {
               throw new WrapperException(nve);
             }
           });
@@ -299,7 +299,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
           ArrayUtilities.forEachSynched(navigationListeners, this, (listener) -> {
             try {
               listener.beforeLocalNavigate(event);
-            } catch (NavigationVetoException nve) {
+            } catch (final NavigationVetoException nve) {
               throw new WrapperException(nve);
             }
           });
@@ -325,7 +325,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
           ArrayUtilities.forEachSynched(navigationListeners, this, (listener) -> {
             try {
               listener.beforeWindowOpen(event);
-            } catch (NavigationVetoException nve) {
+            } catch (final NavigationVetoException nve) {
               throw new WrapperException(nve);
             }
           });
@@ -362,7 +362,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       return kpf.getWindowCallback();
     }
     Container parent = this.getParent();
-    while (parent != null && !(parent instanceof BrowserWindow)) {
+    while ((parent != null) && !(parent instanceof BrowserWindow)) {
       parent = parent.getParent();
     }
     if (parent == null) {
@@ -382,7 +382,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       return kpf;
     }
     Container parent = this.getParent();
-    while (parent != null && !(parent instanceof NavigatorFrame)) {
+    while ((parent != null) && !(parent instanceof NavigatorFrame)) {
       parent = parent.getParent();
     }
     return (NavigatorFrame) parent;
@@ -410,6 +410,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     return this;
   }
 
+  @Override
   public void paint(final Graphics g) {
     // Unless done this way, duplicate
     // painting occurs for nested frames.
@@ -451,7 +452,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   public boolean hasSource() {
     // TODO: Security?
     final ComponentContent content = this.content;
-    return content != null && content.getSourceCode() != null;
+    return (content != null) && (content.getSourceCode() != null);
   }
 
   /**
@@ -622,7 +623,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     if (parent instanceof FramePanel) {
       return ((FramePanel) parent).getWindow();
     }
-    while (parent != null && !(parent instanceof Window)) {
+    while ((parent != null) && !(parent instanceof Window)) {
       parent = parent.getParent();
     }
     return (Window) parent;
@@ -725,9 +726,9 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   protected boolean isOKToAddReferrer(final RequestType requestType) {
-    return requestType == RequestType.CLICK || requestType == RequestType.PROGRAMMATIC
-        || requestType == RequestType.PROGRAMMATIC_FROM_CLICK || requestType == RequestType.OPEN_WINDOW
-        || requestType == RequestType.OPEN_WINDOW_FROM_CLICK || requestType == RequestType.FORM;
+    return (requestType == RequestType.CLICK) || (requestType == RequestType.PROGRAMMATIC)
+        || (requestType == RequestType.PROGRAMMATIC_FROM_CLICK) || (requestType == RequestType.OPEN_WINDOW)
+        || (requestType == RequestType.OPEN_WINDOW_FROM_CLICK) || (requestType == RequestType.FORM);
   }
 
   private void navigateLocal(final URL url, final String method, final RequestType requestType, final FramePanel originatingFrame) {
@@ -764,14 +765,14 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     SecurityUtil.doPrivileged(() -> {
       // Justification: While requests by untrusted code are generally only
       // allowed on certain hosts, navigation is an exception.
-        RequestEngine.getInstance().scheduleRequest(handler);
-        return null;
-      });
+      RequestEngine.getInstance().scheduleRequest(handler);
+      return null;
+    });
   }
 
   /**
    * Opens a window and renders the URL or path provided.
-   * 
+   *
    * @return The top frame of the new window.
    */
   public final NavigatorFrame open(final String urlOrPath) throws MalformedURLException {
@@ -781,7 +782,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Opens a window and renders the URL provided.
-   * 
+   *
    * @param url
    *          The URL of the document.
    * @param windowProperties
@@ -795,7 +796,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Opens a window and renders the URL provided.
-   * 
+   *
    * @param url
    *          The URL of the document.
    * @param windowId
@@ -811,7 +812,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Opens a window and renders the URL provided.
-   * 
+   *
    * @param url
    *          The URL of the document.
    * @return The top frame of the new window.
@@ -825,7 +826,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
    * request that a new window is opened. For example, this method will be
    * invoked on JavaScript Window.open() calls. Override to be informed of such
    * calls.
-   * 
+   *
    * @return The top frame of the new window. The method may return
    *         <code>null</code> if navigation was vetoed by a listener.
    */
@@ -845,7 +846,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Opens a window and renders the URL provided.
-   * 
+   *
    * @param url
    *          The URL of the document.
    * @param method
@@ -860,7 +861,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
 
   /**
    * Static method for opening a window.
-   * 
+   *
    * @return The top frame in the window that was opened.
    */
   public static NavigatorFrame openWindow(final FramePanel opener, final URL url, final String windowId, final Properties windowProperties,
@@ -883,7 +884,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
       public void processEvent(final java.util.EventObject event) {
         // Assumed to execute in GUI thread.
         final NavigatorProgressEvent pe = (NavigatorProgressEvent) event;
-        if (pe == null || pe.getProgressType() == ProgressType.DONE) {
+        if ((pe == null) || (pe.getProgressType() == ProgressType.DONE)) {
           SwingUtilities.invokeLater(new Runnable() {
             public void run() {
               wcontext.resetAsNavigator(handler.getContextWindowProperties());
@@ -983,7 +984,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
   }
 
   private boolean moveNavigation(final int offset) {
-    if (offset == 0 || offset > 1 || offset < -1) {
+    if ((offset == 0) || (offset > 1) || (offset < -1)) {
       throw new IllegalArgumentException("offset: only +1 or -1 are allowed");
     }
     synchronized (this) {
@@ -1211,6 +1212,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     return new org.lobobrowser.context.NetworkRequestImpl(uaContext);
   }
 
+  @Override
   public String toString() {
     return "FramePanel[windowId=" + windowId + ",hashCode=" + this.hashCode() + ",parent=" + this.getParent() + "]";
   }
@@ -1339,7 +1341,7 @@ public class FramePanel extends JPanel implements NavigatorFrame {
     return requestManager.isRequestPermitted(request);
   }
 
-  public void manageRequests(Object initiator) {
+  public void manageRequests(final Object initiator) {
     requestManager.manageRequests((JComponent) initiator);
   }
 }

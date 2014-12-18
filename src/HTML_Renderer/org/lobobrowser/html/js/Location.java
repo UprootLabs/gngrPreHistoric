@@ -130,6 +130,7 @@ public class Location extends AbstractScriptableDelegate {
     this.setHref(href);
   }
 
+  @Override
   public String toString() {
     // This needs to be href. Callers
     // rely on that.

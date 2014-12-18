@@ -30,6 +30,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class FormPanel extends JComponent {
   private final Collection<FormField> fields = new ArrayList<>();
@@ -45,6 +46,7 @@ public class FormPanel extends JComponent {
     this.fieldsInvalid = true;
   }
 
+  @Override
   public void revalidate() {
     this.fieldsInvalid = true;
     super.revalidate();
@@ -74,7 +76,7 @@ public class FormPanel extends JComponent {
       final JLabel label = field.getLabel();
       label.setEnabled(this.isEnabled());
       labels.add(label);
-      label.setHorizontalAlignment(JLabel.RIGHT);
+      label.setHorizontalAlignment(SwingConstants.RIGHT);
       final String tooltip = field.getToolTip();
       if (tooltip != null) {
         label.setToolTipText(tooltip);
@@ -109,6 +111,7 @@ public class FormPanel extends JComponent {
     this.fieldsInvalid = false;
   }
 
+  @Override
   public void doLayout() {
     if (this.fieldsInvalid) {
       this.populateComponents();
@@ -116,6 +119,7 @@ public class FormPanel extends JComponent {
     super.doLayout();
   }
 
+  @Override
   public Dimension getPreferredSize() {
     if (this.fieldsInvalid) {
       this.populateComponents();
@@ -123,6 +127,7 @@ public class FormPanel extends JComponent {
     return super.getPreferredSize();
   }
 
+  @Override
   public Dimension getMinimumSize() {
     if (this.fieldsInvalid) {
       this.populateComponents();
@@ -130,6 +135,7 @@ public class FormPanel extends JComponent {
     return super.getMinimumSize();
   }
 
+  @Override
   public Dimension getMaximumSize() {
     if (this.fieldsInvalid) {
       this.populateComponents();

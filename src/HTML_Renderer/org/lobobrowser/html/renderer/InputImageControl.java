@@ -51,6 +51,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
     // this.add(button);
     modelNode.addImageListener(this);
     this.addMouseListener(new MouseAdapter() {
+      @Override
       public void mousePressed(final MouseEvent e) {
         mouseBeingPressed = true;
         repaint();
@@ -61,6 +62,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
       // repaint();
       // }
 
+      @Override
       public void mouseReleased(final MouseEvent e) {
         mouseBeingPressed = false;
         repaint();
@@ -75,6 +77,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
   private int declaredHeight;
   private Image image;
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     final HTMLElementImpl element = this.controlElement;
@@ -108,10 +111,12 @@ class InputImageControl extends BaseInputControl implements ImageListener {
     this.valign = valign;
   }
 
+  @Override
   public int getVAlign() {
     return this.valign;
   }
 
+  @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
     final Dimension size = this.getSize();
@@ -138,6 +143,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
     }
   }
 
+  @Override
   public Dimension getPreferredSize() {
     final Dimension ps = this.preferredSize;
     return ps == null ? new Dimension(0, 0) : ps;
@@ -166,7 +172,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
     if (ps == null) {
       return true;
     }
-    if (ps.width != newPs.width || ps.height != newPs.height) {
+    if ((ps.width != newPs.width) || (ps.height != newPs.height)) {
       this.preferredSize = newPs;
       return true;
     } else {
@@ -176,12 +182,13 @@ class InputImageControl extends BaseInputControl implements ImageListener {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.Component#imageUpdate(java.awt.Image, int, int, int, int,
    * int)
    */
+  @Override
   public boolean imageUpdate(final Image img, final int infoflags, final int x, final int y, final int w, final int h) {
-    if ((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
+    if (((infoflags & ImageObserver.ALLBITS) != 0) || ((infoflags & ImageObserver.FRAMEBITS) != 0)) {
       EventQueue.invokeLater(() -> {
         if (!checkPreferredSizeChange()) {
           repaint();
@@ -195,7 +202,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.Component#imageUpdate(java.awt.Image, int, int, int, int,
    * int)
    */
@@ -209,6 +216,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
     });
   }
 
+  @Override
   public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
     return inSelection;
   }
@@ -221,7 +229,7 @@ class InputImageControl extends BaseInputControl implements ImageListener {
     this.image = image;
     final int width = image.getWidth(this);
     final int height = image.getHeight(this);
-    if (width != -1 && height != -1) {
+    if ((width != -1) && (height != -1)) {
       this.imageUpdate(image, width, height);
     }
   }

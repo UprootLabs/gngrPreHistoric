@@ -22,7 +22,6 @@ package org.lobobrowser.html.style;
 
 import org.lobobrowser.html.domimpl.HTMLElementImpl;
 
-
 // TODO: Check if this class and sub-classes can be replaced with default stylesheets
 public abstract class AbstractMarginRenderState extends BlockRenderState {
   public AbstractMarginRenderState(final RenderState prevRenderState, final HTMLElementImpl element) {
@@ -31,6 +30,7 @@ public abstract class AbstractMarginRenderState extends BlockRenderState {
 
   protected abstract HtmlInsets getDefaultMarginInsets();
 
+  @Override
   public HtmlInsets getMarginInsets() {
     HtmlInsets insets = this.marginInsets;
     if (insets != INVALID_INSETS) {

@@ -9,7 +9,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import cz.vutbr.web.css.StyleSheet;
-import cz.vutbr.web.csskit.antlr.CSSParserFactory;
 
 /**
  * Borrowed from CSSBox HTMLNorm.java This class provides a mechanism of

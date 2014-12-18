@@ -47,7 +47,7 @@ import org.lobobrowser.util.gui.WrapperLayout;
 /**
  * A Swing panel used to render FRAMESETs only. It is used by {@link HtmlPanel}
  * when a document is determined to be a FRAMESET.
- * 
+ *
  * @see HtmlPanel
  * @see HtmlBlockPanel
  */
@@ -81,8 +81,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
   private static HTMLElementImpl[] getSubFrames(final HTMLElementImpl parent) {
     final NodeImpl[] children = parent.getChildrenArray();
     final ArrayList<NodeImpl> subFrames = new ArrayList<>();
-    for (int i = 0; i < children.length; i++) {
-      final NodeImpl child = children[i];
+    for (final NodeImpl child : children) {
       if (child instanceof HTMLElementImpl) {
         final String nodeName = child.getNodeName();
         if ("FRAME".equalsIgnoreCase(nodeName) || "FRAMESET".equalsIgnoreCase(nodeName)) {
@@ -118,7 +117,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     Component toValidate = this;
     for (;;) {
       final Container parent = toValidate.getParent();
-      if (parent == null || parent.isValid()) {
+      if ((parent == null) || parent.isValid()) {
         break;
       }
       toValidate = parent;
@@ -143,6 +142,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
   private Component[] frameComponents;
   private boolean domInvalid = true;
 
+  @Override
   public void setBounds(final int x, final int y, final int w, final int h) {
     super.setBounds(x, y, w, h);
   }
@@ -151,13 +151,14 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
    * This method is invoked by AWT in the GUI thread to lay out the component.
    * This implementation is an override.
    */
+  @Override
   public void doLayout() {
     if (this.domInvalid) {
       this.domInvalid = false;
       this.removeAll();
       final HtmlRendererContext context = this.htmlContext;
       if (context != null) {
-        final HTMLElementImpl element = (HTMLElementImpl) this.rootNode;
+        final HTMLElementImpl element = this.rootNode;
         final String rows = element.getAttribute("rows");
         final String cols = element.getAttribute("cols");
         final HtmlLength[] rowLengths = FrameSetPanel.getLengths(rows);
@@ -167,7 +168,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
         this.frameComponents = frameComponents;
         for (int i = 0; i < subframes.length; i++) {
           final HTMLElementImpl frameElement = subframes[i];
-          if (frameElement != null && "FRAMESET".equalsIgnoreCase(frameElement.getTagName())) {
+          if ((frameElement != null) && "FRAMESET".equalsIgnoreCase(frameElement.getTagName())) {
             final FrameSetPanel fsp = new FrameSetPanel();
             fsp.setRootNode(frameElement);
             frameComponents[i] = fsp;
@@ -190,7 +191,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
         final HtmlLength[] rhl = rowLengths;
         final HtmlLength[] chl = colLengths;
         final Component[] fc = this.frameComponents;
-        if (rhl != null && chl != null && fc != null) {
+        if ((rhl != null) && (chl != null) && (fc != null)) {
           final Dimension size = this.getSize();
           final Insets insets = this.getInsets();
           final int width = size.width - insets.left - insets.right;
@@ -224,7 +225,7 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
       }
     }
     final int remaining = totalSize - totalSizeNonMulti;
-    if (remaining > 0 && sumMulti > 0) {
+    if ((remaining > 0) && (sumMulti > 0)) {
       for (int i = 0; i < htmlLengths.length; i++) {
         final HtmlLength htmlLength = htmlLengths[i];
         if (htmlLength.getLengthType() == HtmlLength.MULTI_LENGTH) {
@@ -236,10 +237,11 @@ public class FrameSetPanel extends JComponent implements NodeRenderer {
     return absLengths;
   }
 
-  private Component getSplitPane(final HtmlRendererContext context, final int[] colLengths, final int firstCol, final int numCols, final int[] rowLengths, final int firstRow,
+  private Component getSplitPane(final HtmlRendererContext context, final int[] colLengths, final int firstCol, final int numCols,
+      final int[] rowLengths, final int firstRow,
       final int numRows, final Component[] frameComponents) {
     if (numCols == 1) {
-      final int frameindex = colLengths.length * firstRow + firstCol;
+      final int frameindex = (colLengths.length * firstRow) + firstCol;
       final Component topComponent = frameindex < frameComponents.length ? frameComponents[frameindex] : null;
       if (numRows == 1) {
         return topComponent;

@@ -47,7 +47,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
   private static boolean checkStartSelection(final Rectangle bounds, final Point selectionPoint) {
     if (bounds.y > selectionPoint.y) {
       return true;
-    } else if (selectionPoint.y >= bounds.y && selectionPoint.y < bounds.y + bounds.height && bounds.x > selectionPoint.x) {
+    } else if ((selectionPoint.y >= bounds.y) && (selectionPoint.y < (bounds.y + bounds.height)) && (bounds.x > selectionPoint.x)) {
       return true;
     } else {
       return false;
@@ -57,7 +57,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
   private static boolean checkEndSelection(final Rectangle bounds, final Point selectionPoint) {
     if (bounds.y > selectionPoint.y) {
       return true;
-    } else if (selectionPoint.y >= bounds.y && selectionPoint.y < bounds.y + bounds.height && selectionPoint.x < bounds.x) {
+    } else if ((selectionPoint.y >= bounds.y) && (selectionPoint.y < (bounds.y + bounds.height)) && (selectionPoint.x < bounds.x)) {
       return true;
     } else {
       return false;
@@ -94,7 +94,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
           final BoundableRenderable renderable = (BoundableRenderable) robj;
           final Rectangle bounds = renderable.getBounds();
           if (!inSelection) {
-            if (checkPoint1 != null && checkStartSelection(bounds, checkPoint1)) {
+            if ((checkPoint1 != null) && checkStartSelection(bounds, checkPoint1)) {
               if (checkPoint2 != null) {
                 checkPoint1 = checkPoint2;
                 checkPoint2 = null;
@@ -102,12 +102,12 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
                 checkPoint1 = null;
               }
               inSelection = true;
-            } else if (checkPoint2 != null && checkStartSelection(bounds, checkPoint2)) {
+            } else if ((checkPoint2 != null) && checkStartSelection(bounds, checkPoint2)) {
               checkPoint1 = null;
               checkPoint2 = null;
               inSelection = true;
             }
-          } else if (inSelection && checkPoint1 != null && checkEndSelection(bounds, checkPoint1)) {
+          } else if (inSelection && (checkPoint1 != null) && checkEndSelection(bounds, checkPoint1)) {
             return false;
           }
           final int offsetX = bounds.x;
@@ -125,9 +125,9 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
         }
       }
     }
-    if (inSelection && checkPoint1 != null) {
+    if (inSelection && (checkPoint1 != null)) {
       return false;
-    } else if (!inSelection && (checkPoint1 != null || checkPoint2 != null) && !(checkPoint1 != null && checkPoint2 != null)) {
+    } else if (!inSelection && ((checkPoint1 != null) || (checkPoint2 != null)) && !((checkPoint1 != null) && (checkPoint2 != null))) {
       // Has to have started not being in selection,
       // but we must start selecting without having
       // selected anything in the block then.
@@ -136,7 +136,8 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
     return inSelection;
   }
 
-  public boolean extractSelectionText(final StringBuffer buffer, boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
+  public boolean extractSelectionText(final StringBuffer buffer, boolean inSelection, final RenderableSpot startPoint,
+      final RenderableSpot endPoint) {
     Point checkPoint1 = null;
     Point checkPoint2 = null;
     if (!inSelection) {
@@ -165,7 +166,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
           final BoundableRenderable renderable = (BoundableRenderable) robj;
           if (!inSelection) {
             final Rectangle bounds = renderable.getBounds();
-            if (checkPoint1 != null && checkStartSelection(bounds, checkPoint1)) {
+            if ((checkPoint1 != null) && checkStartSelection(bounds, checkPoint1)) {
               if (checkPoint2 != null) {
                 checkPoint1 = checkPoint2;
                 checkPoint2 = null;
@@ -173,12 +174,12 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
                 checkPoint1 = null;
               }
               inSelection = true;
-            } else if (checkPoint2 != null && checkStartSelection(bounds, checkPoint2)) {
+            } else if ((checkPoint2 != null) && checkStartSelection(bounds, checkPoint2)) {
               checkPoint1 = null;
               checkPoint2 = null;
               inSelection = true;
             }
-          } else if (inSelection && checkPoint1 != null && checkEndSelection(renderable.getBounds(), checkPoint1)) {
+          } else if (inSelection && (checkPoint1 != null) && checkEndSelection(renderable.getBounds(), checkPoint1)) {
             return false;
           }
           final boolean newInSelection = renderable.extractSelectionText(buffer, inSelection, startPoint, endPoint);
@@ -189,9 +190,9 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
         }
       }
     }
-    if (inSelection && checkPoint1 != null) {
+    if (inSelection && (checkPoint1 != null)) {
       return false;
-    } else if (!inSelection && (checkPoint1 != null || checkPoint2 != null) && !(checkPoint1 != null && checkPoint2 != null)) {
+    } else if (!inSelection && ((checkPoint1 != null) || (checkPoint2 != null)) && !((checkPoint1 != null) && (checkPoint2 != null))) {
       // Has to have started not being in selection,
       // but we must start selecting without having
       // selected anything in the block then.
@@ -218,6 +219,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
 
   private BoundableRenderable renderableWithMouse = null;
 
+  @Override
   public void onMouseMoved(final MouseEvent event, final int x, final int y, final boolean triggerEvent, final ModelNode limit) {
     super.onMouseMoved(event, x, y, triggerEvent, limit);
     final BoundableRenderable oldRenderable = this.renderableWithMouse;
@@ -242,6 +244,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
     }
   }
 
+  @Override
   public void onMouseOut(final MouseEvent event, final int x, final int y, final ModelNode limit) {
     super.onMouseOut(event, x, y, limit);
     final BoundableRenderable oldRenderable = this.renderableWithMouse;
@@ -269,7 +272,7 @@ abstract class BaseRCollection extends BaseBoundableRenderable implements RColle
           }
           final int bx = br.getX();
           final int by = br.getY();
-          if (y >= by && y < by + br.getHeight() && x >= bx && x < bx + br.getWidth()) {
+          if ((y >= by) && (y < (by + br.getHeight())) && (x >= bx) && (x < (bx + br.getWidth()))) {
             return br;
           }
         }

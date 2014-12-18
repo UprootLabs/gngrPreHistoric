@@ -34,7 +34,7 @@ import java.awt.LayoutManager;
 public class WrapperLayout implements LayoutManager {
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String,
    * java.awt.Component)
    */
@@ -43,7 +43,7 @@ public class WrapperLayout implements LayoutManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
    */
   public void removeLayoutComponent(final Component arg0) {
@@ -51,7 +51,7 @@ public class WrapperLayout implements LayoutManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
    */
   public Dimension preferredLayoutSize(final Container arg0) {
@@ -67,7 +67,7 @@ public class WrapperLayout implements LayoutManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
    */
   public Dimension minimumLayoutSize(final Container arg0) {
@@ -83,7 +83,7 @@ public class WrapperLayout implements LayoutManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
    */
   public void layoutContainer(final Container arg0) {

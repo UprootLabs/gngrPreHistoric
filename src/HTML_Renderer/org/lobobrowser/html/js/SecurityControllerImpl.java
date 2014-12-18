@@ -46,6 +46,7 @@ public class SecurityControllerImpl extends SecurityController {
     this.codesource = new CodeSource(this.url, (java.security.cert.Certificate[]) null);
   }
 
+  @Override
   public Object callWithDomain(final Object securityDomain, final Context ctx, final Callable callable, final Scriptable scope,
       final Scriptable thisObj, final Object[] args) {
     if (securityDomain == null) {
@@ -59,10 +60,12 @@ public class SecurityControllerImpl extends SecurityController {
     }
   }
 
+  @Override
   public GeneratedClassLoader createClassLoader(final ClassLoader parent, final Object staticDomain) {
     return new LocalSecureClassLoader(parent);
   }
 
+  @Override
   public Object getDynamicSecurityDomain(final Object securityDomain) {
     final Policy policy = this.policy;
     if (policy == null) {

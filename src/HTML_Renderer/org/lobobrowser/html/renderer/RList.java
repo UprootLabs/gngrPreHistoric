@@ -28,16 +28,18 @@ import org.lobobrowser.html.style.RenderState;
 import org.lobobrowser.ua.UserAgentContext;
 
 class RList extends BaseRListElement {
-  public RList(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+  public RList(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+      final FrameContext frameContext,
       final RenderableContainer parentContainer, final RCollection parent) {
     super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
     // this.defaultMarginInsets = new java.awt.Insets(5, 0, 5, 0);
   }
 
+  @Override
   protected void applyStyle(final int availWidth, final int availHeight) {
     super.applyStyle(availWidth, availHeight);
     ListStyle listStyle = this.listStyle;
-    if (listStyle == null || listStyle.type == ListStyle.TYPE_UNSET) {
+    if ((listStyle == null) || (listStyle.type == ListStyle.TYPE_UNSET)) {
       final Object rootNode = this.modelNode;
       if (!(rootNode instanceof HTMLElementImpl)) {
         return;
@@ -62,7 +64,9 @@ class RList extends BaseRListElement {
     }
   }
 
-  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+  @Override
+  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight,
+      final FloatingBoundsSource floatBoundsSource,
       final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
     final RenderState renderState = this.modelNode.getRenderState();
     int counterStart = 1;

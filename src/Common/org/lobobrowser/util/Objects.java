@@ -28,8 +28,8 @@ package org.lobobrowser.util;
  */
 public class Objects {
   /**
-	 * 
-	 */
+   *
+   */
   private Objects() {
   }
 
@@ -38,8 +38,9 @@ public class Objects {
   }
 
   public static boolean isBoxClass(final Class clazz) {
-    return clazz == Integer.class || clazz == Boolean.class || clazz == Double.class || clazz == Float.class || clazz == Long.class
-        || clazz == Byte.class || clazz == Short.class || clazz == Character.class;
+    return (clazz == Integer.class) || (clazz == Boolean.class) || (clazz == Double.class) || (clazz == Float.class)
+        || (clazz == Long.class)
+        || (clazz == Byte.class) || (clazz == Short.class) || (clazz == Character.class);
   }
 
   /* Checks whether the arguments are an exact match to the parameter types */
@@ -62,10 +63,10 @@ public class Objects {
       return true;
     }
     if (clazz.isPrimitive()) {
-      if ((clazz == double.class && value instanceof Double) || (clazz == int.class && value instanceof Integer)
-          || (clazz == long.class && value instanceof Long) || (clazz == boolean.class && value instanceof Boolean)
-          || (clazz == byte.class && value instanceof Byte) || (clazz == char.class && value instanceof Character)
-          || (clazz == short.class && value instanceof Short) || (clazz == float.class && value instanceof Float)) {
+      if (((clazz == double.class) && (value instanceof Double)) || ((clazz == int.class) && (value instanceof Integer))
+          || ((clazz == long.class) && (value instanceof Long)) || ((clazz == boolean.class) && (value instanceof Boolean))
+          || ((clazz == byte.class) && (value instanceof Byte)) || ((clazz == char.class) && (value instanceof Character))
+          || ((clazz == short.class) && (value instanceof Short)) || ((clazz == float.class) && (value instanceof Float))) {
         return true;
       }
     }
@@ -91,10 +92,10 @@ public class Objects {
       return true;
     }
     if (clazz.isPrimitive()) {
-      if ((clazz == double.class && value instanceof Double) || (clazz == int.class && value instanceof Integer)
-          || (clazz == long.class && value instanceof Long) || (clazz == boolean.class && value instanceof Boolean)
-          || (clazz == byte.class && value instanceof Byte) || (clazz == char.class && value instanceof Character)
-          || (clazz == short.class && value instanceof Short) || (clazz == float.class && value instanceof Float)) {
+      if (((clazz == double.class) && (value instanceof Double)) || ((clazz == int.class) && (value instanceof Integer))
+          || ((clazz == long.class) && (value instanceof Long)) || ((clazz == boolean.class) && (value instanceof Boolean))
+          || ((clazz == byte.class) && (value instanceof Byte)) || ((clazz == char.class) && (value instanceof Character))
+          || ((clazz == short.class) && (value instanceof Short)) || ((clazz == float.class) && (value instanceof Float))) {
         return true;
       }
     }
@@ -102,15 +103,15 @@ public class Objects {
       return true;
     }
     if (clazz.isAssignableFrom(String.class)) {
-      return value == null || !value.getClass().isPrimitive();
+      return (value == null) || !value.getClass().isPrimitive();
     }
     return false;
   }
 
   private static boolean isNumeric(final Class<? extends Object> clazz) {
     return Number.class.isAssignableFrom(clazz)
-        || (clazz.isPrimitive() && (clazz == int.class || clazz == double.class || clazz == byte.class || clazz == short.class
-            || clazz == float.class || clazz == long.class));
+        || (clazz.isPrimitive() && ((clazz == int.class) || (clazz == double.class) || (clazz == byte.class) || (clazz == short.class)
+            || (clazz == float.class) || (clazz == long.class)));
   }
 
   private static boolean isNumeric(final Object value) {

@@ -34,8 +34,8 @@ import java.util.NoSuchElementException;
  */
 public class CollectionUtilities {
   /**
-	 * 
-	 */
+   *
+   */
   private CollectionUtilities() {
     super();
   }

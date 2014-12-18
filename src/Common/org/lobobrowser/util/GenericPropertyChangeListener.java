@@ -39,7 +39,7 @@ public class GenericPropertyChangeListener implements GenericEventListener {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.util.GenericEventListener#processEvent(java.util.
    * EventObject)
    */
@@ -47,10 +47,12 @@ public class GenericPropertyChangeListener implements GenericEventListener {
     this.delegate.propertyChange((PropertyChangeEvent) event);
   }
 
+  @Override
   public boolean equals(final Object other) {
-    return other instanceof GenericPropertyChangeListener && ((GenericPropertyChangeListener) other).delegate.equals(this.delegate);
+    return (other instanceof GenericPropertyChangeListener) && ((GenericPropertyChangeListener) other).delegate.equals(this.delegate);
   }
 
+  @Override
   public int hashCode() {
     return this.delegate.hashCode();
   }

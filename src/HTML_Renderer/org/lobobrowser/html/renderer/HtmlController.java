@@ -134,7 +134,8 @@ class HtmlController {
     return this.onContextMenu(parent, event, x, y);
   }
 
-  public void onMouseOver(final BaseBoundableRenderable renderable, final ModelNode nodeStart, final MouseEvent event, final int x, final int y, final ModelNode limit) {
+  public void onMouseOver(final BaseBoundableRenderable renderable, final ModelNode nodeStart, final MouseEvent event, final int x,
+      final int y, final ModelNode limit) {
     {
       ModelNode node = nodeStart;
       while (node != null) {
@@ -178,7 +179,7 @@ class HtmlController {
             break;
           } else {
             if (node.getParentModelNode() == limit) {
-              if (renderable instanceof RWord || renderable instanceof RBlank) {
+              if ((renderable instanceof RWord) || (renderable instanceof RBlank)) {
                 rcontext.setCursor(Optional.of(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR)));
               }
             }

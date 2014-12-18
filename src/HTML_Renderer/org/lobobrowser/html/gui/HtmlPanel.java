@@ -110,7 +110,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * <p>
    * Note also that setting the preferred width (to a value other than
    * <code>-1</code>) will negatively impact performance.
-   * 
+   *
    * @param width
    *          The preferred width, or <code>-1</code> to unset.
    */
@@ -127,7 +127,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * area to the given location.
    * <p>
    * This method should be called from the GUI thread.
-   * 
+   *
    * @param bounds
    *          The bounds in the scrollable block area that should become
    *          visible.
@@ -150,7 +150,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * document.
    * <p>
    * This method should be called from the GUI thread.
-   * 
+   *
    * @param node
    *          A DOM node.
    */
@@ -175,7 +175,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * page is a FRAMESET.
    * <p>
    * Note: This method should be invoked in the GUI thread.
-   * 
+   *
    * @return A <code>FrameSetPanel</code> instance or <code>null</code> if the
    *         document currently rendered is not a FRAMESET.
    */
@@ -236,7 +236,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * upper-left corner of the panel.
    * <p>
    * This method may be called outside of the GUI Thread.
-   * 
+   *
    * @param x
    *          The x coordinate.
    * @param y
@@ -307,7 +307,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * the document is scheduled to be set later. Note that
    * {@link #setPreferredWidth(int) preferred size} calculations should be done
    * in the GUI dispatch thread for this reason.
-   * 
+   *
    * @param node
    *          This should normally be a Document instance obtained with
    *          {@link org.lobobrowser.html.parser.DocumentBuilderImpl}.
@@ -328,7 +328,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
   }
 
   @Override
-  public void setCursor(Cursor cursor) {
+  public void setCursor(final Cursor cursor) {
     if (cursor != getCursor()) {
       super.setCursor(cursor);
     }
@@ -339,7 +339,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * <p>
    * If this method is invoked outside the GUI thread, the operation is
    * scheduled to be performed as soon as possible in the GUI thread.
-   * 
+   *
    * @param nameOrId
    *          The name or ID of the element in the document.
    */
@@ -376,7 +376,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     this.rootNode = nodeImpl;
     final NodeImpl fsrn = this.getFrameSetRootNode(nodeImpl);
     final boolean newIfs = fsrn != null;
-    if (newIfs != this.isFrameSet || this.getComponentCount() == 0) {
+    if ((newIfs != this.isFrameSet) || (this.getComponentCount() == 0)) {
       this.isFrameSet = newIfs;
       if (newIfs) {
         this.setUpFrameSet(fsrn);
@@ -402,7 +402,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
 
   /**
    * Renders HTML given as a string.
-   * 
+   *
    * @param htmlSource
    *          The HTML source code.
    * @param uri
@@ -441,7 +441,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     final NodeImpl nodeImpl = this.rootNode;
     final NodeImpl fsrn = this.getFrameSetRootNode(nodeImpl);
     final boolean newIfs = fsrn != null;
-    if (newIfs != this.isFrameSet || this.getComponentCount() == 0) {
+    if ((newIfs != this.isFrameSet) || (this.getComponentCount() == 0)) {
       this.isFrameSet = newIfs;
       if (newIfs) {
         this.setUpFrameSet(fsrn);
@@ -459,7 +459,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
   private NodeImpl getFrameSetRootNode(final NodeImpl node) {
     if (node instanceof Document) {
       final ElementImpl element = (ElementImpl) ((Document) node).getDocumentElement();
-      if (element != null && "HTML".equalsIgnoreCase(element.getTagName())) {
+      if ((element != null) && "HTML".equalsIgnoreCase(element.getTagName())) {
         return this.getFrameSet(element);
       } else {
         return this.getFrameSet(node);
@@ -510,7 +510,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
         final NodeImpl child = children[i];
         if (child instanceof Text) {
           final String textContent = ((Text) child).getTextContent();
-          if (textContent != null && !"".equals(textContent.trim())) {
+          if ((textContent != null) && !"".equals(textContent.trim())) {
             return false;
           }
         } else if (child instanceof ElementImpl) {
@@ -574,7 +574,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * that the selection end point may be just outside of the selection.
    * <p>
    * Note: This method should be invoked in the GUI thread.
-   * 
+   *
    * @return A node enclosing the current selection, or <code>null</code> if
    *         there is no such node. It also returns <code>null</code> for
    *         FRAMESETs.
@@ -617,7 +617,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
   /**
    * Adds listener of selection changes. Note that it does not have any effect
    * on FRAMESETs.
-   * 
+   *
    * @param listener
    *          An instance of {@link SelectionChangeListener}.
    */
@@ -637,7 +637,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * behaves like padding.
    * <p>
    * This method has no effect on FRAMESETs.
-   * 
+   *
    * @param insets
    *          The default margin insets.
    */
@@ -653,7 +653,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * Sets the default horizontal overflow.
    * <p>
    * This method has no effect on FRAMESETs.
-   * 
+   *
    * @param overflow
    *          See {@link org.lobobrowser.html.style.RenderState}.
    */
@@ -669,7 +669,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
    * Sets the default vertical overflow.
    * <p>
    * This method has no effect on FRAMESETs.
-   * 
+   *
    * @param overflow
    *          See {@link org.lobobrowser.html.style.RenderState}.
    */
@@ -729,7 +729,7 @@ public class HtmlPanel extends JComponent implements FrameContext {
     final int length = notifsArray.length;
     for (int i = 0; i < length; i++) {
       final DocumentNotification dn = notifsArray[i];
-      if (dn.node instanceof HTMLFrameSetElement && this.htmlBlockPanel != null) {
+      if ((dn.node instanceof HTMLFrameSetElement) && (this.htmlBlockPanel != null)) {
         if (this.resetIfFrameSet()) {
           // Revalidation already taken care of.
           return;
@@ -749,11 +749,12 @@ public class HtmlPanel extends JComponent implements FrameContext {
   private class SelectionDispatch extends EventDispatch2 {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.xamjwg.util.EventDispatch2#dispatchEvent(java.util.EventListener,
      * java.util.EventObject)
      */
+    @Override
     protected void dispatchEvent(final EventListener listener, final EventObject event) {
       ((SelectionChangeListener) listener).selectionChanged((SelectionChangeEvent) event);
     }

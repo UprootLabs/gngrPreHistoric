@@ -57,7 +57,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
       final Collection<String> items = new LinkedList<>();
       final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       int count = 0;
-      while (i.hasNext() && count++ < maxNumItems) {
+      while (i.hasNext() && (count++ < maxNumItems)) {
         final TimedEntry entry = i.next();
         items.add(entry.value);
       }
@@ -70,7 +70,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
       final Collection<T> items = new LinkedList<>();
       final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
       int count = 0;
-      while (i.hasNext() && count++ < maxNumItems) {
+      while (i.hasNext() && (count++ < maxNumItems)) {
         final TimedEntry entry = i.next();
         items.add(entry.itemInfo);
       }
@@ -86,7 +86,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
       while (i.hasNext()) {
         final TimedEntry entry = i.next();
         final String host = entry.url.getHost();
-        if (host != null && host.length() != 0) {
+        if ((host != null) && (host.length() != 0)) {
           if (!hosts.contains(host)) {
             hosts.add(host);
             if (hosts.size() >= maxNumItems) {
@@ -129,12 +129,12 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
 
   public Collection<String> getHeadMatchItems(final String itemPrefix, final int maxNumItems) {
     synchronized (this) {
-      String[] array = ArrayUtilities.copy(this.historySortedSet, String.class);
+      final String[] array = ArrayUtilities.copy(this.historySortedSet, String.class);
       final int idx = Arrays.binarySearch(array, itemPrefix);
       final int startIdx = idx >= 0 ? idx : (-idx - 1);
       int count = 0;
       final Collection<String> items = new LinkedList<>();
-      for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
+      for (int i = startIdx; (i < array.length) && (count++ < maxNumItems); i++) {
         final String potentialItem = array[i];
         if (potentialItem.startsWith(itemPrefix)) {
           items.add(potentialItem);
@@ -208,10 +208,11 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
       this.timestamp = System.currentTimeMillis();
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj instanceof BaseHistory.TimedEntry) {
         @SuppressWarnings("unchecked")
-        BaseHistory<T>.TimedEntry other = (BaseHistory<T>.TimedEntry) obj;
+        final BaseHistory<T>.TimedEntry other = (BaseHistory<T>.TimedEntry) obj;
         return other.value.equals(this.value);
       } else {
         return false;
@@ -220,7 +221,7 @@ public abstract class BaseHistory<T> implements java.io.Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final TimedEntry arg0) {

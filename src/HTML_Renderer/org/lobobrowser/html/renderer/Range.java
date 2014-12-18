@@ -40,6 +40,7 @@ class Range {
     this.length = length;
   }
 
+  @Override
   public String toString() {
     return "Range[offset=" + this.offset + ",length=" + this.length + "]";
   }

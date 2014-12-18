@@ -121,7 +121,7 @@ public class Strings {
   }
 
   public static boolean isBlank(final String text) {
-    return text == null || "".equals(text);
+    return (text == null) || "".equals(text);
   }
 
   public static int countLines(final String text) {
@@ -223,8 +223,8 @@ public class Strings {
       final byte b = result[i];
       final int lo4 = b & 0x0F;
       final int hi4 = (b & 0xF0) >> 4;
-      resChars[i * 2] = HEX_CHARS.charAt(hi4);
-      resChars[i * 2 + 1] = HEX_CHARS.charAt(lo4);
+    resChars[i * 2] = HEX_CHARS.charAt(hi4);
+    resChars[(i * 2) + 1] = HEX_CHARS.charAt(lo4);
     }
     return new String(resChars);
   }
@@ -287,8 +287,8 @@ public class Strings {
 
   /**
    * Removes the double-quotes at the beginning and end of a string. If input
-   * string doesn't have the double-quote character at beginning or end, it
-   * is returned unchanged.
+   * string doesn't have the double-quote character at beginning or end, it is
+   * returned unchanged.
    */
   public static String unquote(final String text) {
     final int length = text.length();
@@ -302,8 +302,8 @@ public class Strings {
 
   /**
    * Removes the single-quotes at the beginning and end of a string. If input
-   * string doesn't have the single-quote character at beginning or end, it
-   * is returned unchanged.
+   * string doesn't have the single-quote character at beginning or end, it is
+   * returned unchanged.
    */
   public static String unquoteSingle(final String text) {
     final int length = text.length();
@@ -387,7 +387,7 @@ public class Strings {
     final int length = rawText.length();
     for (int i = 0; i < length; i++) {
       final char ch = rawText.charAt(i);
-      if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '-') {
+      if (((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z')) || ((ch >= '0') && (ch <= '9')) || (ch == '-')) {
         continue;
       }
       return rawText.substring(0, i);

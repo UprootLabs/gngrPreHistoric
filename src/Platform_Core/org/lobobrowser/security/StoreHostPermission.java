@@ -41,7 +41,7 @@ public class StoreHostPermission extends BasicPermission {
       return new StoreHostPermission("*");
     } else {
       final String hostName = url.getHost().toLowerCase();
-      if (hostName != null && hostName.indexOf('*') != -1) {
+      if ((hostName != null) && (hostName.indexOf('*') != -1)) {
         throw new SecurityException("Invalid host: " + hostName);
       }
       return StoreHostPermission.forHost(hostName);
@@ -50,7 +50,7 @@ public class StoreHostPermission extends BasicPermission {
 
   public static StoreHostPermission forHost(final String hostName) {
     // TODO What about a JAR URL or a VC URL?
-    final String h = hostName == null || "".equals(hostName) ? "<<local>>" : hostName;
+    final String h = (hostName == null) || "".equals(hostName) ? "<<local>>" : hostName;
     return new StoreHostPermission(h);
   }
 }

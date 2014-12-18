@@ -117,10 +117,10 @@ public class StorageManager implements Runnable {
     // TODO: https://stackoverflow.com/questions/24741761/how-to-check-if-a-table-exists-in-jooq
     final int tableCount =
         userDB
-            .selectCount()
-            .from("INFORMATION_SCHEMA.TABLES")
-            .where("TABLE_SCHEMA = 'PUBLIC'")
-            .fetchOne().value1();
+        .selectCount()
+        .from("INFORMATION_SCHEMA.TABLES")
+        .where("TABLE_SCHEMA = 'PUBLIC'")
+        .fetchOne().value1();
     return tableCount;
   }
 
@@ -149,7 +149,7 @@ public class StorageManager implements Runnable {
   public File getCacheHostDirectory(String hostName) throws IOException {
     CacheManager.getInstance();
     final File cacheDir = this.getCacheRoot();
-    if (hostName == null || "".equals(hostName)) {
+    if ((hostName == null) || "".equals(hostName)) {
       hostName = NO_HOST;
     }
     return new File(cacheDir, normalizedFileName(hostName));
@@ -168,14 +168,15 @@ public class StorageManager implements Runnable {
   private final Map<String, RestrictedStore> restrictedStoreCache = new HashMap<>();
 
   /**
-   * @param hostName  should be canonicalized to lower case
+   * @param hostName
+   *          should be canonicalized to lower case
    */
   public RestrictedStore getRestrictedStore(String hostName, final boolean createIfNotExists) throws IOException {
     final SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(StoreHostPermission.forHost(hostName));
     }
-    if (hostName == null || "".equals(hostName)) {
+    if ((hostName == null) || "".equals(hostName)) {
       hostName = NO_HOST;
     }
     final String normHost = hostName;
@@ -221,9 +222,9 @@ public class StorageManager implements Runnable {
     }
     final File file = new File(dir, name);
     try (
-      final OutputStream out = new FileOutputStream(file);
-      final BufferedOutputStream bos = new BufferedOutputStream(out);
-      final ObjectOutputStream oos = new ObjectOutputStream(bos);) {
+        final OutputStream out = new FileOutputStream(file);
+        final BufferedOutputStream bos = new BufferedOutputStream(out);
+        final ObjectOutputStream oos = new ObjectOutputStream(bos);) {
       oos.writeObject(data);
       oos.flush();
     }
@@ -239,9 +240,9 @@ public class StorageManager implements Runnable {
       return null;
     }
     try (
-      final InputStream in = new FileInputStream(file);
-      final BufferedInputStream bin = new BufferedInputStream(in);
-      final ObjectInputStream ois = new ClassLoaderObjectInputStream(bin, classLoader);) {
+        final InputStream in = new FileInputStream(file);
+        final BufferedInputStream bin = new BufferedInputStream(in);
+        final ObjectInputStream ois = new ClassLoaderObjectInputStream(bin, classLoader);) {
       return (Serializable) ois.readObject();
     } catch (final InvalidClassException ice) {
       ice.printStackTrace();
@@ -284,6 +285,7 @@ public class StorageManager implements Runnable {
   }
 
   private static final int MANAGED_STORE_UPDATE_DELAY = 1000 * 60 * 5; /* 5 minutes */
+
   public void run() {
     for (;;) {
       try {
@@ -292,9 +294,9 @@ public class StorageManager implements Runnable {
         synchronized (this) {
           stores = this.restrictedStoreCache.values().toArray(new RestrictedStore[0]);
         }
-        for (int i = 0; i < stores.length; i++) {
+        for (final RestrictedStore store : stores) {
           Thread.yield();
-          stores[i].updateSizeFile();
+          store.updateSizeFile();
         }
       } catch (final Throwable err) {
         logger.log(Level.SEVERE, "run()", err);
@@ -307,12 +309,11 @@ public class StorageManager implements Runnable {
     }
   }
 
-
   public synchronized void shutdown() {
     if (dbConnection != null) {
       try {
         dbConnection.close();
-      } catch (SQLException e) {
+      } catch (final SQLException e) {
         // Since we are shutting down, we shouldn't bubble any exception, to let other modules shutdown gracefully
         e.printStackTrace();
       }

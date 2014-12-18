@@ -36,10 +36,10 @@ public class SwingTasks {
 
   public static void setNestedEnabled(final JComponent component, final boolean enabled) {
     final Boolean nestedEnabling = (Boolean) component.getClientProperty(NESTED_ENABLING);
-    if (nestedEnabling == null || nestedEnabling.booleanValue() != enabled) {
+    if ((nestedEnabling == null) || (nestedEnabling.booleanValue() != enabled)) {
       component.putClientProperty(NESTED_ENABLING, enabled);
       final Container parent = component.getParent();
-      if (parent == null || !enabled || parent.isEnabled()) {
+      if ((parent == null) || !enabled || parent.isEnabled()) {
         setEnabledRecursive(component, enabled);
       }
     }
@@ -54,7 +54,7 @@ public class SwingTasks {
         final JComponent jchild = (JComponent) child;
         if (enabled) {
           final Boolean nestedEnabling = (Boolean) jchild.getClientProperty(NESTED_ENABLING);
-          if (nestedEnabling == null || nestedEnabling.booleanValue()) {
+          if ((nestedEnabling == null) || nestedEnabling.booleanValue()) {
             setEnabledRecursive(jchild, true);
           }
         } else {
@@ -80,7 +80,7 @@ public class SwingTasks {
 
   public static Frame getFrame(final Component component) {
     Container ancestor = component.getParent();
-    while (ancestor != null && !(ancestor instanceof Frame)) {
+    while ((ancestor != null) && !(ancestor instanceof Frame)) {
       ancestor = ancestor.getParent();
     }
     return (Frame) ancestor;
@@ -88,7 +88,7 @@ public class SwingTasks {
 
   public static Dialog getDialog(final Component component) {
     Container ancestor = component.getParent();
-    while (ancestor != null && !(ancestor instanceof Dialog)) {
+    while ((ancestor != null) && !(ancestor instanceof Dialog)) {
       ancestor = ancestor.getParent();
     }
     return (Dialog) ancestor;

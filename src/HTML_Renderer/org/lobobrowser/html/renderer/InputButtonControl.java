@@ -49,6 +49,7 @@ class InputButtonControl extends BaseInputControl {
     });
   }
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     final RUIControl ruiControl = this.ruicontrol;
@@ -60,7 +61,7 @@ class InputButtonControl extends BaseInputControl {
     }
     final HTMLInputElementImpl element = (HTMLInputElementImpl) this.controlElement;
     String text = element.getAttribute("value");
-    if (text == null || text.length() == 0) {
+    if ((text == null) || (text.length() == 0)) {
       final String type = element.getType();
       if ("submit".equalsIgnoreCase(type)) {
         text = " ";
@@ -75,22 +76,25 @@ class InputButtonControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#click()
    */
+  @Override
   public void click() {
     this.widget.doClick();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getValue()
    */
+  @Override
   public String getValue() {
     return this.widget.getText();
   }
 
+  @Override
   public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
@@ -98,9 +102,10 @@ class InputButtonControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
    */
+  @Override
   public void setValue(final String value) {
     this.widget.setText(value);
   }

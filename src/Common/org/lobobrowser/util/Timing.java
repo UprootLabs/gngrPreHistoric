@@ -29,10 +29,10 @@ public class Timing {
     if (elapsedMillis < 60000) {
       final double unit = round1(elapsedMillis / 1000.0);
       return unit + (unit == 1 ? " second" : " seconds");
-    } else if (elapsedMillis < 60000 * 60) {
+    } else if (elapsedMillis < (60000 * 60)) {
       final double unit = round1(elapsedMillis / 60000.0);
       return unit + (unit == 1 ? " minute" : " minutes");
-    } else if (elapsedMillis < 60000 * 60 * 24) {
+    } else if (elapsedMillis < (60000 * 60 * 24)) {
       final double unit = round1(elapsedMillis / (60000.0 * 60));
       return unit + (unit == 1 ? " hour" : " hours");
     } else {

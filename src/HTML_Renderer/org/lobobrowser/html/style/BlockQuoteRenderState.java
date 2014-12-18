@@ -31,6 +31,7 @@ public class BlockQuoteRenderState extends AbstractMarginRenderState {
     super(prevRenderState, element);
   }
 
+  @Override
   protected HtmlInsets getDefaultMarginInsets() {
     final HtmlInsets insets = new HtmlInsets();
     final FontMetrics fm = this.getFontMetrics();
@@ -39,7 +40,7 @@ public class BlockQuoteRenderState extends AbstractMarginRenderState {
     insets.topType = HtmlInsets.TYPE_PIXELS;
     insets.bottomType = HtmlInsets.TYPE_PIXELS;
     final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
-    insets.left = (int) Math.round(dpi * 30.0 / 72.0);
+    insets.left = (int) Math.round((dpi * 30.0) / 72.0);
     insets.right = insets.left / 2;
     insets.leftType = HtmlInsets.TYPE_PIXELS;
     insets.rightType = HtmlInsets.TYPE_PIXELS;

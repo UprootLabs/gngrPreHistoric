@@ -49,6 +49,7 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     this.methods.add(m);
   }
 
+  @Override
   public String getClassName() {
     return this.className;
   }
@@ -64,10 +65,10 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
       final Method m = methods.get(i);
       final Class<?>[] parameterTypes = m.getParameterTypes();
       if (args == null) {
-        if (parameterTypes == null || parameterTypes.length == 0) {
+        if ((parameterTypes == null) || (parameterTypes.length == 0)) {
           return m;
         }
-      } else if (parameterTypes != null && args.length == parameterTypes.length) {
+      } else if ((parameterTypes != null) && (args.length == parameterTypes.length)) {
         if (Objects.areSameTo(args, parameterTypes)) {
           return m;
         }
@@ -90,14 +91,14 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
       final Method m = methods.get(i);
       final Class<?>[] parameterTypes = m.getParameterTypes();
       if (args == null) {
-        if (parameterTypes == null || parameterTypes.length == 0) {
+        if ((parameterTypes == null) || (parameterTypes.length == 0)) {
           return m;
         }
-      } else if (parameterTypes != null && args.length >= parameterTypes.length) {
+      } else if ((parameterTypes != null) && (args.length >= parameterTypes.length)) {
         if (Objects.areAssignableTo(args, parameterTypes)) {
           return m;
         }
-        if (matchingMethod == null || parameterTypes.length > matchingNumParams) {
+        if ((matchingMethod == null) || (parameterTypes.length > matchingNumParams)) {
           matchingNumParams = parameterTypes.length;
           matchingMethod = m;
         }
@@ -174,11 +175,12 @@ public class JavaFunctionObject extends ScriptableObject implements Function {
     }
   }
 
+  @Override
   public java.lang.Object getDefaultValue(final java.lang.Class<?> hint) {
     if (loggableInfo) {
       logger.info("getDefaultValue(): hint=" + hint + ",this=" + this);
     }
-    if (hint == null || String.class.equals(hint)) {
+    if ((hint == null) || String.class.equals(hint)) {
       return "function " + this.className;
     } else {
       return super.getDefaultValue(hint);

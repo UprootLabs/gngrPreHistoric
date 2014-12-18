@@ -37,6 +37,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
     this.setAttribute("align", align);
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     // (can't put a RenderState in the middle - messes up "em" sizes).
     // prevRenderState = new FontSizeRenderState(prevRenderState, fontSize,
@@ -44,6 +45,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
     return new HeadingRenderState(prevRenderState, this);
   }
 
+  @Override
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     final int length = buffer.length();
     int lineBreaks;
@@ -62,7 +64,7 @@ public class HTMLHeadingElementImpl extends HTMLAbstractUIElement implements HTM
         }
       }
     }
-    for (int i = 0; i < 2 - lineBreaks; i++) {
+    for (int i = 0; i < (2 - lineBreaks); i++) {
       buffer.append("\r\n");
     }
     super.appendInnerTextImpl(buffer);

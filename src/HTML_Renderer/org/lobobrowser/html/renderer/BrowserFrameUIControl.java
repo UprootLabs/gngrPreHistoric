@@ -56,7 +56,7 @@ class BrowserFrameUIControl implements UIControl {
       HtmlInsets insets = null;
       String marginwidth = element.getAttribute("marginwidth");
       String marginheight = element.getAttribute("marginheight");
-      if (marginwidth != null && marginwidth.length() != 0) {
+      if ((marginwidth != null) && (marginwidth.length() != 0)) {
         if (insets == null) {
           insets = new HtmlInsets();
         }
@@ -85,7 +85,7 @@ class BrowserFrameUIControl implements UIControl {
           insets.rightType = HtmlInsets.TYPE_PIXELS;
         }
       }
-      if (marginheight != null && marginheight.length() != 0) {
+      if ((marginheight != null) && (marginheight.length() != 0)) {
         if (insets == null) {
           insets = new HtmlInsets();
         }

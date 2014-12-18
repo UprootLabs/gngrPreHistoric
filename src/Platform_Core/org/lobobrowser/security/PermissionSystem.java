@@ -215,7 +215,8 @@ public class PermissionSystem {
 
         public PermissionCell(final Optional<RequestKind> kind, final Permission startingPermission,
             final List<PermissionCell> parentCells,
-            final Optional<PermissionCell> fallbackCellOpt, final Optional<PermissionCell> grandParentCellOpt, boolean canBeUndecidable) {
+            final Optional<PermissionCell> fallbackCellOpt, final Optional<PermissionCell> grandParentCellOpt,
+            final boolean canBeUndecidable) {
           myPermission = startingPermission;
           this.parentCells = parentCells;
           this.fallbackCellOpt = fallbackCellOpt;
@@ -257,7 +258,7 @@ public class PermissionSystem {
         private boolean parentExistsFor(final Permission permission) {
           return parentCells.stream().anyMatch(cell -> {
             final PermissionResult effectivePermission = cell.getEffectivePermission();
-            return effectivePermission.permission == permission && !effectivePermission.isDefault;
+            return (effectivePermission.permission == permission) && !effectivePermission.isDefault;
           });
         }
 

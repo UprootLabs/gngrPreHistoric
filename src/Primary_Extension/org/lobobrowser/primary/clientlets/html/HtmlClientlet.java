@@ -55,7 +55,6 @@ import org.lobobrowser.util.Strings;
 import org.lobobrowser.util.Urls;
 import org.lobobrowser.util.io.RecordedInputStream;
 import org.w3c.dom.Element;
-import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -75,14 +74,15 @@ public final class HtmlClientlet implements Clientlet {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.Clientlet#parse(org.xamjwg.dom.XDocument)
    */
   public void process(final ClientletContext cc) throws ClientletException {
     this.processImpl(cc, null, null);
   }
 
-  private void processImpl(final ClientletContext cc, final Map<String, String> httpEquivData, RecordedInputStream rin) throws ClientletException {
+  private void processImpl(final ClientletContext cc, final Map<String, String> httpEquivData, RecordedInputStream rin)
+      throws ClientletException {
     // This method may be executed twice, depending on http-equiv meta elements.
     try {
       final ClientletResponse response = cc.getResponse();
@@ -96,7 +96,7 @@ public final class HtmlClientlet implements Clientlet {
       while (hi.hasNext()) {
         final String headerName = hi.next();
         final String[] headerValues = response.getHeaders(headerName);
-        if (headerValues != null && headerValues.length > 0) {
+        if ((headerValues != null) && (headerValues.length > 0)) {
           if ("refresh".equalsIgnoreCase(headerName)) {
             refresh = HtmlClientlet.extractRefresh(headerValues[headerValues.length - 1]);
           }
@@ -152,7 +152,7 @@ public final class HtmlClientlet implements Clientlet {
       document.setReferrer(referrer == null ? "" : referrer);
       final HtmlPanel panel = rcontext.getHtmlPanel();
       // Create a listener that will switch to rendering when appropriate.
-      final HtmlContent content = new HtmlContent((HTMLDocument) document, panel, rin, charset);
+      final HtmlContent content = new HtmlContent(document, panel, rin, charset);
       final LocalDocumentNotificationListener listener = new LocalDocumentNotificationListener(document, panel, rcontext, cc, content,
           httpEquivData == null);
       document.addDocumentNotificationListener(listener);
@@ -183,7 +183,7 @@ public final class HtmlClientlet implements Clientlet {
       listener.ensureSwitchedToRendering();
       // Scroll to see anchor.
       final String ref = responseURL.getRef();
-      if (ref != null && ref.length() != 0) {
+      if ((ref != null) && (ref.length() != 0)) {
         panel.scrollToElement(ref);
       }
       if (refresh != null) {
@@ -301,7 +301,8 @@ public final class HtmlClientlet implements Clientlet {
     private boolean hasSwitchedToRendering = false;
     private Collection<HTMLElement> httpEquivElements;
 
-    public LocalDocumentNotificationListener(final HTMLDocumentImpl doc, final HtmlPanel panel, final HtmlRendererContext rcontext, final ClientletContext cc,
+    public LocalDocumentNotificationListener(final HTMLDocumentImpl doc, final HtmlPanel panel, final HtmlRendererContext rcontext,
+        final ClientletContext cc,
         final HtmlContent content, final boolean detectHttpEquiv) {
       this.document = doc;
       this.startTimestamp = System.currentTimeMillis();
@@ -355,7 +356,7 @@ public final class HtmlClientlet implements Clientlet {
             // sometimes sites don't put http-equiv in HEAD, e.g.
             // http://baidu.com.
             final Map<String, String> httpEquiv = this.getHttpEquivData();
-            if (httpEquiv != null && httpEquiv.size() > 0) {
+            if ((httpEquiv != null) && (httpEquiv.size() > 0)) {
               throw new HttpEquivRetryException(httpEquiv);
             }
           }
@@ -366,7 +367,7 @@ public final class HtmlClientlet implements Clientlet {
           this.hasVisibleElements = true;
         }
       }
-      if (this.hasVisibleElements && (System.currentTimeMillis() - this.startTimestamp) > MAX_WAIT) {
+      if (this.hasVisibleElements && ((System.currentTimeMillis() - this.startTimestamp) > MAX_WAIT)) {
         this.ensureSwitchedToRendering();
       }
     }
@@ -404,9 +405,9 @@ public final class HtmlClientlet implements Clientlet {
       document.removeDocumentNotificationListener(this);
       java.awt.EventQueue.invokeLater(() -> {
         // Should have nicer effect (less flicker) in GUI thread.
-        htmlPanel.setDocument(document, rcontext);
-        ccontext.setResultingContent(content);
-      });
+          htmlPanel.setDocument(document, rcontext);
+          ccontext.setResultingContent(content);
+        });
     }
 
     private Map<String, String> getHttpEquivData() {

@@ -51,7 +51,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   private static final List<String> excludedResponseHeadersLowerCase = Arrays.asList(
       "set-cookie",
       "set-cookie2"
-  );
+      );
 
   @NotGetterSetter
   public String getAllResponseHeaders() {
@@ -119,14 +119,14 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
       final URL url = urlOpt.get();
       if (isSameOrigin(url, codeSource)) {
         final URLPermission urlPermission = new URLPermission(url.toExternalForm());
-        final SocketPermission socketPermission = new SocketPermission(url.getHost()+":"+Urls.getPort(url), "connect,resolve");
+        final SocketPermission socketPermission = new SocketPermission(url.getHost() + ":" + Urls.getPort(url), "connect,resolve");
         final PrivilegedExceptionAction<Object> action = () -> {
           request.send(content, new Request(url, RequestKind.XHR));
           return null;
         };
         try {
           AccessController.doPrivileged(action, null, urlPermission, socketPermission);
-        } catch (PrivilegedActionException e) {
+        } catch (final PrivilegedActionException e) {
           throw (IOException) e.getCause();
         }
       } else {
@@ -138,9 +138,8 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   }
 
   private static boolean isSameOrigin(final URL url1, final URL url2) {
-    return
-        url1.getHost().equals(url2.getHost()) &&
-        url1.getPort() == (url2.getPort()) &&
+    return url1.getHost().equals(url2.getHost()) &&
+        (url1.getPort() == (url2.getPort())) &&
         url1.getProtocol().equals(url2.getProtocol());
 
   }
@@ -157,7 +156,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   public void setOnreadystatechange(final Function value) {
     synchronized (this) {
       this.onreadystatechange = value;
-      if (value != null && !this.listenerAdded) {
+      if ((value != null) && !this.listenerAdded) {
         this.request.addNetworkRequestListener(netEvent -> executeReadyStateChange());
         this.listenerAdded = true;
       }
@@ -185,27 +184,27 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
   // This list comes from https://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html#the-setrequestheader()-method
   // It has been lower-cased for faster comparison
   private static String[] prohibitedHeaders = {
-      "accept-charset",
-      "accept-encoding",
-      "access-control-request-headers",
-      "access-control-request-method",
-      "connection",
-      "content-length",
-      "cookie",
-      "cookie2",
-      "date",
-      "dnt",
-      "expect",
-      "host",
-      "keep-alive",
-      "origin",
-      "referer",
-      "te",
-      "trailer",
-      "transfer-encoding",
-      "upgrade",
-      "user-agent",
-      "via"
+    "accept-charset",
+    "accept-encoding",
+    "access-control-request-headers",
+    "access-control-request-method",
+    "connection",
+    "content-length",
+    "cookie",
+    "cookie2",
+    "date",
+    "dnt",
+    "expect",
+    "host",
+    "keep-alive",
+    "origin",
+    "referer",
+    "te",
+    "trailer",
+    "transfer-encoding",
+    "upgrade",
+    "user-agent",
+    "via"
   };
 
   private static boolean isProhibited(final String header) {
@@ -219,7 +218,7 @@ public class XMLHttpRequest extends AbstractScriptableDelegate {
     return prohibitedPrefixMatch;
   }
 
-  private static boolean isWellFormattedHeaderValue(String header, String value) {
+  private static boolean isWellFormattedHeaderValue(final String header, final String value) {
     // TODO Needs implementation as per https://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html#the-setrequestheader()-method
     return true;
   }

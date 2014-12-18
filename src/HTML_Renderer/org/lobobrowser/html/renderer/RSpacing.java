@@ -39,6 +39,7 @@ final class RSpacing extends BaseBoundableRenderable {
     this.height = height;
   }
 
+  @Override
   protected void invalidateLayoutLocal() {
   }
 
@@ -89,7 +90,7 @@ final class RSpacing extends BaseBoundableRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
@@ -99,14 +100,14 @@ final class RSpacing extends BaseBoundableRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#paintSelection(java.awt.Graphics
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
   public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
-    if (this == startPoint.renderable || this == endPoint.renderable) {
+    if ((this == startPoint.renderable) || (this == endPoint.renderable)) {
       if (inSelection) {
         return false;
       }
@@ -120,8 +121,9 @@ final class RSpacing extends BaseBoundableRenderable {
     return true;
   }
 
-  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
-    if (this == startPoint.renderable || this == endPoint.renderable) {
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint,
+      final RenderableSpot endPoint) {
+    if ((this == startPoint.renderable) || (this == endPoint.renderable)) {
       if (inSelection) {
         return false;
       }
@@ -133,7 +135,7 @@ final class RSpacing extends BaseBoundableRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BoundableRenderable#getRenderable(int, int)
    */
   public RenderableSpot getLowestRenderableSpot(final int x, final int y) {

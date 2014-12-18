@@ -84,13 +84,13 @@ public class JavaClassWrapper {
   }
 
   private static boolean isNameIndexer(final String name, final Method method) {
-    return ("namedItem".equals(name) && method.getParameterTypes().length == 1)
-        || ("setNamedItem".equals(name) && method.getParameterTypes().length == 2);
+    return ("namedItem".equals(name) && (method.getParameterTypes().length == 1))
+        || ("setNamedItem".equals(name) && (method.getParameterTypes().length == 2));
   }
 
   private static boolean isIntegerIndexer(final String name, final Method method) {
-    return ("item".equals(name) && method.getParameterTypes().length == 1)
-        || ("setItem".equals(name) && method.getParameterTypes().length == 2);
+    return ("item".equals(name) && (method.getParameterTypes().length == 1))
+        || ("setItem".equals(name) && (method.getParameterTypes().length == 2));
   }
 
   private void updateNameIndexer(final String methodName, final Method method) {
@@ -152,7 +152,7 @@ public class JavaClassWrapper {
 
   private static String propertyUncapitalize(final String text) {
     try {
-      if (text.length() > 1 && Character.isUpperCase(text.charAt(1))) {
+      if ((text.length() > 1) && Character.isUpperCase(text.charAt(1))) {
         // If second letter is capitalized, don't uncapitalize,
         // e.g. getURL.
         return text;
@@ -194,6 +194,7 @@ public class JavaClassWrapper {
     }
   }
 
+  @Override
   public String toString() {
     return this.javaClass.getName();
   }

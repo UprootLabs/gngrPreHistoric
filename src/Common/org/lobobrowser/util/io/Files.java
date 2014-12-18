@@ -46,9 +46,9 @@ public class Files {
   }
 
   /** Appends path components to a given directory */
-  public static File joinPaths(File start, String... components) {
+  public static File joinPaths(final File start, final String... components) {
     File result = start;
-    for (String component : components) {
+    for (final String component : components) {
       result = new File(result, component);
     }
     return result;

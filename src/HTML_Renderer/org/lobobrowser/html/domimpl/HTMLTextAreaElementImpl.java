@@ -35,6 +35,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
     super("TEXTAREA");
   }
 
+  @Override
   protected FormInput[] getFormInputs() {
     final String name = this.getName();
     if (name == null) {
@@ -45,7 +46,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.html2.HTMLTextAreaElement#getCols()
    */
   public int getCols() {
@@ -55,7 +56,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.html2.HTMLTextAreaElement#getRows()
    */
   public int getRows() {
@@ -65,7 +66,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.html2.HTMLTextAreaElement#getType()
    */
   public String getType() {
@@ -74,7 +75,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.html2.HTMLTextAreaElement#setCols(int)
    */
   public void setCols(final int cols) {
@@ -86,7 +87,7 @@ public class HTMLTextAreaElementImpl extends HTMLBaseInputElement implements HTM
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.html2.HTMLTextAreaElement#setRows(int)
    */
   public void setRows(final int rows) {

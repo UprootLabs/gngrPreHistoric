@@ -196,7 +196,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
    *          Window features formatted as in the window.open() method of
    *          Javascript.
    */
-  public static NavigatorWindowImpl createFromWindowFeatures(final NavigatorFrame openerFrame, final String windowId, final String windowFeatures) {
+  public static NavigatorWindowImpl createFromWindowFeatures(final NavigatorFrame openerFrame, final String windowId,
+      final String windowFeatures) {
     // Transform into properties file format.
     return new NavigatorWindowImpl(openerFrame, windowId, getPropertiesFromWindowFeatures(windowFeatures));
   }
@@ -230,7 +231,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
     this.framePanel.navigate(url, method, paramInfo, TargetType.SELF, RequestType.PROGRAMMATIC);
   }
 
-  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception, final RequestType requestType) {
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception,
+      final RequestType requestType) {
     ExtensionManager.getInstance().handleError(frame, response, exception, requestType);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
@@ -239,7 +241,8 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
   private volatile NavigatorFrame latestAccessedFrame = null;
 
   public void handleDocumentAccess(final NavigatorFrame frame, final ClientletResponse response) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response, response.getRequestType());
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response,
+        response.getRequestType());
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         EVENT.fireEvent(event);
@@ -305,7 +308,7 @@ public class NavigatorWindowImpl implements NavigatorWindow, WindowCallback {
         ((Frame) window).setTitle(title);
       }
     }
-    final RequestType requestType = response == null ? null: response.getRequestType();
+    final RequestType requestType = response == null ? null : response.getRequestType();
     final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response, requestType);
     latestAccessedFrame = event.getNavigatorFrame();
     if (!EVENT.fireEvent(event)) {

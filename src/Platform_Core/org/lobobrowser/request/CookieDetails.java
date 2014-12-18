@@ -11,7 +11,9 @@ import org.lobobrowser.util.Strings;
 final class CookieDetails {
   private static final Logger logger = Logger.getLogger(CookieDetails.class.getName());
 
-  public CookieDetails(URI requestURL, String name, String value, String domain, String path, Optional<Date> expires, Long maxAge, final boolean secure, final boolean httpOnly) {
+  public CookieDetails(final URI requestURL, final String name, final String value, final String domain, final String path,
+      final Optional<Date> expires, final Long maxAge,
+      final boolean secure, final boolean httpOnly) {
     this.requestURL = requestURL;
     this.name = name;
     this.value = value;
@@ -35,7 +37,7 @@ final class CookieDetails {
   final boolean secure, httpOnly;
 
   final String getEffectivePath() {
-    if (path == null || path.length() == 0 || path.charAt(0) != '/') {
+    if ((path == null) || (path.length() == 0) || (path.charAt(0) != '/')) {
       return getDefaultPath();
     } else {
       return path;
@@ -44,8 +46,8 @@ final class CookieDetails {
 
   /* As per section 5.1.4 of RFC 6265 */
   private String getDefaultPath() {
-    String urlPath = requestURL.getPath();
-    if(urlPath == null || urlPath.length() == 0 || urlPath.charAt(0) != '/') {
+    final String urlPath = requestURL.getPath();
+    if ((urlPath == null) || (urlPath.length() == 0) || (urlPath.charAt(0) != '/')) {
       return "/";
     } else if (Strings.countChars(urlPath, '/') == 1) {
       return "/";
@@ -71,7 +73,7 @@ final class CookieDetails {
         logger.log(Level.WARNING, "getExpiresDate(): Max-age is negative or zero: " + maxAge + ".");
         expiresDate = Optional.of(new java.util.Date(0));
       } else {
-        expiresDate = Optional.of(new java.util.Date(System.currentTimeMillis() + maxAge * 1000));
+        expiresDate = Optional.of(new java.util.Date(System.currentTimeMillis() + (maxAge * 1000)));
       }
     } else if (expires.isPresent()) {
       return expires;
@@ -81,7 +83,7 @@ final class CookieDetails {
 
   boolean isValidDomain() {
     if (domain != null) {
-      if (expires == null && maxAge == null && logger.isLoggable(Level.INFO)) {
+      if ((expires == null) && (maxAge == null) && logger.isLoggable(Level.INFO)) {
         // TODO: Check if this is true:
         // One of the RFCs says transient cookies should not have
         // a domain specified, but websites apparently rely on that,
@@ -104,5 +106,4 @@ final class CookieDetails {
         + ", maxAge=" + maxAge + ", effectivePath=" + getEffectivePath() + ", expiresDate=" + getExpiresDate() + "]";
   }
 
-  
 }

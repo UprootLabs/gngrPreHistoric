@@ -44,9 +44,10 @@ public class MultiplexClassLoader extends BaseClassLoader {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
    */
+  @Override
   public synchronized Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
     // First, check if the class has already been loaded
     Class<?> c = findLoadedClass(name);
@@ -85,8 +86,8 @@ public class MultiplexClassLoader extends BaseClassLoader {
 
   @Override
   public URL getResource(final String name) {
-    for (final ClassLoader loader: parentLoaders) {
-      URL url = loader.getResource(name);
+    for (final ClassLoader loader : parentLoaders) {
+      final URL url = loader.getResource(name);
       if (url != null) {
         return url;
       }

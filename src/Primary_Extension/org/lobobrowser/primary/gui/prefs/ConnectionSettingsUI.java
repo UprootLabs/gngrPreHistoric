@@ -158,7 +158,7 @@ public class ConnectionSettingsUI extends AbstractSettingsUI {
     settings.setPassword(this.passwordField.getValue());
     settings.setDisableProxyForLocalAddresses(this.bypassLocalCheckBox.isSelected());
     final String host = this.hostField.getValue();
-    if ("".equals(host) && proxyType != Proxy.Type.DIRECT) {
+    if ("".equals(host) && (proxyType != Proxy.Type.DIRECT)) {
       throw new ValidationException("To set up a proxy, a host name must be provided.");
     }
     int port;

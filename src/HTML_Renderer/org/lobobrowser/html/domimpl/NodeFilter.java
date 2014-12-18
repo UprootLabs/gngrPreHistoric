@@ -67,7 +67,7 @@ public interface NodeFilter {
 
   static final class FrameFilter implements NodeFilter {
     public boolean accept(final Node node) {
-      return node instanceof HTMLFrameElement || node instanceof HTMLIFrameElement;
+      return (node instanceof HTMLFrameElement) || (node instanceof HTMLIFrameElement);
     }
   }
 

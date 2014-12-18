@@ -52,8 +52,8 @@ public class ChildHTMLCollection extends AbstractScriptableDelegate implements H
       return null;
     }
     // TODO: This might get elements that are not descendents.
-    final Node node = (Node) doc.getElementById(name);
-    if (node != null && node.getParentNode() == this.rootNode) {
+    final Node node = doc.getElementById(name);
+    if ((node != null) && (node.getParentNode() == this.rootNode)) {
       return node;
     }
     return null;

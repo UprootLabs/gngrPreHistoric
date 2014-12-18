@@ -32,25 +32,31 @@ public class DocumentFragmentImpl extends NodeImpl implements DocumentFragment {
     super();
   }
 
+  @Override
   public String getLocalName() {
     return null;
   }
 
+  @Override
   public String getNodeName() {
     return "#document-fragment";
   }
 
+  @Override
   public String getNodeValue() throws DOMException {
     return null;
   }
 
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
   }
 
+  @Override
   public short getNodeType() {
     return org.w3c.dom.Node.DOCUMENT_FRAGMENT_NODE;
   }
 
+  @Override
   protected Node createSimilarNode() {
     return new DocumentFragmentImpl();
   }

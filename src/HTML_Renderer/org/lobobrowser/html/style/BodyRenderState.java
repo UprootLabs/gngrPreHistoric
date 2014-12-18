@@ -32,20 +32,22 @@ public class BodyRenderState extends StyleSheetRenderState {
     super(prevRenderState, element);
   }
 
+  @Override
   public void invalidate() {
     super.invalidate();
   }
 
   // TODO: We can get rid of this if #158 is implemented
+  @Override
   public BackgroundInfo getBackgroundInfo() {
     BackgroundInfo binfo = this.iBackgroundInfo;
     if (binfo != INVALID_BACKGROUND_INFO) {
       return binfo;
     }
     binfo = super.getBackgroundInfo();
-    if (binfo == null || binfo.backgroundColor == null) {
+    if ((binfo == null) || (binfo.backgroundColor == null)) {
       final String bgcolor = this.element.getAttribute("bgcolor");
-      if (bgcolor != null && bgcolor.length() != 0) {
+      if ((bgcolor != null) && (bgcolor.length() != 0)) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }

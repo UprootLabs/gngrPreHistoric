@@ -50,7 +50,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
     //  the image so that it can directly be passed.
     String quotedUri = null;
     final TermURIImpl t = (TermURIImpl) getNodeData().getValue("background-image", false);
-    if(t != null) {
+    if (t != null) {
       URL finalUrl = null;
       try {
         finalUrl = Urls.createURL(t.getBase(), t.getValue());
@@ -169,7 +169,6 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
     return border2Pixel(width);
   }
 
-
   public String getBorderLeftWidth() {
     final String width = helperTryBoth("border-left-width");
     // TODO
@@ -182,14 +181,14 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
   // temp hack to support border thin/medium/thick
   // this method should be removed once it is implemented where border is actually processed
   private static String border2Pixel(final String width) {
-    if(width != null) {
-      if("thin".equalsIgnoreCase(width)) {
+    if (width != null) {
+      if ("thin".equalsIgnoreCase(width)) {
         return "1px";
       }
-      if("medium".equalsIgnoreCase(width)) {
+      if ("medium".equalsIgnoreCase(width)) {
         return "3px";
       }
-      if("thick".equalsIgnoreCase(width)) {
+      if ("thick".equalsIgnoreCase(width)) {
         return "5px";
       }
     }
@@ -324,11 +323,11 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
     final String listStylePosition = getListStylePosition();
     final StringBuilder listStyle = new StringBuilder();
 
-    if((listStyleType != null) && !("null".equals(listStyleType))) {
+    if ((listStyleType != null) && !("null".equals(listStyleType))) {
       listStyle.append(listStyleType);
     }
 
-    if((listStylePosition != null) && !("null".equals(listStylePosition))) {
+    if ((listStylePosition != null) && !("null".equals(listStylePosition))) {
       listStyle.append(" " + listStylePosition);
     }
 
@@ -600,7 +599,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
     // until then this is just a temp hack.
     final String zIndex = helperGetValue("z-index");
     float fZIndex = 0.0f;
-    if(zIndex != null) {
+    if (zIndex != null) {
       try {
         fZIndex = Float.parseFloat(zIndex);
       } catch (final NumberFormatException err) {
@@ -640,7 +639,7 @@ abstract public class JStyleProperties extends AbstractScriptableDelegate implem
       final String valueStr = value == null ? null : value.toString().trim();
       // TODO
       // hack for inch support. need to implement it where it is actually processed.
-      if(valueStr != null && valueStr.matches("[0-9]+(.[0-9]+)?in")) {
+      if ((valueStr != null) && valueStr.matches("[0-9]+(.[0-9]+)?in")) {
         return inch2Pixel(value);
       }
       return valueStr;

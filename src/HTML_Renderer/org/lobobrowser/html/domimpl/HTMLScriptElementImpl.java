@@ -36,7 +36,6 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Document;
-import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.html.HTMLScriptElement;
 
 public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScriptElement {
@@ -145,16 +144,16 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
           SecurityUtil.doPrivileged(() -> {
             // Code might have restrictions on accessing
             // items from elsewhere.
-              try {
-                request.open("GET", scriptURI, false);
-                request.send(null, new Request(scriptURL, RequestKind.JavaScript));
-              } catch (final java.io.IOException thrown) {
-                logger.log(Level.WARNING, "processScript()", thrown);
-              }
-              return null;
-            });
+            try {
+              request.open("GET", scriptURI, false);
+              request.send(null, new Request(scriptURL, RequestKind.JavaScript));
+            } catch (final java.io.IOException thrown) {
+              logger.log(Level.WARNING, "processScript()", thrown);
+            }
+            return null;
+          });
           final int status = request.getStatus();
-          if (status != 200 && status != 0) {
+          if ((status != 200) && (status != 0)) {
             this.warn("Script at [" + scriptURI + "] failed to load; HTTP status: " + status + ".");
             return;
           }
@@ -197,6 +196,7 @@ public class HTMLScriptElementImpl extends HTMLElementImpl implements HTMLScript
     }
   }
 
+  @Override
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     // nop
   }

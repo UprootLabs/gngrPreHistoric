@@ -124,7 +124,7 @@ public class HtmlValues {
 
   /**
    * Populates {@link BorderInfo.insets}.
-   * 
+   *
    * @param binfo
    *          A BorderInfo with its styles already populated.
    * @param cssProperties
@@ -280,23 +280,23 @@ public class HtmlValues {
     if (tok.hasMoreTokens()) {
       String token = tok.nextToken();
       insetsArray[0] = getPixelSize(token, renderState, 0);
-      if (negativeOK || insetsArray[0] >= 0) {
+      if (negativeOK || (insetsArray[0] >= 0)) {
         size = 1;
         if (tok.hasMoreTokens()) {
           token = tok.nextToken();
           insetsArray[1] = getPixelSize(token, renderState, 0);
-          if (negativeOK || insetsArray[1] >= 0) {
+          if (negativeOK || (insetsArray[1] >= 0)) {
             size = 2;
             if (tok.hasMoreTokens()) {
               token = tok.nextToken();
               insetsArray[2] = getPixelSize(token, renderState, 0);
-              if (negativeOK || insetsArray[2] >= 0) {
+              if (negativeOK || (insetsArray[2] >= 0)) {
                 size = 3;
                 if (tok.hasMoreTokens()) {
                   token = tok.nextToken();
                   insetsArray[3] = getPixelSize(token, renderState, 0);
                   size = 4;
-                  if (negativeOK || insetsArray[3] >= 0) {
+                  if (negativeOK || (insetsArray[3] >= 0)) {
                     // nop
                   } else {
                     insetsArray[3] = 0;
@@ -333,7 +333,7 @@ public class HtmlValues {
 
   /**
    * Gets a number for 1 to 7.
-   * 
+   *
    * @param oldHtmlSpec
    *          A number from 1 to 7 or +1, etc.
    */
@@ -423,13 +423,13 @@ public class HtmlValues {
       final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
       // Normally the factor below should be 72, but
       // the font-size concept in HTML is handled differently.
-      return pixelSize * 96 / dpi;
+      return (pixelSize * 96) / dpi;
     } else if (specTL.endsWith("%")) {
       final String value = specTL.substring(0, specTL.length() - 1);
       try {
         final double valued = Double.parseDouble(value);
         final double parentFontSize = parentRenderState == null ? 14.0 : parentRenderState.getFont().getSize();
-        return (float) (parentFontSize * valued / 100.0);
+        return (float) ((parentFontSize * valued) / 100.0);
       } catch (final NumberFormatException nfe) {
         return DEFAULT_FONT_SIZE;
       }
@@ -463,7 +463,7 @@ public class HtmlValues {
       final String perText = spec.substring(0, spec.length() - 1);
       try {
         final double val = Double.parseDouble(perText);
-        return (int) Math.round(availSize * val / 100.0);
+        return (int) Math.round((availSize * val) / 100.0);
       } catch (final NumberFormatException nfe) {
         return errorValue;
       }
@@ -481,7 +481,7 @@ public class HtmlValues {
       } catch (final NumberFormatException nfe) {
         return errorValue;
       }
-    } else if (lcSpec.endsWith("em") && renderState != null) {
+    } else if (lcSpec.endsWith("em") && (renderState != null)) {
       final Font f = renderState.getFont();
       final String valText = lcSpec.substring(0, lcSpec.length() - 2);
       double val;
@@ -495,7 +495,7 @@ public class HtmlValues {
       final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
       // The factor below should normally be 72, but font sizes
       // are calculated differently in HTML.
-      final double pixelSize = fontSize * dpi / 96;
+      final double pixelSize = (fontSize * dpi) / 96;
       return (int) Math.round(pixelSize * val);
     } else if (lcSpec.endsWith("pt")) {
       final String valText = lcSpec.substring(0, lcSpec.length() - 2);
@@ -541,7 +541,7 @@ public class HtmlValues {
       final int dpi = GraphicsEnvironment.isHeadless() ? 72 : Toolkit.getDefaultToolkit().getScreenResolution();
       final double inches = val / 25.4;
       return (int) Math.round(dpi * inches);
-    } else if (lcSpec.endsWith("ex") && renderState != null) {
+    } else if (lcSpec.endsWith("ex") && (renderState != null)) {
       // Factor below is to try to match size in other browsers.
       // Update: for #157, the factor of 0.47 was too low when testing with reddit homepage (the vote count).
       final double xHeight = renderState.getFontMetrics().getAscent() * 0.6;
@@ -570,7 +570,7 @@ public class HtmlValues {
     spec = spec.trim();
     try {
       if (spec.endsWith("%")) {
-        return availSize * Integer.parseInt(spec.substring(0, spec.length() - 1)) / 100;
+        return (availSize * Integer.parseInt(spec.substring(0, spec.length() - 1))) / 100;
       } else {
         return Integer.parseInt(spec);
       }
@@ -697,8 +697,7 @@ public class HtmlValues {
 
   public static String getColorFromBackground(final String background) {
     final String[] backgroundParts = HtmlValues.splitCssValue(background);
-    for (int i = 0; i < backgroundParts.length; i++) {
-      final String token = backgroundParts[i];
+    for (final String token : backgroundParts) {
       if (ColorFactory.getInstance().isColor(token)) {
         return token;
       }
@@ -826,8 +825,7 @@ public class HtmlValues {
   public static ListStyle getListStyle(final String listStyleText) {
     final ListStyle listStyle = new ListStyle();
     final String[] tokens = HtmlValues.splitCssValue(listStyleText);
-    for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i];
+    for (final String token : tokens) {
       final int listStyleType = HtmlValues.getListStyleType(token);
       if (listStyleType != ListStyle.TYPE_UNSET) {
         listStyle.type = listStyleType;
@@ -857,7 +855,7 @@ public class HtmlValues {
     }
     try {
       final int value = Integer.parseInt(token);
-      return (value % 100) == 0 && value >= 100 && value <= 900;
+      return ((value % 100) == 0) && (value >= 100) && (value <= 900);
     } catch (final NumberFormatException nfe) {
       return false;
     }
@@ -903,7 +901,7 @@ public class HtmlValues {
   }
 
   private static int getBorderStyle(final String styleText) {
-    if (styleText == null || styleText.length() == 0) {
+    if ((styleText == null) || (styleText.length() == 0)) {
       return HtmlValues.BORDER_STYLE_NONE;
     }
     final String stl = styleText.toLowerCase();

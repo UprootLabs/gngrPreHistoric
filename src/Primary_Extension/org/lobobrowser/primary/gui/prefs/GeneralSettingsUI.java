@@ -41,7 +41,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   private final CheckBoxPanel ieSpoofPanel;
   private final FormPanel mozPanel;
   private final FormPanel iePanel;
-  */
+   */
   private final StringListControl startupPagesStringListControl;
 
   public GeneralSettingsUI() {
@@ -56,7 +56,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     this.ieSpoofPanel = new CheckBoxPanel("Include \"MSIE\" in User-Agent header.", iePanel);
     this.mozPanel = new FormPanel();
     mozPanel.addField(this.mozillaVersionField);
-    */
+     */
     this.startupPagesStringListControl = new StringListControl();
     this.startupPagesStringListControl.setEditListCaption("You may provide up to " + MAX_STARTUP_PAGES + " startup URLs, one per line.");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -64,11 +64,11 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
 
     this.add(SwingTasks.createVerticalFill());
     this.add(new JLabel(
-        "<html><p><b>Note</b>: The startup setting is currently ignored and defaults to <b><i>about:welcome</i></b>.</p>" + 
-        "<br/>" +
-        "<p>The welcome page has important warnings about this release and we would like the user to be aware of them.</p>" +
-        "<br/>" +
-        "<p>We will enable this setting in a future release.</p></html>"));
+        "<html><p><b>Note</b>: The startup setting is currently ignored and defaults to <b><i>about:welcome</i></b>.</p>" +
+            "<br/>" +
+            "<p>The welcome page has important warnings about this release and we would like the user to be aware of them.</p>" +
+            "<br/>" +
+            "<p>We will enable this setting in a future release.</p></html>"));
 
     this.add(Box.createRigidArea(new Dimension(8, 8)));
     // this.add(this.getUserAgentGroupBox());
@@ -109,7 +109,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
   private Component getMozVersionPanel() {
     return this.mozPanel;
   }
-  */
+   */
 
   @Override
   public void restoreDefaults() {
@@ -124,7 +124,7 @@ public class GeneralSettingsUI extends AbstractSettingsUI {
     settings.setSpoofIE(this.ieSpoofPanel.isSelected());
     settings.setIeVersion(this.ieVersionField.getValue());
     settings.setMozVersion(this.mozillaVersionField.getValue());
-    */
+     */
     settings.setStartupURLs(this.startupPagesStringListControl.getStrings());
     settings.save();
   }

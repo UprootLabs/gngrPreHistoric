@@ -169,6 +169,7 @@ public class LRUCache implements java.io.Serializable {
       this.approximateSize = approximateSize;
     }
 
+    @Override
     public String toString() {
       final Class<? extends Object> vc = this.valueClass;
       final String vcName = vc == null ? "<none>" : vc.getName();
@@ -216,6 +217,7 @@ public class LRUCache implements java.io.Serializable {
   }
 
   private class RemovalDispatch extends EventDispatch2 {
+    @Override
     protected void dispatchEvent(final EventListener listener, final EventObject event) {
       ((RemovalListener) listener).removed((RemovalEvent) event);
     }

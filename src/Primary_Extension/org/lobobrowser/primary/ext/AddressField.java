@@ -78,7 +78,7 @@ public class AddressField extends JComboBox<String> {
     getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl L"), "edit URL");
     getActionMap().put("edit URL", new AbstractAction() {
 
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(final ActionEvent e) {
         requestFocus();
       }
     });
@@ -124,7 +124,7 @@ public class AddressField extends JComboBox<String> {
       final JComboBox<String> urlComboBox = this;
       urlComboBox.removeAllItems();
       final Collection<String> recentUrls = ComponentSource.getRecentLocations(30);
-      for (final String url: recentUrls) {
+      for (final String url : recentUrls) {
         urlComboBox.addItem(url);
       }
       this.setText(comboBoxText);
@@ -185,6 +185,6 @@ public class AddressField extends JComboBox<String> {
   }
 
   private static boolean validPopupChar(final char ch) {
-    return Character.isLetterOrDigit(ch) || ch == '.' || ch == '/';
+    return Character.isLetterOrDigit(ch) || (ch == '.') || (ch == '/');
   }
 }

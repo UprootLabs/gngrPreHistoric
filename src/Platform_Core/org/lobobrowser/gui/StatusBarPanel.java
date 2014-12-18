@@ -35,6 +35,7 @@ public class StatusBarPanel extends JPanel {
     this.setBorder(new BevelBorder(BevelBorder.LOWERED));
   }
 
+  @Override
   public Dimension getPreferredSize() {
     return new Dimension(1, 32);
   }

@@ -53,7 +53,8 @@ class RLine extends BaseRCollection {
   private boolean allowOverflow = false;
   private boolean firstAllowOverflowWord = false;
 
-  public RLine(final ModelNode modelNode, final RenderableContainer container, final int x, final int y, final int desiredMaxWidth, final int height,
+  public RLine(final ModelNode modelNode, final RenderableContainer container, final int x, final int y, final int desiredMaxWidth,
+      final int height,
       final boolean initialAllowOverflow) {
     // Note that in the case of RLine, modelNode is the context node
     // at the beginning of the line, not a node that encloses the whole line.
@@ -94,6 +95,7 @@ class RLine extends BaseRCollection {
     return this.baseLineOffset;
   }
 
+  @Override
   protected void invalidateLayoutLocal() {
     // Workaround for fact that RBlockViewport does not
     // get validated or invalidated.
@@ -102,7 +104,7 @@ class RLine extends BaseRCollection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
@@ -111,7 +113,7 @@ class RLine extends BaseRCollection {
     // Paint according to render state of the start of line first.
     final RenderState rs = this.modelNode.getRenderState();
 
-    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+    if ((rs != null) && (rs.getVisibility() != RenderState.VISIBILITY_VISIBLE)) {
       // Just don't paint it.
       return;
     }
@@ -147,7 +149,9 @@ class RLine extends BaseRCollection {
     }
   }
 
-  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
+  @Override
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint,
+      final RenderableSpot endPoint) {
     final boolean result = super.extractSelectionText(buffer, inSelection, startPoint, endPoint);
     if (result) {
       final LineBreak br = this.lineBreak;
@@ -156,7 +160,7 @@ class RLine extends BaseRCollection {
       } else {
         final ArrayList<Renderable> renderables = this.renderables;
         final int size = renderables.size();
-        if (size > 0 && !(renderables.get(size - 1) instanceof RBlank)) {
+        if ((size > 0) && !(renderables.get(size - 1) instanceof RBlank)) {
           buffer.append(" ");
         }
       }
@@ -175,7 +179,7 @@ class RLine extends BaseRCollection {
   /**
    * This method adds and positions a renderable in the line, if possible. Note
    * that RLine does not set sizes, but only origins.
-   * 
+   *
    * @throws OverflowException
    *           Thrown if the renderable overflows the line. All overflowing
    *           renderables are added to the exception.
@@ -192,7 +196,7 @@ class RLine extends BaseRCollection {
     } else if (renderable instanceof RStyleChanger) {
       this.addStyleChanger((RStyleChanger) renderable);
     } else if (renderable instanceof RFloatInfo) {
-      this.simplyAdd((RFloatInfo) renderable);
+      this.simplyAdd(renderable);
     } else {
       throw new IllegalArgumentException("Can't add " + renderable);
     }
@@ -207,7 +211,7 @@ class RLine extends BaseRCollection {
     if (allowOverflow && firstAllowOverflowWord) {
       this.firstAllowOverflowWord = false;
     }
-    if ((!allowOverflow || firstAllowOverflowWord) && offset != 0 && (offset + wiwidth > this.desiredMaxWidth)) {
+    if ((!allowOverflow || firstAllowOverflowWord) && (offset != 0) && ((offset + wiwidth) > this.desiredMaxWidth)) {
       final ArrayList<Renderable> renderables = this.renderables;
       ArrayList<Renderable> overflow = null;
       boolean cancel = false;
@@ -220,11 +224,11 @@ class RLine extends BaseRCollection {
       int newWidth = offset;
       for (int i = renderables.size(); --i >= 0;) {
         final Renderable renderable = renderables.get(i);
-        if (renderable instanceof RWord || !(renderable instanceof BoundableRenderable)) {
+        if ((renderable instanceof RWord) || !(renderable instanceof BoundableRenderable)) {
           if (overflow == null) {
             overflow = new ArrayList<>();
           }
-          if (renderable != rword && renderable instanceof RWord && ((RWord) renderable).getX() == 0) {
+          if ((renderable != rword) && (renderable instanceof RWord) && (((RWord) renderable).getX() == 0)) {
             // Can't overflow words starting at offset zero.
             // Note that all or none should be overflown.
             cancel = true;
@@ -310,7 +314,7 @@ class RLine extends BaseRCollection {
   }
 
   /**
-   * 
+   *
    * @param relement
    * @param x
    * @param elementHeight
@@ -332,7 +336,7 @@ class RLine extends BaseRCollection {
       yoffset = this.baseLineOffset - elementHeight;
       break;
     case RElement.VALIGN_MIDDLE:
-      yoffset = this.baseLineOffset - elementHeight / 2;
+      yoffset = this.baseLineOffset - (elementHeight / 2);
       break;
     case RElement.VALIGN_TOP:
       yoffset = 0;
@@ -355,7 +359,7 @@ class RLine extends BaseRCollection {
     if (allowOverflow && firstAllowOverflowWord) {
       this.firstAllowOverflowWord = false;
     }
-    if ((!allowOverflow || firstAllowOverflowWord) && origXOffset != 0 && (origXOffset + pw > desiredMaxWidth)) {
+    if ((!allowOverflow || firstAllowOverflowWord) && (origXOffset != 0) && ((origXOffset + pw) > desiredMaxWidth)) {
       throw new OverflowException(Collections.singleton((Renderable) relement));
     }
     // Note: Renderable for widget doesn't paint the widget, but
@@ -370,7 +374,7 @@ class RLine extends BaseRCollection {
       requiredHeight = ph + (boundsh - this.baseLineOffset);
       break;
     case RElement.VALIGN_MIDDLE:
-      requiredHeight = Math.max(ph, ph / 2 + (boundsh - this.baseLineOffset));
+      requiredHeight = Math.max(ph, (ph / 2) + (boundsh - this.baseLineOffset));
       break;
     default:
       requiredHeight = ph;
@@ -452,7 +456,7 @@ class RLine extends BaseRCollection {
   /**
    * Rearrange line elements based on a new line height and alignment provided.
    * All line elements are expected to have bounds preset.
-   * 
+   *
    * @param newHeight
    * @param alignmentY
    */
@@ -465,8 +469,8 @@ class RLine extends BaseRCollection {
     final FontMetrics firstFm = this.modelNode.getRenderState().getFontMetrics();
     int maxDescent = firstFm.getDescent();
     int maxAscentPlusLeading = firstFm.getAscent() + firstFm.getLeading();
-    for (final Iterator<Renderable> i = renderables.iterator(); i.hasNext();) {
-      final Object r = i.next();
+    for (final Renderable renderable : renderables) {
+      final Object r = renderable;
       if (r instanceof RStyleChanger) {
         final RStyleChanger rstyleChanger = (RStyleChanger) r;
         final FontMetrics fm = rstyleChanger.getModelNode().getRenderState().getFontMetrics();
@@ -491,7 +495,7 @@ class RLine extends BaseRCollection {
       baseline = newHeight - maxDescent;
       break;
     case RElement.VALIGN_ABSMIDDLE:
-      baseline = (newHeight + textHeight) / 2 - maxDescent;
+      baseline = ((newHeight + textHeight) / 2) - maxDescent;
       break;
     case RElement.VALIGN_BASELINE:
     case RElement.VALIGN_BOTTOM:
@@ -510,8 +514,8 @@ class RLine extends BaseRCollection {
     this.baseLineOffset = baseline;
 
     // Change bounds of renderables accordingly
-    for (final Iterator<Renderable> i = renderables.iterator(); i.hasNext();) {
-      final Object r = i.next();
+    for (final Renderable renderable : renderables) {
+      final Object r = renderable;
       if (r instanceof RWord) {
         final RWord rword = (RWord) r;
         rword.setY(baseline - rword.ascentPlusLeading);
@@ -582,7 +586,7 @@ class RLine extends BaseRCollection {
     if (r != null) {
       final Rectangle rbounds = r.getBounds();
       final BoundableRenderable oldArmedRenderable = this.mousePressTarget;
-      if (oldArmedRenderable != null && r != oldArmedRenderable) {
+      if ((oldArmedRenderable != null) && (r != oldArmedRenderable)) {
         oldArmedRenderable.onMouseDisarmed(event);
         this.mousePressTarget = null;
       }
@@ -607,6 +611,7 @@ class RLine extends BaseRCollection {
     }
   }
 
+  @Override
   public Color getBlockBackgroundColor() {
     return this.container.getPaintedBackgroundColor();
   }
@@ -653,7 +658,7 @@ class RLine extends BaseRCollection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RCollection#getRenderables()
    */
   public Iterator<Renderable> getRenderables() {

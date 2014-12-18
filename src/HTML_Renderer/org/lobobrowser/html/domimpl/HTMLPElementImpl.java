@@ -17,6 +17,7 @@ public class HTMLPElementImpl extends HTMLAbstractUIElement implements HTMLParag
     this.setAttribute("align", align);
   }
 
+  @Override
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     final int length = buffer.length();
     int lineBreaks;
@@ -35,13 +36,14 @@ public class HTMLPElementImpl extends HTMLAbstractUIElement implements HTMLParag
         }
       }
     }
-    for (int i = 0; i < 2 - lineBreaks; i++) {
+    for (int i = 0; i < (2 - lineBreaks); i++) {
       buffer.append("\r\n");
     }
     super.appendInnerTextImpl(buffer);
     buffer.append("\r\n\r\n");
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ParagraphRenderState(prevRenderState, this);
   }

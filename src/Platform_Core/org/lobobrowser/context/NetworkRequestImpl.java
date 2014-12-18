@@ -169,6 +169,7 @@ public class NetworkRequestImpl implements NetworkRequest {
   private boolean isAsynchronous = false;
   private String requestMethod;
   private java.net.URL requestURL;
+
   // private String requestUserName;
   // private String requestPassword;
 
@@ -181,11 +182,12 @@ public class NetworkRequestImpl implements NetworkRequest {
     this.changeReadyState(NetworkRequest.STATE_LOADING);
   }
 
-  public void send(final String content, Request requestType) throws IOException {
+  public void send(final String content, final Request requestType) throws IOException {
     if (uaContext.isRequestPermitted(requestType)) {
       try {
         final Map<String, String> requestedHeadersCopy = new HashMap<>(requestedHeaders);
-        final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext, requestedHeadersCopy);
+        final RequestHandler rhandler = new LocalRequestHandler(this.requestURL, this.requestMethod, content, uaContext,
+            requestedHeadersCopy);
         this.currentRequestHandler = rhandler;
         try {
           // TODO: Username and password support
@@ -259,7 +261,7 @@ public class NetworkRequestImpl implements NetworkRequest {
           readSoFar += numRead;
           if (threadContext != null) {
             final long currentTime = System.currentTimeMillis();
-            if (currentTime - lastProgress > 500) {
+            if ((currentTime - lastProgress) > 500) {
               lastProgress = currentTime;
               threadContext.setProgressEvent(ProgressType.CONTENT_LOADING, readSoFar, cl, response.getResponseURL());
             }
@@ -293,7 +295,8 @@ public class NetworkRequestImpl implements NetworkRequest {
     private final String method;
     private final Map<String, String> requestedHeadersCopy;
 
-    public LocalRequestHandler(final URL url, final String method, final String altPostData, final UserAgentContext uaContext, final Map<String, String> requestedHeaders) {
+    public LocalRequestHandler(final URL url, final String method, final String altPostData, final UserAgentContext uaContext,
+        final Map<String, String> requestedHeaders) {
       super(url, method, altPostData, RequestType.ELEMENT, uaContext);
       this.method = method;
       this.requestedHeadersCopy = requestedHeaders;
@@ -306,20 +309,21 @@ public class NetworkRequestImpl implements NetworkRequest {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * net.sourceforge.xamj.http.BaseRequestHandler#handleException(java.net
      * .URL, java.lang.Exception)
      */
     @Override
-    public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
+    public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType)
+        throws ClientletException {
       logger.log(Level.WARNING, "handleException(): url=" + this.getLatestRequestURL() + ",response=[" + response + "]", exception);
       return true;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * net.sourceforge.xamj.http.BaseRequestHandler#processResponse(org.xamjwg
      * .clientlet.ClientletResponse)
@@ -330,7 +334,7 @@ public class NetworkRequestImpl implements NetworkRequest {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.sourceforge.xamj.http.RequestHandler#handleProgress(int,
      * java.net.URL, int, int)
      */
@@ -359,7 +363,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       final int factor = 3;
       // Note that when this is called, no one has
       // necessarily called getResponseText().
-      return (out == null ? 0 : out.size()) * factor + 512;
+      return ((out == null ? 0 : out.size()) * factor) + 512;
     }
 
     public LocalResponse newLocalResponse(final ClientletResponse response) {
@@ -372,7 +376,7 @@ public class NetworkRequestImpl implements NetworkRequest {
       // hard to estimate their actual size.
       final WeakReference<Image> imageRef = this.imageRef;
       Image img = imageRef == null ? null : imageRef.get();
-      if (img == null && this.complete) {
+      if ((img == null) && this.complete) {
         final byte[] bytes = this.getResponseBytes();
         if (bytes != null) {
           img = Toolkit.getDefaultToolkit().createImage(bytes);
@@ -416,7 +420,7 @@ public class NetworkRequestImpl implements NetworkRequest {
 
     public Document getResponseXML() {
       Document doc = this.document;
-      if (doc == null && this.complete) {
+      if ((doc == null) && this.complete) {
         final byte[] bytes = this.getResponseBytes();
         if (bytes != null) {
           final InputStream in = new ByteArrayInputStream(bytes);
@@ -493,7 +497,7 @@ public class NetworkRequestImpl implements NetworkRequest {
         final String headerName = headerNames.next();
         if (headerName != null) {
           final String[] values = cresponse.getHeaders(headerName);
-          if (values != null && values.length > 0) {
+          if ((values != null) && (values.length > 0)) {
             headers.put(headerName.toLowerCase(), values[0]);
           }
         }
@@ -502,8 +506,8 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
 
     // public int getLength() {
-      // final ByteArrayOutputStream out = this.cacheable.buffer;
-      // return out == null ? 0 : out.size();
+    // final ByteArrayOutputStream out = this.cacheable.buffer;
+    // return out == null ? 0 : out.size();
     // }
 
     /**
@@ -533,10 +537,10 @@ public class NetworkRequestImpl implements NetworkRequest {
         if (headerName != null) {
           if (!excludedHeadersLowerCase.contains(headerName.toLowerCase())) {
             final String[] values = cresponse.getHeaders(headerName);
-            for (int i = 0; i < values.length; i++) {
+            for (final String value : values) {
               allHeadersBuf.append(headerName);
               allHeadersBuf.append(": ");
-              allHeadersBuf.append(values[i]);
+              allHeadersBuf.append(value);
               allHeadersBuf.append("\r\n");
             }
           }
@@ -564,13 +568,13 @@ public class NetworkRequestImpl implements NetworkRequest {
     }
   }
 
-  private Map<String, String> requestedHeaders = new HashMap<>();
+  private final Map<String, String> requestedHeaders = new HashMap<>();
 
   public void addRequestedHeader(final String key, final String value) {
-    if (key != null && value != null) {
+    if ((key != null) && (value != null)) {
       if (requestedHeaders.containsKey(key)) {
         // Need to merge values as per https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#setRequestHeader()
-        String oldValue = requestedHeaders.get(key);
+        final String oldValue = requestedHeaders.get(key);
         requestedHeaders.put(key, oldValue + "," + key);
       }
       requestedHeaders.put(key, value);

@@ -90,13 +90,13 @@ public class GeneralSettings implements java.io.Serializable {
 
   /**
    * Gets URLs that the browser should open when it starts up.
-   * 
+   *
    * @see #setStartupURLs(String[])
    */
   public String[] getStartupURLs() {
     // Cannot return empty or null
     final Collection<String> urls = this.startupURLs;
-    if (urls == null || urls.size() == 0) {
+    if ((urls == null) || (urls.size() == 0)) {
       return new String[] { DEFAULT_STARTUP };
     }
     return urls.toArray(new String[0]);

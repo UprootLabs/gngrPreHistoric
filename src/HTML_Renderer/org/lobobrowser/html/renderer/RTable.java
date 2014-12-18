@@ -54,7 +54,8 @@ class RTable extends BaseElementRenderable {
   private LayoutKey lastLayoutKey = null;
   private LayoutValue lastLayoutValue = null;
 
-  public RTable(final HTMLElementImpl modelNode, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+  public RTable(final HTMLElementImpl modelNode, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+      final FrameContext frameContext,
       final RenderableContainer container) {
     super(container, modelNode, pcontext);
     this.tableMatrix = new TableMatrix(modelNode, pcontext, rcontext, frameContext, this, this);
@@ -65,9 +66,10 @@ class RTable extends BaseElementRenderable {
     return VALIGN_BASELINE;
   }
 
+  @Override
   public void paint(final Graphics g) {
     final RenderState rs = this.modelNode.getRenderState();
-    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+    if ((rs != null) && (rs.getVisibility() != RenderState.VISIBILITY_VISIBLE)) {
       // Just don't paint it.
       return;
     }
@@ -92,6 +94,7 @@ class RTable extends BaseElementRenderable {
     }
   }
 
+  @Override
   public void doLayout(final int availWidth, final int availHeight, final boolean sizeOnly) {
     final Map<LayoutKey, LayoutValue> cachedLayout = this.cachedLayout;
     final RenderState rs = this.modelNode.getRenderState();
@@ -159,6 +162,7 @@ class RTable extends BaseElementRenderable {
     this.sendDelayedPairsToParent();
   }
 
+  @Override
   public void invalidateLayoutLocal() {
     super.invalidateLayoutLocal();
     this.cachedLayout.clear();
@@ -168,7 +172,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BoundableRenderable#getRenderablePoint(int,
    * int)
    */
@@ -196,7 +200,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#onMouseClick(java.awt.event
    * .MouseEvent, int, int)
@@ -243,7 +247,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#onMouseDisarmed(java.awt.event
    * .MouseEvent)
@@ -254,7 +258,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#onMousePressed(java.awt.event
    * .MouseEvent, int, int)
@@ -281,7 +285,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#onMouseReleased(java.awt.event
    * .MouseEvent, int, int)
@@ -308,7 +312,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RCollection#getRenderables()
    */
   public Iterator<Renderable> getRenderables() {
@@ -337,7 +341,7 @@ class RTable extends BaseElementRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RenderableContainer#getBackground()
    */
   public Color getPaintedBackgroundColor() {
@@ -364,6 +368,7 @@ class RTable extends BaseElementRenderable {
     this.addPositionedRenderable(r, false, false);
   }
 
+  @Override
   public String toString() {
     return "RTable[this=" + System.identityHashCode(this) + ",node=" + this.modelNode + "]";
   }
@@ -384,6 +389,7 @@ class RTable extends BaseElementRenderable {
       this.overrideNoWrap = overrideNoWrap;
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this) {
         return true;
@@ -392,13 +398,14 @@ class RTable extends BaseElementRenderable {
         return false;
       }
       final LayoutKey other = (LayoutKey) obj;
-      return other.availWidth == this.availWidth && other.availHeight == this.availHeight && other.whitespace == this.whitespace
-          && other.overrideNoWrap == this.overrideNoWrap && Objects.equals(other.font, this.font);
+      return (other.availWidth == this.availWidth) && (other.availHeight == this.availHeight) && (other.whitespace == this.whitespace)
+          && (other.overrideNoWrap == this.overrideNoWrap) && Objects.equals(other.font, this.font);
     }
 
+    @Override
     public int hashCode() {
       final Font font = this.font;
-      return (this.availWidth * 1000 + this.availHeight) ^ (font == null ? 0 : font.hashCode()) ^ this.whitespace;
+      return ((this.availWidth * 1000) + this.availHeight) ^ (font == null ? 0 : font.hashCode()) ^ this.whitespace;
     }
   }
 

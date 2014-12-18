@@ -34,15 +34,15 @@ public class ArchiveCollection {
   private final Collection<ArchiveInfo> archiveInfos;
 
   /**
-	 * 
-	 */
+   *
+   */
   public ArchiveCollection() {
     this.archiveInfos = new LinkedList<>();
   }
 
   /**
-	 * 
-	 */
+   *
+   */
   public ArchiveCollection(final Collection<ArchiveInfo> archiveInfos) {
     this.archiveInfos = archiveInfos;
   }

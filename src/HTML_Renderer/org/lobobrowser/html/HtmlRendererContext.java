@@ -44,7 +44,7 @@ import org.w3c.dom.html.HTMLLinkElement;
  * A simple implementation of this interface is provided in
  * {@link org.lobobrowser.html.test.SimpleHtmlRendererContext
  * SimpleHtmlRendererContext}.
- * 
+ *
  * @see org.lobobrowser.html.gui.HtmlPanel#setDocument(org.w3c.dom.Document,
  *      HtmlRendererContext)
  */
@@ -52,7 +52,7 @@ public interface HtmlRendererContext {
   /**
    * Navigates to the location given. Implementations should retrieve the URL
    * content, parse it and render it.
-   * 
+   *
    * @param url
    *          The destination URL.
    * @param target
@@ -64,7 +64,7 @@ public interface HtmlRendererContext {
   /**
    * Performs a link click. Implementations should invoke
    * {@link #navigate(URL, String)}.
-   * 
+   *
    * @param linkNode
    *          The HTML node that was clicked.
    * @param url
@@ -83,7 +83,7 @@ public interface HtmlRendererContext {
   /**
    * Submits a HTML form. Note that when the the method is "GET", parameters are
    * still expected to be part of <code>formInputs</code>.
-   * 
+   *
    * @param method
    *          The request method, GET or POST.
    * @param action
@@ -111,7 +111,7 @@ public interface HtmlRendererContext {
   /**
    * Gets a <code>HtmlObject</code> instance that implements a OBJECT tag from
    * HTML.
-   * 
+   *
    * @param element
    *          The DOM element for the object, which may either represent an
    *          OBJECT, EMBED or an APPLET tag.
@@ -125,7 +125,7 @@ public interface HtmlRendererContext {
 
   /**
    * This method is called when a visual element is right-clicked.
-   * 
+   *
    * @param element
    *          The narrowest element enclosing the mouse location.
    * @param event
@@ -137,7 +137,7 @@ public interface HtmlRendererContext {
 
   /**
    * This method is called when there's a mouse click on an element.
-   * 
+   *
    * @param element
    *          The narrowest element enclosing the mouse location.
    * @param event
@@ -149,7 +149,7 @@ public interface HtmlRendererContext {
 
   /**
    * This method is called when there's a mouse double-click on an element.
-   * 
+   *
    * @param element
    *          The narrowest element enclosing the mouse location.
    * @param event
@@ -161,7 +161,7 @@ public interface HtmlRendererContext {
 
   /**
    * This method is called when the mouse first hovers over an element.
-   * 
+   *
    * @param element
    *          The element that the mouse has just entered.
    * @param event
@@ -171,7 +171,7 @@ public interface HtmlRendererContext {
 
   /**
    * This method is called when the mouse no longer hovers a given element.
-   * 
+   *
    * @param element
    *          The element that the mouse has just exited.
    * @param event
@@ -189,7 +189,7 @@ public interface HtmlRendererContext {
 
   /**
    * Opens an alert dialog.
-   * 
+   *
    * @param message
    *          Message shown by the dialog.
    */
@@ -213,7 +213,7 @@ public interface HtmlRendererContext {
 
   /**
    * Opens a confirmation dialog.
-   * 
+   *
    * @param message
    *          The message shown by the confirmation dialog.
    * @return True if the user selects YES.
@@ -227,7 +227,7 @@ public interface HtmlRendererContext {
 
   /**
    * Opens a separate browser window and renders a URL.
-   * 
+   *
    * @param absoluteUrl
    *          The URL to be rendered.
    * @param windowName
@@ -239,11 +239,12 @@ public interface HtmlRendererContext {
    * @return A new {@link org.lobobrowser.html.HtmlRendererContext} instance.
    * @deprecated Use {@link #open(URL, String, String, boolean)} instead.
    */
+  @Deprecated
   public HtmlRendererContext open(String absoluteUrl, String windowName, String windowFeatures, boolean replace);
 
   /**
    * Opens a separate browser window and renders a URL.
-   * 
+   *
    * @param url
    *          The URL to be rendered.
    * @param windowName
@@ -258,7 +259,7 @@ public interface HtmlRendererContext {
 
   /**
    * Shows a prompt dialog.
-   * 
+   *
    * @param message
    *          The message shown by the dialog.
    * @param inputDefault
@@ -269,7 +270,7 @@ public interface HtmlRendererContext {
 
   /**
    * Scrolls the client area.
-   * 
+   *
    * @param x
    *          Document's x coordinate.
    * @param y
@@ -279,7 +280,7 @@ public interface HtmlRendererContext {
 
   /**
    * Scrolls the client area.
-   * 
+   *
    * @param x
    *          Horizontal pixels to scroll.
    * @param y
@@ -289,7 +290,7 @@ public interface HtmlRendererContext {
 
   /**
    * Resizes the window.
-   * 
+   *
    * @param width
    *          The new width.
    * @param height
@@ -299,7 +300,7 @@ public interface HtmlRendererContext {
 
   /**
    * Resizes the window.
-   * 
+   *
    * @param byWidth
    *          The number of pixels to resize the width by.
    * @param byHeight
@@ -333,7 +334,7 @@ public interface HtmlRendererContext {
 
   /**
    * Sets the context that opened the current frame/window.
-   * 
+   *
    * @param opener
    *          A {@link org.lobobrowser.html.HtmlRendererContext}.
    */
@@ -346,7 +347,7 @@ public interface HtmlRendererContext {
 
   /**
    * Sets the window status text.
-   * 
+   *
    * @param message
    *          A string.
    */
@@ -394,7 +395,7 @@ public interface HtmlRendererContext {
 
   /**
    * Navigates the history according to the given offset.
-   * 
+   *
    * @param offset
    *          A positive or negative number. -1 is equivalent to {@link #back()}
    *          . +1 is equivalent to {@link #forward()}.

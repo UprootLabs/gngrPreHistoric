@@ -99,14 +99,14 @@ public class ConnectionSettings implements java.io.Serializable {
     synchronized (this) {
       if (this.proxy == null) {
         final InetSocketAddress sa = this.socketAddress;
-        if (this.proxyType == Proxy.Type.DIRECT || sa == null) {
+        if ((this.proxyType == Proxy.Type.DIRECT) || (sa == null)) {
           this.proxy = Proxy.NO_PROXY;
         } else {
           this.proxy = new Proxy(this.proxyType, sa);
         }
       }
       Proxy proxy = this.proxy;
-      if (proxy != Proxy.NO_PROXY && this.disableProxyForLocalAddresses) {
+      if ((proxy != Proxy.NO_PROXY) && this.disableProxyForLocalAddresses) {
         if (NetRoutines.isLocalAddress(host)) {
           proxy = Proxy.NO_PROXY;
         }
@@ -118,7 +118,7 @@ public class ConnectionSettings implements java.io.Serializable {
   public PasswordAuthentication getPasswordAuthentication() {
     final String userName = this.userName;
     final String password = this.password;
-    if (!this.isAuthenticated() || userName == null || password == null) {
+    if (!this.isAuthenticated() || (userName == null) || (password == null)) {
       return null;
     }
     return new PasswordAuthentication(userName, password.toCharArray());

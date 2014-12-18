@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
@@ -28,13 +29,17 @@ public class PermissionTable {
     };
     final JTabbedPane tabPane = new JTabbedPane();
     tabPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-    tabPane.setTabPlacement(JTabbedPane.RIGHT);
+    tabPane.setTabPlacement(SwingConstants.RIGHT);
     tabPane.setUI(new BasicTabbedPaneUI() {
       private static final int PADDING_Y = 16;
       private static final int PADDING_X = 16;
+
+      @Override
       protected int calculateTabHeight(final int tabPlacement, final int tabIndex, final int fontHeight) {
         return super.calculateTabHeight(tabPlacement, tabIndex, fontHeight) + PADDING_Y;
       };
+
+      @Override
       protected int calculateTabWidth(final int tabPlacement, final int tabIndex, final java.awt.FontMetrics metrics) {
         return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + PADDING_X;
       };

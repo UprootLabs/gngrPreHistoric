@@ -64,6 +64,7 @@ public class SearchEngine implements Serializable {
     return queryParameter;
   }
 
+  @Override
   public String toString() {
     return this.name;
   }

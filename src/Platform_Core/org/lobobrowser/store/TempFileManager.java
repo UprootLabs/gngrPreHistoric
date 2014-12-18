@@ -69,13 +69,13 @@ public class TempFileManager {
     final File[] files = tempDirectory.listFiles();
     if (files != null) {
       // Cleanup files theoretically left by previously running instance.
-      for (int i = 0; i < files.length; i++) {
-        final String name = files[i].getName();
+      for (final File file : files) {
+        final String name = file.getName();
         if (name.startsWith(GENERAL_PREFIX) && !name.startsWith(FILE_PREFIX)) {
           // We can't really assume only one instance of the application
           // is running. Need to be a little lenient about deleting these.
-          if (files[i].lastModified() < System.currentTimeMillis() - ONE_MONTH) {
-            files[i].delete();
+          if (file.lastModified() < (System.currentTimeMillis() - ONE_MONTH)) {
+            file.delete();
           }
         }
       }
@@ -85,9 +85,8 @@ public class TempFileManager {
   private void shutdownCleanup() {
     final File[] files = TEMP_DIRECTORY.listFiles();
     if (files != null) {
-      for (int i = 0; i < files.length; i++) {
+      for (final File file : files) {
         try {
-          final File file = files[i];
           final String name = file.getName();
           if (name.startsWith(FILE_PREFIX)) {
             final String canonical = file.getCanonicalPath();
@@ -157,6 +156,7 @@ public class TempFileManager {
   }
 
   private class ShutdownThread extends Thread {
+    @Override
     public void run() {
       shutdownCleanup();
     }

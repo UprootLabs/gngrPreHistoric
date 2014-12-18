@@ -48,7 +48,7 @@ public abstract class AbstractBrowserWindow extends JFrame implements BrowserWin
 
   /**
    * Sets whether window bounds were assigned via properties.
-   * 
+   *
    * @param boundsAssigned
    *          True if bounds were assigned.
    */

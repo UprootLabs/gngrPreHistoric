@@ -160,7 +160,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RenderableContext#getHeightLength()
    */
   public HtmlLength getHeightLength(final int availHeight) {
@@ -179,7 +179,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RenderableContext#getWidthLength()
    */
   public HtmlLength getWidthLength(final int availWidth) {
@@ -281,6 +281,7 @@ public class HTMLTableElementImpl extends HTMLAbstractUIElement implements HTMLT
     throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index out of range");
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new TableRenderState(prevRenderState, this);
   }

@@ -113,8 +113,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       final Scriptable s = this.windowScope;
       if (s != null) {
         final Object[] ids = s.getIds();
-        for (int i = 0; i < ids.length; i++) {
-          final Object id = ids[i];
+        for (final Object id : ids) {
           if (id instanceof String) {
             s.delete((String) id);
           } else if (id instanceof Integer) {
@@ -123,10 +122,10 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
         }
       }
 
-    document.setUserData(Executor.SCOPE_KEY, null, null);
+      document.setUserData(Executor.SCOPE_KEY, null, null);
 
-    // This will ensure that a fresh scope will be created by getWindowScope() on the next call
-    this.windowScope = null;
+      // This will ensure that a fresh scope will be created by getWindowScope() on the next call
+      this.windowScope = null;
     }
   }
 
@@ -192,7 +191,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
         oldTimer = taskMap.remove(timeoutID);
       }
     }
-    if (oldTimer != null && cancel) {
+    if ((oldTimer != null) && cancel) {
       oldTimer.timer.stop();
     }
   }
@@ -207,8 +206,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       }
     }
     if (oldTaskWrappers != null) {
-      for (int i = 0; i < oldTaskWrappers.length; i++) {
-        final TaskWrapper taskWrapper = oldTaskWrappers[i];
+      for (final TaskWrapper taskWrapper : oldTaskWrappers) {
         taskWrapper.timer.stop();
       }
     }
@@ -237,7 +235,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
    *       {@link Window#setTimeout(Function, double)}.
    */
   public int setInterval(final Function aFunction, final double aTimeInMs) {
-    if (aTimeInMs > Integer.MAX_VALUE || aTimeInMs < 0) {
+    if ((aTimeInMs > Integer.MAX_VALUE) || (aTimeInMs < 0)) {
       throw new IllegalArgumentException("Timeout value " + aTimeInMs + " is not supported.");
     }
     final int timeID = generateTimerID();
@@ -266,7 +264,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
    *       {@link Window#setTimeout(String, double)}.
    */
   public int setInterval(final String aExpression, final double aTimeInMs) {
-    if (aTimeInMs > Integer.MAX_VALUE || aTimeInMs < 0) {
+    if ((aTimeInMs > Integer.MAX_VALUE) || (aTimeInMs < 0)) {
       throw new IllegalArgumentException("Timeout value " + aTimeInMs + " is not supported.");
     }
     final int timeID = generateTimerID();
@@ -345,7 +343,6 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     }
   }
 
-
   /* Removing because this eval method interferes with the default eval() method.
    * The context of the JS eval() call is not preserved by this method.
   public Object eval(final String javascript) {
@@ -369,7 +366,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       Context.exit();
     }
   }
-  */
+   */
 
   public void focus() {
     final HtmlRendererContext rcontext = this.rcontext;
@@ -420,7 +417,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
       try {
         // Window scope needs to be top-most scope.
         windowScope = (Scriptable) JavaScript.getInstance().getJavascriptObject(this, null);
-        windowScope = ctx.initStandardObjects((ScriptableObject)windowScope);
+        windowScope = ctx.initStandardObjects((ScriptableObject) windowScope);
         final Object consoleJSObj = JavaScript.getInstance().getJavascriptObject(new Console(), windowScope);
         ScriptableObject.putProperty(windowScope, "console", consoleJSObj);
         this.windowScope = windowScope;
@@ -438,7 +435,8 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
 
   }
 
-  private final static void defineElementClass(final Scriptable scope, final Document document, final String jsClassName, final String elementName,
+  private final static void defineElementClass(final Scriptable scope, final Document document, final String jsClassName,
+      final String elementName,
       final Class<?> javaClass) {
     final JavaInstantiator ji = new JavaInstantiator() {
       public Object newInstance() {
@@ -461,7 +459,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
     synchronized (CONTEXT_WINDOWS) {
       final WeakReference<Window> wref = CONTEXT_WINDOWS.get(rcontext);
       if (wref != null) {
-        final Window window = (Window) wref.get();
+        final Window window = wref.get();
         if (window != null) {
           return window;
         }
@@ -551,7 +549,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   }
 
   public int setTimeout(final String expr, final double millis) {
-    if (millis > Integer.MAX_VALUE || millis < 0) {
+    if ((millis > Integer.MAX_VALUE) || (millis < 0)) {
       throw new IllegalArgumentException("Timeout value " + millis + " is not supported.");
     }
     final int timeID = generateTimerID();
@@ -568,7 +566,7 @@ public class Window extends AbstractScriptableDelegate implements AbstractView {
   }
 
   public int setTimeout(final Function function, final double millis) {
-    if (millis > Integer.MAX_VALUE || millis < 0) {
+    if ((millis > Integer.MAX_VALUE) || (millis < 0)) {
       throw new IllegalArgumentException("Timeout value " + millis + " is not supported.");
     }
     final int timeID = generateTimerID();

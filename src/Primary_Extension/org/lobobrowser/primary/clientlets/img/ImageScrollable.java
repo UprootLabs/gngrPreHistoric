@@ -46,8 +46,9 @@ public class ImageScrollable extends JComponent implements Scrollable {
     this.imageHeight = h;
   }
 
+  @Override
   public boolean imageUpdate(final Image img, final int infoflags, final int x, final int y, final int w, final int h) {
-    if ((infoflags & ImageObserver.ALLBITS) != 0 || (infoflags & ImageObserver.FRAMEBITS) != 0) {
+    if (((infoflags & ImageObserver.ALLBITS) != 0) || ((infoflags & ImageObserver.FRAMEBITS) != 0)) {
       this.imageWidth = img.getWidth(this);
       this.imageHeight = img.getHeight(this);
       this.revalidate();
@@ -56,12 +57,14 @@ public class ImageScrollable extends JComponent implements Scrollable {
     return true;
   }
 
+  @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
     final Insets insets = this.getInsets();
     g.drawImage(this.image, insets.left, insets.top, this);
   }
 
+  @Override
   public Dimension getPreferredSize() {
     final int w = this.imageWidth;
     final int h = this.imageHeight;

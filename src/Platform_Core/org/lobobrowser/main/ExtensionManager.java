@@ -164,13 +164,14 @@ public class ExtensionManager {
         logger.warning("createExtensions(): Directory '" + extDir + "' not found.");
         if (PlatformInit.getInstance().isCodeLocationDirectory()) {
           logger
-              .warning("createExtensions(): The application code location is a directory, which means the application is probably being run from an IDE. Additional setup is required. Please refer to README.txt file.");
+          .warning("createExtensions(): The application code location is a directory, which means the application is probably being run from an IDE. Additional setup is required. Please refer to README.txt file.");
         }
         continue;
       }
       if (extDir.isFile()) {
         // Check if it is a jar. We will load jars from inside this jar.
-        try (final JarFile jf = new JarFile(extDir);) {
+        try (
+            final JarFile jf = new JarFile(extDir);) {
           // We can't close jf, because the class loader will load files lazily.
           for (final JarEntry jarEntry : (Iterable<JarEntry>) jf.stream()::iterator) {
             if (!jarEntry.isDirectory() && jarEntry.getName().endsWith(".jar")) {
@@ -180,13 +181,13 @@ public class ExtensionManager {
               libraryEntryURLs.add(libURL);
             }
           }
-        } catch (IOException e) {
+        } catch (final IOException e) {
           logger.warning("Couldn't open: " + extDir);
           e.printStackTrace();
         }
       } else {
         final File[] extRoots = extDir.listFiles(new ExtFileFilter());
-        if (extRoots == null || extRoots.length == 0) {
+        if ((extRoots == null) || (extRoots.length == 0)) {
           logger.warning("createExtensions(): No potential extensions found in " + extDir + " directory.");
           continue;
         }
@@ -220,7 +221,7 @@ public class ExtensionManager {
           extensionAttributes.load(propertyStream);
           addExtension(new Extension(extensionAttributes, loader));
         }
-      } catch (IOException e) {
+      } catch (final IOException e) {
         logger.log(Level.SEVERE, "Error while reading embedded resources", e);
       }
     }
@@ -254,7 +255,8 @@ public class ExtensionManager {
     }
   }*/
 
-  private static URL makeZipEntryURL(final String dirName, final InputStream jfIS, final String entryName) throws IOException, MalformedURLException {
+  private static URL makeZipEntryURL(final String dirName, final InputStream jfIS, final String entryName) throws IOException,
+  MalformedURLException {
     final String urlSpec = ZIPENTRY_PROTOCOL + "://" + dirName + "/" + entryName + "!/";
     final URL libURL = new URL(null, urlSpec, new ZipEntryHandler(new ZipInputStream(jfIS)));
     return libURL;
@@ -275,6 +277,7 @@ public class ExtensionManager {
       final Extension fei = ei;
       // Initialize rest of them in parallel.
       final JoinableTask task = new JoinableTask() {
+        @Override
         public void execute() {
           try {
             fei.initClassLoader(librariesCL);
@@ -283,6 +286,7 @@ public class ExtensionManager {
           }
         }
 
+        @Override
         public String toString() {
           return "createExtensions:" + fei;
         }
@@ -327,10 +331,12 @@ public class ExtensionManager {
     final PlatformInit pm = PlatformInit.getInstance();
     for (final Extension ei : this.extensions) {
       final JoinableTask task = new JoinableTask() {
+        @Override
         public void execute() {
           ei.initExtension();
         }
 
+        @Override
         public String toString() {
           return "initExtensions:" + ei;
         }
@@ -385,7 +391,7 @@ public class ExtensionManager {
     }
 
     // None handled it. Call the last resort handlers in reverse order.
-    for (final Extension ei : (Collection<Extension>) org.lobobrowser.util.CollectionUtilities.reverse(extensions)) {
+    for (final Extension ei : org.lobobrowser.util.CollectionUtilities.reverse(extensions)) {
       try {
         final Clientlet clientlet = ei.getLastResortClientlet(request, response);
         if (clientlet != null) {
@@ -398,8 +404,10 @@ public class ExtensionManager {
     return null;
   }
 
-  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception, final RequestType requestType) {
-    final NavigatorExceptionEvent event = new NavigatorExceptionEvent(this, NavigatorEventType.ERROR_OCCURRED, frame, response, exception, requestType);
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception,
+      final RequestType requestType) {
+    final NavigatorExceptionEvent event = new NavigatorExceptionEvent(this, NavigatorEventType.ERROR_OCCURRED, frame, response, exception,
+        requestType);
     EventQueue.invokeLater(() -> {
       final Collection<Extension> ext = extensions;
       // Call all plugins once to see if they can select the response.

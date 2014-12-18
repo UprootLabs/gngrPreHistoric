@@ -27,7 +27,7 @@ import java.security.SecureClassLoader;
 
 /**
  * Base class for all project class loaders.
- * 
+ *
  * @author J. H. S.
  */
 public abstract class BaseClassLoader extends SecureClassLoader {
@@ -40,17 +40,18 @@ public abstract class BaseClassLoader extends SecureClassLoader {
   }
 
   /**
-	 * 
-	 */
+   *
+   */
   public BaseClassLoader() {
     super();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
    */
+  @Override
   public synchronized Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
     return super.loadClass(name, resolve);
   }

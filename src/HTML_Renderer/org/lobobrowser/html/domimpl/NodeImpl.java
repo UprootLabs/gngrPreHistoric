@@ -144,7 +144,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       if (nl != null) {
         for (final Node node : nl) {
           if (node instanceof NodeImpl) {
-            ((NodeImpl) node).handleDeletedFromParent();;
+            ((NodeImpl) node).handleDeletedFromParent();
+            ;
           }
         }
         this.nodeList = null;
@@ -212,7 +213,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   /**
    * Extracts all descendents that match the filter, except those descendents of
    * nodes that match the filter.
-   * 
+   *
    * @param filter
    * @param al
    */
@@ -260,7 +261,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       final NodeList children = this.getChildNodes();
       final int length = children.getLength();
       for (int i = 0; i < length; i++) {
-        final Node child = (Node) children.item(i);
+        final Node child = children.item(i);
         final Node newChild = deep ? child.cloneNode(deep) : child;
         newNode.appendChild(newChild);
       }
@@ -277,7 +278,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
 
       synchronized (this) {
-        if (userDataHandlers != null && userData != null) {
+        if ((userDataHandlers != null) && (userData != null)) {
           userDataHandlers.forEach((k, handler) -> handler.handle(UserDataHandler.NODE_CLONED, k, userData.get(k), this, newNode));
         }
       }
@@ -338,10 +339,10 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     if (!(other instanceof NodeImpl)) {
       throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Unknwon node implementation");
     }
-    if (parent != null && parent == other.getParentNode()) {
+    if ((parent != null) && (parent == other.getParentNode())) {
       final int thisIndex = this.getNodeIndex();
       final int otherIndex = ((NodeImpl) other).getNodeIndex();
-      if (thisIndex == -1 || otherIndex == -1) {
+      if ((thisIndex == -1) || (otherIndex == -1)) {
         return Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
       }
       if (thisIndex < otherIndex) {
@@ -474,7 +475,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
       }
 
       if (oldChild instanceof NodeImpl) {
-        ((NodeImpl) oldChild).handleDeletedFromParent();;
+        ((NodeImpl) oldChild).handleDeletedFromParent();
+        ;
       }
     }
 
@@ -486,11 +488,12 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   public Node removeChild(final Node oldChild) throws DOMException {
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
-      if (nl == null || !nl.remove(oldChild)) {
+      if ((nl == null) || !nl.remove(oldChild)) {
         throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
       }
       if (oldChild instanceof NodeImpl) {
-        ((NodeImpl) oldChild).handleDeletedFromParent();;
+        ((NodeImpl) oldChild).handleDeletedFromParent();
+        ;
       }
     }
 
@@ -524,7 +527,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   public boolean hasChildNodes() {
     synchronized (this.treeLock) {
       final ArrayList<Node> nl = this.nodeList;
-      return nl != null && !nl.isEmpty();
+      return (nl != null) && !nl.isEmpty();
     }
   }
 
@@ -628,8 +631,9 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         } else {
           this.userDataHandlers.remove(key);
         }
-        if (handler != null)
+        if (handler != null) {
           this.userDataHandlers.put(key, handler);
+        }
       }
 
       Map<String, Object> userData = this.userData;
@@ -639,10 +643,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
           this.userData = userData;
         }
         return userData.put(key, data);
-      } else if (userData != null)
+      } else if (userData != null) {
         return userData.remove(key);
-      else
+      } else {
         return null;
+      }
     }
   }
 
@@ -714,7 +719,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   public void setTextContent(final String textContent) throws DOMException {
     synchronized (this.treeLock) {
       this.removeChildrenImpl(new TextFilter());
-      if (textContent != null && !"".equals(textContent)) {
+      if ((textContent != null) && !"".equals(textContent)) {
         final TextImpl t = new TextImpl(textContent);
         t.setOwnerDocument(this.document);
         t.setParentImpl(this);
@@ -870,7 +875,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   public boolean isSupported(final String feature, final String version) {
-    return ("HTML".equals(feature) && version.compareTo("4.01") <= 0);
+    return ("HTML".equals(feature) && (version.compareTo("4.01") <= 0));
   }
 
   public String lookupNamespaceURI(final String prefix) {
@@ -882,7 +887,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   public boolean isEqualNode(final Node arg) {
-    return arg instanceof NodeImpl && this.getNodeType() == arg.getNodeType() && Objects.equals(this.getNodeName(), arg.getNodeName())
+    return (arg instanceof NodeImpl) && (this.getNodeType() == arg.getNodeType()) && Objects.equals(this.getNodeName(), arg.getNodeName())
         && Objects.equals(this.getNodeValue(), arg.getNodeValue()) && Objects.equals(this.getLocalName(), arg.getLocalName())
         && Objects.equals(this.nodeList, ((NodeImpl) arg).nodeList) && this.equalAttributes(arg);
   }
@@ -923,6 +928,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
     this.postChildListChanged();
   }
 
+  @Override
   public String toString() {
     return this.getNodeName();
   }
@@ -954,7 +960,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RenderableContext#getAlignmentX()
    */
   public float getAlignmentX() {
@@ -964,7 +970,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.RenderableContext#getAlignmentY()
    */
   public float getAlignmentY() {
@@ -973,7 +979,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.RenderableContext#getFullURL(java.lang.String)
    */
@@ -998,7 +1004,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.RenderableContext#getDocumentItem(java.lang.String
    * )
@@ -1010,7 +1016,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.RenderableContext#setDocumentItem(java.lang.String
    * , java.lang.Object)
@@ -1025,7 +1031,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.RenderableContext#isEqualOrDescendentOf(org.xamjwg
    * .html.renderer.RenderableContext)
@@ -1140,7 +1146,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         return rs;
       }
       final Object parent = this.parentNode;
-      if (parent != null || this instanceof Document) {
+      if ((parent != null) || (this instanceof Document)) {
         final RenderState prs = getParentRenderState(parent);
         rs = this.createRenderState(prs);
         this.renderState = rs;
@@ -1193,7 +1199,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   protected void appendInnerHTMLImpl(final StringBuffer buffer) {
     final ArrayList<Node> nl = this.nodeList;
     int size;
-    if (nl != null && (size = nl.size()) > 0) {
+    if ((nl != null) && ((size = nl.size()) > 0)) {
       for (int i = 0; i < size; i++) {
         final Node child = nl.get(i);
         if (child instanceof HTMLElementImpl) {
@@ -1325,8 +1331,8 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
    * This method will be called on a node whenever it is being appended to a
    * parent node.
    *
-   * NOTE: changeDocumentAttachment will call updateIds() which needs to
-   * be tree locked, and hence these methods are also being tree locked
+   * NOTE: changeDocumentAttachment will call updateIds() which needs to be tree
+   * locked, and hence these methods are also being tree locked
    */
   private void handleAddedToParent(final NodeImpl parent) {
     this.setParentImpl(parent);
@@ -1334,11 +1340,11 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
   }
 
   /**
-   * This method will be called on a node whenever it is being deleted
-   * from a parent node.
+   * This method will be called on a node whenever it is being deleted from a
+   * parent node.
    *
-   * NOTE: changeDocumentAttachment will call updateIds() which needs to
-   * be tree locked, and hence these methods are also being tree locked
+   * NOTE: changeDocumentAttachment will call updateIds() which needs to be tree
+   * locked, and hence these methods are also being tree locked
    */
   private void handleDeletedFromParent() {
     this.setParentImpl(null);
@@ -1362,7 +1368,7 @@ public abstract class NodeImpl extends AbstractScriptableDelegate implements Nod
         elementImpl.updateIdMap(attached);
       }
     }
-    if(nodeList != null) {
+    if (nodeList != null) {
       for (final Node node : this.nodeList) {
         if (node instanceof NodeImpl) {
           ((NodeImpl) node).changeDocumentAttachment(attached);

@@ -44,8 +44,8 @@ public class ConsoleModel extends PlainDocument {
   private final OutputStream outputStream;
 
   /**
-	 * 
-	 */
+   *
+   */
   public ConsoleModel() {
     super();
     this.outputStream = new LocalOutputStream();
@@ -88,30 +88,33 @@ public class ConsoleModel extends PlainDocument {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.io.Flushable#flush()
      */
+    @Override
     public void flush() throws IOException {
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.io.OutputStream#write(byte[])
      */
+    @Override
     public void write(final byte[] b) throws IOException {
       this.write(b, 0, b.length);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.io.OutputStream#write(byte[], int, int)
      */
+    @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
       synchronized (this.dataQueue) {
         byte[] actualBytes;
-        if (off == 0 && len == b.length) {
+        if ((off == 0) && (len == b.length)) {
           actualBytes = b;
         } else {
           actualBytes = new byte[len];
@@ -124,9 +127,10 @@ public class ConsoleModel extends PlainDocument {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.io.OutputStream#write(int)
      */
+    @Override
     public void write(final int b) throws IOException {
       this.write(new byte[] { (byte) b }, 0, 1);
     }

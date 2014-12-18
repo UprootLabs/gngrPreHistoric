@@ -37,7 +37,7 @@ public class MemoryCacheEntry {
   public final int altObjectSize;
 
   /**
-   * 
+   *
    * @param content
    *          The content of the document without headers.
    * @param headers
@@ -56,7 +56,7 @@ public class MemoryCacheEntry {
   }
 
   /**
-   * 
+   *
    * @param rawContent
    *          The content of the document, including headers.
    * @param altObject

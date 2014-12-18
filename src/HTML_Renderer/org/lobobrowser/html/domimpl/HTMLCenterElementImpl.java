@@ -20,7 +20,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-
 // TODO: Can be chopped off; this class is now a shell after removing createRenderState
 public class HTMLCenterElementImpl extends HTMLAbstractUIElement {
   public HTMLCenterElementImpl(final String name) {

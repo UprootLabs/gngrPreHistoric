@@ -405,7 +405,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.clientlet.ParameterInfo#getEncoding()
      */
     public String getEncoding() {
@@ -414,7 +414,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.clientlet.ParameterInfo#getParameters()
      */
     public Parameter[] getParameters() {
@@ -448,7 +448,7 @@ public class HtmlRendererContextImpl implements HtmlRendererContext {
     }
   }
 
-  public void setCursor(Optional<Cursor> cursorOpt) {
+  public void setCursor(final Optional<Cursor> cursorOpt) {
     final Cursor cursor = cursorOpt.orElse(Cursor.getDefaultCursor());
     htmlPanel.setCursor(cursor);
   }

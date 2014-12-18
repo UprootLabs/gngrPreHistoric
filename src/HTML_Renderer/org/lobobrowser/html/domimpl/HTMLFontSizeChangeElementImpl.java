@@ -20,7 +20,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-
 /**
  * This element is used for SMALL and BIG.
  */

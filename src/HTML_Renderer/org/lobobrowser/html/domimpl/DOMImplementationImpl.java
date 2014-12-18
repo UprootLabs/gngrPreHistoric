@@ -37,7 +37,7 @@ public class DOMImplementationImpl implements DOMImplementation {
   }
 
   public boolean hasFeature(final String feature, final String version) {
-    return "HTML".equals(feature) && "2.0".compareTo(version) <= 0;
+    return "HTML".equals(feature) && ("2.0".compareTo(version) <= 0);
   }
 
   public DocumentType createDocumentType(final String qualifiedName, final String publicId, final String systemId) throws DOMException {
@@ -49,7 +49,7 @@ public class DOMImplementationImpl implements DOMImplementation {
   }
 
   public Object getFeature(final String feature, final String version) {
-    if ("HTML".equals(feature) && "2.0".compareTo(version) <= 0) {
+    if ("HTML".equals(feature) && ("2.0".compareTo(version) <= 0)) {
       return this;
     } else {
       return null;

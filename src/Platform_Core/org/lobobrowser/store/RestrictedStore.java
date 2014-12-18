@@ -72,8 +72,8 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
   private long size = -1;
 
   /**
-	 * 
-	 */
+   *
+   */
   public RestrictedStore(final File baseDirectory, final long quota) throws IOException {
     // Security: This constructor is only allowed to be invoked
     // by a caller with privileged access to the directory.
@@ -100,7 +100,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
       prevSize = this.size;
       this.updateSizeFileImpl(totalSize);
     }
-    if (prevSize != -1 && Math.abs(totalSize - prevSize) > 10000) {
+    if ((prevSize != -1) && (Math.abs(totalSize - prevSize) > 10000)) {
       logger.warning("updateSizeFile(): Corrected a size discrepancy of " + (totalSize - prevSize) + " bytes in store '"
           + this.baseDirectory + "'.");
     }
@@ -174,9 +174,8 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     }
     long total = DIRECTORY_SIZE;
     final File[] files = directory.listFiles();
-    for (int i = 0; i < files.length; i++) {
+    for (final File file : files) {
       Thread.yield();
-      final File file = files[i];
       if (file.isDirectory() && !file.equals(directory)) {
         final String fileCanonical = file.getCanonicalPath();
         if (fileCanonical.startsWith(this.baseCanonicalPath)) {
@@ -201,7 +200,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
         fromFile = true;
       }
       final long newTotal = this.size + addition;
-      if (addition > 0 && newTotal > this.quota) {
+      if ((addition > 0) && (newTotal > this.quota)) {
         throw new QuotaExceededException("Quota would be exceeded by " + (newTotal - this.quota) + " bytes.");
       }
       this.size = newTotal;
@@ -216,7 +215,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.store.QuotaSource#addUsedBytes(long)
    */
   public void subtractUsedBytes(final long reduction) throws IOException {
@@ -328,8 +327,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
     // Security: This method is expected to be private.
     final Collection<String> paths = new LinkedList<>();
     final File[] localFiles = directory.listFiles();
-    for (int i = 0; i < localFiles.length; i++) {
-      final File file = localFiles[i];
+    for (final File file : localFiles) {
       if (file.isDirectory()) {
         final Collection<String> subPaths = this.getPaths(pattern, file);
         paths.addAll(subPaths);
@@ -352,7 +350,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.store.QuotaSource#getSpaceLeft()
    */
   public long getSpaceLeft() throws IOException {
@@ -393,7 +391,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.io.ManagedStore#getManagedFile(org.xamjwg.io.ManagedFile,
    * java.lang.String)
    */
@@ -403,7 +401,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.io.ManagedStore#getManagedFile(java.lang.String)
    */
   public ManagedFile getManagedFile(final String path) throws IOException {
@@ -493,7 +491,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#createFile()
      */
     public boolean createNewFile() throws IOException {
@@ -520,7 +518,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#exists()
      */
     public boolean exists() {
@@ -535,7 +533,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#getInputStream()
      */
     public InputStream openInputStream() throws IOException {
@@ -544,7 +542,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#getOutputStream()
      */
     public OutputStream openOutputStream() throws IOException {
@@ -553,7 +551,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#getParent()
      */
     public ManagedFile getParent() throws IOException {
@@ -580,7 +578,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#getPath()
      */
     public String getPath() {
@@ -589,7 +587,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#isDirectory()
      */
     public boolean isDirectory() {
@@ -604,7 +602,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#listFiles()
      */
     public ManagedFile[] listFiles() throws IOException {
@@ -613,7 +611,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#listFiles(org.xamjwg.io.ManagedFileFilter)
      */
     public ManagedFile[] listFiles(final ManagedFileFilter filter) throws IOException {
@@ -626,10 +624,9 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
             try {
               final File[] files = nativeFile.listFiles();
               final List<ManagedFile> mfs = new ArrayList<>();
-              for (int i = 0; i < files.length; i++) {
-                final File file = files[i];
+              for (final File file : files) {
                 final ManagedFile mf = nativeToManaged(file);
-                if (filter == null || filter.accept(mf)) {
+                if ((filter == null) || filter.accept(mf)) {
                   mfs.add(mf);
                 }
               }
@@ -646,7 +643,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#mkdir()
      */
     public boolean mkdir() {
@@ -669,7 +666,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#mkdirs()
      */
     public boolean mkdirs() {
@@ -692,7 +689,7 @@ public final class RestrictedStore implements QuotaSource, ManagedStore {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.io.ManagedFile#delete()
      */
     public boolean delete() throws IOException {

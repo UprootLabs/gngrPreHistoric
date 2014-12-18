@@ -50,8 +50,8 @@ public class RedirectRequestHandler implements RequestHandler {
   }
 
   /**
-	 * 
-	 */
+   *
+   */
   public RedirectRequestHandler(final RequestHandler origHandler, final HttpURLConnection origConnection) throws MalformedURLException {
     this.origHandler = origHandler;
     final String location = origConnection.getHeaderField("Location");
@@ -78,7 +78,7 @@ public class RedirectRequestHandler implements RequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.http.RequestHandler#getHostnameVerifier()
    */
   public HostnameVerifier getHostnameVerifier() {
@@ -87,7 +87,7 @@ public class RedirectRequestHandler implements RequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.http.RequestHandler#getLatestRequestMethod()
    */
   public String getLatestRequestMethod() {
@@ -96,7 +96,7 @@ public class RedirectRequestHandler implements RequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.http.RequestHandler#getLatestRequestURL()
    */
   public URL getLatestRequestURL() {
@@ -105,7 +105,7 @@ public class RedirectRequestHandler implements RequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.http.RequestHandler#getRequest()
    */
   public ClientletRequest getRequest() {
@@ -114,18 +114,19 @@ public class RedirectRequestHandler implements RequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception
    * )
    */
-  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
+  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType)
+      throws ClientletException {
     return this.origHandler.handleException(response, exception, requestType);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.xamj.http.RequestHandler#handleProgress(java.net.URL,
    * int, int)
    */
@@ -135,7 +136,7 @@ public class RedirectRequestHandler implements RequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.http.RequestHandler#processResponse(org.xamjwg.clientlet
    * .ClientletResponse)

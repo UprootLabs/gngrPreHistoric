@@ -38,17 +38,20 @@ class RListItem extends BaseRListElement {
   private static final int BULLET_RMARGIN = 5;
   private static final int BULLET_SPACE_WIDTH = 36;
 
-  public RListItem(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+  public RListItem(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+      final FrameContext frameContext,
       final RenderableContainer parentContainer, final RCollection parent) {
     super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
     // this.defaultMarginInsets = new java.awt.Insets(0, BULLET_SPACE_WIDTH, 0,
     // 0);
   }
 
+  @Override
   public int getViewportListNesting(final int blockNesting) {
     return blockNesting + 1;
   }
 
+  @Override
   public void invalidateLayoutLocal() {
     super.invalidateLayoutLocal();
     this.value = null;
@@ -78,7 +81,9 @@ class RListItem extends BaseRListElement {
 
   private int count;
 
-  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight, final FloatingBoundsSource floatBoundsSource,
+  @Override
+  public void doLayout(final int availWidth, final int availHeight, final boolean expandWidth, final boolean expandHeight,
+      final FloatingBoundsSource floatBoundsSource,
       final int defaultOverflowX, final int defaultOverflowY, final boolean sizeOnly) {
     super.doLayout(availWidth, availHeight, expandWidth, expandHeight, floatBoundsSource, defaultOverflowX, defaultOverflowY, sizeOnly);
     // Note: Count must be calculated even if layout is valid.
@@ -93,6 +98,7 @@ class RListItem extends BaseRListElement {
     }
   }
 
+  @Override
   public void paint(final Graphics g) {
     super.paint(g);
     final RenderState rs = this.modelNode.getRenderState();

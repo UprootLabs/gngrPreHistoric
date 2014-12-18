@@ -27,7 +27,7 @@ import javax.swing.Box.Filler;
 
 /**
  * A component used in conjunction with <code>BoxLayot</code>.
- * 
+ *
  */
 public class FillerComponent extends Filler {
   public FillerComponent(final Component wrappedComponent, final boolean forMax) {

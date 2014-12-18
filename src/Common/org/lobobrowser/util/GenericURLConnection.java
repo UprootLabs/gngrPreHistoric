@@ -34,8 +34,8 @@ public class GenericURLConnection extends URLConnection {
   private final java.io.InputStream inputStream;
 
   /**
-	 * 
-	 */
+   *
+   */
   public GenericURLConnection(final java.net.URL url, final InputStream in) {
     super(url);
     this.inputStream = in;
@@ -43,44 +43,49 @@ public class GenericURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#connect()
    */
+  @Override
   public void connect() throws IOException {
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getInputStream()
    */
+  @Override
   public InputStream getInputStream() throws IOException {
     return this.inputStream;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderField(int)
    */
+  @Override
   public String getHeaderField(final int n) {
     return null;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderField(java.lang.String)
    */
+  @Override
   public String getHeaderField(final String name) {
     return null;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderFieldKey(int)
    */
+  @Override
   public String getHeaderFieldKey(final int n) {
     return null;
   }

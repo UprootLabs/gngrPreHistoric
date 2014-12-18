@@ -51,35 +51,39 @@ public class AboutURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#connect()
    */
+  @Override
   public void connect() throws IOException {
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getContentLength()
    */
+  @Override
   public int getContentLength() {
     return -1;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getContentType()
    */
+  @Override
   public String getContentType() {
     return "text/html";
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getInputStream()
    */
+  @Override
   public InputStream getInputStream() throws IOException {
     return new ByteArrayInputStream(this.getURLText(this.getURL()).getBytes("UTF-8"));
   }
@@ -106,31 +110,36 @@ public class AboutURLConnection extends URLConnection {
     } else if ("welcome".equals(path)) {
       return getWelcomeMessage();
     } else {
-      return "<p>Unknown about path: " + path + "</p>" + 
-        "<h3>Known paths are:</h3>" +
-        "<ul>" +
-        "<li><a href='about:blank'>about:blank</a></li>" +
-        "<li><a href='about:bookmarks'>about:bookmarks</a></li>" +
-        "<li><a href='about:bookmark-search?term'>about:bookmark-search?term</a></li>" +
-        "<li><a href='about:java-properties'>about:java-properties</a></li>" +
-        "</ul>";
+      return "<p>Unknown about path: " + path + "</p>" +
+          "<h3>Known paths are:</h3>" +
+          "<ul>" +
+          "<li><a href='about:blank'>about:blank</a></li>" +
+          "<li><a href='about:bookmarks'>about:bookmarks</a></li>" +
+          "<li><a href='about:bookmark-search?term'>about:bookmark-search?term</a></li>" +
+          "<li><a href='about:java-properties'>about:java-properties</a></li>" +
+          "</ul>";
     }
   }
 
   private static String getWelcomeMessage() {
     return
-      "<div style='max-width:900px;margin:0 auto;text-align:center;'>" +
-        "<h1>Welcome to gngr</h1>" +
-        "<p><b>gngr</b> is a browser that cares deeply about privacy.</p>" +
-        "<p>It is currently a proof-of-concept, and not very stable or secure.</p>" +
-        "<p>We recommend that you use this version for casual browsing only and follow the project's <a href='https://blog.gngr.info'>blog</a> to stay abreast of changes.</p>" +
+    "<div style='max-width:900px;margin:0 auto;text-align:center;'>"
+        +
+        "<h1>Welcome to gngr</h1>"
+        +
+        "<p><b>gngr</b> is a browser that cares deeply about privacy.</p>"
+        +
+        "<p>It is currently a proof-of-concept, and not very stable or secure.</p>"
+        +
+        "<p>We recommend that you use this version for casual browsing only and follow the project's <a href='https://blog.gngr.info'>blog</a> to stay abreast of changes.</p>"
+        +
         "<div style='padding:1em;border:1px solid #bbb;background:#efe'>" +
-          "<p>Tip: Checkout the Request Manager button on the right of the URL bar. " +
-          "The Request Manager allows you to control which URL requests are allowed on a given webpage.</p>" +
-          "<p>By default, cookies, scripts and frames are disabled on all websites. " +
-          "You can change these rules as per your preferences.</p>" +
+        "<p>Tip: Checkout the Request Manager button on the right of the URL bar. " +
+        "The Request Manager allows you to control which URL requests are allowed on a given webpage.</p>" +
+        "<p>By default, cookies, scripts and frames are disabled on all websites. " +
+        "You can change these rules as per your preferences.</p>" +
         "</div>" +
-      "</div>";
+        "</div>";
   }
 
   private static String getSystemProperties() {
@@ -176,8 +185,7 @@ public class AboutURLConnection extends URLConnection {
 
   private static int getMatchScore(final BookmarkInfo binfo, final String[] keywords) {
     int total = 0;
-    for (int i = 0; i < keywords.length; i++) {
-      final String keyword = keywords[i];
+    for (final String keyword : keywords) {
       final int score = getMatchScore(binfo, keyword);
       if (score == 0) {
         return 0;
@@ -197,23 +205,23 @@ public class AboutURLConnection extends URLConnection {
       score += 2;
     }
     final String title = binfo.getTitle();
-    if (title != null && title.contains(keyword)) {
+    if ((title != null) && title.contains(keyword)) {
       score += 8;
-    } else if (title != null && title.toLowerCase().contains(keywordTL)) {
+    } else if ((title != null) && title.toLowerCase().contains(keywordTL)) {
       score += 6;
     }
     final String description = binfo.getDescription();
-    if (description != null && description.contains(keyword)) {
+    if ((description != null) && description.contains(keyword)) {
       score += 3;
-    } else if (description != null && description.toLowerCase().contains(keywordTL)) {
+    } else if ((description != null) && description.toLowerCase().contains(keywordTL)) {
       score += 2;
     }
     final String[] tags = binfo.getTags();
     if (tags != null) {
-      for (int i = 0; i < tags.length; i++) {
-        if (tags[i].equals(keyword)) {
+      for (final String tag : tags) {
+        if (tag.equals(keyword)) {
           score += 8;
-        } else if (tags[i].toLowerCase().equals(keywordTL)) {
+        } else if (tag.toLowerCase().equals(keywordTL)) {
           score += 6;
         }
       }
@@ -248,7 +256,7 @@ public class AboutURLConnection extends URLConnection {
     final String urlText = url.toExternalForm();
     final BookmarkInfo binfo = entry.getItemInfo();
     String text = binfo.getTitle();
-    if (text == null || text.length() == 0) {
+    if ((text == null) || (text.length() == 0)) {
       text = urlText;
     }
     final long elapsed = System.currentTimeMillis() - entry.getTimetstamp();
@@ -288,7 +296,7 @@ public class AboutURLConnection extends URLConnection {
       if (this == o) {
         return 0;
       }
-      final ScoredEntry other = (ScoredEntry) o;
+      final ScoredEntry other = o;
       int diff = other.score - this.score;
       if (diff != 0) {
         return diff;
@@ -305,6 +313,7 @@ public class AboutURLConnection extends URLConnection {
       }
     }
 
+    @Override
     public int hashCode() {
       return this.score;
     }

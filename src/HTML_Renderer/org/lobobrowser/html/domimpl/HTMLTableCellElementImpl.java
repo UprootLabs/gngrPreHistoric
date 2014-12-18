@@ -167,6 +167,7 @@ public class HTMLTableCellElementImpl extends HTMLAbstractUIElement implements H
     this.setAttribute("width", width);
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new TableCellRenderState(prevRenderState, this);
   }

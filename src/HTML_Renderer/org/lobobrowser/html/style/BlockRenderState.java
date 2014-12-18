@@ -36,6 +36,7 @@ public class BlockRenderState extends StyleSheetRenderState {
     super(document);
   }
 
+  @Override
   public int getDefaultDisplay() {
     return DISPLAY_BLOCK;
   }

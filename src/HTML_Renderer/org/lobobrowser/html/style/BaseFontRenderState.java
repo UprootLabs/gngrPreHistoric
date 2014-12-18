@@ -8,6 +8,7 @@ public class BaseFontRenderState extends RenderStateDelegator {
     this.fontBase = fontBase;
   }
 
+  @Override
   public int getFontBase() {
     return this.fontBase;
   }

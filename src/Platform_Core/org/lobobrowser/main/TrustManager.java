@@ -25,7 +25,7 @@ public final class TrustManager {
     final String hardDefaultPath = System.getProperty("java.home") + sep + "lib" + sep + "security" + sep + "cacerts";
     final String defaultStorePath = System.getProperty("javax.net.ssl.trustStore", hardDefaultPath);
     try (
-      final FileInputStream defaultIS = new FileInputStream(defaultStorePath)) {
+        final FileInputStream defaultIS = new FileInputStream(defaultStorePath)) {
 
       final KeyStore defKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
       defKeyStore.load(defaultIS, "changeit".toCharArray());
@@ -34,19 +34,19 @@ public final class TrustManager {
       keyStore.load(extraCertsStream, null);
 
       // final KeyStore keyStore =  KeyStore.Builder.newInstance(defKeyStore, null).getKeyStore();
-      Enumeration<String> aliases = defKeyStore.aliases();
+      final Enumeration<String> aliases = defKeyStore.aliases();
       while (aliases.hasMoreElements()) {
-        String alias = aliases.nextElement();
+        final String alias = aliases.nextElement();
         if (defKeyStore.isCertificateEntry(alias)) {
           final Entry entry = defKeyStore.getEntry(alias, null);
           keyStore.setEntry(alias, entry, null);
         }
       }
 
-      TrustManagerFactory tmf =
+      final TrustManagerFactory tmf =
           TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
       tmf.init(keyStore);
-      SSLContext sc = SSLContext.getInstance("TLS");
+      final SSLContext sc = SSLContext.getInstance("TLS");
       sc.init(null, tmf.getTrustManagers(), null);
       return sc.getSocketFactory();
     } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | IOException | CertificateException
@@ -62,6 +62,7 @@ public final class TrustManager {
    *
    * @deprecated
    * */
+  @Deprecated
   public static void installTrustStore(final SSLSocketFactory socketFactory) {
     HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
   }

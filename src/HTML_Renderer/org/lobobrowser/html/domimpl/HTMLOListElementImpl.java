@@ -65,6 +65,7 @@ public class HTMLOListElementImpl extends HTMLAbstractUIElement implements HTMLO
     this.setAttribute("type", type);
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ListRenderState(prevRenderState, this);
   }

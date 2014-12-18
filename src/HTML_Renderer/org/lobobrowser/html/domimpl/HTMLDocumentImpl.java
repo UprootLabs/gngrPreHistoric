@@ -88,9 +88,6 @@ import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLFrameElement;
-import org.w3c.dom.html.HTMLIFrameElement;
-import org.w3c.dom.html.HTMLLinkElement;
 import org.w3c.dom.stylesheets.DocumentStyle;
 import org.w3c.dom.stylesheets.LinkStyle;
 import org.w3c.dom.stylesheets.StyleSheetList;
@@ -115,7 +112,6 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   private String documentURI;
   private java.net.URL documentURL;
   protected final StyleSheetManager styleSheetManager = new StyleSheetManager();
-
 
   private WritableLineReader reader;
 
@@ -175,7 +171,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   /**
    * Sets the locales of the document. This helps determine whether specific
    * fonts can display text in the languages of all the locales.
-   * 
+   *
    * @param locales
    *          An <i>immutable</i> set of <code>java.util.Locale</code>
    *          instances.
@@ -189,6 +185,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     return docUrl == null ? null : docUrl.getHost();
   }
 
+  @Override
   public URL getDocumentURL() {
     // TODO: Security considerations?
     return this.documentURL;
@@ -217,9 +214,10 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getbaseURI()
    */
+  @Override
   public String getBaseURI() {
     final String buri = this.baseURI;
     return buri == null ? this.documentURI : buri;
@@ -243,10 +241,12 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     return this.window;
   }
 
+  @Override
   public String getTextContent() throws DOMException {
     return null;
   }
 
+  @Override
   public void setTextContent(final String textContent) throws DOMException {
     // NOP, per spec
   }
@@ -279,7 +279,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   public void setDomain(final String domain) {
     final String oldDomain = this.domain;
-    if (oldDomain != null && DomainValidation.isValidCookieDomain(domain, oldDomain)) {
+    if ((oldDomain != null) && DomainValidation.isValidCookieDomain(domain, oldDomain)) {
       this.domain = domain;
     } else {
       throw new SecurityException("Cannot set domain to '" + domain + "' when current domain is '" + oldDomain + "'");
@@ -404,7 +404,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   /**
    * Loads the document from the reader provided when the current instance of
    * <code>HTMLDocumentImpl</code> was constructed. It then closes the reader.
-   * 
+   *
    * @throws IOException
    * @throws SAXException
    * @throws UnsupportedEncodingException
@@ -543,7 +543,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.Document#createDocumentFragment()
    */
   public DocumentFragment createDocumentFragment() {
@@ -589,7 +589,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /**
    * Gets all elements that match the given tag name.
-   * 
+   *
    * @param tagname
    *          The element tag name or an asterisk character (*) to match all
    *          elements.
@@ -622,7 +622,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   }
 
   public Element getElementById(final String elementId) {
-    if (elementId != null && elementId.length() > 0) {
+    if ((elementId != null) && (elementId.length() > 0)) {
       synchronized (this) {
         return this.elementsById.get(elementId);
       }
@@ -744,7 +744,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.w3c.dom.Document#getImplementation()
    */
   public DOMImplementation getImplementation() {
@@ -758,9 +758,10 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getLocalName()
    */
+  @Override
   public String getLocalName() {
     // Always null for document
     return null;
@@ -768,27 +769,30 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getNodeName()
    */
+  @Override
   public String getNodeName() {
     return "#document";
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getNodeType()
    */
+  @Override
   public short getNodeType() {
     return Node.DOCUMENT_NODE;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getNodeValue()
    */
+  @Override
   public String getNodeValue() throws DOMException {
     // Always null for document
     return null;
@@ -796,21 +800,25 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#setNodeValue(java.lang.String)
    */
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
     throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "Cannot set node value of document");
   }
 
+  @Override
   public final HtmlRendererContext getHtmlRendererContext() {
     return this.rcontext;
   }
 
+  @Override
   public UserAgentContext getUserAgentContext() {
     return this.ucontext;
   }
 
+  @Override
   public final URL getFullURL(final String uri) {
     try {
       final String baseURI = this.getBaseURI();
@@ -878,7 +886,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   /**
    * Adds a document notification listener, which is informed about changes to
    * the document.
-   * 
+   *
    * @param listener
    *          An instance of {@link DocumentNotificationListener}.
    */
@@ -920,7 +928,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
    * Called if something such as a color or decoration has changed. This would
    * be something which does not affect the rendered size, and can be
    * revalidated with a simple repaint.
-   * 
+   *
    * @param node
    */
   public void lookInvalidated(final NodeImpl node) {
@@ -946,7 +954,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /**
    * Changed if the position of the node in a parent has changed.
-   * 
+   *
    * @param node
    */
   public void positionInParentInvalidated(final NodeImpl node) {
@@ -972,7 +980,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   /**
    * This is called when the node has changed, but it is unclear if it's a size
    * change or a look change. An attribute change should trigger this.
-   * 
+   *
    * @param node
    */
   public void invalidated(final NodeImpl node) {
@@ -997,7 +1005,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   /**
    * This is called when children of the node might have changed.
-   * 
+   *
    * @param node
    */
   public void structureInvalidated(final NodeImpl node) {
@@ -1083,6 +1091,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     }
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new StyleSheetRenderState(this);
   }
@@ -1094,13 +1103,13 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
    * Loads images asynchronously such that they are shared if loaded
    * simultaneously from the same URI. Informs the listener immediately if an
    * image is already known.
-   * 
+   *
    * @param relativeUri
    * @param imageListener
    */
   protected void loadImage(final String relativeUri, final ImageListener imageListener) {
     final HtmlRendererContext rcontext = this.getHtmlRendererContext();
-    if (rcontext == null || !rcontext.isImageLoadingEnabled()) {
+    if ((rcontext == null) || !rcontext.isImageLoadingEnabled()) {
       // Ignore image loading when there's no renderer context.
       // Consider Cobra users who are only using the parser.
       imageListener.imageLoaded(BLANK_IMAGE_EVENT);
@@ -1142,17 +1151,17 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
               // Must remove from map in the locked block
               // that got the listeners. Otherwise a new
               // listener might miss the event??
-            map.remove(urlText);
-          }
-          if (listeners != null) {
-            final int llength = listeners.length;
-            for (int i = 0; i < llength; i++) {
-              // Call holding no locks
-              listeners[i].imageLoaded(newEvent);
+              map.remove(urlText);
+            }
+            if (listeners != null) {
+              final int llength = listeners.length;
+              for (int i = 0; i < llength; i++) {
+                // Call holding no locks
+                listeners[i].imageLoaded(newEvent);
+              }
             }
           }
-        }
-      });
+        });
 
         SecurityUtil.doPrivileged(() -> {
           try {
@@ -1182,6 +1191,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     this.onloadHandler = onloadHandler;
   }
 
+  @Override
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
     // if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
     // dispatchLoadEvent();
@@ -1203,6 +1213,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
     dispatchEvent(domContentLoadedEvent);
   }
 
+  @Override
   protected Node createSimilarNode() {
     return new HTMLDocumentImpl(this.ucontext, this.rcontext, this.reader, this.documentURI);
   }
@@ -1225,7 +1236,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
   /**
    * Tag class that also notifies document when text is written to an open
    * buffer.
-   * 
+   *
    * @author J. H. S.
    */
   private class LocalWritableLineReader extends WritableLineReader {
@@ -1243,6 +1254,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
       super(reader);
     }
 
+    @Override
     public void write(final String text) throws IOException {
       super.write(text);
       if ("".equals(text)) {
@@ -1263,7 +1275,7 @@ public class HTMLDocumentImpl extends NodeImpl implements HTMLDocument, Document
 
   private List<Runnable> jobs = new LinkedList<>();
 
-  public void addJob(Runnable job) {
+  public void addJob(final Runnable job) {
     synchronized (jobs) {
       jobs.add(job);
     }

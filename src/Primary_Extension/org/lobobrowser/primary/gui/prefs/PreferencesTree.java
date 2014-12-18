@@ -58,6 +58,7 @@ public class PreferencesTree extends JTree {
         return "General";
       }
 
+      @Override
       public String toString() {
         return this.getName();
       }
@@ -78,6 +79,7 @@ public class PreferencesTree extends JTree {
         return "Connection";
       }
 
+      @Override
       public String toString() {
         return this.getName();
       }
@@ -98,6 +100,7 @@ public class PreferencesTree extends JTree {
         return "Tools";
       }
 
+      @Override
       public String toString() {
         return this.getName();
       }

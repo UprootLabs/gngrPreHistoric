@@ -24,14 +24,14 @@ import java.util.EventListener;
 
 /**
  * A listener of response events.
- * 
+ *
  * @see FramePanel#addResponseListener(ResponseListener)
  */
 public interface ResponseListener extends EventListener {
   /**
    * This method is called as soon as a clientlet response intended for the
    * event frame has been fully processed.
-   * 
+   *
    * @param event
    *          A response event.
    */

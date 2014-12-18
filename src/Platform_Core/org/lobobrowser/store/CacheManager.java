@@ -52,8 +52,8 @@ public final class CacheManager implements Runnable {
   private final LRUCache transientCache = new LRUCache(1000000);
 
   /**
-	 * 
-	 */
+   *
+   */
   private CacheManager() {
     super();
     final Thread t = new Thread(this, "CacheManager");
@@ -128,7 +128,7 @@ public final class CacheManager implements Runnable {
     final File cacheFile = getCacheFile(url, isDecoration);
     synchronized (getLock(cacheFile)) {
       final File parent = cacheFile.getParentFile();
-      if (parent != null && !parent.exists()) {
+      if ((parent != null) && !parent.exists()) {
         parent.mkdirs();
       }
       final FileOutputStream fout = new FileOutputStream(cacheFile);
@@ -250,10 +250,9 @@ public final class CacheManager implements Runnable {
       // Sort in ascending order of modification
       Arrays.sort(finfos);
       final long okToDeleteBeforeThis = System.currentTimeMillis() - DELETE_TOLERANCE;
-      for (int i = 0; i < finfos.length; i++) {
+      for (final CacheFileInfo finfo : finfos) {
         try {
           Thread.yield();
-          final CacheFileInfo finfo = finfos[i];
           synchronized (getLock(finfo.getFile())) {
             final long lastModified = finfo.getLastModified();
             if (lastModified < okToDeleteBeforeThis) {
@@ -293,9 +292,8 @@ public final class CacheManager implements Runnable {
     if (files.length == 0) {
       directory.delete();
     }
-    for (int i = 0; i < files.length; i++) {
+    for (final File file : files) {
       Thread.yield();
-      final File file = files[i];
       if (file.isDirectory()) {
         this.populateCacheStoreInfo(csinfo, file);
       } else {

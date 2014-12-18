@@ -80,7 +80,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
 
   public HTMLFormElement getForm() {
     Node parent = this.getParentNode();
-    while (parent != null && !(parent instanceof HTMLFormElement)) {
+    while ((parent != null) && !(parent instanceof HTMLFormElement)) {
       parent = parent.getParentNode();
     }
     return (HTMLFormElement) parent;
@@ -248,6 +248,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     }
   }
 
+  @Override
   public void blur() {
     final InputContext ic = this.inputContext;
     if (ic != null) {
@@ -255,6 +256,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
     }
   }
 
+  @Override
   public void focus() {
     final InputContext ic = this.inputContext;
     if (ic != null) {
@@ -271,11 +273,12 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.domimpl.HTMLElementImpl#assignAttributeField(java.lang.
    * String, java.lang.String)
    */
+  @Override
   protected void assignAttributeField(final String normalName, final String value) {
     if ("value".equals(normalName)) {
       this.setValue(value);
@@ -329,7 +332,7 @@ public abstract class HTMLBaseInputElement extends HTMLAbstractUIElement {
   /**
    * Adds a listener of image loading events. The listener gets called right
    * away if there's already an image.
-   * 
+   *
    * @param listener
    */
   public void addImageListener(final ImageListener listener) {

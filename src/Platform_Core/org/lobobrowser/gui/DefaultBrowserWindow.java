@@ -22,13 +22,13 @@ package org.lobobrowser.gui;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.RenderingHints;
 
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
@@ -37,7 +37,7 @@ import org.lobobrowser.ua.NavigatorFrame;
 
 /**
  * The default window class used by the browser.
- * 
+ *
  * @see WindowFactory
  */
 public class DefaultBrowserWindow extends AbstractBrowserWindow {
@@ -48,7 +48,7 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
       final NavigatorWindowImpl windowContext) throws HeadlessException {
 
     // Maximise window
-    setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+    setExtendedState(getExtendedState() | Frame.MAXIMIZED_BOTH);
 
     // TODO: SECURITY: Security needed in this class to prevent removal of all
     // window components??
@@ -120,6 +120,7 @@ public class DefaultBrowserWindow extends AbstractBrowserWindow {
     return this.framePanel;
   }
 
+  @Override
   public WindowCallback getWindowCallback() {
     return this.windowContext;
   }

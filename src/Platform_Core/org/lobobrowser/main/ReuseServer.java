@@ -38,8 +38,8 @@ import java.util.Random;
  */
 public class ReuseServer implements Runnable {
   /**
-	 * 
-	 */
+   *
+   */
   public ReuseServer() {
     final Thread t = new Thread(this, "ReuseServer");
     t.setDaemon(true);
@@ -51,7 +51,7 @@ public class ReuseServer implements Runnable {
   private static final Random RAND = new Random(System.currentTimeMillis());
 
   private static int getRandomPort() {
-    return Math.abs(RAND.nextInt()) % (TOP_PORT - MIN_PORT) + MIN_PORT;
+    return (Math.abs(RAND.nextInt()) % (TOP_PORT - MIN_PORT)) + MIN_PORT;
   }
 
   private ServerSocket serverSocket;
@@ -92,7 +92,7 @@ public class ReuseServer implements Runnable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Runnable#run()
    */
   public void run() {

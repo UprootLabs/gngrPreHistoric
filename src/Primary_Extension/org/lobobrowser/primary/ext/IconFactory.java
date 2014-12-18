@@ -56,7 +56,7 @@ public class IconFactory {
           try {
             final byte[] bytes = IORoutines.load(stream);
             icon = new ImageIcon(bytes);
-          } catch (IOException e) {
+          } catch (final IOException e) {
             throw new RuntimeException(e);
           }
         }

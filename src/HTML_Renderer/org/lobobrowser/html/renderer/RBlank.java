@@ -36,7 +36,8 @@ final class RBlank extends BaseBoundableRenderable {
   public final int ascentPlusLeading;
   private final FontMetrics fontMetrics;
 
-  public RBlank(final ModelNode me, final FontMetrics fm, final RenderableContainer container, final int ascentPlusLeading, final int width, final int height) {
+  public RBlank(final ModelNode me, final FontMetrics fm, final RenderableContainer container, final int ascentPlusLeading,
+      final int width, final int height) {
     super(container, me);
     this.fontMetrics = fm;
     this.ascentPlusLeading = ascentPlusLeading;
@@ -45,6 +46,7 @@ final class RBlank extends BaseBoundableRenderable {
     this.height = height;
   }
 
+  @Override
   protected void invalidateLayoutLocal() {
   }
 
@@ -95,14 +97,14 @@ final class RBlank extends BaseBoundableRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
   public final void paint(final Graphics g) {
     final RenderState rs = this.modelNode.getRenderState();
 
-    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+    if ((rs != null) && (rs.getVisibility() != RenderState.VISIBILITY_VISIBLE)) {
       // Just don't paint it.
       return;
     }
@@ -125,7 +127,7 @@ final class RBlank extends BaseBoundableRenderable {
       }
       if ((td & RenderState.MASK_TEXTDECORATION_LINE_THROUGH) != 0) {
         final FontMetrics fm = this.fontMetrics;
-        final int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent()) / 2;
+        final int lineOffset = fm.getLeading() + ((fm.getAscent() + fm.getDescent()) / 2);
         g.drawLine(0, lineOffset, this.width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_OVERLINE) != 0) {
@@ -150,14 +152,14 @@ final class RBlank extends BaseBoundableRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.BoundableRenderable#paintSelection(java.awt.Graphics
    * , boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)
    */
   public boolean paintSelection(final Graphics g, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
-    if (this == startPoint.renderable || this == endPoint.renderable) {
+    if ((this == startPoint.renderable) || (this == endPoint.renderable)) {
       if (inSelection) {
         return false;
       }
@@ -171,8 +173,9 @@ final class RBlank extends BaseBoundableRenderable {
     return true;
   }
 
-  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
-    if (this == startPoint.renderable || this == endPoint.renderable) {
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint,
+      final RenderableSpot endPoint) {
+    if ((this == startPoint.renderable) || (this == endPoint.renderable)) {
       if (inSelection) {
         return false;
       }
@@ -185,7 +188,7 @@ final class RBlank extends BaseBoundableRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BoundableRenderable#getRenderable(int, int)
    */
   public RenderableSpot getLowestRenderableSpot(final int x, final int y) {

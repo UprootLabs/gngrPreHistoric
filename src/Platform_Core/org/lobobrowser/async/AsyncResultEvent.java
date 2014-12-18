@@ -28,7 +28,7 @@ import java.util.EventObject;
 /**
  * An asynchronous result event. This is a generic class with a
  * <code>TResult</code> type parameter, the type of the result.
- * 
+ *
  * @see org.lobobrowser.async.AsyncResultListener
  * @author J. H. S.
  */
@@ -38,7 +38,7 @@ final class AsyncResultEvent<TResult> extends EventObject {
 
   /**
    * Instance constructor.
-   * 
+   *
    * @param source
    *          The event source.
    * @param result

@@ -35,6 +35,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     super(name);
   }
 
+  @Override
   void setOwnerDocument(final Document value, final boolean deep) {
     super.setOwnerDocument(value, deep);
     if (value instanceof HTMLDocument) {
@@ -42,6 +43,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     }
   }
 
+  @Override
   void setOwnerDocument(final Document value) {
     super.setOwnerDocument(value);
     if (value instanceof HTMLDocument) {
@@ -97,6 +99,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     this.setAttribute("vlink", vLink);
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new BodyRenderState(prevRenderState, this);
   }
@@ -119,6 +122,7 @@ public class HTMLBodyElementImpl extends HTMLAbstractUIElement implements HTMLBo
     }
   }
 
+  @Override
   protected void assignAttributeField(final String normalName, final String value) {
     if ("onload".equals(normalName)) {
       final Function onload = this.getEventFunction(null, normalName);

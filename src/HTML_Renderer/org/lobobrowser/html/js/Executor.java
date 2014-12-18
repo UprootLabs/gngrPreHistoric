@@ -38,7 +38,7 @@ public class Executor {
 
   /**
    * This method should be invoked instead of <code>Context.enter</code>.
-   * 
+   *
    * @param codeSource
    * @param ucontext
    */
@@ -101,7 +101,8 @@ public class Executor {
 
   }
 
-  public static boolean executeFunction(final Scriptable thisScope, final Function f, final java.net.URL codeSource, final UserAgentContext ucontext) {
+  public static boolean executeFunction(final Scriptable thisScope, final Function f, final java.net.URL codeSource,
+      final UserAgentContext ucontext) {
     final Context ctx = createContext(codeSource, ucontext);
     try {
       try {

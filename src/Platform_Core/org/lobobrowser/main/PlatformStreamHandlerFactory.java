@@ -27,7 +27,7 @@ import java.util.Collection;
 
 /**
  * Global URL stream handler factory used by the browser.
- * 
+ *
  * @see PlatformInit#initProtocols()
  */
 public class PlatformStreamHandlerFactory implements URLStreamHandlerFactory {

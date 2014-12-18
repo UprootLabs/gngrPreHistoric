@@ -1,23 +1,23 @@
 /*
 Copyright 1994-2006 The Lobo Project. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-Redistributions of source code must retain the above copyright notice, this list 
-of conditions and the following disclaimer. Redistributions in binary form must 
-reproduce the above copyright notice, this list of conditions and the following 
+Redistributions of source code must retain the above copyright notice, this list
+of conditions and the following disclaimer. Redistributions in binary form must
+reproduce the above copyright notice, this list of conditions and the following
 disclaimer in the documentation and/or other materials provided with the distribution.
- 
-THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED 
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
-EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+
+THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.clientlet;
@@ -47,7 +47,7 @@ public interface ClientletResponse {
 
   /**
    * Gets a response header.
-   * 
+   *
    * @param name
    *          The header name.
    */
@@ -55,7 +55,7 @@ public interface ClientletResponse {
 
   /**
    * Gets all values for a particular header.
-   * 
+   *
    * @param name
    *          The header name.
    */
@@ -68,7 +68,7 @@ public interface ClientletResponse {
 
   /**
    * Gets the response stream.
-   * 
+   *
    * @throws IOException
    */
   public InputStream getInputStream() throws IOException;
@@ -76,14 +76,14 @@ public interface ClientletResponse {
   /**
    * Gets the response content type. This can also contain a character encoding,
    * e.g. <em>text/html; charset=ISO-8859-1</em>.
-   * 
+   *
    * @see #getMimeType()
    */
   public String getContentType();
 
   /**
    * Gets only the mime-type part of the content type, e.g. <em>text/html</em>.
-   * 
+   *
    * @see #getContentType()
    */
   public String getMimeType();
@@ -94,7 +94,7 @@ public interface ClientletResponse {
    * extension is matched only when the mime type of the response is either
    * <code>application/octet-stream</code>, <code>content/unknown</code>, or not
    * provided.
-   * 
+   *
    * @param mimeType
    *          A mime type, e.g. <em>application/x-acme</em>.
    * @param fileExtension
@@ -152,7 +152,7 @@ public interface ClientletResponse {
   /**
    * If available, gets an object previously persisted along with the cached
    * document.
-   * 
+   *
    * @param classLoader
    *          A class loader that can load an object of the type expected.
    * @see #setNewPersistentCachedObject(Serializable)
@@ -162,7 +162,7 @@ public interface ClientletResponse {
   /**
    * Caches the object provided in persistent memory and associates it with the
    * reponse URL, if caching is allowed.
-   * 
+   *
    * @param object
    *          A <code>Serializable</code> object.
    */
@@ -174,7 +174,7 @@ public interface ClientletResponse {
    * <p>
    * <b>Note</b>: Most callers should only use the persistent cached object if
    * {@link #isFromCache()} returns true.
-   * 
+   *
    * @see #setNewTransientCachedObject(Object, int)
    */
   public Object getTransientCachedObject();
@@ -183,7 +183,7 @@ public interface ClientletResponse {
    * Caches an object in main memory, provided caching is allowed and there's
    * enough memory to do so. The object is associated with the current response
    * URL.
-   * 
+   *
    * @param object
    *          An object.
    * @param approxSize

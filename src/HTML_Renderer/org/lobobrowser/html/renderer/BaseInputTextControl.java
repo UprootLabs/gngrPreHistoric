@@ -58,6 +58,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
     this.add(widget);
   }
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     final String maxLengthText = this.controlElement.getAttribute("maxlength");
@@ -77,45 +78,50 @@ abstract class BaseInputTextControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getMaxLength()
    */
+  @Override
   public int getMaxLength() {
     return this.maxLength;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getReadOnly()
    */
+  @Override
   public boolean getReadOnly() {
     return !this.widget.isEditable();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getValue()
    */
+  @Override
   public String getValue() {
     return this.widget.getText();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#select()
    */
+  @Override
   public void select() {
     this.widget.selectAll();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
+  @Override
   public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
@@ -123,31 +129,35 @@ abstract class BaseInputTextControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setMaxLength(int)
    */
+  @Override
   public void setMaxLength(final int maxLength) {
     this.maxLength = maxLength;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setReadOnly(boolean)
    */
+  @Override
   public void setReadOnly(final boolean readOnly) {
     this.widget.setEditable(!readOnly);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
    */
+  @Override
   public void setValue(final String value) {
     this.widget.setText(value);
   }
 
+  @Override
   public java.awt.Dimension getPreferredSize() {
     final int size = this.size;
     final JTextComponent widget = this.widget;
@@ -157,7 +167,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
     if (size == -1) {
       pw = 100;
     } else {
-      pw = insets.left + insets.right + fm.charWidth('0') * size;
+      pw = insets.left + insets.right + (fm.charWidth('0') * size);
     }
     ph = fm.getHeight() + insets.top + insets.bottom;
     return new java.awt.Dimension(pw, ph);
@@ -173,10 +183,11 @@ abstract class BaseInputTextControl extends BaseInputControl {
   private class LimitedDocument extends javax.swing.text.PlainDocument {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.swing.text.PlainDocument#insertString(int, java.lang.String,
      * javax.swing.text.AttributeSet)
      */
+    @Override
     public void insertString(final int offs, final String str, final AttributeSet a) throws BadLocationException {
       final int max = BaseInputTextControl.this.maxLength;
       if (max != -1) {
@@ -185,7 +196,7 @@ abstract class BaseInputTextControl extends BaseInputControl {
           return;
         }
         final int strLen = str.length();
-        if (docLength + strLen > max) {
+        if ((docLength + strLen) > max) {
           final String shorterStr = str.substring(0, max - docLength);
           super.insertString(offs, shorterStr, a);
         } else {

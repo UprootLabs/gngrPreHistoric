@@ -19,6 +19,7 @@ public class TableCellRenderState extends DisplayRenderState {
   private int alignYPercent = -1;
   private BackgroundInfo backgroundInfo = INVALID_BACKGROUND_INFO;
 
+  @Override
   public void invalidate() {
     super.invalidate();
     this.alignXPercent = -1;
@@ -27,6 +28,7 @@ public class TableCellRenderState extends DisplayRenderState {
     this.paddingInsets = INVALID_INSETS;
   }
 
+  @Override
   public int getAlignXPercent() {
     int axp = this.alignXPercent;
     if (axp != -1) {
@@ -35,7 +37,7 @@ public class TableCellRenderState extends DisplayRenderState {
     final CSS2Properties props = this.getCssProperties();
     if (props != null) {
       final String textAlign = props.getTextAlign();
-      if (textAlign != null && textAlign.length() != 0) {
+      if ((textAlign != null) && (textAlign.length() != 0)) {
         return super.getAlignXPercent();
       }
     }
@@ -47,10 +49,10 @@ public class TableCellRenderState extends DisplayRenderState {
     if (parent instanceof HTMLElement) {
       rowElement = (HTMLElement) parent;
     }
-    if (align == null || align.length() == 0) {
+    if ((align == null) || (align.length() == 0)) {
       if (rowElement != null) {
         align = rowElement.getAttribute("align");
-        if (align != null && align.length() == 0) {
+        if ((align != null) && (align.length() == 0)) {
           align = null;
         }
       } else {
@@ -77,6 +79,7 @@ public class TableCellRenderState extends DisplayRenderState {
     return axp;
   }
 
+  @Override
   public int getAlignYPercent() {
     int ayp = this.alignYPercent;
     if (ayp != -1) {
@@ -85,7 +88,7 @@ public class TableCellRenderState extends DisplayRenderState {
     final CSS2Properties props = this.getCssProperties();
     if (props != null) {
       final String textAlign = props.getVerticalAlign();
-      if (textAlign != null && textAlign.length() != 0) {
+      if ((textAlign != null) && (textAlign.length() != 0)) {
         return super.getAlignYPercent();
       }
     }
@@ -96,10 +99,10 @@ public class TableCellRenderState extends DisplayRenderState {
     if (parent instanceof HTMLElement) {
       rowElement = (HTMLElement) parent;
     }
-    if (valign == null || valign.length() == 0) {
+    if ((valign == null) || (valign.length() == 0)) {
       if (rowElement != null) {
         valign = rowElement.getAttribute("valign");
-        if (valign != null && valign.length() == 0) {
+        if ((valign != null) && (valign.length() == 0)) {
           valign = null;
         }
       } else {
@@ -122,6 +125,7 @@ public class TableCellRenderState extends DisplayRenderState {
     return ayp;
   }
 
+  @Override
   public BackgroundInfo getBackgroundInfo() {
     BackgroundInfo binfo = this.backgroundInfo;
     if (binfo != INVALID_BACKGROUND_INFO) {
@@ -135,14 +139,14 @@ public class TableCellRenderState extends DisplayRenderState {
     if (parentNode instanceof HTMLTableRowElementImpl) {
       rowElement = (HTMLTableRowElementImpl) parentNode;
     }
-    if (binfo == null || binfo.backgroundColor == null) {
+    if ((binfo == null) || (binfo.backgroundColor == null)) {
       String bgColor = element.getBgColor();
-      if (bgColor == null || "".equals(bgColor)) {
+      if ((bgColor == null) || "".equals(bgColor)) {
         if (rowElement != null) {
           bgColor = rowElement.getBgColor();
         }
       }
-      if (bgColor != null && !"".equals(bgColor)) {
+      if ((bgColor != null) && !"".equals(bgColor)) {
         final Color bgc = ColorFactory.getInstance().getColor(bgColor);
         if (binfo == null) {
           binfo = new BackgroundInfo();
@@ -150,9 +154,9 @@ public class TableCellRenderState extends DisplayRenderState {
         binfo.backgroundColor = bgc;
       }
     }
-    if (binfo == null || binfo.backgroundImage == null) {
+    if ((binfo == null) || (binfo.backgroundImage == null)) {
       final String background = element.getAttribute("background");
-      if (background != null && !"".equals(background)) {
+      if ((background != null) && !"".equals(background)) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }
@@ -165,7 +169,7 @@ public class TableCellRenderState extends DisplayRenderState {
 
   private HTMLTableElement getTableElement() {
     org.w3c.dom.Node ancestor = this.element.getParentNode();
-    while (ancestor != null && !(ancestor instanceof HTMLTableElement)) {
+    while ((ancestor != null) && !(ancestor instanceof HTMLTableElement)) {
       ancestor = ancestor.getParentNode();
     }
     return (HTMLTableElement) ancestor;
@@ -173,6 +177,7 @@ public class TableCellRenderState extends DisplayRenderState {
 
   private HtmlInsets paddingInsets = INVALID_INSETS;
 
+  @Override
   public HtmlInsets getPaddingInsets() {
     HtmlInsets insets = this.paddingInsets;
     if (insets != INVALID_INSETS) {
@@ -186,7 +191,7 @@ public class TableCellRenderState extends DisplayRenderState {
         return null;
       }
       String cellPaddingText = tableElement.getAttribute("cellpadding");
-      if (cellPaddingText != null && cellPaddingText.length() != 0) {
+      if ((cellPaddingText != null) && (cellPaddingText.length() != 0)) {
         cellPaddingText = cellPaddingText.trim();
         int cellPadding;
         int cellPaddingType;
@@ -214,6 +219,7 @@ public class TableCellRenderState extends DisplayRenderState {
     return insets;
   }
 
+  @Override
   public int getWhiteSpace() {
     // Overrides super.
     if (RenderThreadState.getState().overrideNoWrap) {
@@ -228,7 +234,7 @@ public class TableCellRenderState extends DisplayRenderState {
     int wsValue;
     if (whiteSpaceText == null) {
       final HTMLElementImpl element = this.element;
-      if (element != null && element.getAttributeAsBoolean("nowrap")) {
+      if ((element != null) && element.getAttributeAsBoolean("nowrap")) {
         wsValue = WS_NOWRAP;
       } else {
         final RenderState prs = this.prevRenderState;
@@ -255,7 +261,7 @@ public class TableCellRenderState extends DisplayRenderState {
       String width = props == null ? null : props.getWidth();
       if (width == null) {
         width = element.getAttribute("width");
-        if (width != null && width.length() > 0 && !width.endsWith("%")) {
+        if ((width != null) && (width.length() > 0) && !width.endsWith("%")) {
           wsValue = WS_NORMAL;
         }
       } else {

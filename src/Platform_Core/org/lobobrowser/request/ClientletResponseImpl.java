@@ -67,7 +67,8 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   private InputStream inputStream;
 
-  public ClientletResponseImpl(final RequestHandler rhandler, final URLConnection connection, final URL responseURL, final boolean fromCache, final CacheInfo cacheInfo,
+  public ClientletResponseImpl(final RequestHandler rhandler, final URLConnection connection, final URL responseURL,
+      final boolean fromCache, final CacheInfo cacheInfo,
       final boolean isCacheable, final RequestType requestType) {
     this.connection = connection;
     this.responseURL = responseURL;
@@ -78,7 +79,8 @@ public class ClientletResponseImpl implements ClientletResponse {
     this.requestType = requestType;
   }
 
-  public ClientletResponseImpl(final RequestHandler rhandler, final URL url, final boolean fromCache, final CacheInfo cacheInfo, final boolean isCacheable,
+  public ClientletResponseImpl(final RequestHandler rhandler, final URL url, final boolean fromCache, final CacheInfo cacheInfo,
+      final boolean isCacheable,
       final String requestMethod, final RequestType requestType) throws IOException {
     this.connection = url.openConnection();
     this.responseURL = url;
@@ -91,20 +93,20 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   public boolean isNewNavigationAction() {
     final RequestType rt = this.requestType;
-    return rt != RequestType.HISTORY && rt != RequestType.SOFT_RELOAD && rt != RequestType.HARD_RELOAD;
+    return (rt != RequestType.HISTORY) && (rt != RequestType.SOFT_RELOAD) && (rt != RequestType.HARD_RELOAD);
   }
 
   public boolean matches(final String mimeType, final String[] fileExtensions) {
     final String responseMimeType = this.getMimeType();
-    if (responseMimeType == null || "application/octet-stream".equalsIgnoreCase(responseMimeType)
+    if ((responseMimeType == null) || "application/octet-stream".equalsIgnoreCase(responseMimeType)
         || "content/unknown".equalsIgnoreCase(responseMimeType)) {
       final String path = this.responseURL.getPath();
       if (path == null) {
         return false;
       }
       final String pathTL = path.toLowerCase();
-      for (int i = 0; i < fileExtensions.length; i++) {
-        String fileExtensionTL = fileExtensions[i].toLowerCase();
+      for (final String fileExtension : fileExtensions) {
+        String fileExtensionTL = fileExtension.toLowerCase();
         if (!fileExtensionTL.startsWith(".")) {
           fileExtensionTL = "." + fileExtensionTL;
         }
@@ -128,7 +130,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.ClientletResponse#isFromCache()
    */
   public boolean isFromCache() {
@@ -141,7 +143,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.dom.ClientletResponse#getResponseURL()
    */
   public URL getResponseURL() {
@@ -151,7 +153,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.dom.ClientletResponse#getHeader(java.lang.String)
    */
   public String getHeader(final String name) {
@@ -160,7 +162,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.dom.ClientletResponse#getHeaders(java.lang.String, char)
    */
   public String[] getHeaders(final String name) {
@@ -171,7 +173,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.dom.ClientletResponse#getHeaderNames()
    */
   public Iterator<String> getHeaderNames() {
@@ -181,7 +183,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.dom.ClientletResponse#getInputStream()
    */
   public InputStream getInputStream() throws IOException {
@@ -227,7 +229,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.dom.ClientletResponse#getContentType()
    */
   public String getContentType() {
@@ -236,7 +238,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.ClientletResponse#getMimeType()
    */
   public String getMimeType() {
@@ -293,7 +295,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.ClientletResponse#getCharset()
    */
   public String getCharset() {
@@ -343,7 +345,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.ClientletResponse#getResponseCode()
    */
   public int getResponseCode() throws IOException {
@@ -356,7 +358,7 @@ public class ClientletResponseImpl implements ClientletResponse {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.ClientletResponse#getResponseMessage()
    */
   public String getResponseMessage() throws IOException {
@@ -367,6 +369,7 @@ public class ClientletResponseImpl implements ClientletResponse {
     }
   }
 
+  @Override
   public String toString() {
     return "ClientletResponseImpl[url=" + this.responseURL + ",method=" + this.getLastRequestMethod() + ",mimeType=" + this.getMimeType()
         + ",fromCache=" + this.isFromCache() + ",requestType=" + this.requestType + "]";

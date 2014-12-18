@@ -31,7 +31,7 @@ class ShiftedFloatingBounds implements FloatingBounds {
   /**
    * Constructs the ShiftedFloatingBounds. Floatinb bounds moved up the
    * hierarchy of renderables will generally have positive shifts.
-   * 
+   *
    * @param prevBounds
    *          The baseline floating bounds.
    * @param shiftX
@@ -75,16 +75,18 @@ class ShiftedFloatingBounds implements FloatingBounds {
     return this.prevBounds.getMaxY() + this.shiftY;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     // Important for layout caching.
     if (!(obj instanceof ShiftedFloatingBounds)) {
       return false;
     }
     final ShiftedFloatingBounds other = (ShiftedFloatingBounds) obj;
-    return this.shiftY == other.shiftY && this.shiftLeft == other.shiftLeft && this.shiftRight == other.shiftRight
+    return (this.shiftY == other.shiftY) && (this.shiftLeft == other.shiftLeft) && (this.shiftRight == other.shiftRight)
         && Objects.equals(this.prevBounds, other.prevBounds);
   }
 
+  @Override
   public int hashCode() {
     return this.shiftY ^ this.shiftLeft ^ this.shiftRight;
   }

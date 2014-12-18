@@ -76,12 +76,12 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
     final Object parent = this.getParentNode();
     if (parent instanceof HTMLSelectElementImpl) {
       final HTMLSelectElementImpl parentSelect = ((HTMLSelectElementImpl) parent);
-      if (changed || parentSelect.getSelectedIndex() == -1) {
+      if (changed || (parentSelect.getSelectedIndex() == -1)) {
         if (selected) {
           parentSelect.setSelectedIndexImpl(this.getIndex());
         } else {
           final int currentIndex = parentSelect.getSelectedIndex();
-          if (currentIndex != -1 && currentIndex == this.getIndex()) {
+          if ((currentIndex != -1) && (currentIndex == this.getIndex())) {
             parentSelect.setSelectedIndexImpl(-1);
           }
         }
@@ -93,6 +93,7 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
     this.setAttribute("value", value);
   }
 
+  @Override
   public String toString() {
     return "HTMLOptionElementImpl[text=" + this.getText() + ",selected=" + this.getSelected() + "]";
   }

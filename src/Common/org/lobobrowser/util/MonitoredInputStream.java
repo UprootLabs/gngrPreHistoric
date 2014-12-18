@@ -46,36 +46,40 @@ public class MonitoredInputStream extends InputStream {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#available()
    */
+  @Override
   public int available() throws IOException {
     return this.delegate.available();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#close()
    */
+  @Override
   public void close() throws IOException {
     this.delegate.close();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#markSupported()
    */
+  @Override
   public boolean markSupported() {
     return false;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#read()
    */
+  @Override
   public int read() throws IOException {
     final int b = this.delegate.read();
     if (b != -1) {
@@ -88,15 +92,16 @@ public class MonitoredInputStream extends InputStream {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#read(byte[], int, int)
    */
+  @Override
   public int read(final byte[] arg0, final int arg1, final int arg2) throws IOException {
     final int numRead = this.delegate.read(arg0, arg1, arg2);
     if (numRead != -1) {
       this.progress += numRead;
       final long currentTime = System.currentTimeMillis();
-      if (currentTime - this.lastEvenPosted > this.minProgressEventGap) {
+      if ((currentTime - this.lastEvenPosted) > this.minProgressEventGap) {
         this.evtProgress.fireEvent(new InputProgressEvent(this, this.progress));
         this.lastEvenPosted = currentTime;
       }

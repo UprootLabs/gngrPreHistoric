@@ -61,7 +61,8 @@ public class ClientletContextImpl implements ClientletContext {
     return new VolatileContentImpl(contentType, content);
   }
 
-  public ContentBuffer createContentBuffer(final String contentType, final String content, final String encoding) throws UnsupportedEncodingException {
+  public ContentBuffer createContentBuffer(final String contentType, final String content, final String encoding)
+      throws UnsupportedEncodingException {
     final byte[] bytes = content.getBytes(encoding);
     return new VolatileContentImpl(contentType, bytes);
   }

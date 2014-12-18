@@ -106,7 +106,7 @@ abstract class BaseBoundableRenderable extends BaseRenderable implements Boundab
   }
 
   public boolean contains(final int x, final int y) {
-    return x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height;
+    return (x >= this.x) && (y >= this.y) && (x < (this.x + this.width)) && (y < (this.y + this.height));
   }
 
   public Rectangle getBounds() {

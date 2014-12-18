@@ -7,15 +7,15 @@ import java.net.URLStreamHandler;
 
 /**
  * http://www.ietf.org/rfc/rfc2397.txt
- * 
- * 
+ *
+ *
  * dataurl := "data:" [ mediatype ] [ ";base64" ] "," data mediatype := [ type
  * "/" subtype ] *( ";" parameter ) data := *urlchar parameter := attribute "="
  * value
- * 
- * 
+ *
+ *
  * @author toenz
- * 
+ *
  */
 public class Handler extends URLStreamHandler {
 
@@ -31,15 +31,16 @@ public class Handler extends URLStreamHandler {
     final String path = spec.substring(index + 1);
 
     setURL(u, protocol,
-    /* host */null,
-    /* port */80,
-    /* authority */null,
-    /* userinfo */null,
-    /* path */path,
-    /* query */null,
-    /* ref */null);
+        /* host */null,
+        /* port */80,
+        /* authority */null,
+        /* userinfo */null,
+        /* path */path,
+        /* query */null,
+        /* ref */null);
   }
 
+  @Override
   protected String toExternalForm(final URL u) {
     return u.getProtocol() + ":" + u.getPath();
   }

@@ -23,7 +23,7 @@ package org.lobobrowser.ua;
 /**
  * An exception thrown by {@link NavigationListener} methods in order to prevent
  * navigation from occurring.
- * 
+ *
  * @see NavigationListener
  */
 public class NavigationVetoException extends Exception {

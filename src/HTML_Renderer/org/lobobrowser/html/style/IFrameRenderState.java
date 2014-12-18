@@ -30,6 +30,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
   }
 
   // TODO: if this logic can be moved to attr2Styles, then this render state could be chopped off.
+  @Override
   public int getOverflowX() {
     int overflow = this.overflowX;
     if (overflow != -1) {
@@ -56,6 +57,7 @@ public class IFrameRenderState extends StyleSheetRenderState {
     return overflow;
   }
 
+  @Override
   public int getOverflowY() {
     int overflow = this.overflowY;
     if (overflow != -1) {
@@ -82,15 +84,16 @@ public class IFrameRenderState extends StyleSheetRenderState {
     return overflow;
   }
 
+  @Override
   public BorderInfo getBorderInfo() {
     BorderInfo binfo = this.borderInfo;
     if (binfo != INVALID_BORDER_INFO) {
       return binfo;
     }
     binfo = super.getBorderInfo();
-    if (binfo == null
-        || (binfo.topStyle == HtmlValues.BORDER_STYLE_NONE && binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE
-            && binfo.leftStyle == HtmlValues.BORDER_STYLE_NONE && binfo.rightStyle == HtmlValues.BORDER_STYLE_NONE)) {
+    if ((binfo == null)
+        || ((binfo.topStyle == HtmlValues.BORDER_STYLE_NONE) && (binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE)
+            && (binfo.leftStyle == HtmlValues.BORDER_STYLE_NONE) && (binfo.rightStyle == HtmlValues.BORDER_STYLE_NONE))) {
       if (binfo == null) {
         binfo = new BorderInfo();
       }

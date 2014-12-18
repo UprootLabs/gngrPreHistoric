@@ -41,7 +41,7 @@ import org.lobobrowser.ua.UserAgentContext;
 
 /**
  * Request handler used by request().
- * 
+ *
  * @author J. H. S.
  */
 public abstract class SimpleRequestHandler implements RequestHandler {
@@ -59,7 +59,8 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     this.uaContext = uaContext;
   }
 
-  public SimpleRequestHandler(final URL url, final String method, final String altPostData, final RequestType requestType, final UserAgentContext uaContext) {
+  public SimpleRequestHandler(final URL url, final String method, final String altPostData, final RequestType requestType,
+      final UserAgentContext uaContext) {
     this.request = new ClientletRequestImpl(url, method, altPostData, requestType);
     this.uaContext = uaContext;
   }
@@ -92,7 +93,8 @@ public abstract class SimpleRequestHandler implements RequestHandler {
     // nop
   }
 
-  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
+  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType)
+      throws ClientletException {
     logger.log(Level.WARNING, "handleException(): Error processing response=[" + response + "]", exception);
     return true;
   }
@@ -110,7 +112,7 @@ public abstract class SimpleRequestHandler implements RequestHandler {
   private class LocalHostnameVerifier implements HostnameVerifier {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
      * javax.net.ssl.SSLSession)
      */

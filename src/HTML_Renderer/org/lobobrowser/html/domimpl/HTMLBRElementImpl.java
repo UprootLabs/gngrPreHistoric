@@ -15,6 +15,7 @@ public class HTMLBRElementImpl extends HTMLElementImpl implements HTMLBRElement 
     this.setAttribute("clear", clear);
   }
 
+  @Override
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     buffer.append("\r\n");
     super.appendInnerTextImpl(buffer);

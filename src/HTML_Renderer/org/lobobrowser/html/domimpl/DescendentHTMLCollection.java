@@ -66,18 +66,18 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
       final ArrayList<NodeImpl> descendents = this.rootNode.getDescendents(this.nodeFilter, this.nestIntoMatchingNodes);
       this.itemsByIndex = descendents == null ? Collections.emptyList() : descendents;
       final int size = descendents == null ? 0 : descendents.size();
-      final Map<String, ElementImpl> itemsByName = new HashMap<>(size * 3 / 2);
+      final Map<String, ElementImpl> itemsByName = new HashMap<>((size * 3) / 2);
       this.itemsByName = itemsByName;
       for (int i = 0; i < size; i++) {
         final Object descNode = descendents.get(i);
         if (descNode instanceof ElementImpl) {
           final ElementImpl element = (ElementImpl) descNode;
           final String id = element.getId();
-          if (id != null && id.length() != 0) {
+          if ((id != null) && (id.length() != 0)) {
             itemsByName.put(id, element);
           }
           final String name = element.getAttribute("name");
-          if (name != null && name.length() != 0 && !name.equals(id)) {
+          if ((name != null) && (name.length() != 0) && !name.equals(id)) {
             itemsByName.put(name, element);
           }
         }
@@ -94,7 +94,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
 
   private boolean isValid() {
     synchronized (this.treeLock) {
-      return this.itemsByName != null && this.itemsByIndex != null;
+      return (this.itemsByName != null) && (this.itemsByIndex != null);
     }
   }
 
@@ -109,7 +109,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
     synchronized (this.treeLock) {
       this.ensurePopulatedImpl();
       try {
-        return (Node) this.itemsByIndex.get(index);
+        return this.itemsByIndex.get(index);
       } catch (final java.lang.IndexOutOfBoundsException iob) {
         return null;
       }
@@ -207,6 +207,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
       this.collectionRef = new WeakReference<>(collection);
     }
 
+    @Override
     public void structureInvalidated(final NodeImpl node) {
       final DescendentHTMLCollection collection = this.collectionRef.get();
       if (collection == null) {
@@ -221,6 +222,7 @@ public class DescendentHTMLCollection extends AbstractScriptableDelegate impleme
       }
     }
 
+    @Override
     public void nodeLoaded(final NodeImpl node) {
       this.structureInvalidated(node);
     }

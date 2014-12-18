@@ -35,7 +35,6 @@ import java.security.AccessController;
 import java.security.Permission;
 import java.security.Policy;
 import java.security.PrivilegedAction;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,13 +70,14 @@ import com.squareup.okhttp.OkUrlFactory;
 /**
  * A singleton class that is used to initialize a browser session in the current
  * JVM. It can also be used to open a browser window.
- * 
+ *
  * @see #getInstance()
  */
 public class PlatformInit {
   private static final String NATIVE_DIR_NAME = "native";
   private static final long THIRTY_DAYS_MILLIS = 30 * 24 * 60 * 60 * 1000L;
   private final SimpleThreadPool threadExecutor;
+
   // private final GeneralSettings generalSettings;
 
   private PlatformInit() {
@@ -94,7 +94,7 @@ public class PlatformInit {
    * Programs that use the browser API should invoke this method (or
    * {@link #init(boolean, boolean) init}) to prevent web content from having
    * full access to the user's computer.
-   * 
+   *
    * @see #addPrivilegedPermission(Permission)
    */
   public void initSecurity() {
@@ -112,7 +112,7 @@ public class PlatformInit {
     // Configure URL protocol handlers
     final PlatformStreamHandlerFactory factory = PlatformStreamHandlerFactory.getInstance();
     URL.setURLStreamHandlerFactory(factory);
-    OkHttpClient okHttpClient = new OkHttpClient();
+    final OkHttpClient okHttpClient = new OkHttpClient();
     // HttpsURLConnection.setDefaultSSLSocketFactory(sslSocketFactory);
     okHttpClient.setSslSocketFactory(sslSocketFactory);
     okHttpClient.setFollowRedirects(false);
@@ -150,7 +150,7 @@ public class PlatformInit {
   /**
    * Resets standard output and error streams so they are redirected to the
    * browser console.
-   * 
+   *
    * @see ConsoleModel
    */
   public void initConsole() {
@@ -162,7 +162,7 @@ public class PlatformInit {
     if (this.isCodeLocationDirectory()) {
       // Should only be shown when running from Eclipse.
       oldOut
-          .println("WARNING: initConsole(): Switching standard output and standard error to application console. If running EntryPoint, pass -debug to avoid this.");
+      .println("WARNING: initConsole(): Switching standard output and standard error to application console. If running EntryPoint, pass -debug to avoid this.");
     }
   }
 
@@ -171,7 +171,7 @@ public class PlatformInit {
   /**
    * Initializes platform logging. Note that this method is not implicitly
    * called by {@link #init(boolean, boolean)}.
-   * 
+   *
    * @param debugOn
    *          Debugging mode. This determines which one of two different logging
    *          configurations is used.
@@ -222,7 +222,7 @@ public class PlatformInit {
    * Initializers the <code>java.library.path</code> property.
    * <p>
    * This method is called by {@link #init(boolean, boolean)}.
-   * 
+   *
    * @param dirName
    *          A directory name relative to the browser application directory.
    */
@@ -258,7 +258,7 @@ public class PlatformInit {
    * <p>
    * Applications that need to install their own security manager and policy
    * should not call this method.
-   * 
+   *
    * @param exitWhenAllWindowsAreClosed
    *          Whether the JVM should exit when all windows created by the
    *          default window factory are closed.
@@ -270,7 +270,8 @@ public class PlatformInit {
    * @see #initProtocols()
    * @see #initExtensions()
    */
-  public void init(final boolean exitWhenAllWindowsAreClosed, final boolean initConsole, final SSLSocketFactory sslSocketFactory) throws Exception {
+  public void init(final boolean exitWhenAllWindowsAreClosed, final boolean initConsole, final SSLSocketFactory sslSocketFactory)
+      throws Exception {
     checkReleaseDate();
 
     initOtherProperties();
@@ -299,7 +300,11 @@ public class PlatformInit {
       final Date currDate = new Date(System.currentTimeMillis());
       if (releaseDatePlus30Days.before(currDate)) {
         final String version = relProps.getProperty("version.string");
-        final String checkForUpdatesMessage = "<html><h3><center>This version of gngr is old</center></h3><p>gngr "+version+"</p><p>Released on: " + releaseDate + "</p><p>This version is more than 30 days old and was not intended for long-time use.</p><p>Please check if a newer version is available on https://gngr.info</p></html>";
+        final String checkForUpdatesMessage = "<html><h3><center>This version of gngr is old</center></h3><p>gngr "
+            + version
+            + "</p><p>Released on: "
+            + releaseDate
+            + "</p><p>This version is more than 30 days old and was not intended for long-time use.</p><p>Please check if a newer version is available on https://gngr.info</p></html>";
         JOptionPane.showMessageDialog(null, checkForUpdatesMessage);
       }
     } catch (IOException | ParseException e) {
@@ -310,7 +315,7 @@ public class PlatformInit {
 
   /**
    * Opens a window and attempts to render the URL or path given.
-   * 
+   *
    * @param urlOrPath
    *          A URL or file path.
    * @throws MalformedURLException
@@ -323,7 +328,7 @@ public class PlatformInit {
   /**
    * Opens as many browser windows as there are startup URLs in general
    * settings.
-   * 
+   *
    * @see org.lobobrowser.settings.GeneralSettings#getStartupURLs()
    * @throws MalformedURLException
    */
@@ -351,7 +356,7 @@ public class PlatformInit {
    * in separate windows. If no arguments are found, the method launches URLs
    * from general settings. This method will not return until at least one
    * window has been shown.
-   * 
+   *
    * @see org.lobobrowser.settings.GeneralSettings#getStartupURLs()
    */
   public void start(final String[] args) throws MalformedURLException {
@@ -364,8 +369,8 @@ public class PlatformInit {
       }
     });
     boolean launched = false;
-    for (int i = 0; i < args.length; i++) {
-      final String url = args[i];
+    for (final String arg : args) {
+      final String url = arg;
       if (!url.startsWith("-")) {
         try {
           launched = true;
@@ -421,7 +426,7 @@ public class PlatformInit {
    * before {@link #init(boolean, boolean)} or {@link #initSecurity()} are
    * invoked. The purpose of the method is to add permissions otherwise missing
    * from the security policy installed by this facility.
-   * 
+   *
    * @param permission
    *          A <code>Permission<code> instance.
    */

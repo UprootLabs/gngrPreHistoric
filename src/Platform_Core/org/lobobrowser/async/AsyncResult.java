@@ -27,13 +27,13 @@ package org.lobobrowser.async;
  * Used by methods that need to return results asynchronously. Results are
  * received in the event dispatch thread. This is a generic class that takes a
  * type parameter <code>TResult</code>, the type of the expected result object.
- * 
+ *
  * @author J. H. S.
  */
 public interface AsyncResult<TResult> {
   /**
    * Registers a listener of asynchronous results.
-   * 
+   *
    * @param listener
    */
   public void addResultListener(AsyncResultListener<TResult> listener);

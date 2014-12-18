@@ -41,7 +41,7 @@ public class FramePanelFactorySource {
    * Sets a new {@link FramePanelFactory} that is used to create
    * <code>FramePanel</code>s as requested by browser content (e.g. IFRAMEs in
    * HTML).
-   * 
+   *
    * @param activeFactory
    */
   public void setActiveFactory(final FramePanelFactory activeFactory) {

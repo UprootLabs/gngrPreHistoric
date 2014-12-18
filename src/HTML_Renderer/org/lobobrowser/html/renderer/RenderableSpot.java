@@ -47,11 +47,12 @@ public class RenderableSpot {
     return new Point(this.x, this.y);
   }
 
+  @Override
   public boolean equals(final Object other) {
     if (!(other instanceof RenderableSpot)) {
       return false;
     }
     final RenderableSpot otherRp = (RenderableSpot) other;
-    return otherRp.renderable == this.renderable && otherRp.x == this.x && otherRp.y == this.y;
+    return (otherRp.renderable == this.renderable) && (otherRp.x == this.x) && (otherRp.y == this.y);
   }
 }

@@ -9,7 +9,6 @@ import org.w3c.dom.Element;
 
 import cz.vutbr.web.css.NodeData;
 import cz.vutbr.web.css.StyleSheet;
-import cz.vutbr.web.csskit.antlr.CSSParserFactory;
 import cz.vutbr.web.domassign.DirectAnalyzer;
 
 public final class LocalJStyleProperties extends JStyleProperties {
@@ -634,9 +633,9 @@ public final class LocalJStyleProperties extends JStyleProperties {
 
   @Override
   protected NodeData getNodeData() {
-    final HTMLElementImpl ele = (HTMLElementImpl) this.element;
+    final HTMLElementImpl ele = this.element;
     final String inlineStyle = ele.getAttribute("style");
-    if (inlineStyle != null && inlineStyle.length() > 0) {
+    if ((inlineStyle != null) && (inlineStyle.length() > 0)) {
       final List<StyleSheet> jSheets = new ArrayList<StyleSheet>();
       final StyleSheet jSheet = CSSUtilities.jParseInlineStyle(inlineStyle, null, ele, true);
       jSheets.add(jSheet);
@@ -651,7 +650,7 @@ public final class LocalJStyleProperties extends JStyleProperties {
     if (ele != null) {
       final StringBuilder sb = new StringBuilder();
       final String inlineStyle = ele.getAttribute("style");
-      if (inlineStyle != null && inlineStyle.length() > 0) {
+      if ((inlineStyle != null) && (inlineStyle.length() > 0)) {
         final String propertyNameLC = propertyName.toLowerCase();
         final String[] styleDeclarations = inlineStyle.split(";");
         for (final String styleDeclaration : styleDeclarations) {

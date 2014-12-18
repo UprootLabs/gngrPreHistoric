@@ -119,7 +119,7 @@ public interface BoundableRenderable extends Renderable {
   /**
    * Asks the Renderable to paint the selection between two points. Nothing will
    * be done if the points are outside the Renderable.
-   * 
+   *
    * @param g
    * @param inSelection
    * @param startPoint
@@ -131,7 +131,7 @@ public interface BoundableRenderable extends Renderable {
   /**
    * Paints by either creating a new clipped graphics context corresponding to
    * the bounds of the Renderable, or by translating the origin.
-   * 
+   *
    * @param g
    *          Parent's Graphics context.
    */

@@ -31,15 +31,16 @@ import org.xml.sax.InputSource;
 /**
  * The <code>InputSourceImpl</code> class implements the
  * <code>InputSource</code> interface.
- * 
+ *
  * @author J. H. S.
  */
 public class InputSourceImpl extends InputSource {
   /**
    * Constructs an <code>InputSourceImpl</code>.
-   * 
+   *
    * @deprecated Use a constructor that takes either a stream or a reader.
    */
+  @Deprecated
   public InputSourceImpl() {
     super();
   }
@@ -50,7 +51,7 @@ public class InputSourceImpl extends InputSource {
    * It is valid to use this constructor, but it is generally recommended that
    * callers use one of the constructors that take a reader or an input stream
    * instead.
-   * 
+   *
    * @param uri
    *          The URI (or systemID) of the document.
    */
@@ -60,29 +61,31 @@ public class InputSourceImpl extends InputSource {
 
   /**
    * Constructs an <code>InputSourceImpl</code>.
-   * 
+   *
    * @param byteStream
    *          The input stream where content can be read.
    * @deprecated Use constructor with <code>uri</code> parameter.
    */
+  @Deprecated
   public InputSourceImpl(final InputStream byteStream) {
     super(byteStream);
   }
 
   /**
    * Constructs an <code>InputSourceImpl</code>.
-   * 
+   *
    * @param characterStream
    *          The <code>Reader</code> where characters can be read.
    * @deprecated Use constructor with <code>uri</code> parameter.
    */
+  @Deprecated
   public InputSourceImpl(final Reader characterStream) {
     super(characterStream);
   }
 
   /**
    * Constructs an <code>InputSourceImpl</code>.
-   * 
+   *
    * @param characterStream
    *          The <code>Reader</code> where characters can be read.
    * @param uri
@@ -95,7 +98,7 @@ public class InputSourceImpl extends InputSource {
 
   /**
    * Constructs an <code>InputSourceImpl</code>.
-   * 
+   *
    * @param byteStream
    *          The input stream where content can be read.
    * @param uri

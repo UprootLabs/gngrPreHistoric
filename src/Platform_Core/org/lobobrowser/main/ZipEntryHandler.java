@@ -15,12 +15,12 @@ import java.util.zip.ZipInputStream;
 final class ZipEntryHandler extends URLStreamHandler {
   private final Map<String, byte[]> entryBufMap = new HashMap<>();
 
-  ZipEntryHandler(ZipInputStream is) throws IOException {
+  ZipEntryHandler(final ZipInputStream is) throws IOException {
     processStream(is);
   }
 
-  public void processStream(ZipInputStream is) throws IOException {
-    final byte[] tempBuffer = new byte[8192*2];
+  public void processStream(final ZipInputStream is) throws IOException {
+    final byte[] tempBuffer = new byte[8192 * 2];
     ZipEntry nextEntry = null;
     do {
       nextEntry = is.getNextEntry();
@@ -44,17 +44,17 @@ final class ZipEntryHandler extends URLStreamHandler {
   @Override
   protected URLConnection openConnection(final URL u) throws IOException {
     // System.out.println("Request: " + u);
-    if(ExtensionManager.ZIPENTRY_PROTOCOL.equals(u.getProtocol())) {
+    if (ExtensionManager.ZIPENTRY_PROTOCOL.equals(u.getProtocol())) {
       // TODO: Check url host for faster processing. Or use a common zip handler
       final String uStr = u.toExternalForm();
       final String requestName = uStr.substring(uStr.indexOf("!/") + 2);
       if (requestName.length() == 0) {
         return new URLConnection(u) {
-          
+
           @Override
           public void connect() throws IOException {
             // TODO Auto-generated method stub
-            
+
           }
         };
       }

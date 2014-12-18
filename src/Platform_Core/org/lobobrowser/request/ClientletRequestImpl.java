@@ -38,7 +38,8 @@ public class ClientletRequestImpl implements ClientletRequest {
   private final String altPostData;
   private final RequestType requestType;
 
-  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final String method, final ParameterInfo paramInfo, final Header[] extraHeaders,
+  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final String method, final ParameterInfo paramInfo,
+      final Header[] extraHeaders,
       final String referrer, final String altPostData, final RequestType requestType) {
     this.method = method;
     this.url = url;
@@ -50,7 +51,8 @@ public class ClientletRequestImpl implements ClientletRequest {
     this.requestType = requestType;
   }
 
-  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final String method, final ParameterInfo paramInfo, final RequestType requestType) {
+  public ClientletRequestImpl(final boolean forNewWindow, final URL url, final String method, final ParameterInfo paramInfo,
+      final RequestType requestType) {
     this(forNewWindow, url, method, paramInfo, null, null, null, requestType);
   }
 

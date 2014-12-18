@@ -165,6 +165,7 @@ public class HTMLIFrameElementImpl extends HTMLAbstractUIElement implements HTML
     }
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new IFrameRenderState(prevRenderState, this);
   }

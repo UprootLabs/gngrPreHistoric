@@ -42,10 +42,12 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
     return "HTMLCharacterData";
   }
 
+  @Override
   public String getTextContent() throws DOMException {
     return this.text;
   }
 
+  @Override
   public void setTextContent(final String textContent) throws DOMException {
     this.text = textContent;
     if (!this.notificationsSuspended) {
@@ -55,9 +57,10 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#cloneNode(boolean)
    */
+  @Override
   public Node cloneNode(final boolean deep) {
     final CharacterDataImpl newNode = (CharacterDataImpl) super.cloneNode(deep);
     newNode.setData(this.getData());
@@ -117,10 +120,11 @@ public abstract class CharacterDataImpl extends NodeImpl implements CharacterDat
     return this.text.substring(offset, offset + count);
   }
 
+  @Override
   public String toString() {
     String someText = this.text;
     final int length = someText.length();
-    if (someText != null && someText.length() > 32) {
+    if ((someText != null) && (someText.length() > 32)) {
       someText = someText.substring(0, 29) + "...";
     }
     return this.getNodeName() + "[length=" + length + ",text=" + someText + "]";

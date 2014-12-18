@@ -24,7 +24,7 @@ import java.util.EventListener;
 
 /**
  * A listener of content events.
- * 
+ *
  * @see FramePanel#addContentListener(ContentListener)
  * @see FramePanel#getComponentContent()
  */
@@ -35,7 +35,7 @@ public interface ContentListener extends EventListener {
    * Called as soon as the content has been set in a {@link FramePanel}. Note
    * that content can be set before the originating document has been fully
    * loaded, for example when incremental rendering is performed.
-   * 
+   *
    * @param event
    *          The content event.
    */

@@ -123,7 +123,7 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
    * Inserts a TH element at the specified index.
    * <p>
    * Note: This method is non-standard.
-   * 
+   *
    * @param index
    *          The cell index to insert at.
    * @return The element that was inserted.

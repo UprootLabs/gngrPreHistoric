@@ -31,7 +31,7 @@ public interface RElement extends RCollection, UINode {
   /**
    * Lays out the subtree below the RElement. The RElement is expected to set
    * its own dimensions, but not its origin.
-   * 
+   *
    * @param availWidth
    *          The available width from the parent's canvas.
    * @param availHeight

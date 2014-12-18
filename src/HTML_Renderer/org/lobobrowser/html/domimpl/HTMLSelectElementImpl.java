@@ -123,6 +123,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     }
   }
 
+  @Override
   protected FormInput[] getFormInputs() {
     // Needs to be overriden for forms to submit.
     final InputContext ic = this.inputContext;
@@ -139,12 +140,13 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
       return null;
     }
     final ArrayList<FormInput> formInputs = new ArrayList<>();
-    for (int i = 0; i < values.length; i++) {
-      formInputs.add(new FormInput(name, values[i]));
+    for (final String value : values) {
+      formInputs.add(new FormInput(name, value));
     }
     return formInputs.toArray(FormInput.EMPTY_ARRAY);
   }
 
+  @Override
   public void resetInput() {
     final InputContext ic = this.inputContext;
     if (ic != null) {
@@ -152,6 +154,7 @@ public class HTMLSelectElementImpl extends HTMLBaseInputElement implements HTMLS
     }
   }
 
+  @Override
   public void setInputContext(final InputContext ic) {
     super.setInputContext(ic);
     if (ic != null) {

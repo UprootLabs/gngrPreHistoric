@@ -112,7 +112,7 @@ public class DownloadDialog extends JFrame {
     this.knownContentLength = cl;
     final String sizeText = cl == -1 ? "Not known" : getSizeText(cl);
     this.sizeField.setValue(sizeText);
-    final String estTimeText = transferSpeed <= 0 || cl == -1 ? "Not known" : Timing.getElapsedText(cl / transferSpeed);
+    final String estTimeText = (transferSpeed <= 0) || (cl == -1) ? "Not known" : Timing.getElapsedText(cl / transferSpeed);
     this.timeLeftField.setValue(estTimeText);
 
     final Container contentPane = this.getContentPane();
@@ -347,7 +347,7 @@ public class DownloadDialog extends JFrame {
     if (!Double.isNaN(newTransferRate)) {
       this.transferRateField.setValue(round1(newTransferRate) + " Kb/sec");
       final int cl = this.knownContentLength;
-      if (cl > 0 && newTransferRate > 0) {
+      if ((cl > 0) && (newTransferRate > 0)) {
         this.timeLeftField.setValue(Timing.getElapsedText((long) ((cl - value) / newTransferRate)));
       }
     }
@@ -366,7 +366,7 @@ public class DownloadDialog extends JFrame {
       pb.setStringPainted(false);
       this.setTitle(sizeText + " " + this.destinationField.getValue());
     } else {
-      final int percent = (int) ((value * 100) / max);
+      final int percent = (value * 100) / max;
       pb.setIndeterminate(false);
       pb.setStringPainted(true);
       pb.setMaximum(max);
@@ -444,13 +444,15 @@ public class DownloadDialog extends JFrame {
     private boolean downloadDone = false;
     private long lastProgressUpdate = 0;
 
-    public DownloadRequestHandler(final ClientletRequest request, final Component dialogComponent, final File file, UserAgentContext uaContext) {
+    public DownloadRequestHandler(final ClientletRequest request, final Component dialogComponent, final File file,
+        final UserAgentContext uaContext) {
       super(request, dialogComponent, uaContext);
       this.file = file;
     }
 
     @Override
-    public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
+    public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType)
+        throws ClientletException {
       logger.log(Level.WARNING, "An error occurred trying to download " + response.getResponseURL() + " to " + this.file + ".", exception);
       errorInDownload_Safe();
       return true;
@@ -460,7 +462,7 @@ public class DownloadDialog extends JFrame {
     public void handleProgress(final ProgressType progressType, final URL url, final String method, final int value, final int max) {
       if (!this.downloadDone) {
         final long timestamp = System.currentTimeMillis();
-        if (timestamp - this.lastProgressUpdate > 1000) {
+        if ((timestamp - this.lastProgressUpdate) > 1000) {
           updateProgress_Safe(progressType, value, max);
           this.lastProgressUpdate = timestamp;
         }

@@ -35,8 +35,8 @@ public class CacheFileInfo implements Comparable {
   private final long initialLastModified;
 
   /**
-	 * 
-	 */
+   *
+   */
   public CacheFileInfo(final File file) {
     super();
     this.path = file.getAbsolutePath();
@@ -51,7 +51,7 @@ public class CacheFileInfo implements Comparable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   public int compareTo(final Object arg0) {
@@ -87,6 +87,7 @@ public class CacheFileInfo implements Comparable {
     return this.size;
   }
 
+  @Override
   public String toString() {
     return "CacheFileInfo[path=" + this.path + ",lastModified=" + new java.util.Date(this.initialLastModified) + "]";
   }

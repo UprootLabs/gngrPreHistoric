@@ -23,7 +23,6 @@
  */
 package org.lobobrowser.util;
 
-
 /**
  * @author J. H. S.
  */
@@ -51,8 +50,8 @@ public class Domains {
   }*/
 
   /**
-	 * 
-	 */
+   *
+   */
   private Domains() {
     super();
   }
@@ -87,7 +86,7 @@ public class Domains {
   }*/
 
   /*
-   * 
+   *
    * @param host
    *          A host name in lower case.
    * @return

@@ -55,6 +55,7 @@ class InputTextAreaControl extends BaseInputControl {
     widget.setText(value);
   }
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     final ElementImpl element = this.controlElement;
@@ -82,18 +83,20 @@ class InputTextAreaControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#getCols()
    */
+  @Override
   public int getCols() {
     return this.cols;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#getRows()
    */
+  @Override
   public int getRows() {
     return this.rows;
   }
@@ -103,9 +106,10 @@ class InputTextAreaControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#setCols(int)
    */
+  @Override
   public void setCols(final int cols) {
     if (cols != this.cols) {
       this.cols = cols;
@@ -115,9 +119,10 @@ class InputTextAreaControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#setRows(int)
    */
+  @Override
   public void setRows(final int rows) {
     if (rows != this.rows) {
       this.rows = rows;
@@ -125,6 +130,7 @@ class InputTextAreaControl extends BaseInputControl {
     }
   }
 
+  @Override
   public java.awt.Dimension getPreferredSize() {
     int pw;
     final int cols = this.cols;
@@ -134,7 +140,7 @@ class InputTextAreaControl extends BaseInputControl {
       final Font f = this.widget.getFont();
       final FontMetrics fm = this.widget.getFontMetrics(f);
       final Insets insets = this.widget.getInsets();
-      pw = insets.left + insets.right + fm.charWidth('*') * cols;
+      pw = insets.left + insets.right + (fm.charWidth('*') * cols);
     }
     int ph;
     final int rows = this.rows;
@@ -144,7 +150,7 @@ class InputTextAreaControl extends BaseInputControl {
       final Font f = this.widget.getFont();
       final FontMetrics fm = this.widget.getFontMetrics(f);
       final Insets insets = this.widget.getInsets();
-      ph = insets.top + insets.bottom + fm.getHeight() * rows;
+      ph = insets.top + insets.bottom + (fm.getHeight() * rows);
     }
     return new java.awt.Dimension(pw, ph);
 
@@ -152,18 +158,20 @@ class InputTextAreaControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#getReadOnly()
    */
+  @Override
   public boolean getReadOnly() {
     return !this.widget.isEditable();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#getValue()
    */
+  @Override
   public String getValue() {
     final String text = this.widget.getText();
     return org.lobobrowser.util.Strings.getCRLFString(text);
@@ -171,18 +179,20 @@ class InputTextAreaControl extends BaseInputControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#setReadOnly(boolean)
    */
+  @Override
   public void setReadOnly(final boolean readOnly) {
     this.widget.setEditable(readOnly);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.BaseInputControl#setValue(java.lang.String)
    */
+  @Override
   public void setValue(final String value) {
     this.widget.setText(value);
   }

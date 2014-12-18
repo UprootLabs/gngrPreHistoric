@@ -28,8 +28,9 @@ public class HTMLTitleElementImpl extends HTMLElementImpl {
     super(name, true);
   }
 
+  @Override
   public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data == Boolean.FALSE) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && (data == Boolean.FALSE)) {
       final Document document = this.document;
       if (document instanceof HTMLDocumentImpl) {
         final String textContent = this.getTextContent();

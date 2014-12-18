@@ -32,11 +32,13 @@ class BaseRListElement extends RBlock {
   protected static final String DEFAULT_COUNTER_NAME = "$cobra.counter";
   protected ListStyle listStyle = null;
 
-  public BaseRListElement(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+  public BaseRListElement(final NodeImpl modelNode, final int listNesting, final UserAgentContext pcontext,
+      final HtmlRendererContext rcontext,
       final FrameContext frameContext, final RenderableContainer parentContainer) {
     super(modelNode, listNesting, pcontext, rcontext, frameContext, parentContainer);
   }
 
+  @Override
   protected void applyStyle(final int availWidth, final int availHeight) {
     this.listStyle = null;
     super.applyStyle(availWidth, availHeight);
@@ -64,7 +66,7 @@ class BaseRListElement extends RBlock {
         listStyle.type = listType;
       }
     }
-    if (listStyle == null || listStyle.type == ListStyle.TYPE_UNSET) {
+    if ((listStyle == null) || (listStyle.type == ListStyle.TYPE_UNSET)) {
       final String typeAttributeText = rootElement.getAttribute("type");
       if (typeAttributeText != null) {
         final int newStyleType = HtmlValues.getListStyleTypeDeprecated(typeAttributeText);
@@ -80,6 +82,7 @@ class BaseRListElement extends RBlock {
     this.listStyle = listStyle;
   }
 
+  @Override
   public String toString() {
     return "BaseRListElement[node=" + this.modelNode + "]";
   }

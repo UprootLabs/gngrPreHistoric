@@ -41,7 +41,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.dom.AsyncResult#addResultListener(org.xamjwg.dom.AsyncResultListener
    * )
@@ -72,7 +72,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.clientlet.AsyncResult#removeResultListener(org.xamjwg.clientlet
    * .AsyncResultListener)
@@ -83,7 +83,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.AsyncResult#signal()
    */
   public void signal() {
@@ -150,6 +150,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
       }
     }
 
+    @Override
     public boolean equals(final Object other) {
       if (!(other instanceof EventListenerWrapper)) {
         return false;
@@ -158,6 +159,7 @@ public class AsyncResultImpl<TResult> implements AsyncResult<TResult> {
       return Objects.equals(elw.listener, this.listener);
     }
 
+    @Override
     public int hashCode() {
       return this.listener.hashCode();
     }

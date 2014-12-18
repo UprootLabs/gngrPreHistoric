@@ -52,7 +52,7 @@ public class HTMLFrameElementImpl extends HTMLElementImpl implements HTMLFrameEl
     final String src = getAttribute("src");
     if (src != null) {
       try {
-        java.net.URL fullURL = getFullURL(src);
+        final java.net.URL fullURL = getFullURL(src);
         if (fullURL != null) {
           if (getUserAgentContext().isRequestPermitted(new Request(fullURL, RequestKind.Frame))) {
             browserFrame.loadURL(fullURL);

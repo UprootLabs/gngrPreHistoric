@@ -182,7 +182,7 @@ public final class RequestManager {
       if (parent != null) {
         final Dimension parentSize = parent.getSize();
         final Point p = parent.getLocation();
-        setLocation(p.x + parentSize.width / 4, p.y + parentSize.height / 4);
+        setLocation(p.x + (parentSize.width / 4), p.y + (parentSize.height / 4));
       }
 
       final JComponent table = PermissionTable.makeTable(permissionSystemOpt.get(), getColumnNames(), getRequestData());
@@ -229,32 +229,32 @@ public final class RequestManager {
 
     private final class WindowListenerImpl implements WindowListener {
       @Override
-      public void windowOpened(WindowEvent e) {
+      public void windowOpened(final WindowEvent e) {
       }
 
       @Override
-      public void windowIconified(WindowEvent e) {
+      public void windowIconified(final WindowEvent e) {
       }
 
       @Override
-      public void windowDeiconified(WindowEvent e) {
+      public void windowDeiconified(final WindowEvent e) {
       }
 
       @Override
-      public void windowDeactivated(WindowEvent e) {
+      public void windowDeactivated(final WindowEvent e) {
       }
 
       @Override
-      public void windowClosing(WindowEvent e) {
+      public void windowClosing(final WindowEvent e) {
       }
 
       @Override
-      public void windowClosed(WindowEvent e) {
+      public void windowClosed(final WindowEvent e) {
         frame.reload();
       }
 
       @Override
-      public void windowActivated(WindowEvent e) {
+      public void windowActivated(final WindowEvent e) {
       }
     }
 

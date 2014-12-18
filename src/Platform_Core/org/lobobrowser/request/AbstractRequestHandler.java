@@ -74,7 +74,8 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     return this.request;
   }
 
-  public abstract boolean handleException(ClientletResponse response, Throwable exception, RequestType requestType) throws ClientletException;
+  public abstract boolean handleException(ClientletResponse response, Throwable exception, RequestType requestType)
+      throws ClientletException;
 
   public abstract void handleProgress(ProgressType progressType, URL url, String method, int value, int max);
 
@@ -93,7 +94,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String,
      * javax.net.ssl.SSLSession)
      */

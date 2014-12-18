@@ -30,7 +30,7 @@ import org.lobobrowser.util.ArrayUtilities;
 
 /**
  * Internal class.
- * 
+ *
  * @author J. H. S.
  */
 final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncResultListener<TResult> {
@@ -63,7 +63,7 @@ final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncRe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.clientlet.AsyncResult#addResultListener(org.xamjwg.clientlet
    * .AsyncResultListener)
@@ -80,7 +80,7 @@ final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncRe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.clientlet.AsyncResult#removeResultListener(org.xamjwg.clientlet
    * .AsyncResultListener)
@@ -93,7 +93,7 @@ final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncRe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.clientlet.AsyncResultListener#exceptionReceived(org.xamjwg.clientlet.AsyncResultEvent)
    */
@@ -103,7 +103,7 @@ final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncRe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.clientlet.AsyncResultListener#resultReceived(org.xamjwg.clientlet.AsyncResultEvent)
    */
@@ -113,7 +113,7 @@ final class AsyncResultWrapper<TResult> implements AsyncResult<TResult>, AsyncRe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.AsyncResult#signal()
    */
   public void signal() {

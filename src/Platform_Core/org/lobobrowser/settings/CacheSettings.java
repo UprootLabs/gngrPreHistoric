@@ -85,7 +85,7 @@ public class CacheSettings implements Serializable {
 
   /**
    * Sets the approximate maximum RAM cache size.
-   * 
+   *
    * @param maxRAMCacheSize
    *          The maximum cache size in bytes.
    */

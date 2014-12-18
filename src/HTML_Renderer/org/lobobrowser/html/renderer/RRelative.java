@@ -32,7 +32,8 @@ public class RRelative extends BaseRCollection {
   private final int xoffset;
   private final int yoffset;
 
-  public RRelative(final RenderableContainer container, final ModelNode modelNode, final RElement child, final int xoffset, final int yoffset) {
+  public RRelative(final RenderableContainer container, final ModelNode modelNode, final RElement child, final int xoffset,
+      final int yoffset) {
     super(container, modelNode);
     child.setOriginalParent(this);
     child.setParent(this);
@@ -104,6 +105,7 @@ public class RRelative extends BaseRCollection {
     return CollectionUtilities.singletonIterator((Renderable) this.child);
   }
 
+  @Override
   protected void invalidateLayoutLocal() {
     // nop
   }

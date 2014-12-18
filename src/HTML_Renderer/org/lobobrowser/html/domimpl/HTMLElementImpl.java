@@ -60,7 +60,6 @@ import cz.vutbr.web.css.Selector;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
 import cz.vutbr.web.css.StyleSheet;
 import cz.vutbr.web.csskit.MatchConditionOnElements;
-import cz.vutbr.web.csskit.antlr.CSSParserFactory;
 import cz.vutbr.web.domassign.DirectAnalyzer;
 
 public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2PropertiesContext {
@@ -86,7 +85,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       this.currentStyleDeclarationState = null;
       this.localStyleDeclarationState = null;
       this.computedStyles = null;
-      */
+       */
     }
   }
 
@@ -100,7 +99,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       this.computedStyles = null;
       this.isHoverStyle = null;
       this.hasHoverStyleByElement = null;
-      */
+       */
       if (deep) {
         final java.util.ArrayList<Node> nl = this.nodeList;
         if (nl != null) {
@@ -152,7 +151,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     }
 
     final StyleSheet inlineStyle = this.getInlineJStyle();
-    if(inlineStyle != null) {
+    if (inlineStyle != null) {
       jSheets.add(inlineStyle);
     }
 
@@ -161,7 +160,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 
     final NodeData nodeData = domAnalyser.getElementStyle(this, psuedoElement, "screen");
     final Node parent = this.parentNode;
-    if (parent != null && parent instanceof HTMLElementImpl) {
+    if ((parent != null) && (parent instanceof HTMLElementImpl)) {
       final HTMLElementImpl parentElement = (HTMLElementImpl) parent;
       nodeData.inheritFrom(parentElement.getNodeData(psuedoElement));
       nodeData.concretize();
@@ -181,7 +180,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   private StyleSheet getInlineJStyle() {
     synchronized (this) {
       final String style = this.getAttribute("style");
-      if (style != null && style.length() != 0) {
+      if ((style != null) && (style.length() != 0)) {
         return CSSUtilities.jParseInlineStyle(style, null, this, true);
       }
     }
@@ -242,10 +241,12 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     this.setAttribute("charset", charset);
   }
 
+  @Override
   public void warn(final String message, final Throwable err) {
     logger.log(Level.WARNING, message, err);
   }
 
+  @Override
   public void warn(final String message) {
     logger.log(Level.WARNING, message);
   }
@@ -264,6 +265,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return this.getAttribute(name) != null;
   }
 
+  @Override
   protected void assignAttributeField(final String normalName, final String value) {
     if (!this.notificationsSuspended) {
       this.informInvalidAttibute(normalName);
@@ -351,6 +353,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     return pnset;
   }
 
+  @Override
   public void informInvalid() {
     // This is called when an attribute or child changes.
     // TODO: forgetStyle can call informInvalid() since informInvalid() seems to always follow forgetStyle()
@@ -374,11 +377,11 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 
   private void informInvalidRecursive() {
     super.informInvalid();
-    NodeImpl[] nodeList = this.getChildrenArray();
+    final NodeImpl[] nodeList = this.getChildrenArray();
     if (nodeList != null) {
-      for (NodeImpl n : nodeList) {
+      for (final NodeImpl n : nodeList) {
         if (n instanceof HTMLElementImpl) {
-          HTMLElementImpl htmlElementImpl = (HTMLElementImpl) n;
+          final HTMLElementImpl htmlElementImpl = (HTMLElementImpl) n;
           htmlElementImpl.informInvalidRecursive();
         }
       }
@@ -396,7 +399,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 
   private boolean classMatch(final String classTL) {
     final String classNames = this.getClassName();
-    if (classNames == null || classNames.length() == 0) {
+    if ((classNames == null) || (classNames.length() == 0)) {
       return classTL == null;
     }
     final StringTokenizer tok = new StringTokenizer(classNames, " \t\r\n");
@@ -412,7 +415,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
   /**
    * Get an ancestor that matches the element tag name given and the style class
    * given.
-   * 
+   *
    * @param elementTL
    *          An tag name in lowercase or an asterisk (*).
    * @param classTL
@@ -569,7 +572,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
 
   protected Object getAncestorForJavaClass(final Class<HTMLFormElement> javaClass) {
     final Object nodeObj = this.getParentNode();
-    if (nodeObj == null || javaClass.isInstance(nodeObj)) {
+    if ((nodeObj == null) || javaClass.isInstance(nodeObj)) {
       return nodeObj;
     } else if (nodeObj instanceof HTMLElementImpl) {
       return ((HTMLElementImpl) nodeObj).getAncestorForJavaClass(javaClass);
@@ -626,7 +629,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
       });
     }
     final ArrayList<Node> nl = this.nodeList;
-    if (nl == null || nl.size() == 0) {
+    if ((nl == null) || (nl.size() == 0)) {
       buffer.append("/>");
       return;
     }
@@ -637,6 +640,7 @@ public class HTMLElementImpl extends ElementImpl implements HTMLElement, CSS2Pro
     buffer.append('>');
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     // Overrides NodeImpl method
     // Called in synchronized block already

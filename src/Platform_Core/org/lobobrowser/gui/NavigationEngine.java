@@ -69,7 +69,7 @@ final public class NavigationEngine {
   }
 
   public boolean hasNext() {
-    return this.currentIndex + 1 < this.history.size();
+    return (this.currentIndex + 1) < this.history.size();
   }
 
   public boolean hasPrev() {
@@ -88,7 +88,7 @@ final public class NavigationEngine {
     int nextIndex = this.currentIndex;
     for (;;) {
       nextIndex += offset;
-      if (nextIndex >= 0 && nextIndex < this.history.size()) {
+      if ((nextIndex >= 0) && (nextIndex < this.history.size())) {
         final NavigationEntry entry = this.history.get(nextIndex);
         if ("GET".equals(entry.getMethod())) {
           return true;
@@ -111,7 +111,7 @@ final public class NavigationEngine {
 
   public NavigationEntry move(final int offset) {
     final int nextIndex = this.currentIndex + offset;
-    if (nextIndex >= 0 && nextIndex < this.history.size()) {
+    if ((nextIndex >= 0) && (nextIndex < this.history.size())) {
       this.currentIndex = nextIndex;
       return this.history.get(this.currentIndex);
     } else {

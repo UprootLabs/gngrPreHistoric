@@ -65,7 +65,7 @@ import org.lobobrowser.util.Urls;
  * <p>
  * Invoke {@link #navigate(String)} to load a document into the top frame of the
  * <code>BrowserPanel</code>.
- * 
+ *
  * @see PlatformInit#init(boolean, boolean)
  */
 public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWindow, WindowCallback {
@@ -90,7 +90,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   /**
    * Constructs a <code>BrowserPanel</code> with a menu bar, toolbars, an
    * address bar and a status bar.
-   * 
+   *
    * @param menuBar
    *          A <code>JMenuBar</code> instance presumably set on a JFrame.
    */
@@ -101,7 +101,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   /**
    * Constructs a <code>BrowserPanel</code> with optional menu bar, toolbars, an
    * address bar and a status bar.
-   * 
+   *
    * @param menuBar
    *          A <code>JMenuBar</code> instance presumably set on a JFrame.
    * @param hasAddressBar
@@ -159,7 +159,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   /**
    * Navigates to the URL or path provided.
-   * 
+   *
    * @param urlOrPath
    *          An absolute URL or file path.
    */
@@ -169,7 +169,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   /**
    * Navigates to the URL provided.
-   * 
+   *
    * @param url
    *          A URL.
    */
@@ -291,7 +291,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   /**
    * Returns a value indicating whether the parent window is closed when the
    * current <code>BrowserPanel</code> is disposed.
-   * 
+   *
    * @see #setCloseWindowOnDispose(boolean)
    */
   public boolean isCloseWindowOnDispose() {
@@ -305,7 +305,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
    * menu and equivalent actions.
    * <p>
    * The default value of the flag is <code>true</code>.
-   * 
+   *
    * @param closeWindowOnDispose
    *          A boolean value.
    * @see #dispose()
@@ -317,7 +317,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   /**
    * Disposes the current <code>BrowserPanel</code>. This method is normally
    * activated by the standard File/Exit menu.
-   * 
+   *
    * @see #setCloseWindowOnDispose(boolean)
    */
   public void dispose() {
@@ -344,7 +344,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   public java.awt.Window getAwtWindow() {
     Container parent = this.getParent();
-    while (parent != null && !(parent instanceof java.awt.Window)) {
+    while ((parent != null) && !(parent instanceof java.awt.Window)) {
       parent = parent.getParent();
     }
     return (java.awt.Window) parent;
@@ -422,7 +422,8 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   }
 
   public void handleDocumentAccess(final NavigatorFrame frame, final ClientletResponse response) {
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response, response.getRequestType());
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_ACCESSED, frame, response,
+        response.getRequestType());
     SwingUtilities.invokeLater(() -> EVENT.fireEvent(event));
   }
 
@@ -461,7 +462,8 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
       this.setDocumentTitle(title);
     }
 
-    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response, response.getRequestType());
+    final NavigatorWindowEvent event = new NavigatorWindowEvent(this, NavigatorEventType.DOCUMENT_RENDERING, frame, response,
+        response.getRequestType());
     this.latestAccessedFrame = event.getNavigatorFrame();
     if (!EVENT.fireEvent(event)) {
       logger.warning("handleDocumentRendering(): Did not deliver event to any window: " + event);
@@ -476,7 +478,8 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
     });
   }
 
-  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception, final RequestType requestType) {
+  public void handleError(final NavigatorFrame frame, final ClientletResponse response, final Throwable exception,
+      final RequestType requestType) {
     getSafeExtensionManager().handleError(frame, response, exception, requestType);
     // Also inform as if document rendering.
     this.handleDocumentRendering(frame, response, null);
@@ -557,7 +560,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   /**
    * Adds a listener of navigation events, applicable only to the top frame.
-   * 
+   *
    * @param listener
    *          The listener.
    * @see FramePanel#addNavigationListener(NavigationListener)
@@ -570,7 +573,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
   /**
    * Removes a listener of navigation events previously added with
    * {@link #addNavigationListener(NavigationListener)}.
-   * 
+   *
    * @param listener
    *          The listener.
    */
@@ -580,7 +583,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   /**
    * Adds a listener of content events.
-   * 
+   *
    * @param listener
    *          The listener.
    * @see #getComponentContent()
@@ -595,7 +598,7 @@ public class BrowserPanel extends JPanel implements NavigatorWindow, BrowserWind
 
   /**
    * Adds a listener of response events.
-   * 
+   *
    * @param listener
    *          The listener.
    */

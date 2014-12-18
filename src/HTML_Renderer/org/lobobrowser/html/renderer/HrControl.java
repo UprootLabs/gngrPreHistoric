@@ -36,13 +36,14 @@ class HrControl extends BaseControl {
     super(modelNode);
   }
 
+  @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
     final Dimension size = this.getSize();
     final int offset = 8;
     final int x = offset;
-    final int y = size.height / 2 - 1;
-    final int width = size.width - offset * 2;
+    final int y = (size.height / 2) - 1;
+    final int width = size.width - (offset * 2);
     g.setColor(Color.black);
     g.drawRect(x, y, width, 2);
   }
@@ -53,10 +54,12 @@ class HrControl extends BaseControl {
 
   private int availWidth;
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     this.availWidth = availWidth;
   }
 
+  @Override
   public Dimension getPreferredSize() {
     final RenderState rs = this.controlElement.getRenderState();
     final FontMetrics fm = rs.getFontMetrics();

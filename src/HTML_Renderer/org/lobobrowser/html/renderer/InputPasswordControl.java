@@ -35,10 +35,11 @@ class InputPasswordControl extends InputTextControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * org.xamjwg.html.renderer.InputTextControl#createTextField(java.lang.String)
    */
+  @Override
   protected JTextComponent createTextField() {
     return new JPasswordField();
   }

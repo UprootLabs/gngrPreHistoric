@@ -91,17 +91,17 @@ public class ReuseManager {
         }
         if (port != -1) {
           try (
-            final Socket s = new Socket(bindHost, port);) {
+              final Socket s = new Socket(bindHost, port);) {
             s.setTcpNoDelay(true);
             try (
                 final OutputStream out = s.getOutputStream();
                 final OutputStreamWriter writer = new OutputStreamWriter(out);) {
               boolean hadPath = false;
-              for (int i = 0; i < args.length; i++) {
-                final String url = args[i];
+              for (final String arg : args) {
+                final String url = arg;
                 if (!url.startsWith("-")) {
                   hadPath = true;
-                  writer.write("LAUNCH " + args[i]);
+                  writer.write("LAUNCH " + arg);
                   writer.write("\r\n");
                 }
               }
@@ -150,8 +150,7 @@ public class ReuseManager {
     if (!launched) {
       final PlatformInit entry = PlatformInit.getInstance();
       boolean debugOn = false;
-      for (int i = 0; i < args.length; i++) {
-        final String url = args[i];
+      for (final String url : args) {
         if (url.equals("-debug")) {
           debugOn = true;
         }

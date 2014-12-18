@@ -28,7 +28,7 @@ class FloatingViewportBounds implements FloatingBounds {
   private final int height;
 
   /**
-   * 
+   *
    * @param prevBounds
    * @param leftFloat
    * @param y
@@ -36,7 +36,8 @@ class FloatingViewportBounds implements FloatingBounds {
    *          Width of floating box, including padding insets.
    * @param height
    */
-  public FloatingViewportBounds(final FloatingBounds prevBounds, final boolean leftFloat, final int y, final int offsetFromBorder, final int height) {
+  public FloatingViewportBounds(final FloatingBounds prevBounds, final boolean leftFloat, final int y, final int offsetFromBorder,
+      final int height) {
     this.prevBounds = prevBounds;
     this.leftFloat = leftFloat;
     this.y = y;
@@ -46,7 +47,7 @@ class FloatingViewportBounds implements FloatingBounds {
 
   public int getLeft(final int y) {
     int left = 0;
-    if (this.leftFloat && y >= this.y && y < this.y + height) {
+    if (this.leftFloat && (y >= this.y) && (y < (this.y + height))) {
       left = this.offsetFromBorder;
     }
     final FloatingBounds prev = this.prevBounds;
@@ -64,7 +65,7 @@ class FloatingViewportBounds implements FloatingBounds {
    */
   public int getRight(final int y) {
     int right = 0;
-    if (!this.leftFloat && y >= this.y && y < this.y + this.height) {
+    if (!this.leftFloat && (y >= this.y) && (y < (this.y + this.height))) {
       right = this.offsetFromBorder;
     }
     final FloatingBounds prev = this.prevBounds;
@@ -98,7 +99,7 @@ class FloatingViewportBounds implements FloatingBounds {
         clearY = prevClearY;
       }
     }
-    if (clearY == y && y >= this.y && y < this.y + this.height) {
+    if ((clearY == y) && (y >= this.y) && (y < (this.y + this.height))) {
       clearY = this.y + this.height;
     }
     return clearY;
@@ -150,6 +151,7 @@ class FloatingViewportBounds implements FloatingBounds {
     return maxY;
   }
 
+  @Override
   public boolean equals(final Object other) {
     // Important for layout caching.
     if (other == this) {
@@ -159,10 +161,12 @@ class FloatingViewportBounds implements FloatingBounds {
       return false;
     }
     final FloatingViewportBounds olm = (FloatingViewportBounds) other;
-    return olm.leftFloat == this.leftFloat && olm.y == this.y && olm.height == this.height && olm.offsetFromBorder == this.offsetFromBorder
+    return (olm.leftFloat == this.leftFloat) && (olm.y == this.y) && (olm.height == this.height)
+        && (olm.offsetFromBorder == this.offsetFromBorder)
         && org.lobobrowser.util.Objects.equals(olm.prevBounds, this.prevBounds);
   }
 
+  @Override
   public int hashCode() {
     return (this.leftFloat ? 1 : 0) ^ this.y ^ this.height ^ this.offsetFromBorder;
   }

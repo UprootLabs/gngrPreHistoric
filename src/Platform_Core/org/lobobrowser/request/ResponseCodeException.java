@@ -30,8 +30,8 @@ import java.io.IOException;
  */
 public class ResponseCodeException extends IOException {
   /**
-	 * 
-	 */
+   *
+   */
   public ResponseCodeException(final int responseCode) {
     super("Response code: " + responseCode);
   }

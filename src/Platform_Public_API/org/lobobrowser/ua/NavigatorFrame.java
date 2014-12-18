@@ -1,23 +1,23 @@
 /*
 Copyright 1994-2006 The Lobo Project. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-Redistributions of source code must retain the above copyright notice, this list 
-of conditions and the following disclaimer. Redistributions in binary form must 
-reproduce the above copyright notice, this list of conditions and the following 
+Redistributions of source code must retain the above copyright notice, this list
+of conditions and the following disclaimer. Redistributions in binary form must
+reproduce the above copyright notice, this list of conditions and the following
 disclaimer in the documentation and/or other materials provided with the distribution.
- 
-THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED 
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
-EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+
+THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.ua;
@@ -36,7 +36,7 @@ import org.lobobrowser.ua.UserAgentContext.Request;
 public interface NavigatorFrame {
   /**
    * Opens a URL in a separate window.
-   * 
+   *
    * @param urlOrPath
    *          The absolute URL or file path to open.
    * @throws java.net.MalformedURLException
@@ -45,7 +45,7 @@ public interface NavigatorFrame {
 
   /**
    * Opens a URL in a separate window.
-   * 
+   *
    * @param url
    *          The URL to open.
    */
@@ -53,7 +53,7 @@ public interface NavigatorFrame {
 
   /**
    * Opens a URL in a separate window using the properties provided.
-   * 
+   *
    * @param url
    *          The URL to open.
    * @param windowProperties
@@ -64,7 +64,7 @@ public interface NavigatorFrame {
 
   /**
    * Opens a URL in a separate window.
-   * 
+   *
    * @param windowProperties
    *          Window properties, following Javascript Window.open() conventions.
    * @param url
@@ -78,7 +78,7 @@ public interface NavigatorFrame {
 
   /**
    * Opens a URL in a separate window.
-   * 
+   *
    * @param url
    *          The URL to open.
    * @param method
@@ -90,7 +90,7 @@ public interface NavigatorFrame {
 
   /**
    * Navigates to a URL in the current frame.
-   * 
+   *
    * @param urlOrPath
    *          An <i>absolute</i> URL or file path.
    */
@@ -98,7 +98,7 @@ public interface NavigatorFrame {
 
   /**
    * Navigates to a URL in the current frame.
-   * 
+   *
    * @param urlOrPath
    *          An <i>absolute</i> URL or file path.
    * @param requestType
@@ -108,7 +108,7 @@ public interface NavigatorFrame {
 
   /**
    * Navigates to a URL in the current frame.
-   * 
+   *
    * @param url
    *          An absolute URL.
    */
@@ -116,7 +116,7 @@ public interface NavigatorFrame {
 
   /**
    * Navigates to a URL in the current frame.
-   * 
+   *
    * @param url
    *          An absolute URL.
    * @param requestType
@@ -126,7 +126,7 @@ public interface NavigatorFrame {
 
   /**
    * Navigates to a URL in the current frame.
-   * 
+   *
    * @param url
    *          An absolute or relative URL.
    * @param method
@@ -143,7 +143,7 @@ public interface NavigatorFrame {
   /**
    * Navigates to a URL in the current frame. This method should be used when
    * the originating frame of the request differs from the target frame.
-   * 
+   *
    * @param url
    *          An absolute or relative URL.
    * @param method
@@ -165,7 +165,7 @@ public interface NavigatorFrame {
    * {@link #navigate(java.net.URL, String, ParameterInfo, TargetType, RequestType)}
    * , except this method should be called when navigation is triggered by a
    * user click.
-   * 
+   *
    * @param url
    *          An absolute or relative URL.
    * @param targetType
@@ -179,7 +179,7 @@ public interface NavigatorFrame {
 
   /**
    * Closes the current window, if allowed.
-   * 
+   *
    * @throws SecurityException
    *           If closing the window is now allowed in the current context.
    */
@@ -204,7 +204,7 @@ public interface NavigatorFrame {
 
   /**
    * Opens a Yes/No confirmation dialog.
-   * 
+   *
    * @param message
    *          The question text.
    * @return True only if Yes is selected.
@@ -213,7 +213,7 @@ public interface NavigatorFrame {
 
   /**
    * Opens a prompt dialog.
-   * 
+   *
    * @param message
    *          The question text.
    * @param inputDefault
@@ -225,14 +225,14 @@ public interface NavigatorFrame {
   /**
    * Gets a component for the current frame which could be serve as the parent
    * of pop-up dialogs. This is <i>not</i> the rendered component.
-   * 
+   *
    * @see #getComponentContent()
    */
   public Component getComponent();
 
   /**
    * Opens an alert dialog.
-   * 
+   *
    * @param message
    *          The message shown in the alert dialog.
    */
@@ -240,7 +240,7 @@ public interface NavigatorFrame {
 
   /**
    * Requests the frame to update its progress state.
-   * 
+   *
    * @param event
    *          The progress event object.
    * @see #getProgressEvent()
@@ -249,7 +249,7 @@ public interface NavigatorFrame {
 
   /**
    * Gets the most recent progress event.
-   * 
+   *
    * @see #setProgressEvent(NavigatorProgressEvent)t
    */
   public NavigatorProgressEvent getProgressEvent();
@@ -298,7 +298,7 @@ public interface NavigatorFrame {
 
   /**
    * Replaces the content of the frame.
-   * 
+   *
    * @throws java.security.SecurityException
    *           Thrown when the caller does not have permission to replace the
    *           content of the frame.
@@ -310,7 +310,7 @@ public interface NavigatorFrame {
    * A simple alternative to
    * {@link #replaceContent(org.lobobrowser.clientlet.ClientletResponse, org.lobobrowser.clientlet.ComponentContent)}
    * provided for convenience.
-   * 
+   *
    * @param component
    *          A AWT or Swing component.
    */
@@ -318,7 +318,7 @@ public interface NavigatorFrame {
 
   /**
    * Gets source code for content currently showing, if any.
-   * 
+   *
    * @throws java.security.SecurityException
    *           Thrown when the caller does not have permission to get the source
    *           code.
@@ -338,7 +338,7 @@ public interface NavigatorFrame {
 
   /**
    * Resizes the browser window.
-   * 
+   *
    * @param width
    *          The new window width.
    * @param height
@@ -348,7 +348,7 @@ public interface NavigatorFrame {
 
   /**
    * Resizes the browser window.
-   * 
+   *
    * @param byWidth
    *          The number of pixels to expand the width by.
    * @param byHeight
@@ -369,7 +369,7 @@ public interface NavigatorFrame {
   /**
    * Switches to a new navigation entry in the frame's history, according to the
    * given offset.
-   * 
+   *
    * @param offset
    *          A positive or negative number, where -1 is equivalent to
    *          {@link #back()} and +1 is equivalent to {@link #forward()}.
@@ -378,7 +378,7 @@ public interface NavigatorFrame {
 
   /**
    * Navigates to a URL that exists in the frame's history.
-   * 
+   *
    * @param absoluteURL
    *          The target URL.
    */
@@ -394,7 +394,7 @@ public interface NavigatorFrame {
    * currently rendered. For example, a Cobra-based HTML component accepts
    * properties such as <code>defaultMarginInsets</code> (java.awt.Inset),
    * <code>defaultOverflowX</code> and <code>defaultOverflowY</code>.
-   * 
+   *
    * @param name
    *          The name of the property.
    * @param value
@@ -404,5 +404,6 @@ public interface NavigatorFrame {
   public void setProperty(String name, Object value);
 
   public boolean isRequestPermitted(Request request);
+
   public void manageRequests(Object initiator);
 }

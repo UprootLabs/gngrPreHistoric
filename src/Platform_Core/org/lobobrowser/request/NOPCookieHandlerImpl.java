@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** A CookieHandler that doesn't set or get cookies.
- *  The idea is to handle cookies in a place where better context is available.
- *  The methods in this interface get called from a global context where not much information about the request is available.
+/**
+ * A CookieHandler that doesn't set or get cookies. The idea is to handle
+ * cookies in a place where better context is available. The methods in this
+ * interface get called from a global context where not much information about
+ * the request is available.
  *
  * @author hrj
  *

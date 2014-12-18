@@ -29,6 +29,7 @@ public class ParagraphRenderState extends AbstractMarginRenderState {
     super(prevRenderState, element);
   }
 
+  @Override
   protected HtmlInsets getDefaultMarginInsets() {
     final HtmlInsets insets = new HtmlInsets();
     final FontMetrics fm = this.getFontMetrics();

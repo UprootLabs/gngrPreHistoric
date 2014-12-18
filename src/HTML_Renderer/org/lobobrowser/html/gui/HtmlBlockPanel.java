@@ -23,6 +23,7 @@
  */
 package org.lobobrowser.html.gui;
 
+import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -57,7 +58,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
-import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
 
 import org.lobobrowser.html.HtmlRendererContext;
@@ -88,7 +88,7 @@ import org.w3c.dom.Node;
  * internal element, typically a DIV. This component <i>cannot</i> render
  * FRAMESETs. <code>HtmlBlockPanel</code> is used by {@link HtmlPanel} whenever
  * the DOM is determined <i>not</i> to be a FRAMESET.
- * 
+ *
  * @see HtmlPanel
  * @see FrameSetPanel
  * @author J. H. S.
@@ -113,7 +113,8 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
     this(ColorFactory.TRANSPARENT, false, pcontext, rcontext, frameContext);
   }
 
-  public HtmlBlockPanel(final Color background, final boolean opaque, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext) {
+  public HtmlBlockPanel(final Color background, final boolean opaque, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+      final FrameContext frameContext) {
     this.setLayout(null);
     this.setAutoscrolls(true);
     this.frameContext = frameContext;
@@ -157,7 +158,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
     this.addMouseMotionListener(new MouseMotionListener() {
       /*
        * (non-Javadoc)
-       * 
+       *
        * @see
        * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent
        * )
@@ -168,7 +169,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
 
       /*
        * (non-Javadoc)
-       * 
+       *
        * @see
        * java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent
        * )
@@ -188,7 +189,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
    * Scrolls the body area to the given location.
    * <p>
    * This method should be called from the GUI thread.
-   * 
+   *
    * @param bounds
    *          The bounds in the scrollable block area that should become
    *          visible.
@@ -210,10 +211,10 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
     final RBlock block = this.rblock;
     if (block != null) {
       if (xOffset != 0) {
-        block.scrollBy(JScrollBar.HORIZONTAL, xOffset);
+        block.scrollBy(Adjustable.HORIZONTAL, xOffset);
       }
       if (yOffset != 0) {
-        block.scrollBy(JScrollBar.VERTICAL, yOffset);
+        block.scrollBy(Adjustable.VERTICAL, yOffset);
       }
     }
   }
@@ -223,7 +224,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
    * document.
    * <p>
    * This method should be called from the GUI thread.
-   * 
+   *
    * @param node
    *          A DOM node.
    */
@@ -239,7 +240,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
    * Gets the rectangular bounds of the given node.
    * <p>
    * This method should be called from the GUI thread.
-   * 
+   *
    * @param node
    *          A node in the current document.
    * @param relativeToScrollable
@@ -333,7 +334,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
    * determine the preferred size of this component. Note that
    * <code>getPreferredSize()<code> is a potentially time-consuming
    * operation if the preferred width is set.
-   * 
+   *
    * @param width
    *          The preferred blocked width. Use <code>-1</code> to unset.
    */
@@ -349,6 +350,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
    * with {@link #setPreferredWidth(int)}. An arbitrary preferred size is
    * returned in other scenarios.
    */
+  @Override
   public Dimension getPreferredSize() {
     // Expected to be invoked in the GUI thread.
     if (this.isPreferredSizeSet()) {
@@ -380,6 +382,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
     return new Dimension(600, 400);
   }
 
+  @Override
   public void finalize() throws Throwable {
     super.finalize();
   }
@@ -419,13 +422,13 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
   public boolean isSelectionAvailable() {
     final RenderableSpot start = this.startSelection;
     final RenderableSpot end = this.endSelection;
-    return start != null && end != null && !start.equals(end);
+    return (start != null) && (end != null) && !start.equals(end);
   }
 
   public org.w3c.dom.Node getSelectionNode() {
     final RenderableSpot start = this.startSelection;
     final RenderableSpot end = this.endSelection;
-    if (start != null && end != null) {
+    if ((start != null) && (end != null)) {
       return Nodes.getCommonAncestor((Node) start.renderable.getModelNode(), (Node) end.renderable.getModelNode());
     } else {
       return null;
@@ -457,7 +460,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
     Component toValidate = this;
     for (;;) {
       final Container parent = toValidate.getParent();
-      if (parent == null || parent.isValid()) {
+      if ((parent == null) || parent.isValid()) {
         break;
       }
       toValidate = parent;
@@ -484,12 +487,12 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
     if (block != null) {
       final int button = event.getButton();
       final int clickCount = event.getClickCount();
-      if (button == MouseEvent.BUTTON1 && clickCount > 1) {
+      if ((button == MouseEvent.BUTTON1) && (clickCount > 1)) {
         // TODO: Double-click must be revised. It generates
         // a single click via mouse release.
         final Point point = event.getPoint();
         block.onDoubleClick(event, point.x, point.y);
-      } else if (button == MouseEvent.BUTTON3 && clickCount == 1) {
+      } else if ((button == MouseEvent.BUTTON3) && (clickCount == 1)) {
         block.onRightClick(event, event.getX(), event.getY());
       }
     }
@@ -552,7 +555,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
       switch (mwe.getScrollType()) {
       case MouseWheelEvent.WHEEL_UNIT_SCROLL:
         final int units = mwe.getWheelRotation() * mwe.getScrollAmount();
-        block.scrollByUnits(JScrollBar.VERTICAL, units);
+        block.scrollByUnits(Adjustable.VERTICAL, units);
         break;
       }
     }
@@ -580,10 +583,11 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
    */
   // protected void paintComponent(Graphics g) {
+  @Override
   public void paint(final Graphics g) {
     // We go against Sun's advice and override
     // paint() instead of paintComponent(). Scrollbars
@@ -599,7 +603,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
       final Graphics2D g2 = (Graphics2D) g;
       try {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-      } catch (NoSuchFieldError e) {
+      } catch (final NoSuchFieldError e) {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
       }
       g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -620,12 +624,13 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
 
       final RenderableSpot start = this.startSelection;
       final RenderableSpot end = this.endSelection;
-      if (start != null && end != null && !start.equals(end)) {
+      if ((start != null) && (end != null) && !start.equals(end)) {
         block.paintSelection(g, false, start, end);
       }
     }
   }
 
+  @Override
   public void doLayout() {
     try {
       final Dimension size = this.getSize();
@@ -670,7 +675,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
   public String getSelectionText() {
     final RenderableSpot start = this.startSelection;
     final RenderableSpot end = this.endSelection;
-    if (start != null && end != null) {
+    if ((start != null) && (end != null)) {
       final StringBuffer buffer = new StringBuffer();
       this.rblock.extractSelectionText(buffer, false, start, end);
       return buffer.toString();
@@ -682,13 +687,14 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
   public boolean hasSelection() {
     final RenderableSpot start = this.startSelection;
     final RenderableSpot end = this.endSelection;
-    if (start != null && end != null && !start.equals(end)) {
+    if ((start != null) && (end != null) && !start.equals(end)) {
       return true;
     } else {
       return false;
     }
   }
 
+  @Override
   protected void paintChildren(final Graphics g) {
     // Overridding with NOP. For various reasons,
     // the regular mechanism for painting children
@@ -701,7 +707,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * java.awt.datatransfer.ClipboardOwner#lostOwnership(java.awt.datatransfer
    * .Clipboard, java.awt.datatransfer.Transferable)
@@ -911,7 +917,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
   /**
    * Sets the default margin insets. Note that in the root block, the margin
    * behaves like padding.
-   * 
+   *
    * @param defaultMarginInsets
    *          The default margin insets.
    */
@@ -962,6 +968,7 @@ public class HtmlBlockPanel extends JComponent implements NodeRenderer, Renderab
 
   @Override
   public Insets getInsets(final boolean hscroll, final boolean vscroll) {
-    throw new UnsupportedOperationException("Method added while implementing absolute positioned elements inside relative elements. But not implemented yet.");
+    throw new UnsupportedOperationException(
+        "Method added while implementing absolute positioned elements inside relative elements. But not implemented yet.");
   }
 }

@@ -167,7 +167,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements HTMLFo
   /**
    * This method should be called when form submission is done by a submit
    * button.
-   * 
+   *
    * @param extraFormInputs
    *          Any additional form inputs that need to be submitted, e.g. the
    *          submit button parameter.
@@ -184,8 +184,8 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements HTMLFo
     if (context != null) {
       final ArrayList<FormInput> formInputs = new ArrayList<>();
       if (extraFormInputs != null) {
-        for (int i = 0; i < extraFormInputs.length; i++) {
-          formInputs.add(extraFormInputs[i]);
+        for (final FormInput extraFormInput : extraFormInputs) {
+          formInputs.add(extraFormInput);
         }
       }
       this.visit(new NodeVisitor() {
@@ -193,8 +193,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements HTMLFo
           if (node instanceof HTMLElementImpl) {
             final FormInput[] fis = ((HTMLElementImpl) node).getFormInputs();
             if (fis != null) {
-              for (int i = 0; i < fis.length; i++) {
-                final FormInput fi = fis[i];
+              for (final FormInput fi : fis) {
                 if (fi.getName() == null) {
                   throw new IllegalStateException("Form input does not have a name: " + node);
                 }
@@ -236,7 +235,7 @@ public class HTMLFormElementImpl extends HTMLAbstractUIElement implements HTMLFo
   private class InputFilter implements NodeFilter {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xamjwg.html.domimpl.NodeFilter#accept(org.w3c.dom.Node)
      */
     public boolean accept(final Node node) {

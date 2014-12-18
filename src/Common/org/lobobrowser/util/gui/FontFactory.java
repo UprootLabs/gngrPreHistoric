@@ -55,15 +55,14 @@ public class FontFactory {
   private final Map<FontKey, Font> fontMap = new HashMap<>(50);
 
   /**
-	 * 
-	 */
+   *
+   */
   private FontFactory() {
     final boolean liflag = loggableFine;
     final String[] ffns = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
     final Set<String> fontFamilies = this.fontFamilies;
     synchronized (this) {
-      for (int i = 0; i < ffns.length; i++) {
-        final String ffn = ffns[i];
+      for (final String ffn : ffns) {
         if (liflag) {
           logger.fine("FontFactory(): family=" + ffn);
         }
@@ -82,15 +81,16 @@ public class FontFactory {
    * Registers a font family. It does not close the stream provided. Fonts
    * should be registered before the renderer has a chance to cache document
    * font specifications.
-   * 
+   *
    * @param fontName
    *          The name of a font as it would appear in a font-family
    *          specification.
    * @param fontFormat
    *          Should be {@link Font#TRUETYPE_FONT}.
    */
-  public void registerFont(final String fontName, final int fontFormat, final java.io.InputStream fontStream) throws java.awt.FontFormatException,
-      java.io.IOException {
+  public void registerFont(final String fontName, final int fontFormat, final java.io.InputStream fontStream)
+      throws java.awt.FontFormatException,
+  java.io.IOException {
     final Font f = Font.createFont(fontFormat, fontStream);
     synchronized (this) {
       this.registeredFonts.put(fontName.toLowerCase(), f);
@@ -100,7 +100,7 @@ public class FontFactory {
   /**
    * Unregisters a font previously registered with
    * {@link #registerFont(String, int, java.io.InputStream)}.
-   * 
+   *
    * @param fontName
    *          The font name to be removed.
    */
@@ -110,7 +110,8 @@ public class FontFactory {
     }
   }
 
-  public Font getFont(final String fontFamily, final String fontStyle, final String fontVariant, final String fontWeight, final float fontSize, final Set<Locale> locales,
+  public Font getFont(final String fontFamily, final String fontStyle, final String fontVariant, final String fontWeight,
+      final float fontSize, final Set<Locale> locales,
       final Integer superscript) {
     final FontKey key = new FontKey(fontFamily, fontStyle, fontVariant, fontWeight, fontSize, locales, superscript);
     synchronized (this) {
@@ -134,7 +135,7 @@ public class FontFactory {
    * font is determined not to be capable of diplaying characters from a given
    * language. This should be the name of a font that can display unicode text
    * across all or most languages.
-   * 
+   *
    * @param defaultFontName
    *          The name of a font.
    */
@@ -197,7 +198,7 @@ public class FontFactory {
     if (baseFont != null) {
       return baseFont.deriveFont(fontStyle, key.fontSize);
     } else if (matchingFace != null) {
-      final Font font = createFont(matchingFace, fontStyle, (int) Math.round(key.fontSize));
+      final Font font = createFont(matchingFace, fontStyle, Math.round(key.fontSize));
       final Set<Locale> locales = key.locales;
       if (locales == null) {
         final Locale locale = Locale.getDefault();
@@ -221,7 +222,7 @@ public class FontFactory {
       // Otherwise, fall through.
     }
     // Last resort:
-    return createFont(this.defaultFontName, fontStyle, (int) Math.round(key.fontSize));
+    return createFont(this.defaultFontName, fontStyle, Math.round(key.fontSize));
   }
 
   private static Font createFont(final String name, final int style, final int size) {
@@ -258,6 +259,7 @@ public class FontFactory {
       this.superscript = superscript;
     }
 
+    @Override
     public boolean equals(final Object other) {
       if (other == this) {
         // Quick check.
@@ -272,13 +274,14 @@ public class FontFactory {
       }
       // Note that we use String.intern() for all string fields,
       // so we can do instance comparisons.
-      return this.fontSize == ors.fontSize && this.fontFamily == ors.fontFamily && this.fontStyle == ors.fontStyle
-          && this.fontWeight == ors.fontWeight && this.fontVariant == ors.fontVariant && this.superscript == ors.superscript
+      return (this.fontSize == ors.fontSize) && (this.fontFamily == ors.fontFamily) && (this.fontStyle == ors.fontStyle)
+          && (this.fontWeight == ors.fontWeight) && (this.fontVariant == ors.fontVariant) && (this.superscript == ors.superscript)
           && Objects.equals(this.locales, ors.locales);
     }
 
     private int cachedHash = -1;
 
+    @Override
     public int hashCode() {
       int ch = this.cachedHash;
       if (ch != -1) {
@@ -303,6 +306,7 @@ public class FontFactory {
       return ch;
     }
 
+    @Override
     public String toString() {
       return "FontKey[family=" + this.fontFamily + ",size=" + this.fontSize + ",style=" + this.fontStyle + ",weight=" + this.fontWeight
           + ",variant=" + this.fontVariant + ",superscript=" + this.superscript + "]";

@@ -40,22 +40,27 @@ public class DocumentTypeImpl extends NodeImpl implements DocumentType {
     this.systemId = systemId;
   }
 
+  @Override
   public String getLocalName() {
     return null;
   }
 
+  @Override
   public String getNodeName() {
     return this.getName();
   }
 
+  @Override
   public String getNodeValue() throws DOMException {
     return null;
   }
 
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
     // nop
   }
 
+  @Override
   public short getNodeType() {
     return org.w3c.dom.Node.DOCUMENT_TYPE_NODE;
   }
@@ -87,6 +92,7 @@ public class DocumentTypeImpl extends NodeImpl implements DocumentType {
     return null;
   }
 
+  @Override
   protected Node createSimilarNode() {
     return new DocumentTypeImpl(this.qualifiedName, this.publicId, this.systemId);
   }

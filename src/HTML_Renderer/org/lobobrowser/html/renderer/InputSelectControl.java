@@ -110,12 +110,12 @@ class InputSelectControl extends BaseInputControl {
   private void resetItemList() {
     final HTMLSelectElementImpl selectElement = (HTMLSelectElementImpl) this.controlElement;
     final boolean isMultiple = selectElement.getMultiple();
-    if (isMultiple && this.state != STATE_LIST) {
+    if (isMultiple && (this.state != STATE_LIST)) {
       this.state = STATE_LIST;
       this.removeAll();
       final JScrollPane scrollPane = new JScrollPane(this.list);
       this.add(scrollPane);
-    } else if (!isMultiple && this.state != STATE_COMBO) {
+    } else if (!isMultiple && (this.state != STATE_COMBO)) {
       this.state = STATE_COMBO;
       this.removeAll();
       this.add(this.comboBox);
@@ -206,13 +206,13 @@ class InputSelectControl extends BaseInputControl {
             defaultSelectedIndexes.add(new Integer(index));
           }
         }
-        if (selectedIndexes != null && selectedIndexes.size() != 0) {
+        if ((selectedIndexes != null) && (selectedIndexes.size() != 0)) {
           final Iterator<Integer> sii = selectedIndexes.iterator();
           while (sii.hasNext()) {
             final Integer si = sii.next();
             list.addSelectionInterval(si.intValue(), si.intValue());
           }
-        } else if (defaultSelectedIndexes != null && defaultSelectedIndexes.size() != 0) {
+        } else if ((defaultSelectedIndexes != null) && (defaultSelectedIndexes.size() != 0)) {
           final Iterator<Integer> sii = defaultSelectedIndexes.iterator();
           while (sii.hasNext()) {
             final Integer si = sii.next();
@@ -225,6 +225,7 @@ class InputSelectControl extends BaseInputControl {
     }
   }
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     // Need to do this here in case element was incomplete
@@ -232,6 +233,7 @@ class InputSelectControl extends BaseInputControl {
     this.resetItemList();
   }
 
+  @Override
   public String getValue() {
     if (this.state == STATE_COMBO) {
       final OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
@@ -244,10 +246,12 @@ class InputSelectControl extends BaseInputControl {
 
   private int selectedIndex = -1;
 
+  @Override
   public int getSelectedIndex() {
     return this.selectedIndex;
   }
 
+  @Override
   public void setSelectedIndex(final int value) {
     this.selectedIndex = value;
     final boolean prevSuspend = this.suspendSelections;
@@ -269,7 +273,7 @@ class InputSelectControl extends BaseInputControl {
         } else {
           final JList<OptionItem> list = this.list;
           final int[] selectedIndices = list.getSelectedIndices();
-          if (selectedIndices == null || selectedIndices.length != 1 || selectedIndices[0] != value) {
+          if ((selectedIndices == null) || (selectedIndices.length != 1) || (selectedIndices[0] != value)) {
             // This check is done to avoid an infinite recursion
             // on ItemListener.
             final int size = this.listModel.getSize();
@@ -284,10 +288,12 @@ class InputSelectControl extends BaseInputControl {
     }
   }
 
+  @Override
   public int getVisibleSize() {
     return this.comboBox.getMaximumRowCount();
   }
 
+  @Override
   public void setVisibleSize(final int value) {
     this.comboBox.setMaximumRowCount(value);
   }
@@ -297,6 +303,7 @@ class InputSelectControl extends BaseInputControl {
     this.comboBox.setSelectedIndex(-1);
   }
 
+  @Override
   public String[] getValues() {
     if (this.state == STATE_COMBO) {
       final OptionItem item = (OptionItem) this.comboBox.getSelectedItem();
@@ -307,8 +314,8 @@ class InputSelectControl extends BaseInputControl {
         return null;
       }
       final ArrayList<String> al = new ArrayList<>();
-      for (int i = 0; i < values.length; i++) {
-        final OptionItem item = (OptionItem) values[i];
+      for (final Object value2 : values) {
+        final OptionItem item = (OptionItem) value2;
         al.add(item.getValue());
       }
       return al.toArray(new String[0]);
@@ -337,6 +344,7 @@ class InputSelectControl extends BaseInputControl {
       return this.option.getSelected();
     }
 
+    @Override
     public String toString() {
       return this.caption;
     }

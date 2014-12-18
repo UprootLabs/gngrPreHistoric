@@ -37,6 +37,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
     this.setOpaque(false);
   }
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
     final String sizeText = this.controlElement.getAttribute("size");
@@ -49,6 +50,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
     }
   }
 
+  @Override
   public int getVAlign() {
     return RElement.VALIGN_ABSBOTTOM;
   }
@@ -57,7 +59,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#blur()
    */
   public void blur() {
@@ -65,7 +67,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#click()
    */
   public void click() {
@@ -73,7 +75,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#focus()
    */
   public void focus() {
@@ -82,7 +84,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getChecked()
    */
   public boolean getChecked() {
@@ -91,7 +93,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getDisabled()
    */
   public boolean getDisabled() {
@@ -100,7 +102,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getMaxLength()
    */
   public int getMaxLength() {
@@ -109,7 +111,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getReadOnly()
    */
   public boolean getReadOnly() {
@@ -118,7 +120,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getTabIndex()
    */
   public int getTabIndex() {
@@ -127,7 +129,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getValue()
    */
   public String getValue() {
@@ -144,7 +146,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#select()
    */
   public void select() {
@@ -152,7 +154,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setChecked(boolean)
    */
   public void setChecked(final boolean checked) {
@@ -160,7 +162,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
   public void setDisabled(final boolean disabled) {
@@ -169,7 +171,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setMaxLength(int)
    */
   public void setMaxLength(final int maxLength) {
@@ -177,7 +179,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setReadOnly(boolean)
    */
   public void setReadOnly(final boolean readOnly) {
@@ -185,7 +187,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setSize(int)
    */
   public void setControlSize(final int size) {
@@ -195,7 +197,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setTabIndex(int)
    */
   public void setTabIndex(final int tabIndex) {
@@ -203,7 +205,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setValue(java.lang.String)
    */
   public void setValue(final String value) {
@@ -212,7 +214,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getTextSize()
    */
   public int getControlSize() {
@@ -221,7 +223,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getCols()
    */
   public int getCols() {
@@ -230,7 +232,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getRows()
    */
   public int getRows() {
@@ -239,7 +241,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setCols(int)
    */
   public void setCols(final int cols) {
@@ -247,7 +249,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setRows(int)
    */
   public void setRows(final int rows) {
@@ -255,7 +257,7 @@ abstract class BaseInputControl extends BaseControl implements InputContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.UIControl#paintSelection(java.awt.Graphics,
    * boolean, org.xamjwg.html.renderer.RenderablePoint,
    * org.xamjwg.html.renderer.RenderablePoint)

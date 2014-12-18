@@ -56,6 +56,7 @@ public class HTMLLIElementImpl extends HTMLAbstractUIElement implements HTMLLIEl
     this.setAttribute("value", String.valueOf(value));
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new DisplayRenderState(prevRenderState, this, RenderState.DISPLAY_LIST_ITEM);
   }

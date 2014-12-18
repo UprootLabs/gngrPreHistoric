@@ -20,7 +20,6 @@
  */
 package org.lobobrowser.html.domimpl;
 
-
 /**
  * Element used for TH.
  */

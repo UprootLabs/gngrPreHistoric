@@ -229,7 +229,8 @@ public class ColorFactory {
         if (normalSpec.startsWith(RGB_START)) {
           // CssParser produces this format.
           final int endIdx = normalSpec.lastIndexOf(')');
-          final String commaValues = endIdx == -1 ? normalSpec.substring(RGB_START.length()) : normalSpec.substring(RGB_START.length(), endIdx);
+          final String commaValues = endIdx == -1 ? normalSpec.substring(RGB_START.length()) : normalSpec.substring(RGB_START.length(),
+              endIdx);
           final StringTokenizer tok = new StringTokenizer(commaValues, ",");
           int r = 0, g = 0, b = 0;
           if (tok.hasMoreTokens()) {
@@ -265,7 +266,7 @@ public class ColorFactory {
           final int[] rgba = new int[4];
           rgba[3] = 255;
           for (int i = 0; i < rgba.length; i++) {
-            final int idx = 2 * i + 1;
+            final int idx = (2 * i) + 1;
             if (idx < len) {
               final String hexText = normalSpec.substring(idx, idx + Math.min(2, len - idx));
               try {

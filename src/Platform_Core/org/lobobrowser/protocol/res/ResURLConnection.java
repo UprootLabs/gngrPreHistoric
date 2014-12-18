@@ -38,17 +38,19 @@ public class ResURLConnection extends URLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#connect()
    */
+  @Override
   public void connect() throws IOException {
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getInputStream()
    */
+  @Override
   public InputStream getInputStream() throws IOException {
     final String host = this.url.getHost();
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

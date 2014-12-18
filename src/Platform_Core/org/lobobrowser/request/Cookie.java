@@ -64,6 +64,7 @@ public class Cookie {
     return java.net.URLEncoder.encode(this.value, "UTF-8");
   }
 
+  @Override
   public String toString() {
     return "Cookie[name=" + this.name + ",value=" + this.value + "]";
   }

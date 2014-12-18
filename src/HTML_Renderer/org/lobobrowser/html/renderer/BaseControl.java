@@ -74,7 +74,7 @@ abstract class BaseControl extends JComponent implements UIControl {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.UIControl#getBackgroundColor()
    */
   public Color getBackgroundColor() {

@@ -100,7 +100,8 @@ public class HtmlInsets {
     this.rightType = rightType;
   }
 
-  public java.awt.Insets getAWTInsets(final int defaultTop, final int defaultLeft, final int defaultBottom, final int defaultRight, final int availWidth,
+  public java.awt.Insets getAWTInsets(final int defaultTop, final int defaultLeft, final int defaultBottom, final int defaultRight,
+      final int availWidth,
       final int availHeight, final int autoX, final int autoY) {
     final int top = getInsetPixels(this.top, this.topType, defaultTop, availHeight, autoY);
     final int left = getInsetPixels(this.left, this.leftType, defaultLeft, availWidth, autoX);
@@ -131,6 +132,7 @@ public class HtmlInsets {
     }
   }
 
+  @Override
   public String toString() {
     return "[" + this.top + "," + this.left + "," + this.bottom + "," + this.right + "]";
   }

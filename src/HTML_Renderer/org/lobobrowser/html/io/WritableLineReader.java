@@ -43,27 +43,29 @@ public class WritableLineReader extends LineNumberReader {
   /*
    * Note: Not implicitly thread safe.
    */
+  @Override
   public int read() throws IOException {
     final StringBuffer sb = this.writeBuffer;
-    if (sb != null && sb.length() > 0) {
+    if ((sb != null) && (sb.length() > 0)) {
       final char ch = sb.charAt(0);
       sb.deleteCharAt(0);
       if (sb.length() == 0) {
         this.writeBuffer = null;
       }
-      return (int) ch;
+      return ch;
     }
     return super.read();
   }
 
   /*
    * (non-Javadoc) Note: Not implicitly thread safe.
-   * 
+   *
    * @see java.io.Reader#read(byte[], int, int)
    */
+  @Override
   public int read(final char[] b, final int off, final int len) throws IOException {
     final StringBuffer sb = this.writeBuffer;
-    if (sb != null && sb.length() > 0) {
+    if ((sb != null) && (sb.length() > 0)) {
       final int srcEnd = Math.min(sb.length(), len);
       sb.getChars(0, srcEnd, b, off);
       sb.delete(0, srcEnd);
@@ -75,9 +77,10 @@ public class WritableLineReader extends LineNumberReader {
     return super.read(b, off, len);
   }
 
+  @Override
   public boolean ready() throws IOException {
     final StringBuffer sb = this.writeBuffer;
-    if (sb != null && sb.length() > 0) {
+    if ((sb != null) && (sb.length() > 0)) {
       return true;
     }
     return super.ready();
@@ -85,9 +88,10 @@ public class WritableLineReader extends LineNumberReader {
 
   /*
    * (non-Javadoc) Note: Not implicitly thread safe.
-   * 
+   *
    * @see java.io.Reader#close()
    */
+  @Override
   public void close() throws IOException {
     this.writeBuffer = null;
     super.close();
@@ -97,7 +101,7 @@ public class WritableLineReader extends LineNumberReader {
 
   /**
    * Note: Not implicitly thread safe.
-   * 
+   *
    * @param text
    * @throws IOException
    */

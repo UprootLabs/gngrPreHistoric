@@ -199,9 +199,9 @@ public class StyleSheetRenderState implements RenderState {
     final String newFontVariant = style == null ? null : style.getFontVariant();
     final String newFontWeight = style == null ? null : style.getFontWeight();
     final String verticalAlign = style == null ? null : style.getVerticalAlign();
-    final boolean isSuper = verticalAlign != null && verticalAlign.equalsIgnoreCase("super");
-    final boolean isSub = verticalAlign != null && verticalAlign.equalsIgnoreCase("sub");
-    if (newFontSize == null && newFontWeight == null && newFontStyle == null && newFontFamily == null && newFontVariant == null) {
+    final boolean isSuper = (verticalAlign != null) && verticalAlign.equalsIgnoreCase("super");
+    final boolean isSub = (verticalAlign != null) && verticalAlign.equalsIgnoreCase("sub");
+    if ((newFontSize == null) && (newFontWeight == null) && (newFontStyle == null) && (newFontFamily == null) && (newFontVariant == null)) {
       if (!isSuper && !isSub) {
         f = DEFAULT_FONT;
         this.iFont = f;
@@ -257,7 +257,7 @@ public class StyleSheetRenderState implements RenderState {
     }
     final JStyleProperties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getColor();
-    if (colorValue == null || "".equals(colorValue)) {
+    if ((colorValue == null) || "".equals(colorValue)) {
       colorValue = "black";
     }
     c = ColorFactory.getInstance().getColor(colorValue);
@@ -301,7 +301,7 @@ public class StyleSheetRenderState implements RenderState {
     }
     final JStyleProperties props = this.getCssProperties();
     String colorValue = props == null ? null : props.getOverlayColor();
-    if (colorValue == null || colorValue.length() == 0) {
+    if ((colorValue == null) || (colorValue.length() == 0)) {
       colorValue = null;
     }
     c = colorValue == null ? null : ColorFactory.getInstance().getColor(colorValue);
@@ -324,13 +324,13 @@ public class StyleSheetRenderState implements RenderState {
         if ("none".equals(token)) {
           // continue
         } else if ("underline".equals(token)) {
-          td |= StyleSheetRenderState.MASK_TEXTDECORATION_UNDERLINE;
+          td |= RenderState.MASK_TEXTDECORATION_UNDERLINE;
         } else if ("line-through".equals(token)) {
-          td |= StyleSheetRenderState.MASK_TEXTDECORATION_LINE_THROUGH;
+          td |= RenderState.MASK_TEXTDECORATION_LINE_THROUGH;
         } else if ("blink".equals(token)) {
-          td |= StyleSheetRenderState.MASK_TEXTDECORATION_BLINK;
+          td |= RenderState.MASK_TEXTDECORATION_BLINK;
         } else if ("overline".equals(token)) {
-          td |= StyleSheetRenderState.MASK_TEXTDECORATION_OVERLINE;
+          td |= RenderState.MASK_TEXTDECORATION_OVERLINE;
         }
       }
     }
@@ -436,12 +436,12 @@ public class StyleSheetRenderState implements RenderState {
     }
     final CSS2Properties props = this.getCssProperties();
     String textAlign = props == null ? null : props.getTextAlign();
-    if (textAlign == null || textAlign.length() == 0) {
+    if ((textAlign == null) || (textAlign.length() == 0)) {
       // Fall back to align attribute.
       final HTMLElement element = this.element;
       if (element != null) {
         textAlign = element.getAttribute("align");
-        if (textAlign == null || textAlign.length() == 0) {
+        if ((textAlign == null) || (textAlign.length() == 0)) {
           textAlign = null;
         }
       }
@@ -479,7 +479,7 @@ public class StyleSheetRenderState implements RenderState {
       return 0;
     }
     final ArrayList<Integer> counterArray = counters.get(counter);
-    if (nesting < 0 || nesting >= counterArray.size()) {
+    if ((nesting < 0) || (nesting >= counterArray.size())) {
       return 0;
     }
     final Integer integer = counterArray.get(nesting);
@@ -544,7 +544,7 @@ public class StyleSheetRenderState implements RenderState {
         binfo.backgroundColor = ColorFactory.getInstance().getColor(backgroundColorText);
       }
       final String backgroundImageText = props.getBackgroundImage();
-      if (backgroundImageText != null && backgroundImageText.length() > 0) {
+      if ((backgroundImageText != null) && (backgroundImageText.length() > 0)) {
         final java.net.URL backgroundImage = HtmlValues.getURIFromStyleValue(backgroundImageText);
         if (backgroundImage != null) {
           if (binfo == null) {
@@ -791,7 +791,7 @@ public class StyleSheetRenderState implements RenderState {
       visibility = VISIBILITY_VISIBLE;
     } else {
       final String visibText = props.getVisibility();
-      if (visibText == null || visibText.length() == 0) {
+      if ((visibText == null) || (visibText.length() == 0)) {
         visibility = VISIBILITY_VISIBLE;
       } else {
         final String visibTextTL = visibText.toLowerCase();
@@ -823,7 +823,7 @@ public class StyleSheetRenderState implements RenderState {
       position = POSITION_STATIC;
     } else {
       final String positionText = props.getPosition();
-      if (positionText == null || positionText.length() == 0) {
+      if ((positionText == null) || (positionText.length() == 0)) {
         position = POSITION_STATIC;
       } else {
         final String positionTextTL = positionText.toLowerCase();
@@ -857,7 +857,7 @@ public class StyleSheetRenderState implements RenderState {
       floatValue = FLOAT_NONE;
     } else {
       final String floatText = props.getFloat();
-      if (floatText == null || floatText.length() == 0) {
+      if ((floatText == null) || (floatText.length() == 0)) {
         floatValue = FLOAT_NONE;
       } else {
         final String floatTextTL = floatText.toLowerCase();
@@ -897,6 +897,7 @@ public class StyleSheetRenderState implements RenderState {
     return cachedClear;
   }
 
+  @Override
   public String toString() {
     return "StyleSheetRenderState[font=" + this.getFont() + ",textDecoration=" + this.getTextDecorationMask() + "]";
   }
@@ -998,12 +999,12 @@ public class StyleSheetRenderState implements RenderState {
       return prevCursorOpt;
     } else {
       // TODO need to implement specific method for this instead of using getPropertyValue.
-      String cursor = props.getPropertyValue("cursor");
+      final String cursor = props.getPropertyValue("cursor");
       if (cursor == null) {
         return prevCursorOpt;
       } else {
         final String cursorTL = cursor.toLowerCase();
-        // TODO: Handle more cursor types, defined here: 
+        // TODO: Handle more cursor types, defined here:
         if ("default".equals(cursorTL)) {
           return Optional.of(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         } else if ("pointer".equals(cursorTL)) {

@@ -50,16 +50,19 @@ public class InputFileControl extends BaseInputControl {
     this.add(browseButton);
   }
 
+  @Override
   public String getValue() {
     // This is the way browsers behave, even
     // though this value is not submitted.
     return this.textField.getText();
   }
 
+  @Override
   public void setDisabled(final boolean disabled) {
     this.browseButton.setEnabled(!disabled);
   }
 
+  @Override
   public void setValue(final String value) {
     // nop - security
   }
@@ -75,6 +78,7 @@ public class InputFileControl extends BaseInputControl {
     }
   }
 
+  @Override
   public File getFileValue() {
     return this.fileValue;
   }

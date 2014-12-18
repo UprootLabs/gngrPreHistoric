@@ -8,7 +8,7 @@ import java.net.URL;
  * <p>
  * A simple implementation of this interface is provided in
  * {@link org.lobobrowser.html.test.SimpleUserAgentContext}.
- * 
+ *
  * @see HtmlRendererContext#getUserAgentContext()
  * @see org.lobobrowser.html.parser.DocumentBuilderImpl#DocumentBuilderImpl(UserAgentContext)
  */
@@ -18,11 +18,12 @@ public interface UserAgentContext {
 
     public final String shortName;
 
-    RequestKind(String shortName) {
+    RequestKind(final String shortName) {
       this.shortName = shortName;
     }
 
     private static final RequestKind[] VALUES = RequestKind.values();
+
     public static RequestKind forOrdinal(final int o) {
       return VALUES[o];
     }
@@ -35,10 +36,12 @@ public interface UserAgentContext {
   static public class Request {
     final public RequestKind kind;
     final public URL url;
+
     public Request(final URL url, final RequestKind kind) {
       this.kind = kind;
       this.url = url;
     }
+
     @Override
     public String toString() {
       return kind.toString() + ": " + url;
@@ -83,23 +86,20 @@ public interface UserAgentContext {
 
   /**
    * Returns a boolean value indicating whether cookies are enabled in the user
-   * agent. This value is used for reporting purposes only.
-   * TODO: Remove
+   * agent. This value is used for reporting purposes only. TODO: Remove
    */
   public boolean isCookieEnabled();
 
   /**
    * Returns a boolean value indicating whether scripting is enabled in the user
    * agent. If this value is <code>false</code>, the parser will not process
-   * scripts and Javascript element attributes will have no effect.
-   * TODO: Remove
+   * scripts and Javascript element attributes will have no effect. TODO: Remove
    */
   public boolean isScriptingEnabled();
 
   /**
    * Returns a boolean value indicating whether remote (non-inline) CSS
-   * documents should be loaded.
-   * TODO: Remove
+   * documents should be loaded. TODO: Remove
    */
   public boolean isExternalCSSEnabled();
 
@@ -126,7 +126,7 @@ public interface UserAgentContext {
 
   /**
    * Method used to implement <code>document.cookie</code> property.
-   * 
+   *
    * @param cookieSpec
    *          Specification of cookies, as they would appear in the Set-Cookie
    *          header value of HTTP.
@@ -147,7 +147,7 @@ public interface UserAgentContext {
 
   /**
    * Returns true if the current media matches the name provided.
-   * 
+   *
    * @param mediaName
    *          Media name, which may be <code>screen</code>, <code>tty</code>,
    *          etc. (See <a href=

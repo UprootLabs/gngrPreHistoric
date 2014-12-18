@@ -31,18 +31,21 @@ public class TableRenderState extends StyleSheetRenderState {
     super(prevRenderState, element);
   }
 
+  @Override
   protected int getDefaultDisplay() {
     return DISPLAY_TABLE;
   }
 
   private BackgroundInfo backgroundInfo = INVALID_BACKGROUND_INFO;
 
+  @Override
   public void invalidate() {
     super.invalidate();
     this.backgroundInfo = INVALID_BACKGROUND_INFO;
   }
 
   // TODO: This could be removed after #158 is implemented
+  @Override
   public BackgroundInfo getBackgroundInfo() {
     BackgroundInfo binfo = this.backgroundInfo;
     if (binfo != INVALID_BACKGROUND_INFO) {
@@ -51,9 +54,9 @@ public class TableRenderState extends StyleSheetRenderState {
     // Apply style based on deprecated attributes.
     binfo = super.getBackgroundInfo();
     final HTMLTableElementImpl element = (HTMLTableElementImpl) this.element;
-    if (binfo == null || binfo.backgroundColor == null) {
+    if ((binfo == null) || (binfo.backgroundColor == null)) {
       final String bgColor = element.getBgColor();
-      if (bgColor != null && !"".equals(bgColor)) {
+      if ((bgColor != null) && !"".equals(bgColor)) {
         final Color bgc = ColorFactory.getInstance().getColor(bgColor);
         if (binfo == null) {
           binfo = new BackgroundInfo();
@@ -61,9 +64,9 @@ public class TableRenderState extends StyleSheetRenderState {
         binfo.backgroundColor = bgc;
       }
     }
-    if (binfo == null || binfo.backgroundImage == null) {
+    if ((binfo == null) || (binfo.backgroundImage == null)) {
       final String background = element.getAttribute("background");
-      if (background != null && !"".equals(background)) {
+      if ((background != null) && !"".equals(background)) {
         if (binfo == null) {
           binfo = new BackgroundInfo();
         }

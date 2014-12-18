@@ -40,12 +40,12 @@ public class JavaScript {
 
   /**
    * Returns an object that may be used by the Javascript engine.
-   * 
+   *
    * @param raw
    * @return
    */
   public Object getJavascriptObject(final Object raw, final Scriptable scope) {
-    if (raw instanceof String || raw instanceof Scriptable) {
+    if ((raw instanceof String) || (raw instanceof Scriptable)) {
       return raw;
     } else if (raw == null) {
       return null;
@@ -122,7 +122,7 @@ public class JavaScript {
       } else {
         return getStringValue(javascriptObject);
       }
-    } else if (type == int.class || type == Integer.class) {
+    } else if ((type == int.class) || (type == Integer.class)) {
       if (javascriptObject instanceof Double) {
         return new Integer(((Double) javascriptObject).intValue());
       } else if (javascriptObject instanceof Integer) {

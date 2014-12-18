@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
 /**
  * The <code>DocumentBuilderImpl</code> class is an HTML DOM parser that
  * implements the standard W3C <code>DocumentBuilder</code> interface.
- * 
+ *
  * @author J. H. S.
  */
 public class DocumentBuilderImpl extends DocumentBuilder {
@@ -59,7 +59,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
   /**
    * Constructs a <code>DocumentBuilderImpl</code>. This constructor should be
    * used when only the parsing functionality (without rendering) is required.
-   * 
+   *
    * @param context
    *          An instance of {@link org.lobobrowser.html.UserAgentContext},
    *          which may be an instance of
@@ -73,7 +73,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
   /**
    * Constructs a <code>DocumentBuilderImpl</code>. This constructor should be
    * used when rendering is expected.
-   * 
+   *
    * @param ucontext
    *          An instance of {@link org.lobobrowser.html.UserAgentContext},
    *          which may be an instance of
@@ -91,7 +91,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
   /**
    * Constructs a <code>DocumentBuilderImpl</code>. This constructor should be
    * used when rendering is expected.
-   * 
+   *
    * @param rcontext
    *          An instance of {@link org.lobobrowser.html.HtmlRendererContext},
    *          which may be an instance of
@@ -105,12 +105,13 @@ public class DocumentBuilderImpl extends DocumentBuilder {
   /**
    * Parses an HTML document. Note that this method will read the entire input
    * source before returning a <code>Document</code> instance.
-   * 
+   *
    * @param is
    *          The input source, which may be an instance of
    *          {@link org.lobobrowser.html.parser.InputSourceImpl}.
    * @see #createDocument(InputSource)
    */
+  @Override
   public Document parse(final InputSource is) throws org.xml.sax.SAXException, IOException {
     final HTMLDocumentImpl document = (HTMLDocumentImpl) this.createDocument(is);
     document.load();
@@ -120,7 +121,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
   /**
    * Creates a document without parsing the input provided, so the document
    * object can be used for incremental rendering.
-   * 
+   *
    * @param is
    *          The input source, which may be an instance of
    *          {@link org.lobobrowser.html.parser.InputSourceImpl}. The input
@@ -142,7 +143,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
     if (reader != null) {
       wis = new WritableLineReader(reader);
     } else {
-      InputStream in = is.getByteStream();
+      final InputStream in = is.getByteStream();
       if (in != null) {
         wis = new WritableLineReader(new InputStreamReader(in, charset));
       } else if (uri != null) {
@@ -156,7 +157,7 @@ public class DocumentBuilderImpl extends DocumentBuilder {
           charset = org.lobobrowser.util.Urls.getCharset(connection);
         }
         wis = new WritableLineReader(new InputStreamReader(in, charset));
-        */
+         */
       } else {
         throw new IllegalArgumentException("The InputSource must have either a reader, an input stream or a URI.");
       }
@@ -165,28 +166,34 @@ public class DocumentBuilderImpl extends DocumentBuilder {
     return document;
   }
 
+  @Override
   public boolean isNamespaceAware() {
     return false;
   }
 
+  @Override
   public boolean isValidating() {
     return false;
   }
 
+  @Override
   public void setEntityResolver(final EntityResolver er) {
     this.resolver = er;
   }
 
+  @Override
   public void setErrorHandler(final ErrorHandler eh) {
     this.errorHandler = eh;
   }
 
+  @Override
   public Document newDocument() {
     return new HTMLDocumentImpl(this.bcontext);
   }
 
   private DOMImplementation domImplementation;
 
+  @Override
   public DOMImplementation getDOMImplementation() {
     synchronized (this) {
       if (this.domImplementation == null) {

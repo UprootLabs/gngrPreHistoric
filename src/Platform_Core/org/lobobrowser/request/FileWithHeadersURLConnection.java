@@ -54,6 +54,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
     this.content = content;
   }
 
+  @Override
   public void disconnect() {
     if (this.connected) {
       final InputStream in = this.inputStream;
@@ -69,9 +70,10 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#connect()
    */
+  @Override
   public void connect() throws IOException {
     if (!this.connected) {
       final InputStream in = new ByteArrayInputStream(this.content);
@@ -108,9 +110,10 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getInputStream()
    */
+  @Override
   public InputStream getInputStream() throws IOException {
     this.connect();
     return this.inputStream;
@@ -118,9 +121,10 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderField(int)
    */
+  @Override
   public String getHeaderField(final int n) {
     try {
       this.connect();
@@ -135,9 +139,10 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderField(java.lang.String)
    */
+  @Override
   public String getHeaderField(final String name) {
     try {
       this.connect();
@@ -145,7 +150,7 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
       return null;
     }
     final List<String> hvalues = this.headersMap.get(name.toLowerCase());
-    if (hvalues == null || hvalues.size() == 0) {
+    if ((hvalues == null) || (hvalues.size() == 0)) {
       return null;
     }
     return hvalues.get(0);
@@ -153,9 +158,10 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderFieldKey(int)
    */
+  @Override
   public String getHeaderFieldKey(final int n) {
     try {
       this.connect();
@@ -170,9 +176,10 @@ public class FileWithHeadersURLConnection extends HttpURLConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.URLConnection#getHeaderFields()
    */
+  @Override
   public Map<String, List<String>> getHeaderFields() {
     try {
       this.connect();

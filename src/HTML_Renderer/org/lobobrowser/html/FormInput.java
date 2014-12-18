@@ -37,7 +37,7 @@ public class FormInput {
 
   /**
    * Constructs a <code>FormInput</code> with a text value.
-   * 
+   *
    * @param name
    *          The name of the input.
    * @param value
@@ -52,7 +52,7 @@ public class FormInput {
 
   /**
    * Constructs a <code>FormInput</code> with a file value.
-   * 
+   *
    * @param name
    *          The name of the input.
    * @param value
@@ -88,7 +88,7 @@ public class FormInput {
   /**
    * Gets the text value of the form input. If the form input does not hold a
    * text value, this method should not be called.
-   * 
+   *
    * @see #isText()
    */
   public String getTextValue() {
@@ -98,7 +98,7 @@ public class FormInput {
   /**
    * Gets the file value of the form input. If the form input does not hold a
    * file value, this method should not be called.
-   * 
+   *
    * @see #isFile()
    */
   public java.io.File getFileValue() {
@@ -107,10 +107,11 @@ public class FormInput {
 
   /**
    * Always returns UTF-8.
-   * 
+   *
    * @deprecated The method is implemented only to provide some backward
    *             compatibility.
    */
+  @Deprecated
   public String getCharset() {
     return "UTF-8";
   }
@@ -118,10 +119,11 @@ public class FormInput {
   /**
    * Gets data as an input stream. The caller is responsible for closing the
    * stream.
-   * 
+   *
    * @deprecated Call either {@link #getTextValue()} or {@link #getFileValue()}
    *             instead.
    */
+  @Deprecated
   public java.io.InputStream getInputStream() throws java.io.IOException {
     if (this.isText()) {
       return new java.io.ByteArrayInputStream(this.getTextValue().getBytes("UTF-8"));
@@ -135,9 +137,10 @@ public class FormInput {
   /**
    * Shows a string representation of the <code>FormInput</code> that may be
    * useful in debugging.
-   * 
+   *
    * @see #getTextValue()
    */
+  @Override
   public String toString() {
     return "FormInput[name=" + this.name + ",textValue=" + this.textValue + "]";
   }

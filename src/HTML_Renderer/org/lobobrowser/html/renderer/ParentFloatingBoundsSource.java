@@ -29,7 +29,8 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
   private final int newY;
   private final FloatingBounds floatBounds;
 
-  public ParentFloatingBoundsSource(final int blockShiftRight, final int expectedWidth, final int newX, final int newY, final FloatingBounds floatBounds) {
+  public ParentFloatingBoundsSource(final int blockShiftRight, final int expectedWidth, final int newX, final int newY,
+      final FloatingBounds floatBounds) {
     super();
     this.blockShiftRight = blockShiftRight;
     this.expectedBlockWidth = expectedWidth;
@@ -43,17 +44,20 @@ public class ParentFloatingBoundsSource implements FloatingBoundsSource {
     return new ShiftedFloatingBounds(this.floatBounds, -this.newX, -actualRightShift, -this.newY);
   }
 
+  @Override
   public boolean equals(final Object obj) {
     // Important for layout caching.
     if (!(obj instanceof ParentFloatingBoundsSource)) {
       return false;
     }
     final ParentFloatingBoundsSource other = (ParentFloatingBoundsSource) obj;
-    return this.blockShiftRight == other.blockShiftRight && this.expectedBlockWidth == other.expectedBlockWidth && this.newX == other.newX
-        && this.newY == other.newY && Objects.equals(this.floatBounds, other.floatBounds);
+    return (this.blockShiftRight == other.blockShiftRight) && (this.expectedBlockWidth == other.expectedBlockWidth)
+        && (this.newX == other.newX)
+        && (this.newY == other.newY) && Objects.equals(this.floatBounds, other.floatBounds);
 
   }
 
+  @Override
   public int hashCode() {
     return this.newX ^ this.newY ^ this.blockShiftRight ^ this.expectedBlockWidth;
   }

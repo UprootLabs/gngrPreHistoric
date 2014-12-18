@@ -43,6 +43,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     this.defaultChecked = defaultChecked;
   }
 
+  @Override
   public boolean getChecked() {
     final InputContext ic = this.inputContext;
     if (ic == null) {
@@ -52,6 +53,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     }
   }
 
+  @Override
   public void setChecked(final boolean checked) {
     final InputContext ic = this.inputContext;
     if (ic != null) {
@@ -133,7 +135,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
 
   public boolean isSubmittableWithEnterKey() {
     final String type = this.getType();
-    return (type == null || "".equals(type) || "text".equals(type) || "password".equals(type));
+    return ((type == null) || "".equals(type) || "text".equals(type) || "password".equals(type));
   }
 
   public boolean isSubmittableWithPress() {
@@ -156,6 +158,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     return "reset".equals(type);
   }
 
+  @Override
   void resetInput() {
     final InputContext ic = this.inputContext;
     if (ic != null) {
@@ -163,6 +166,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
     }
   }
 
+  @Override
   protected FormInput[] getFormInputs() {
     final String type = this.getType();
     final String name = this.getName();
@@ -180,7 +184,7 @@ public class HTMLInputElementImpl extends HTMLBaseInputElement implements HTMLIn
       } else if ("radio".equals(type) || "checkbox".equals(type)) {
         if (this.getChecked()) {
           String value = this.getValue();
-          if (value == null || value.length() == 0) {
+          if ((value == null) || (value.length() == 0)) {
             value = "on";
           }
           return new FormInput[] { new FormInput(name, value) };

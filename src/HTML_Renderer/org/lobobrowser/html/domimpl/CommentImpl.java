@@ -32,26 +32,32 @@ public class CommentImpl extends CharacterDataImpl implements Comment {
     super(text);
   }
 
+  @Override
   public String getLocalName() {
     return null;
   }
 
+  @Override
   public String getNodeName() {
     return "#comment";
   }
 
+  @Override
   public String getNodeValue() throws DOMException {
     return this.getTextContent();
   }
 
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
     this.setTextContent(nodeValue);
   }
 
+  @Override
   public short getNodeType() {
     return Node.COMMENT_NODE;
   }
 
+  @Override
   protected Node createSimilarNode() {
     return new CommentImpl(this.text);
   }

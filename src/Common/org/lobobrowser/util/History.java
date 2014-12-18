@@ -117,7 +117,7 @@ public class History implements java.io.Serializable {
   }
 
   public String forward() {
-    if (this.sequenceIndex + 1 < this.historySequence.size()) {
+    if ((this.sequenceIndex + 1) < this.historySequence.size()) {
       this.sequenceIndex++;
       return this.getCurrentItem();
     } else {
@@ -129,7 +129,7 @@ public class History implements java.io.Serializable {
     final Collection<String> items = new LinkedList<>();
     final Iterator<TimedEntry> i = this.historyTimedSet.iterator();
     int count = 0;
-    while (i.hasNext() && count++ < maxNumItems) {
+    while (i.hasNext() && (count++ < maxNumItems)) {
       final TimedEntry entry = i.next();
       items.add(entry.value);
     }
@@ -142,7 +142,7 @@ public class History implements java.io.Serializable {
     final int startIdx = idx >= 0 ? idx : (-idx - 1);
     int count = 0;
     final Collection<String> items = new LinkedList<>();
-    for (int i = startIdx; i < array.length && (count++ < maxNumItems); i++) {
+    for (int i = startIdx; (i < array.length) && (count++ < maxNumItems); i++) {
       final String potentialItem = array[i];
       if (potentialItem.startsWith(item)) {
         items.add(potentialItem);
@@ -214,6 +214,7 @@ public class History implements java.io.Serializable {
       this.timestamp = System.currentTimeMillis();
     }
 
+    @Override
     public boolean equals(final Object obj) {
       final TimedEntry other = (TimedEntry) obj;
       return other.value.equals(this.value);
@@ -221,7 +222,7 @@ public class History implements java.io.Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final TimedEntry other) {

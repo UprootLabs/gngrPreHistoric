@@ -131,7 +131,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
     try {
       final URL baseURL = new URL(doc.getBaseURI());
-      // we call createURL just to check whether it throws an exception 
+      // we call createURL just to check whether it throws an exception
       // if the URL is not well formed.
       Urls.createURL(baseURL, this.getHref());
       return true;
@@ -146,7 +146,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     final HtmlRendererContext rcontext = this.getHtmlRendererContext();
     if (rcontext != null) {
       final String href = this.getHref();
-      if (href != null && href.length() > 0) {
+      if ((href != null) && (href.length() > 0)) {
         try {
           final URL url = this.getFullURL(href);
           return url == null ? null : url.toExternalForm();
@@ -165,7 +165,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     final HtmlRendererContext rcontext = this.getHtmlRendererContext();
     if (rcontext != null) {
       final String href = this.getHref();
-      if (href != null && href.length() > 0) {
+      if ((href != null) && (href.length() > 0)) {
         final String target = this.getTarget();
         try {
           final URL url = this.getFullURL(href);
@@ -219,6 +219,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     return super.createRenderState(prevRenderState);
   }*/
 
+  @Override
   public String toString() {
     // Javascript code often depends on this being exactly href. See js9.html.
     // To change, perhaps add method to AbstractScriptableDelegate.
@@ -328,7 +329,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
   private void processLinkHelper(final boolean defer) {
     // according to firefox, whenever the URL is not well formed, the style sheet has to be null
     // and in all other cases an empty style sheet has to be set till the link resource can be fetched
-    // and processed. But however the style sheet is not in ready state till it is processed. This is 
+    // and processed. But however the style sheet is not in ready state till it is processed. This is
     // indicated by setting the jStyleSheet of the JStyleSheetWrapper to null.
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.getOwnerDocument();
     if (isAttachedToDocument() && isWellFormedURL() && isAllowedRel() && isAllowedType()) {
@@ -368,7 +369,7 @@ public class HTMLLinkElementImpl extends HTMLAbstractUIElement implements HTMLLi
     // changed on the element the disabled flag is set to false. Need to
     // verify with the specs.
     // TODO check for all the attributes associated with an link element
-    // according to firefox if the new value of rel/href is the same as the 
+    // according to firefox if the new value of rel/href is the same as the
     // old one then, the nothing has to be done. In all other cases the link element
     // has to be re-processed.
     if (isSameRel(name, oldValue) || isSameHref(name, oldValue)) {

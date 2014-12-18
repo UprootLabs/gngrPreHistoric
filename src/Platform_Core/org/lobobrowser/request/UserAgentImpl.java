@@ -67,6 +67,7 @@ public class UserAgentImpl implements UserAgent {
     return "";
   }
 
+  @Override
   public String toString() {
     return this.getUserAgentString();
   }
@@ -80,7 +81,7 @@ public class UserAgentImpl implements UserAgent {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.UserAgent#getNameAndVersion()
    */
   public String getNameAndVersion() {

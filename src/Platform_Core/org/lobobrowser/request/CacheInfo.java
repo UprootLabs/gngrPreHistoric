@@ -47,8 +47,8 @@ public class CacheInfo {
   private URLConnection connection;
 
   /**
-	 * 
-	 */
+   *
+   */
   public CacheInfo(final MemoryCacheEntry memEntry, final byte[] persContent, final URL url) {
     super();
     this.persistentContent = persContent;
@@ -202,6 +202,6 @@ public class CacheInfo {
   @Override
   public String toString() {
     return "CacheInfo for " + url + ": " +
-             "memEntry: " + memoryEntry;
+        "memEntry: " + memoryEntry;
   }
 }

@@ -55,9 +55,10 @@ public class ElementImpl extends NodeImpl implements Element {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getattributes()
    */
+  @Override
   public NamedNodeMap getAttributes() {
     synchronized (this) {
       Map<String, String> attrs = this.attributes;
@@ -73,6 +74,7 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
+  @Override
   public boolean hasAttributes() {
     synchronized (this) {
       final Map<String, String> attrs = this.attributes;
@@ -80,6 +82,7 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
+  @Override
   public boolean equalAttributes(final Node arg) {
     if (arg instanceof ElementImpl) {
       synchronized (this) {
@@ -298,45 +301,50 @@ public class ElementImpl extends NodeImpl implements Element {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getLocalName()
    */
+  @Override
   public String getLocalName() {
     return this.getNodeName();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getNodeName()
    */
+  @Override
   public String getNodeName() {
     return this.name;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getNodeType()
    */
+  @Override
   public short getNodeType() {
     return Node.ELEMENT_NODE;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#getNodeValue()
    */
+  @Override
   public String getNodeValue() throws DOMException {
     return null;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.NodeImpl#setNodeValue(java.lang.String)
    */
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
     // nop
   }
@@ -344,7 +352,7 @@ public class ElementImpl extends NodeImpl implements Element {
   /**
    * Gets inner text of the element, possibly including text in comments. This
    * can be used to get Javascript code out of a SCRIPT element.
-   * 
+   *
    * @param includeComment
    */
   protected String getRawInnerText(final boolean includeComment) {
@@ -373,7 +381,7 @@ public class ElementImpl extends NodeImpl implements Element {
               }
               sb.append(txt);
             }
-          } else if (includeComment && node instanceof Comment) {
+          } else if (includeComment && (node instanceof Comment)) {
             final Comment cn = (Comment) node;
             final String txt = cn.getNodeValue();
             if (!"".equals(txt)) {
@@ -391,6 +399,7 @@ public class ElementImpl extends NodeImpl implements Element {
     }
   }
 
+  @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer();
     sb.append(this.getNodeName());
@@ -402,7 +411,7 @@ public class ElementImpl extends NodeImpl implements Element {
       sb.append(attr.getNodeName());
       sb.append('=');
       sb.append(attr.getNodeValue());
-      if (i + 1 < length) {
+      if ((i + 1) < length) {
         sb.append(',');
       }
     }
@@ -425,11 +434,13 @@ public class ElementImpl extends NodeImpl implements Element {
     this.appendChild(textNode);
   }
 
+  @Override
   protected Node createSimilarNode() {
     final HTMLDocumentImpl doc = (HTMLDocumentImpl) this.document;
     return doc == null ? null : doc.createElement(this.getTagName());
   }
 
+  @Override
   protected String htmlEncodeChildText(final String text) {
     if (org.lobobrowser.html.parser.HtmlParser.isDecodeEntities(this.name)) {
       return Strings.strictHtmlEncode(text, false);
@@ -440,13 +451,13 @@ public class ElementImpl extends NodeImpl implements Element {
 
   /**
    * To be overridden by Elements that need a notification of attribute changes.
-   * 
+   *
    * This is called only when the element is attached to a document at the time
    * the attribute is changed. If an attribute is changed while not attached to
    * a document, this function is *not* called when the element is attached to a
    * document. We chose this design because it covers our current use cases
    * well.
-   * 
+   *
    * If, in the future, a notification is always desired then the design can be
    * altered easily later.
    *

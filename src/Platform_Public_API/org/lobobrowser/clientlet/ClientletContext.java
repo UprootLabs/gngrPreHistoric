@@ -1,23 +1,23 @@
 /*
 Copyright 1994-2006 The Lobo Project. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-Redistributions of source code must retain the above copyright notice, this list 
-of conditions and the following disclaimer. Redistributions in binary form must 
-reproduce the above copyright notice, this list of conditions and the following 
+Redistributions of source code must retain the above copyright notice, this list
+of conditions and the following disclaimer. Redistributions in binary form must
+reproduce the above copyright notice, this list of conditions and the following
 disclaimer in the documentation and/or other materials provided with the distribution.
- 
-THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED 
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
-EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+
+THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.clientlet;
@@ -36,13 +36,13 @@ import org.lobobrowser.ua.UserAgent;
 
 /**
  * The context in which a clientlet processes a web or file response.
- * 
+ *
  * @see ClientletAccess#getCurrentClientletContext()
  */
 public interface ClientletContext {
   /**
    * Sets a data item for later retrieval.
-   * 
+   *
    * @param name
    *          The item name.
    * @param value
@@ -52,7 +52,7 @@ public interface ClientletContext {
 
   /**
    * Gets a data item.
-   * 
+   *
    * @param name
    *          The item name.
    * @return The item value.
@@ -88,7 +88,7 @@ public interface ClientletContext {
   /**
    * Gets a managed store instance (a small file system restricted by a quota)
    * corresponding to the host of the clientlet response of this context.
-   * 
+   *
    * @see #getManagedStore(String)
    */
   public ManagedStore getManagedStore() throws IOException;
@@ -96,7 +96,7 @@ public interface ClientletContext {
   /**
    * Gets a managed store instance (a small file system restricted by a quota)
    * for the host name provided.
-   * 
+   *
    * @param hostName
    *          A host whose cookies the caller is allowed to access. For example,
    *          if the response host name is <code>test.acme.com</code>, then the
@@ -135,7 +135,7 @@ public interface ClientletContext {
   /**
    * Navigates to the URI provided, which may be absolute or relative to the
    * response URL.
-   * 
+   *
    * @param uri
    *          The target URI.
    * @see NavigatorFrame#navigate(String)
@@ -146,7 +146,7 @@ public interface ClientletContext {
    * For documents requested in order to open a new window, this method may be
    * invoked to override window properties. To take effect, this method should
    * be invoked before content is set.
-   * 
+   *
    * @param properties
    *          A properties object following JavaScript Window.open()
    *          conventions.
@@ -167,7 +167,7 @@ public interface ClientletContext {
 
   /**
    * Requests the frame to update its progress bar if any.
-   * 
+   *
    * @param progressType
    *          The type of progress action.
    * @param value
@@ -181,7 +181,7 @@ public interface ClientletContext {
 
   /**
    * Requests the frame to update its progress bar if any.
-   * 
+   *
    * @param progressType
    *          The type of progress action.
    * @param value
@@ -197,7 +197,7 @@ public interface ClientletContext {
 
   /**
    * Sets the current progress state.
-   * 
+   *
    * @param event
    *          The progress event.
    * @see NavigatorFrame#setProgressEvent(NavigatorProgressEvent)
@@ -207,7 +207,7 @@ public interface ClientletContext {
 
   /**
    * Gets the progress event most recently set.
-   * 
+   *
    * @see #setProgressEvent(ProgressType, int, int)
    * @see NavigatorFrame#setProgressEvent(NavigatorProgressEvent)
    */
@@ -221,7 +221,7 @@ public interface ClientletContext {
 
   /**
    * Opens an alert message dialog.
-   * 
+   *
    * @param message
    *          An alert message.
    */
@@ -229,7 +229,7 @@ public interface ClientletContext {
 
   /**
    * Creates a lose navigator frame that may be added to GUI components.
-   * 
+   *
    * @see NavigatorFrame#getComponent()
    * @see NavigatorFrame#navigate(String)
    */

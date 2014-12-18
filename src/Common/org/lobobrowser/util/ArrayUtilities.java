@@ -34,21 +34,24 @@ import java.util.function.Consumer;
 public class ArrayUtilities {
 
   /**
-	 * 
-	 */
+   *
+   */
   private ArrayUtilities() {
     super();
   }
 
-  public static <T> T[] copy(Collection<T> collection, Class<T> clazz) {
+  public static <T> T[] copy(final Collection<T> collection, final Class<T> clazz) {
     @SuppressWarnings("unchecked")
     final T[] castedArray = (T[]) Array.newInstance(clazz, collection.size());
     return collection.toArray(castedArray);
   }
 
-  /** Slightly more efficient version of the below version. Since it doesn't need to create an array if size is zero.
-   * But that is so only if the passed array is a static zero sized array */
-  public static <T> T[] copySynched(Collection<T> collection, Object syncObj, T[] initArray) {
+  /**
+   * Slightly more efficient version of the below version. Since it doesn't need
+   * to create an array if size is zero. But that is so only if the passed array
+   * is a static zero sized array
+   */
+  public static <T> T[] copySynched(final Collection<T> collection, final Object syncObj, final T[] initArray) {
     T[] result;
     synchronized (syncObj) {
       result = collection.toArray(initArray);
@@ -56,7 +59,7 @@ public class ArrayUtilities {
     return result;
   }
 
-  public static <T> T[] copySynched(Collection<T> collection, Object syncObj, Class<T> clazz) {
+  public static <T> T[] copySynched(final Collection<T> collection, final Object syncObj, final Class<T> clazz) {
     T[] result;
     synchronized (syncObj) {
       result = copy(collection, clazz);
@@ -64,18 +67,23 @@ public class ArrayUtilities {
     return result;
   }
 
-  /** For each element of collection, the supplied function is called.
-   *  The collection is copied in a synchronized block, to avoid concurrent modifications.
+  /**
+   * For each element of collection, the supplied function is called. The
+   * collection is copied in a synchronized block, to avoid concurrent
+   * modifications.
    *
-   * @param syncObj The object to synchronize upon.
-   * @param func    The function to call on each element.
+   * @param syncObj
+   *          The object to synchronize upon.
+   * @param func
+   *          The function to call on each element.
    */
-  public static <T, E extends Throwable> void forEachSynched(Collection<T> collection, Object syncObj, Consumer<T> consumer) throws E {
+  public static <T, E extends Throwable> void forEachSynched(final Collection<T> collection, final Object syncObj,
+      final Consumer<T> consumer) throws E {
     if (collection.size() > 0) {
       @SuppressWarnings("unchecked")
-      Class<T> clazz = (Class<T>) collection.iterator().next().getClass();
-      T[] copy = copySynched(collection, syncObj, clazz);
-      for (T element: copy) {
+      final Class<T> clazz = (Class<T>) collection.iterator().next().getClass();
+      final T[] copy = copySynched(collection, syncObj, clazz);
+      for (final T element : copy) {
         consumer.accept(element);
       }
     }
@@ -98,7 +106,7 @@ public class ArrayUtilities {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.util.Iterator#hasNext()
      */
     public boolean hasNext() {
@@ -107,7 +115,7 @@ public class ArrayUtilities {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.util.Iterator#next()
      */
     public T next() {
@@ -116,7 +124,7 @@ public class ArrayUtilities {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.util.Iterator#remove()
      */
     public void remove() {

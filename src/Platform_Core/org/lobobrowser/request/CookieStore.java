@@ -115,18 +115,19 @@ public class CookieStore {
     if (expiresLongOpt.isPresent()) {
       final DSLContext userDB = StorageManager.getInstance().getDB();
       userDB
-          .mergeInto(Cookies.COOKIES)
-          .values(domainTL, name, cookieValue.getValue(), cookieValue.getPath(), true, true, cookieValue.getCreationTime(),
-              cookieValue.getExpires().orElse(null))
+      .mergeInto(Cookies.COOKIES)
+      .values(domainTL, name, cookieValue.getValue(), cookieValue.getPath(), true, true, cookieValue.getCreationTime(),
+          cookieValue.getExpires().orElse(null))
           .execute();
     }
   }
 
   // This should be 1000 * 1000, but for optimization has been converted to 1024*1024
   // TODO: This seems like premature optimisation, since cookies are not that frequently stored.
-  private static final long MILLION_LIKE = 1024*1024;
+  private static final long MILLION_LIKE = 1024 * 1024;
 
   private long previousTimeNanos = System.currentTimeMillis() * MILLION_LIKE;
+
   private long getMonotonicTime() {
     final long previousTimeMillis = previousTimeNanos / MILLION_LIKE;
     final long currentMillis = System.currentTimeMillis();
@@ -156,8 +157,7 @@ public class CookieStore {
     if (cookiePath.equals(requestPath)) {
       return true;
     } else if (requestPath.startsWith(cookiePath)) {
-      return ((cookiePath.charAt(cookiePath.length() - 1) == '/') ||
-          (requestPath.charAt(cookiePath.length()) == '/'));
+      return ((cookiePath.charAt(cookiePath.length() - 1) == '/') || (requestPath.charAt(cookiePath.length()) == '/'));
     } else {
       return false;
     }
@@ -169,8 +169,8 @@ public class CookieStore {
    */
   private List<CookieValue> getCookiesStrict(final String protocol, final String hostName, String path) {
     final String hostNameTL = hostName.toLowerCase();
-    if (path == null || path.length() == 0) {
-      path = "/";     // TODO: Confirm that this is correct. Issue #14 in browserTesting
+    if ((path == null) || (path.length() == 0)) {
+      path = "/"; // TODO: Confirm that this is correct. Issue #14 in browserTesting
     }
     final boolean secureProtocol = "https".equalsIgnoreCase(protocol);
     final boolean liflag = logger.isLoggable(Level.INFO);
@@ -214,7 +214,7 @@ public class CookieStore {
             .fetch();
 
         if (cookieResult.isNotEmpty()) {
-          CookiesRecord cookiesRecord = cookieResult.get(0);
+          final CookiesRecord cookiesRecord = cookieResult.get(0);
           final String cookieName = cookiesRecord.getName();
           final CookieValue cookieValue = new CookieValue(
               cookiesRecord.getName(),
@@ -270,7 +270,7 @@ public class CookieStore {
     }
     allCookies.sort(null);
     final List<Cookie> cookies = new LinkedList<>();
-    for (CookieValue cookieValue : allCookies) {
+    for (final CookieValue cookieValue : allCookies) {
       cookies.add(new Cookie(cookieValue.getName(), cookieValue.getValue()));
     }
     if (logger.isLoggable(Level.INFO)) {

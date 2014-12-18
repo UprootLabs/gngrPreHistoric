@@ -27,7 +27,7 @@ import java.util.EventListener;
 
 /**
  * Listener of {@link NetworkRequest} state changes.
- * 
+ *
  * @see NetworkRequest#addNetworkRequestListener(NetworkRequestListener)
  */
 public interface NetworkRequestListener extends EventListener {

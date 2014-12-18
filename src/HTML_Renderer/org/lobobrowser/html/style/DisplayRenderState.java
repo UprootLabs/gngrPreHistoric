@@ -30,6 +30,7 @@ public class DisplayRenderState extends StyleSheetRenderState {
     this.defaultDisplay = defaultDisplay;
   }
 
+  @Override
   public int getDefaultDisplay() {
     return this.defaultDisplay;
   }

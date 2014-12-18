@@ -41,8 +41,8 @@ public class VolatileContentImpl implements ContentBuffer {
   private final byte[] bytes;
 
   /**
-	 * 
-	 */
+   *
+   */
   public VolatileContentImpl(final String contentType, final byte[] bytes) {
     super();
     this.id = ID.generateLong();
@@ -55,7 +55,7 @@ public class VolatileContentImpl implements ContentBuffer {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.clientlet.VolatileContent#getURL()
    */
   public URL getURL() {

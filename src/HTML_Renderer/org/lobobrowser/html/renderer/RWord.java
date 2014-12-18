@@ -37,7 +37,8 @@ final class RWord extends BaseBoundableRenderable {
   public final int descent;
   public final int ascentPlusLeading;
 
-  public RWord(final ModelNode me, final String word, final RenderableContainer container, final FontMetrics fontMetrics, final int descent, final int ascentPlusLeading,
+  public RWord(final ModelNode me, final String word, final RenderableContainer container, final FontMetrics fontMetrics,
+      final int descent, final int ascentPlusLeading,
       final int height, final int textTransform) {
     super(container, me);
     final String renderedWord = textTransform == RenderState.TEXTTRANSFORM_NONE ? word : transformText(word, textTransform);
@@ -69,19 +70,20 @@ final class RWord extends BaseBoundableRenderable {
     return string;
   }
 
+  @Override
   protected void invalidateLayoutLocal() {
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
   public void paint(final Graphics g) {
     final RenderState rs = this.modelNode.getRenderState();
 
-    if (rs != null && rs.getVisibility() != RenderState.VISIBILITY_VISIBLE) {
+    if ((rs != null) && (rs.getVisibility() != RenderState.VISIBILITY_VISIBLE)) {
       // Just don't paint it.
       return;
     }
@@ -110,7 +112,7 @@ final class RWord extends BaseBoundableRenderable {
       }
       if ((td & RenderState.MASK_TEXTDECORATION_LINE_THROUGH) != 0) {
         final FontMetrics fm = this.fontMetrics;
-        final int lineOffset = fm.getLeading() + (fm.getAscent() + fm.getDescent()) / 2;
+        final int lineOffset = fm.getLeading() + ((fm.getAscent() + fm.getDescent()) / 2);
         g.drawLine(0, lineOffset, width, lineOffset);
       }
       if ((td & RenderState.MASK_TEXTDECORATION_OVERLINE) != 0) {
@@ -143,19 +145,19 @@ final class RWord extends BaseBoundableRenderable {
     if (this == endPoint.renderable) {
       endX = endPoint.x;
     }
-    if (!inSelection && startX == -1 && endX == -1) {
+    if (!inSelection && (startX == -1) && (endX == -1)) {
       return false;
     }
-    if (startX != -1 && endX != -1) {
+    if ((startX != -1) && (endX != -1)) {
       if (endX < startX) {
         final int temp = startX;
         startX = endX;
         endX = temp;
       }
-    } else if (startX != -1 && endX == -1 && inSelection) {
+    } else if ((startX != -1) && (endX == -1) && inSelection) {
       endX = startX;
       startX = -1;
-    } else if (startX == -1 && endX != -1 && !inSelection) {
+    } else if ((startX == -1) && (endX != -1) && !inSelection) {
       startX = endX;
       endX = -1;
     }
@@ -184,7 +186,7 @@ final class RWord extends BaseBoundableRenderable {
         width2 = w;
       }
     }
-    if (width1 != -1 || width2 != -1) {
+    if ((width1 != -1) || (width2 != -1)) {
       final int startPaint = width1 == -1 ? 0 : width1;
       final int endPaint = width2 == -1 ? this.width : width2;
       g.setColor(SELECTION_COLOR);
@@ -203,7 +205,8 @@ final class RWord extends BaseBoundableRenderable {
     }
   }
 
-  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint, final RenderableSpot endPoint) {
+  public boolean extractSelectionText(final StringBuffer buffer, final boolean inSelection, final RenderableSpot startPoint,
+      final RenderableSpot endPoint) {
     int startX = -1;
     int endX = -1;
     if (this == startPoint.renderable) {
@@ -212,19 +215,19 @@ final class RWord extends BaseBoundableRenderable {
     if (this == endPoint.renderable) {
       endX = endPoint.x;
     }
-    if (!inSelection && startX == -1 && endX == -1) {
+    if (!inSelection && (startX == -1) && (endX == -1)) {
       return false;
     }
-    if (startX != -1 && endX != -1) {
+    if ((startX != -1) && (endX != -1)) {
       if (endX < startX) {
         final int temp = startX;
         startX = endX;
         endX = temp;
       }
-    } else if (startX != -1 && endX == -1 && inSelection) {
+    } else if ((startX != -1) && (endX == -1) && inSelection) {
       endX = startX;
       startX = -1;
-    } else if (startX == -1 && endX != -1 && !inSelection) {
+    } else if ((startX == -1) && (endX != -1) && !inSelection) {
       startX = endX;
       endX = -1;
     }
@@ -253,7 +256,7 @@ final class RWord extends BaseBoundableRenderable {
         index2 = len;
       }
     }
-    if (index1 != -1 || index2 != -1) {
+    if ((index1 != -1) || (index2 != -1)) {
       final int startIndex = index1 == -1 ? 0 : index1;
       final int endIndex = index2 == -1 ? wordChars.length : index2;
       buffer.append(wordChars, startIndex, endIndex - startIndex);
@@ -263,7 +266,7 @@ final class RWord extends BaseBoundableRenderable {
         return true;
       }
     }
-    if (index1 != -1 && index2 != -1) {
+    if ((index1 != -1) && (index2 != -1)) {
       return false;
     } else {
       return !inSelection;
@@ -332,6 +335,7 @@ final class RWord extends BaseBoundableRenderable {
     }
   }
 
+  @Override
   public String toString() {
     return "RWord[word=" + this.shownWord + "]";
   }

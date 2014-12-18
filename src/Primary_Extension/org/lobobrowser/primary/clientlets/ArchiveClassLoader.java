@@ -56,8 +56,8 @@ public class ArchiveClassLoader extends BaseClassLoader {
     private final String resourceName;
 
     /**
-		 * 
-		 */
+     *
+     */
     public LocalURLStreamHandler(final String resourceName) {
       super();
       this.resourceName = resourceName;
@@ -65,16 +65,17 @@ public class ArchiveClassLoader extends BaseClassLoader {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.net.URLStreamHandler#openConnection(java.net.URL)
      */
+    @Override
     protected URLConnection openConnection(final URL u) throws IOException {
       return new GenericURLConnection(u, getResourceAsStreamImpl(this.resourceName));
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.net.URLStreamHandler#openConnection(java.net.URL,
      * java.net.Proxy)
      */
@@ -96,9 +97,10 @@ public class ArchiveClassLoader extends BaseClassLoader {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.ClassLoader#findClass(java.lang.String)
    */
+  @Override
   protected Class<?> findClass(final String arg0) throws ClassNotFoundException {
     final String subPath = arg0.replace('.', '/') + ".class";
     final ArchiveInfo[] ainfos = this.archiveInfos;
@@ -146,9 +148,10 @@ public class ArchiveClassLoader extends BaseClassLoader {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.ClassLoader#findResource(java.lang.String)
    */
+  @Override
   protected URL findResource(final String name) {
     try {
       return AccessController.doPrivileged(new PrivilegedAction<java.net.URL>() {
@@ -168,9 +171,10 @@ public class ArchiveClassLoader extends BaseClassLoader {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.ClassLoader#findResources(java.lang.String)
    */
+  @Override
   protected Enumeration<URL> findResources(final String name) throws IOException {
     final URL url = this.findResource(name);
     if (url != null) {

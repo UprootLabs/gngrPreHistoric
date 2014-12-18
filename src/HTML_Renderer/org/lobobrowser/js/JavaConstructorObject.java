@@ -42,6 +42,7 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
     this.instantiator = instantiator;
   }
 
+  @Override
   public String getClassName() {
     return this.name;
   }
@@ -61,6 +62,7 @@ public class JavaConstructorObject extends ScriptableObject implements Function 
     }
   }
 
+  @Override
   public java.lang.Object getDefaultValue(final java.lang.Class<?> hint) {
     if (String.class.equals(hint)) {
       return "function " + this.name;

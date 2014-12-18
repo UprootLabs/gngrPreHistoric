@@ -30,6 +30,7 @@ public class ImageRenderState extends StyleSheetRenderState {
   }
 
   // TODO: if this logic can be moved to attr2Styles, then this render state could be chopped off.
+  @Override
   public HtmlInsets getMarginInsets() {
     HtmlInsets mi = this.marginInsets;
     if (mi != INVALID_INSETS) {
@@ -46,7 +47,7 @@ public class ImageRenderState extends StyleSheetRenderState {
       int vspace = 0;
       boolean createNew = false;
       final String hspaceText = this.element.getAttribute("hspace");
-      if (hspaceText != null && hspaceText.length() != 0) {
+      if ((hspaceText != null) && (hspaceText.length() != 0)) {
         createNew = true;
         try {
           hspace = Integer.parseInt(hspaceText);
@@ -55,7 +56,7 @@ public class ImageRenderState extends StyleSheetRenderState {
         }
       }
       final String vspaceText = this.element.getAttribute("vspace");
-      if (vspaceText != null && vspaceText.length() != 0) {
+      if ((vspaceText != null) && (vspaceText.length() != 0)) {
         createNew = true;
         try {
           vspace = Integer.parseInt(vspaceText);
@@ -79,15 +80,16 @@ public class ImageRenderState extends StyleSheetRenderState {
     return mi;
   }
 
+  @Override
   public BorderInfo getBorderInfo() {
     BorderInfo binfo = this.borderInfo;
     if (binfo != INVALID_BORDER_INFO) {
       return binfo;
     }
     binfo = super.getBorderInfo();
-    if (binfo == null
-        || (binfo.topStyle == HtmlValues.BORDER_STYLE_NONE && binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE
-            && binfo.leftStyle == HtmlValues.BORDER_STYLE_NONE && binfo.rightStyle == HtmlValues.BORDER_STYLE_NONE)) {
+    if ((binfo == null)
+        || ((binfo.topStyle == HtmlValues.BORDER_STYLE_NONE) && (binfo.bottomStyle == HtmlValues.BORDER_STYLE_NONE)
+            && (binfo.leftStyle == HtmlValues.BORDER_STYLE_NONE) && (binfo.rightStyle == HtmlValues.BORDER_STYLE_NONE))) {
       if (binfo == null) {
         binfo = new BorderInfo();
       }

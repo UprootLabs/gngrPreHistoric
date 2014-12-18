@@ -46,42 +46,47 @@ class InputCheckboxControl extends BaseInputControl {
     this.add(checkBox);
   }
 
+  @Override
   public void reset(final int availWidth, final int availHeight) {
     super.reset(availWidth, availHeight);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#click()
    */
+  @Override
   public void click() {
     this.widget.doClick();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#getChecked()
    */
+  @Override
   public boolean getChecked() {
     return this.widget.isSelected();
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setChecked(boolean)
    */
+  @Override
   public void setChecked(final boolean checked) {
     this.widget.setSelected(checked);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.domimpl.InputContext#setDisabled(boolean)
    */
+  @Override
   public void setDisabled(final boolean disabled) {
     super.setDisabled(disabled);
     this.widget.setEnabled(!disabled);
@@ -91,6 +96,7 @@ class InputCheckboxControl extends BaseInputControl {
     this.widget.setSelected(this.controlElement.getAttributeAsBoolean("checked"));
   }
 
+  @Override
   public String getValue() {
     return this.controlElement.getAttribute("value");
   }

@@ -54,7 +54,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getAppCodeName()
    */
   public String getAppCodeName() {
@@ -63,7 +63,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getAppMinorVersion()
    */
   public String getAppMinorVersion() {
@@ -72,7 +72,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getAppName()
    */
   public String getAppName() {
@@ -81,7 +81,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getAppVersion()
    */
   public String getAppVersion() {
@@ -90,7 +90,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getBrowserLanguage()
    */
   public String getBrowserLanguage() {
@@ -99,7 +99,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getPlatform()
    */
   public String getPlatform() {
@@ -108,7 +108,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#getUserAgent()
    */
   public String getUserAgent() {
@@ -117,7 +117,7 @@ public class UserAgentContextImpl implements UserAgentContext {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.HtmlParserContext#isCookieEnabled()
    */
   public boolean isCookieEnabled() {

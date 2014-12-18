@@ -37,6 +37,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -67,7 +68,7 @@ public class AuthenticationDialog extends JDialog {
     final JLabel userNameLabel = new JLabel("User name:");
     final int unph = userNameLabel.getPreferredSize().height;
     userNameLabel.setPreferredSize(new Dimension(100, unph));
-    userNameLabel.setHorizontalAlignment(JLabel.RIGHT);
+    userNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
     userNameBox.add(userNameLabel);
     userNameBox.add(Box.createRigidArea(new Dimension(4, 1)));
     userNameBox.add(this.userNameField);
@@ -77,7 +78,7 @@ public class AuthenticationDialog extends JDialog {
     final JLabel passwordLabel = new JLabel("Password:");
     final int pwph = passwordLabel.getPreferredSize().height;
     passwordLabel.setPreferredSize(new Dimension(100, pwph));
-    passwordLabel.setHorizontalAlignment(JLabel.RIGHT);
+    passwordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
     passwordBox.add(passwordLabel);
     passwordBox.add(Box.createRigidArea(new Dimension(4, 1)));
     passwordBox.add(this.passwordField);

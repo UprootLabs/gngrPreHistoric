@@ -36,14 +36,14 @@ import org.w3c.dom.Document;
  * network request capabilities.
  *
  * It is used in a similar manner to <code>XMLHttpRequest</code> in Javascript
- * (AJAX). Normally, a listener will be added by calling {@link
- * #addReadyStateChangeListener(ReadyStateChangeListener)}, the method {@link
- * #open(String, URL, boolean, String, String) open} will be called, and
+ * (AJAX). Normally, a listener will be added by calling
+ * {@link #addReadyStateChangeListener(ReadyStateChangeListener)}, the method
+ * {@link #open(String, URL, boolean, String, String) open} will be called, and
  * finally, {@link #send(String)} will be called to complete the request.
  *
  * @see UserAgentContext#createNetworkRequest()
- * 
- * This class supercedes HttpRequest class of yore.
+ *
+ *      This class supercedes HttpRequest class of yore.
  */
 public interface NetworkRequest {
   /**
@@ -74,7 +74,7 @@ public interface NetworkRequest {
 
   /**
    * Gets the state of the request, a value between 0 and 4.
-   * 
+   *
    * @return A value corresponding to one of the STATE* constants in this class.
    */
   public int getReadyState();
@@ -122,7 +122,7 @@ public interface NetworkRequest {
 
   /**
    * Gets a response header value.
-   * 
+   *
    * @param headerName
    *          The name of the header.
    */
@@ -130,7 +130,7 @@ public interface NetworkRequest {
 
   /**
    * Starts an asynchronous request.
-   * 
+   *
    * @param method
    *          The request method.
    * @param url
@@ -140,7 +140,7 @@ public interface NetworkRequest {
 
   /**
    * Opens an asynchronous request.
-   * 
+   *
    * @param method
    *          The request method.
    * @param url
@@ -150,7 +150,7 @@ public interface NetworkRequest {
 
   /**
    * Opens an request.
-   * 
+   *
    * @param method
    *          The request method.
    * @param url
@@ -162,7 +162,7 @@ public interface NetworkRequest {
 
   /**
    * Opens a request.
-   * 
+   *
    * @param method
    *          The request method.
    * @param url
@@ -174,7 +174,7 @@ public interface NetworkRequest {
 
   /**
    * Opens a request.
-   * 
+   *
    * @param method
    *          The request method.
    * @param url
@@ -188,7 +188,7 @@ public interface NetworkRequest {
 
   /**
    * Opens a request.
-   * 
+   *
    * @param method
    *          The request method.
    * @param url
@@ -204,7 +204,7 @@ public interface NetworkRequest {
 
   /**
    * Sends POST content if any.
-   * 
+   *
    * @param content
    *          POST content or <code>null</code> for GET requests.
    * @throws java.io.IOException
@@ -214,7 +214,7 @@ public interface NetworkRequest {
   /**
    * Adds a listener of ReadyState changes. The listener should be invoked even
    * in the case of errors.
-   * 
+   *
    * @param listener
    *          An instanceof of {@link NetworkRequestListener}.
    */

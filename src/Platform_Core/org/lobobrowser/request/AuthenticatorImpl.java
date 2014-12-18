@@ -44,7 +44,7 @@ public class AuthenticatorImpl extends Authenticator {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.net.Authenticator#getPasswordAuthentication()
    */
   @Override

@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import org.lobobrowser.main.ExtensionManager;
 import org.lobobrowser.main.PlatformInit;
@@ -76,7 +76,8 @@ public class DefaultWindowFactory implements WindowFactory {
 
   /**
    * Gets the default image icon for browser windows.
-   * @param uaContext 
+   *
+   * @param uaContext
    */
   public ImageIcon getDefaultImageIcon(final UserAgentContext uaContext) {
     return this.getImageIcon(DEFAULT_ICON_URL, uaContext);
@@ -84,10 +85,10 @@ public class DefaultWindowFactory implements WindowFactory {
 
   /**
    * Gets an image icon.
-   * 
+   *
    * @param urlOrPath
    *          A URL or path.
-   * @param uaContext 
+   * @param uaContext
    */
   private ImageIcon getImageIcon(final String urlOrPath, final UserAgentContext uaContext) {
     synchronized (this) {
@@ -111,14 +112,15 @@ public class DefaultWindowFactory implements WindowFactory {
     }
     synchronized (this) {
       final DefaultBrowserWindow window = this.framesById.get(windowId);
-      if (window != null && window.isDisplayable()) {
+      if ((window != null) && window.isDisplayable()) {
         return window;
       }
     }
     return null;
   }
 
-  private AbstractBrowserWindow createBaseWindow(final String windowId, final NavigatorWindow windowContext, final boolean hasMenuBar, final boolean hasAddressBar,
+  private AbstractBrowserWindow createBaseWindow(final String windowId, final NavigatorWindow windowContext, final boolean hasMenuBar,
+      final boolean hasAddressBar,
       final boolean hasToolBar, final boolean hasStatusBar) {
     final NavigatorWindowImpl pwc = (NavigatorWindowImpl) windowContext;
     synchronized (this) {
@@ -126,7 +128,7 @@ public class DefaultWindowFactory implements WindowFactory {
       if (windowId != null) {
         this.framesById.put(windowId, window);
       }
-      window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
       if (logger.isLoggable(Level.FINE)) {
         logger.fine("createBaseWindow(): Adding window listener: window=" + window + ",windowId=" + windowId);
       }
@@ -154,7 +156,7 @@ public class DefaultWindowFactory implements WindowFactory {
               logger.info("windowClosed(): frames.size()=" + frames.size() + ",exitWhenAllWindowsClosed=" + exitWhenAllWindowsClosed);
             }
             frames.remove(window);
-            if (frames.size() == 0 && exitWhenAllWindowsClosed) {
+            if ((frames.size() == 0) && exitWhenAllWindowsClosed) {
               logger.warning("Exiting JVM because all windows are now closed!");
               PlatformInit.shutdown();
             }
@@ -190,7 +192,7 @@ public class DefaultWindowFactory implements WindowFactory {
   public AbstractBrowserWindow createWindow(final String windowId, final Properties properties, final NavigatorWindow windowContext) {
     final String widthText = properties == null ? null : properties.getProperty("width");
     final String heightText = properties == null ? null : properties.getProperty("height");
-    final boolean defaultValue = widthText == null && heightText == null;
+    final boolean defaultValue = (widthText == null) && (heightText == null);
     final boolean hasMenuBar = isPropertyTrue(properties, "menubar", defaultValue);
     final boolean hasToolBar = isPropertyTrue(properties, "toolbar", defaultValue);
     final boolean hasAddressBar = isPropertyTrue(properties, "location", defaultValue);
@@ -218,7 +220,7 @@ public class DefaultWindowFactory implements WindowFactory {
         .createBaseWindow(windowId, windowContext, hasMenuBar, hasAddressBar, hasToolBar, hasStatusBar);
     window.setTitle(title);
     final java.awt.Rectangle windowBounds = this.generalSettings.getInitialWindowBounds();
-    if (width != -1 || height != -1) {
+    if ((width != -1) || (height != -1)) {
       if (width != -1) {
         windowBounds.width = width;
       }
@@ -254,7 +256,7 @@ public class DefaultWindowFactory implements WindowFactory {
   public void overrideProperties(final AbstractBrowserWindow window, final Properties properties) {
     final String widthText = properties.getProperty("width");
     final String heightText = properties.getProperty("height");
-    final boolean defaultValue = widthText == null && heightText == null;
+    final boolean defaultValue = (widthText == null) && (heightText == null);
     final boolean isResizable = isPropertyTrue(properties, "resizable", defaultValue);
     final String iconText = properties.getProperty("icon");
     final String title = properties.getProperty("title");

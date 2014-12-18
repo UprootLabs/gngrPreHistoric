@@ -60,7 +60,7 @@ public final class DownloadClientlet implements Clientlet {
           final byte[] buffer = new byte[4096];
           int numRead;
           int totalRead = 0;
-          while ((System.currentTimeMillis() - baseTime) < maxElapsed && (numRead = in.read(buffer)) != -1) {
+          while (((System.currentTimeMillis() - baseTime) < maxElapsed) && ((numRead = in.read(buffer)) != -1)) {
             totalRead += numRead;
           }
           // Note: This calcuation depends on

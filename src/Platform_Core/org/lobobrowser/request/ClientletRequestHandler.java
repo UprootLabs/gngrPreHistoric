@@ -53,11 +53,13 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
   private final FramePanel frame;
 
   /**
-   * For progress events, but a null event is also fired when the content is set.
+   * For progress events, but a null event is also fired when the content is
+   * set.
    */
   public final EventDispatch evtProgress = new EventDispatch();
 
-  public ClientletRequestHandler(final ClientletRequest request, final WindowCallback clientletUI, final FramePanel frame, final UserAgentContext uaContext) {
+  public ClientletRequestHandler(final ClientletRequest request, final WindowCallback clientletUI, final FramePanel frame,
+      final UserAgentContext uaContext) {
     super(request, frame.getComponent(), uaContext);
     this.windowCallback = clientletUI;
     this.frame = frame;
@@ -65,11 +67,13 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.http.RequestHandler#handleException(java.lang.Exception)
    */
-  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType) throws ClientletException {
+  @Override
+  public boolean handleException(final ClientletResponse response, final Throwable exception, final RequestType requestType)
+      throws ClientletException {
     if (this.windowCallback != null) {
       this.windowCallback.handleError(this.frame, response, exception, requestType);
       return true;
@@ -86,11 +90,12 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.http.RequestHandler#processResponse(org.xamjwg.dom
    * .ClientletResponse)
    */
+  @Override
   public void processResponse(final ClientletResponse response) throws ClientletException, IOException {
     if (this.windowCallback != null) {
       this.windowCallback.handleDocumentAccess(this.frame, response);
@@ -137,6 +142,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     this.frame.informResponseProcessed(response);
   }
 
+  @Override
   public void handleProgress(final ProgressType progressType, final URL url, final String method, final int value, final int max) {
     final NavigatorProgressEvent event = new NavigatorProgressEvent(this, this.frame, progressType, url, method, value, max);
     this.evtProgress.fireEvent(event);
@@ -148,7 +154,7 @@ public class ClientletRequestHandler extends AbstractRequestHandler {
     switch (progressType) {
     case CONNECTING:
       final String host = url.getHost();
-      if (host == null || "".equals(host)) {
+      if ((host == null) || "".equals(host)) {
         return "Opening " + urlText;
       } else {
         return "Contacting " + host;

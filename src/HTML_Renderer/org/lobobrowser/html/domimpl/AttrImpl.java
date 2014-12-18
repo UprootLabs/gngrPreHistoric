@@ -61,22 +61,27 @@ public class AttrImpl extends NodeImpl implements Attr {
     this.isId = false;
   }
 
+  @Override
   public String getLocalName() {
     return this.name;
   }
 
+  @Override
   public String getNodeName() {
     return this.name;
   }
 
+  @Override
   public String getNodeValue() throws DOMException {
     return this.value;
   }
 
+  @Override
   public void setNodeValue(final String nodeValue) throws DOMException {
     this.value = nodeValue;
   }
 
+  @Override
   public short getNodeType() {
     return Node.ATTRIBUTE_NODE;
   }
@@ -113,6 +118,7 @@ public class AttrImpl extends NodeImpl implements Attr {
     this.isId = value;
   }
 
+  @Override
   protected Node createSimilarNode() {
     return new AttrImpl(this.name, this.value, this.specified, this.ownerElement, this.isId);
   }

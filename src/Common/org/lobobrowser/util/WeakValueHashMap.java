@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WeakValueHashMap<K,V> implements Map<K,V> {
+public class WeakValueHashMap<K, V> implements Map<K, V> {
   private final Map<K, LocalWeakReference> map = new HashMap<>();
   private final ReferenceQueue<V> queue = new ReferenceQueue<>();
 
@@ -72,7 +72,7 @@ public class WeakValueHashMap<K,V> implements Map<K,V> {
       throw new IllegalArgumentException("null values not accepted");
     }
     final LocalWeakReference ref = new LocalWeakReference(key, value);
-    final LocalWeakReference oldWf =  this.map.put(key, ref);
+    final LocalWeakReference oldWf = this.map.put(key, ref);
     return oldWf == null ? null : oldWf.get();
   }
 
@@ -82,7 +82,7 @@ public class WeakValueHashMap<K,V> implements Map<K,V> {
     return wf == null ? null : wf.get();
   }
 
-  public void putAll(final Map<? extends K,? extends V> t) {
+  public void putAll(final Map<? extends K, ? extends V> t) {
     this.checkQueue();
     t.forEach((k, v) -> this.putImpl(k, v));
   }
@@ -107,14 +107,14 @@ public class WeakValueHashMap<K,V> implements Map<K,V> {
 
   public Collection<V> values() {
     checkQueue();
-    Stream<V> m =
+    final Stream<V> m =
         this.map.values().stream()
-        .map(t -> t == null ? null : t.get())
-        .filter( t -> t != null);
+            .map(t -> t == null ? null : t.get())
+            .filter(t -> t != null);
     return m.collect(Collectors.toList());
   }
 
-  public Set<Entry<K,V>> entrySet() {
+  public Set<Entry<K, V>> entrySet() {
     throw new UnsupportedOperationException();
   }
 

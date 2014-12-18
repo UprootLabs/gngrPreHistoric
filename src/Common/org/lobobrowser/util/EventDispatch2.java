@@ -63,7 +63,7 @@ public abstract class EventDispatch2 {
     EventListener[] larray;
     synchronized (this) {
       final Collection<EventListener> listeners = this.listeners;
-      if (listeners == null || listeners.size() == 0) {
+      if ((listeners == null) || (listeners.size() == 0)) {
         return false;
       }
       larray = this.listeners.toArray(EMPTY_ARRAY);

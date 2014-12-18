@@ -30,6 +30,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,13 +51,13 @@ public class Bean {
   private void populateDescriptors(final Map<String, PropertyDescriptor> map, final Class<?> clazz) throws IntrospectionException {
     final BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
     final PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
-    for (int i = 0; i < pds.length; i++) {
-      map.put(pds[i].getName(), pds[i]);
+    for (final PropertyDescriptor pd : pds) {
+      map.put(pd.getName(), pd);
     }
     if (clazz.isInterface()) {
       final java.lang.reflect.Type[] interfaces = clazz.getGenericInterfaces();
-      for (int i = 0; i < interfaces.length; i++) {
-        this.populateDescriptors(map, (Class<?>) interfaces[i]);
+      for (final Type interface1 : interfaces) {
+        this.populateDescriptors(map, (Class<?>) interface1);
       }
     }
   }
@@ -119,19 +120,19 @@ public class Bean {
 
   private static Object convertValue(Object value, final Class<?> targetType) {
     final boolean targetString = targetType.isAssignableFrom(String.class);
-    if (value instanceof String && targetString) {
+    if ((value instanceof String) && targetString) {
       // ignore
     } else if (targetString) {
       value = String.valueOf(value);
-    } else if (!(value instanceof Byte) && (targetType == Byte.class || targetType == byte.class)) {
+    } else if (!(value instanceof Byte) && ((targetType == Byte.class) || (targetType == byte.class))) {
       value = Byte.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Boolean) && (targetType == Boolean.class || targetType == boolean.class)) {
+    } else if (!(value instanceof Boolean) && ((targetType == Boolean.class) || (targetType == boolean.class))) {
       value = Boolean.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Short) && (targetType == Short.class || targetType == short.class)) {
+    } else if (!(value instanceof Short) && ((targetType == Short.class) || (targetType == short.class))) {
       value = Short.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Integer) && (targetType == Integer.class || targetType == int.class)) {
+    } else if (!(value instanceof Integer) && ((targetType == Integer.class) || (targetType == int.class))) {
       value = Integer.valueOf(String.valueOf(value));
-    } else if (!(value instanceof Long) && (targetType == Long.class || targetType == long.class)) {
+    } else if (!(value instanceof Long) && ((targetType == Long.class) || (targetType == long.class))) {
       value = Long.valueOf(String.valueOf(value));
     }
     return value;

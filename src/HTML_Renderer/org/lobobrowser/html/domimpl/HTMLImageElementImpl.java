@@ -93,7 +93,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
 
   public String getHeight() {
     final UINode r = this.uiNode;
-    int height = r == null ? 0 : r.getBounds().height;
+    final int height = r == null ? 0 : r.getBounds().height;
     return String.valueOf(height);
   }
 
@@ -154,7 +154,6 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     this.setAttribute("vspace", String.valueOf(vspace));
   } */
 
-
   public String getVspace() {
     return this.getAttribute("vspace");
   }
@@ -182,6 +181,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     this.setAttribute("width", width);
   }
 
+  @Override
   protected void assignAttributeField(final String normalName, final String value) {
     super.assignAttributeField(normalName, value);
 
@@ -224,8 +224,8 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
   }
 
   @Override
-  public Object setUserData(String key, Object data, UserDataHandler handler) {
-    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && data != Boolean.TRUE) {
+  public Object setUserData(final String key, final Object data, final UserDataHandler handler) {
+    if (org.lobobrowser.html.parser.HtmlParser.MODIFYING_KEY.equals(key) && (data != Boolean.TRUE)) {
       ((HTMLDocumentImpl) document).addJob(() -> loadImage(getSrc()));
       // this.loadImage(getSrc());
     }
@@ -237,7 +237,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
   /**
    * Adds a listener of image loading events. The listener gets called right
    * away if there's already an image.
-   * 
+   *
    * @param listener
    */
   public void addImageListener(final ImageListener listener) {
@@ -286,6 +286,7 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     }
   }
 
+  @Override
   protected RenderState createRenderState(final RenderState prevRenderState) {
     return new ImageRenderState(prevRenderState, this);
   }
@@ -302,12 +303,12 @@ public class HTMLImageElementImpl extends HTMLAbstractUIElement implements HTMLI
     }
   }
 
-    public String getLowSrc() {
-      // TODO
-      return null;
-    }
+  public String getLowSrc() {
+    // TODO
+    return null;
+  }
 
-    public void setLowSrc(String lowSrc) {
-      // TODO
-    }
+  public void setLowSrc(final String lowSrc) {
+    // TODO
+  }
 }

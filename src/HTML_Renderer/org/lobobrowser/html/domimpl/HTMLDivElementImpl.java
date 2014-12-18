@@ -37,6 +37,7 @@ public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDiv
     this.setAttribute("align", align);
   }
 
+  @Override
   protected void appendInnerTextImpl(final StringBuffer buffer) {
     final int length = buffer.length();
     int lineBreaks;
@@ -55,7 +56,7 @@ public class HTMLDivElementImpl extends HTMLAbstractUIElement implements HTMLDiv
         }
       }
     }
-    for (int i = 0; i < 1 - lineBreaks; i++) {
+    for (int i = 0; i < (1 - lineBreaks); i++) {
       buffer.append("\r\n");
     }
     super.appendInnerTextImpl(buffer);

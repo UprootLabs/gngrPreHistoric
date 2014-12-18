@@ -38,8 +38,8 @@ final class RStyleChanger extends BaseRenderable {
   private final ModelNode modelNode;
 
   /**
-	 * 
-	 */
+   *
+   */
   public RStyleChanger(final ModelNode modelNode) {
     this.modelNode = modelNode;
   }
@@ -50,7 +50,7 @@ final class RStyleChanger extends BaseRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * net.sourceforge.xamj.domimpl.markup.Renderable#paint(java.awt.Graphics)
    */
@@ -62,7 +62,7 @@ final class RStyleChanger extends BaseRenderable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.xamjwg.html.renderer.Renderable#invalidate()
    */
   public void invalidateLayoutUpTree() {

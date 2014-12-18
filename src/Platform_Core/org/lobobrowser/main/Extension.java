@@ -102,16 +102,17 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
       final File propsFile = new File(root, EXTENSION_PROPERTIES_FILE);
       return propsFile.exists();
     } else {
-      try (final JarFile jarFile = new JarFile(root)) {
+      try (
+          final JarFile jarFile = new JarFile(root)) {
         final JarEntry jarEntry = jarFile.getJarEntry(EXTENSION_PROPERTIES_FILE);
         return jarEntry != null;
-      } catch (IOException e) {
+      } catch (final IOException e) {
         return false;
       }
     }
   }
 
-  public Extension(Properties mattribs, ClassLoader parentClassLoader) {
+  public Extension(final Properties mattribs, final ClassLoader parentClassLoader) {
     this.extRoot = null;
     this.extClassName = mattribs.getProperty(ATTRIBUTE_EXTENSION_CLASS);
     this.extId = extClassName;
@@ -144,7 +145,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
       final JarEntry jarEntry = jarFile.getJarEntry(EXTENSION_PROPERTIES_FILE);
       propsInputStream = jarEntry == null ? null : jarFile.getInputStream(jarEntry);
     }
-    boolean isLibrary = propsInputStream == null;
+    final boolean isLibrary = propsInputStream == null;
     if (!isLibrary) {
       final Properties mattribs = new Properties();
       try {
@@ -191,7 +192,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   private NavigatorExtension platformExtension;
 
   public void initClassLoader(final ClassLoader parentClassLoader) throws java.net.MalformedURLException, ClassNotFoundException,
-      IllegalAccessException, InstantiationException {
+  IllegalAccessException, InstantiationException {
     ClassLoader classLoader;
     if (extRoot != null) {
       final URL url = this.extRoot.toURI().toURL();
@@ -228,7 +229,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   }
 
   public void initExtension() {
-    doWithClassLoader( () ->{
+    doWithClassLoader(() -> {
       final NavigatorExtension pe = this.platformExtension;
       if (pe != null) {
         pe.init(this);
@@ -238,7 +239,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   }
 
   public void initExtensionWindow(final NavigatorWindow wcontext) {
-    doWithClassLoader( () ->{
+    doWithClassLoader(() -> {
       final NavigatorExtension pe = this.platformExtension;
       if (pe != null) {
         pe.windowOpening(wcontext);
@@ -248,7 +249,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
   }
 
   public void shutdownExtensionWindow(final NavigatorWindow wcontext) {
-    doWithClassLoader( () ->{
+    doWithClassLoader(() -> {
       final NavigatorExtension pe = this.platformExtension;
       if (pe != null) {
         pe.windowClosing(wcontext);
@@ -270,7 +271,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     }
   }
 
-  protected <V> V doWithClassLoader(Callable<V> r) {
+  protected <V> V doWithClassLoader(final Callable<V> r) {
     // Need to set the class loader in thread context, otherwise
     // some library classes may not be found.
     final Thread currentThread = Thread.currentThread();
@@ -281,7 +282,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     }
     try {
       return r.call();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new Error(e);
     } finally {
       currentThread.setContextClassLoader(prevClassLoader);
@@ -357,10 +358,12 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     }
   }
 
+  @Override
   public int hashCode() {
     return this.priority | this.extRoot.hashCode();
   }
 
+  @Override
   public boolean equals(final Object other) {
     if (!(other instanceof Extension)) {
       return false;
@@ -368,6 +371,7 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     return ((Extension) other).extRoot.equals(this.extRoot);
   }
 
+  @Override
   public String toString() {
     return "ExtensionInfo[extRoot=" + this.extRoot + "]";
   }
@@ -467,10 +471,10 @@ public class Extension implements Comparable<Object>, NavigatorExtensionContext 
     });
   }
 
-  URLConnection dispatchPostConnection(URLConnection connection) {
+  URLConnection dispatchPostConnection(final URLConnection connection) {
     // Should not be public
     return doWithClassLoader(() -> {
-      ConnectionProcessor[] processors = ArrayUtilities.copySynched(connectionProcessors, this, ConnectionProcessor.EMPTY_ARRAY);
+      final ConnectionProcessor[] processors = ArrayUtilities.copySynched(connectionProcessors, this, ConnectionProcessor.EMPTY_ARRAY);
       URLConnection result = connection;
       for (final ConnectionProcessor processor : processors) {
         result = processor.processPostConnection(connection);

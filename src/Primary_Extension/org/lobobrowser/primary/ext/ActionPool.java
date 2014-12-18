@@ -49,6 +49,7 @@ public class ActionPool {
     {
       putValue(MNEMONIC_KEY, KeyEvent.VK_R);
     }
+
     public void actionPerformed(final ActionEvent e) {
       window.getTopFrame().manageRequests(e.getSource());
     }
@@ -210,7 +211,7 @@ public class ActionPool {
     @Override
     public void updateEnabling() {
       final NavigationEntry entry = window.getCurrentNavigationEntry();
-      this.setEnabled(entry != null && !entry.getUrl().toExternalForm().startsWith(this.urlPrefix));
+      this.setEnabled((entry != null) && !entry.getUrl().toExternalForm().startsWith(this.urlPrefix));
     }
 
     public void actionPerformed(final ActionEvent e) {
@@ -260,12 +261,12 @@ public class ActionPool {
     @Override
     public void updateEnabling() {
       final NavigationEntry entry = window.getCurrentNavigationEntry();
-      this.setEnabled(entry != null && entry.getMethod().equals("GET"));
+      this.setEnabled((entry != null) && entry.getMethod().equals("GET"));
     }
 
     public void actionPerformed(final ActionEvent e) {
       final NavigationEntry entry = window.getCurrentNavigationEntry();
-      if (entry != null && entry.getMethod().equals("GET")) {
+      if ((entry != null) && entry.getMethod().equals("GET")) {
         window.getTopFrame().open(entry.getUrl());
       }
     }
@@ -294,8 +295,8 @@ public class ActionPool {
     public void actionPerformed(final ActionEvent e) {
       window.getTopFrame().alert(
           "gngr, a pure java web browser.\r\n"
-          + "copyright (c) 2014  Uproot Labs\r\n"
-          + "copyright (c) 2005, 2008 The Lobo Project.\r\n"
+              + "copyright (c) 2014  Uproot Labs\r\n"
+              + "copyright (c) 2005, 2008 The Lobo Project.\r\n"
               + window.getUserAgent().getInfoUrl());
 
     }

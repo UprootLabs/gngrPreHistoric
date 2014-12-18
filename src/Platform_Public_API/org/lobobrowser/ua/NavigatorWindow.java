@@ -1,23 +1,23 @@
 /*
 Copyright 1994-2006 The Lobo Project. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-Redistributions of source code must retain the above copyright notice, this list 
-of conditions and the following disclaimer. Redistributions in binary form must 
-reproduce the above copyright notice, this list of conditions and the following 
+Redistributions of source code must retain the above copyright notice, this list
+of conditions and the following disclaimer. Redistributions in binary form must
+reproduce the above copyright notice, this list of conditions and the following
 disclaimer in the documentation and/or other materials provided with the distribution.
- 
-THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED 
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
-EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+
+THIS SOFTWARE IS PROVIDED BY THE LOBO PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.lobobrowser.ua;
@@ -31,7 +31,7 @@ import java.util.List;
 public interface NavigatorWindow {
   /**
    * Adds a top-level menu to the window.
-   * 
+   *
    * @param menuId
    *          A globally unique ID for the menu.
    * @param menu
@@ -43,7 +43,7 @@ public interface NavigatorWindow {
   /**
    * Gets a menu previously added, typically by another extension with higher
    * priority.
-   * 
+   *
    * @param menuId
    *          The unique ID of the menu. The convention in Lobo is to use
    *          "lobo." followed by the name of the menu in lower case, with any
@@ -58,7 +58,7 @@ public interface NavigatorWindow {
    * Adds a "tool bar" component to the window. The preferred height of the tool
    * bar is used, whereas its width will be set roughly to the width of the
    * window.
-   * 
+   *
    * @param toolBar
    *          A AWT or Swing lightweight.
    */
@@ -68,7 +68,7 @@ public interface NavigatorWindow {
    * Adds a component to the shared tool bar. The preferred width of the
    * component is used, whereas its height will be set roughly to the height of
    * the shared tool bar.
-   * 
+   *
    * @param toolBarComponent
    * @see #createGlueComponent(Component, boolean)
    */
@@ -78,7 +78,7 @@ public interface NavigatorWindow {
    * Adds a component to the status bar. The preferred width of the component is
    * used, whereas its height will be set roughly to the height of the status
    * bar.
-   * 
+   *
    * @param statusBarComponent
    * @see #createGlueComponent(Component, boolean)
    */
@@ -88,7 +88,7 @@ public interface NavigatorWindow {
    * Adds a component to the address bar. The preferred width of the component
    * is used, whereas its height will be set roughly to the height of the status
    * bar.
-   * 
+   *
    * @param addressBarComponent
    * @see #createGlueComponent(Component, boolean)
    */
@@ -96,7 +96,7 @@ public interface NavigatorWindow {
 
   /**
    * Adds a listener of window events.
-   * 
+   *
    * @param listener
    *          A listener instance.
    */
@@ -105,7 +105,7 @@ public interface NavigatorWindow {
   /**
    * Removes a listener previously added with
    * {@link #addNavigatorWindowListener(NavigatorWindowListener)}
-   * 
+   *
    * @param listener
    */
   public void removeNavigatorWindowListener(NavigatorWindowListener listener);
@@ -120,7 +120,7 @@ public interface NavigatorWindow {
    * space. It only works if the parent uses a Swing <code>BoxLayout</code>.
    * Examples of components that are wrapped this way are the address combo box
    * and the status message component.
-   * 
+   *
    * @param wrappedComponent
    *          The component that is wrapped by the glue box.
    * @param usingMaxSize
@@ -171,7 +171,7 @@ public interface NavigatorWindow {
    * Navigates to a {@link NavigationEntry} belonging to navigation history in
    * the current session. without generating a new entry, in much the same way
    * that {@link #back()} and {@link #forward()} work.
-   * 
+   *
    * @param entry
    *          A existing <code>NavigationEntry</code>.
    * @return True if the operation succeeded.

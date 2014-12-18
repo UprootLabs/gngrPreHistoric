@@ -31,32 +31,36 @@ public class EmptyInputStream extends InputStream {
     super();
   }
 
+  @Override
   public int read() throws IOException {
     return -1;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#available()
    */
+  @Override
   public int available() throws IOException {
     return 0;
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#close()
    */
+  @Override
   public void close() throws IOException {
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.io.InputStream#read(byte[], int, int)
    */
+  @Override
   public int read(final byte[] b, final int off, final int len) throws IOException {
     return -1;
   }

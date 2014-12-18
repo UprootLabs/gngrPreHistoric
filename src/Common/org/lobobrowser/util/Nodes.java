@@ -11,7 +11,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Nodes {
   public static Node getCommonAncestor(final Node node1, final Node node2) {
-    if (node1 == null || node2 == null) {
+    if ((node1 == null) || (node2 == null)) {
       return null;
     }
     Node checkNode = node1;
@@ -147,7 +147,7 @@ public class Nodes {
 
   public static void forEachNode(final Node node, final Consumer<Node> consumer) {
     // TODO: Change from recursive to iterative
-    for (Node child : Nodes.makeIterable(node.getChildNodes())) {
+    for (final Node child : Nodes.makeIterable(node.getChildNodes())) {
       consumer.accept(child);
       forEachNode(child, consumer);
     }

@@ -16,6 +16,7 @@ class DocumentNotification {
     this.node = node;
   }
 
+  @Override
   public String toString() {
     return "DocumentNotification[type=" + this.type + ",node=" + this.node + "]";
   }

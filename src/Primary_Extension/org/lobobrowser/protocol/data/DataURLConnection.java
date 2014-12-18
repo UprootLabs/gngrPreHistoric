@@ -11,15 +11,15 @@ import java.util.HashMap;
 
 /**
  * http://www.ietf.org/rfc/rfc2397.txt
- * 
- * 
+ *
+ *
  * dataurl := "data:" [ mediatype ] [ ";base64" ] "," data mediatype := [ type
  * "/" subtype ] *( ";" parameter ) data := *urlchar parameter := attribute "="
  * value
- * 
- * 
+ *
+ *
  * @author toenz
- * 
+ *
  */
 public class DataURLConnection extends URLConnection {
 
@@ -114,36 +114,36 @@ public class DataURLConnection extends URLConnection {
     return new ByteArrayInputStream(content);
   }
 
-  public static final byte[] decodeUrl(char[] chars) {
+  public static final byte[] decodeUrl(final char[] chars) {
     final char ESCAPE_CHAR = '%';
     if (chars == null) {
-        return null;
+      return null;
     }
     final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     for (int i = 0; i < chars.length; i++) {
-        int b = chars[i];
-        if (b == '+') {
-            buffer.write(' ');
-        } else if (b == ESCAPE_CHAR) {
-            try {
-                int u = digit16(chars[++i]);
-                int l = digit16(chars[++i]);
-                buffer.write((char) ((u << 4) + l));
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new RuntimeException("Invalid URL encoding: ", e);
-            }
-        } else {
-            buffer.write(b);
+      final int b = chars[i];
+      if (b == '+') {
+        buffer.write(' ');
+      } else if (b == ESCAPE_CHAR) {
+        try {
+          final int u = digit16(chars[++i]);
+          final int l = digit16(chars[++i]);
+          buffer.write((char) ((u << 4) + l));
+        } catch (final ArrayIndexOutOfBoundsException e) {
+          throw new RuntimeException("Invalid URL encoding: ", e);
         }
+      } else {
+        buffer.write(b);
+      }
     }
     return buffer.toByteArray();
-}
+  }
 
-  private static int digit16(char c) {
-    if (c >= 'A' && c <= 'Z') {
-      return 10 + c - 'A';
-    } else if (c >= 'a' && c <= 'z') {
-      return 10 + c - 'a';
+  private static int digit16(final char c) {
+    if ((c >= 'A') && (c <= 'Z')) {
+      return (10 + c) - 'A';
+    } else if ((c >= 'a') && (c <= 'z')) {
+      return (10 + c) - 'a';
     } else {
       return c - '0';
     }

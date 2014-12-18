@@ -101,7 +101,6 @@ public class LocalSecurityPolicy extends Policy {
     addExtensionPermissions(EXTENSION_PERMISSIONS);
     initCorePermissions();
 
-
     // Note: execute needed to launch external browser.
     // permissions.add(new FilePermission("<<ALL FILES>>", "read,write,delete,execute"));
 
@@ -148,7 +147,7 @@ public class LocalSecurityPolicy extends Policy {
          for file access permission).
          This might be broader than currently required, but it is not very potent either.
          A future strategy might be to pick only resource paths and give permissions on those.
-         */
+       */
       final StringTokenizer strTokenizer = new StringTokenizer(JAVA_CLASS_PATH, PATH_SEPARATOR);
       while (strTokenizer.hasMoreTokens()) {
         final String pathElement = strTokenizer.nextToken();
@@ -177,13 +176,13 @@ public class LocalSecurityPolicy extends Policy {
     });
   }
 
-  private static void copyPermissions(final Collection<Permission> source, Collection<Permission> destination) {
+  private static void copyPermissions(final Collection<Permission> source, final Collection<Permission> destination) {
     for (final Permission p : source) {
       destination.add(p);
     }
   }
 
-  private static void copyPermissions(final Collection<Permission> source, PermissionCollection destination) {
+  private static void copyPermissions(final Collection<Permission> source, final PermissionCollection destination) {
     for (final Permission p : source) {
       destination.add(p);
     }
@@ -193,7 +192,7 @@ public class LocalSecurityPolicy extends Policy {
    * Adds permissions to the base set of permissions assigned to privileged
    * code, i.e. code loaded from the local system rather than a remote location.
    * This method must be called before a security manager has been set.
-   * 
+   *
    * @param permission
    *          A <code>Permission<code> instance.
    */
@@ -202,8 +201,8 @@ public class LocalSecurityPolicy extends Policy {
   }
 
   /**
-	 * 
-	 */
+   *
+   */
   private LocalSecurityPolicy() {
   }
 
@@ -213,7 +212,7 @@ public class LocalSecurityPolicy extends Policy {
 
   public static boolean hasHost(final java.net.URL url) {
     final String host = url.getHost();
-    return host != null && !"".equals(host);
+    return (host != null) && !"".equals(host);
   }
 
   public static boolean isLocal(final java.net.URL url) {
@@ -271,16 +270,16 @@ public class LocalSecurityPolicy extends Policy {
   static {
     URL unoPathTemp = null;
     try {
-      Class<?> unoClass = ClassLoader.getSystemClassLoader().loadClass("uno.Uno");
+      final Class<?> unoClass = ClassLoader.getSystemClassLoader().loadClass("uno.Uno");
       unoPathTemp = unoClass.getProtectionDomain().getCodeSource().getLocation();
-    } catch (ClassNotFoundException e) {
+    } catch (final ClassNotFoundException e) {
       unoPathTemp = null;
     } finally {
       unoPath = unoPathTemp;
     }
   }
 
-  private static boolean unoMatch(URL url) {
+  private static boolean unoMatch(final URL url) {
     if (unoPath != null) {
       return unoPath.equals(url);
     } else {
@@ -290,9 +289,10 @@ public class LocalSecurityPolicy extends Policy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.security.Policy#getPermissions(java.security.CodeSource)
    */
+  @Override
   public PermissionCollection getPermissions(final CodeSource codesource) {
     if (codesource == null) {
       throw new AccessControlException("codesource was null");
@@ -362,7 +362,8 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new PropertyPermission("org.jooq.settings", "read"));
       } else if (unoMatch(location)) {
         permissions.add(new FilePermission(unoPath.getPath(), "read"));
-      } else if (path.endsWith("core.jar") || path.contains("Common") || path.contains("Primary_Extension") || path.contains("HTML_Renderer")) {
+      } else if (path.endsWith("core.jar") || path.contains("Common") || path.contains("Primary_Extension")
+          || path.contains("HTML_Renderer")) {
 
         copyPermissions(CORE_PERMISSIONS, permissions);
         copyPermissions(BASE_PRIVILEGE, permissions);
@@ -372,7 +373,7 @@ public class LocalSecurityPolicy extends Policy {
         permissions.add(new URLPermission("https:*", "GET:*"));
 
         // Custom permissions
-        permissions.add(StoreHostPermission.forURL(location));    // TODO: Check if really required
+        permissions.add(StoreHostPermission.forURL(location)); // TODO: Check if really required
         permissions.add(new RuntimePermission("com.sun.media.jmc.accessMedia"));
 
         // Added due to OkHttp

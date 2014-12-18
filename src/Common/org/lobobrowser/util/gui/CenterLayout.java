@@ -51,7 +51,7 @@ public class CenterLayout implements LayoutManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
    */
   public Dimension minimumLayoutSize(final Container arg0) {
@@ -67,7 +67,7 @@ public class CenterLayout implements LayoutManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
    */
   public void layoutContainer(final Container container) {
@@ -85,14 +85,14 @@ public class CenterLayout implements LayoutManager {
       int x;
       int y;
       if (preferredWidth < availWidth) {
-        x = (int) Math.round(insets.left + (availWidth - preferredWidth) / 2);
+        x = (int) Math.round(insets.left + ((availWidth - preferredWidth) / 2));
         width = (int) Math.round(preferredWidth);
       } else {
         x = insets.left;
         width = availWidth;
       }
       if (preferredHeight < availHeight) {
-        y = (int) Math.round(insets.top + (availHeight - preferredHeight) / 2);
+        y = (int) Math.round(insets.top + ((availHeight - preferredHeight) / 2));
         height = (int) Math.round(preferredHeight);
       } else {
         y = insets.top;

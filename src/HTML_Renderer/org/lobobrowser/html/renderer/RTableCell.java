@@ -39,13 +39,15 @@ class RTableCell extends RBlock {
   /**
    * @param element
    */
-  public RTableCell(final HTMLTableCellElementImpl element, final UserAgentContext pcontext, final HtmlRendererContext rcontext, final FrameContext frameContext,
+  public RTableCell(final HTMLTableCellElementImpl element, final UserAgentContext pcontext, final HtmlRendererContext rcontext,
+      final FrameContext frameContext,
       final RenderableContainer tableAsContainer) {
     super(element, 0, pcontext, rcontext, frameContext, tableAsContainer);
     this.cellElement = element;
   }
 
-  protected Dimension doCellLayout(final int width, final int height, final boolean expandWidth, final boolean expandHeight, final boolean sizeOnly) {
+  protected Dimension doCellLayout(final int width, final int height, final boolean expandWidth, final boolean expandHeight,
+      final boolean sizeOnly) {
     return this.doCellLayout(width, height, expandWidth, expandHeight, sizeOnly, true);
   }
 
@@ -57,7 +59,8 @@ class RTableCell extends RBlock {
    * @param useCache
    *          Testing parameter. Should always be true.
    */
-  protected Dimension doCellLayout(final int width, final int height, final boolean expandWidth, final boolean expandHeight, final boolean sizeOnly, final boolean useCache) {
+  protected Dimension doCellLayout(final int width, final int height, final boolean expandWidth, final boolean expandHeight,
+      final boolean sizeOnly, final boolean useCache) {
     try {
       this.doLayout(width, height, expandWidth, expandHeight, null, RenderState.OVERFLOW_NONE, RenderState.OVERFLOW_NONE, sizeOnly,
           useCache);
@@ -78,16 +81,19 @@ class RTableCell extends RBlock {
   // this.cellPadding = value;
   // }
 
+  @Override
   protected Integer getDeclaredHeight(final RenderState renderState, final int availHeight) {
     // Overridden since height declaration is handled by table.
     return null;
   }
 
+  @Override
   protected Integer getDeclaredWidth(final RenderState renderState, final int availWidth) {
     // Overridden since width declaration is handled by table.
     return null;
   }
 
+  @Override
   public void finalize() throws Throwable {
     super.finalize();
   }
@@ -163,7 +169,8 @@ class RTableCell extends RBlock {
   //
   //
 
-  public void setCellBounds(final TableMatrix.SizeInfo[] colSizes, final TableMatrix.SizeInfo[] rowSizes, final int hasBorder, final int cellSpacingX,
+  public void setCellBounds(final TableMatrix.SizeInfo[] colSizes, final TableMatrix.SizeInfo[] rowSizes, final int hasBorder,
+      final int cellSpacingX,
       final int cellSpacingY) {
     final int vcol = this.getVirtualColumn();
     final int vrow = this.getVirtualRow();
@@ -179,8 +186,8 @@ class RTableCell extends RBlock {
       for (int i = 0; i < colSpan; i++) {
         final int vc = vcol + i;
         width += colSizes[vc].actualSize;
-        if (i + 1 < colSpan) {
-          width += cellSpacingX + hasBorder * 2;
+        if ((i + 1) < colSpan) {
+          width += cellSpacingX + (hasBorder * 2);
         }
       }
     } else {
@@ -192,8 +199,8 @@ class RTableCell extends RBlock {
       for (int i = 0; i < rowSpan; i++) {
         final int vr = vrow + i;
         height += rowSizes[vr].actualSize;
-        if (i + 1 < rowSpan) {
-          height += cellSpacingY + hasBorder * 2;
+        if ((i + 1) < rowSpan) {
+          height += cellSpacingY + (hasBorder * 2);
         }
       }
     } else {
@@ -202,6 +209,7 @@ class RTableCell extends RBlock {
     this.setBounds(x, y, width, height);
   }
 
+  @Override
   protected boolean isMarginBoundary() {
     return true;
   }

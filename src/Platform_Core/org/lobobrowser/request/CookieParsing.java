@@ -41,6 +41,7 @@ final class CookieParsing {
   }
 
   /** @deprecated Use parseExpiresRFC6265 instead */
+  @Deprecated
   private static Optional<java.util.Date> parseExpires(final String expiresStr) {
     Optional<java.util.Date> expiresDate = Optional.empty();
     synchronized (EXPIRES_FORMAT) {
@@ -83,7 +84,7 @@ final class CookieParsing {
         if (!matcher.lookingAt()) {
           return Optional.empty();
         } else {
-          cookieName = matcher.group(1);  // the regexp should trim() already
+          cookieName = matcher.group(1); // the regexp should trim() already
           // cookieValue = matcher.group(3); // [2] is quotes or empty-string
           cookieValue = matcher.group(2);
           hasCookieName = true;
@@ -95,7 +96,7 @@ final class CookieParsing {
         if ("max-age".equalsIgnoreCase(name)) {
           try {
             maxAge = Long.parseLong(value);
-          } catch(final NumberFormatException e) {
+          } catch (final NumberFormatException e) {
             // Ignore this attribute
             logger.log(Level.WARNING, "parseCookieSpec(): Max-age is not formatted correctly: " + value + ".");
           }
@@ -155,7 +156,8 @@ final class CookieParsing {
 
   //The name/key cannot be empty but the value can (S5.2):
   // private static final Pattern COOKIE_PAIR_STRICT = Pattern.compile("^(" + TOKEN.pattern() + "+)=(\"?)(" + COOKIE_OCTET.pattern() + "*)\\2$");
-  private static final Pattern COOKIE_PAIR_STRICT_MEDIUM = Pattern.compile("^(" + TOKEN.pattern() + "+)=((\"?)(" + COOKIE_OCTET.pattern() + "*)\\3).*$");
+  private static final Pattern COOKIE_PAIR_STRICT_MEDIUM = Pattern.compile("^(" + TOKEN.pattern() + "+)=((\"?)(" + COOKIE_OCTET.pattern()
+      + "*)\\3).*$");
   // private static final Pattern COOKIE_PAIR = Pattern.compile("^([^=\\s]+)\\s*=\\s*(\"?)\\s*(.*)\\s*\\2\\s*$");
 
   //RFC6265 S4.1.1 defines extension-av as 'any CHAR except CTLs or ";"'
@@ -168,16 +170,16 @@ final class CookieParsing {
   // private static final Pattern TRAILING_SEMICOLON = Pattern.compile(";+$");
 
   /* RFC6265 S5.1.1.5:
-  * [fail if] the day-of-month-value is less than 1 or greater than 31
-  */
+   * [fail if] the day-of-month-value is less than 1 or greater than 31
+   */
   private static final Pattern DAY_OF_MONTH = Pattern.compile("^(0?[1-9]|[12][0-9]|3[01])$");
 
   /* RFC6265 S5.1.1.5:
-  * [fail if]
-  * *  the hour-value is greater than 23,
-  * *  the minute-value is greater than 59, or
-  * *  the second-value is greater than 59.
-  */
+   * [fail if]
+   * *  the hour-value is greater than 23,
+   * *  the minute-value is greater than 59, or
+   * *  the second-value is greater than 59.
+   */
   // private static final Pattern TIME = Pattern.compile("(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
   // private static final Pattern STRICT_TIME = Pattern.compile("^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$");
   private static final Pattern LENIENT_TIME = Pattern.compile("([0-9][0-9]?):([0-9][0-9]?):([0-9][0-9]?)");
@@ -186,7 +188,7 @@ final class CookieParsing {
   private static final Pattern YEAR = Pattern.compile("^([0-9][0-9]{1,3})$");
 
   static Optional<java.util.Date> parseExpiresRFC6265(final String expiresStr) {
-    Optional<java.util.Date> expiresDate = Optional.empty();
+    final Optional<java.util.Date> expiresDate = Optional.empty();
 
     final String[] tokens = DATE_DELIM.split(expiresStr);
 
@@ -206,8 +208,8 @@ final class CookieParsing {
     int second = 0;
     // time = time.withNano(0);
 
-    for (int i=0; i<tokens.length; i++) {
-      final  String token = tokens[i].trim();
+    for (final String token2 : tokens) {
+      final String token = token2.trim();
       if (token.length() == 0) {
         continue;
       }
@@ -275,9 +277,9 @@ final class CookieParsing {
            * 4.  If the year-value is greater than or equal to 0 and less
            * than or equal to 69, increment the year-value by 2000.
            */
-          if (70 <= year && year <= 99) {
+          if ((70 <= year) && (year <= 99)) {
             year += 1900;
-          } else if (0 <= year && year <= 69) {
+          } else if ((0 <= year) && (year <= 69)) {
             year += 2000;
           }
 

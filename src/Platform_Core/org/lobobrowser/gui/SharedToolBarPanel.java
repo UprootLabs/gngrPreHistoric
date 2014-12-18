@@ -33,6 +33,7 @@ public class SharedToolBarPanel extends JPanel {
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
   }
 
+  @Override
   public Dimension getPreferredSize() {
     return new Dimension(1, 32);
   }
